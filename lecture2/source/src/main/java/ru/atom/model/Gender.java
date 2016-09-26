@@ -1,4 +1,4 @@
-package ru.atom.data;
+package ru.atom.model;
 
 public enum Gender {
     MALE,

@@ -1,4 +1,4 @@
-package ru.atom.data;
+package ru.atom.model;
 
 import org.junit.Before;
 import org.junit.Test;
