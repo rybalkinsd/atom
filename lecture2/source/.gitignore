@@ -1,0 +1,6 @@
+.idea/*
+bin/*
+target/*
+lecture02.iml
+*/*.iml
+./*.iml
