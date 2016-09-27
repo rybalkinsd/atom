@@ -1,5 +1,7 @@
 package ru.atom.model;
 
+import java.util.Random;
+
 /**
  * Location data.
  * Immutable.
@@ -43,15 +45,9 @@ public class Location {
     public double distanceTo(Location destination) {
         double phi1 = Math.toRadians(latitude);
         double phi2 = Math.toRadians(destination.latitude);
-        double deltaPhi = phi2 - phi1;
-        double deltaLamda = Math.toRadians(destination.longitude - longitude);
 
-        // return some random
-        double a = Math.pow(Math.sin(deltaPhi / 2), 2)
-                + Math.cos(phi1) * Math.cos(phi2) * Math.pow(Math.sin(deltaLamda / 2), 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return c * EARTH_RADIUS;
+        // your code here
+        return 100_000 * new Random().nextDouble() + 100_000;
     }
 
     @Override
