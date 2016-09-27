@@ -15,9 +15,10 @@ import java.io.PrintWriter;
 public class ControllerTest {
 
     private Controller controller;
+
     @Before
     public void setUp() throws Exception {
-        controller = new Controller(new RestClientImplMock(), Gender.MALE);
+        controller = new Controller(new RestClientImplMock(), Gender.FEMALE);
     }
 
     @Test

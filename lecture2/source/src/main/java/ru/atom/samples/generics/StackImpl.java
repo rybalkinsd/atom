@@ -2,7 +2,6 @@ package ru.atom.samples.generics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class StackImpl<T> implements Stack<T> {
 
@@ -13,14 +12,13 @@ public class StackImpl<T> implements Stack<T> {
         elements.add(elem);
     }
 
+    /**
+     * if stack is empty throw NoSuchElementException.
+     * */
     @Override
     public T pop() {
-        T elem = peek();
-        if (elem == null) {
-            throw new NoSuchElementException();
-        }
-        elements.remove(elements.size() - 1);
-        return elem;
+        // your code here
+        return null;
     }
 
     /**
@@ -28,8 +26,7 @@ public class StackImpl<T> implements Stack<T> {
      * */
     @Override
     public T peek() {
-        return elements.size() == 0
-                ? null
-                : elements.get(elements.size() - 1);
+        // your code here
+        return null;
     }
 }
