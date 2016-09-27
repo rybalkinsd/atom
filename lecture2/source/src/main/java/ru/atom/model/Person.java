@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class Person {
@@ -19,6 +20,7 @@ public class Person {
     private URL instagramUrl;
 
     private static ObjectMapper mapper = new ObjectMapper();
+
 
     public static Person readJson(String json) throws IOException {
         return mapper.readValue(json, Person.class);
@@ -35,28 +37,21 @@ public class Person {
 
         Person person = (Person) o;
 
-        if (age != person.age) return false;
-        if (!id.equals(person.id)) return false;
+        if (id != null ? !id.equals(person.id) : person.id != null) return false;
         if (gender != person.gender) return false;
-        if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        if (location != null ? !location.equals(person.location) : person.location != null) return false;
-        if (desctiption != null ? !desctiption.equals(person.desctiption) : person.desctiption != null) return false;
-        if (image != null ? !image.equals(person.image) : person.image != null) return false;
-        return instagramUrl != null ? instagramUrl.equals(person.instagramUrl) : person.instagramUrl == null;
+        return name != null ? name.equals(person.name) : person.name == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + gender.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + age;
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (desctiption != null ? desctiption.hashCode() : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (instagramUrl != null ? instagramUrl.hashCode() : 0);
         return result;
     }
+
+
 
     public UUID getId() {
         return id;

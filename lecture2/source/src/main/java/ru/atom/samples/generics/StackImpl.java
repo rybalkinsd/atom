@@ -23,6 +23,9 @@ public class StackImpl<T> implements Stack<T> {
         return elem;
     }
 
+    /**
+     * @return null if stack is empty
+     * */
     @Override
     public T peek() {
         return elements.size() == 0

@@ -7,20 +7,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by s.rybalkin on 26.09.2016.
- */
 public class PersonTest {
-    private Person person;
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @Test
-    public void simpleWriteTest() {
-        Person person = new Person();
-    }
 
     @Test
     public void jsonReadWriteTest() throws Exception {

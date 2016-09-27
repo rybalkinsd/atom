@@ -3,10 +3,29 @@ package ru.atom.model;
 import java.net.URL;
 
 /**
- * Created by s.rybalkin on 26.09.2016.
+ * Image data.
+ * Immutable.
  */
 public class Image {
-    private int width;
-    private int hight;
-    private URL url;
+    private final URL url;
+    private final int width;
+    private final int hight;
+
+    public Image(URL url, int width, int hight) {
+        this.url = url;
+        this.width = width;
+        this.hight = hight;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHight() {
+        return hight;
+    }
 }

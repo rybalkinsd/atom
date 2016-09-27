@@ -5,7 +5,7 @@ package ru.atom.model;
  * Immutable.
  *
   */
-class Location {
+public class Location {
     private static final double EARTH_RADIUS = 6371e3;
 
     /**
