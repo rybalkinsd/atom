@@ -4,6 +4,8 @@ import ru.atom.model.Gender;
 import ru.atom.model.Person;
 import ru.atom.view.MainPageView;
 
+import java.io.IOException;
+
 /**
  * Created by s.rybalkin on 26.09.2016.
  */
@@ -21,11 +23,19 @@ public class Controller {
     }
 
     public String onNext() {
-        Person person = client.next(lookingFor);
+        String personJson = client.next(lookingFor);
+        Person person;
+        try {
+            person = Person.readJson(personJson);
+        } catch (IOException e) {
+            // log error
+            throw new IllegalStateException(e);
+        }
+
         return String.format(MainPageView.html,
                 person.getImage().getUrl().toString(),
                 person.getImage().getWidth(),
-                person.getImage().getHight(),
+                person.getImage().getHeight(),
                 person.getName(),
                 person.getAge(),
                 person.getDesctiption(),

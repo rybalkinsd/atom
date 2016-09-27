@@ -1,13 +1,7 @@
 package ru.atom.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import ru.atom.model.Gender;
-import ru.atom.model.Image;
-import ru.atom.model.Location;
-import ru.atom.model.Person;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.UUID;
 
 import static ru.atom.model.Gender.*;
 
@@ -16,36 +10,48 @@ import static ru.atom.model.Gender.*;
  */
 public class RestClientImplMock implements RestClient {
 
-    private static final Person FRY;
-    private static final Person LADY;
-    static {
-        FRY = new Person();
-        FRY.setId(UUID.randomUUID());
-        FRY.setName("Stephen");
-        FRY.setGender(MALE);
-        FRY.setAge(59);
-        FRY.setLocation(new Location(51.5287718, -0.2416814));
-        FRY.setDesctiption("Actor and writer currently working on new TV comedy.");
+    private static final String FRY_JSON =
+            "{" +
+                    "\"id\":\"44d91146-a6b7-45fa-888d-bad4ad0301e0\"," +
+                    "\"gender\":\"MALE\"," +
+                    "\"name\":\"Stephen\"," +
+                    "\"age\":59," +
+                    "\"location\":{" +
+                        "\"latitude\":51.5287718," +
+                        "\"longitude\":-0.2416814" +
+                    "}," +
+                    "\"desctiption\":\"Actor and writer currently working on new TV comedy.\"," +
+                    "\"image\":{" +
+                        "\"url\":\"http://hitgid.com/images/%D1%81%D1%82%D0%B8%D0%B2%D0%B5%D0%BD-%D1%84%D1%80%D0%B0%D0%B9-2.jpg\"," +
+                        "\"width\":360," +
+                        "\"height\":288}," +
+                    "\"instagramUrl\":\"https://www.instagram.com/stephenfryactually/\"" +
+            "}";
 
-        try {
-            FRY.setImage(new Image(new URL("http://hitgid.com/images/%D1%81%D1%82%D0%B8%D0%B2%D0%B5%D0%BD-%D1%84%D1%80%D0%B0%D0%B9-2.jpg"), 360, 288));
-        } catch (MalformedURLException ignored) { }
-        try {
-            FRY.setInstagramUrl(new URL("https://www.instagram.com/stephenfryactually/"));
-        } catch (MalformedURLException ignored) { }
-
-        LADY = new Person();
-    }
+    private static final String LADY_JSON =
+            "{" +
+                    "\"id\":\"a2312795-d8c7-45fa-888d-bad4ad0301e0\"," +
+                    "\"gender\":\"FEMALE\"," +
+                    "\"name\":\"Lenna\"," +
+                    "\"age\":65," +
+                    "\"location\":{" +
+                    "\"latitude\":59.3260668," +
+                    "\"longitude\":17.8474656" +
+                    "}," +
+                    "\"desctiption\":\"I Like Compression!\"," +
+                    "\"image\":{" +
+                    "\"url\":\"https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png\"," +
+                    "\"width\":512," +
+                    "\"height\":512}," +
+                    "\"instagramUrl\":\"https://www.instagram.com/lenasoderberg/\"" +
+                    "}";
 
     @Override
-    public Person next(Gender gender) {
-        switch (gender){
-            case FEMALE:
-                return FRY;
-            case MALE:
-                return FRY;
+    public String next(Gender gender) {
+        if (gender == FEMALE) {
+            return LADY_JSON;
+        } else {
+            return FRY_JSON;
         }
-
-        return null;
     }
 }

@@ -7,14 +7,17 @@ import java.net.URL;
  * Immutable.
  */
 public class Image {
-    private final URL url;
-    private final int width;
-    private final int hight;
+    private URL url;
+    private int width;
+    private int height;
+
+    public Image() {
+    }
 
     public Image(URL url, int width, int hight) {
         this.url = url;
         this.width = width;
-        this.hight = hight;
+        this.height = hight;
     }
 
     public URL getUrl() {
@@ -25,7 +28,7 @@ public class Image {
         return width;
     }
 
-    public int getHight() {
-        return hight;
+    public int getHeight() {
+        return height;
     }
 }

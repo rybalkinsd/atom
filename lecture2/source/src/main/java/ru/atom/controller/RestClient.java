@@ -7,5 +7,5 @@ import ru.atom.model.Person;
  * Created by s.rybalkin on 26.09.2016.
  */
 public interface RestClient {
-    Person next(Gender gender);
+    String next(Gender gender);
 }

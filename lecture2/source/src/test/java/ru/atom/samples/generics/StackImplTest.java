@@ -16,7 +16,7 @@ public class StackImplTest {
     }
 
     @Test()
-    public void testTest() throws Exception {
+    public void testComplex() throws Exception {
         assertNotNull(stack);
         assertNull(stack.peek());
         stack.push(1);

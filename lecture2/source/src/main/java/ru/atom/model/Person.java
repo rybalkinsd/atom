@@ -51,8 +51,6 @@ public class Person {
         return result;
     }
 
-
-
     public UUID getId() {
         return id;
     }
