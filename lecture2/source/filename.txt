@@ -1,0 +1,1 @@
+<!DOCTYPE html><html><body><h2>Spectacular Mountain</h2><img src="http://www.w3schools.com/html/pic_mountain.jpg" alt="Mountain View" style="width:304px;height:228px;"></body></html>

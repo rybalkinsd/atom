@@ -19,8 +19,8 @@ public class ControllerTest {
         try (PrintWriter out = new PrintWriter(filename)) {
             out.println(html);
         }
-        Desktop.getDesktop().browse(new File(filename).toURI());
 
+        Desktop.getDesktop().browse(new File(filename).toURI());
     }
 
 }
