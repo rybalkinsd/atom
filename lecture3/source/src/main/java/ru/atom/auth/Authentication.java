@@ -10,6 +10,9 @@ import java.util.UUID;
 @Path("/")
 public class Authentication {
 
+
+    // curl -H 'Authorization: Bearer 2133e36c-8f31-455f-840e-1e034d4975fd' http://localhost:8080/dummy
+    @Authorized
     @GET
     @Path("dummy")
     public Response dummy() {
@@ -24,7 +27,6 @@ public class Authentication {
                                      @FormParam("password") String password) {
 
         try {
-
             // Authenticate the user using the credentials provided
             authenticate(login, password);
 

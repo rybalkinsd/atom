@@ -18,9 +18,19 @@ public class AuthServlet {
         jerseyServlet.setInitOrder(0);
 
         // Tells the Jersey Servlet which REST service/class to load.
+//        jerseyServlet.setInitParameter(
+//                "jersey.config.server.provider.classnames",
+//                Authentication.class.getCanonicalName());
+
         jerseyServlet.setInitParameter(
-                "jersey.config.server.provider.classnames",
-                Authentication.class.getCanonicalName());
+                "jersey.config.server.provider.packages",
+                "ru.atom.auth"
+        );
+
+        jerseyServlet.setInitParameter(
+                "com.sun.jersey.spi.container.ContainerRequestFilters",
+                AuthenticationFilter.class.getCanonicalName()
+        );
 
         try {
             jettyServer.start();
