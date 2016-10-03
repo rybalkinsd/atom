@@ -1,11 +1,8 @@
 package ru.atom.auth;
 
-import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -13,8 +10,6 @@ import java.io.IOException;
 
 @Authorized
 @Provider
-//@Priority(Priorities.AUTHENTICATION)
-//@PreMatching
 public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
@@ -44,7 +39,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
-        // Check if it was issued by the server and if it's not expired
-        // Throw an Exception if the token is invalid
+        Authentication.validateToken(token);
     }
 }

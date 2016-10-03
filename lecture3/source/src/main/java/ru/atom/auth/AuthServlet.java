@@ -17,11 +17,6 @@ public class AuthServlet {
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
 
-        // Tells the Jersey Servlet which REST service/class to load.
-//        jerseyServlet.setInitParameter(
-//                "jersey.config.server.provider.classnames",
-//                Authentication.class.getCanonicalName());
-
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
                 "ru.atom.auth"

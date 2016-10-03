@@ -3,19 +3,45 @@ package ru.atom.auth;
 /**
  * Created by s.rybalkin on 28.09.2016.
  */
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.UUID;
+import javax.xml.bind.ValidationException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Path("/")
 public class Authentication {
+    private static ConcurrentHashMap<String, String> credentials;
+    private static ConcurrentHashMap<String, Long> tokens;
 
+    static {
+        credentials = new ConcurrentHashMap<>();
+        credentials.put("admin", "admin");
+        tokens = new ConcurrentHashMap<>();
+    }
 
     // curl -H 'Authorization: Bearer 2133e36c-8f31-455f-840e-1e034d4975fd' http://localhost:8080/dummy
     @Authorized
     @GET
     @Path("dummy")
     public Response dummy() {
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("register")
+    public Response register(@FormParam("login") String user,
+                             @FormParam("password") String password) {
+
+        if (user == null || password == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        if (credentials.putIfAbsent(user, password) != null) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
         return Response.ok().build();
     }
 
@@ -28,28 +54,39 @@ public class Authentication {
 
         try {
             // Authenticate the user using the credentials provided
-            authenticate(login, password);
-
+            if (!authenticate(login, password)) {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
             // Issue a token for the user
-            String token = issueToken(login);
+            long token = issueToken(login);
 
             // Return the token on the response
-            return Response.ok(token).build();
+            return Response.ok(Long.toString(token)).build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        // Authenticate against a database, LDAP, file or whatever
-        // Throw an Exception if the credentials are invalid
+    private boolean authenticate(String user, String password) throws Exception {
+        return password.equals(credentials.get(user));
     }
 
-    private String issueToken(String username) {
-        return UUID.randomUUID().toString();
-        // Issue a token (can be a random String persisted to a database or a JWT token)
-        // The issued token must be associated to a user
-        // Return the issued token
+    private Long issueToken(String user) {
+        Long token = tokens.get(user);
+        if (token != null) {
+            return token;
+        }
+
+        token = ThreadLocalRandom.current().nextLong();
+        tokens.put(user, token);
+        return token;
+    }
+
+    public static void validateToken(String token) throws Exception {
+        Long parsedToken = Long.parseLong(token);
+        if (!tokens.containsValue(parsedToken)) {
+            throw new Exception("Token validation exception");
+        }
     }
 }
