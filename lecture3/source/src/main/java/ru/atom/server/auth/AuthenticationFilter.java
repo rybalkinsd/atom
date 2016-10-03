@@ -1,4 +1,4 @@
-package ru.atom.auth;
+package ru.atom.server.auth;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -28,7 +28,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String token = authorizationHeader.substring("Bearer".length()).trim();
 
         try {
-
             // Validate the token
             validateToken(token);
 

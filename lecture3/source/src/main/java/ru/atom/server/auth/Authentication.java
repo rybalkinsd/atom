@@ -1,4 +1,4 @@
-package ru.atom.auth;
+package ru.atom.server.auth;
 
 /**
  * Created by s.rybalkin on 28.09.2016.
@@ -6,11 +6,10 @@ package ru.atom.auth;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.ValidationException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Path("/")
+@Path("/auth")
 public class Authentication {
     private static ConcurrentHashMap<String, String> credentials;
     private static ConcurrentHashMap<String, Long> tokens;
@@ -19,16 +18,23 @@ public class Authentication {
         credentials = new ConcurrentHashMap<>();
         credentials.put("admin", "admin");
         tokens = new ConcurrentHashMap<>();
+        tokens.put("admin", 1L);
     }
 
-    // curl -H 'Authorization: Bearer 2133e36c-8f31-455f-840e-1e034d4975fd' http://localhost:8080/dummy
-    @Authorized
+    // curl -H 'Authorization: Bearer 2133e36c-8f31-455f-840e-1e034d4975fd' http://localhost:8080/auth/dummy
+    //@Authorized
     @GET
     @Path("dummy")
     public Response dummy() {
         return Response.ok().build();
     }
 
+    // curl -X POST -H "Content-Type: application/x-www-form-urlencoded"
+    //              -H "Host: localhost:8080"
+    //              -H "X-Amz-Date: 20161003T134606Z"
+    //              -H "Cache-Control: no-cache"
+    //              -d 'login=admin&password=admin'
+    // "http://localhost:8080/auth/login"
     @POST
     @Path("register")
     public Response register(@FormParam("login") String user,

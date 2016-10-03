@@ -1,10 +1,14 @@
-package ru.atom.auth;
+package ru.atom.server.api;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.atom.server.auth.AuthenticationFilter;
 
-public class AuthServlet {
+/**
+ * Created by s.rybalkin on 03.10.2016.
+ */
+public class ApiServlet {
 
     public static void start() throws Exception {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -19,7 +23,7 @@ public class AuthServlet {
 
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "ru.atom.auth"
+                "ru.atom.server"
         );
 
         jerseyServlet.setInitParameter(
@@ -35,6 +39,6 @@ public class AuthServlet {
         }
     }
 
-    private AuthServlet() {
+    private ApiServlet() {
     }
 }
