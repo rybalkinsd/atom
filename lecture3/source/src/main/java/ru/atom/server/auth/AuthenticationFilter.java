@@ -1,5 +1,8 @@
 package ru.atom.server.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -11,7 +14,6 @@ import java.io.IOException;
 @Authorized
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
-
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
@@ -30,7 +32,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         try {
             // Validate the token
             validateToken(token);
-
         } catch (Exception e) {
             requestContext.abortWith(
                     Response.status(Response.Status.UNAUTHORIZED).build());

@@ -54,63 +54,71 @@ public class Person {
         return id;
     }
 
-    public void setId(UUID id) {
+    public Person setId(UUID id) {
         this.id = id;
+        return this;
     }
 
     public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public Person setGender(Gender gender) {
         this.gender = gender;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Person setName(String name) {
         this.name = name;
+        return this;
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public Person setAge(int age) {
         this.age = age;
+        return this;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public Person setLocation(Location location) {
         this.location = location;
+        return this;
     }
 
     public String getDesctiption() {
         return desctiption;
     }
 
-    public void setDesctiption(String desctiption) {
+    public Person setDesctiption(String desctiption) {
         this.desctiption = desctiption;
+        return this;
     }
 
     public Image getImage() {
         return image;
     }
 
-    public void setImage(Image image) {
+    public Person setImage(Image image) {
         this.image = image;
+        return this;
     }
 
     public URL getInstagramUrl() {
         return instagramUrl;
     }
 
-    public void setInstagramUrl(URL instagramUrl) {
+    public Person setInstagramUrl(URL instagramUrl) {
         this.instagramUrl = instagramUrl;
+        return this;
     }
 }

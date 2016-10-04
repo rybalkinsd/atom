@@ -1,5 +1,6 @@
 package ru.atom.model;
 
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -72,6 +73,8 @@ public class Location {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
+
+    public static Comparator<Integer> intComparator = (o1, o2) -> o1 - o2;
 
     public double getLatitude() {
         return latitude;
