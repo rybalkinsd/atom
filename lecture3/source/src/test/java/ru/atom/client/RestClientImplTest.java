@@ -13,8 +13,8 @@ public class RestClientImplTest {
 
     @Test
     public void register() throws Exception {
-        String user = null;
-        String password = null;
+        String user = "test";
+        String password = "test";
         assertTrue(client.register(user, password));
     }
 

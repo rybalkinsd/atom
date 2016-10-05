@@ -11,5 +11,5 @@ import java.util.Collection;
 public interface RestClient {
     boolean register(String user, String password);
     Long login(String user, String password);
-    Collection<? extends Person> getBatch(Gender gender);
+    Collection<? extends Person> getBatch(Long token, Gender gender);
 }

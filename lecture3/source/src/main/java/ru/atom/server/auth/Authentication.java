@@ -38,11 +38,7 @@ public class Authentication {
         return Response.ok().build();
     }
 
-    // curl -X POST
-    //      -H "Content-Type: application/x-www-form-urlencoded"
-    //      -H "Host: localhost:8080"
-    //      -d 'login=<>&password=<>'
-    // "http://localhost:8080/auth/register"
+    // curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Host: 10.3.13.136:8080" -d 'login=123&password=456' "10.3.13.136:8080/auth/register"
     @POST
     @Path("register")
     public Response register(@FormParam("login") String user,
@@ -57,7 +53,7 @@ public class Authentication {
         }
 
         log.info("New user '{}' registered", user);
-        return Response.ok().build();
+        return Response.ok("User " + user + " registered.").build();
     }
 
     // curl -X POST
