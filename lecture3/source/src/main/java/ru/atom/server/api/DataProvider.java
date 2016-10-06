@@ -39,7 +39,6 @@ public class DataProvider {
             ).build();
     }
 
-    private static PersonBatchHolder LADYS;
     static {
         try {
             LADYS = PersonBatchHolder.of(
