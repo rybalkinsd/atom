@@ -6,7 +6,8 @@ import ru.atom.model.Location;
 import ru.atom.model.Person;
 import ru.atom.server.auth.Authorized;
 
-import javax.ws.rs.*;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,19 +26,20 @@ public class DataProvider {
         return Response.ok().build();
     }
 
-    //  curl -X POST -H 'Authorization: Bearer {} -H "Host: localhost:8080" -d "gender={}" http://localhost:8080/data/personsbatch
+    // curl -X POST
+    //      -H 'Authorization: Bearer {token}'
+    //      -H "Host: localhost:8080"
+    // http://localhost:8080/data/personsbatch
     @Authorized
     @POST
     @Path("personsbatch")
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces("application/json")
-    public Response getPersonsBatch(@FormParam("gender") Gender gender) throws IOException {
-        return gender == Gender.FEMALE
-                ? Response.ok(LADYS.writeJson()).build()
-                : Response.ok(MEN.writeJson()).build();
+    public Response getPersonsBatch() throws IOException {
+        return Response.ok(
+                LADYS.writeJson()
+            ).build();
     }
 
-
+    private static PersonBatchHolder LADYS;
     static {
         try {
             LADYS = PersonBatchHolder.of(
