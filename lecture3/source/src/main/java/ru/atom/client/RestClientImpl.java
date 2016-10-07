@@ -19,6 +19,15 @@ public class RestClientImpl implements RestClient {
 
     private static final OkHttpClient client = new OkHttpClient();
 
+    /***
+     * Registers user
+     *
+     * !!NOTE!! Registrations expire on server shutdown.
+     *
+     * @param user - username
+     * @param password
+     * @return true if successfully registered
+     */
     public boolean register(String user, String password) {
         MediaType mediaType = MediaType.parse("raw");
         RequestBody body = RequestBody.create(
@@ -43,6 +52,13 @@ public class RestClientImpl implements RestClient {
         }
     }
 
+    /**
+     * Your code here
+     *
+     * @param user - username
+     * @param password
+     * @return token
+     */
     public Long login(String user, String password) {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
@@ -65,6 +81,13 @@ public class RestClientImpl implements RestClient {
         }
     }
 
+    /**
+     * Your code here
+     *
+     * @param token - auth token
+     * @param gender - expected gender of result persons
+     * @return collection of persons
+     */
     @Override
     public Collection<? extends Person> getBatch(Long token, Gender gender) {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
