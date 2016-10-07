@@ -43,7 +43,7 @@ Tinder-Клиент и Tinder-Сервер, общающиеся через HTTP
 	- для регистрации пользователя auth/register
 	- для авторизации пользователя auth/login
 	- для получения выборки людей по половому признаку data/personsbatch
-- реализован полньстью, модифицировать его не нужно
+- реализован полностью, модифицировать его не нужно
 		
 ### Tinder-Клиент
 - код клиента находится в ru.atom.client
@@ -147,83 +147,83 @@ https://api.github.com - на этой странице есть набор за
 
 ### Публичный API Tinder-Сервера
 Формальное описание
+
 1. Для регистрации пользователя.
-```
-    Protocol: HTTP
-	Path: auth/register
-	Method: POST
-	Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-	Headers:
-		Content-Type: application/x-www-form-urlencoded
-	Body:
-		login={}&password={}
-		
-	Response: 
-		Code: 200
-		Body: сообщение об успехе
-```
+    
+	    Protocol: HTTP
+		Path: auth/register
+		Method: POST
+		Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+		Headers:
+			Content-Type: application/x-www-form-urlencoded
+		Body:
+			login={}&password={}
+
+		Response: 
+			Code: 200
+			Body: сообщение об успехе
+
 	Пример запроса в curl:
-```
-	curl -i 
-		 -X POST 
-		 -H "Content-Type: application/x-www-form-urlencoded" 
-		 -H "Host: localhost:8080" 
-		 -d "login=superman&password=qwerty" 
-	"localhost:8080/auth/register"
-```
-	
+
+		curl -i 
+			 -X POST 
+			 -H "Content-Type: application/x-www-form-urlencoded" 
+			 -H "Host: localhost:8080" 
+			 -d "login=superman&password=qwerty" 
+		"localhost:8080/auth/register"
+
 2. Для авторизации пользователя.
 
 	Авторизация позволяет по паре (login, password) получить token, если пользователь зарегистрирован.
 	Чтобы иметь доступ к другим запросам, требующих авторизации(предоставления token при запросе)
-```
-	Protocol: HTTP
-	Path: auth/login
-	Method: POST
-	Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-	Headers:
-		Content-Type: application/x-www-form-urlencoded
-	Body:
-		login={}&password={}
-	Response: 
-		Code: 200
-		Body: token
-```
+
+		Protocol: HTTP
+		Path: auth/login
+		Method: POST
+		Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+		Headers:
+			Content-Type: application/x-www-form-urlencoded
+		Body:
+			login={}&password={}
+		Response: 
+			Code: 200
+			Body: token
+
 	Пример запроса в curl:
-```
-    curl -i
-		 -X POST
-         -H "Content-Type: application/x-www-form-urlencoded"
-         -H "Host: localhost:8080"
-         -d "login=superman&password=qwerty"
-    "http://localhost:8080/auth/login" 
-```
+
+	    curl -i
+			 -X POST
+		 -H "Content-Type: application/x-www-form-urlencoded"
+		 -H "Host: localhost:8080"
+		 -d "login=superman&password=qwerty"
+	    "http://localhost:8080/auth/login" 
+
 3. Для получения выборки людей по половому признаку:
 
 	 **! Для этого запроса необходим токен !**
-```
-	Protocol: HTTP
-	Path: data/personsbatch
-	Method: POST
-	Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-	Headers:
-		Authorization: Bearer {token}
-	Body:
-		"gender={ MALE | FEMALE }"
-	Response:
-		Code: 200
-		Body: json вида {"persons" : [{Person1}, {Person2}, ... ]}
-```
+
+		Protocol: HTTP
+		Path: data/personsbatch
+		Method: POST
+		Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+		Headers:
+			Authorization: Bearer {token}
+		Body:
+			"gender={ MALE | FEMALE }"
+		Response:
+			Code: 200
+			Body: json вида {"persons" : [{Person1}, {Person2}, ... ]}
+
 	Пример запроса в curl:		
-```
-	curl -i
-         -X POST
-         -H "Authorization: Bearer 123124253"
-         -H "Content-Type: application/x-www-form-urlencoded"
-         -H "Host: localhost:8080"
-         -d "gender=FEMALE"
-     "http://localhost:8080/data/personsbatch"
- ```
+
+		curl -i
+		 -X POST
+		 -H "Authorization: Bearer 123124253"
+		 -H "Content-Type: application/x-www-form-urlencoded"
+		 -H "Host: localhost:8080"
+		 -d "gender=FEMALE"
+	     "http://localhost:8080/data/personsbatch"
+
 Нам нужно реализовать общение с этим API Tinder-Cервера.
 
 Сейчас в репозитории обновлены материалы третьего семинара.
@@ -234,10 +234,10 @@ https://api.github.com - на этой странице есть набор за
 Тесты клиента находятся в пакете ru.atom.client - RestClientImplTest
 Они работают и их стоит попробовать дебажить.
 
-## Хочу копнуть глубже, что делать?
 Спасибо, что дочитали до этого места.
-Надеюсь, это статья была полезна.
+Надеюсь, эта статья была полезна.
 
+## Хочу копнуть глубже, что делать?
 В классе ru.atom.client.Controller есть два метода:
 
 	public List<? extends Person> findYoungerThan29(Gender gender)
