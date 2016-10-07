@@ -18,9 +18,9 @@ Tinder-Клиент и Tinder-Сервер, общающиеся через HTTP
         GET /pogoda/moscow HTTP/1.1
         Host: yandex.ru
     
-- GET - метод
-- HTTP/1.1 - версия протокола
-- Host - наименование(имя) хоста
+	- GET - метод
+	- HTTP/1.1 - версия протокола
+	- Host - наименование(имя) хоста
 
 2. Сервер отправляет Клиенту ответ:
 
@@ -148,7 +148,7 @@ https://api.github.com - на этой странице есть набор за
 ### Публичный API Tinder-Сервера
 Формальное описание
 1. Для регистрации пользователя.
-	```
+```
     Protocol: HTTP
 	Path: auth/register
 	Method: POST
@@ -161,22 +161,22 @@ https://api.github.com - на этой странице есть набор за
 	Response: 
 		Code: 200
 		Body: сообщение об успехе
-    ```
+```
 	Пример запроса в curl:
-	```
+```
 	curl -i 
 		 -X POST 
 		 -H "Content-Type: application/x-www-form-urlencoded" 
 		 -H "Host: localhost:8080" 
 		 -d "login=superman&password=qwerty" 
 	"localhost:8080/auth/register"
-	```
+```
 	
 2. Для авторизации пользователя.
 
 	Авторизация позволяет по паре (login, password) получить token, если пользователь зарегистрирован.
 	Чтобы иметь доступ к другим запросам, требующих авторизации(предоставления token при запросе)
-    ```
+```
 	Protocol: HTTP
 	Path: auth/login
 	Method: POST
@@ -188,20 +188,20 @@ https://api.github.com - на этой странице есть набор за
 	Response: 
 		Code: 200
 		Body: token
-	```
+```
 	Пример запроса в curl:
-	```
+```
     curl -i
 		 -X POST
          -H "Content-Type: application/x-www-form-urlencoded"
          -H "Host: localhost:8080"
          -d "login=superman&password=qwerty"
     "http://localhost:8080/auth/login" 
-    ```
+```
 3. Для получения выборки людей по половому признаку:
 
 	 **! Для этого запроса необходим токен !**
-    ```
+```
 	Protocol: HTTP
 	Path: data/personsbatch
 	Method: POST
@@ -213,9 +213,9 @@ https://api.github.com - на этой странице есть набор за
 	Response:
 		Code: 200
 		Body: json вида {"persons" : [{Person1}, {Person2}, ... ]}
-	```
+```
 	Пример запроса в curl:		
-	```
+```
 	curl -i
          -X POST
          -H "Authorization: Bearer 123124253"
@@ -223,7 +223,7 @@ https://api.github.com - на этой странице есть набор за
          -H "Host: localhost:8080"
          -d "gender=FEMALE"
      "http://localhost:8080/data/personsbatch"
-	 ```
+ ```
 Нам нужно реализовать общение с этим API Tinder-Cервера.
 
 Сейчас в репозитории обновлены материалы третьего семинара.
