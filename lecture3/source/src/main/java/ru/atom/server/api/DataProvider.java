@@ -1,13 +1,16 @@
 package ru.atom.server.api;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.atom.model.Gender;
 import ru.atom.model.Image;
 import ru.atom.model.Location;
-import ru.atom.model.Person;
+import ru.atom.model.person.Person;
+import ru.atom.model.person.PersonBatchHolder;
+import ru.atom.server.auth.Authentication;
 import ru.atom.server.auth.Authorized;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,25 +19,34 @@ import java.util.UUID;
 
 @Path("/data")
 public class DataProvider {
-    private static PersonBatchHolder LADYS;
+    private static final Logger log = LogManager.getLogger(DataProvider.class);
+    private static PersonBatchHolder LADIES;
     private static PersonBatchHolder MEN;
 
-    // curl -X POST
-    //      -H 'Authorization: Bearer {token}'
-    //      -H "Host: localhost:8080"
-    // http://localhost:8080/data/personsbatch
+    //curl -i
+    //     -X POST
+    //     -H "Authorization: Bearer {token}"
+    //     -H "Content-Type: application/x-www-form-urlencoded"
+    //     -H "Host: localhost:8080"
+    //     -d "gender=FEMALE"
+    // "localhost:8080/data/personsbatch"
     @Authorized
     @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("application/json")
     @Path("personsbatch")
-    public Response getPersonsBatch() throws IOException {
+    public Response getPersonsBatch(@FormParam("gender") Gender gender) throws IOException {
+        log.info("Batch of {} requested.", gender);
         return Response.ok(
-                LADYS.writeJson()
+                gender == Gender.FEMALE
+                ? LADIES.writeJson()
+                : MEN.writeJson()
             ).build();
     }
 
     static {
         try {
-            LADYS = PersonBatchHolder.of(
+            LADIES = PersonBatchHolder.of(
                     new Person()
                             .setId(UUID.randomUUID())
                             .setName("Алла Пугачева")

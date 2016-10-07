@@ -1,6 +1,10 @@
 package ru.atom.client;
 
 import org.junit.Test;
+import ru.atom.model.Gender;
+import ru.atom.model.person.Person;
+
+import java.util.Collection;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +29,10 @@ public class RestClientImplTest {
 
     @Test
     public void getBatch() throws Exception {
-
+        Long token = client.login("admin", "admin");
+        assertNotNull(token);
+        Collection<? extends Person> persons = client.getBatch(token, Gender.FEMALE);
+        assertTrue(persons.size() > 0);
     }
 
 }

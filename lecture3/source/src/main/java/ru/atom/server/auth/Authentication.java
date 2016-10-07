@@ -19,18 +19,16 @@ public class Authentication {
     private static ConcurrentHashMap<String, Long> tokens;
     private static ConcurrentHashMap<Long, String> tokensReversed;
 
-    static {
-        credentials = new ConcurrentHashMap<>();
-        credentials.put("admin", "admin");
-        tokens = new ConcurrentHashMap<>();
-        tokens.put("admin", 1L);
-        tokensReversed = new ConcurrentHashMap<>();
-        tokensReversed.put(1L, "admin");
-    }
-
-    // curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Host: 10.3.13.136:8080" -d 'login=123&password=456' "10.3.13.136:8080/auth/register"
+    // curl -i
+    //      -X POST
+    //      -H "Content-Type: application/x-www-form-urlencoded"
+    //      -H "Host: {IP}:8080"
+    //      -d "login={}&password={}"
+    // "{IP}:8080/auth/register"
     @POST
     @Path("register")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("text/plain")
     public Response register(@FormParam("login") String user,
                              @FormParam("password") String password) {
 
@@ -46,14 +44,24 @@ public class Authentication {
         return Response.ok("User " + user + " registered.").build();
     }
 
+    static {
+        credentials = new ConcurrentHashMap<>();
+        credentials.put("admin", "admin");
+        tokens = new ConcurrentHashMap<>();
+        tokens.put("admin", 1L);
+        tokensReversed = new ConcurrentHashMap<>();
+        tokensReversed.put(1L, "admin");
+    }
+
     // curl -X POST
     //      -H "Content-Type: application/x-www-form-urlencoded"
     //      -H "Host: localhost:8080"
-    //      -d 'login=admin&password=admin'
+    //      -d "login=admin&password=admin"
     // "http://localhost:8080/auth/login"
     @POST
     @Path("login")
     @Consumes("application/x-www-form-urlencoded")
+    @Produces("text/plain")
     public Response authenticateUser(@FormParam("login") String user,
                                      @FormParam("password") String password) {
 
@@ -94,7 +102,7 @@ public class Authentication {
         return token;
     }
 
-    public static void validateToken(String rawToken) throws Exception {
+    static void validateToken(String rawToken) throws Exception {
         Long token = Long.parseLong(rawToken);
         if (!tokensReversed.containsKey(token)) {
             throw new Exception("Token validation exception");

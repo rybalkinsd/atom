@@ -1,7 +1,10 @@
-package ru.atom.model;
+package ru.atom.model.person;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.atom.model.Gender;
+import ru.atom.model.Image;
+import ru.atom.model.Location;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +16,6 @@ public class Person {
     private String name;
     private int age;
     private Location location;
-
     private String desctiption;
     private Image image;
     private URL instagramUrl;
