@@ -28,16 +28,6 @@ public class Authentication {
         tokensReversed.put(1L, "admin");
     }
 
-    // curl -H 'Authorization: Bearer 2133e36c-8f31-455f-840e-1e034d4975fd'
-    //      -H "Host: localhost:8080"
-    // http://localhost:8080/auth/dummy
-    @Authorized
-    @GET
-    @Path("dummy")
-    public Response dummy() {
-        return Response.ok().build();
-    }
-
     // curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Host: 10.3.13.136:8080" -d 'login=123&password=456' "10.3.13.136:8080/auth/register"
     @POST
     @Path("register")
@@ -63,7 +53,6 @@ public class Authentication {
     // "http://localhost:8080/auth/login"
     @POST
     @Path("login")
-    @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public Response authenticateUser(@FormParam("login") String user,
                                      @FormParam("password") String password) {

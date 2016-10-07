@@ -19,13 +19,6 @@ public class DataProvider {
     private static PersonBatchHolder LADYS;
     private static PersonBatchHolder MEN;
 
-    @Authorized
-    @POST
-    @Path("dummy")
-    public Response dummy() {
-        return Response.ok().build();
-    }
-
     // curl -X POST
     //      -H 'Authorization: Bearer {token}'
     //      -H "Host: localhost:8080"
