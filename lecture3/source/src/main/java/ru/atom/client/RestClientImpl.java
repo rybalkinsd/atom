@@ -29,7 +29,7 @@ public class RestClientImpl implements RestClient {
      * @return true if successfully registered
      */
     public boolean register(String user, String password) {
-        MediaType mediaType = MediaType.parse("raw");
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
                 mediaType,
                 String.format("login=%s&password=%s", user, password)
@@ -93,7 +93,7 @@ public class RestClientImpl implements RestClient {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
                 mediaType,
-                String.format("gender=%s", Gender.FEMALE)
+                String.format("gender=%s", gender)
         );
         String requestUrl = SERVICE_URL + "/data/personsbatch";
         Request request = new Request.Builder()
