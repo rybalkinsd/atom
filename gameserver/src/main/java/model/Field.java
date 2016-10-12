@@ -18,7 +18,7 @@ public class Field {
     private static final Logger log = LogManager.getLogger(Field.class);
 
     @NotNull
-    private List<Player> players = new ArrayList<>(GameConstants.MAX_PLAYERS_IN_SESSION);
+    private List<Cell> cells = new ArrayList<>();
 
     @NotNull
     private List<Food> foods;
@@ -29,8 +29,7 @@ public class Field {
     @Nullable
     private List<Blob> blobs = new ArrayList<>();
 
-    public Field(@NotNull Player player, @NotNull List<Food> foods, @NotNull List<Virus> viruses) {
-        this.players.add(player);
+    public Field(@NotNull List<Food> foods, @NotNull List<Virus> viruses) {
         this.foods = foods;
         this.viruses = viruses;
         if (log.isInfoEnabled()) {
@@ -38,14 +37,19 @@ public class Field {
         }
     }
 
+    @NotNull
+    public List<Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(@NotNull List<Cell> cells) {
+        this.cells = cells;
+    }
+
     @Override
     public String toString() {
         return "Field{" +
-                "border_top=" + BORDER_TOP +
-                ", border_down=" + BORDER_DOWN +
-                ", border_left=" + BORDER_LEFT +
-                ", border_right=" + BORDER_RIGHT +
-                ", players=" + players +
+                "cells=" + cells +
                 ", foods=" + foods +
                 ", viruses=" + viruses +
                 ", blobs=" + blobs +

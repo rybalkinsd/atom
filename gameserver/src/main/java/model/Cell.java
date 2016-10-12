@@ -30,6 +30,28 @@ public class Cell {
         }
     }
 
+    @NotNull
+    public Color getColor() {
+        return color;
+    }
+
+    @NotNull
+    public Position getPosition() {
+        return position;
+    }
+
+    public int getMass() {
+        return mass;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
     @Override
     public String toString() {
         return "Cell{" +

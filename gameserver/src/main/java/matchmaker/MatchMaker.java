@@ -1,6 +1,6 @@
 package matchmaker;
 
-import model.GameSession;
+import session.GameSession;
 import model.Player;
 import org.jetbrains.annotations.NotNull;
 
