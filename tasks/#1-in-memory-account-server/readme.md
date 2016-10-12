@@ -31,7 +31,8 @@ https://github.com/rybalkinsd/atom/tree/master/lecture4/source/src/main/java/ru/
 Класс - обработчик HTTP запросов
 Простейший пример сервлета, возращающего html с текстом "Hello, World!":
 
-``` import java.io.*;
+```
+import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
