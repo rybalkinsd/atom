@@ -33,8 +33,8 @@ Jetty - контейнер сервлетов. Jetty можно себе пре�
 При получении HTTP-запроса Jetty своими внутренними методами осуществляет обращение к методу соответсвующего запросу сервлета.
 
 **Jetty реализует модель thread per request.** [link](http://stackoverflow.com/questions/15217524/what-is-the-difference-between-thread-per-connection-vs-thread-per-request) 
-
 Это значит, что каждый запрос будет обработан в своем потоке. Эти потоки берутся из некоторого `thread-pool`'a. 
+![](thread_per_request.jpg)
 
 [Quick start](https://www.eclipse.org/jetty/documentation/current/quick-start.html)
 
