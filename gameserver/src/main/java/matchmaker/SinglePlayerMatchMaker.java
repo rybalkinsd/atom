@@ -1,14 +1,16 @@
 package matchmaker;
 
+import model.World;
+import model.Food;
+import model.GameConstants;
 import model.GameSession;
 import model.Player;
+import model.Position;
+import model.Virus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Creates {@link GameSession} for single player
@@ -49,6 +51,23 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    return player -> {
+
+        Random random = new Random();
+        Set<Food> foods = new HashSet<>();
+        for (int i = 0; i < GameConstants.INITIAL_FOODS_AMOUNT; i++) {
+            foods.add(new Food(new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                    random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
+        }
+
+        Set<Virus> viruses = new HashSet<>();
+        for (int i = 0; i < GameConstants.INITIAL_VIRUSES_AMOUNT; i++) {
+            viruses.add(new Virus(
+                    new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                            random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
+        }
+
+        World world = new World(player, foods, viruses);
+    };
   }
 }
