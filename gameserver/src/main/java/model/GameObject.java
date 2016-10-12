@@ -6,10 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
 
 import static java.lang.Math.random;
-import static java.lang.Math.round;
 
 /**
  * Created by svuatoslav on 10/11/16.
@@ -26,7 +24,7 @@ public abstract class GameObject {
 
     public GameObject(Pair<Double,Double> point) {
         color = Color.rgb(((Double)(random()*256)).intValue(),((Double)(random()*256)).intValue(),((Double)(random()*256)).intValue());
-        location = new Pair<Double,Double>(point.getKey(),point.getValue());
+        location = new Pair<>(point.getKey(),point.getValue());
     }
 
     public int writeLog(String info)
@@ -40,7 +38,7 @@ public abstract class GameObject {
 
     public Pair<Double,Double> getLocation ()
     {
-        return new Pair<Double,Double>(location.getKey(),location.getValue());
+        return new Pair<>(location.getKey(),location.getValue());
     }
 
     public Color getColor(){return color;}
@@ -53,7 +51,7 @@ public abstract class GameObject {
 
     public void setLocation(Pair<Double,Double> Location)
     {
-        location=new Pair<Double,Double>(Location.getKey(),Location.getValue());
+        location=new Pair<>(Location.getKey(),Location.getValue());
         if (log.isInfoEnabled()) {
             log.info(toString() + " moved");
         }
