@@ -20,11 +20,56 @@
 #### In-memory
 
 #### API
+Строить наш Сервер будем исходя из предположения, что **все поступающие в него запросы строго последовательны**.
+Это значит, что **не нужно заботиться о разделении потоками ресурсов**.
 
 #### Базовые структуры данных
 
 #### Технологический стек
+##### Servlet
+
 ##### Jetty
+Jetty - контейнер сервлетов. Jetty можно себе представлять как коллекцию, содержащюю в себе набор сервлетов.
+При получении HTTP-запроса Jetty своими внутренними методами осуществляет обращение к методу соответсвующего запросу сервлета.
+**Jetty реализует модель thread per request.** Это значит, что каждый запрос будет обработан в своем потоке. Эти потоки берутся из некоторого `thread-pool`. 
+
+[Quick start](https://www.eclipse.org/jetty/documentation/current/quick-start.html)
+
+Пример поднятия сервера Jetty.
+
+``` java
+public class HelloWorld extends AbstractHandler
+{
+    @Override
+    public void handle( String target,
+                        Request baseRequest,
+                        HttpServletRequest request,
+                        HttpServletResponse response ) throws IOException, ServletException {
+                        
+        // Declare response encoding and types
+        response.setContentType("text/html; charset=utf-8");
+
+        // Declare response status code
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        // Write back response
+        response.getWriter().println("<h1>Hello World</h1>");
+
+        // Inform jetty that this request has now been handled
+        baseRequest.setHandled(true);
+    }
+    
+    public static void main( String[] args ) throws Exception {
+        Server server = new Server(PORT);
+        server.setHandler(new HelloWorld());
+
+        server.start();
+        server.join();
+    }
+}
+```
+
+
 ##### Jax-rs
 ##### Jersey
 
