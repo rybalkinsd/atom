@@ -1,0 +1,134 @@
+package server.auth;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.intellij.lang.annotations.PrintFormat;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
+
+@Path("/auth")
+public class Authentication {
+    private static final Logger log = LogManager.getLogger(Authentication.class);
+    private static ConcurrentHashMap<String, String> registerData;
+    private static ConcurrentHashMap<String, Long> tokens;
+    private static ConcurrentHashMap<Long, String> tokensReversed;
+
+     /*curl -i \
+          -X POST \
+          -H "Content-Type: application/x-www-form-urlencoded" \
+          -H "Host: localhost:8080" \
+          -d "login=qq&password=qq" \
+     "http://localhost:8080/auth/register"*/
+    @POST
+    @Path("register")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("text/plain")
+    public Response register(@FormParam("login") String user,
+                             @FormParam("password") String password) {
+
+        if (user == null || password == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        if (registerData.putIfAbsent(user, password) != null) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
+        log.info("New user '{}' registered", user);
+        return Response.ok("User " + user + " registered.").build();
+    }
+
+    static {
+        registerData = new ConcurrentHashMap<>();
+        tokens = new ConcurrentHashMap<>();
+        tokensReversed = new ConcurrentHashMap<>();
+        registerData.put("admin", "admin");
+        tokens.put("admin", 1L);
+        tokensReversed.put(1L, "admin");
+    }
+
+     /*curl -X POST \
+          -H "Content-Type: application/x-www-form-urlencoded" \
+          -H "Host: localhost:8080" \
+          -d "login=qq&password=qq" \
+     "http://localhost:8080/auth/login"*/
+    @POST
+    @Path("login")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("text/plain")
+    public Response authenticateUser(@FormParam("login") String user,
+                                     @FormParam("password") String password) {
+
+        if (user == null || password == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        try {
+            if (!authenticate(user, password)) {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
+            long token = issueToken(user);
+            log.info("User '{}' successfully logged in", user);
+            return Response.ok(Long.toString(token)).build();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
+
+    /*curl -X POST \
+            -H "Authorization: Bearer 3008650623990024943" \
+            -H "Host: localhost:8080" \
+            "http://localhost:8080/auth/logout"*/
+
+    @POST
+    @Authorized
+    @Path("logout")
+    @Produces("text/plain")
+    public Response logout(@HeaderParam("Authorization") String rawToken) {
+        try {
+            Long token = Long.parseLong(rawToken.substring("Bearer".length()).trim());
+            /*if (!tokensReversed.containsKey(token)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                String user = tokensReversed.get(token);
+                tokens.remove(user);
+                tokensReversed.remove(token);
+                if (log.isInfoEnabled()) {
+                    log.info("User '{}' logout successfully", user);
+                }
+                return Response.ok("'{}' successfully logout!", user).build();
+            }*/
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+    }
+
+    private boolean authenticate(String user, String password) throws Exception {
+        return password.equals(registerData.get(user));
+    }
+
+    private Long issueToken(String user) {
+        Long token = tokens.get(user);
+        if (token != null) {
+            return token;
+        }
+        token = ThreadLocalRandom.current().nextLong();
+        log.info("Generate new token {} for user {}", token, user);
+        tokens.put(user, token);
+        tokensReversed.put(token, user);
+        return token;
+    }
+
+    static void validateToken(String rawToken) throws Exception {
+        Long token = Long.parseLong(rawToken);
+        if (!tokensReversed.containsKey(token)) {
+            throw new Exception("Token validation exception");
+        }
+        log.info("Correct token from '{}'", tokensReversed.get(token));
+    }
+}

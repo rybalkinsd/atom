@@ -21,13 +21,21 @@ public class World {
     @NotNull
     private List<Virus> viruses;
 
-    public World(@NotNull Player player, @NotNull List<Food> foods, @NotNull List<Virus> viruses) {
-        this.players.add(player);
+    public World(@NotNull List<Food> foods, @NotNull List<Virus> viruses) {
         this.foods = foods;
         this.viruses = viruses;
         if (log.isInfoEnabled()) {
             log.info(toString() + " created");
         }
+    }
+
+    @NotNull
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    public void addPlayer(@NotNull Player player) {
+        players.add(player);
     }
 
     @Override
