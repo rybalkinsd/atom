@@ -3,7 +3,6 @@ package model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class Field {
     @NotNull
     private List<Virus> viruses;
 
-    @Nullable
+    @NotNull
     private List<Blob> blobs = new ArrayList<>();
 
     public Field(@NotNull List<Food> foods, @NotNull List<Virus> viruses) {

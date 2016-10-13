@@ -3,11 +3,7 @@ package server.auth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -80,6 +76,39 @@ public class Authentication {
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+    }
+
+    // curl -X POST
+    //      -H "Authorization: Bearer {token}"
+    //      -H "Host: localhost:8080
+    // "http://localhost:8080/auth/logout"
+    @Authorized
+    @POST
+    @Path("logout")
+    @Produces("text/plain")
+    public Response logoutUser(@HeaderParam("Authorization") String rawToken) {
+
+        try {
+
+            Long token = Long.parseLong(rawToken.substring("Bearer".length()).trim());
+            System.out.println(token);
+
+            if (!tokensReversed.containsKey(token)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                String user = tokensReversed.get(token);
+                tokens.remove(user);
+                tokensReversed.remove(token);
+                if (log.isInfoEnabled()) {
+                    log.info("User " + user + " logout");
+                }
+                return Response.ok("User: " + user + " logout successfully.").build();
+            }
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
     }
 
     private boolean authenticate(String user, String password) throws Exception {

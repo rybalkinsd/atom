@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.Field;
 import model.GameConstants;
 import model.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class GameSessionImpl implements GameSession {
+
+    private static final Logger log = LogManager.getLogger(GameSessionImpl.class);
 
     @NotNull
     private UUID sessionID;
@@ -60,6 +64,13 @@ public class GameSessionImpl implements GameSession {
         if (players.size() < GameConstants.MAX_PLAYERS_IN_SESSION) {
             players.add(player);
             field.getCells().addAll(player.getCells());
+            if (log.isInfoEnabled()) {
+                log.info(player + "successfully joined the game.");
+            }
+        } else {
+            if (log.isWarnEnabled()) {
+                log.warn("Session " + this.sessionID + " is full.");
+            }
         }
     }
 }

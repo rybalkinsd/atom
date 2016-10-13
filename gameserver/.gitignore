@@ -1,6 +1,3 @@
-.idea/*
-bin/*
-target/*
+.idea
+target
 *.iml
-*/*.iml
-./*.iml
