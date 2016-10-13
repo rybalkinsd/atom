@@ -1,0 +1,33 @@
+Player{name='Arkady'/startTime=2016-10-14T02:23:52.621} created
+Grid{size='1000.0'} created
+Pellet{/color=java.awt.Color[r=219,g=173,b=188]/position=(373,92;416,35)/mass=1} created
+Pellet{/color=java.awt.Color[r=85,g=1,b=132]/position=(281,47;564,7)/mass=1} created
+Pellet{/color=java.awt.Color[r=141,g=47,b=107]/position=(249,48;210,18)/mass=1} created
+Pellet{/color=java.awt.Color[r=149,g=4,b=20]/position=(73,67;599,44)/mass=1} created
+Pellet{/color=java.awt.Color[r=59,g=73,b=235]/position=(841,99;700,1)/mass=1} created
+Pellet{/color=java.awt.Color[r=83,g=62,b=25]/position=(88,93;774,4)/mass=1} created
+Pellet{/color=java.awt.Color[r=236,g=252,b=141]/position=(471,77;613,39)/mass=1} created
+Pellet{/color=java.awt.Color[r=205,g=150,b=200]/position=(462,18;461,34)/mass=1} created
+Pellet{/color=java.awt.Color[r=251,g=56,b=174]/position=(126,58;150,42)/mass=1} created
+Pellet{/color=java.awt.Color[r=144,g=72,b=116]/position=(451,96;68,62)/mass=1} created
+Pellet{/color=java.awt.Color[r=12,g=202,b=11]/position=(330,61;355,38)/mass=1} created
+Pellet{/color=java.awt.Color[r=139,g=15,b=181]/position=(488,49;870,33)/mass=1} created
+Pellet{/color=java.awt.Color[r=147,g=152,b=82]/position=(176,39;392,86)/mass=1} created
+Pellet{/color=java.awt.Color[r=90,g=77,b=68]/position=(691,0;61,65)/mass=1} created
+Pellet{/color=java.awt.Color[r=24,g=59,b=210]/position=(79,82;273,18)/mass=1} created
+Pellet{/color=java.awt.Color[r=170,g=97,b=237]/position=(766,25;297,6)/mass=1} created
+Pellet{/color=java.awt.Color[r=113,g=27,b=58]/position=(75,86;55,41)/mass=1} created
+Pellet{/color=java.awt.Color[r=167,g=64,b=3]/position=(461,54;19,46)/mass=1} created
+Pellet{/color=java.awt.Color[r=66,g=197,b=249]/position=(825,46;837,07)/mass=1} created
+Pellet{/color=java.awt.Color[r=144,g=178,b=233]/position=(468,64;452,28)/mass=1} created
+Virus{/color=java.awt.Color[r=0,g=255,b=0]/position=(420,99;778,92)/mass=24} created
+Virus{/color=java.awt.Color[r=0,g=255,b=0]/position=(625,53;329,24)/mass=29} created
+Virus{/color=java.awt.Color[r=0,g=255,b=0]/position=(821,42;129,06)/mass=40} created
+Virus{/color=java.awt.Color[r=0,g=255,b=0]/position=(875,33;539,69)/mass=31} created
+Virus{/color=java.awt.Color[r=0,g=255,b=0]/position=(822,12;444,77)/mass=20} created
+SinglePlayerGameSession:{model.SinglePlayerGameSession@49c43f4e} created
+Cell{/color=java.awt.Color[r=200,g=250,b=76]/position=(807,73;934,58)/mass=3} created
+New cell created for Player{name='Arkady'/startTime=2016-10-14T02:23:52.621}
+Player{name='Arkady'/startTime=2016-10-14T02:23:52.621} joined model.SinglePlayerGameSession@49c43f4e
+
+Process finished with exit code 0
