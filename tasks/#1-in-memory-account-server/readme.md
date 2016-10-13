@@ -100,7 +100,6 @@ AuthServer должен удовлетворять API, описанному д�
     Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
     Headers:
         Authorization: Bearer {token}
-
     Response:
         Code: 200
         Сontent-Type: text/plain
@@ -118,6 +117,7 @@ AuthServer должен удовлетворять API, описанному д�
     Method: POST
     Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
     Headers:
+        Authorization: Bearer {token}
         Content-Type: application/x-www-form-urlencoded
     Body:
         name={}
