@@ -32,6 +32,7 @@
 
 ### API
 1. Регистрация пользователя
+
   Повторная регистрация пользователя c именем {user} должна быть запрещена. Выберите соответствующий HTTP код ошибки
   ```
   Protocol: HTTP
@@ -49,74 +50,82 @@
       Body: сообщение об успехе
   ```
 2. Авторизация(логин) пользователя
-Авторизация позволяет по паре (user, password) получить токен, если пользователь зарегистрирован. Чтобы иметь доступ к другим запросам, требующих авторизации(предоставления токен при запросе).
-Выданный токен прекращает действовать только если:
-  - пользователь разлогинился
-  - сервер перезапустили/выключили
-Если токен пользователя не прекращал действовать, то повторный логин должен приводить к выдаче такого же токена, что и в первый раз.
-  ```
-  Protocol: HTTP
-  Path: auth/login
-  Method: POST
-  Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-  Headers:
-      Content-Type: application/x-www-form-urlencoded
-  Body:
-      user={}&password={}
-  Response: 
-      Code: 200
-      Сontent-Type: text/plain
-      Body: token
-  ```
-  
-3. Логаут пользователя
-**! Для этого запроса необходим токен !**
-Удаляет токен пользователя на сервере. 
-  ```
-  Protocol: HTTP
-  Path: auth/logout
-  Method: POST
-  Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-  Headers:
-      Authorization: Bearer {token}
 
-  Response:
-      Code: 200
-      Сontent-Type: text/plain
-      Body: сообщение об успехе
-  ```
+  Авторизация позволяет по паре (user, password) получить токен, если пользователь зарегистрирован. Чтобы иметь доступ к другим запросам, требующих авторизации (предоставления токена при запросе).
   
+  Выданный токен прекращает действовать только если:
+    - пользователь разлогинился
+    - сервер перезапустили/выключили
+    
+  Если токен пользователя не прекращал действовать, то повторный логин должен приводить к выдаче такого же токена, что и в первый раз.
+    ```
+    Protocol: HTTP
+    Path: auth/login
+    Method: POST
+    Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+    Headers:
+        Content-Type: application/x-www-form-urlencoded
+    Body:
+        user={}&password={}
+    Response: 
+        Code: 200
+        Сontent-Type: text/plain
+        Body: token
+    ```
+
+3. Логаут пользователя
+
+  **! Для этого запроса необходим токен !**
+  
+  Удаляет токен пользователя на сервере. 
+    ```
+    Protocol: HTTP
+    Path: auth/logout
+    Method: POST
+    Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+    Headers:
+        Authorization: Bearer {token}
+
+    Response:
+        Code: 200
+        Сontent-Type: text/plain
+        Body: сообщение об успехе
+    ```
+
 4. Обновление имени пользователя
-**! Для этого запроса необходим токен !**
-Выставляет пользователю(владельцу токена) переданное в запросе имя.
-  ```
-  Protocol: HTTP
-  Path: profile/name
-  Method: POST
-  Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-  Headers:
-      Content-Type: application/x-www-form-urlencoded
-  Body:
-      name={}
-  Response: 
-      Code: 200
-      Сontent-Type: text/plain
-      Body: сообщение об успехе
-  ```
+
+  **! Для этого запроса необходим токен !**
   
+  Выставляет пользователю (владельцу токена) переданное в запросе имя.
+    ```
+    Protocol: HTTP
+    Path: profile/name
+    Method: POST
+    Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+    Headers:
+        Content-Type: application/x-www-form-urlencoded
+    Body:
+        name={}
+    Response: 
+        Code: 200
+        Сontent-Type: text/plain
+        Body: сообщение об успехе
+    ```
+
 5. Получить информацию о залогиненных пользователях
-Позволяет получть json с информацией о залогиненных пользователях. В информации о пользователях обязательно должно присутствовать поле с именем. 
-  ```
-  Protocol: HTTP
-  Path: data/users
-  Method: GET
-  Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
-  Response: 
-      Code: 200
-      Сontent-Type: application/json
-      Body: json вида {"users" : [{User1}, {User2}, ... ]}
-  ```
-  
+
+  Позволяет получть json с информацией о залогиненных пользователях. В информации о пользователях обязательно должно присутствовать поле с именем. 
+    ```
+    Protocol: HTTP
+    Path: data/users
+    Method: GET
+    Host: {IP}:8080 (IP = localhost при локальном тестрировании сервера)
+    Response: 
+        Code: 200
+        Сontent-Type: application/json
+        Body: json вида {"users" : [{User1}, {User2}, ... ]}
+    ```
+
 ### Технологический стек
 #### Servlet
 Класс - обработчик HTTP запросов
