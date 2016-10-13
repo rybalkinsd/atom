@@ -54,13 +54,13 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     return player -> {
 
         Random random = new Random();
-        Set<Food> foods = new HashSet<>();
+        List<Food> foods = new ArrayList<>();
         for (int i = 0; i < GameConstants.INITIAL_FOODS_AMOUNT; i++) {
             foods.add(new Food(new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
                     random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
         }
 
-        Set<Virus> viruses = new HashSet<>();
+        List<Virus> viruses = new ArrayList<>();
         for (int i = 0; i < GameConstants.INITIAL_VIRUSES_AMOUNT; i++) {
             viruses.add(new Virus(
                     new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,

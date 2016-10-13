@@ -4,8 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class World {
 
@@ -13,15 +13,15 @@ public class World {
     private static final Logger log = LogManager.getLogger(World.class);
 
     @NotNull
-    private Set<Player> players = new HashSet<>(GameConstants.MAX_PLAYERS_IN_SESSION);
+    private List<Player> players = new ArrayList<>(GameConstants.MAX_PLAYERS_IN_SESSION);
 
     @NotNull
-    private Set<Food> foods;
+    private List<Food> foods;
 
     @NotNull
-    private Set<Virus> viruses;
+    private List<Virus> viruses;
 
-    public World(@NotNull Player player, @NotNull Set<Food> foods, @NotNull Set<Virus> viruses) {
+    public World(@NotNull Player player, @NotNull List<Food> foods, @NotNull List<Virus> viruses) {
         this.players.add(player);
         this.foods = foods;
         this.viruses = viruses;

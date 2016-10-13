@@ -5,9 +5,9 @@ import org.apache.logging.log4j.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Server player avatar
@@ -24,7 +24,7 @@ public class Player {
   private String name;
 
   @NotNull
-  private Set<Cell> cells = new HashSet<>(GameConstants.MAX_CELLS);
+  private List<Cell> cells = new ArrayList<>(GameConstants.MAX_CELLS);
 
 
   /**
