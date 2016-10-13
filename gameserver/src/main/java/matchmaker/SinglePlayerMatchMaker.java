@@ -51,25 +51,22 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     @NotNull
     private GameSession createNewGame() {
 
-        return -> {
-            Random random = new Random();
+        Random random = new Random();
+        List<Food> foods = new ArrayList<>();
+        for (int i = 0; i < GameConstants.INITIAL_FOODS_AMOUNT; i++) {
+            foods.add(new Food(new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                    random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
+        }
 
-            List<Food> foods = new ArrayList<>();
-            for (int i = 0; i < GameConstants.INITIAL_FOODS_AMOUNT; i++) {
-                foods.add(new Food(new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
-                        random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
-            }
+        List<Virus> viruses = new ArrayList<>();
+        for (int i = 0; i < GameConstants.INITIAL_VIRUSES_AMOUNT; i++) {
+            viruses.add(new Virus(
+                    new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                            random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
+        }
 
-            List<Virus> viruses = new ArrayList<>();
-            for (int i = 0; i < GameConstants.INITIAL_VIRUSES_AMOUNT; i++) {
-                viruses.add(new Virus(
-                        new Position(random.nextDouble() * GameConstants.MAX_BORDER_RIGHT,
-                                random.nextDouble() * GameConstants.MAX_BORDER_TOP)));
-            }
-
-            World world = new World(foods, viruses);
-            //return new GameSessionImpl(world);
-        };
+        World world = new World(foods, viruses);
+        return new GameSessionImpl(world);
 
     }
 
