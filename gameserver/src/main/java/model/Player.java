@@ -1,8 +1,8 @@
 package model;
 
+import com.sun.istack.internal.NotNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Server player avatar
@@ -10,13 +10,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Alpi
  */
-public class Player {
+public class Player extends GameObject{
   @NotNull
   private static final Logger log = LogManager.getLogger(Player.class);
   @NotNull
   private String name;
-
-  //TODO maybe we need something else here?
+  @NotNull
+  private double speed; //depends on the radius
+  //
 
   /**
    * Create new Player
@@ -24,16 +25,21 @@ public class Player {
    * @param name        visible name
    */
   public Player(@NotNull String name) {
+    super(GameConstants.STARTING_RADIUS_OF_PLAYER);
     this.name = name;
     if (log.isInfoEnabled()) {
       log.info(toString() + " created");
     }
   }
 
+  public void changeRadius(int amountOfFood) {
+    this.radius += amountOfFood;
+  }
+
   @Override
   public String toString() {
     return "Player{" +
-        "name='" + name + '\'' +
-        '}';
+        "name='" + name + '\'' + " coordinates='" + x + " " + y + '\''
+        + " radius='" + radius + '\'' + " color='" + color.toString() + '\'' + '}';
   }
 }
