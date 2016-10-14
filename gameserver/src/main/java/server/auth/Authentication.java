@@ -15,21 +15,20 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Path("/auth")
 public class Authentication {
 
     private static final Logger log = LogManager.getLogger(Authentication.class);
-    private static CopyOnWriteArrayList<User> serverUsers;
+    private static CopyOnWriteArrayList<User> registerUsers;
 
     static {
-        serverUsers = new CopyOnWriteArrayList<>();
+        registerUsers = new CopyOnWriteArrayList<>();
     }
 
     @NotNull
-    public static CopyOnWriteArrayList<User> getServerUsers() {
-        return serverUsers;
+    public static CopyOnWriteArrayList<User> getRegisterUsers() {
+        return registerUsers;
     }
 
     // curl -i
@@ -49,14 +48,17 @@ public class Authentication {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        User user = getUserByName(name);
+        User user = registerUsers.parallelStream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst()
+                .orElse(null);
 
         if (user != null) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
         user = new User(name, password);
-        serverUsers.add(user);
+        registerUsers.add(user);
         log.info("New user registered with login {}", name);
         return Response.ok(user + " registered.").build();
 
@@ -80,13 +82,14 @@ public class Authentication {
 
         try {
 
-            if (!(serverUsers.parallelStream()
+            if (!(registerUsers.parallelStream()
                     .filter(user -> user.getName().equals(name))
                     .filter(user -> user.getPassword().equals(password))
                     .count() == 1)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
-            Token token = issueToken(name);
+
+            Token token = TokensContainer.issueToken(name);
             log.info("Player with name {} successfully logged in", name);
             return Response.ok(Long.toString(token.getToken())).build();
 
@@ -107,14 +110,14 @@ public class Authentication {
 
         try {
 
-            Token token = parseToken(rawToken);
+            Token token = TokensContainer.parseToken(rawToken);
 
-            if (!TokensContainer.getUsersByTokensMap().containsKey(token)) {
+            if (!TokensContainer.containsToken(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = TokensContainer.getUsersByTokensMap().get(token);
+                User user = TokensContainer.getUser(token);
                 TokensContainer.removeToken(token);
-                serverUsers.remove(user);
+                registerUsers.remove(user);
                 if (log.isInfoEnabled()) {
                     log.info("Player with name {} logout", user.getName());
                 }
@@ -125,43 +128,6 @@ public class Authentication {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-    }
-
-    private Token issueToken(String name) {
-
-        User user = getUserByName(name);
-        Token token = TokensContainer.getTokensByUsersMap().get(user);
-        if (token != null) {
-            return token;
-        }
-
-        token = new Token(ThreadLocalRandom.current().nextLong());
-        log.info("Generate new token {} for User with name {}", token, name);
-        TokensContainer.addToken(user, token);
-        TokensContainer.addUser(token, user);
-        return token;
-
-    }
-
-    static void validateToken(String rawToken) throws Exception {
-        Token token = parseToken(rawToken);
-        if (!TokensContainer.getUsersByTokensMap().containsKey(token)) {
-            throw new Exception("Token validation exception");
-        }
-        log.info("Correct token from '{}'", TokensContainer.getUsersByTokensMap().get(token));
-    }
-
-    private User getUserByName(@NotNull String name) {
-        return serverUsers.parallelStream()
-                .filter(u -> u.getName().equals(name))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @NotNull
-    public static Token parseToken(String rawToken) {
-        Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-        return new Token(longToken);
     }
 
 }

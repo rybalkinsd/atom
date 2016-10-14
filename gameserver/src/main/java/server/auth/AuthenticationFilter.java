@@ -1,5 +1,7 @@
 package server.auth;
 
+import server.model.token.TokensContainer;
+
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -22,7 +24,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
 
         try {
-            Authentication.validateToken(authorizationHeader);
+            TokensContainer.validateToken(authorizationHeader);
         } catch (Exception e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }

@@ -2,7 +2,6 @@ package server.profile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import server.auth.Authentication;
 import server.auth.Authorized;
 import server.model.token.Token;
 import server.model.token.TokensContainer;
@@ -15,7 +14,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Path("/profile")
 public class UserProfile {
@@ -42,13 +40,12 @@ public class UserProfile {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
-            Token token = Authentication.parseToken(rawToken);
-            ConcurrentHashMap<Token, User> tokensReversed = TokensContainer.getUsersByTokensMap();
+            Token token = TokensContainer.parseToken(rawToken);
 
-            if (!tokensReversed.containsKey(token)) {
+            if (!TokensContainer.containsToken(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = tokensReversed.get(token);
+                User user = TokensContainer.getUser(token);
                 String oldName = user.getName();
                 TokensContainer.removeToken(token);
                 user.setName(name);
