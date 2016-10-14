@@ -1,11 +1,12 @@
 package matchmaker;
 
+import model.GameConstants;
 import model.GameSession;
 import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import model.GameSpace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,18 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @Override
   public void joinGame(@NotNull Player player) {
-    GameSession newGameSession = createNewGame();
-    activeGameSessions.add(newGameSession);
-    newGameSession.join(player);
-    if (log.isInfoEnabled()) {
-      log.info(player + " joined " + newGameSession);
+    try {
+      GameSession newGameSession = createNewGame();
+      activeGameSessions.add(newGameSession);
+      newGameSession.join(player);
+      if (log.isInfoEnabled()) {
+        log.info(player + " joined " + newGameSession);
+      }
+    }
+    catch (Throwable t){
+      if (log.isInfoEnabled()){
+        log.info("Error has been detected: \""+t.getMessage()+"\"");
+      }
     }
   }
 
@@ -49,6 +57,6 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    return new GameSpace();
   }
 }
