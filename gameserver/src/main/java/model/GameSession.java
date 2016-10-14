@@ -16,4 +16,7 @@ public interface GameSession {
    * @param player player to join the game
    */
   void join(@NotNull Player player);
+  void disconnect(@NotNull Player player);
+
+  public boolean FreePlace();
 }
