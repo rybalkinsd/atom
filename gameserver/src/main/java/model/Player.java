@@ -1,16 +1,14 @@
-package model.player;
+package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.Cell;
-import model.GameConstants;
-import model.GameStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import server.model.User;
+import utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Server player avatar
@@ -20,10 +18,7 @@ public class Player {
     @NotNull
     private static final Logger log = LogManager.getLogger(Player.class);
 
-    @NotNull private UUID playerId;
-    @NotNull private String login;
-    @NotNull private String password;
-    @NotNull private String name;
+    @NotNull private User user;
 
     @NotNull
     private List<Cell> cells = new ArrayList<>(GameConstants.MAX_CELLS);
@@ -33,25 +28,13 @@ public class Player {
 
     private int score = 16;
 
-    /**
-     * Create new Player
-     *
-     * @param login Player register login
-     * @param password Player register password
-     */
-    public Player(@NotNull String login, @NotNull String password) {
-        this.playerId = UUID.randomUUID();
-        this.login = login;
-        this.password = password;
-        name = login;
+    public Player(@NotNull User user) {
+        this.user = user;
+        Cell startingCell = new Cell(ColorUtils.generateRandomColor(), new Position(123, 321));
+        addCell(startingCell);
         if (log.isInfoEnabled()) {
             log.info(toString() + " created");
         }
-    }
-
-    @NotNull
-    public String getLogin() {
-        return login;
     }
 
     @NotNull
@@ -69,21 +52,14 @@ public class Player {
     }
 
     @NotNull
-    public String getName() {
-        return name;
-    }
-
-    public void setName(@NotNull String name) {
-        this.name = name;
+    public User getUser() {
+        return user;
     }
 
     @Override
     public String toString() {
         return "Player{" +
-                "playerId=" + playerId +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + user.getName() + '\'' +
                 ", cells=" + cells +
                 ", gameStatistics=" + gameStatistics +
                 ", score=" + score +

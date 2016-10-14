@@ -1,4 +1,4 @@
-package model.player;
+package server.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerBatchHolder {
+public class UserBatchHolder {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -16,20 +16,20 @@ public class PlayerBatchHolder {
         mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
     }
 
-    private List<Player> players = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
-    private PlayerBatchHolder() { }
+    private UserBatchHolder() { }
 
-    public PlayerBatchHolder(List<Player> players) {
-        this.players = players;
+    public UserBatchHolder(List<User> users) {
+        this.users = users;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public static PlayerBatchHolder readJson(String json) throws IOException {
-        return mapper.readValue(json, PlayerBatchHolder.class);
+    public static UserBatchHolder readJson(String json) throws IOException {
+        return mapper.readValue(json, UserBatchHolder.class);
     }
 
     public String writeJson() throws JsonProcessingException {

@@ -7,6 +7,6 @@
  * <p>3) Implement them entities as java classes. No game mechanics is required - just game state
  *
  * @author Alpi
- * @see model.player.Player as example
+ * @see model.Player as example
  */
 package model;

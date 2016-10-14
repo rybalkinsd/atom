@@ -1,15 +1,12 @@
 package session;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.Cell;
 import model.Field;
 import model.GameConstants;
-import model.Position;
-import model.player.Player;
+import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,8 +63,6 @@ public class GameSessionImpl implements GameSession {
     @Override
     public void join(@NotNull Player player) {
         if (players.size() < GameConstants.MAX_PLAYERS_IN_SESSION) {
-            Cell startingCell = new Cell(ColorUtils.generateRandomColor(), new Position(123, 321));
-            player.addCell(startingCell);
             players.add(player);
             if (log.isInfoEnabled()) {
                 log.info(player + " successfully joined the session.");

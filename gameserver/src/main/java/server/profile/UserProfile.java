@@ -1,10 +1,11 @@
 package server.profile;
 
-import model.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
 import server.auth.Authorized;
+import server.model.Token;
+import server.model.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,10 +15,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("/profile")
-public class PlayerProfile {
+import static sun.audio.AudioPlayer.player;
 
-    private static final Logger log = LogManager.getLogger(PlayerProfile.class);
+@Path("/profile")
+public class UserProfile {
+
+    private static final Logger log = LogManager.getLogger(UserProfile.class);
 
     // curl -X POST
     //      -H "Content-Type: application/x-www-form-urlencoded"
@@ -42,15 +45,16 @@ public class PlayerProfile {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
-            Long token = Long.parseLong(rawToken.substring("Bearer".length()).trim());
+            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
+            Token token = new Token(longToken);
 
             if (!Authentication.getTokensReversed().containsKey(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                Player player = Authentication.getTokensReversed().get(token);
+                User user = Authentication.getTokensReversed().get(token);
                 player.setName(name);
                 if (log.isInfoEnabled()) {
-                    log.info("Player with login {} set name to {}", player.getLogin(), name);
+                    log.info("Player with old name {} set name to {}", user.getName(), name);
                 }
                 return Response.ok("Your name successfully changed to " + name).build();
             }

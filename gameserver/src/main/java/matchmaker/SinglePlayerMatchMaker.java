@@ -5,7 +5,7 @@ import model.Food;
 import model.GameConstants;
 import model.Position;
 import model.Virus;
-import model.player.Player;
+import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

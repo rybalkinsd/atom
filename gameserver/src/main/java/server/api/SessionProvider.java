@@ -3,15 +3,18 @@ package server.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import matchmaker.MatchMaker;
 import matchmaker.SinglePlayerMatchMaker;
-import model.player.Player;
+import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import server.auth.Authentication;
+import server.model.User;
 import session.SessionBatchHolder;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Path("activeGameSessions")
 public class SessionProvider {
@@ -25,7 +28,10 @@ public class SessionProvider {
 
         //Added for test reasons.
         MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();
-        Player player = new Player("Arkady", "ark90");
+        CopyOnWriteArrayList<User> serverUsers = Authentication.getServerUsers();
+        if (serverUsers.isEmpty()) return Response.ok("{\"sessions\": []}").build();
+        User user = serverUsers.get(0);
+        Player player = new Player(user);
         singlePlayerMatchMaker.joinGame(player);
 
         return Response.ok(new SessionBatchHolder(

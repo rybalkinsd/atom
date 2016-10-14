@@ -11,6 +11,7 @@ import java.io.IOException;
 @Authorized
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
@@ -37,4 +38,5 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private void validateToken(String token) throws Exception {
         Authentication.validateToken(token);
     }
+
 }
