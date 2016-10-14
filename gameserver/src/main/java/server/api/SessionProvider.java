@@ -7,7 +7,7 @@ import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
-import server.model.User;
+import server.model.user.User;
 import session.SessionBatchHolder;
 
 import javax.ws.rs.GET;

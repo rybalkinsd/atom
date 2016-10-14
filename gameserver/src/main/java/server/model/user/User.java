@@ -1,4 +1,4 @@
-package server.model;
+package server.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gamemodel.Player;
@@ -35,6 +35,12 @@ public class User {
 
     public void setName(@NotNull String name) {
         this.name = name;
+    }
+
+    @NotNull
+    @JsonIgnore
+    public String getPassword() {
+        return password;
     }
 
     @Nullable

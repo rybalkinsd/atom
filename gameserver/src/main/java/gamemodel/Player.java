@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import server.model.User;
+import server.model.user.User;
 import utils.ColorUtils;
 
 import java.util.ArrayList;

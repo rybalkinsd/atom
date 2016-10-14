@@ -5,7 +5,7 @@ import matchmaker.SinglePlayerMatchMaker;
 import gamemodel.Player;
 import org.junit.Assert;
 import org.junit.Test;
-import server.model.User;
+import server.model.user.User;
 
 /**
  * @author Alpi

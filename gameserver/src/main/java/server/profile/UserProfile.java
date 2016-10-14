@@ -4,8 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
 import server.auth.Authorized;
-import server.model.Token;
-import server.model.User;
+import server.model.token.Token;
+import server.model.token.TokensContainer;
+import server.model.user.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -42,14 +43,17 @@ public class UserProfile {
             }
 
             Token token = Authentication.parseToken(rawToken);
-            ConcurrentHashMap<Token, User> tokensReversed = Authentication.getTokensReversed();
+            ConcurrentHashMap<Token, User> tokensReversed = TokensContainer.getUsersByTokensMap();
 
             if (!tokensReversed.containsKey(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
                 User user = tokensReversed.get(token);
                 String oldName = user.getName();
+                TokensContainer.removeToken(token);
                 user.setName(name);
+                TokensContainer.addToken(user, token);
+                TokensContainer.addUser(token, user);
                 if (log.isInfoEnabled()) {
                     log.info("User with old name {} set name to {}", oldName, name);
                 }

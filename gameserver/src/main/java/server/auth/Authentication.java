@@ -3,8 +3,9 @@ package server.auth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import server.model.Token;
-import server.model.User;
+import server.model.token.Token;
+import server.model.token.TokensContainer;
+import server.model.user.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -13,7 +14,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,16 +21,15 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Authentication {
 
     private static final Logger log = LogManager.getLogger(Authentication.class);
-    private static ConcurrentHashMap<User, Token> tokens;
-    private static ConcurrentHashMap<Token, User> tokensReversed;
     private static CopyOnWriteArrayList<User> serverUsers;
 
     static {
-        tokens = new ConcurrentHashMap<>();
-        tokensReversed = new ConcurrentHashMap<>();
         serverUsers = new CopyOnWriteArrayList<>();
-//        tokens.put("admin", 1L);
-//        tokensReversed.put(1L, "admin");
+    }
+
+    @NotNull
+    public static CopyOnWriteArrayList<User> getServerUsers() {
+        return serverUsers;
     }
 
     // curl -i
@@ -81,8 +80,9 @@ public class Authentication {
 
         try {
 
-            if (!(serverUsers.stream()
-                    .filter(u -> u.getName().equals(name))
+            if (!(serverUsers.parallelStream()
+                    .filter(user -> user.getName().equals(name))
+                    .filter(user -> user.getPassword().equals(password))
                     .count() == 1)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
@@ -109,12 +109,12 @@ public class Authentication {
 
             Token token = parseToken(rawToken);
 
-            if (!tokensReversed.containsKey(token)) {
+            if (!TokensContainer.getUsersByTokensMap().containsKey(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = tokensReversed.get(token);
-                tokens.remove(user);
-                tokensReversed.remove(token);
+                User user = TokensContainer.getUsersByTokensMap().get(token);
+                TokensContainer.removeToken(token);
+                serverUsers.remove(user);
                 if (log.isInfoEnabled()) {
                     log.info("Player with name {} logout", user.getName());
                 }
@@ -130,47 +130,31 @@ public class Authentication {
     private Token issueToken(String name) {
 
         User user = getUserByName(name);
-
-        Token token = tokens.get(user);
+        Token token = TokensContainer.getTokensByUsersMap().get(user);
         if (token != null) {
             return token;
         }
 
         token = new Token(ThreadLocalRandom.current().nextLong());
         log.info("Generate new token {} for User with name {}", token, name);
-        tokens.put(user, token);
-        tokensReversed.put(token, user);
+        TokensContainer.addToken(user, token);
+        TokensContainer.addUser(token, user);
         return token;
 
     }
 
     static void validateToken(String rawToken) throws Exception {
         Token token = parseToken(rawToken);
-        if (!tokensReversed.containsKey(token)) {
+        if (!TokensContainer.getUsersByTokensMap().containsKey(token)) {
             throw new Exception("Token validation exception");
         }
-        log.info("Correct token from '{}'", tokensReversed.get(token));
-    }
-
-    @NotNull
-    public static CopyOnWriteArrayList<User> getServerUsers() {
-        return serverUsers;
-    }
-
-    @NotNull
-    public static ConcurrentHashMap<User, Token> getTokens() {
-        return tokens;
-    }
-
-    @NotNull
-    public static ConcurrentHashMap<Token, User> getTokensReversed() {
-        return tokensReversed;
+        log.info("Correct token from '{}'", TokensContainer.getUsersByTokensMap().get(token));
     }
 
     private User getUserByName(@NotNull String name) {
-        return serverUsers.stream()
+        return serverUsers.parallelStream()
                 .filter(u -> u.getName().equals(name))
-                .findAny()
+                .findFirst()
                 .orElse(null);
     }
 

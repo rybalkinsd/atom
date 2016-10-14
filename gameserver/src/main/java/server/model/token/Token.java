@@ -1,4 +1,4 @@
-package server.model;
+package server.model.token;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,4 +28,12 @@ public class Token {
     public int hashCode() {
         return token.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "token=" + token +
+                '}';
+    }
+
 }
