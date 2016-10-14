@@ -13,9 +13,6 @@ public class Cell {
     private static final Logger log = LogManager.getLogger(Cell.class);
 
     @NotNull
-    private String name;
-
-    @NotNull
     private Color color;
 
     private int mass = GameConstants.CELL_MASS;
@@ -25,8 +22,7 @@ public class Cell {
     @NotNull
     private Position position;
 
-    public Cell(@NotNull String name, @NotNull Color color, @NotNull Position position) {
-        this.name = name;
+    public Cell(@NotNull Color color, @NotNull Position position) {
         this.color = color;
         this.position = position;
         if (log.isInfoEnabled()) {
@@ -35,27 +31,9 @@ public class Cell {
     }
 
     @Override
-    public boolean equals(Object cell) {
-        if (this == cell) return true;
-        if (cell == null || this.getClass() != cell.getClass()) return false;
-
-        Cell currentCell = (Cell) cell;
-        return name.equals(currentCell.name) &&
-                color.equals(currentCell.color) &&
-                position.equals(currentCell.position);
-    }
-
-    @Override
-    public int hashCode() {
-        Random random = new Random();
-        return random.hashCode();
-    }
-
-    @Override
     public String toString() {
         return "Cell(" +
-                "name=" + name +
-                ", color=" + color +
+                "color=" + color +
                 ", mass=" + mass +
                 ", speed=" + speed +
                 ", position=" + position +

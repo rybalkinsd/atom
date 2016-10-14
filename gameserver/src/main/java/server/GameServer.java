@@ -1,13 +1,13 @@
 package server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import server.auth.AuthenticationFilter;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.jetbrains.annotations.NotNull;
+import server.auth.AuthenticationFilter;
 
 public class GameServer {
 

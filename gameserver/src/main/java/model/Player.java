@@ -3,11 +3,13 @@ package model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.*;
 import org.jetbrains.annotations.NotNull;
+import server.entities.User;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Server player avatar
@@ -17,54 +19,38 @@ import java.util.List;
  */
 public class Player {
 
-  @NotNull
-  private static final Logger log = LogManager.getLogger(Player.class);
+    @NotNull
+    private static final Logger log = LogManager.getLogger(Player.class);
 
-  @NotNull
-  private String name;
+    @NotNull
+    private User user;
 
-  @NotNull
-  private List<Cell> cells = new ArrayList<>(GameConstants.MAX_CELLS);
+    @NotNull
+    private List<Cell> cells = new ArrayList<>(GameConstants.MAX_CELLS);
 
 
-  /**
-   * Create new Player
-   *
-   * @param name visible name
-   */
-  public Player(@NotNull String name) {
-    this.name = name;
-    Cell initialCell = new Cell(
-            name,
-            Color.getHSBColor(new Random().nextFloat(),
-            new Random().nextFloat(), new Random().nextFloat()),
-            new Position(new Random().nextDouble() * GameConstants.MAX_BORDER_RIGHT,
-                    new Random().nextDouble() * GameConstants.MAX_BORDER_TOP));
-    this.cells.add(initialCell);
-    if (log.isInfoEnabled()) {
-      log.info(toString() + " created");
+    public Player(@NotNull User user) {
+        this.user = user;
+        Cell initialCell = new Cell(
+                Color.getHSBColor(new Random().nextFloat(),
+                new Random().nextFloat(), new Random().nextFloat()),
+                new Position(new Random().nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                        new Random().nextDouble() * GameConstants.MAX_BORDER_TOP));
+        this.cells.add(initialCell);
+        if (log.isInfoEnabled()) {
+          log.info(toString() + " created");
+        }
     }
-  }
 
-  @Override
-  public boolean equals(Object player) {
-    if (this == player) return true;
-    if (player == null || this.getClass() != player.getClass()) return false;
+    @NotNull
+    public User getUser() {
+        return user;
+    }
 
-    Player currentPlayer = (Player) player;
-    return this.name.equals(currentPlayer.name) && this.cells.equals(currentPlayer.cells);
-  }
-
-  @Override
-  public int hashCode() {
-    Random random = new Random();
-    return random.hashCode();
-  }
-
-  @Override
-  public String toString() {
-    return "Player{" + "name='" + name +
-            ", cells=" + cells +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "Player{" + "name='" + user.getName() +
+                ", cells=" + cells +
+                '}';
+    }
 }
