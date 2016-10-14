@@ -24,8 +24,14 @@ public class Bush
     }
 
     void eat(Food food){
-        //if overeat then  share
+        //todo if overeat then  share
     }
 
     boolean isOvereat(){return this.getMass() <= BUSH_CRITICAL_MASS;}
+
+
+    @Override
+    public String toString(){
+        return "Bush: " + super.toString() + " }";
+    }
 }

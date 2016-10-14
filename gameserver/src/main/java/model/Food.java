@@ -18,6 +18,12 @@ public class Food
     private final static Logger log = LogManager.getLogger(Food.class);
 
     Food(Point2D coordinates, Color color, int mass) {
+
         super(coordinates, color, mass);
+    }
+
+    @Override
+    public String toString(){
+        return "Food: " + super.toString() + " }";
     }
 }

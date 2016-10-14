@@ -45,7 +45,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
   }
 
   /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
+   * HOMEWORK 1. Implement new game creation. Instantiate GameSession state
    * Log every game instance creation
    *
    * @return new GameSession

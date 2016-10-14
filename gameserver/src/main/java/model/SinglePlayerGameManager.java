@@ -26,97 +26,128 @@ public class SinglePlayerGameManager
 
     private GameField gameField;
     private List<String> leaderBoard;
-    private List<GameEntity> gameEntities;
     private Player player;
 
     SinglePlayerGameManager(){
         this.gameField = new GameField(FIELD_SIZE);
         this.leaderBoard = new ArrayList<>();
-        this.gameEntities = initialGameEntities();
+        initializationGameEntities();
         this.player = null;
     }
 
     /**
-     * random generate
+     * Add player
      */
     @Override
     public void join(Player player){
         this.player = player;
-        this.gameEntities.add(generateNewPlayerCell(this.player));
+        this.gameField.add(generateNewPlayerCell(this.player));
         if (log.isInfoEnabled()) {
             log.info(player +"'s cell added to game field ");
         }
     }
 
-    private static List<GameEntity> initialGameEntities(){
+    /**
+     * Random generated entities for Game Field
+     */
+    private void initializationGameEntities(){
         if (log.isInfoEnabled()) {
             log.info("Start initial game session");
         }
-        List<GameEntity> entities = new ArrayList<>();
 
         long foodCount = Math.round(FIELD_SIZE * FIELD_SIZE / 3);
         for(long i = 0; i < foodCount ; ++i ){
-            entities.add(generateFood());
+            this.gameField.add(generateFood());
         }
 
         long bushCount = Math.round(FIELD_SIZE * FIELD_SIZE / 15);
         for(long i = 0; i < bushCount ; ++i ){
-            entities.add(generateBush());
+            this.gameField.add(generateBush());
         }
-
-        return entities;
     }
 
+    /**
+     * Generate player cell with mass = START_CELL_MASS, random coordinates and color
+     * @param player - owner of this cell
+     * @return player's Cell
+     */
     private Cell generateNewPlayerCell(Player player){
         Point2D coordinates = generatePoint();
         Color color = GameColor.getRandomColor();
+        Cell cell = new Cell(coordinates, color, START_CELL_MASS, player);
         if (log.isInfoEnabled()) {
-            log.info("Cell has been generated in " + coordinates + " with color: " + color);
+            log.info("Has been generated " + cell);
         }
-        return new Cell(coordinates, color, START_CELL_MASS, player);
+        return cell;
     }
 
+    /**
+     * Generate Food with mass = FOOD_MASS, random coordinate and color
+     * @return Food
+     */
     private static Food generateFood(){
         Point2D coordinates = generatePoint();
         Color color = GameColor.getRandomColor();
+        Food food = new Food(coordinates, color, FOOD_MASS);
         if (log.isInfoEnabled()) {
-            log.info("Food has been generated in " + coordinates + " with color: " + color);
+            log.info("Has been generated " + food);
         }
-        return new Food(coordinates, color, FOOD_MASS);
+        return food;
     }
 
+    /**
+     * Generate green with mass = START_BUSH_MASS Bush with random coordinates
+     * @return Bush
+     */
     private static Bush generateBush(){
         Point2D coordinates = generatePoint();
         final Color BUSH_COLOR= Color.GREEN;
+        Bush bush = new Bush(coordinates, BUSH_COLOR, START_BUSH_MASS);
         if (log.isInfoEnabled()) {
-            log.info("Bush has been generated in " + coordinates);
+            log.info("Has been generated " + bush);
         }
-        return new Bush(coordinates, BUSH_COLOR, START_BUSH_MASS);
+        return bush;
     }
 
+    /**
+     * Generate point with random coordinates in range [0; FIELD_SIZE)
+     * @return Point2D
+     */
     private static Point2D generatePoint(){
         double x = Math.random() * FIELD_SIZE;
         double y = Math.random() * FIELD_SIZE;
         return new Point2D.Double(x, y);
     }
 
-
+    /**
+     * Class for generate colors of  game entities
+     */
     private static class GameColor
     {
         private static final int COLORS_COUNT = 10;
         private static List<Color> colors = new ArrayList<>();
 
+        //Generate COLORS_COUNT RGB colors on start of program
         static{
             for(int i = 0; i< COLORS_COUNT; ++i){
                 colors.add(generateColor());
             }
         }
 
+        /**
+         *
+         * @return color from inner random array of colors,
+         * which randomly creates in start of program
+         */
         private static Color getRandomColor(){
             int i = (int) Math.round(Math.random() * 1000) % COLORS_COUNT;
             return colors.get(i);
         }
 
+        /**
+         * Generate random RGB color
+         * @return RGB color
+         */
         private static Color generateColor(){
             int red   = (int) Math.round(Math.random() * 1000) % 256;
             int green = (int) Math.round(Math.random() * 1000) % 256;

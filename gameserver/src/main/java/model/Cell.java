@@ -95,4 +95,9 @@ public class Cell
     private static double calculateSpeed(int mass){
         return BASE_SPEED / mass;
     }
+
+    @Override
+    public String toString(){
+        return "Cell: " + super.toString() + " Owner = " + owner + " Speed = " + speed + " }";
+    }
 }
