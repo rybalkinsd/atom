@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.*;
 
 /**
@@ -44,8 +43,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    *
    * @return new GameSession
    */
- // @NotNull
-
+  @NotNull
   GameSession currentSession = new GameSession() {
 
       Set<Player> setOfPlayers = new HashSet<>();

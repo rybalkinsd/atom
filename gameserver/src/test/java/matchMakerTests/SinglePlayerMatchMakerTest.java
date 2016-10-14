@@ -13,8 +13,8 @@ public class SinglePlayerMatchMakerTest {
   @Test
   public void testSinglePlayerGameSessionCreated() {
     MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();
-    Player player1 = new Player("Arkady");
-    singlePlayerMatchMaker.joinGame(player1);
+    Player player = new Player("Arkady");
+    singlePlayerMatchMaker.joinGame(player);
 
     Assert.assertEquals(1, singlePlayerMatchMaker.getActiveGameSessions().size());
     Assert.assertNotNull(singlePlayerMatchMaker.getActiveGameSessions().get(0));

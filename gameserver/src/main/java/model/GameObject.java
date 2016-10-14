@@ -13,7 +13,7 @@ public abstract class GameObject {
     protected double x;
     protected double y;
     protected double radius;
-    protected Color color; //some string representing color of the object
+    protected Color color;
 
     public GameObject() {
         Random random = new Random();
