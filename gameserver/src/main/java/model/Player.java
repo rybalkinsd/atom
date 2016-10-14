@@ -15,7 +15,7 @@ public class Player extends GameObject{
   private static final Logger log = LogManager.getLogger(Player.class);
   @NotNull
   private String name;
-  @NotNull
+
   private double speed; //depends on the radius
   //
 

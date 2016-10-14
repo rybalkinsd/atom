@@ -3,7 +3,6 @@ package matchmaker;
 import com.sun.istack.internal.NotNull;
 import model.GameSession;
 import model.Player;
-
 import java.util.List;
 
 /**

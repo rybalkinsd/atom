@@ -43,7 +43,6 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    *
    * @return new GameSession
    */
-  @NotNull
   GameSession currentSession = new GameSession() {
 
       Set<Player> setOfPlayers = new HashSet<>();
