@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import session.GameSession;
 import session.GameSessionImpl;
+import utils.ColorUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,16 +36,12 @@ public class SinglePlayerMatchMaker implements MatchMaker {
      */
     @Override
     public void joinGame(@NotNull Player player) {
-
-        if (activeGameSessions.size() == 0) {
-            GameSession newGameSession = createNewGame();
-            activeGameSessions.add(newGameSession);
-            newGameSession.join(player);
-            if (log.isInfoEnabled()) {
-                log.info(player + " joined " + newGameSession);
-            }
+        GameSession newGameSession = createNewGame();
+        activeGameSessions.add(newGameSession);
+        newGameSession.join(player);
+        if (log.isInfoEnabled()) {
+            log.info(player + " joined " + newGameSession);
         }
-
     }
 
     @NotNull
@@ -64,7 +60,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
         List<Food> foods = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < GameConstants.STARTING_FOODS_AMOUNT; i++) {
-            foods.add(new Food(Color.ORANGE,
+            foods.add(new Food(ColorUtils.generateRandomColor(),
                     new Position(random.nextInt(Field.BORDER_RIGHT), random.nextInt(Field.BORDER_TOP))));
         }
 

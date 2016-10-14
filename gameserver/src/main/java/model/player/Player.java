@@ -60,8 +60,12 @@ public class Player {
         return cells;
     }
 
-    public void setCells(@NotNull List<Cell> cells) {
-        this.cells = cells;
+    public void addCell(@NotNull Cell cell) {
+        cells.add(cell);
+    }
+
+    public void addCells(@NotNull List<Cell> cells) {
+        this.cells.addAll(cells);
     }
 
     @NotNull

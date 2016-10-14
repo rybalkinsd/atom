@@ -161,7 +161,4 @@ public class Authentication {
         return tokensReversed;
     }
 
-    public static CopyOnWriteArrayList<Player> getServerPlayers() {
-        return serverPlayers;
-    }
 }

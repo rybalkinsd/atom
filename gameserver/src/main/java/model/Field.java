@@ -17,9 +17,6 @@ public class Field {
     private static final Logger log = LogManager.getLogger(Field.class);
 
     @NotNull
-    private List<Cell> cells = new ArrayList<>();
-
-    @NotNull
     private List<Food> foods;
 
     @NotNull
@@ -36,20 +33,10 @@ public class Field {
         }
     }
 
-    @NotNull
-    public List<Cell> getCells() {
-        return cells;
-    }
-
-    public void setCells(@NotNull List<Cell> cells) {
-        this.cells = cells;
-    }
-
     @Override
     public String toString() {
         return "Field{" +
-                "cells=" + cells +
-                ", foods=" + foods +
+                "foods=" + foods +
                 ", viruses=" + viruses +
                 ", blobs=" + blobs +
                 '}';
