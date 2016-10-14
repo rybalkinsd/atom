@@ -1,7 +1,7 @@
 package session;
 
 import model.GameConstants;
-import model.Player;
+import model.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**

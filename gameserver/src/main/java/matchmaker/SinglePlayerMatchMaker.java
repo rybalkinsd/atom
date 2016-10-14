@@ -3,14 +3,14 @@ package matchmaker;
 import model.Field;
 import model.Food;
 import model.GameConstants;
-import session.GameSession;
-import model.Player;
 import model.Position;
-import session.GameSessionImpl;
 import model.Virus;
+import model.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import session.GameSession;
+import session.GameSessionImpl;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import java.util.Random;
  * @author Alpi
  */
 public class SinglePlayerMatchMaker implements MatchMaker {
+
     @NotNull
     private final Logger log = LogManager.getLogger(SinglePlayerMatchMaker.class);
     @NotNull
@@ -35,12 +36,16 @@ public class SinglePlayerMatchMaker implements MatchMaker {
      */
     @Override
     public void joinGame(@NotNull Player player) {
-        GameSession newGameSession = createNewGame();
-        activeGameSessions.add(newGameSession);
-        newGameSession.join(player);
-        if (log.isInfoEnabled()) {
-            log.info(player + " joined " + newGameSession);
+
+        if (activeGameSessions.size() == 0) {
+            GameSession newGameSession = createNewGame();
+            activeGameSessions.add(newGameSession);
+            newGameSession.join(player);
+            if (log.isInfoEnabled()) {
+                log.info(player + " joined " + newGameSession);
+            }
         }
+
     }
 
     @NotNull

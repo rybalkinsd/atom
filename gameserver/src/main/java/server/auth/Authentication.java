@@ -1,6 +1,6 @@
 package server.auth;
 
-import model.Player;
+import model.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

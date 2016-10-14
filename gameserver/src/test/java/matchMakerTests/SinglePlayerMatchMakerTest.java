@@ -2,8 +2,7 @@ package matchMakerTests;
 
 import matchmaker.MatchMaker;
 import matchmaker.SinglePlayerMatchMaker;
-import model.GameConstants;
-import model.Player;
+import model.player.Player;
 import org.junit.Test;
 
 import org.junit.Assert;
@@ -15,7 +14,7 @@ public class SinglePlayerMatchMakerTest {
   @Test
   public void testSinglePlayerGameSessionCreated() {
     MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();
-    Player player = new Player("Arkady");
+    Player player = new Player("Arkady", "ark90");
     singlePlayerMatchMaker.joinGame(player);
 
     Assert.assertEquals(1, singlePlayerMatchMaker.getActiveGameSessions().size());

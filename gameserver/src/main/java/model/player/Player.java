@@ -1,10 +1,13 @@
-package model;
+package model.player;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import model.Cell;
+import model.GameConstants;
+import model.GameStatistics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,23 +33,17 @@ public class Player {
 
     private int score = 16;
 
+    /**
+     * Create new Player
+     *
+     * @param login Player register login
+     * @param password Player register password
+     */
     public Player(@NotNull String login, @NotNull String password) {
         this.playerId = UUID.randomUUID();
         this.login = login;
         this.password = password;
         name = login;
-    }
-
-    /**
-     * Create new Player
-     *
-     * @param name visible name
-     */
-    public Player(@NotNull String name) {
-        this.name = name;
-        Cell startingCell = new Cell(Color.BLUE, new Position(23, 4353));
-        this.cells.add(startingCell);
-        this.gameStatistics = new GameStatistics();
         if (log.isInfoEnabled()) {
             log.info(toString() + " created");
         }
@@ -58,6 +55,7 @@ public class Player {
     }
 
     @NotNull
+    @JsonIgnore
     public List<Cell> getCells() {
         return cells;
     }
@@ -73,14 +71,6 @@ public class Player {
 
     public void setName(@NotNull String name) {
         this.name = name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     @Override

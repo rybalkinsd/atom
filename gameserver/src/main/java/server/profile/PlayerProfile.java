@@ -1,6 +1,6 @@
 package server.profile;
 
-import model.Player;
+import model.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
@@ -19,6 +19,12 @@ public class PlayerProfile {
 
     private static final Logger log = LogManager.getLogger(PlayerProfile.class);
 
+    // curl -X POST
+    //      -H "Content-Type: application/x-www-form-urlencoded"
+    //      -H "Authorization: Bearer {token}"
+    //      -H "Host: localhost:8080
+    //      -d "name={newName}"
+    // "http://localhost:8080/profile/name"
     @Authorized
     @POST
     @Path("/name")

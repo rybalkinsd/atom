@@ -3,7 +3,7 @@ package session;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import model.Field;
 import model.GameConstants;
-import model.Player;
+import model.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -65,7 +65,7 @@ public class GameSessionImpl implements GameSession {
             players.add(player);
             field.getCells().addAll(player.getCells());
             if (log.isInfoEnabled()) {
-                log.info(player + "successfully joined the game.");
+                log.info(player + " successfully joined the session.");
             }
         } else {
             if (log.isWarnEnabled()) {
