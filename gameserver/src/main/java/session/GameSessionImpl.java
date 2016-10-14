@@ -1,9 +1,9 @@
 package session;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.Field;
-import model.GameConstants;
-import model.Player;
+import gamemodel.Field;
+import gamemodel.GameConstants;
+import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

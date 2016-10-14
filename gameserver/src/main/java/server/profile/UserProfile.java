@@ -14,8 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
-import static sun.audio.AudioPlayer.player;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Path("/profile")
 public class UserProfile {
@@ -39,22 +38,20 @@ public class UserProfile {
         try {
 
             if (name == null || name.equals("")) {
-                if (log.isWarnEnabled()) {
-                    log.warn("Wrong name - " + name);
-                }
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            Token token = new Token(longToken);
+            Token token = Authentication.parseToken(rawToken);
+            ConcurrentHashMap<Token, User> tokensReversed = Authentication.getTokensReversed();
 
-            if (!Authentication.getTokensReversed().containsKey(token)) {
+            if (!tokensReversed.containsKey(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = Authentication.getTokensReversed().get(token);
-                player.setName(name);
+                User user = tokensReversed.get(token);
+                String oldName = user.getName();
+                user.setName(name);
                 if (log.isInfoEnabled()) {
-                    log.info("Player with old name {} set name to {}", user.getName(), name);
+                    log.info("User with old name {} set name to {}", oldName, name);
                 }
                 return Response.ok("Your name successfully changed to " + name).build();
             }

@@ -1,7 +1,7 @@
 package server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import model.Player;
+import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -52,7 +52,10 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId);
+        return userId.equals(user.userId)
+                && name.equals(user.name)
+                && password.equals(user.password)
+                && (player != null ? player.equals(user.player) : user.player == null);
     }
 
     @Override

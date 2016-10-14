@@ -1,11 +1,11 @@
 package matchmaker;
 
-import model.Field;
-import model.Food;
-import model.GameConstants;
-import model.Position;
-import model.Virus;
-import model.Player;
+import gamemodel.Field;
+import gamemodel.Food;
+import gamemodel.GameConstants;
+import gamemodel.Position;
+import gamemodel.Virus;
+import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

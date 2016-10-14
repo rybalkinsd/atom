@@ -18,8 +18,6 @@ public class UserBatchHolder {
 
     private List<User> users = new ArrayList<>();
 
-    private UserBatchHolder() { }
-
     public UserBatchHolder(List<User> users) {
         this.users = users;
     }

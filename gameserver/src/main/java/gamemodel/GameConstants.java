@@ -1,11 +1,10 @@
-package model;
+package gamemodel;
 
 /**
  * Global static constants
  */
 public interface GameConstants {
-    //For single player game value equals 1
-    int MAX_PLAYERS_IN_SESSION = 1;
+    int MAX_PLAYERS_IN_SESSION = 10;
     int MAX_CELLS = 16;
     int FOOD_MASS_VALUE = 1;
     int BLOB_MASS_VALUE = 20;

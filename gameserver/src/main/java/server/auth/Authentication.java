@@ -80,13 +80,14 @@ public class Authentication {
         }
 
         try {
+
             if (!(serverUsers.stream()
                     .filter(u -> u.getName().equals(name))
                     .count() == 1)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
             Token token = issueToken(name);
-            log.info("Player with login {} and password {} successfully logged in", name, password);
+            log.info("Player with name {} successfully logged in", name);
             return Response.ok(Long.toString(token.getToken())).build();
 
         } catch (Exception e) {
@@ -106,15 +107,12 @@ public class Authentication {
 
         try {
 
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            System.out.println(longToken);
-            Token token = new Token(longToken);
+            Token token = parseToken(rawToken);
 
             if (!tokensReversed.containsKey(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
                 User user = tokensReversed.get(token);
-                System.out.println(user);
                 tokens.remove(user);
                 tokensReversed.remove(token);
                 if (log.isInfoEnabled()) {
@@ -147,8 +145,7 @@ public class Authentication {
     }
 
     static void validateToken(String rawToken) throws Exception {
-        Long longToken = Long.parseLong(rawToken);
-        Token token = new Token(longToken);
+        Token token = parseToken(rawToken);
         if (!tokensReversed.containsKey(token)) {
             throw new Exception("Token validation exception");
         }
@@ -160,18 +157,27 @@ public class Authentication {
         return serverUsers;
     }
 
+    @NotNull
     public static ConcurrentHashMap<User, Token> getTokens() {
         return tokens;
     }
 
+    @NotNull
     public static ConcurrentHashMap<Token, User> getTokensReversed() {
         return tokensReversed;
     }
 
-    private User getUserByName(@FormParam("login") String name) {
+    private User getUserByName(@NotNull String name) {
         return serverUsers.stream()
                 .filter(u -> u.getName().equals(name))
                 .findAny()
                 .orElse(null);
     }
+
+    @NotNull
+    public static Token parseToken(String rawToken) {
+        Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
+        return new Token(longToken);
+    }
+
 }
