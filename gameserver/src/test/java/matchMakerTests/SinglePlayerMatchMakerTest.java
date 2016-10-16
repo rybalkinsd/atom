@@ -2,12 +2,11 @@ package matchMakerTests;
 
 import matchmaker.MatchMaker;
 import matchmaker.SinglePlayerMatchMaker;
-import model.GameConstants;
 import model.Player;
 import org.junit.Test;
 
 import org.junit.Assert;
-import server.entities.User;
+import server.entities.user.User;
 
 /**
  * @author Alpi

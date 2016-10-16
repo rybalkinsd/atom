@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
-import server.entities.Token;
-import server.entities.User;
-import server.entities.UserBatchHolder;
+import server.entities.token.Token;
+import server.entities.token.TokensStorage;
+import server.entities.user.User;
+import server.entities.user.UserBatchHolder;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,8 +26,7 @@ public class UserProvider {
     @Produces("application/json")
     public Response getSessionsBatch() throws JsonProcessingException {
         log.info("Batch of users requested.");
-        ConcurrentHashMap<User, Token> tokens = Authentication.getTokens();
-        return Response.ok(new UserBatchHolder(new ArrayList<>(tokens.keySet())).writeJson()).build();
+        return Response.ok(new UserBatchHolder(TokensStorage.getUserList()).writeJson()).build();
     }
 
 }

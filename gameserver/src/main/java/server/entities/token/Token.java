@@ -1,4 +1,4 @@
-package server.entities;
+package server.entities.token;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,13 +24,20 @@ public class Token {
         if (that == null || that.getClass() != getClass()) return false;
         if (this == that) return true;
 
-        Token nT = (Token) that;
-        return token.equals(nT.getToken());
+        Token castToken = (Token) that;
+        return token.equals(castToken.getToken());
     }
 
     @Override
     public int hashCode() {
         return token.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Token(" +
+                "token=" + token +
+                ')';
     }
 
 }

@@ -1,12 +1,11 @@
 package server.profile;
 
-import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import server.auth.Authentication;
 import server.auth.Authorized;
-import server.entities.Token;
-import server.entities.User;
+import server.entities.token.Token;
+import server.entities.token.TokensStorage;
+import server.entities.user.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -18,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 @Path("profile")
 public class UserSettings {
+
     private static final Logger log = LogManager.getLogger(UserSettings.class);
 
     // curl -X POST
@@ -42,16 +42,18 @@ public class UserSettings {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            Token token = new Token(longToken);
+            Token token = TokensStorage.parse(rawToken);
 
-            if (!Authentication.getTokensReversed().containsKey(token)) {
+            if (!TokensStorage.contains(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = Authentication.getTokensReversed().get(token);
+                User user = TokensStorage.getUser(token);
+                String oldName = user.getName();
+                TokensStorage.remove(token);
                 user.setName(name);
+                TokensStorage.add(user, token);
                 if (log.isInfoEnabled()) {
-                    log.info("Player with login {} set name to {}", user.getName(), name);
+                    log.info("User with name {} set name to {}", oldName, name);
                 }
                 return Response.ok("Your name successfully changed to " + name).build();
             }

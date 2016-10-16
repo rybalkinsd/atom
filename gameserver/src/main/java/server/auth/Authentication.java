@@ -1,30 +1,23 @@
 package server.auth;
 
-import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.intellij.lang.annotations.PrintFormat;
 import org.jetbrains.annotations.NotNull;
-import server.entities.Token;
-import server.entities.User;
+import server.entities.token.Token;
+import server.entities.token.TokensStorage;
+import server.entities.user.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Path("/auth")
 public class Authentication {
     private static final Logger log = LogManager.getLogger(Authentication.class);
-    private static ConcurrentHashMap<User, Token> tokens;
-    private static ConcurrentHashMap<Token, User> tokensReversed;
-    private static CopyOnWriteArrayList<User> serverUsers;
+    private static CopyOnWriteArrayList<User> registeredUsers;
 
     static {
-        tokens = new ConcurrentHashMap<>();
-        tokensReversed = new ConcurrentHashMap<>();
-        serverUsers = new CopyOnWriteArrayList<>();
+        registeredUsers = new CopyOnWriteArrayList<>();
     }
 
     /*curl -i \
@@ -45,16 +38,19 @@ public class Authentication {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        User user = getUserByName(name);
+        User user = registeredUsers.parallelStream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst()
+                .orElse(null);
 
         if (user != null) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
         user = new User(name, password);
-        serverUsers.add(user);
-        log.info("New user '{}' registered", name);
-        return Response.ok("User " + name + " registered.").build();
+        registeredUsers.add(user);
+        log.info("New user registered with login {}", name);
+        return Response.ok(user + " registered.").build();
     }
 
     /*curl -X POST \
@@ -74,10 +70,11 @@ public class Authentication {
         }
 
         try {
+
             if (!authenticate(user, password)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
-            Token token = issueToken(user);
+            Token token = TokensStorage.issueToken(user);
             log.info("User '{}' successfully logged in", user);
             return Response.ok(Long.toString(token.getToken())).build();
 
@@ -96,75 +93,42 @@ public class Authentication {
     @Path("logout")
     @Produces("text/plain")
     public Response logoutPlayer(@HeaderParam("Authorization") String rawToken) {
+
         try {
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            Token token = new Token(longToken);
-            if (!tokensReversed.containsKey(token)) {
+
+            Token token = TokensStorage.parse(rawToken);
+
+            if (!TokensStorage.contains(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = tokensReversed.get(token);
-                tokens.remove(user);
-                tokensReversed.remove(token);
+                User user = TokensStorage.getUser(token);
+                TokensStorage.remove(token);
+                registeredUsers.remove(user);
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' logout successfully", user.getName());
                 }
                 return Response.ok(user.getName() + " successfully logout!").build();
             }
+
         } catch (Exception e) {
+
             if (log.isWarnEnabled()) {
                 log.warn(e);
             }
             return Response.status(Response.Status.UNAUTHORIZED).build();
+
         }
     }
 
+    @NotNull
+    public static CopyOnWriteArrayList<User> getRegisteredUsers() {
+        return registeredUsers;
+    }
+
     private boolean authenticate(String name, String password) throws Exception {
-        return serverUsers.stream()
+        return registeredUsers.stream()
                 .filter(usr -> usr.getName().equals(name) && usr.checkPassword(password))
                 .count() == 1;
     }
 
-    private User getUserByName(@FormParam("login") String name) {
-        return serverUsers.stream()
-                .filter(usr -> usr.getName().equals(name))
-                .findAny().orElse(null);
-    }
-
-    private Token issueToken(String name) {
-        User user = getUserByName(name);
-        Token token = tokens.get(user);
-        if (token != null) {
-            return token;
-        }
-        Long newToken = ThreadLocalRandom.current().nextLong();
-        Token currentToken = new Token(newToken);
-        log.info("Generate new token {} for user {}", currentToken, user);
-        tokens.put(user, currentToken);
-        tokensReversed.put(currentToken, user);
-        return currentToken;
-    }
-
-    static void validateToken(String rawToken) throws Exception {
-        Long longToken = Long.parseLong(rawToken);
-        Token token = new Token(longToken);
-        if (!tokensReversed.containsKey(token)) {
-            throw new Exception("Token validation exception");
-        }
-        log.info("Correct token from '{}'", tokensReversed.get(token));
-    }
-
-    @NotNull
-    public static CopyOnWriteArrayList<User> getServerUsers() {
-        return serverUsers;
-    }
-
-    @NotNull
-    public static ConcurrentHashMap<Token, User> getTokensReversed() {
-        return tokensReversed;
-    }
-
-    @NotNull
-    public static ConcurrentHashMap<User, Token> getTokens() {
-        return tokens;
-    }
 }

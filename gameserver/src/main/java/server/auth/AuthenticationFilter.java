@@ -1,5 +1,7 @@
 package server.auth;
 
+import server.entities.token.TokensStorage;
+
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -22,19 +24,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             throw new NotAuthorizedException("Authorization header must be provided");
         }
 
-        // Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.substring("Bearer".length()).trim();
-
         try {
-            // Validate the token
-            validateToken(token);
+            TokensStorage.validate(authorizationHeader);
         } catch (Exception e) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED).build());
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }
     }
 
-    private void validateToken(String token) throws Exception {
-        Authentication.validateToken(token);
-    }
 }

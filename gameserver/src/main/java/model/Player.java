@@ -3,13 +3,12 @@ package model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.*;
 import org.jetbrains.annotations.NotNull;
-import server.entities.User;
+import server.entities.user.User;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Server player avatar

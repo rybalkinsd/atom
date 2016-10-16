@@ -1,4 +1,4 @@
-package server.entities;
+package server.entities.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -17,8 +17,6 @@ public class UserBatchHolder {
     }
 
     private List<User> users = new ArrayList<>();
-
-    private UserBatchHolder() { }
 
     public UserBatchHolder(List<User> users) {
         this.users = users;

@@ -7,8 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import matchmaker.MatchMaker;
 import matchmaker.SinglePlayerMatchMaker;
 import server.auth.Authentication;
-import server.auth.Authorized;
-import server.entities.User;
+import server.entities.user.User;
 import server.session.GameSessionBatchHolder;
 
 import javax.ws.rs.GET;
@@ -30,7 +29,7 @@ public class SessionProvider {
 
         //Added for test reasons.
         MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();
-        CopyOnWriteArrayList<User> users = Authentication.getServerUsers();
+        CopyOnWriteArrayList<User> users = Authentication.getRegisteredUsers();
         if (users.isEmpty()) {
             return Response.ok("{\"sessions\": []}").build();
         }
