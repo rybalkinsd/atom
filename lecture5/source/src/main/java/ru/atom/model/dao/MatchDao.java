@@ -30,5 +30,4 @@ public class MatchDao implements Dao<Match> {
     public Optional<Match> findById(int id) {
         throw new NotImplementedException();
     }
-
 }

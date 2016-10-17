@@ -48,13 +48,6 @@ public class PersonDao  implements Dao<Person> {
     }
 
     @Override
-    public Optional<Person> findById(int id) {
-        return Optional.ofNullable(
-                getAllWhere("id=" + id).get(0)
-        );
-    }
-
-    @Override
     public void insert(Person person) {
         throw new NotImplementedException();
     }

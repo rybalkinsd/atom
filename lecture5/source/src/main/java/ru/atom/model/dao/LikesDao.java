@@ -40,7 +40,6 @@ public class LikesDao implements Dao<Like> {
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()) {
             stm.execute(String.format(INSERT_LIKE_TEMPLATE, like.getSource(), like.getTarget()));
-
         } catch (SQLException e) {
             log.error("Failed to add like {}", like, e);
         }

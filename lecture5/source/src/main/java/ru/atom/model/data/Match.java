@@ -1,14 +1,15 @@
 package ru.atom.model.data;
 
-/**
- * Created by s.rybalkin on 17.10.2016.
- */
 public class Match {
     private int a, b;
 
     public Match(int a, int b) {
         this.a = a;
         this.b = b;
+    }
+
+    public Match reverse() {
+        return new Match(b, a);
     }
 
     @Override
@@ -18,4 +19,13 @@ public class Match {
                 ", b=" + b +
                 '}';
     }
+
+    public int getA() {
+        return a;
+    }
+
+    public int getB() {
+        return b;
+    }
+
 }

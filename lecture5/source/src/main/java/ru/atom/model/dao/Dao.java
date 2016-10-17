@@ -25,5 +25,15 @@ public interface Dao<T> {
      * @param t
      */
     void insert(T t);
-    Optional<T> findById(int id);
+
+    /**
+     * SELECT * from ... WHERE id=
+     * @param id
+     * @return Optional.empty() if nothing found
+     */
+    default Optional<T> findById(int id) {
+        return Optional.ofNullable(
+                getAllWhere("id=" + id).get(0)
+        );
+    }
 }
