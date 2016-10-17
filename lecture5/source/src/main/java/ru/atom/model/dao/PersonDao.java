@@ -1,31 +1,30 @@
 package ru.atom.model.dao;
 
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.Gender;
-import ru.atom.model.person.Person;
+import ru.atom.model.data.Gender;
+import ru.atom.model.data.person.Person;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by s.rybalkin on 17.10.2016.
  */
-public class PersonDao {
+public class PersonDao  implements Dao<Person> {
     private static final Logger log = LogManager.getLogger(PersonDao.class);
 
     public static final String SELECT_ALL_PERSONS =
-            "SELECT * FROM PERSONS";
+            "SELECT * FROM persons";
 
-    public static final String SELECT_PERSONS_WHERE_TEMPLATE =
-            "SELECT * FROM PERSONS WHERE %s=%s";
-
-
+    @Override
     public List<Person> getAll() {
         List<Person> persons = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
@@ -35,25 +34,29 @@ public class PersonDao {
                 persons.add(mapToPerson(rs));
             }
         } catch (SQLException e) {
-            log.warn("Failed get all.", e);
+            log.error("Failed get all.", e);
             return Collections.emptyList();
         }
-        return null;
+
+        return persons;
     }
 
-    /**
-     * SELECT * ... WHERE cond0 AND ... AND condN
-     * @param conditions
-     * @return
-     */
+
+    @Override
     public List<Person> getAllWhere(String ... conditions) {
         throw new NotImplementedException();
     }
 
+    @Override
     public Optional<Person> findById(int id) {
         return Optional.ofNullable(
                 getAllWhere("id=" + id).get(0)
         );
+    }
+
+    @Override
+    public void insert(Person person) {
+        throw new NotImplementedException();
     }
 
     private static Person mapToPerson(ResultSet rs) throws SQLException {
@@ -63,4 +66,6 @@ public class PersonDao {
                 .setGender(Gender.valueOf(rs.getString("gender")))
                 .setAge(rs.getInt("age"));
     }
+
+    private PersonDao() { }
 }

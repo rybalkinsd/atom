@@ -1,6 +1,7 @@
 package ru.atom.model;
 
 import org.junit.Test;
+import ru.atom.model.data.Location;
 
 import static org.junit.Assert.*;
 

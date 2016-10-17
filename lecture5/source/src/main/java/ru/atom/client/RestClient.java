@@ -1,7 +1,7 @@
 package ru.atom.client;
 
-import ru.atom.model.Gender;
-import ru.atom.model.person.Person;
+import ru.atom.model.data.Gender;
+import ru.atom.model.data.person.Person;
 
 import java.util.Collection;
 

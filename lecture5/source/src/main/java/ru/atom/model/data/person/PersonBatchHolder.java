@@ -1,4 +1,4 @@
-package ru.atom.model.person;
+package ru.atom.model.data.person;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

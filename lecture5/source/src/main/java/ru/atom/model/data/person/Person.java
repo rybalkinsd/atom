@@ -1,14 +1,13 @@
-package ru.atom.model.person;
+package ru.atom.model.data.person;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ru.atom.model.Gender;
-import ru.atom.model.Image;
-import ru.atom.model.Location;
+import ru.atom.model.data.Gender;
+import ru.atom.model.data.Image;
+import ru.atom.model.data.Location;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.UUID;
 
 public class Person {
     private int id;
@@ -122,5 +121,15 @@ public class Person {
     public Person setInstagramUrl(URL instagramUrl) {
         this.instagramUrl = instagramUrl;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", gender=" + gender +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

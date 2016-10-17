@@ -1,4 +1,4 @@
-package ru.atom.model;
+package ru.atom.model.data;
 
 import java.util.Comparator;
 import java.util.Random;

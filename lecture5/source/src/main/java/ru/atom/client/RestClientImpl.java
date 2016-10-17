@@ -3,9 +3,9 @@ package ru.atom.client;
 import com.squareup.okhttp.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.Gender;
-import ru.atom.model.person.Person;
-import ru.atom.model.person.PersonBatchHolder;
+import ru.atom.model.data.Gender;
+import ru.atom.model.data.person.Person;
+import ru.atom.model.data.person.PersonBatchHolder;
 
 import java.io.IOException;
 import java.util.Collection;

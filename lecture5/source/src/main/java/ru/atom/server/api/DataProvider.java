@@ -2,12 +2,11 @@ package ru.atom.server.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.Gender;
-import ru.atom.model.Image;
-import ru.atom.model.Location;
-import ru.atom.model.person.Person;
-import ru.atom.model.person.PersonBatchHolder;
-import ru.atom.server.auth.Authentication;
+import ru.atom.model.data.Gender;
+import ru.atom.model.data.Image;
+import ru.atom.model.data.Location;
+import ru.atom.model.data.person.Person;
+import ru.atom.model.data.person.PersonBatchHolder;
 import ru.atom.server.auth.Authorized;
 
 import javax.ws.rs.*;
@@ -15,7 +14,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.UUID;
 
 @Path("/data")
 public class DataProvider {

@@ -17,7 +17,7 @@ public class DbConnector {
     private static final int PORT = 5432;
     private static final String DB_NAME = "tinderdb";
     private static final String USER = "user";
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "user";
 
     static {
         try {
