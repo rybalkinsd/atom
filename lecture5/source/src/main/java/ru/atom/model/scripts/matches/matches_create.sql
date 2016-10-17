@@ -2,7 +2,8 @@
 
 CREATE TABLE IF NOT EXISTS matches
 (
-    id SERIAL PRIMARY KEY NOT NULL,
-    a INTEGER             NOT NULL,
-    b INTEGER             NOT NULL
+    id SERIAL NOT NULL,
+    a INTEGER NOT NULL,
+    b INTEGER NOT NULL,
+    PRIMARY KEY(a, b)
 );
