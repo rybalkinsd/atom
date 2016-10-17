@@ -1,4 +1,3 @@
--- psql -d tinderdb -U user -f persons_create.sql
 -- DROP TABLE persons;
 
 CREATE TABLE IF NOT EXISTS persons
