@@ -34,7 +34,7 @@ public class PersonDao  implements Dao<Person> {
                 persons.add(mapToPerson(rs));
             }
         } catch (SQLException e) {
-            log.error("Failed get all.", e);
+            log.error("Failed to getAll.", e);
             return Collections.emptyList();
         }
 
