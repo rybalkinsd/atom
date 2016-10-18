@@ -8,16 +8,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class DbConnector {
+class DbConnector {
     private static final Logger log = LogManager.getLogger(DbConnector.class);
 
     private static final String URL_TEMPLATE = "jdbc:postgresql://%s:%d/%s";
     private static final String URL;
-    private static final String HOST = "localhost";
+    private static final String HOST = "54.224.37.210";
     private static final int PORT = 5432;
-    private static final String DB_NAME = "tinderdb";
-    private static final String USER = "user";
-    private static final String PASSWORD = "user";
+    private static final String DB_NAME = "???";
+    private static final String USER = "???";
+    private static final String PASSWORD = "???";
 
     static {
         try {
@@ -31,7 +31,7 @@ public class DbConnector {
         log.info("Success. DbConnector init.");
     }
 
-    public static Connection getConnection() throws SQLException {
+    static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
