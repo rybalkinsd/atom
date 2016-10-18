@@ -21,8 +21,8 @@ import java.util.Optional;
 public class PersonDao  implements Dao<Person> {
     private static final Logger log = LogManager.getLogger(PersonDao.class);
 
-    public static final String SELECT_ALL_PERSONS =
-            "SELECT * FROM persons WHERE age BETWEEN 30 AND 35";
+    private static final String SELECT_ALL_PERSONS =
+            "SELECT * FROM persons";
 
     @Override
     public List<Person> getAll() {
@@ -44,7 +44,7 @@ public class PersonDao  implements Dao<Person> {
 
     @Override
     public List<Person> getAllWhere(String ... conditions) {
-        throw new NotImplementedException();
+        return getAll();
     }
 
     @Override

@@ -6,8 +6,8 @@ VALUES
     ('Sailor Pretty guardian Moon', 'FEMALE', 14),
     ('Queen mommy Elizabeth II', 'FEMALE', 90),
 
-    ('Homer Jay Simpson', 'MALE', 38)
-    ('Cristiano Ronaldo', 'MALE', 31)
-    ('James Gosling', 'MALE', 61)
-    ('Justin Bieber', 'MALE', 22)
-    ('Hannibal Lecter', 'MALE', 78)
+    ('Homer Jay Simpson', 'MALE', 38),
+    ('Cristiano Ronaldo', 'MALE', 31),
+    ('James Gosling', 'MALE', 61),
+    ('Justin Bieber', 'MALE', 22),
+    ('Hannibal Lecter', 'MALE', 78);
