@@ -14,7 +14,7 @@ public class TinderServer {
 
     public static void start() throws Exception {
         startApi();
-        startMatcher();
+        //startMatcher();
     }
 
     private static void startMatcher() {
