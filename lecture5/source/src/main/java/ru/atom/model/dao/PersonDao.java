@@ -22,7 +22,7 @@ public class PersonDao  implements Dao<Person> {
     private static final Logger log = LogManager.getLogger(PersonDao.class);
 
     public static final String SELECT_ALL_PERSONS =
-            "SELECT * FROM persons";
+            "SELECT * FROM persons WHERE age BETWEEN 30 AND 35";
 
     @Override
     public List<Person> getAll() {
@@ -59,6 +59,4 @@ public class PersonDao  implements Dao<Person> {
                 .setGender(Gender.valueOf(rs.getString("gender")))
                 .setAge(rs.getInt("age"));
     }
-
-    private PersonDao() { }
 }
