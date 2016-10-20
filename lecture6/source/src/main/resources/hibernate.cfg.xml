@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://54.224.37.210/testdb</property>
+        <property name="hibernate.connection.username">rybalkin1</property>
+        <property name="hibernate.connection.password">1234</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+
+        <!-- Print executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create all database on startup -->
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+        <!-- Annotated entity classes -->
+        <mapping class="ru.atom.model.data.Like"/>
+
+    </session-factory>
+</hibernate-configuration>
