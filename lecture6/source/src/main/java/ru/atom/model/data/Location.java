@@ -5,8 +5,6 @@ import java.util.Random;
 
 /**
  * Location data.
- * Immutable.
- *
   */
 public class Location {
     private static final double EARTH_RADIUS = 6371e3;
@@ -14,16 +12,14 @@ public class Location {
     /**
      * unit: degrees
      */
-    private final double latitude;
+    private double latitude;
 
     /**
      * unit: degrees
      */
-    private final double longitude;
+    private double longitude;
 
-    public Location() {
-        this(0, 0);
-    }
+    public Location() { }
 
     public Location(double latitude, double longitude) {
         this.latitude = latitude;
@@ -46,9 +42,13 @@ public class Location {
     public double distanceTo(Location destination) {
         double phi1 = Math.toRadians(latitude);
         double phi2 = Math.toRadians(destination.latitude);
+        double deltaPhi = phi2 - phi1;
+        double deltaLamda = Math.toRadians(destination.longitude - longitude);
+        double a = Math.pow(Math.sin(deltaPhi / 2), 2)
+                + Math.cos(phi1) * Math.cos(phi2) * Math.pow(Math.sin(deltaLamda / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        // your code here
-        return 100_000 * new Random().nextDouble() + 100_000;
+        return c * EARTH_RADIUS;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package ru.atom.model.data.person;
 
 import ru.atom.model.data.Gender;
+import ru.atom.model.data.Image;
+import ru.atom.model.data.Location;
 
 import javax.persistence.*;
+import java.net.URL;
 
 @Entity
 @Table(name = "person")
@@ -15,12 +18,20 @@ public class Person {
     private Gender gender;
 
     private String name;
+
     private int age;
 
-//    private Location location;
-//    private String desctiption;
-//    private Image image;
-//    private URL instagramUrl;
+    @Embedded
+    private Location location;
+
+    @Column(nullable = true)
+    private String desctiption;
+
+    @Embedded
+    private Image image;
+
+    @Column(nullable = true)
+    private URL instagramUrl;
 
 //    private static final ObjectMapper mapper = new ObjectMapper();
 //
@@ -90,41 +101,41 @@ public class Person {
         return this;
     }
 
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public Person setLocation(Location location) {
-//        this.location = location;
-//        return this;
-//    }
-//
-//    public String getDesctiption() {
-//        return desctiption;
-//    }
-//
-//    public Person setDesctiption(String desctiption) {
-//        this.desctiption = desctiption;
-//        return this;
-//    }
-//
-//    public Image getImage() {
-//        return image;
-//    }
-//
-//    public Person setImage(Image image) {
-//        this.image = image;
-//        return this;
-//    }
-//
-//    public URL getInstagramUrl() {
-//        return instagramUrl;
-//    }
-//
-//    public Person setInstagramUrl(URL instagramUrl) {
-//        this.instagramUrl = instagramUrl;
-//        return this;
-//    }
+    public Location getLocation() {
+        return location;
+    }
+
+    public Person setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
+
+    public String getDesctiption() {
+        return desctiption;
+    }
+
+    public Person setDesctiption(String desctiption) {
+        this.desctiption = desctiption;
+        return this;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Person setImage(Image image) {
+        this.image = image;
+        return this;
+    }
+
+    public URL getInstagramUrl() {
+        return instagramUrl;
+    }
+
+    public Person setInstagramUrl(URL instagramUrl) {
+        this.instagramUrl = instagramUrl;
+        return this;
+    }
 
     @Override
     public String toString() {
@@ -133,6 +144,10 @@ public class Person {
                 ", gender=" + gender +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", location=" + location +
+                ", desctiption='" + desctiption + '\'' +
+                ", image=" + image +
+                ", instagramUrl=" + instagramUrl +
                 '}';
     }
 }
