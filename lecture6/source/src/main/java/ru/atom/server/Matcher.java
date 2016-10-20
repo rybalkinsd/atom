@@ -2,7 +2,7 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.dao.LikesDao;
+import ru.atom.model.dao.LikeDao;
 import ru.atom.model.dao.MatchDao;
 import ru.atom.model.data.Match;
 
@@ -14,7 +14,7 @@ public class Matcher implements Runnable {
     private static final Logger log = LogManager.getLogger(Matcher.class);
 
     private MatchDao matchDao = new MatchDao();
-    private LikesDao likesDao = new LikesDao();
+    private LikeDao likesDao = new LikeDao();
 
     @Override
     public void run() {

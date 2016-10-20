@@ -1,34 +1,37 @@
 package ru.atom.model.data.person;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.atom.model.data.Gender;
-import ru.atom.model.data.Image;
-import ru.atom.model.data.Location;
 
-import java.io.IOException;
-import java.net.URL;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
     private String name;
     private int age;
-    private Location location;
-    private String desctiption;
-    private Image image;
-    private URL instagramUrl;
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+//    private Location location;
+//    private String desctiption;
+//    private Image image;
+//    private URL instagramUrl;
 
-
-    public static Person readJson(String json) throws IOException {
-        return mapper.readValue(json, Person.class);
-    }
-
-    public String writeJson() throws JsonProcessingException {
-        return mapper.writeValueAsString(this);
-    }
+//    private static final ObjectMapper mapper = new ObjectMapper();
+//
+//
+//    public static Person readJson(String json) throws IOException {
+//        return mapper.readValue(json, Person.class);
+//    }
+//
+//    public String writeJson() throws JsonProcessingException {
+//        return mapper.writeValueAsString(this);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -87,41 +90,41 @@ public class Person {
         return this;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public Person setLocation(Location location) {
-        this.location = location;
-        return this;
-    }
-
-    public String getDesctiption() {
-        return desctiption;
-    }
-
-    public Person setDesctiption(String desctiption) {
-        this.desctiption = desctiption;
-        return this;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public Person setImage(Image image) {
-        this.image = image;
-        return this;
-    }
-
-    public URL getInstagramUrl() {
-        return instagramUrl;
-    }
-
-    public Person setInstagramUrl(URL instagramUrl) {
-        this.instagramUrl = instagramUrl;
-        return this;
-    }
+//    public Location getLocation() {
+//        return location;
+//    }
+//
+//    public Person setLocation(Location location) {
+//        this.location = location;
+//        return this;
+//    }
+//
+//    public String getDesctiption() {
+//        return desctiption;
+//    }
+//
+//    public Person setDesctiption(String desctiption) {
+//        this.desctiption = desctiption;
+//        return this;
+//    }
+//
+//    public Image getImage() {
+//        return image;
+//    }
+//
+//    public Person setImage(Image image) {
+//        this.image = image;
+//        return this;
+//    }
+//
+//    public URL getInstagramUrl() {
+//        return instagramUrl;
+//    }
+//
+//    public Person setInstagramUrl(URL instagramUrl) {
+//        this.instagramUrl = instagramUrl;
+//        return this;
+//    }
 
     @Override
     public String toString() {

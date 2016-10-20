@@ -1,4 +1,4 @@
-INSERT INTO likes (source, target)
+INSERT INTO Like_entity (source, target)
 VALUES
     (0, 5),
     (1, 6),

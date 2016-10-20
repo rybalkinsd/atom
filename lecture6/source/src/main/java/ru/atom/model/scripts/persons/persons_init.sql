@@ -1,6 +1,6 @@
-INSERT INTO persons (name, gender, age)
+INSERT INTO person (name, gender, age)
 VALUES
-    ('Sasha Grey', 'FEMALE', 28)
+    ('Sasha Grey', 'FEMALE', 28),
     ('Marge Simpson', 'FEMALE', 34),
     ('Алла Пугачева', 'FEMALE', 67),
     ('Sailor Pretty guardian Moon', 'FEMALE', 14),

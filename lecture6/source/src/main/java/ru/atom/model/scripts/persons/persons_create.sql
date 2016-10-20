@@ -1,6 +1,6 @@
 -- DROP TABLE persons;
 
-CREATE TABLE IF NOT EXISTS persons
+CREATE TABLE IF NOT EXISTS person
 (
     id      SERIAL PRIMARY KEY NOT NULL,
     name    VARCHAR(100)       NOT NULL,

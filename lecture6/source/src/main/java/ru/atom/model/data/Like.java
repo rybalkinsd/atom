@@ -3,6 +3,7 @@ package ru.atom.model.data;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "like_entity")
 public class Like {
 
     @Id

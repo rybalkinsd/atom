@@ -22,17 +22,17 @@ public class MatchDao implements Dao<Match> {
     }
 
     @Override
-    public List<Match> getAllWhere(String... conditions) {
+    public List<Match> getAllWhere(String... hqlCondidtions) {
         throw new NotImplementedException();
     }
 
     @Override
     public void insert(Match match) {
-        try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
-            stm.execute(String.format("INSERT INTO matches (a, b) VALUES(%d, %d);", match.getA(), match.getB()));
-        } catch (SQLException e) {
-            log.error("Failed to add match {}", match, e);
-        }
+//        try (Connection con = Database.openSession();
+//             Statement stm = con.createStatement()) {
+//            stm.execute(String.format("INSERT INTO matches (a, b) VALUES(%d, %d);", match.getA(), match.getB()));
+//        } catch (SQLException e) {
+//            log.error("Failed to add match {}", match, e);
+//        }
     }
 }

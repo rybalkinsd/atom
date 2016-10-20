@@ -15,10 +15,10 @@ public interface Dao<T> {
 
     /**
      * SELECT * ... WHERE cond0 AND ... AND condN
-     * @param conditions
+     * @param hqlCondidtions
      * @return
      */
-    List<T> getAllWhere(String ... conditions);
+    List<T> getAllWhere(String ... hqlCondidtions);
 
     /**
      * INSERT INTO ...
@@ -36,4 +36,5 @@ public interface Dao<T> {
                 getAllWhere("id=" + id).get(0)
         );
     }
+
 }
