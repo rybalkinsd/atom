@@ -20,10 +20,13 @@ public class PersonBatchHolder {
 
     private List<Person> persons;
 
-    public static <T extends Person> PersonBatchHolder of(T ... ts) {
-        return new PersonBatchHolder(Arrays.asList(ts));
+    public static PersonBatchHolder of(Person ... ps) {
+        return new PersonBatchHolder(Arrays.asList(ps));
     }
 
+    public static PersonBatchHolder of(List<Person> ps) {
+        return new PersonBatchHolder(ps);
+    }
     public static PersonBatchHolder readJson(String json) throws IOException {
         return mapper.readValue(json, PersonBatchHolder.class);
     }
