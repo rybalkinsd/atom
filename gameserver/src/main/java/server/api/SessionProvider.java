@@ -3,7 +3,7 @@ package server.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import matchmaker.MatchMaker;
 import matchmaker.SinglePlayerMatchMaker;
-import model.Player;
+import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;

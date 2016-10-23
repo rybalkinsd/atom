@@ -1,4 +1,4 @@
-package model;
+package gamemodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.logging.log4j.LogManager;

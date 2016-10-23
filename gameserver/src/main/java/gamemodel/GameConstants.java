@@ -1,4 +1,4 @@
-package model;
+package gamemodel;
 
 /**
  * Global static constants
