@@ -13,7 +13,9 @@ public interface IGameSession {
   /**
    * Player can join session whenever there are less then {@link GameConstants#MAX_PLAYERS_IN_SESSION} players within game session
    *
+   *
    * @param player player to join the game
+   * @return false if join can not be made.
    */
-  void join(@NotNull Player player);
+  boolean join(@NotNull Player player);
 }

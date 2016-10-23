@@ -56,20 +56,16 @@ public class UserStore {
         return user;
     }
 
-    @Nullable
-    public User remove(String key) {
+    public boolean remove(String key) {
         String value = this.credentials.remove(key);
-        User user = null;
-        if (value != null) user = new User(key,value);
-        return user;
+        if (value != null) return true;
+        return false;
     }
 
-    @Nullable
-    public User put(String name, String password) {
+    public boolean put(String name, String password) {
         String result = this.credentials.put(name, password);
-        User user = null;
-        if (result != null) user = new User(name,result);
-        return user;
+        if (result == null) return true;
+        return false;
     }
 
     public String writeJSONNames()  throws JsonProcessingException {

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TokenStore {
@@ -43,13 +44,8 @@ public class TokenStore {
 
     @NotNull
     public String changeName(Token token, String newName) {
-        User oldUser = tokenStoreReversed.get(token);
-        String password = oldUser.getPassword();
-        User newUser = new User(newName, password);
-        tokenStore.remove(oldUser);
-        tokenStore.put(newUser, token);
-        tokenStoreReversed.replace(token, oldUser, newUser);
-        return oldUser.getUserName();
+        User user = tokenStoreReversed.get(token);
+        return user.changeName(newName);
     }
 
     public void validateToken(String rawToken) throws Exception {
@@ -61,12 +57,25 @@ public class TokenStore {
     }
 
     @NotNull
-    public Token issueToken(User user) {
-        Token token = tokenStore.get(user);
+    public Token issueToken(String name, String password) {
+        User user = null;
+        for (Enumeration<User> e = tokenStoreReversed.elements(); e.hasMoreElements();) {
+            User temp = e.nextElement();
+            if (temp.getUserName().equals(name) && temp.getPassword().equals(password)) {
+                user = temp;
+                break;
+            }
+        }
+        Token token = null;
+        if (user != null)
+        token = tokenStore.get(user);
         if (token != null) {
             return token;
         }
         token = Token.generateToken();
+        if (user == null) {
+            user = new User(name,password);
+        }
         tokenStore.put(user, token);
         tokenStoreReversed.put(token, user);
         return token;

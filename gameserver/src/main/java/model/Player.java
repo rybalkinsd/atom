@@ -21,7 +21,11 @@ public class Player {
     @NotNull
     private static final Logger log = LogManager.getLogger(Player.class);
     @NotNull
+    private UUID id;
+    @NotNull
     private String name;
+    @NotNull
+    private User user;
     @NotNull
     private Set<Cell> cells = new HashSet<>(MAX_CELLS_AMOUNT);
     private int cellsEaten = 0;
@@ -34,8 +38,22 @@ public class Player {
      *
      * @param name visible name
      */
-    public Player(@NotNull String name) {
+    public Player(@NotNull String name, @NotNull User user) {
+        this.user = user;
+        this.id = UUID.randomUUID();
         this.name = name;
+        this.initialTime = System.currentTimeMillis();
+        Cell startingCell = new Cell(new Location(),name,0);
+        this.cells.add(startingCell);
+        if (log.isInfoEnabled()) {
+            log.info(toString() + " created");
+        }
+    }
+
+    public Player(@NotNull User user) {
+        this.user = user;
+        this.id = UUID.randomUUID();
+        this.name = user.getUserName();
         this.initialTime = System.currentTimeMillis();
         Cell startingCell = new Cell(new Location(),name,0);
         this.cells.add(startingCell);
@@ -50,6 +68,11 @@ public class Player {
     }
 
     @NotNull
+    public UUID getId() {
+        return this.id;
+    }
+
+    @NotNull
     public int getMass() {
         int mass = 0;
         for (Cell elem :
@@ -57,6 +80,23 @@ public class Player {
             mass += elem.getMass();
         }
         return mass;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object.getClass() != Player.class) return false;
+        Player player = (Player) object;
+        return this.id == player.id;
+    }
+
+    @Override
+    public int hashCode() {
+        int k = 7;
+        int sum = 0;
+        for (int i = 0; i < this.name.length(); i++) {
+            sum = +k * this.name.charAt(i);
+        }
+        return sum;
     }
 
     @Override
