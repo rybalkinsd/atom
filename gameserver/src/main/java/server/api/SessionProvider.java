@@ -7,7 +7,7 @@ import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import server.auth.Authentication;
-import server.model.User;
+import server.model.user.User;
 import session.SessionBatchHolder;
 
 import javax.ws.rs.GET;
@@ -28,7 +28,7 @@ public class SessionProvider {
 
         //Added for test reasons.
         MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();
-        CopyOnWriteArrayList<User> serverUsers = Authentication.getServerUsers();
+        CopyOnWriteArrayList<User> serverUsers = Authentication.getRegisterUsers();
         if (serverUsers.isEmpty()) return Response.ok("{\"sessions\": []}").build();
         User user = serverUsers.get(0);
         Player player = new Player(user);

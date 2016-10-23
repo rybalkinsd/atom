@@ -2,10 +2,10 @@ package server.profile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import server.auth.Authentication;
 import server.auth.Authorized;
-import server.model.Token;
-import server.model.User;
+import server.model.token.Token;
+import server.model.token.TokensContainer;
+import server.model.user.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,8 +14,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
-import static sun.audio.AudioPlayer.player;
 
 @Path("/profile")
 public class UserProfile {
@@ -39,22 +37,22 @@ public class UserProfile {
         try {
 
             if (name == null || name.equals("")) {
-                if (log.isWarnEnabled()) {
-                    log.warn("Wrong name - " + name);
-                }
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            Token token = new Token(longToken);
+            Token token = TokensContainer.parseToken(rawToken);
 
-            if (!Authentication.getTokensReversed().containsKey(token)) {
+            if (!TokensContainer.containsToken(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = Authentication.getTokensReversed().get(token);
-                player.setName(name);
+                User user = TokensContainer.getUser(token);
+                String oldName = user.getName();
+                TokensContainer.removeToken(token);
+                user.setName(name);
+                TokensContainer.addToken(user, token);
+                TokensContainer.addUser(token, user);
                 if (log.isInfoEnabled()) {
-                    log.info("Player with old name {} set name to {}", user.getName(), name);
+                    log.info("User with old name {} set name to {}", oldName, name);
                 }
                 return Response.ok("Your name successfully changed to " + name).build();
             }

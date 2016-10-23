@@ -22,8 +22,6 @@ public class SessionBatchHolder {
 
     private List<GameSession> sessions = new ArrayList<>();
 
-    private SessionBatchHolder() { }
-
     public SessionBatchHolder(List<GameSession> sessions) {
         this.sessions = sessions;
     }

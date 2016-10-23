@@ -1,4 +1,4 @@
-package server.model;
+package server.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gamemodel.Player;
@@ -37,6 +37,12 @@ public class User {
         this.name = name;
     }
 
+    @NotNull
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
     @Nullable
     @JsonIgnore
     public Player getPlayer() {
@@ -52,7 +58,10 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId);
+        return userId.equals(user.userId)
+                && name.equals(user.name)
+                && password.equals(user.password)
+                && (player != null ? player.equals(user.player) : user.player == null);
     }
 
     @Override

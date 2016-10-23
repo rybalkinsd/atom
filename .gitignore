@@ -1,3 +1,4 @@
 .idea/
 *.iml
 gameserver/target/
+gameserver/javadoc

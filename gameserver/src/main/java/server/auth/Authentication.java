@@ -3,8 +3,9 @@ package server.auth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import server.model.Token;
-import server.model.User;
+import server.model.token.Token;
+import server.model.token.TokensContainer;
+import server.model.user.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -13,24 +14,21 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Path("/auth")
 public class Authentication {
 
     private static final Logger log = LogManager.getLogger(Authentication.class);
-    private static ConcurrentHashMap<User, Token> tokens;
-    private static ConcurrentHashMap<Token, User> tokensReversed;
-    private static CopyOnWriteArrayList<User> serverUsers;
+    private static CopyOnWriteArrayList<User> registerUsers;
 
     static {
-        tokens = new ConcurrentHashMap<>();
-        tokensReversed = new ConcurrentHashMap<>();
-        serverUsers = new CopyOnWriteArrayList<>();
-//        tokens.put("admin", 1L);
-//        tokensReversed.put(1L, "admin");
+        registerUsers = new CopyOnWriteArrayList<>();
+    }
+
+    @NotNull
+    public static CopyOnWriteArrayList<User> getRegisterUsers() {
+        return registerUsers;
     }
 
     // curl -i
@@ -50,14 +48,17 @@ public class Authentication {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        User user = getUserByName(name);
+        User user = registerUsers.parallelStream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst()
+                .orElse(null);
 
         if (user != null) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
         user = new User(name, password);
-        serverUsers.add(user);
+        registerUsers.add(user);
         log.info("New user registered with login {}", name);
         return Response.ok(user + " registered.").build();
 
@@ -80,13 +81,16 @@ public class Authentication {
         }
 
         try {
-            if (!(serverUsers.stream()
-                    .filter(u -> u.getName().equals(name))
+
+            if (!(registerUsers.parallelStream()
+                    .filter(user -> user.getName().equals(name))
+                    .filter(user -> user.getPassword().equals(password))
                     .count() == 1)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
-            Token token = issueToken(name);
-            log.info("Player with login {} and password {} successfully logged in", name, password);
+
+            Token token = TokensContainer.issueToken(name);
+            log.info("Player with name {} successfully logged in", name);
             return Response.ok(Long.toString(token.getToken())).build();
 
         } catch (Exception e) {
@@ -106,17 +110,14 @@ public class Authentication {
 
         try {
 
-            Long longToken = Long.parseLong(rawToken.substring("Bearer".length()).trim());
-            System.out.println(longToken);
-            Token token = new Token(longToken);
+            Token token = TokensContainer.parseToken(rawToken);
 
-            if (!tokensReversed.containsKey(token)) {
+            if (!TokensContainer.containsToken(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             } else {
-                User user = tokensReversed.get(token);
-                System.out.println(user);
-                tokens.remove(user);
-                tokensReversed.remove(token);
+                User user = TokensContainer.getUser(token);
+                TokensContainer.removeToken(token);
+                registerUsers.remove(user);
                 if (log.isInfoEnabled()) {
                     log.info("Player with name {} logout", user.getName());
                 }
@@ -129,49 +130,4 @@ public class Authentication {
 
     }
 
-    private Token issueToken(String name) {
-
-        User user = getUserByName(name);
-
-        Token token = tokens.get(user);
-        if (token != null) {
-            return token;
-        }
-
-        token = new Token(ThreadLocalRandom.current().nextLong());
-        log.info("Generate new token {} for User with name {}", token, name);
-        tokens.put(user, token);
-        tokensReversed.put(token, user);
-        return token;
-
-    }
-
-    static void validateToken(String rawToken) throws Exception {
-        Long longToken = Long.parseLong(rawToken);
-        Token token = new Token(longToken);
-        if (!tokensReversed.containsKey(token)) {
-            throw new Exception("Token validation exception");
-        }
-        log.info("Correct token from '{}'", tokensReversed.get(token));
-    }
-
-    @NotNull
-    public static CopyOnWriteArrayList<User> getServerUsers() {
-        return serverUsers;
-    }
-
-    public static ConcurrentHashMap<User, Token> getTokens() {
-        return tokens;
-    }
-
-    public static ConcurrentHashMap<Token, User> getTokensReversed() {
-        return tokensReversed;
-    }
-
-    private User getUserByName(@FormParam("login") String name) {
-        return serverUsers.stream()
-                .filter(u -> u.getName().equals(name))
-                .findAny()
-                .orElse(null);
-    }
 }
