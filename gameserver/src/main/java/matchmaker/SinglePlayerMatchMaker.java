@@ -5,10 +5,10 @@ import gamemodel.Food;
 import gamemodel.GameConstants;
 import gamemodel.Position;
 import gamemodel.Virus;
-import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import server.model.user.User;
 import session.GameSession;
 import session.GameSessionImpl;
 import utils.ColorUtils;
@@ -32,16 +32,23 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     /**
      * Creates new GameSession for single player
      *
-     * @param player single player
+     * @param user single player
      */
     @Override
-    public void joinGame(@NotNull Player player) {
+    public void joinGame(@NotNull User user) {
         GameSession newGameSession = initializeNewGame();
         activeGameSessions.add(newGameSession);
-        newGameSession.join(player);
+        newGameSession.join(user);
+        user.setSession(newGameSession);
         if (log.isInfoEnabled()) {
-            log.info(player + " joined " + newGameSession);
+            log.info(user + " joined " + newGameSession);
         }
+    }
+
+    @Override
+    public void logoutGame(@NotNull User user) {
+        activeGameSessions.remove(user.getSession());
+        user.setSession(null);
     }
 
     @NotNull

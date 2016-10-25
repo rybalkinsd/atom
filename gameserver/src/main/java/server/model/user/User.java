@@ -57,8 +57,6 @@ public class User {
         this.session = session;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

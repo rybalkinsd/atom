@@ -1,8 +1,8 @@
 package session;
 
 import gamemodel.GameConstants;
-import gamemodel.Player;
 import org.jetbrains.annotations.NotNull;
+import server.model.user.User;
 
 /**
  * Single agar.io game session
@@ -17,5 +17,5 @@ public interface GameSession {
    *
    * @param player player to join the game
    */
-  void join(@NotNull Player player);
+  void join(@NotNull User user);
 }

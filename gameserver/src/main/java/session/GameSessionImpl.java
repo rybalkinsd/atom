@@ -7,6 +7,7 @@ import gamemodel.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import server.model.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +61,9 @@ public class GameSessionImpl implements GameSession {
     }
 
     @Override
-    public void join(@NotNull Player player) {
+    public void join(@NotNull User user) {
         if (players.size() < GameConstants.MAX_PLAYERS_IN_SESSION) {
+            Player player = new Player(user);
             players.add(player);
             if (LOG.isInfoEnabled()) {
                 LOG.info(player + " successfully joined the session.");

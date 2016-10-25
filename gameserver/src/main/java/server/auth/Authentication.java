@@ -1,5 +1,7 @@
 package server.auth;
 
+import matchmaker.MatchMaker;
+import matchmaker.SinglePlayerMatchMaker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -21,14 +23,21 @@ public class Authentication {
 
     private static final Logger LOG = LogManager.getLogger(Authentication.class);
     private static CopyOnWriteArrayList<User> registerUsers;
+    private static MatchMaker matchMaker;
 
     static {
         registerUsers = new CopyOnWriteArrayList<>();
+        matchMaker = new SinglePlayerMatchMaker();
     }
 
     @NotNull
     public static CopyOnWriteArrayList<User> getRegisterUsers() {
         return registerUsers;
+    }
+
+    @NotNull
+    public static MatchMaker getMatchMaker() {
+        return matchMaker;
     }
 
     // curl -i
@@ -93,6 +102,15 @@ public class Authentication {
 
             Token token = TokensContainer.issueToken(name);
             LOG.info("Player with name {} successfully logged in", name);
+
+            User loginUser = registerUsers.parallelStream()
+                    .filter(user -> user.getName().equals(name))
+                    .filter(user -> user.getPassword().equals(password))
+                    .findAny()
+                    .orElse(null);
+
+            LOG.info("dsdas" + loginUser.getSession());
+            if (loginUser.getSession() == null) matchMaker.joinGame(loginUser);
             return Response.ok(Long.toString(token.getToken())).build();
 
         } catch (Exception e) {
@@ -119,6 +137,7 @@ public class Authentication {
             } else {
                 User user = TokensContainer.getUser(token);
                 TokensContainer.removeToken(token);
+                if (user.getSession() != null) matchMaker.logoutGame(user);
                 if (LOG.isInfoEnabled()) {
                     LOG.info("Player with name {} logout", user.getName());
                 }
