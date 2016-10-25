@@ -80,6 +80,13 @@ public class RestClientTest {
     }
 
     @Test
+    public void changeNameToExistName() throws Exception {
+        token =  client.login(user, password);
+        boolean result = client.changeName(token, "testerok");
+        assertFalse(result);
+    }
+
+    @Test
     public void logoutProper() throws Exception {
         token =  client.login(user, password);
         boolean result = client.logout(token);

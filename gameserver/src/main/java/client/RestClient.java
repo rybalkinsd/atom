@@ -153,6 +153,8 @@ public class RestClient implements IRestClient {
             boolean result = response.isSuccessful();
             if (result) {
                 log.info("The name was changed successfully!");
+            } else if (response.code() == 400) {
+                log.info("You can't change your name to this one.");
             } else {
                 log.warn("Your token is not valid.");
             }

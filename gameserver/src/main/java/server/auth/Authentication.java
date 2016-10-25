@@ -102,19 +102,21 @@ public class Authentication {
     public Response changeUserName(@HeaderParam("authorization") String strToken, @FormParam("name") String newName) {
         try {
             Token token = new Token(strToken.substring("Bearer".length()).trim());
-            String oldName = TokenStore.getInstance().changeName(token, newName);
-            String password = UserStore.getInstance().getPassword(oldName);
-            if (UserStore.getInstance().remove(oldName)) {
-                if (UserStore.getInstance().put(newName, password)) {
-                    User user = TokenStore.getInstance().getUserbyToken(token);
+            User user = TokenStore.getInstance().getUserbyToken(token);
+            String oldName = user.getUserName();
+            String password = user.getPassword();
+            if (UserStore.getInstance().put(newName, password)) {
+                if (UserStore.getInstance().remove(oldName)) {
+                    TokenStore.getInstance().changeName(token, newName);
                     log.info("User '{}'  changed name from {} to {}", user, oldName, newName);
                     return Response.ok("User " + user + " changed name from " + oldName + " to " + newName + ".").build();
                 } else {
-                    log.info("Such name is already busy");
+                    UserStore.getInstance().remove(newName);
+                    log.info("Such name does not exist");
                     return Response.status(Response.Status.BAD_REQUEST).build();
                 }
             } else {
-                log.info("Such name does not exist");
+                log.info("Such name is already busy");
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 

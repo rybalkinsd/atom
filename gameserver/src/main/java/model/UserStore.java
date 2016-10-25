@@ -63,9 +63,12 @@ public class UserStore {
     }
 
     public boolean put(String name, String password) {
+        String tempPassword = this.credentials.get(name);
+        if (tempPassword != null) return false;
         String result = this.credentials.put(name, password);
-        if (result == null) return true;
-        return false;
+        //if (result == null)
+        return true;
+        //return false;
     }
 
     public String writeJSONNames()  throws JsonProcessingException {
