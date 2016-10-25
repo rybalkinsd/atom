@@ -33,7 +33,7 @@ public class UserProfile {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     public Response setPlayerName(@HeaderParam("Authorization") final String rawToken,
-                                  @FormParam("name")final String name) {
+                                  @FormParam("name") final String name) {
 
         try {
 
@@ -61,7 +61,7 @@ public class UserProfile {
 
             if (maybeNullName != null) {
                 if (log.isWarnEnabled()) {
-                    log.warn("User with name {} already registered", name);
+                    log.warn("User with name: {} already registered", name);
                 }
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }

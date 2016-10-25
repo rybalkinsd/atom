@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Path("/auth")
 public class Authentication {
 
-    private static final Logger log = LogManager.getLogger(Authentication.class);
+    private static final Logger LOG = LogManager.getLogger(Authentication.class);
     private static CopyOnWriteArrayList<User> registerUsers;
 
     static {
@@ -59,8 +59,8 @@ public class Authentication {
 
         user = new User(name, password);
         registerUsers.add(user);
-        log.info("New user registered with login {}", name);
-        return Response.ok(user + " registered.").build();
+        LOG.info("New user registered with login {}", name);
+        return Response.ok("You successfully registered.").build();
 
     }
 
@@ -92,7 +92,7 @@ public class Authentication {
             }
 
             Token token = TokensContainer.issueToken(name);
-            log.info("Player with name {} successfully logged in", name);
+            LOG.info("Player with name {} successfully logged in", name);
             return Response.ok(Long.toString(token.getToken())).build();
 
         } catch (Exception e) {
@@ -119,9 +119,8 @@ public class Authentication {
             } else {
                 User user = TokensContainer.getUser(token);
                 TokensContainer.removeToken(token);
-                registerUsers.remove(user);
-                if (log.isInfoEnabled()) {
-                    log.info("Player with name {} logout", user.getName());
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Player with name {} logout", user.getName());
                 }
                 return Response.ok("Player with name " + user.getName() + " logout").build();
             }
