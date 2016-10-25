@@ -20,7 +20,7 @@ public interface MatchMaker {
      */
     void joinGame(@NotNull User user);
 
-    void logoutGame(@NotNull User user);
+    void leaveGame(@NotNull User user);
 
     /**
      * @return Currently open game sessions

@@ -137,7 +137,7 @@ public class Authentication {
             } else {
                 User user = TokensContainer.getUser(token);
                 TokensContainer.removeToken(token);
-                if (user.getSession() != null) matchMaker.logoutGame(user);
+                if (user.getSession() != null) matchMaker.leaveGame(user);
                 if (LOG.isInfoEnabled()) {
                     LOG.info("Player with name {} logout", user.getName());
                 }

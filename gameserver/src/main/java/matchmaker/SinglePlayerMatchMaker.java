@@ -46,7 +46,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     }
 
     @Override
-    public void logoutGame(@NotNull User user) {
+    public void leaveGame(@NotNull User user) {
         activeGameSessions.remove(user.getSession());
         user.setSession(null);
     }
