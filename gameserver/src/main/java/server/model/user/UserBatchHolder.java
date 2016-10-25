@@ -10,10 +10,13 @@ import java.util.List;
 
 public class UserBatchHolder {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        MAPPER.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+    }
+
+    public UserBatchHolder() {
     }
 
     private List<User> users = new ArrayList<>();
@@ -26,12 +29,12 @@ public class UserBatchHolder {
         return users;
     }
 
-    public static UserBatchHolder readJson(String json) throws IOException {
-        return mapper.readValue(json, UserBatchHolder.class);
+    public static UserBatchHolder readJson(final String json) throws IOException {
+        return MAPPER.readValue(json, UserBatchHolder.class);
     }
 
     public String writeJson() throws JsonProcessingException {
-        return mapper.writeValueAsString(this);
+        return MAPPER.writeValueAsString(this);
     }
 
 }

@@ -14,7 +14,7 @@ public class Field {
     public static final int BORDER_LEFT = 0;
     public static final int BORDER_RIGHT = 20000;
 
-    private static final Logger log = LogManager.getLogger(Field.class);
+    private static final Logger LOG = LogManager.getLogger(Field.class);
 
     @NotNull
     private List<Food> foods;
@@ -28,8 +28,8 @@ public class Field {
     public Field(@NotNull List<Food> foods, @NotNull List<Virus> viruses) {
         this.foods = foods;
         this.viruses = viruses;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

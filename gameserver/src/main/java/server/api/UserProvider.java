@@ -14,13 +14,13 @@ import javax.ws.rs.core.Response;
 @Path("/data")
 public class UserProvider {
 
-    private static final Logger log = LogManager.getLogger(UserProvider.class);
+    private static final Logger LOG = LogManager.getLogger(UserProvider.class);
 
     @GET
     @Path("/users")
     @Produces("application/json")
-    public Response getSessionsBatch() throws JsonProcessingException {
-        log.info("Batch of users requested.");
+    public final Response getUsersBatch() throws JsonProcessingException {
+        LOG.info("Batch of users requested.");
         return Response.ok(new UserBatchHolder(TokensContainer.getUserList()).writeJson()).build();
     }
 

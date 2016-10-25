@@ -82,10 +82,12 @@ public class Authentication {
 
         try {
 
-            if (!(registerUsers.parallelStream()
+            boolean isRegister = registerUsers.parallelStream()
                     .filter(user -> user.getName().equals(name))
                     .filter(user -> user.getPassword().equals(password))
-                    .count() == 1)) {
+                    .count() == 1;
+
+            if (!isRegister) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
 

@@ -2,6 +2,7 @@ package server.profile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import server.auth.Authentication;
 import server.auth.Authorized;
 import server.model.token.Token;
 import server.model.token.TokensContainer;
@@ -31,31 +32,49 @@ public class UserProfile {
     @Path("/name")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
-    public Response setPlayerName(@HeaderParam("Authorization") String rawToken,
-                                  @FormParam("name") String name) {
+    public Response setPlayerName(@HeaderParam("Authorization") final String rawToken,
+                                  @FormParam("name")final String name) {
 
         try {
 
             if (name == null || name.equals("")) {
+                if (log.isWarnEnabled()) {
+                    log.warn("Empty or null name are not required");
+                }
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
             Token token = TokensContainer.parseToken(rawToken);
 
             if (!TokensContainer.containsToken(token)) {
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            } else {
-                User user = TokensContainer.getUser(token);
-                String oldName = user.getName();
-                TokensContainer.removeToken(token);
-                user.setName(name);
-                TokensContainer.addToken(user, token);
-                TokensContainer.addUser(token, user);
-                if (log.isInfoEnabled()) {
-                    log.info("User with old name {} set name to {}", oldName, name);
+                if (log.isWarnEnabled()) {
+                    log.warn("Wrong token - {}", token);
                 }
-                return Response.ok("Your name successfully changed to " + name).build();
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
+
+            String maybeNullName = Authentication.getRegisterUsers().stream()
+                    .map(User::getName)
+                    .filter(name::equals)
+                    .findFirst()
+                    .orElse(null);
+
+            if (maybeNullName != null) {
+                if (log.isWarnEnabled()) {
+                    log.warn("User with name {} already registered", name);
+                }
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+
+            User user = TokensContainer.getUser(token);
+            String oldName = user.getName();
+            TokensContainer.removeToken(token);
+            user.setName(name);
+            TokensContainer.addToken(user, token);
+            if (log.isInfoEnabled()) {
+                log.info("User with old name {} set name to {}", oldName, name);
+            }
+            return Response.ok("Your name successfully changed to " + name).build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();

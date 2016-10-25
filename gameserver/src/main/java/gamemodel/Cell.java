@@ -9,7 +9,7 @@ import java.awt.*;
 public class Cell {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Cell.class);
+    private static final Logger LOG = LogManager.getLogger(Cell.class);
 
     @NotNull
     private final Color color;
@@ -25,8 +25,8 @@ public class Cell {
     public Cell(@NotNull Color color, @NotNull Position position) {
         this.color = color;
         this.position = position;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

@@ -6,25 +6,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import session.GameSession;
 
 import java.util.UUID;
 
 public class User {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Player.class);
+    private static final Logger LOG = LogManager.getLogger(Player.class);
 
     @NotNull private UUID userId;
     @NotNull private String name;
     @NotNull private String password;
-    @Nullable private Player player;
+    @Nullable private GameSession session;
+
+    public User() {
+    }
 
     public User(@NotNull String name, @NotNull String password) {
         this.userId = UUID.randomUUID();
         this.password = password;
         this.name = name;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 
@@ -45,13 +49,15 @@ public class User {
 
     @Nullable
     @JsonIgnore
-    public Player getPlayer() {
-        return player;
+    public GameSession getSession() {
+        return session;
     }
 
-    public void setPlayer(@Nullable Player player) {
-        this.player = player;
+    public void setSession(@Nullable GameSession session) {
+        this.session = session;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -61,7 +67,7 @@ public class User {
         return userId.equals(user.userId)
                 && name.equals(user.name)
                 && password.equals(user.password)
-                && (player != null ? player.equals(user.player) : user.player == null);
+                && (session != null ? session.equals(user.session) : user.session == null);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class User {
         int result = userId.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + (player != null ? player.hashCode() : 0);
+        result = 31 * result + (session != null ? session.hashCode() : 0);
         return result;
     }
 

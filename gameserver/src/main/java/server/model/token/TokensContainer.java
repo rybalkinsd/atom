@@ -24,9 +24,6 @@ public class TokensContainer {
 
     public static void addToken(@NotNull User user, @NotNull Token token) {
         tokensByUsersMap.put(user, token);
-    }
-
-    public static void addUser(@NotNull Token token, @NotNull User user) {
         usersByTokensMap.put(token, user);
     }
 
@@ -71,7 +68,6 @@ public class TokensContainer {
         token = new Token(ThreadLocalRandom.current().nextLong());
         log.info("Generate new token {} for User with name {}", token, name);
         TokensContainer.addToken(user, token);
-        TokensContainer.addUser(token, user);
         return token;
 
     }

@@ -19,12 +19,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Path("activeGameSessions")
 public class SessionProvider {
 
-    private static final Logger log = LogManager.getLogger(SessionProvider.class);
+    private static final Logger LOG = LogManager.getLogger(SessionProvider.class);
 
     @GET
     @Produces("application/json")
-    public Response getSessionsBatch() throws JsonProcessingException {
-        log.info("Batch of sessions requested.");
+    public final Response getSessionsBatch() throws JsonProcessingException {
+        LOG.info("Batch of sessions requested.");
 
         //Added for test reasons.
         MatchMaker singlePlayerMatchMaker = new SinglePlayerMatchMaker();

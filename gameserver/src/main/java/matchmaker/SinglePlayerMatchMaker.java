@@ -36,7 +36,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
      */
     @Override
     public void joinGame(@NotNull Player player) {
-        GameSession newGameSession = createNewGame();
+        GameSession newGameSession = initializeNewGame();
         activeGameSessions.add(newGameSession);
         newGameSession.join(player);
         if (log.isInfoEnabled()) {
@@ -55,7 +55,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
      * @return new GameSession
      */
     @NotNull
-    private GameSession createNewGame() {
+    private GameSession initializeNewGame() {
 
         List<Food> foods = new ArrayList<>();
         Random random = new Random();

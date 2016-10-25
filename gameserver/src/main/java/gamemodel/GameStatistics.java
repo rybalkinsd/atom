@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameStatistics {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(GameStatistics.class);
+    private static final Logger LOG = LogManager.getLogger(GameStatistics.class);
 
     private long foodEaten = 0;
     private int highestMass = GameConstants.STARTING_CELL_MASS_VALUE;
@@ -16,13 +16,13 @@ public class GameStatistics {
     private int topPosition = 0;
 
     public GameStatistics() {
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "GameStatistics{" +
                 "foodEaten=" + foodEaten +
                 ", highestMass=" + highestMass +

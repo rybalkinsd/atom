@@ -9,7 +9,7 @@ import java.awt.Color;
 public class Virus {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Virus.class);
+    private static final Logger LOG = LogManager.getLogger(Virus.class);
 
     @NotNull
     private final Color color = Color.GREEN;
@@ -24,8 +24,8 @@ public class Virus {
     public Virus(@NotNull Position position, double speed) {
         this.position = position;
         this.speed = speed;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

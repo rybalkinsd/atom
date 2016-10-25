@@ -12,14 +12,14 @@ import server.auth.AuthenticationFilter;
 public class AgarServer {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(AgarServer.class);
+    private static final Logger LOG = LogManager.getLogger(AgarServer.class);
+    private static final int PORT = 8080;
 
     public static void main(String[] args) {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
-
-        Server jettyServer = new Server(8080);
+        Server jettyServer = new Server(PORT);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(ServletContainer.class, "/*");
@@ -39,8 +39,8 @@ public class AgarServer {
             jettyServer.start();
             jettyServer.join();
         } catch (Exception e) {
-            if (log.isWarnEnabled()) {
-                log.warn("Something bad happened on server " + e);
+            if (LOG.isWarnEnabled()) {
+                LOG.warn("Something bad happened on server " + e);
             }
         } finally {
             jettyServer.destroy();

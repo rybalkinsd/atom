@@ -9,7 +9,7 @@ import java.awt.Color;
 public class Food {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Food.class);
+    private static final Logger LOG = LogManager.getLogger(Food.class);
 
     @NotNull
     private final Color color;
@@ -24,8 +24,8 @@ public class Food {
     public Food(@NotNull Color color, @NotNull Position position) {
         this.color = color;
         this.position = position;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

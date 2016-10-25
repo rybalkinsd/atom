@@ -16,7 +16,7 @@ import java.util.List;
 public class Player {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Player.class);
+    private static final Logger LOG = LogManager.getLogger(Player.class);
 
     @NotNull private User user;
 
@@ -32,8 +32,8 @@ public class Player {
         this.user = user;
         Cell startingCell = new Cell(ColorUtils.generateRandomColor(), new Position(123, 321));
         addCell(startingCell);
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

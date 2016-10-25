@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class Position {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Position.class);
+    private static final Logger LOG = LogManager.getLogger(Position.class);
 
     private int x;
     private int y;
@@ -15,8 +15,8 @@ public class Position {
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 

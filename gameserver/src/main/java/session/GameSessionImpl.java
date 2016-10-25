@@ -14,12 +14,11 @@ import java.util.UUID;
 
 public class GameSessionImpl implements GameSession {
 
-    private static final Logger log = LogManager.getLogger(GameSessionImpl.class);
+    private static final Logger LOG = LogManager.getLogger(GameSessionImpl.class);
 
     @NotNull
     private UUID sessionID;
 
-    //For single player
     @NotNull
     private List<Player> players = new ArrayList<>(GameConstants.MAX_PLAYERS_IN_SESSION);
 
@@ -64,12 +63,12 @@ public class GameSessionImpl implements GameSession {
     public void join(@NotNull Player player) {
         if (players.size() < GameConstants.MAX_PLAYERS_IN_SESSION) {
             players.add(player);
-            if (log.isInfoEnabled()) {
-                log.info(player + " successfully joined the session.");
+            if (LOG.isInfoEnabled()) {
+                LOG.info(player + " successfully joined the session.");
             }
         } else {
-            if (log.isWarnEnabled()) {
-                log.warn("Session " + this.sessionID + " is full.");
+            if (LOG.isWarnEnabled()) {
+                LOG.warn("Session " + this.sessionID + " is full.");
             }
         }
     }

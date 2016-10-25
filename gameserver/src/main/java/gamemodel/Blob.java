@@ -9,7 +9,7 @@ import java.awt.Color;
 public class Blob {
 
     @NotNull
-    private static final Logger log = LogManager.getLogger(Blob.class);
+    private static final Logger LOG = LogManager.getLogger(Blob.class);
 
     @NotNull
     private Position position;
@@ -26,8 +26,8 @@ public class Blob {
         this.position = position;
         this.color = color;
         this.speed = speed;
-        if (log.isInfoEnabled()) {
-            log.info(toString() + " created");
+        if (LOG.isInfoEnabled()) {
+            LOG.info(toString() + " created");
         }
     }
 
