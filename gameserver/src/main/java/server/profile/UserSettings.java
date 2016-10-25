@@ -2,6 +2,7 @@ package server.profile;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import server.api.AuthenticationProvider;
 import server.auth.Authorized;
 import server.entities.token.Token;
 import server.entities.token.TokensStorage;
@@ -36,9 +37,7 @@ public class UserSettings {
         try {
 
             if (name == null || name.equals("")) {
-                if (log.isWarnEnabled()) {
-                    log.warn("Wrong name - " + name);
-                }
+                log.warn("Wrong name - " + name);
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
 
@@ -46,17 +45,26 @@ public class UserSettings {
 
             if (!TokensStorage.contains(token)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
-            } else {
-                User user = TokensStorage.getUser(token);
-                String oldName = user.getName();
-                TokensStorage.remove(token);
-                user.setName(name);
-                TokensStorage.add(user, token);
-                if (log.isInfoEnabled()) {
-                    log.info("User with name {} set name to {}", oldName, name);
-                }
-                return Response.ok("Your name successfully changed to " + name).build();
             }
+
+            Boolean checkName = AuthenticationProvider.getRegisteredUsers().stream()
+                    .map(User::getName)
+                    .filter(name::equals)
+                    .findFirst()
+                    .isPresent();
+
+            if (checkName) {
+                log.warn("User try to change name, but name is already present: " + name);
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+
+            User user = TokensStorage.getUser(token);
+            String oldName = user.getName();
+            TokensStorage.remove(token);
+            user.setName(name);
+            TokensStorage.add(user, token);
+            log.info("User with name {} set name to {}", oldName, name);
+            return Response.ok("Your name successfully changed to " + name).build();
 
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();

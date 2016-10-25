@@ -3,7 +3,7 @@ package server.entities.token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import server.auth.Authentication;
+import server.api.AuthenticationProvider;
 import server.entities.user.User;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class TokensStorage {
 
     public static Token issueToken(@NotNull String name) {
 
-        User user = Authentication.getRegisteredUsers().parallelStream()
+        User user = AuthenticationProvider.getRegisteredUsers().parallelStream()
                 .filter(u -> u.getName().equals(name))
                 .findFirst()
                 .orElse(null);

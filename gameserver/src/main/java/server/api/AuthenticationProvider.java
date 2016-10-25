@@ -1,8 +1,9 @@
-package server.auth;
+package server.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import server.auth.Authorized;
 import server.entities.token.Token;
 import server.entities.token.TokensStorage;
 import server.entities.user.User;
@@ -12,8 +13,8 @@ import javax.ws.rs.core.Response;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Path("/auth")
-public class Authentication {
-    private static final Logger log = LogManager.getLogger(Authentication.class);
+public class AuthenticationProvider {
+    private static final Logger log = LogManager.getLogger(AuthenticationProvider.class);
     private static CopyOnWriteArrayList<User> registeredUsers;
 
     static {
@@ -38,19 +39,19 @@ public class Authentication {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        User user = registeredUsers.parallelStream()
+        boolean checkUser = registeredUsers.parallelStream()
                 .filter(u -> u.getName().equals(name))
                 .findFirst()
-                .orElse(null);
+                .isPresent();
 
-        if (user != null) {
+        if (checkUser) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        user = new User(name, password);
+        User user = new User(name, password);
         registeredUsers.add(user);
         log.info("New user registered with login {}", name);
-        return Response.ok(user + " registered.").build();
+        return Response.ok(user.getName() + " registered.").build();
     }
 
     /*curl -X POST \
@@ -104,17 +105,12 @@ public class Authentication {
                 User user = TokensStorage.getUser(token);
                 TokensStorage.remove(token);
                 registeredUsers.remove(user);
-                if (log.isInfoEnabled()) {
-                    log.info("User '{}' logout successfully", user.getName());
-                }
+                log.info("User '{}' logout successfully", user.getName());
                 return Response.ok(user.getName() + " successfully logout!").build();
             }
 
         } catch (Exception e) {
-
-            if (log.isWarnEnabled()) {
-                log.warn(e);
-            }
+            log.warn(e);
             return Response.status(Response.Status.UNAUTHORIZED).build();
 
         }
@@ -128,7 +124,8 @@ public class Authentication {
     private boolean authenticate(String name, String password) throws Exception {
         return registeredUsers.stream()
                 .filter(usr -> usr.getName().equals(name) && usr.checkPassword(password))
-                .count() == 1;
+                .findFirst()
+                .isPresent();
     }
 
 }

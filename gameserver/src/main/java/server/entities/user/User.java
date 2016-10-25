@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import server.session.GameSession;
 
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public class User {
     @NotNull private String name;
     @NotNull private String password;
     @Nullable private Player player;
+    @Nullable private GameSession session;
 
     public User(@NotNull String name, @NotNull String password) {
         this.userID = UUID.randomUUID();
