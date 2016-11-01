@@ -36,8 +36,8 @@ public class Mechanics extends Service implements Tickable {
       e.printStackTrace();
     }
 
-    log.info("Start replication");
-    ApplicationContext.instance().get(Replicator.class).replicate();
+    //log.info("Start replication");
+    //ApplicationContext.instance().get(Replicator.class).replicate();
 
     log.info("Mechanics tick() finished");
   }
