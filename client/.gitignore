@@ -1,8 +1,0 @@
-bin/
-.git/
-.metadata/
-.classpath
-.project
-/target/
-pom.xml
-.settings/
