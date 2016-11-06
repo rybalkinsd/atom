@@ -36,8 +36,8 @@ public class LeaderBoardDao implements Dao<String> {
             "UPDATE leaderboard SET score=%d WHERE \"user\"='%s';";
 
     private static final String CREATE_LEADERBOARD_TEMPLATE = "CREATE TABLE IF NOT EXISTS leaderboard " +
-            "( id serial NOT NULL," +
-            "  \"user\" character varying(100) NOT NULL," +
+            "( " +
+            "  \"user\" character varying(100) PRIMARY KEY NOT NULL," +
             "  score integer NOT NULL )";
 
     private static final ObjectMapper mapper = new ObjectMapper();

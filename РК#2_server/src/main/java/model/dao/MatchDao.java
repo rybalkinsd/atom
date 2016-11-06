@@ -13,7 +13,7 @@ import java.util.List;
  * Created by venik on 04.11.16.
  */
 public class MatchDao implements Dao<Match> {
-    private static final Logger log = LogManager.getLogger(UserDao.class);
+    private static final Logger log = LogManager.getLogger(MatchDao.class);
 
     @Override
     public List<Match> getAll() {

@@ -13,7 +13,7 @@ import java.util.List;
  * Created by venik on 04.11.16.
  */
 public class TokenDao implements Dao<Token>{
-    private static final Logger log = LogManager.getLogger(UserDao.class);
+    private static final Logger log = LogManager.getLogger(TokenDao.class);
 
     @Override
     public List<Token> getAll() {
