@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.dao.Dao;
 import model.data.LeaderBoardRecord;
+import model.server.api.LeaderBoardProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -27,6 +28,17 @@ public class LeaderBoardDao implements Dao<String> {
 
     private static final String INSERT_RECORD_TEMPLATE =
             "INSERT INTO leaderboard (\"user\", score) VALUES ('%s', %d);";
+
+    private static final String GET_RECORD_TEMPLATE =
+            "SELECT * FROM leaderboard WHERE \"user\"='%s';";
+
+    private static final String UPDATE_RECORD_TEMPLATE =
+            "UPDATE leaderboard SET score=%d WHERE \"user\"='%s';";
+
+    private static final String CREATE_LEADERBOARD_TEMPLATE = "CREATE TABLE IF NOT EXISTS leaderboard " +
+            "( id serial NOT NULL," +
+            "  \"user\" character varying(100) NOT NULL," +
+            "  score integer NOT NULL )";
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -57,13 +69,8 @@ public class LeaderBoardDao implements Dao<String> {
 
     private void createTable(Connection con) throws SQLException
     {
-        String sqlCreate = "CREATE TABLE IF NOT EXISTS leaderboard" +
-                " ( id serial NOT NULL," +
-                "  \"user\" character varying(100) NOT NULL," +
-                "  score integer NOT NULL )";
-
         Statement stm = con.createStatement();
-        stm.execute(sqlCreate);
+        stm.execute(CREATE_LEADERBOARD_TEMPLATE);
     }
 
     public String getN(int N) throws JsonProcessingException
@@ -84,7 +91,22 @@ public class LeaderBoardDao implements Dao<String> {
         return mapper.writeValueAsString(records);
     }
 
-    private static LeaderBoardRecord mapToRecord(ResultSet rs) throws SQLException {
+    public void addPoints(String user, int points)
+    {
+        LeaderBoardRecord record;
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()) {
+            ResultSet rs = stm.executeQuery(String.format(GET_RECORD_TEMPLATE, user));
+            while (rs.next()){
+                record = mapToRecord(rs);
+                stm.executeQuery(String.format(UPDATE_RECORD_TEMPLATE, record.getScore() + points, user));
+           }
+        } catch (SQLException e) {
+            log.error("Failed to give points to {}.", user,e);
+        }
+    }
+
+    private LeaderBoardRecord mapToRecord(ResultSet rs) throws SQLException {
         return new LeaderBoardRecord(rs.getString("user"),rs.getInt("score"));
     }
 }

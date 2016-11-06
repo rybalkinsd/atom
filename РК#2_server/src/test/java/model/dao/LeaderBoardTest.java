@@ -25,4 +25,10 @@ public class LeaderBoardTest {
         catch (Exception e){};
         out.println(res);
     }
+
+    @Test
+    public void addPointsTest()
+    {
+        lbDao.addPoints("aaa",10);
+    }
 }
