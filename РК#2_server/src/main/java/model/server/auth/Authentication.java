@@ -7,6 +7,7 @@ import  model.dao.UserDao;
 import model.data.Match;
 import model.data.Token;
 import  model.data.User;
+import model.server.api.LeaderBoardProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -54,6 +55,7 @@ public class Authentication {
 
             user.setName(name).setPassword(password);
             userDao.insert(user);
+            LeaderBoardProvider.addRecord(name);
 
             return Response.ok("User " + user.getName() + " registered.").build();
         }catch(Exception e){
