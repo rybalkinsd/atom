@@ -3,6 +3,7 @@ package model.dao;
 import jersey.repackaged.com.google.common.base.Joiner;
 import model.data.Match;
 import model.data.Token;
+import model.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,5 +34,23 @@ public class MatchDao implements Dao<Match> {
     public void insert(Match match) {
         Database.doTransactional(session -> session.save(match));
     }
+
+    @Override
+    public void delete (Match match){}
+
+
+    public void delete (User user){
+                Database.doTransactional(session -> session.createQuery("DELETE Matches WHERE users = :user")
+                .setParameter("user", user.getId())
+                .executeUpdate());
+        }
+
+    public void delete (Token token){
+        Database.doTransactional(session -> session.createQuery("DELETE Matches WHERE token = :token")
+                .setParameter("token", token.getId())
+                .executeUpdate());
+    }
+
+
 
 }

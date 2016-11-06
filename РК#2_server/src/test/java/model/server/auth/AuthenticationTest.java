@@ -11,7 +11,7 @@ public class AuthenticationTest {
 
     @Test
     public void validateToken() throws Exception {
-            Authentication.validateToken("{\"id\":83,\"date\":1478277630646}");
+            Functional.validateToken("{\"id\":83,\"date\":1478277630646}");
     }
 
 }

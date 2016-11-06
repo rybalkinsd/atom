@@ -33,4 +33,11 @@ public class UserDao implements Dao<User>{
         Database.doTransactional(session -> session.save(user));
     }
 
+    @Override
+    public void delete (User user){
+                Database.doTransactional(session -> session.createQuery("DELETE Users WHERE id = :id")
+                .setParameter("id", user.getId())
+                .executeUpdate());
+    }
+
 }

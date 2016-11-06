@@ -15,6 +15,7 @@ public interface Dao<T> {
 
     /**
      * SELECT * ... WHERE cond0 AND ... AND condN
+     *
      * @param hqlCondidtions
      * @return
      */
@@ -25,6 +26,8 @@ public interface Dao<T> {
      * @param t
      */
     void insert(T t);
+
+    void delete(T t);
 
     /**
      * SELECT * from ... WHERE id=

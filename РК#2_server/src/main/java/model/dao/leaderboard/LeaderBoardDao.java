@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.dao.Dao;
 import model.data.LeaderBoardRecord;
-import model.server.api.LeaderBoardProvider;
+import model.data.Match;
+import model.server.auth.LeaderBoardProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -81,7 +82,7 @@ public class LeaderBoardDao implements Dao<String> {
              Statement stm = con.createStatement()) {
             ResultSet rs = stm.executeQuery(String.format(SELECT_N_RECORDS,N));
             while (rs.next()) {
-               records.add(mapToRecord(rs));
+                records.add(mapToRecord(rs));
             }
         } catch (SQLException e) {
             log.error("Failed to getN.", e);
@@ -100,7 +101,7 @@ public class LeaderBoardDao implements Dao<String> {
             while (rs.next()){
                 record = mapToRecord(rs);
                 stm.executeQuery(String.format(UPDATE_RECORD_TEMPLATE, record.getScore() + points, user));
-           }
+            }
         } catch (SQLException e) {
             log.error("Failed to give points to {}.", user,e);
         }
@@ -109,4 +110,7 @@ public class LeaderBoardDao implements Dao<String> {
     private LeaderBoardRecord mapToRecord(ResultSet rs) throws SQLException {
         return new LeaderBoardRecord(rs.getString("user"),rs.getInt("score"));
     }
+
+    @Override
+    public void delete (String record){}
 }

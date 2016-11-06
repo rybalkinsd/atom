@@ -36,6 +36,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     public void validateToken(String token) throws Exception {
-        Authentication.validateToken(token);
+        Functional.validateToken(token);
     }
 }

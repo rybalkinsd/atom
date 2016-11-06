@@ -7,7 +7,6 @@ import  model.dao.UserDao;
 import model.data.Match;
 import model.data.Token;
 import  model.data.User;
-import model.server.api.LeaderBoardProvider;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -16,21 +15,7 @@ import java.util.List;
 
 @Path("/auth")
 public class Authentication {
-    private static ObjectMapper mapper;
 
-    private static UserDao userDao;
-    private static MatchDao matchDao;
-    private static TokenDao tokenDao;
-
-    private static final String GET_ALL_WHERE =
-            "%s %s '%s'";
-
-    static {
-        userDao = new UserDao();
-        matchDao = new MatchDao();
-        tokenDao = new TokenDao();
-        mapper = new ObjectMapper();
-    }
 
     //curl -i -X POST -H "Contion/x-www-form-urlencoded" -H "Host: localhost:8080" -d "user=1&password=1" "http://localhost:8080/auth/register"
     @POST
@@ -46,7 +31,7 @@ public class Authentication {
         }
 
         try {
-            User user = getAssertUser(name, null);
+            User user = Functional.getAssertUser(name, null);
 
             if (user != null)
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
@@ -54,7 +39,7 @@ public class Authentication {
             user = new User();
 
             user.setName(name).setPassword(password);
-            userDao.insert(user);
+            Functional.userDao.insert(user);
             LeaderBoardProvider.addRecord(name);
 
             return Response.ok("User " + user.getName() + " registered.").build();
@@ -76,13 +61,13 @@ public class Authentication {
         }
 
         try {
-            User user = getAssertUser(name, password);
+            User user = Functional.getAssertUser(name, password);
             if (user == null)
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 
-            Token token = getAssertToken(user);
+            Token token = Functional.getAssertToken(user);
 
-            String tokenJson = mapper.writeValueAsString(token);
+            String tokenJson = Functional.mapper.writeValueAsString(token);
 
             return Response.ok(tokenJson).build();
         }catch(Exception e){
@@ -98,54 +83,21 @@ public class Authentication {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     public Response logoutUser(@HeaderParam("Authorization") String rawToken) {
-            return Response.ok("logout").build();
-    }
-
-    private  User getAssertUser(String name,String password)throws Exception{
-        String query = String.format(GET_ALL_WHERE,  "name" , "=" , name);
-
-        List<User> userList = userDao.getAllWhere(query);
-
-        if (userDao.getAllWhere(query).size()!= 1)
-            return null;
-
-        User user = userList.get(0);
-
-        if(password!=null && !user.getPassword().equals(password))
-            return null;
-
-        return user;
-    }
-
-    private Token getAssertToken(User user)throws Exception{
-        String query = String.format(GET_ALL_WHERE,  "users" , "=" , user.getId());
-        List<Match> matchList = matchDao.getAllWhere(query);
-
-        if(matchList.size()==0){
-            Token token =  new Token();
-            tokenDao.insert(token);
-            Match match = new Match().setUser(user.getId()).setToken(token.getId());
-            matchDao.insert(match);
-
-            return token;
-        }else {
-            Match match = matchList.get(0);
-            query = String.format(GET_ALL_WHERE,  "id" , "=" , match.getToken());
-
-            Token token = tokenDao.getAllWhere(query).get(0);
-            return token;
+        try {
+            Token token = new Token();
+            token.setId(Integer.parseInt(rawToken.substring("Bearer".length()).trim()));
+            if (Functional.getUser(token) == null) {
+                return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            } else {
+                Functional.matchDao.delete(token);
+                Functional.tokenDao.delete(token);
+                return Response.ok().build();
+            }
+        }
+        catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 
 
-    static void validateToken(String rawToken) throws Exception {
-        Token token  = mapper.readValue(rawToken, Token.class);
-
-        String query = String.format(GET_ALL_WHERE,  "id" , "=" , token.getId());
-
-        List<Token> tokenList = tokenDao.getAllWhere(query);
-
-        if(tokenList.size()==0 || !mapper.writeValueAsString(tokenList.get(0)).equals(mapper.writeValueAsString(token)))
-            throw new Exception("Token validation exception");
-    }
 }

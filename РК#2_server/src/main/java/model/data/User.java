@@ -25,7 +25,6 @@ public class User  {
 
     @Temporal(value=TemporalType.DATE)
     private Date date;
-
     {
         date = new Date();
     }

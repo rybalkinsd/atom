@@ -33,5 +33,11 @@ public class TokenDao implements Dao<Token>{
     public void insert(Token token) {
         Database.doTransactional(session -> session.save(token));
     }
+    @Override
+    public void delete (Token token){
+        Database.doTransactional(session -> session.createQuery("DELETE Tokens WHERE id = :id")
+                .setParameter("id", token.getId())
+                .executeUpdate());
+    }
 
 }
