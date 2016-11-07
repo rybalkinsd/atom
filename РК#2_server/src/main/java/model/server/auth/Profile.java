@@ -41,8 +41,6 @@ public class Profile {
                 User user = Functional.getUser(token);
                 user.setName(name);
                 Functional.userDao.update(user);
-                Match match = new Match().setToken(token.getId()).setUser(user.getId());
-                Functional.matchDao.update(match);
             }
             return Response.ok().build();
         }
@@ -70,8 +68,6 @@ public class Profile {
                 User user = Functional.getUser(token);
                 user.setPassword(password);
                 Functional.userDao.update(user);
-                Match match = new Match().setToken(token.getId()).setUser(user.getId());
-                Functional.matchDao.update(match);
             }
             return Response.ok().build();
         }
@@ -99,8 +95,6 @@ public class Profile {
                 User user = Functional.getUser(token);
                 user.setMail(email);
                 Functional.userDao.update(user);
-                Match match = new Match().setToken(token.getId()).setUser(user.getId());
-                Functional.matchDao.update(match);
             }
             return Response.ok().build();
         }
