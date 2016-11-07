@@ -36,7 +36,11 @@ public class MatchDao implements Dao<Match> {
     }
 
     @Override
-    public void delete (Match match){}
+    public void delete (Match match){
+        Database.doTransactional(session -> session.createQuery("DELETE Matches WHERE users = :user")
+                .setParameter("user", match.getUser())
+                .executeUpdate());
+    }
 
 
     public void delete (User user){

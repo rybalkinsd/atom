@@ -67,10 +67,10 @@ public class Authentication {
 
             return Response.ok(tokenJson).build();
         }catch(Exception e){
+
             return Response.status(Response.Status.EXPECTATION_FAILED).build();
         }
     }
-
 
     // curl -i -X POST -H "Authorization: Bearer{\"id\":111,\"date\":1478464263086}" -H "Host: localhost:8080" "http://localhost:8080/auth/logout"
     @Authorized
