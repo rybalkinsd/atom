@@ -2,7 +2,6 @@ package model.dao;
 
 import jersey.repackaged.com.google.common.base.Joiner;
 import model.data.Token;
-import model.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by venik on 04.11.16.
  */
-public class TokenDao implements Dao<Token>{
+public class TokenDao implements Dao<Token> {
     private static final Logger log = LogManager.getLogger(TokenDao.class);
 
     @Override

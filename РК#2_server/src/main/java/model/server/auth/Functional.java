@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.dao.MatchDao;
 import model.dao.TokenDao;
 import model.dao.UserDao;
+import model.dao.leaderboard.LeaderBoardDao;
 import model.data.Match;
 import model.data.Token;
 import model.data.User;
@@ -19,6 +20,9 @@ public class Functional {
     public static UserDao userDao;
     public static MatchDao matchDao;
     public static TokenDao tokenDao;
+    public static LeaderBoardDao lbDao;
+    public static final int N = 3;
+
 
     public static final String GET_ALL_WHERE =
             "%s %s '%s'";
@@ -28,6 +32,7 @@ public class Functional {
         matchDao = new MatchDao();
         tokenDao = new TokenDao();
         mapper = new ObjectMapper();
+        lbDao = new LeaderBoardDao();
     }
     public  static User getAssertUser(String name, String password)throws Exception{
         String query = String.format(GET_ALL_WHERE,  "name" , "=" , name);
@@ -90,5 +95,10 @@ public class Functional {
 
         if(tokenList.size()==0 || !mapper.writeValueAsString(tokenList.get(0)).equals(mapper.writeValueAsString(token)))
             throw new Exception("Token validation exception");
+    }
+
+    public static void addRecord(int user)
+    {
+        lbDao.insert(user);
     }
 }

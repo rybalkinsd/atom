@@ -1,18 +1,13 @@
 package model.server.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import model.dao.MatchDao;
-import model.dao.TokenDao;
-import model.dao.UserDao;
 import model.data.Match;
 import model.data.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +21,7 @@ import java.util.List;
 
 @Path("data")
 public class Info {
+    // curl -i -X GET -H "Contion/x-www-form-urlencoded" -H "Host: localhost:8080" "http://localhost:8080/data/users"
 
     @GET
     @Path("users")
@@ -42,7 +38,7 @@ public class Info {
 
             }
             for (User user : userlist) {
-                user.setPassword("");
+                user.setPassword("X");
             }
             String allUsersJSON = Functional.mapper.writeValueAsString(userlist);
             return Response.ok(allUsersJSON).build();
@@ -50,6 +46,21 @@ public class Info {
         catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+    }
+    //curl -i -X GET -H "Contion/x-www-form-urlencoded" -H "Host: localhost:8080" "http://localhost:8080/data/leaderboard"
+
+    @GET
+    @Path("leaderboard")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("application/json")
+    public Response getLeaders() {
+        try {
+            String records = Functional.lbDao.getN(Functional.N);
+            return Response.ok(records).build();
+        } catch (Exception e) {
+
+        }
+        return Response.serverError().build();
     }
 }
 

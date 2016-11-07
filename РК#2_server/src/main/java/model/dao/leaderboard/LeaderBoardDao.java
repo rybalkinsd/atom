@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import model.dao.Dao;
 import model.dao.UserDao;
 import model.data.LeaderBoardRecord;
-import model.data.Match;
-import model.server.auth.LeaderBoardProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

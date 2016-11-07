@@ -1,21 +1,17 @@
 package model.server.auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import model.dao.MatchDao;
-import model.dao.TokenDao;
-import  model.dao.UserDao;
-import model.data.Match;
 import model.data.Token;
-import  model.data.User;
+import model.data.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 
 @Path("/auth")
 public class Authentication {
-
+    private static final Logger log = LogManager.getLogger(Authentication.class);
 
     //curl -i -X POST -H "Contion/x-www-form-urlencoded" -H "Host: localhost:8080" -d "user=1&password=1" "http://localhost:8080/auth/register"
     @POST
@@ -40,7 +36,7 @@ public class Authentication {
 
             user.setName(name).setPassword(password);
             Functional.userDao.insert(user);
-            LeaderBoardProvider.addRecord(user.getId());
+            Functional.addRecord(user.getId());
 
             return Response.ok("User " + user.getName() + " registered.").build();
         }catch(Exception e){
@@ -76,7 +72,7 @@ public class Authentication {
     }
 
 
-    // curl -i -X POST -H "Authorization: Bearer{"id":83,"date":1478277630646}" -H "Host: localhost:8080" "http://localhost:8080/auth/logout"
+    // curl -i -X POST -H "Authorization: Bearer{\"id\":111,\"date\":1478464263086}" -H "Host: localhost:8080" "http://localhost:8080/auth/logout"
     @Authorized
     @POST
     @Path("logout")
@@ -84,8 +80,7 @@ public class Authentication {
     @Produces("text/plain")
     public Response logoutUser(@HeaderParam("Authorization") String rawToken) {
         try {
-            Token token = new Token();
-            token.setId(Integer.parseInt(rawToken.substring("Bearer".length()).trim()));
+            Token token = Functional.mapper.readValue(rawToken.substring("Bearer".length()).trim(), Token.class);
             if (Functional.getUser(token) == null) {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
@@ -95,6 +90,7 @@ public class Authentication {
             }
         }
         catch (Exception e) {
+            log.info(e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

@@ -1,9 +1,9 @@
 package model.dao;
 
 import jersey.repackaged.com.google.common.base.Joiner;
+import model.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import  model.data.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by venik on 04.11.16.
  */
-public class UserDao implements Dao<User>{
+public class UserDao implements Dao<User> {
     private static final Logger log = LogManager.getLogger(UserDao.class);
 
     @Override
