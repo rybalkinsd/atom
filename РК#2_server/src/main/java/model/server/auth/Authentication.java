@@ -40,7 +40,7 @@ public class Authentication {
 
             user.setName(name).setPassword(password);
             Functional.userDao.insert(user);
-            LeaderBoardProvider.addRecord(name);
+            LeaderBoardProvider.addRecord(user.getId());
 
             return Response.ok("User " + user.getName() + " registered.").build();
         }catch(Exception e){

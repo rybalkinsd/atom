@@ -46,7 +46,7 @@ public class LeaderBoardProvider {
         return Response.serverError().build();
     }
 
-    public static void addRecord(String name)
+    public static void addRecord(Integer name)
     {
         lbDao.insert(name);
     }
