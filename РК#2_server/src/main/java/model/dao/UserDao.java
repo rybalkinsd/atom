@@ -4,6 +4,8 @@ import jersey.repackaged.com.google.common.base.Joiner;
 import model.data.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +40,20 @@ public class UserDao implements Dao<User> {
                 Database.doTransactional(session -> session.createQuery("DELETE Users WHERE id = :id")
                 .setParameter("id", user.getId())
                 .executeUpdate());
+    }
+
+    public void update(User user) {
+        Transaction txn = null;
+        try (Session session = Database.openSession()) {
+            txn = session.beginTransaction();
+            session.update(user);
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
 }
