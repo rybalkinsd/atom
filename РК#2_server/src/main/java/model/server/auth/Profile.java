@@ -39,8 +39,12 @@ public class Profile {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
                 User user = Functional.getUser(token);
+                Functional.userDao.delete(user);
+                Functional.matchDao.delete(user);
                 user.setName(name);
-                Functional.userDao.update(user);
+                Functional.userDao.insert(user);
+                Match match = new Match().setToken(token.getId()).setUser(user.getId());
+                Functional.matchDao.insert(match);
             }
             return Response.ok().build();
         }
@@ -66,8 +70,12 @@ public class Profile {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
                 User user = Functional.getUser(token);
+                Functional.userDao.delete(user);
+                Functional.matchDao.delete(user);
                 user.setPassword(password);
-                Functional.userDao.update(user);
+                Functional.userDao.insert(user);
+                Match match = new Match().setToken(token.getId()).setUser(user.getId());
+                Functional.matchDao.insert(match);
             }
             return Response.ok().build();
         }
@@ -93,8 +101,12 @@ public class Profile {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
                 User user = Functional.getUser(token);
+                Functional.userDao.delete(user);
+                Functional.matchDao.delete(user);
                 user.setMail(email);
-                Functional.userDao.update(user);
+                Functional.userDao.insert(user);
+                Match match = new Match().setToken(token.getId()).setUser(user.getId());
+                Functional.matchDao.insert(match);
             }
             return Response.ok().build();
         }
