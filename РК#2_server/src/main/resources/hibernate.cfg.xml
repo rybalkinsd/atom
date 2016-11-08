@@ -8,9 +8,9 @@
 
         <!-- Connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://54.224.37.210/atom14_tinderdb</property>
-        <property name="hibernate.connection.username">atom14</property>
-        <property name="hibernate.connection.password">atom14</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://54.224.37.210/atom12_tinderdb</property>
+        <property name="hibernate.connection.username">atom12</property>
+        <property name="hibernate.connection.password">atom12</property>
 
         <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>

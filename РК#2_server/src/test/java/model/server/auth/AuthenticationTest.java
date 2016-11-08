@@ -48,7 +48,7 @@ public class AuthenticationTest {
     }
 
     @Test
-    public String LoginTest() {
+    public void LoginTest() {
         try {
             String token;
             clearLogin("test");
@@ -65,8 +65,7 @@ public class AuthenticationTest {
             token = miniLoginTest();
             assertEquals(beforeToken , Functional.tokenDao.getAll().size());
             assertEquals(beforeMatch , Functional.matchDao.getAll().size());
-            return token;
-        }catch (Exception e) {System.out.println(e); return null;}
+        }catch (Exception e) {System.out.println(e); }
     }
 
     @Test
@@ -74,7 +73,7 @@ public class AuthenticationTest {
         try {
             String tok;
             RegisterTest();
-            tok =  LoginTest();
+            tok =  miniLoginTest();
             int beforeToken = Functional.tokenDao.getAll().size();
             int beforeMatch = Functional.matchDao.getAll().size();
             miniLogoutTest(tok);
@@ -137,7 +136,7 @@ public class AuthenticationTest {
         }catch (Exception e){System.out.println(e);}
     }
 
-    private String miniLoginTest()throws  Exception{
+    public String miniLoginTest()throws  Exception{
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
                 mediaType,

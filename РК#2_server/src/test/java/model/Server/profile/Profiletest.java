@@ -35,7 +35,7 @@ public class Profiletest {
        String token;
        AuthenticationTest at = new AuthenticationTest();
            at.RegisterTest();
-           token = at.LoginTest();
+           token = at.miniLoginTest();
            miniNameTest(token, "tester");
            miniNameTest(token,"test");
        } catch (Exception e) {
@@ -61,9 +61,7 @@ public class Profiletest {
             User user;
             Response response = client.newCall(request).execute();
             user = Functional.getUser(Functional.mapper.readValue(token,Token.class));
-
             assertEquals(newname, user.getName());
-
         }catch(Exception e){
             System.out.println(e);
         }
@@ -75,7 +73,7 @@ public class Profiletest {
             String token;
             AuthenticationTest at = new AuthenticationTest();
             at.RegisterTest();
-            token = at.LoginTest();
+            token = at.miniLoginTest();
             miniPasswordTest(token, "tester");
             miniPasswordTest(token,"test");
         } catch (Exception e) {
@@ -115,7 +113,7 @@ public class Profiletest {
             String token;
             AuthenticationTest at = new AuthenticationTest();
             at.RegisterTest();
-            token = at.LoginTest();
+            token = at.miniLoginTest();
             miniMailTest(token, "tester");
             miniMailTest(token,"test");
         } catch (Exception e) {
