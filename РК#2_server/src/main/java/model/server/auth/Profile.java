@@ -32,9 +32,9 @@ public class Profile {
             }
             User user2 = Functional.getAssertUser(name, null);
 
-            if (user2 != null)
+            if (user2 == null) {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-
+            }
             if (Functional.getUser(token) == null) {
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
@@ -63,6 +63,7 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
             if (Functional.getUser(token) == null) {
+
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
                 User user = Functional.getUser(token);
@@ -84,6 +85,8 @@ public class Profile {
     @Produces("text/plain")
     public Response register(@HeaderParam("Authorization") String rawToken,@FormParam("email") String email) {
         try {
+            log.info("PRIVET");
+            System.out.println("POKA");
             Token token = Functional.mapper.readValue(rawToken.substring("Bearer".length()).trim(), Token.class);
 
             if (email == null || email.length() == 0) {

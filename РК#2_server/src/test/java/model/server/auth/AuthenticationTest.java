@@ -48,8 +48,9 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void LoginTest() {
+    public String LoginTest() {
         try {
+            String token;
             clearLogin("test");
 
             int beforeToken = Functional.tokenDao.getAll().size();
@@ -61,9 +62,24 @@ public class AuthenticationTest {
 
             beforeToken = Functional.tokenDao.getAll().size();
             beforeMatch = Functional.matchDao.getAll().size();
-            miniLoginTest();
+            token = miniLoginTest();
             assertEquals(beforeToken , Functional.tokenDao.getAll().size());
             assertEquals(beforeMatch , Functional.matchDao.getAll().size());
+            return token;
+        }catch (Exception e) {System.out.println(e); return null;}
+    }
+
+    @Test
+    public void LogoutTest() {
+        try {
+            String tok;
+            RegisterTest();
+            tok =  LoginTest();
+            int beforeToken = Functional.tokenDao.getAll().size();
+            int beforeMatch = Functional.matchDao.getAll().size();
+            miniLogoutTest(tok);
+            assertEquals(beforeToken - 1, Functional.tokenDao.getAll().size());
+            assertEquals(beforeMatch - 1, Functional.matchDao.getAll().size());
 
         }catch (Exception e) {System.out.println(e);}
     }
@@ -121,7 +137,7 @@ public class AuthenticationTest {
         }catch (Exception e){System.out.println(e);}
     }
 
-    private void miniLoginTest()throws  Exception{
+    private String miniLoginTest()throws  Exception{
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
                 mediaType,
@@ -159,6 +175,24 @@ public class AuthenticationTest {
         String rawToken = Functional.mapper.writeValueAsString(token);
 
         assertTrue(rawToken.equals(re));
+        return rawToken;
+    }
+
+    private void miniLogoutTest(String tokencur)throws  Exception {
+        try {
+
+            String requestUrl = SERVICE_URL + "/auth/logout";
+            System.out.println("AAAAAAAAAAA" + tokencur);
+            Request request = new Request.Builder()
+                    .url(requestUrl)
+                    .addHeader("content-type", "application/x-www-form-urlencoded")
+                    .addHeader("Authorization", "Bearer" + tokencur)
+                    .build();
+
+
+            com.squareup.okhttp.Response response = client.newCall(request).execute();
+            System.out.println(response.message());
+        }catch (Exception e){System.out.println(e + "BBBBBBBBBBB");}
     }
 
 }
