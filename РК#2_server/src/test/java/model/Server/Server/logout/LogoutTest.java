@@ -35,10 +35,12 @@ public class LogoutTest {
     @Test
     public void LogoutTest() {
         try {
+            log.info("!!!!!!!!!!!0");
             String tok;
             AuthenticationTest au = new AuthenticationTest();
             au.RegisterTest();
             tok =  au.miniLoginTest();
+            log.info("!!!!!!1");
             int beforeToken = Functional.tokenDao.getAll().size();
             int beforeMatch = Functional.matchDao.getAll().size();
             miniLogoutTest(tok);
@@ -50,18 +52,25 @@ public class LogoutTest {
 
     private void miniLogoutTest(String tokencur)throws  Exception {
         try {
+            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+            RequestBody body = RequestBody.create(
+                    mediaType,
+                    String.format("user=%s&password=%s", "test", "test")
+            );
             String requestUrl = SERVICE_URL + "/auth/logout";
+            log.info("!!!!!!!!!2");
             log.info(tokencur);
             Request request = new Request.Builder()
+                    .post(body)
                     .url(requestUrl)
                     .addHeader("Authorization", "Bearer" + tokencur)
                     .addHeader("content-type", "application/x-www-form-urlencoded")
                     .build();
 
-            log.info("!!!!!!!!");
+            log.info("!!!!!!!!3");
             com.squareup.okhttp.Response response = client.newCall(request).execute();
             System.out.println(response.message());
-            log.info("?????");
+            log.info("?????4");
         }catch (Exception e){System.out.println(e + "BBBBBBBBBBB");}
     }
 }
