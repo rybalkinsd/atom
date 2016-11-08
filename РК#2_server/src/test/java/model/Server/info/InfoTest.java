@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.*;
 import model.data.LeaderBoardRecord;
+import model.data.User;
 import model.server.auth.Authentication;
 import model.server.auth.Functional;
 import org.apache.logging.log4j.LogManager;
@@ -51,14 +52,18 @@ public class InfoTest {
 
             Response response = client.newCall(request).execute();
             String json = response.body().string();
-            List<LeaderBoardRecord> reslb= Functional.mapper.readValue(json, List.class);
-            for (LeaderBoardRecord leaderBoardRecord : reslb) {
-                log.info(leaderBoardRecord.toString());
+            User [] reslb = gson.fromJson(json,User[].class);
+            assertEquals(1,reslb.length);
+            for (int i =0; i!=reslb.length; i++){
+                assertEquals(reslb[i].getId(),Functional.getAssertUser("test",null).getId());
             }
 
 
+            ;
+
+
         } catch (Exception e) {
-            System.out.println("Something went wrong in getBatch." + e);
+            System.out.println("Something went wrong" + e);
         }
     }
 }

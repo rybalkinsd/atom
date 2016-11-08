@@ -80,17 +80,21 @@ public class Authentication {
     @Produces("text/plain")
     public Response logoutUser(@HeaderParam("Authorization") String rawToken) {
         try {
+            log.info("PIRATE-1");
             Token token = Functional.mapper.readValue(rawToken.substring("Bearer".length()).trim(), Token.class);
             if (Functional.getUser(token) == null) {
+                log.info("PIRATE0");
                 System.out.println("OOOOOOOO" + token);
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
+                log.info("PIRATE1");
                 Functional.matchDao.delete(token);
                 Functional.tokenDao.delete(token);
                 return Response.ok().build();
             }
         }
         catch (Exception e) {
+            log.info("PIRATE3");
             log.info(e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

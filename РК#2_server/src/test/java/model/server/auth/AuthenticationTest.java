@@ -68,20 +68,7 @@ public class AuthenticationTest {
         }catch (Exception e) {System.out.println(e); }
     }
 
-    @Test
-    public void LogoutTest() {
-        try {
-            String tok;
-            RegisterTest();
-            tok =  miniLoginTest();
-            int beforeToken = Functional.tokenDao.getAll().size();
-            int beforeMatch = Functional.matchDao.getAll().size();
-            miniLogoutTest(tok);
-            assertEquals(beforeToken - 1, Functional.tokenDao.getAll().size());
-            assertEquals(beforeMatch - 1, Functional.matchDao.getAll().size());
 
-        }catch (Exception e) {System.out.println(e);}
-    }
 
     private void clearRegister(String name){
         try {
@@ -177,21 +164,6 @@ public class AuthenticationTest {
         return rawToken;
     }
 
-    private void miniLogoutTest(String tokencur)throws  Exception {
-        try {
 
-            String requestUrl = SERVICE_URL + "/auth/logout";
-            System.out.println("AAAAAAAAAAA" + tokencur);
-            Request request = new Request.Builder()
-                    .url(requestUrl)
-                    .addHeader("content-type", "application/x-www-form-urlencoded")
-                    .addHeader("Authorization", "Bearer" + tokencur)
-                    .build();
-
-
-            com.squareup.okhttp.Response response = client.newCall(request).execute();
-            System.out.println(response.message());
-        }catch (Exception e){System.out.println(e + "BBBBBBBBBBB");}
-    }
 
 }
