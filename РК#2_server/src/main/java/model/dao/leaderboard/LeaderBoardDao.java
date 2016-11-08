@@ -26,6 +26,12 @@ public class LeaderBoardDao implements Dao<Integer> {
     private static final String SELECT_N_RECORDS =
             "SELECT * FROM leaderboard order by score desc LIMIT %d";
 
+    private static final String GET_ALL_RECORDS =
+            "SELECT * FROM leaderboard";
+
+    private static final String GET_WHERE_RECORDS =
+            "SELECT * FROM leaderboard WHERE %s";
+
     private static final String INSERT_RECORD_TEMPLATE =
             "INSERT INTO leaderboard (\"user\", score) VALUES (%d, %d);";
 
@@ -52,12 +58,34 @@ public class LeaderBoardDao implements Dao<Integer> {
 
     @Override
     public List<Integer> getAll() {
-        throw new NotImplementedException();
+        List<Integer> records = new ArrayList<>();
+
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()) {
+            ResultSet rs = stm.executeQuery(String.format(GET_ALL_RECORDS));
+            while (rs.next()) {
+                records.add(rs.getInt("user"));
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getN.", e);
+        }
+        return records;
     }
 
     @Override
     public List<Integer> getAllWhere(String... conditions) {
-        throw new NotImplementedException();
+        List<Integer> records = new ArrayList<>();
+
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()) {
+            ResultSet rs = stm.executeQuery(String.format(GET_WHERE_RECORDS, conditions));
+            while (rs.next()) {
+                records.add(rs.getInt("user"));
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getN.", e);
+        }
+        return records;
     }
 
     /**
