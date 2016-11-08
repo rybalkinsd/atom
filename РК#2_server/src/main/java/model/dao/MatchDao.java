@@ -35,6 +35,10 @@ public class MatchDao implements Dao<Match> {
         Database.doTransactional(session -> session.save(match));
     }
 
+    public void update(Match match) {
+        Database.doTransactional(session -> {session.update(match);return match;});
+    }
+
     @Override
     public void delete (Match match){
         Database.doTransactional(session -> session.createQuery("DELETE Matches WHERE users = :user")
