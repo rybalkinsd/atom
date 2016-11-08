@@ -63,21 +63,21 @@ public class LeaderBoardDaoTest {
     public void getBestTest() throws Exception{
         String json;
         List<Integer> res;
-        int N  = ((Double)(rand.nextDouble()*4+1)).intValue()*2;
+        int N  = ((Double)(rand.nextDouble()*4+2)).intValue()*2;
         for (int i=0;i<N;i++) {
             TestRegister("Test user "+i);
         }
         res=lbDao.getAll();
         assertEquals(N,res.size());
         json=lbDao.getN(N);
-        List<LeaderBoardRecord> reslb=gson.fromJson(json, List.class);
-        assertEquals(reslb.size(),N);
+        LeaderBoardRecord[] reslb=gson.fromJson(json, LeaderBoardRecord[].class);
+        assertEquals(reslb.length,N);
         json=lbDao.getN(N/2);
-        reslb=gson.fromJson(json, List.class);
-        assertEquals(reslb.size(),N/2);
+        reslb=gson.fromJson(json, LeaderBoardRecord[].class);
+        assertEquals(reslb.length,N/2);
         json=TestGetN();
-        reslb=gson.fromJson(json, List.class);
-        assertEquals(reslb.size(),3);
+        reslb=gson.fromJson(json, LeaderBoardRecord[].class);
+        assertEquals(reslb.length,3);
     }
 
     private void TestRegister(String name)throws  Exception{
