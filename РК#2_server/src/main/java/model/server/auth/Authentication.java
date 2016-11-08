@@ -82,6 +82,7 @@ public class Authentication {
         try {
             Token token = Functional.mapper.readValue(rawToken.substring("Bearer".length()).trim(), Token.class);
             if (Functional.getUser(token) == null) {
+                System.out.println("OOOOOOOO" + token);
                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
             } else {
                 Functional.matchDao.delete(token);
