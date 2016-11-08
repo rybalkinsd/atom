@@ -75,6 +75,9 @@ public class LeaderBoardDaoTest {
         json=lbDao.getN(N/2);
         reslb=gson.fromJson(json, List.class);
         assertEquals(reslb.size(),N/2);
+        json=TestGetN();
+        reslb=gson.fromJson(json, List.class);
+        assertEquals(reslb.size(),3);
     }
 
     private void TestRegister(String name)throws  Exception{
@@ -91,5 +94,18 @@ public class LeaderBoardDaoTest {
                 .build();
 
         com.squareup.okhttp.Response response = client.newCall(request).execute();
+    }
+
+    private String TestGetN()throws  Exception{
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        String requestUrl = SERVICE_URL + "/data/leaderboard";
+        Request request = new Request.Builder()
+                .url(requestUrl)
+                .get()
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .build();
+
+        com.squareup.okhttp.Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 }
