@@ -70,12 +70,14 @@ public class AuthenticationTest {
 
     private void clearRegister(String name){
         try {
+            clearLogin(name);
             String query = String.format(Functional.GET_ALL_WHERE, "name", "=", name);
             List<User> userList = Functional.userDao.getAllWhere(query);
             if (userList.size()!= 0) {
                 User user = userList.get(0);
                 Functional.userDao.delete(user);
             }
+
         }catch (Exception e){System.out.println(e);}
     }
 
