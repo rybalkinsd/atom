@@ -147,4 +147,14 @@ public class Cell {
       this.b = b + 256;
     }
   }
+
+  @Override
+  public String toString() {
+    return "Cell{" +
+        "x=" + x +
+        ", y=" + y +
+        ", id=" + id +
+        ", size=" + size +
+        '}';
+  }
 }

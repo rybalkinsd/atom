@@ -1,9 +1,14 @@
 package model;
 
+import utils.IDGenerator;
+import utils.SequentialIDGenerator;
+
 /**
  * @author apomosov
  */
 public abstract class Cell {
+  public static final IDGenerator idGenerator = new SequentialIDGenerator();
+
   private int x;
   private int y;
   private int radius;

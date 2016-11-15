@@ -33,7 +33,7 @@ public class PacketHandlerAuth {
       }
     } else {
       try {
-        Player player = new Player(ApplicationContext.instance().get(IDGenerator.class).next(), commandAuth.getLogin());
+        Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
         ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
         new PacketAuthOk().write(session);
         ApplicationContext.instance().get(MatchMaker.class).joinGame(player);

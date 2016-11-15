@@ -114,9 +114,9 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
-            <groupId>MIFIGame</groupId>
-            <artifactId>ZagarClientServerProtocol</artifactId>
-            <version>${clientServerProtocol.version}</version>
+            <groupId>atom</groupId>
+            <artifactId>zagar-protocol</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
