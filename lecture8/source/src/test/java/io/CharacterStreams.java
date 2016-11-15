@@ -11,7 +11,7 @@ import java.io.*;
 public class CharacterStreams {
   @Test
   public void writeFile() throws IOException {
-    try (PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8")) {
+    try (PrintWriter writer = new PrintWriter("src/main/resources/to.txt", "UTF-8")) {
       writer.println("The first line by writer");
       writer.println("The second line by writer");
       writer.close();
