@@ -21,9 +21,9 @@ public class ExternalizableClass implements Externalizable {
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
     int read = in.readByte();
     if(read == 1){
-      this.field = "true";
+      this.field = "deserialized true";
     } else {
-      this.field = "false";
+      this.field = "deserialized true";
     }
   }
 

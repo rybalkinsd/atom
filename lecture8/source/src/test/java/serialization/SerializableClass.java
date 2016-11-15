@@ -1,10 +1,14 @@
 package serialization;
 
+import java.io.Serializable;
+
 /**
  * @author Alpi
  * @since 13.11.16
  */
-public class SerializableClass {
+public class SerializableClass implements Serializable {
+  private static final long serialVersionUID = 321321321L;
+
   /**
    * this field will be serialized
    */
