@@ -1,25 +1,32 @@
 package volatile_example;
 
 public class VolatileExample {
-  private static boolean isFinished;
+  boolean running = true;
 
-  public static void main(String[] args) throws InterruptedException {
-    Thread thread1 = new Thread(() -> {
-      for (int i = 0; i < 100; i++) System.out.println(isFinished);
-    });
-    Thread thread2 = new Thread(() -> {
-      for (int i = 0; i < 100; i++) System.out.println(isFinished);
-    });
-    Thread changer = new Thread(() -> {
-      isFinished = true;
-    });
+  public void test() {
+    new Thread(new Runnable() {
+      public void run() {
+        int counter = 0;
+        while (running) {
+          counter++;
+        }
+        System.out.println("Thread 1 finished. Counted up to " + counter);
+      }
+    }).start();
+    new Thread(new Runnable() {
+      public void run() {
+        // Sleep for a bit so that thread 1 has a chance to start
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException ignored) {
+        }
+        System.out.println("Thread 2 finishing");
+        running = false;
+      }
+    }).start();
+  }
 
-    thread1.start();
-    thread2.start();
-    Thread.sleep(1);
-    changer.start();
-
-    thread1.join();
-    thread2.join();
+  public static void main(String[] args) {
+    new VolatileExample().test();
   }
 }
