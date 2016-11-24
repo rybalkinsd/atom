@@ -1,9 +1,8 @@
 package model;
 
+import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
-import utils.FoodGenerator;
-import utils.PlayerPlacer;
-import utils.VirusGenerator;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.List;
  * @author apomosov
  */
 public class GameSessionImpl implements GameSession {
+  private static final IDGenerator idGenerator = new SequentialIDGenerator();
+  private final int id = idGenerator.next();
   @NotNull
   private final Field field = new Field();
   @NotNull
@@ -44,5 +45,17 @@ public class GameSessionImpl implements GameSession {
   @Override
   public List<Player> getPlayers() {
     return new ArrayList<>(players);
+  }
+
+  @Override
+  public Field getField() {
+    return field;
+  }
+
+  @Override
+  public String toString() {
+    return "GameSessionImpl{" +
+        "id=" + id +
+        '}';
   }
 }

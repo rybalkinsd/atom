@@ -28,4 +28,6 @@ public interface GameSession {
   void leave(@NotNull Player player);
 
   List<Player> getPlayers();
+
+  Field getField();
 }

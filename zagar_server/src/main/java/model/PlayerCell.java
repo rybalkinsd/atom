@@ -1,5 +1,8 @@
 package model;
 
+import utils.IDGenerator;
+import utils.SequentialIDGenerator;
+
 /**
  * @author apomosov
  */
