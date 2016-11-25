@@ -11,6 +11,11 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * Created by apomosov on 13.06.16.
  */
@@ -51,8 +56,34 @@ public class ClientConnectionServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws InterruptedException {
-    ClientConnectionServer clientConnectionServer = new ClientConnectionServer(7001);
-    clientConnectionServer.start();
-    clientConnectionServer.join();
+    Properties prop = new Properties();
+    InputStream in = null;
+    Integer port=null;
+    try
+    {
+      in = new FileInputStream("src/main/resources/config.properties");
+      prop.load(in);
+      port=Integer.parseInt(prop.getProperty("clientConnectionPort"));
+    }
+    catch(IOException ex)
+    {
+      ex.printStackTrace();
+    }
+    finally {
+      if(in!=null){
+        try{
+          in.close();
+        }
+        catch (IOException ex){
+          ex.printStackTrace();
+        }
+      }
+    }
+    if(port!=null)
+    {
+      ClientConnectionServer clientConnectionServer = new ClientConnectionServer(port);
+      clientConnectionServer.start();
+      clientConnectionServer.join();
+    }
   }
 }

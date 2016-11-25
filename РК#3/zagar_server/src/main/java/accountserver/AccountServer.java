@@ -11,6 +11,11 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 
 public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
@@ -51,7 +56,31 @@ public class AccountServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    new AccountServer(8080).startApi();
+    Properties prop = new Properties();
+    InputStream in = null;
+    Integer port=null;
+    try
+    {
+      in = new FileInputStream("src/main/resources/config.properties");
+      prop.load(in);
+      port=Integer.parseInt(prop.getProperty("accountServerPort"));
+    }
+    catch(IOException ex)
+    {
+      ex.printStackTrace();
+    }
+    finally {
+      if(in!=null){
+        try{
+          in.close();
+        }
+        catch (IOException ex){
+          ex.printStackTrace();
+        }
+      }
+    }
+    if(port!=null)
+      new AccountServer(port).startApi();
   }
 
   @Override
