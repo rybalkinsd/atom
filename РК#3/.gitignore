@@ -3,8 +3,9 @@
 ### Example user template
 
 # IntelliJ project files
+*/.idea
 .idea
-server.iml
+*.iml
 out
 gen### Java template
 *.class
@@ -21,4 +22,4 @@ gen### Java template
 hs_err_pid*
 
 # Hibernate config
-src/main/resources/hibernate.cfg.xml
+zagar_server/src/main/resources/hibernate.cfg.xml
