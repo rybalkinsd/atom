@@ -55,7 +55,7 @@ public class MasterServer {
     {
       try {
         Class<?> serviceClass = Class.forName(service);
-        messageSystem.registerService(serviceClass, (Service) serviceClass.getDeclaredConstructor(String.class).newInstance("src/main/resources/config.properties"));
+        messageSystem.registerService(serviceClass, (Service) serviceClass.getDeclaredConstructor(PropertiesReader.class).newInstance(preader));
       }
       catch (Exception e) {
         log.error("Failed to add service: "+ service,e);

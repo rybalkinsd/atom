@@ -25,9 +25,9 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer(String properties) throws IOException {
+  public ClientConnectionServer(PropertiesReader preader) throws IOException {
     super("client_connection_service");
-    port = new PropertiesReader(properties).getIntProperty("clientConnectionPort");
+    port = preader.getIntProperty("clientConnectionPort");
   }
 
   @Override
@@ -57,7 +57,7 @@ public class ClientConnectionServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    ClientConnectionServer clientConnectionServer = new ClientConnectionServer("src/main/resources/config.properties");
+    ClientConnectionServer clientConnectionServer = new ClientConnectionServer(new PropertiesReader("src/main/resources/config.properties"));
     clientConnectionServer.start();
     clientConnectionServer.join();
   }

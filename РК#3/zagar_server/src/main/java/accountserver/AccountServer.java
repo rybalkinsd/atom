@@ -22,9 +22,9 @@ public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(String properties) throws IOException {
+  public AccountServer(PropertiesReader preader) throws IOException {
     super("account_server");
-    port = new PropertiesReader(properties).getIntProperty("accountServerPort");
+    port = preader.getIntProperty("accountServerPort");
   }
 
   private void startApi() {
@@ -57,7 +57,7 @@ public class AccountServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-      new AccountServer("src/main/resources/config.properties").startApi();
+      new AccountServer( new PropertiesReader("src/main/resources/config.properties")).startApi();
   }
 
   @Override

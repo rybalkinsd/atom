@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import replication.Replicator;
 import ticker.Tickable;
 import ticker.Ticker;
+import utils.PropertiesReader;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -26,7 +27,7 @@ public class Mechanics extends Service implements Tickable {
     super("mechanics");
   }
 
-  public Mechanics(String properties) {
+  public Mechanics(PropertiesReader preader) {
     super("mechanics");
   } //для совместимости
 
