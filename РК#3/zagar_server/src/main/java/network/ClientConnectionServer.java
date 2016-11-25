@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
+import utils.PropertiesReader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,9 +25,9 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer(int port) {
+  public ClientConnectionServer(String properties) throws IOException {
     super("client_connection_service");
-    this.port = port;
+    port = new PropertiesReader(properties).getIntProperty("clientConnectionPort");
   }
 
   @Override
@@ -55,35 +56,9 @@ public class ClientConnectionServer extends Service {
     }
   }
 
-  public static void main(@NotNull String[] args) throws InterruptedException {
-    Properties prop = new Properties();
-    InputStream in = null;
-    Integer port=null;
-    try
-    {
-      in = new FileInputStream("src/main/resources/config.properties");
-      prop.load(in);
-      port=Integer.parseInt(prop.getProperty("clientConnectionPort"));
-    }
-    catch(IOException ex)
-    {
-      ex.printStackTrace();
-    }
-    finally {
-      if(in!=null){
-        try{
-          in.close();
-        }
-        catch (IOException ex){
-          ex.printStackTrace();
-        }
-      }
-    }
-    if(port!=null)
-    {
-      ClientConnectionServer clientConnectionServer = new ClientConnectionServer(port);
-      clientConnectionServer.start();
-      clientConnectionServer.join();
-    }
+  public static void main(@NotNull String[] args) throws Exception {
+    ClientConnectionServer clientConnectionServer = new ClientConnectionServer("src/main/resources/config.properties");
+    clientConnectionServer.start();
+    clientConnectionServer.join();
   }
 }

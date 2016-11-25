@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
+import utils.PropertiesReader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,9 +22,9 @@ public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(int port) {
+  public AccountServer(String properties) throws IOException {
     super("account_server");
-    this.port = port;
+    port = new PropertiesReader(properties).getIntProperty("accountServerPort");
   }
 
   private void startApi() {
@@ -56,31 +57,7 @@ public class AccountServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    Properties prop = new Properties();
-    InputStream in = null;
-    Integer port=null;
-    try
-    {
-      in = new FileInputStream("src/main/resources/config.properties");
-      prop.load(in);
-      port=Integer.parseInt(prop.getProperty("accountServerPort"));
-    }
-    catch(IOException ex)
-    {
-      ex.printStackTrace();
-    }
-    finally {
-      if(in!=null){
-        try{
-          in.close();
-        }
-        catch (IOException ex){
-          ex.printStackTrace();
-        }
-      }
-    }
-    if(port!=null)
-      new AccountServer(port).startApi();
+      new AccountServer("src/main/resources/config.properties").startApi();
   }
 
   @Override

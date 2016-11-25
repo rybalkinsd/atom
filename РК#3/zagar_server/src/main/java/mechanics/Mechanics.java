@@ -26,6 +26,10 @@ public class Mechanics extends Service implements Tickable {
     super("mechanics");
   }
 
+  public Mechanics(String properties) {
+    super("mechanics");
+  } //для совместимости
+
   @Override
   public void run() {
     log.info(getAddress() + " started");
