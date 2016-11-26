@@ -216,7 +216,7 @@ public class Game {
         y += (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
         followX = x;
         followY = y;
-        (new PacketMove(x, y)).write(socket.session);
+        (new PacketMove(x, y)).write();
 
         if (rapidEject) {
           new PacketEjectMass().write();
