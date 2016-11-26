@@ -17,9 +17,12 @@ import java.util.concurrent.ExecutionException;
 public class MasterServer {
   @NotNull
   private final static Logger log = LogManager.getLogger(MasterServer.class);
+  private boolean ready;
 
-  private void start() throws ExecutionException, InterruptedException {
+  public void start() throws ExecutionException, InterruptedException {
     log.info("MasterServer started");
+
+    ready=false;
 
     PropertiesReader preader;
 
@@ -64,10 +67,14 @@ public class MasterServer {
 
     messageSystem.getServices().forEach(Service::start);
 
+    ready=true;
+
     for (Service service : messageSystem.getServices()) {
       service.join();
     }
   }
+
+  public boolean isReady(){return ready;}
 
   public static void main(@NotNull String[] args) throws ExecutionException, InterruptedException {
     MasterServer server = new MasterServer();

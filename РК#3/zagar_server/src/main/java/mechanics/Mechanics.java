@@ -62,18 +62,18 @@ public class Mechanics extends Service implements Tickable {
     messageSystem.execForService(this);
   }
 
-  public void EjectMass (Player player, CommandEjectMass commandEjectMass)
+  public void EjectMass (@NotNull  Player player,@NotNull CommandEjectMass commandEjectMass)
   {
-    log.info(player.toString() + " wants to eject mass: " + commandEjectMass.toString());
+    log.info(player.getName() + " wants to eject mass");
   }
 
-  public void Move (Player player, CommandMove commandMove)
+  public void Move (@NotNull Player player, @NotNull CommandMove commandMove)
   {
-    log.info(player.toString() + " wants to move: " + commandMove.toString());
+    log.info(player.getName()+ " wants to move: <" + commandMove.getDx() + "," + commandMove.getDy() + ">");
   }
 
-  public void Split (Player player, CommandSplit commandSplit)
+  public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
-    log.info(player.toString() + " wants to split: " + commandSplit.toString());
+    log.info(player.getName() + " wants to split");
   }
 }
