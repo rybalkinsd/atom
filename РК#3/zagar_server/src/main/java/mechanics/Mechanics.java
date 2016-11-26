@@ -7,10 +7,15 @@ import messageSystem.Abonent;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
+import model.Player;
 import network.ClientConnectionServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import protocol.Command;
+import protocol.CommandEjectMass;
+import protocol.CommandMove;
+import protocol.CommandSplit;
 import replication.Replicator;
 import ticker.Tickable;
 import ticker.Ticker;
@@ -55,5 +60,20 @@ public class Mechanics extends Service implements Tickable {
 
     //execute all messages from queue
     messageSystem.execForService(this);
+  }
+
+  public void EjectMass (Player player, CommandEjectMass commandEjectMass)
+  {
+    log.info(player.toString() + " wants to eject mass: " + commandEjectMass.toString());
+  }
+
+  public void Move (Player player, CommandMove commandMove)
+  {
+    log.info(player.toString() + " wants to move: " + commandMove.toString());
+  }
+
+  public void Split (Player player, CommandSplit commandSplit)
+  {
+    log.info(player.toString() + " wants to split: " + commandSplit.toString());
   }
 }
