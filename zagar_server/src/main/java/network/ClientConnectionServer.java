@@ -46,7 +46,12 @@ public class ClientConnectionServer extends Service {
     log.info(getAddress() + " started on port " + port);
 
     while (true) {
-      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
+      try {
+        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        return;
+      }
     }
   }
 
