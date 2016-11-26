@@ -10,7 +10,7 @@ import protocol.CommandLeaderBoard;
 import protocol.CommandReplicate;
 import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
-import zagar.view.Cell;
+//import zagar.view.Cell;
 import zagar.Game;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,15 +26,15 @@ public class PacketHandlerReplicate {
       e.printStackTrace();
       return;
     }
-    Cell[] gameCells = new Cell[commandReplicate.getCells().length];
-    for (int i = 0; i < commandReplicate.getCells().length; i++) {
-      protocol.model.Cell c = commandReplicate.getCells()[i];
-      gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
-    }
-
-    Game.player.clear();
-    Collections.addAll(Game.player, gameCells);
-    Game.cells = gameCells;
+//    Cell[] gameCells = new Cell[commandReplicate.getCells().length];
+//    for (int i = 0; i < commandReplicate.getCells().length; i++) {
+//      protocol.model.Cell c = commandReplicate.getCells()[i];
+//      gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
+//    }
+//
+//    Game.player.clear();
+//    Collections.addAll(Game.player, gameCells);
+//    Game.cells = gameCells;
 
     //TODO
 /*    if (b == null) return;

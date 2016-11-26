@@ -6,6 +6,7 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import network.ClientConnectionServer;
+import protocol.Command;
 import replication.Replicator;
 
 /**
