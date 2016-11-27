@@ -15,6 +15,6 @@ public class PacketHandlerLeaderBoard {
       e.printStackTrace();
       return;
     }
-    Game.leaderBoard = commandLeaderBoard.getLeaderBoard();
+//    Game.leaderBoard = commandLeaderBoard.getLeaderBoard();
   }
 }
