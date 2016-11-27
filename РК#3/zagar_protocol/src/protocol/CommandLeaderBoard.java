@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author apomosov
  */
-public final class CommandLeaderBoard extends Command {
+public final class  CommandLeaderBoard extends Command {
   @NotNull
   public static final String NAME = "leader_board";
 
