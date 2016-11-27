@@ -44,7 +44,7 @@ public class ReplicationTest {
         Food[] food = new Food[0];
         PacketReplicate packetReplicate = new PacketReplicate(cells, food);
 
-        try (PrintWriter writer = new PrintWriter("src/main/resources/file.json", "UTF-8")) {
+        try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/file.json", "UTF-8")) {
             writer.print(JSONHelper.toJSON(packetReplicate));
             writer.close();
         }

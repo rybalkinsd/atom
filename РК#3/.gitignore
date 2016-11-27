@@ -23,3 +23,6 @@ hs_err_pid*
 
 # Hibernate config
 zagar_server/src/main/resources/hibernate.cfg.xml
+
+# Temporary files
+zagar_server/src/main/resources/tmp

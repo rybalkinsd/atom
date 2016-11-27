@@ -21,7 +21,7 @@ public class TestJsonStateReplicator implements Replicator {
     @Override
     public void replicate() {
         String json = new String();
-        try (InputStream in = new FileInputStream(new File("src/main/resources/file.json"));
+        try (InputStream in = new FileInputStream(new File("src/main/resources/tmp/file.json"));
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))
         ) {
             json = reader.readLine();
