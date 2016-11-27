@@ -11,6 +11,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by apomosov on 13.06.16.
  */
@@ -45,13 +47,12 @@ public class ClientConnectionServer extends Service {
 
     log.info(getAddress() + " started on port " + port);
 
-    while (true) {
-      try {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-        return;
+    try {
+      while (true) {
+        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
       }
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 
