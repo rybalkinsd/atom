@@ -1,17 +1,17 @@
 package zagar;
 
 import org.jetbrains.annotations.NotNull;
-import zagar.view.GameFrame;
+//import zagar.view.GameFrame;
 
 public class Main {
-  @NotNull
-  public static GameFrame frame;
+//  @NotNull
+//  public static GameFrame frame;
   @NotNull
   private static Game game;
 
   public static void main(@NotNull String[] args) {
     GameThread thread = new GameThread();
-    frame = new GameFrame();
+//    frame = new GameFrame();
     game = new Game();
 
     thread.run();
@@ -28,6 +28,6 @@ public class Main {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    frame.render();
+//    frame.render();
   }
 }

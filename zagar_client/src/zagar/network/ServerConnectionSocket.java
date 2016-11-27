@@ -47,9 +47,9 @@ public class ServerConnectionSocket {
 
     log.info("Connected!");
 
-    new PacketAuth(Game.login, Game.serverToken).write();
-    Game.spawnPlayer = 100;
-    long oldTime = 0;
+//    new PacketAuth(Game.login, Game.serverToken).write();
+//    Game.spawnPlayer = 100;
+//    long oldTime = 0;
   }
 
   @OnWebSocketMessage
@@ -70,12 +70,12 @@ public class ServerConnectionSocket {
       case CommandReplicate.NAME:
         new PacketHandlerReplicate(msg);
         break;
-      case CommandAuthFail.NAME:
-        new PacketHandlerAuthFail(msg);
-        break;
-      case CommandAuthOk.NAME:
-        new PacketHandlerAuthOk();
-        break;
+//      case CommandAuthFail.NAME:
+//        new PacketHandlerAuthFail(msg);
+//        break;
+//      case CommandAuthOk.NAME:
+//        new PacketHandlerAuthOk();
+//        break;
     }
   }
 }

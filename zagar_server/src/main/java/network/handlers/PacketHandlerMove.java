@@ -1,8 +1,13 @@
 package network.handlers;
 
+import main.ApplicationContext;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
+import messageSystem.messages.EjectMassMsg;
+import messageSystem.messages.MoveMsg;
+import network.ClientConnectionServer;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandEjectMass;
 import protocol.CommandMove;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
@@ -17,5 +22,10 @@ public class PacketHandlerMove {
       return;
     }
     //TODO
+    @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+    Message message = new MoveMsg(ApplicationContext.instance().get(MessageSystem.class)
+            .getService(ClientConnectionServer.class).getAddress(),
+            commandMove);
+    messageSystem.sendMessage(message);
   }
 }

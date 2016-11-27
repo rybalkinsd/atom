@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.Session;
 
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
+import zagar.Game;
 import zagar.util.JSONHelper;
 
 public class PacketMove {
@@ -22,9 +23,9 @@ public class PacketMove {
     this.y = y;
   }
 
-  public void write(@NotNull Session s) throws IOException {
+  public void write() throws IOException {
     String msg = JSONHelper.toJSON(new CommandMove(x, y));
-    //log.info("Sending [" + msg + "]");
-    //s.getRemote().sendString(msg);TODO
+    log.info("Sending [" + msg + "]");
+    Game.socket.session.getRemote().sendString(msg);
   }
 }

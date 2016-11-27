@@ -1,15 +1,15 @@
 package network.handlers;
 
-import network.packets.PacketAuthFail;
-import network.packets.PacketAuthOk;
+import main.ApplicationContext;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
+import messageSystem.messages.EjectMassMsg;
+import network.ClientConnectionServer;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
 import protocol.CommandEjectMass;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
-
-import java.io.IOException;
 
 public class PacketHandlerEjectMass {
   public PacketHandlerEjectMass(@NotNull Session session, @NotNull String json) {
@@ -21,5 +21,10 @@ public class PacketHandlerEjectMass {
       return;
     }
     //TODO
-  }
+
+        @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+        Message message = new EjectMassMsg(ApplicationContext.instance().get(MessageSystem.class)
+                .getService(ClientConnectionServer.class).getAddress(),commandEjectMass);
+        messageSystem.sendMessage(message);
+    }
 }
