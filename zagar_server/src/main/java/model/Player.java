@@ -58,4 +58,17 @@ public class Player {
         "name='" + name + '\'' +
         '}';
   }
+
+  @Override
+  public int hashCode() {
+    return id;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj instanceof Player){
+      return id == ((Player) obj).id;    //TODO: autoimplemented stub
+    }
+    return false;
+  }
 }
