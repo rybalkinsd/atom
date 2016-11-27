@@ -10,6 +10,9 @@ import network.packets.PacketReplicate;
 import org.eclipse.jetty.websocket.api.Session;
 import protocol.model.Cell;
 import protocol.model.Food;
+import utils.JSONDeserializationException;
+import utils.JSONHelper;
+import utils.PropertiesReader;
 
 import java.io.*;
 import java.util.Map;
@@ -29,7 +32,7 @@ public class TestJsonStateReplicator implements Replicator {
         }catch (Exception e){}
 
         String leaderJson = new String();
-        try (InputStream in = new FileInputStream(new File("src/main/resources/tmp/leaderJson.json"));
+        try (InputStream in = new FileInputStream(new File(new PropertiesReader("src/main/resources/config.properties").getStringProperty("leaderboard")));
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))
         ) {
             leaderJson = reader.readLine();
@@ -40,8 +43,11 @@ public class TestJsonStateReplicator implements Replicator {
                 if (gameSession.getPlayers().contains(connection.getKey())) {
                     try {
                         new PacketReplicate(replicationJson).write(connection.getValue());
-                        new PacketLeaderBoard(leaderJson).write(connection.getValue());
+                        String[] t = JSONHelper.fromJSON(leaderJson,String[].class);
+                        new PacketLeaderBoard(JSONHelper.fromJSON(leaderJson,String[].class)).write(connection.getValue());
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONDeserializationException e) {
                         e.printStackTrace();
                     }
                 }

@@ -1,3 +1,5 @@
+package test.java;
+
 import main.MasterServer;
 import messageSystem.messages.ReplicateMsg;
 import network.packets.PacketLeaderBoard;
@@ -44,19 +46,6 @@ public class ReplicationTest {
         PacketReplicate packetReplicate = new PacketReplicate(cells, food);
 
         try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/replJson.json", "UTF-8")) {
-            writer.print(JSONHelper.toJSON(packetReplicate));
-            writer.close();
-        }
-    }
-
-    @Test
-    public void createLeaderBoardJsonFile() throws Exception {
-        String[] leaderBoard = new String[2];
-        leaderBoard[0] = new String("dratyti");
-        leaderBoard[1] = new String("datvidaniya");
-
-        PacketLeaderBoard packetReplicate = new PacketLeaderBoard(leaderBoard);
-        try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/leaderJson.json", "UTF-8")) {
             writer.print(JSONHelper.toJSON(packetReplicate));
             writer.close();
         }

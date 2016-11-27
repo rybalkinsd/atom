@@ -7,6 +7,7 @@ import messageSystem.MessageSystem;
 import model.Cell;
 import model.Player;
 import network.ClientConnections;
+import network.packets.PacketLeaderBoard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
@@ -41,6 +42,14 @@ public class Leaderboard extends Service implements Tickable {
         log.info(getAddress() + " started");
         Ticker ticker = new Ticker(this, 1);
         ticker.loop();
+        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
+            writer.print(JSONHelper.toJSON(new String[0]));
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -17,22 +17,8 @@ public class PacketLeaderBoard {
   @NotNull
   private final String[] leaderBoard;
 
-  private String[] getLeaderBoard(){
-    return leaderBoard;
-  }
-
   public PacketLeaderBoard(@NotNull String[] leaderBoard) {
     this.leaderBoard = leaderBoard;
-  }
-  public PacketLeaderBoard(@NotNull String leaderBoard) {
-    PacketLeaderBoard packetLeaderBoard = new PacketLeaderBoard(new String[0]);
-    try {
-        packetLeaderBoard = JSONHelper.fromJSON(leaderBoard,PacketLeaderBoard.class);
-    } catch (JSONDeserializationException e) {
-      e.printStackTrace();
-    }
-
-    this.leaderBoard = packetLeaderBoard.getLeaderBoard();
   }
 
   public void write(@NotNull Session session) throws IOException {
