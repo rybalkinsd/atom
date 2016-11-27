@@ -1,5 +1,6 @@
 import main.MasterServer;
 import messageSystem.messages.ReplicateMsg;
+import network.packets.PacketLeaderBoard;
 import network.packets.PacketReplicate;
 import org.junit.Test;
 import protocol.CommandReplicate;
@@ -22,9 +23,7 @@ import java.util.List;
  */
 public class ReplicationTest {
     @Test
-    public void EjectMassImmitator() throws Exception
-    {
-
+    public void createReplicationJsonFile() throws Exception {
         Cell[] cells = new Cell[11];
         cells[0] = new Cell(1,2,true,150,-800,-400);
         cells[1] = new Cell(3,4,true,150,800,-400);
@@ -44,21 +43,29 @@ public class ReplicationTest {
         Food[] food = new Food[0];
         PacketReplicate packetReplicate = new PacketReplicate(cells, food);
 
-        try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/file.json", "UTF-8")) {
+        try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/replJson.json", "UTF-8")) {
             writer.print(JSONHelper.toJSON(packetReplicate));
             writer.close();
         }
+    }
 
+    @Test
+    public void createLeaderBoardJsonFile() throws Exception {
+        String[] leaderBoard = new String[2];
+        leaderBoard[0] = new String("dratyti");
+        leaderBoard[1] = new String("datvidaniya");
+
+        PacketLeaderBoard packetReplicate = new PacketLeaderBoard(leaderBoard);
+        try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/leaderJson.json", "UTF-8")) {
+            writer.print(JSONHelper.toJSON(packetReplicate));
+            writer.close();
+        }
+    }
+
+    @Test
+    public void replicationLeaderBoardTest() throws Exception
+    {
         MasterServer masterServer = new MasterServer();
-        Thread thread = new Thread(()->
-        {
-            try {
-                masterServer.start();
-            }
-            catch (Exception ex)
-            {}
-        });
-        thread.start();
-        thread.join();
+        masterServer.start();
     }
 }

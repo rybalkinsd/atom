@@ -35,7 +35,7 @@ public class PacketReplicate {
   }
 
   public PacketReplicate(String json) {
-    PacketReplicate packetReplicate = null;
+    PacketReplicate packetReplicate = new PacketReplicate(new Cell[0],new Food[0]);
     try {
       packetReplicate = JSONHelper.fromJSON(json,PacketReplicate.class);
     } catch (JSONDeserializationException e) {
