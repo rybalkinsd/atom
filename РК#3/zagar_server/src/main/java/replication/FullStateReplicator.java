@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  * @author Alpi
  * @since 31.10.16
  */
-public class FullStateReplicator implements Replicator {
+  public class FullStateReplicator implements Replicator {
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
@@ -56,4 +56,6 @@ public class FullStateReplicator implements Replicator {
         )
     ).map(playerCell -> new Cell(playerCell.getId(), ))*/
   }
+
+
 }

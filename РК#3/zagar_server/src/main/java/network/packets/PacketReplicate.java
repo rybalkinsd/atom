@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import protocol.CommandReplicate;
 import protocol.model.Cell;
 import protocol.model.Food;
+import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;
@@ -20,8 +21,29 @@ public class PacketReplicate {
   private final Food[] food;
 
   public PacketReplicate(@NotNull Cell[] cells, @NotNull Food[] food) {
+
     this.cells = cells;
     this.food = food;
+  }
+
+  public Food[] getFood(){
+    return food;
+  }
+
+  public Cell[] getCells() {
+    return cells;
+  }
+
+  public PacketReplicate(String json) {
+    PacketReplicate packetReplicate = null;
+    try {
+      packetReplicate = JSONHelper.fromJSON(json,PacketReplicate.class);
+    } catch (JSONDeserializationException e) {
+
+      e.printStackTrace();
+    }
+    this.cells = packetReplicate.getCells();
+    this.food = packetReplicate.getFood();
   }
 
   public void write(@NotNull Session session) throws IOException {
