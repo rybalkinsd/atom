@@ -100,7 +100,7 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
         String[] best = new String[size];
         for (int i =0;i<size;i++) {
             Pair<String,Integer> player=players.get(i);
-            best[i] = player.getKey() + " " + player.getValue();
+            best[i] = player.getKey();
         }
 
         try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {

@@ -40,15 +40,15 @@ public class ClientConnectionHandler extends WebSocketAdapter {
 
   @Override
   public void onWebSocketClose(int statusCode, @NotNull String reason) {
-    super.onWebSocketClose(statusCode, reason);
     log.info("Socket closed: [" + statusCode + "] " + reason);
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
     for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
+      Session t = getSession();
       if(connection.getValue().equals(getSession())){
         clientConnections.removeConnection(connection.getKey());
       }
     }
-
+    super.onWebSocketClose(statusCode, reason);
   }
 
   @Override

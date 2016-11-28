@@ -15,6 +15,7 @@ import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class PacketHandlerAuth {
   public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
@@ -27,18 +28,25 @@ public class PacketHandlerAuth {
     }
     if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {
       try {
-        new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
+        new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or passwordd").write(session);
       } catch (IOException e) {
         e.printStackTrace();
       }
     } else {
+
       try {
+        ClientConnections connections=ApplicationContext.instance().get(ClientConnections.class);
+        for(Map.Entry<Player,Session> entry : connections.getConnections())
+          if(entry.getKey().getName().equals(commandAuth.getLogin())) {
+            new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Player already connected").write(session);
+            return;
+          }
         Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
-        ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
+        connections.registerConnection(player, session);
         new PacketAuthOk().write(session);
         ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException e){
+          e.printStackTrace();
       }
     }
   }

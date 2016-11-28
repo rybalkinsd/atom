@@ -25,7 +25,8 @@ public class ClientConnections {
 
   public boolean removeConnection(Player player) {
     log.info("Connection removed [" + player + "]");
-    return connections.remove(player) != null;
+    boolean r = connections.remove(player) != null;
+    return r;
   }
 
   public Set<Map.Entry<Player, Session>> getConnections() {
