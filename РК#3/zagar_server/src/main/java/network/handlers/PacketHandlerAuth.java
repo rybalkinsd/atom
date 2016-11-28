@@ -28,7 +28,7 @@ public class PacketHandlerAuth {
     }
     if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {
       try {
-        new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or passwordd").write(session);
+        new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
       } catch (IOException e) {
         e.printStackTrace();
       }
