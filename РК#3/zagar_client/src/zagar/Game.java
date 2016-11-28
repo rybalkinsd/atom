@@ -66,25 +66,45 @@ public class Game {
   public Game() {
     this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Host", DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT));
 
-    authenticate();
-
     this.spawnPlayer = 100;
 
     final WebSocketClient client = new WebSocketClient();
-    this.socket = new ServerConnectionSocket();
-    new Thread(() -> {
-      try {
-        client.start();
-        URI serverURI = new URI(gameServerUrl + "/clientConnection");
-        ClientUpgradeRequest request = new ClientUpgradeRequest();
-        request.setHeader("Origin", "zagar.io");
-        client.connect(socket, serverURI, request);
-        log.info("Trying to connect <" + gameServerUrl + ">");
-        socket.awaitClose(7, TimeUnit.DAYS);
-      } catch (Throwable t) {
-        t.printStackTrace();
+    URI serverURI;
+    try {
+
+      serverURI = new URI(gameServerUrl + "/clientConnection");
+      ClientUpgradeRequest request = new ClientUpgradeRequest();
+      request.setHeader("Origin", "zagar.io");
+      while (Game.state.equals(GameState.NOT_AUTHORIZED)) {
+        Game.serverToken = null;
+        authenticate();
+        this.socket = new ServerConnectionSocket();
+        new Thread(() -> {
+          try {
+            client.start();
+            client.connect(socket, serverURI, request);
+            log.info("Trying to connect <" + gameServerUrl + ">");
+            socket.awaitClose(7, TimeUnit.DAYS);
+          } catch (Throwable t) {
+            t.printStackTrace();
+          }
+        }).start();
+        Game.state = GameState.CONNECTING;
+        for (int j = 0; j < 10; j++) {
+          Thread.sleep(500);
+          if (Game.state != GameState.CONNECTING)
+            break;
+        }
+        if (Game.state == GameState.NOT_AUTHORIZED)
+          Reporter.reportWarn("Connection failed", "Server rejected your connection");
+        if (Game.state == GameState.CONNECTING) {
+          Reporter.reportWarn("Connection failed", "Connection TIME OUT");
+          Game.state=GameState.NOT_AUTHORIZED;
+        }
+        client.stop();
       }
-    }).start();
+    }catch(Throwable t)
+    {t.printStackTrace();}
   }
 
   private void authenticate() {
@@ -264,6 +284,6 @@ public class Game {
   }
 
   public enum GameState {
-    NOT_AUTHORIZED, AUTHORIZED
+    NOT_AUTHORIZED, AUTHORIZED, CONNECTING
   }
 }
