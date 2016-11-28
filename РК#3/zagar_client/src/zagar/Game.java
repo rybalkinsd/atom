@@ -75,10 +75,10 @@ public class Game {
       serverURI = new URI(gameServerUrl + "/clientConnection");
       ClientUpgradeRequest request = new ClientUpgradeRequest();
       request.setHeader("Origin", "zagar.io");
+      this.socket = new ServerConnectionSocket();
       while (Game.state.equals(GameState.NOT_AUTHORIZED)) {
         Game.serverToken = null;
         authenticate();
-        this.socket = new ServerConnectionSocket();
         new Thread(() -> {
           try {
             client.start();
@@ -101,7 +101,8 @@ public class Game {
           Reporter.reportWarn("Connection failed", "Connection TIME OUT");
           Game.state=GameState.NOT_AUTHORIZED;
         }
-        client.stop();
+        if(Game.state!=GameState.AUTHORIZED)
+          client.stop();
       }
     }catch(Throwable t)
     {t.printStackTrace();}
