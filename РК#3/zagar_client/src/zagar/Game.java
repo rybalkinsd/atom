@@ -79,7 +79,7 @@ public class Game {
       while (Game.state.equals(GameState.NOT_AUTHORIZED)) {
         Game.serverToken = null;
         authenticate();
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
           try {
             client.start();
             client.connect(socket, serverURI, request);
@@ -88,8 +88,10 @@ public class Game {
           } catch (Throwable t) {
             t.printStackTrace();
           }
-        }).start();
+          Game.state = GameState.NOT_AUTHORIZED;
+        });
         Game.state = GameState.CONNECTING;
+        thread.start();
         for (int j = 0; j < 10; j++) {
           Thread.sleep(500);
           if (Game.state != GameState.CONNECTING)
@@ -101,8 +103,10 @@ public class Game {
           Reporter.reportWarn("Connection failed", "Connection TIME OUT");
           Game.state=GameState.NOT_AUTHORIZED;
         }
-        if(Game.state!=GameState.AUTHORIZED)
+        if(Game.state!=GameState.AUTHORIZED){
           client.stop();
+          thread.interrupt();
+        }
       }
     }catch(Throwable t)
     {t.printStackTrace();}
