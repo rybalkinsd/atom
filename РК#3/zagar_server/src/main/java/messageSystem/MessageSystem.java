@@ -25,7 +25,7 @@ public final class MessageSystem {
   }
 
   public void registerService(Service service) {
-    services.put(service.serviceClass, service);
+    services.put(service.getServiceClass(), service);
     messages.putIfAbsent(service.getAddress(), new ConcurrentLinkedQueue<>());
     log.info(service + " registered");
   }

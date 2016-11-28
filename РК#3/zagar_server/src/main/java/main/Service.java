@@ -14,7 +14,6 @@ public abstract class Service extends Thread implements Abonent {
   private static final Logger log = LogManager.getLogger(Service.class);
   @NotNull
   private final Address address;
-  public final Class<? extends Service> serviceClass;
 
   public Service(@NotNull String name) {
     super(name);
@@ -22,16 +21,6 @@ public abstract class Service extends Thread implements Abonent {
     if (log.isInfoEnabled()) {
       log.info("AccountServer thread [" + name + "] created");
     }
-    this.serviceClass=this.getClass();
-  }
-
-  public Service(@NotNull String name, Class<? extends Service> T) {
-    super(name);
-    this.address = new Address(name);
-    if (log.isInfoEnabled()) {
-      log.info("AccountServer thread [" + name + "] created");
-    }
-    this.serviceClass=T;
   }
 
   @NotNull
@@ -44,4 +33,9 @@ public abstract class Service extends Thread implements Abonent {
   public String toString() {
     return address.toString();
   }
+
+  public Class<? extends Service> getServiceClass()
+  {
+    return this.getClass();
+  };
 }
