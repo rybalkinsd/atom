@@ -48,7 +48,7 @@ public class MasterServer {
     {
       try {
         Class<?> serviceClass = Class.forName(service);
-        messageSystem.registerService(serviceClass, (Service) serviceClass.newInstance());
+        messageSystem.registerService((Service) serviceClass.newInstance());
       }
       catch (Exception e) {
         log.error("Failed to add service: "+ service,e);

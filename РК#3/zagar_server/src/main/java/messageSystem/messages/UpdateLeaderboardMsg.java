@@ -13,11 +13,11 @@ import messageSystem.MessageSystem;
  */
 public class UpdateLeaderboardMsg extends Message {
     public UpdateLeaderboardMsg(Address from) {
-        super(from, ApplicationContext.instance().get(MessageSystem.class).getSubService(Leaderboard.class).getAddress());
+        super(from, ApplicationContext.instance().get(MessageSystem.class).getService(Leaderboard.class).getAddress());
     }
 
     @Override
     public void exec(Abonent abonent) {
-        ApplicationContext.instance().get(MessageSystem.class).getSubService(Leaderboard.class).update();
+        ApplicationContext.instance().get(MessageSystem.class).getService(Leaderboard.class).update();
     }
 }
