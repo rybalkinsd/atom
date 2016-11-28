@@ -1,14 +1,11 @@
 package matchmaker;
 
-import main.ApplicationContext;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import ticker.Ticker;
 import utils.RandomPlayerPlacer;
 import utils.RandomVirusGenerator;
-import utils.SimplePlayerPlacer;
 import utils.UniformFoodGenerator;
 
 import java.util.ArrayList;

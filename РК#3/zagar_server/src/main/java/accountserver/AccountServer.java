@@ -3,28 +3,25 @@ package accountserver;
 import accountserver.api.AuthenticationFilter;
 import main.ApplicationContext;
 import main.Service;
-import messageSystem.Address;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
-import utils.PropertiesReader;
+import utils.Configurations;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+
 
 
 public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(PropertiesReader preader) throws IOException {
+  public AccountServer() throws IOException {
     super("account_server");
-    port = preader.getIntProperty("accountServerPort");
+    port = Configurations.getIntProperty("accountServerPort");
   }
 
   private void startApi() {
@@ -57,7 +54,7 @@ public class AccountServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-      new AccountServer( new PropertiesReader("src/main/resources/config.properties")).startApi();
+      new AccountServer().startApi();
   }
 
   @Override

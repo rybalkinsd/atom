@@ -2,8 +2,6 @@ package leaderboard;
 
 import javafx.util.Pair;
 import main.ApplicationContext;
-import main.Service;
-
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.SendLeaderboardMsg;
@@ -16,14 +14,17 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import ticker.Tickable;
 import ticker.Ticker;
+import utils.Configurations;
 import utils.JSONHelper;
-import utils.PropertiesReader;
 
 import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -34,8 +35,8 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
     private final static Logger log = LogManager.getLogger(LeaderboardImpl.class);
     String file;
 
-    public LeaderboardImpl(PropertiesReader preader) {
-        file=preader.getStringProperty("leaderboard");
+    public LeaderboardImpl() {
+        file= Configurations.getStringProperty("leaderboard");
         try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
             writer.print(JSONHelper.toJSON(new String[0]));
             writer.close();

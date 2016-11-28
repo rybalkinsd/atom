@@ -1,25 +1,19 @@
 package mechanics;
 
-import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
 import main.ApplicationContext;
 import main.Service;
-import messageSystem.Abonent;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
 import model.Player;
-import network.ClientConnectionServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import protocol.Command;
 import protocol.CommandEjectMass;
 import protocol.CommandMove;
 import protocol.CommandSplit;
-import replication.Replicator;
 import ticker.Tickable;
 import ticker.Ticker;
-import utils.PropertiesReader;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -31,10 +25,6 @@ public class Mechanics extends Service implements Tickable {
   public Mechanics() {
     super("mechanics");
   }
-
-  public Mechanics(PropertiesReader preader) {
-    super("mechanics");
-  } //для совместимости
 
   @Override
   public void run() {

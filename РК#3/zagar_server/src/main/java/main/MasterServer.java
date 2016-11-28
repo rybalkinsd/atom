@@ -7,10 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import replication.Replicator;
-import ticker.Ticker;
+import utils.Configurations;
 import utils.IDGenerator;
-import utils.PropertiesReader;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -24,27 +23,18 @@ public class MasterServer {
 
     ready=false;
 
-    PropertiesReader preader;
-
-    try {
-      preader = new PropertiesReader("src/main/resources/config.properties");
-    } catch (IOException e) {
-      log.error("Properties file unavailable",e);
-      return;
-    }
-
     MessageSystem messageSystem;
 
     try {
-      Class<?> tempClass = Class.forName(preader.getStringProperty("matchMaker"));
+      Class<?> tempClass = Class.forName(Configurations.getStringProperty("matchMaker"));
       ApplicationContext.instance().put(MatchMaker.class, (MatchMaker) tempClass.newInstance());
-      tempClass = Class.forName(preader.getStringProperty("replicator"));
+      tempClass = Class.forName(Configurations.getStringProperty("replicator"));
       ApplicationContext.instance().put(Replicator.class, (Replicator) tempClass.newInstance());
-      tempClass = Class.forName(preader.getStringProperty("clientConnections"));
+      tempClass = Class.forName(Configurations.getStringProperty("clientConnections"));
       ApplicationContext.instance().put(ClientConnections.class, (ClientConnections) tempClass.newInstance());
-      tempClass = Class.forName(preader.getStringProperty("idGenerator"));
+      tempClass = Class.forName(Configurations.getStringProperty("idGenerator"));
       ApplicationContext.instance().put(IDGenerator.class, (IDGenerator) tempClass.newInstance());
-      tempClass = Class.forName(preader.getStringProperty("messageSystem"));
+      tempClass = Class.forName(Configurations.getStringProperty("messageSystem"));
       messageSystem = (MessageSystem) tempClass.newInstance();
       ApplicationContext.instance().put(MessageSystem.class, messageSystem);
     }
@@ -53,12 +43,12 @@ public class MasterServer {
       return;
     }
 
-    List<String> services = preader.getListProperty("services");
+    List<String> services = Configurations.getListProperty("services");
     for (String service:services)
     {
       try {
         Class<?> serviceClass = Class.forName(service);
-        messageSystem.registerService(serviceClass, (Service) serviceClass.getDeclaredConstructor(PropertiesReader.class).newInstance(preader));
+        messageSystem.registerService(serviceClass, (Service) serviceClass.newInstance());
       }
       catch (Exception e) {
         log.error("Failed to add service: "+ service,e);

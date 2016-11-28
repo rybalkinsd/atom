@@ -8,6 +8,7 @@ import network.ClientConnections;
 import network.packets.PacketLeaderBoard;
 import network.packets.PacketReplicate;
 import org.eclipse.jetty.websocket.api.Session;
+import utils.Configurations;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
 import utils.PropertiesReader;
@@ -24,7 +25,7 @@ public interface Replicator {
 
   default void sendLeaderboard() {
     String leaderboard = new String();
-        try (InputStream in = new FileInputStream(new File(new PropertiesReader("src/main/resources/config.properties").getStringProperty("leaderboard")));
+        try (InputStream in = new FileInputStream(new File(Configurations.getStringProperty("leaderboard")));
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))
         ) {
             leaderboard = reader.readLine();

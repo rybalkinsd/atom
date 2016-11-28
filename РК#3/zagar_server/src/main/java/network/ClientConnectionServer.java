@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
+import utils.Configurations;
 import utils.PropertiesReader;
 
 import java.io.FileInputStream;
@@ -25,9 +26,9 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer(PropertiesReader preader) throws IOException {
+  public ClientConnectionServer() throws IOException {
     super("client_connection_service");
-    port = preader.getIntProperty("clientConnectionPort");
+    port = Configurations.getIntProperty("clientConnectionPort");
   }
 
   @Override
@@ -57,7 +58,7 @@ public class ClientConnectionServer extends Service {
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    ClientConnectionServer clientConnectionServer = new ClientConnectionServer(new PropertiesReader("src/main/resources/config.properties"));
+    ClientConnectionServer clientConnectionServer = new ClientConnectionServer();
     clientConnectionServer.start();
     clientConnectionServer.join();
   }
