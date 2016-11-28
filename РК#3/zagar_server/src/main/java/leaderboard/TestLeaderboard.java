@@ -20,13 +20,12 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by svuatoslav on 11/28/16.
  */
-public class TestLeaderboard extends Service implements Tickable {
+public class TestLeaderboard extends Leaderboard implements Tickable {
     @NotNull
-    private final static Logger log = LogManager.getLogger(Leaderboard.class);
+    private final static Logger log = LogManager.getLogger(TestLeaderboard.class);
     String file;
 
     public TestLeaderboard(PropertiesReader preader) {
-        super("leaderboard");
         file=preader.getStringProperty("leaderboard");
         try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
             writer.print(JSONHelper.toJSON(new String[]{"1", "2", "test", "dratuti"}));
@@ -60,6 +59,11 @@ public class TestLeaderboard extends Service implements Tickable {
         Message message = new SendLeaderboardMsg(this.getAddress());
         messageSystem.sendMessage(message);
 
-        ApplicationContext.instance().get(MessageSystem.class).execForService(this);
+        messageSystem.execForService(this);
+    }
+
+    @Override
+    public void update() {
+
     }
 }

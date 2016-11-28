@@ -32,6 +32,16 @@ public final class MessageSystem {
   public <T> T getService(Class<T> type){
     return (T)services.get(type);
   }
+  
+  public <T> T getSubService(Class<T> type){
+
+    for (Map.Entry<Class<?>, Service> service:services.entrySet())
+      if(type.isAssignableFrom(service.getKey()))
+      {
+        return (T)service.getValue();
+      }
+    return null;
+  }
 
   public Collection<Service> getServices(){
     return services.values();
