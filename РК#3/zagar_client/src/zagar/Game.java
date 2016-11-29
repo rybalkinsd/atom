@@ -67,21 +67,19 @@ public class Game {
   public AuthClient authClient = new AuthClient();
 
   public Game() {
-    this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Host", DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT));
+    selectHost();
 
     this.spawnPlayer = 100;
 
     final WebSocketClient client = new WebSocketClient();
-    URI serverURI;
     try {
-
-      serverURI = new URI(gameServerUrl + "/clientConnection");
       ClientUpgradeRequest request = new ClientUpgradeRequest();
       request.setHeader("Origin", "zagar.io");
       this.socket = new ServerConnectionSocket();
       while (Game.state.equals(GameState.NOT_AUTHORIZED)) {
         Game.serverToken = null;
         authenticate();
+        URI serverURI = new URI(gameServerUrl + "/clientConnection");
         Thread thread = new Thread(() -> {
           try {
             client.start();
@@ -115,36 +113,52 @@ public class Game {
     {t.printStackTrace();}
   }
 
+  private void selectHost()
+  {String accountServiceUrl;
+    AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Account server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
+    this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Game server", accountServiceUrl==null?(DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT):(accountServiceUrl.indexOf(':')<0?(accountServiceUrl):(accountServiceUrl.substring(0,accountServiceUrl.indexOf(':')) + ":" + DEFAULT_GAME_SERVER_PORT))));
+  }
+
   private void authenticate() {
     while (serverToken == null) {
       AuthOption authOption = chooseAuthOption();
       if (authOption == null) {
         return;
       }
-      this.login = JOptionPane.showInputDialog(null, "Login", DEFAULT_LOGIN);
-      String password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
-      if (login == null) {
-        login = DEFAULT_LOGIN;
-      }
-      if (password == null) {
-        password = DEFAULT_PASSWORD;
-      }
-      if (authOption == AuthOption.REGISTER) {
-        if (!authClient.register(login, password)) {
-          Reporter.reportFail("Register failed", "Register failed");
+      if (authOption == AuthOption.REGISTER||authOption == AuthOption.LOGIN)
+      {
+        login = JOptionPane.showInputDialog(null, "Login", DEFAULT_LOGIN);
+        String password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
+        if (login == null) {
+          login = DEFAULT_LOGIN;
         }
-      } else {
-        serverToken = authClient.login(Game.login, password);
-        if (serverToken == null) {
-          Reporter.reportWarn("Login failed", "Login failed");
+        if (password == null) {
+          password = DEFAULT_PASSWORD;
         }
+        if (authOption == AuthOption.REGISTER) {
+          if (!authClient.register(login, password)) {
+            Reporter.reportFail("Register failed", "Register failed");
+          }
+        } else if (authOption == AuthOption.LOGIN){
+          serverToken = authClient.login(Game.login, password);
+          if (serverToken == null) {
+            Reporter.reportWarn("Login failed", "Login failed");
+          }
+        }
+      }
+      else if (authOption == AuthOption.CHANGE_HOST){
+        String accountServiceUrl;
+        AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Account server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
+        this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Game server", accountServiceUrl==null?
+                (DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT): (accountServiceUrl.indexOf(':')<0?
+                (accountServiceUrl):(accountServiceUrl.substring(0,accountServiceUrl.indexOf(':')) + ":" + DEFAULT_GAME_SERVER_PORT))));
       }
     }
   }
 
   @Nullable
   private AuthOption chooseAuthOption() {
-    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER};
+    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER, "CHANGE HOST"};
     int authOption = JOptionPane.showOptionDialog(null,
         "Choose authentication option",
         "Authentication",
@@ -160,6 +174,8 @@ public class Game {
     if (authOption == 1) {
       return AuthOption.REGISTER;
     }
+    if (authOption == 2)
+      return AuthOption.CHANGE_HOST;
     return null;
   }
 
@@ -289,7 +305,7 @@ public class Game {
   }
 
   private enum AuthOption {
-    REGISTER, LOGIN;
+    REGISTER, LOGIN, CHANGE_HOST
   }
 
   public enum GameState {
