@@ -13,6 +13,7 @@ import zagar.util.JSONHelper;
 import zagar.view.Cell;
 import zagar.Game;
 import org.jetbrains.annotations.NotNull;
+import zagar.view.Food;
 
 public class PacketHandlerReplicate {
   @NotNull
@@ -31,10 +32,16 @@ public class PacketHandlerReplicate {
       protocol.model.Cell c = commandReplicate.getCells()[i];
       gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
     }
+    Food[] gamefood = new Food[commandReplicate.getFood().length];
+    for (int i = 0; i<commandReplicate.getFood().length;i++){
+      protocol.model.Food f = commandReplicate.getFood()[i];
+      gamefood[i] = new Food(-1,f.getX(),f.getY());
+    }
 
     Game.player.clear();
     Collections.addAll(Game.player, gameCells);
     Game.cells = gameCells;
+    Game.food = gamefood;
 
     //TODO
 /*    if (b == null) return;

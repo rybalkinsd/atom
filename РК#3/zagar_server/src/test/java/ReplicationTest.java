@@ -27,7 +27,7 @@ public class ReplicationTest {
     @Test
     public void createReplicationJsonFile() throws Exception {
         Cell[] cells = new Cell[11];
-        cells[0] = new Cell(1,2,true,150,-800,-400);
+        cells[0] = new Cell(1,2,false,150,-800,-400);
         cells[1] = new Cell(3,4,true,150,800,-400);
 
         cells[2] = new Cell(9,10,true,50,400,-150);
@@ -42,7 +42,9 @@ public class ReplicationTest {
         cells[9] = new Cell(9,10,true,50,-300,-100);
         cells[10] = new Cell(9,10,true,50,-400,-150);
 
-        Food[] food = new Food[0];
+        Food[] food = new Food[2];
+        food[0] = new Food(0,200);
+        food[1] = new Food(100,300);
         PacketReplicate packetReplicate = new PacketReplicate(cells, food);
 
         try (PrintWriter writer = new PrintWriter("src/main/resources/tmp/replJson.json", "UTF-8")) {

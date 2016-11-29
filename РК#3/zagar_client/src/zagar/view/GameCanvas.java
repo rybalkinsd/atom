@@ -90,6 +90,13 @@ public class GameCanvas extends JPanel {
       }
     }
 
+    for (int i3=0; i3<Game.food.length; i3++){
+      Food food = Game.food[i3];
+      if (food != null){
+        food.render(g,1);
+      }
+    }
+
     g.setFont(font);
 
     String scoreString = "Score: " + Game.score;
