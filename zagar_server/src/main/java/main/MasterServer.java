@@ -37,10 +37,13 @@ public class MasterServer {
     ApplicationContext.instance().put(MessageSystem.class, messageSystem);
 
     Mechanics mechanics = new Mechanics();
-
+    Ticker ticker = new Ticker(1);
+    ticker.registerTickable(mechanics);
+    
     messageSystem.registerService(Mechanics.class, mechanics);
     messageSystem.registerService(AccountServer.class, new AccountServer(8080));
     messageSystem.registerService(ClientConnectionServer.class, new ClientConnectionServer(7000));
+    messageSystem.registerService(Ticker.class,ticker);
     messageSystem.getServices().forEach(Service::start);
 
     for (Service service : messageSystem.getServices()) {
