@@ -1,6 +1,7 @@
 package zagar.view;
 
 import org.jetbrains.annotations.NotNull;
+import zagar.Game;
 import zagar.controller.KeyboardListener;
 
 import java.awt.Dimension;
@@ -47,7 +48,9 @@ public class GameFrame extends JFrame {
       frames = 0;
       startTime = System.currentTimeMillis();
     }
-    canvas.render();
+
+    if(Game.zoom!=0)
+      canvas.render();
   }
 
   @NotNull

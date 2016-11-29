@@ -236,6 +236,8 @@ public class Game {
         zoomm = 1;
       }
 
+
+
       if (zoomm == -1) {
         zoomm = zoom;
       }
@@ -281,6 +283,7 @@ public class Game {
       sortCells();
       sortTimer = 0;
     }
+
   }
 
   public static void sortCells() {
@@ -296,6 +299,7 @@ public class Game {
       }
       return Float.compare(o1.size, o2.size);
     });
+
   }
 
   public static void respawn() {

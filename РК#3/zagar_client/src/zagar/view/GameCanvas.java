@@ -77,7 +77,6 @@ public class GameCanvas extends JPanel {
         g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
       }
     }
-
     g.setFont(fontCells);
 
     for (int i2 = 0; i2 < Game.cells.length; i2++) {
@@ -89,7 +88,6 @@ public class GameCanvas extends JPanel {
         }
       }
     }
-
     for (int i3=0; i3<Game.food.length; i3++){
       Food food = Game.food[i3];
       if (food != null){
@@ -98,16 +96,13 @@ public class GameCanvas extends JPanel {
     }
 
     g.setFont(font);
-
     String scoreString = "Score: " + Game.score;
 
     g.setColor(new Color(0, 0, 0, 0.5f));
-
     g.fillRect(GameFrame.size.width - 202, 10, 184, 265);
     g.fillRect(7, GameFrame.size.height - 85, getStringWidth(g, scoreString) + 26, 47);
 
     g.setColor(Color.WHITE);
-
     g.drawString(scoreString, 20, GameFrame.size.height - 50);
 
     int i = 0;
@@ -124,7 +119,6 @@ public class GameCanvas extends JPanel {
       }
       i++;
     }
-
     g.dispose();
 
     Graphics gg = this.getGraphics();

@@ -14,7 +14,10 @@ public class GameThread extends Thread implements Runnable {
         System.err.println(e);
       }
       if (System.currentTimeMillis() % 100 == 0) {
-        Game.fps = 1000 / (System.currentTimeMillis() - preTickTime);
+        if( (System.currentTimeMillis() - preTickTime) == 0)
+          Game.fps = 1000;
+        else
+          Game.fps = 1000 / (System.currentTimeMillis() - preTickTime);
         Main.frame.setTitle("· zAgar · " + Game.fps + "fps");
       }
     }
