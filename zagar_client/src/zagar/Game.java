@@ -49,7 +49,6 @@ public class Game {
   public static String serverToken;
   @NotNull
   public static String login = DEFAULT_LOGIN;
-  public static int spawnPlayer = -1;
   @NotNull
   public static HashMap<Integer, String> cellNames = new HashMap<>();
   public static long fps = 60;
@@ -68,10 +67,8 @@ public class Game {
 
     authenticate();
 
-    this.spawnPlayer = 100;
-
     final WebSocketClient client = new WebSocketClient();
-    this.socket = new ServerConnectionSocket();
+    socket = new ServerConnectionSocket();
     new Thread(() -> {
       try {
         client.start();
@@ -136,25 +133,7 @@ public class Game {
   }
 
   public void tick() throws IOException {
-    System.out.println("CELLS:\n" + Arrays.toString(Game.cells));
-    if (socket != null && socket.session != null && socket.session.isOpen()) {
-      if (spawnPlayer != -1) {
-        spawnPlayer--;
-      }
-
-      if (spawnPlayer == 0) {
-        log.info("Resetting level (death)");
-      }
-      if (Game.player.size() == 0) {
-        if (socket.session.isOpen() && spawnPlayer == -1) {
-          score = 0;
-          Game.player.clear();
-          Game.cells = new Cell[Game.cells.length];
-          cellNames.clear();
-        }
-      }
-    }
-
+    log.info("[TICK]");
     ArrayList<Integer> toRemove = new ArrayList<>();
 
     for (int i : playerID) {
@@ -251,12 +230,6 @@ public class Game {
       }
       return Float.compare(o1.size, o2.size);
     });
-  }
-
-  public static void respawn() {
-    if (spawnPlayer == -1) {
-      spawnPlayer = 100;
-    }
   }
 
   private enum AuthOption {

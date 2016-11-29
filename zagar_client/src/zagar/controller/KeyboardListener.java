@@ -24,11 +24,6 @@ public class KeyboardListener implements KeyListener {
           if (e.getKeyCode() == KeyEvent.VK_T) {
             Game.rapidEject = true;
           }
-          if (e.getKeyCode() == KeyEvent.VK_R) {
-            if (Game.player.size() == 0) {
-              Game.respawn();
-            }
-          }
         }
       }
     } catch (IOException ioEx) {

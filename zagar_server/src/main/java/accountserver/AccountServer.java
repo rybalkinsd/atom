@@ -3,7 +3,6 @@ package accountserver;
 import accountserver.api.AuthenticationFilter;
 import main.ApplicationContext;
 import main.Service;
-import messageSystem.Address;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,8 +56,13 @@ public class AccountServer extends Service {
   @Override
   public void run() {
     startApi();
-    while (true) {
-      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
+
+    try {
+      while (true) {
+        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
+      }
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 }
