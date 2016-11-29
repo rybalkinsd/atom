@@ -40,7 +40,7 @@ public class FullStateReplicator implements Replicator {
         }
       }
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey())) {
+        if (gameSession.getPlayers().contains(connection.getKey()) && connection.getValue().isOpen()) {
           try {
             new PacketReplicate(cells, food).write(connection.getValue());
           } catch (IOException e) {
