@@ -18,7 +18,7 @@ public class PropertiesReader {
     private final Properties properties;
 
     public PropertiesReader(String propertiesFile) throws IOException {
-        InputStream in = new FileInputStream("src/main/resources/config.properties");
+        InputStream in = new FileInputStream(propertiesFile);
         properties = new Properties();
         properties.load(in);
     }
