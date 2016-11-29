@@ -65,16 +65,21 @@ public class GameCanvas extends JPanel {
       avgY /= Game.player.size();
 
       g.setStroke(new BasicStroke(2));
-
-      for (double i = avgX - (GameFrame.size.width / 2) / Game.zoom; i < avgX + (GameFrame.size.width / 2) / Game.zoom; i += 100) {
-        i = (int) (i / 100) * 100;
-        int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-        g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
+      Double displacement=(GameFrame.size.width / 2) / Game.zoom;
+      if(!(displacement.equals(Double.POSITIVE_INFINITY)||displacement.equals(Double.NEGATIVE_INFINITY))) {
+        for (double i = avgX - displacement; i < avgX + displacement; i += 100) {
+          i = (int) (i / 100) * 100;
+          int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
+          g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
+        }
       }
-      for (double i = avgY - (GameFrame.size.height / 2) / Game.zoom; i < avgY + (GameFrame.size.height / 2) / Game.zoom; i += 100) {
-        i = (int) (i / 100) * 100;
-        int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
-        g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
+      displacement=(GameFrame.size.height / 2) / Game.zoom;
+      if(!(displacement.equals(Double.POSITIVE_INFINITY)||displacement.equals(Double.NEGATIVE_INFINITY))) {
+        for (double i = avgY - displacement; i < avgY + displacement; i += 100) {
+          i = (int) (i / 100) * 100;
+          int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+          g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
+        }
       }
     }
     g.setFont(fontCells);

@@ -54,16 +54,16 @@ public class Mechanics extends Service implements Tickable {
 
   public void EjectMass (@NotNull  Player player,@NotNull CommandEjectMass commandEjectMass)
   {
-    log.info(player.getName() + " wants to eject mass in thread \"" + Thread.currentThread().getName() + '\"');
+    log.info("{} wants to eject mass (in thread {})",player,Thread.currentThread());
   }
 
   public void Move (@NotNull Player player, @NotNull CommandMove commandMove)
   {
-    log.info(player.getName()+ " wants to move: <" + commandMove.getDx() + "," + commandMove.getDy() + "> in thread \"" + Thread.currentThread().getName() + '\"');
+    log.info("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
   }
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
-    log.info(player.getName() + " wants to split in thread \"" + Thread.currentThread().getName() + '\"');
+    log.info("{} wants to split (in thread {})",player,Thread.currentThread());
   }
 }

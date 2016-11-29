@@ -57,7 +57,7 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
     @Override
     public void tick(long elapsedNanos) {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             log.error(e);
             Thread.currentThread().interrupt();

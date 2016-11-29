@@ -48,9 +48,7 @@ public class GameFrame extends JFrame {
       frames = 0;
       startTime = System.currentTimeMillis();
     }
-
-    if(Game.zoom!=0)
-      canvas.render();
+    canvas.render();
   }
 
   @NotNull
