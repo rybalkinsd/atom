@@ -127,22 +127,21 @@ public class Game {
       }
       if (authOption == AuthOption.REGISTER||authOption == AuthOption.LOGIN)
       {
+        String password=null;
         login = JOptionPane.showInputDialog(null, "Login", DEFAULT_LOGIN);
-        String password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
-        if (login == null) {
-          login = DEFAULT_LOGIN;
-        }
-        if (password == null) {
-          password = DEFAULT_PASSWORD;
-        }
-        if (authOption == AuthOption.REGISTER) {
-          if (!authClient.register(login, password)) {
-            Reporter.reportFail("Register failed", "Register failed");
-          }
-        } else if (authOption == AuthOption.LOGIN){
-          serverToken = authClient.login(Game.login, password);
-          if (serverToken == null) {
-            Reporter.reportWarn("Login failed", "Login failed");
+        if(login!=null)
+          password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
+
+        if (password != null && login != null) {
+          if (authOption == AuthOption.REGISTER) {
+            if (!authClient.register(login, password)) {
+              Reporter.reportFail("Register failed", "Register failed");
+            }
+          } else if (authOption == AuthOption.LOGIN) {
+            serverToken = authClient.login(Game.login, password);
+            if (serverToken == null) {
+              Reporter.reportWarn("Login failed", "Login failed");
+            }
           }
         }
       }
