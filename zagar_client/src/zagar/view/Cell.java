@@ -71,10 +71,10 @@ public class Cell {
       avgX /= Game.player.size();
       avgY /= Game.player.size();
 
-      int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-      int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+      int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.getFrameSize().width / 2 - size / 2;
+      int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.getFrameSize().height / 2 - size / 2;
 
-      if (x < -size - 30 || x > GameFrame.size.width + 30 || y < -size - 30 || y > GameFrame.size.height + 30) {
+      if (x < -size - 30 || x > GameFrame.getFrameSize().width + 30 || y < -size - 30 || y > GameFrame.getFrameSize().height + 30) {
         return;
       }
 

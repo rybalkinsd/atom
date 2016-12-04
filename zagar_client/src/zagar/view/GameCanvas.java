@@ -1,14 +1,11 @@
 package zagar.view;
 
+import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 
@@ -21,10 +18,11 @@ public class GameCanvas extends JPanel {
   private Font fontLB = new Font("Ubuntu", Font.BOLD, 25);
   public Font fontCells = new Font("Ubuntu", Font.BOLD, 18);
 
-  public GameCanvas() {
-    screen = new BufferedImage(GameFrame.size.width, GameFrame.size.height, BufferedImage.TYPE_INT_ARGB);
+  public GameCanvas(@NotNull Dimension startSize) {
+    screen = new BufferedImage(startSize.width, startSize.height, BufferedImage.TYPE_INT_ARGB);
     setFont(font);
-    setSize(GameFrame.size);
+    setSize(startSize);
+    addComponentListener(new SizeChangeListener());
     setVisible(true);
   }
 
@@ -38,7 +36,7 @@ public class GameCanvas extends JPanel {
     Graphics ggg = screen.getGraphics();
     Graphics2D g = ((Graphics2D) ggg);
     g.setColor(new Color(255, 255, 255));
-    g.fillRect(0, 0, GameFrame.size.width, GameFrame.size.height);
+    g.fillRect(0, 0, getParent().getWidth(), getParent().getHeight());
 
     g.setColor(new Color(220, 220, 220));
 
@@ -66,14 +64,14 @@ public class GameCanvas extends JPanel {
 
       g.setStroke(new BasicStroke(2));
 
-      for (double i = avgX - (GameFrame.size.width / 2) / Game.zoom; i < avgX + (GameFrame.size.width / 2) / Game.zoom; i += 100) {
+      for (double i = avgX - (getParent().getWidth() / 2) / Game.zoom; i < avgX + (getParent().getWidth() / 2) / Game.zoom; i += 100) {
         i = (int) (i / 100) * 100;
-        int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
+        int x = (int) ((i - avgX) * Game.zoom) + getParent().getWidth() / 2 - size / 2;
         g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
       }
-      for (double i = avgY - (GameFrame.size.height / 2) / Game.zoom; i < avgY + (GameFrame.size.height / 2) / Game.zoom; i += 100) {
+      for (double i = avgY - (getParent().getHeight() / 2) / Game.zoom; i < avgY + (getParent().getHeight() / 2) / Game.zoom; i += 100) {
         i = (int) (i / 100) * 100;
-        int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+        int y = (int) ((i - avgY) * Game.zoom) + getParent().getHeight() / 2 - size / 2;
         g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
       }
     }
@@ -96,24 +94,24 @@ public class GameCanvas extends JPanel {
 
     g.setColor(new Color(0, 0, 0, 0.5f));
 
-    g.fillRect(GameFrame.size.width - 202, 10, 184, 265);
-    g.fillRect(7, GameFrame.size.height - 85, getStringWidth(g, scoreString) + 26, 47);
+    g.fillRect(getParent().getWidth() - 202, 10, 184, 265);
+    g.fillRect(7, getParent().getHeight() - 85, getStringWidth(g, scoreString) + 26, 47);
 
     g.setColor(Color.WHITE);
 
-    g.drawString(scoreString, 20, GameFrame.size.height - 50);
+    g.drawString(scoreString, 20, getParent().getHeight() - 50);
 
     int i = 0;
 
     g.setFont(fontLB);
 
-    g.drawString("Leaderboard", GameFrame.size.width - 110 - getStringWidth(g, "Leaderboard") / 2, 40);
+    g.drawString("Leaderboard", getParent().getWidth() - 110 - getStringWidth(g, "Leaderboard") / 2, 40);
 
     g.setFont(fontCells);
 
     for (String s : Game.leaderBoard) {
       if (s != null) {
-        g.drawString(s, GameFrame.size.width - 110 - getStringWidth(g, s) / 2, 40 + 22 * (i + 1));
+        g.drawString(s, getParent().getWidth() - 110 - getStringWidth(g, s) / 2, 40 + 22 * (i + 1));
       }
       i++;
     }
@@ -130,5 +128,31 @@ public class GameCanvas extends JPanel {
     FontMetrics fm = img.getGraphics().getFontMetrics(g.getFont());
 
     return fm.stringWidth(string);
+  }
+
+  private class SizeChangeListener implements ComponentListener {
+    @Override
+    public void componentResized(ComponentEvent componentEvent) {
+      Dimension size = componentEvent.getComponent().getSize();
+      //re-create screen
+      screen = new BufferedImage(size.width,size.height,BufferedImage.TYPE_INT_ARGB);
+      //re-render image
+      render();
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent componentEvent) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent componentEvent) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent componentEvent) {
+
+    }
   }
 }
