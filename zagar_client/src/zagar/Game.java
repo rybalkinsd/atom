@@ -164,7 +164,7 @@ public class Game {
         score = newScore;
       }
 
-      zoomm = GameFrame.size.height / (1024 / Math.pow(Math.min(64.0 / totalSize, 1), 0.4));
+      zoomm = GameFrame.getFrameSize().height / (1024 / Math.pow(Math.min(64.0 / totalSize, 1), 0.4));
 
       if (zoomm > 1) {
         zoomm = 1;
@@ -191,8 +191,8 @@ public class Game {
 
         float x = avgX;
         float y = avgY;
-        x += (float) ((GameFrame.mouseX - GameFrame.size.width / 2) / zoom);
-        y += (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
+        x += (float) ((GameFrame.mouseX - GameFrame.getFrameSize().width / 2) / zoom);
+        y += (float) ((GameFrame.mouseY - GameFrame.getFrameSize().height / 2) / zoom);
         followX = x;
         followY = y;
         (new PacketMove(x, y)).write(socket.session);
