@@ -3,6 +3,8 @@ package ticker;
 import main.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.util.ConcurrentArrayQueue;
+import org.eclipse.jetty.util.DateCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +21,37 @@ public class Ticker {
 
   private final long sleepTimeNanos;
   private final AtomicLong tickNumber;
-  private final Tickable tickable;
+  private ConcurrentArrayQueue<Tickable> tickable;
 
-  public Ticker(Tickable tickable, int maxTicksPerSecond) {
-    this.tickable = tickable;
+  public Ticker (int maxTicksPerSecond){
+    this.tickable = new ConcurrentArrayQueue<>();
     this.tickNumber = new AtomicLong(0);
     this.sleepTimeNanos = TimeUnit.SECONDS.toNanos(1) / maxTicksPerSecond;
+  }
+
+  public Ticker(Tickable tickable, int maxTicksPerSecond) {
+    this.tickable = new ConcurrentArrayQueue<>();
+
+    this.tickable.add(tickable);
+    this.tickNumber = new AtomicLong(0);
+    this.sleepTimeNanos = TimeUnit.SECONDS.toNanos(1) / maxTicksPerSecond;
+  }
+
+  public void registerTickable(Tickable tickable){
+    this.tickable.add(tickable);
+  }
+
+  public void deleteTickable(Tickable tickable){
+    this.tickable.remove(tickable);
   }
 
   public void loop() {
     long elapsed = sleepTimeNanos;
     while (!Thread.currentThread().isInterrupted()) {
       long started = System.nanoTime();
-      tickable.tick(elapsed);
+      for (Tickable e: tickable){
+        e.tick(elapsed);
+      }
       elapsed = System.nanoTime() - started;
       if (elapsed < sleepTimeNanos) {
         log.info("All tickers finish at " + TimeUnit.NANOSECONDS.toMillis(elapsed) + " ms");

@@ -11,6 +11,6 @@ public interface GameConstants {
   int DEFAULT_PLAYER_CELL_MASS = 40;
   int VIRUS_MASS = 100;
   int FOOD_PER_SECOND_GENERATION = 1;
-  int MAX_FOOD_ON_FIELD = 100;
+  int MAX_FOOD_ON_FIELD = 10;
   int NUMBER_OF_VIRUSES = 10;
 }

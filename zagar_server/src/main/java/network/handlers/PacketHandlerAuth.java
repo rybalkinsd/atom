@@ -1,6 +1,8 @@
 package network.handlers;
 
 import accountserver.api.AuthenticationServlet;
+import accountserver.api.Token;
+import accountserver.api.TokenContainer;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import model.Player;
@@ -25,21 +27,22 @@ public class PacketHandlerAuth {
       e.printStackTrace();
       return;
     }
-    if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {
-      try {
+    Token token = new Token(new Long(commandAuth.getToken()));
+    try {
+      TokenContainer.validateToken(token);
+      Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
+      ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
+      new PacketAuthOk().write(session);
+      ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      try{
         new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    } else {
-      try {
-        Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
-        ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
-        new PacketAuthOk().write(session);
-        ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException ee) {
+        ee.printStackTrace();
       }
     }
+
   }
 }

@@ -1,15 +1,21 @@
 package network.handlers;
 
-import network.packets.PacketAuthFail;
-import network.packets.PacketAuthOk;
+import main.ApplicationContext;
+import matchmaker.MatchMaker;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
+import messageSystem.messages.EjectMassMsg;
+import model.Field;
+import model.GameSession;
+import model.Player;
+import network.ClientConnections;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
 import protocol.CommandEjectMass;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
-import java.io.IOException;
+import java.util.Map;
 
 public class PacketHandlerEjectMass {
   public PacketHandlerEjectMass(@NotNull Session session, @NotNull String json) {
@@ -20,6 +26,33 @@ public class PacketHandlerEjectMass {
       e.printStackTrace();
       return;
     }
-    //TODO
+
+    Player player = null;
+
+    ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
+    for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
+      if(connection.getValue().equals(session)){
+        player = connection.getKey();
+        break;
+      }
+    }
+
+    if (player == null){
+      return;
+    }
+
+    Field field = null;
+    for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+      for (Player e: gameSession.getPlayers()){
+        if (player == e){
+          field = gameSession.getField();
+        }
+      }
+    }
+
+    @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+    Message message = new EjectMassMsg(player, field);
+    messageSystem.sendMessage(message);
+
   }
 }

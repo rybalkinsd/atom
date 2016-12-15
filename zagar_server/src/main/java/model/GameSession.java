@@ -27,6 +27,11 @@ public interface GameSession {
    */
   void leave(@NotNull Player player);
 
+  /**
+   * Updates current session state
+   */
+  void update();
+
   List<Player> getPlayers();
 
   Field getField();

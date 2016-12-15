@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import ticker.Ticker;
 import utils.RandomPlayerPlacer;
 import utils.RandomVirusGenerator;
-import utils.SimplePlayerPlacer;
 import utils.UniformFoodGenerator;
 
 import java.util.ArrayList;
@@ -32,6 +31,13 @@ public class MatchMakerImpl implements MatchMaker {
    */
   @Override
   public void joinGame(@NotNull Player player) {
+    for (GameSession session: activeGameSessions){
+      if (session.getPlayers().size() < GameConstants.MAX_PLAYERS_IN_SESSION){
+        session.join(player);
+        return;
+      }
+    }
+
     GameSession newGameSession = createNewGame();
     activeGameSessions.add(newGameSession);
     newGameSession.join(player);
@@ -52,10 +58,9 @@ public class MatchMakerImpl implements MatchMaker {
   @NotNull
   GameSession createNewGame() {
     Field field = new Field();
-    //TODO
-    //Ticker ticker = ApplicationContext.instance().get(Ticker.class);
+    Ticker ticker = ApplicationContext.instance().get(Ticker.class);
     UniformFoodGenerator foodGenerator = new UniformFoodGenerator(field, GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
-    //ticker.registerTickable(foodGenerator);
-    return new GameSessionImpl(foodGenerator, new RandomPlayerPlacer(field), new RandomVirusGenerator(field, GameConstants.NUMBER_OF_VIRUSES));
+    ticker.registerTickable(foodGenerator);
+    return new GameSessionImpl(field, foodGenerator, new RandomPlayerPlacer(field), new RandomVirusGenerator(field, GameConstants.NUMBER_OF_VIRUSES));
   }
 }
