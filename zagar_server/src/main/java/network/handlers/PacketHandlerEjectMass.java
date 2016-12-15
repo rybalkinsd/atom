@@ -1,5 +1,11 @@
 package network.handlers;
 
+import main.ApplicationContext;
+import mechanics.Mechanics;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
+import messageSystem.messages.EjectMassMsg;
+import network.ClientConnectionServer;
 import network.packets.PacketAuthFail;
 import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
@@ -20,6 +26,8 @@ public class PacketHandlerEjectMass {
       e.printStackTrace();
       return;
     }
-    //TODO
+    MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+    Message message = new EjectMassMsg(ApplicationContext.instance().get(MessageSystem.class).getService(Mechanics.class).getAddress(), commandEjectMass);
+    messageSystem.sendMessage(message);
   }
 }

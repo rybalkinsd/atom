@@ -1,17 +1,14 @@
 package mechanics;
 
-import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
 import main.ApplicationContext;
 import main.Service;
-import messageSystem.Abonent;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
+import messageSystem.messages.LeaderBoardMsg;
 import messageSystem.messages.ReplicateMsg;
-import network.ClientConnectionServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import replication.Replicator;
 import ticker.Tickable;
 import ticker.Ticker;
 
@@ -48,7 +45,11 @@ public class Mechanics extends Service implements Tickable {
     Message message = new ReplicateMsg(this.getAddress());
     messageSystem.sendMessage(message);
 
+    log.info("Send leaders");
+    Message mes = new LeaderBoardMsg(this.getAddress());
+    messageSystem.sendMessage(mes);
     //execute all messages from queue
     messageSystem.execForService(this);
+
   }
 }
