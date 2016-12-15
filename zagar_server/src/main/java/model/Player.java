@@ -96,12 +96,17 @@ public class Player {
   }
 
   public void move(float dx, float dy){
-    direction = Math.atan2(-dy, dx);
-    velocity = 2 + (int) Math.round(10 / Math.sqrt(Math.sqrt(getScore())));
-    for (PlayerCell cell: cells){
-      cell.move(direction, velocity);
+    if ((dx == 0) && (dy == 0)){
+      log.info(this + " was not moved on " + dx + " " + dy);
     }
-    log.info(this + " was moved on " + dx + " " + dy);
+    else {
+      direction = Math.atan2(-dy, dx);
+      velocity = 2 + (int) Math.round(10 / Math.sqrt(Math.sqrt(getScore())));
+      for (PlayerCell cell : cells) {
+        cell.move(direction, velocity);
+      }
+      log.info(this + " was moved on " + dx + " " + dy);
+    }
   }
 
   public Food ejectMass(){
