@@ -1,14 +1,11 @@
 package matchmaker;
 
-import main.ApplicationContext;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import ticker.Ticker;
 import utils.RandomPlayerPlacer;
 import utils.RandomVirusGenerator;
-import utils.SimplePlayerPlacer;
 import utils.UniformFoodGenerator;
 
 import java.util.ArrayList;
@@ -19,11 +16,11 @@ import java.util.List;
  *
  * @author Alpi
  */
-public class MatchMakerImpl implements MatchMaker {
+public class MatchMakerSingleplayer implements IMatchMaker {
   @NotNull
-  private final Logger log = LogManager.getLogger(MatchMakerImpl.class);
+  private final Logger log = LogManager.getLogger(MatchMakerSingleplayer.class);
   @NotNull
-  private final List<GameSession> activeGameSessions = new ArrayList<>();
+  protected final List<GameSession> activeGameSessions = new ArrayList<>();
 
   /**
    * Creates new GameSession for single player
@@ -45,10 +42,20 @@ public class MatchMakerImpl implements MatchMaker {
     return new ArrayList<>(activeGameSessions);
   }
 
+  @Override
+  public GameSession getHostGameSession(Player player) {
+    for (GameSession gameSession : activeGameSessions){
+      if(gameSession.getPlayers().contains(player)){
+        return gameSession;
+      }
+    }
+    return null;
+  }
+
   /**
    * @return new GameSession
    */
-  private
+  protected
   @NotNull
   GameSession createNewGame() {
     Field field = new Field();

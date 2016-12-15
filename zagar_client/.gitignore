@@ -1,0 +1,9 @@
+*.jar
+*.iml
+*.class
+
+/.idea/
+/.settings/
+/LICENSE
+/screenshot.png
+/target/

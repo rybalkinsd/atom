@@ -11,13 +11,20 @@ import utils.JSONHelper;
 import java.io.IOException;
 
 public class PacketAuthOk {
+  private int playerID = 0;
   @NotNull
   private static final Logger log = LogManager.getLogger(PacketAuthOk.class);
+
+  @Deprecated
   public PacketAuthOk() {
   }
 
+  public PacketAuthOk(int playerID) {
+    this.playerID = playerID;
+  }
+
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandAuthOk());
+    String msg = JSONHelper.toJSON(new CommandAuthOk(playerID));
     log.info("Sending [" + msg + "]");
     session.getRemote().sendString(msg);
   }

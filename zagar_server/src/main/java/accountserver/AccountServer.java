@@ -15,7 +15,7 @@ public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(int port) {
+  public AccountServer(Integer port) {
     super("account_server");
     this.port = port;
   }
@@ -56,13 +56,13 @@ public class AccountServer extends Service {
   @Override
   public void run() {
     startApi();
-
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
+    while (true) {
+      try {
+        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+        return;
       }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
     }
   }
 }

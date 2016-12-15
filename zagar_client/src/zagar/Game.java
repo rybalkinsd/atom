@@ -21,6 +21,7 @@ import zagar.network.ServerConnectionSocket;
 import zagar.network.packets.PacketMove;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
+import zagar.util.Colors;
 import zagar.util.Reporter;
 import zagar.view.Cell;
 import zagar.view.GameFrame;
@@ -33,12 +34,15 @@ public class Game {
   @NotNull
   public static volatile Cell[] cells = new Cell[0];
   @NotNull
-  public static ConcurrentLinkedDeque<Cell> player = new ConcurrentLinkedDeque<>();
+  public static volatile Cell[] foods = new Cell[0];
+  public static int playerID = 0;
+  @NotNull
+  public static ConcurrentLinkedDeque<Cell> playerCells = new ConcurrentLinkedDeque<>();
   @NotNull
   public static String[] leaderBoard = new String[10];
   public static double maxSizeX, maxSizeY, minSizeX, minSizeY;
   @NotNull
-  public static ArrayList<Integer> playerID = new ArrayList<>();
+  public static ArrayList<Integer> playerCIDs = new ArrayList<>();
   public static float followX;
   public static float followY;
   public static double zoom;
@@ -51,6 +55,9 @@ public class Game {
   public static String login = DEFAULT_LOGIN;
   @NotNull
   public static HashMap<Integer, String> cellNames = new HashMap<>();
+  @NotNull
+  public static HashMap<Integer,Colors> playerColors = new HashMap<>();
+
   public static long fps = 60;
   public static boolean rapidEject;
   @NotNull
@@ -136,12 +143,12 @@ public class Game {
     log.info("[TICK]");
     ArrayList<Integer> toRemove = new ArrayList<>();
 
-    for (int i : playerID) {
+    for (int i : playerCIDs) {
       for (Cell c : Game.cells) {
         if (c != null) {
-          if (c.id == i && !player.contains(c)) {
+          if (c.id == i && !playerCells.contains(c)) {
             log.info("Centered cell " + c.name);
-            player.add(c);
+            playerCells.add(c);
             toRemove.add(i);
           }
         }
@@ -149,13 +156,13 @@ public class Game {
     }
 
     for (int i : toRemove) {
-      playerID.remove(playerID.indexOf(i));
+      playerCIDs.remove(playerCIDs.indexOf(i));
     }
 
-    if (socket.session != null && player.size() > 0) {
+    if (socket.session != null && playerCells.size() > 0) {
       float totalSize = 0;
       int newScore = 0;
-      for (Cell c : player) {
+      for (Cell c : playerCells) {
         totalSize += c.size;
         newScore += (c.size * c.size) / 100;
       }
@@ -180,22 +187,25 @@ public class Game {
         float avgY = 0;
         totalSize = 0;
 
-        for (Cell c : Game.player) {
+        for (Cell c : Game.playerCells) {
           avgX += c.x;
           avgY += c.y;
           totalSize += c.size;
         }
 
-        avgX /= Game.player.size();
-        avgY /= Game.player.size();
+        avgX /= Game.playerCells.size();
+        avgY /= Game.playerCells.size();
 
         float x = avgX;
         float y = avgY;
-        x += (float) ((GameFrame.mouseX - GameFrame.size.width / 2) / zoom);
-        y += (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
+        x = (float) ((GameFrame.mouseX - GameFrame.size.width / 2) / zoom);
+        y = (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
+
         followX = x;
         followY = y;
-        (new PacketMove(x, y)).write(socket.session);
+
+        float size = playerCells.stream().map(Cell::getSize).reduce(Math::max).orElse(1f);
+        (new PacketMove(x/Math.max(Math.abs(x)/10f, size), y/Math.max(Math.abs(y)/10f, size))).write(socket.session);
 
         if (rapidEject) {
           new PacketEjectMass().write();

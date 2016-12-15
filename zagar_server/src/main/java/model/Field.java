@@ -17,6 +17,8 @@ public class Field {
   @NotNull
   private final HashSet<Food> foods = new HashSet<>();
 
+  private final List<Cell> freeCells = new ArrayList<>();
+
   public Field() {
     this.width = GameConstants.FIELD_WIDTH;
     this.height = GameConstants.FIELD_HEIGHT;
@@ -38,5 +40,13 @@ public class Field {
 
   public int getHeight() {
     return height;
+  }
+
+  public List<Cell> getFreeCells() {
+    return freeCells;
+  }
+
+  public void setFreeCells(Cell cell) {
+    freeCells.add(cell);
   }
 }

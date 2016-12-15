@@ -1,9 +1,10 @@
 package zagar;
 
 import org.jetbrains.annotations.NotNull;
+import zagar.ticker.Tickable;
 import zagar.view.GameFrame;
 
-public class Main {
+public class Main implements Tickable {
   @NotNull
   public static GameFrame frame;
   @NotNull
@@ -33,5 +34,10 @@ public class Main {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void tick(long elapsedNanos) {
+    updateGame();
   }
 }

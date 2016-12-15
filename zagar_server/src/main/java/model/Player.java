@@ -1,7 +1,7 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.TestOnly;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
@@ -22,7 +22,7 @@ public class Player {
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
-    addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
+    addCell(new PlayerCell(id, 0, 0));
   }
 
   public void addCell(@NotNull PlayerCell cell) {
@@ -59,16 +59,25 @@ public class Player {
         '}';
   }
 
-  @Override
-  public int hashCode() {
-    return id;
+  private int score = getAllMass();
+
+  private int getAllMass(){
+      return cells.stream().map(Cell::getMass).reduce(Math::addExact).orElse(0);
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if(obj instanceof Player){
-      return id == ((Player) obj).id;    //TODO: autoimplemented stub
-    }
-    return false;
+  public void updateScore(){
+      int mass = getAllMass();
+      if (mass > score) {
+          score = mass;
+      }
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  @TestOnly
+  public void setScore(int score) {
+      this.score = score;
   }
 }

@@ -12,7 +12,6 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author e.shubin
@@ -56,18 +55,5 @@ public final class MessageSystem {
   public void execOneForService(Service service) throws InterruptedException {
     BlockingQueue<Message> queue = (BlockingQueue<Message>) messages.get(service.getAddress());
     queue.take().exec(service);
-  }
-
-  public void execOneForService(Service service, long timeout) throws InterruptedException {
-    execOneForService(service, timeout, TimeUnit.MILLISECONDS);
-  }
-
-  public void execOneForService(Service service, long timeout, TimeUnit unit) throws InterruptedException {
-    BlockingQueue<Message> queue = (BlockingQueue<Message>) messages.get(service.getAddress());
-    Message message = queue.poll(timeout, unit);
-    if (message == null) {
-      return;
-    }
-    message.exec(service);
   }
 }

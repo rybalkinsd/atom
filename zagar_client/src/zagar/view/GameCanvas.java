@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 
 import javax.swing.JPanel;
 
@@ -48,21 +47,21 @@ public class GameCanvas extends JPanel {
       g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
-    if (Game.player.size() > 0) {
+    if (Game.playerCells.size() > 0 && Game.zoom > 0) {
       int size = 1;
 
       float avgX = 0;
       float avgY = 0;
 
-      for (Cell c : Game.player) {
+      for (Cell c : Game.playerCells) {
         if (c != null) {
           avgX += c.xRender;
           avgY += c.yRender;
         }
       }
 
-      avgX /= Game.player.size();
-      avgY /= Game.player.size();
+      avgX /= Game.playerCells.size();
+      avgY /= Game.playerCells.size();
 
       g.setStroke(new BasicStroke(2));
 
@@ -80,6 +79,12 @@ public class GameCanvas extends JPanel {
 
     g.setFont(fontCells);
 
+    for(Cell c: Game.foods){
+      if(c != null){
+        c.render(g, 1);
+      }
+    }
+
     for (int i2 = 0; i2 < Game.cells.length; i2++) {
       Cell cell = Game.cells[i2];
       if (cell != null) {
@@ -89,6 +94,8 @@ public class GameCanvas extends JPanel {
         }
       }
     }
+
+
 
     g.setFont(font);
 

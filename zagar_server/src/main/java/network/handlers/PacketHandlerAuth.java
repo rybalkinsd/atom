@@ -2,7 +2,7 @@ package network.handlers;
 
 import accountserver.api.AuthenticationServlet;
 import main.ApplicationContext;
-import matchmaker.MatchMaker;
+import matchmaker.IMatchMaker;
 import model.Player;
 import network.ClientConnections;
 import network.packets.PacketAuthFail;
@@ -10,7 +10,6 @@ import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
-import utils.IDGenerator;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
@@ -35,8 +34,8 @@ public class PacketHandlerAuth {
       try {
         Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
         ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
-        new PacketAuthOk().write(session);
-        ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
+        new PacketAuthOk(player.getId()).write(session);
+        ApplicationContext.instance().get(IMatchMaker.class).joinGame(player);
       } catch (IOException e) {
         e.printStackTrace();
       }
