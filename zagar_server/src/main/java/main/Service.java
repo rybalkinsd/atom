@@ -33,4 +33,9 @@ public abstract class Service extends Thread implements Abonent {
   public String toString() {
     return address.toString();
   }
+
+  public Class<? extends Service> getServiceClass()
+  {
+    return this.getClass();
+  }
 }

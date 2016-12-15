@@ -12,5 +12,13 @@ public interface GameConstants {
   int VIRUS_MASS = 100;
   int FOOD_PER_SECOND_GENERATION = 1;
   int MAX_FOOD_ON_FIELD = 100;
-  int NUMBER_OF_VIRUSES = 10;
+  int NUMBER_OF_VIRUSES = 3;
+  int MIN_MASS_FOR_EJECT = 80;
+  int UNGOVERNABLE_TIME = 500;
+  int MAX_DISCONNECTING_TIME = 4_000;
+  int JOINING_TIME = 1_000;
+  int MIN_MASS_TO_SPLIT = 100;
+  double SPLIT_VELOCITY = 1;
+  double SPLIT_FOOD_LIFETIME = 300;
+  double RELOAD_EJECT_TIME = 500;
 }

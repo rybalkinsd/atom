@@ -1,6 +1,7 @@
 package utils;
 
 import model.Field;
+import model.GameConstants;
 import model.Player;
 import model.PlayerCell;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +24,8 @@ public class SimplePlayerPlacer implements PlayerPlacer {
     assert(player.getCells().size() == 1);
     Random random = new Random();
     for (PlayerCell playerCell : player.getCells()) {
-      playerCell.setX(5);
-      playerCell.setY(5);
+      playerCell.setX(random.nextInt()% GameConstants.FIELD_WIDTH);
+      playerCell.setY(random.nextInt()% GameConstants.FIELD_HEIGHT);
     }
   }
 }

@@ -14,7 +14,7 @@ public class Main {
     frame = new GameFrame();
     game = new Game();
 
-    thread.start();
+    thread.run();
     try {
       thread.join();
     } catch (InterruptedException e) {
@@ -22,16 +22,12 @@ public class Main {
     }
   }
 
-  public static synchronized void updateGame() {
+  public static void updateGame() {
     try {
       game.tick();
     } catch (Exception e) {
       e.printStackTrace();
     }
-    try {
-      frame.render();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    frame.render();
   }
 }

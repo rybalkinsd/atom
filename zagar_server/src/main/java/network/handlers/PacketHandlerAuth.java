@@ -10,19 +10,18 @@ import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
-import utils.IDGenerator;
-import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class PacketHandlerAuth {
   public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
     CommandAuth commandAuth;
     try {
-      commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
-    } catch (JSONDeserializationException e) {
-      e.printStackTrace();
+      commandAuth =(CommandAuth) JSONHelper.fromSerial(json);
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {
@@ -32,13 +31,20 @@ public class PacketHandlerAuth {
         e.printStackTrace();
       }
     } else {
+
       try {
+        ClientConnections connections=ApplicationContext.instance().get(ClientConnections.class);
+        for(Map.Entry<Player,Session> entry : connections.getConnections())
+          if(entry.getKey().getName().equals(commandAuth.getLogin())) {
+            new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Player already connected").write(session);
+            return;
+          }
         Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
-        ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
-        new PacketAuthOk().write(session);
+        connections.registerConnection(player, session);
+        new PacketAuthOk(player.getId()).write(session);
         ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException e){
+          e.printStackTrace();
       }
     }
   }

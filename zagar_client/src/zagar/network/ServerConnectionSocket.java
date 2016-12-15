@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import zagar.util.JSONHelper;
 import zagar.Game;
 
-@WebSocket(maxTextMessageSize = 1024)
+@WebSocket(maxTextMessageSize = 1024*8)
 public class ServerConnectionSocket {
   @NotNull
   private static final Logger log = LogManager.getLogger("<<<");
@@ -48,6 +47,8 @@ public class ServerConnectionSocket {
     log.info("Connected!");
 
     new PacketAuth(Game.login, Game.serverToken).write();
+    Game.spawnPlayer = 100;
+    long oldTime = 0;
   }
 
   @OnWebSocketMessage
@@ -59,21 +60,30 @@ public class ServerConnectionSocket {
   }
 
   public void handlePacket(@NotNull String msg) {
-    JsonObject json = JSONHelper.getJSONObject(msg);
-    String name = json.get("command").getAsString();
-    switch (name) {
-      case CommandLeaderBoard.NAME:
-        new PacketHandlerLeaderBoard(msg);
-        break;
-      case CommandReplicate.NAME:
-        new PacketHandlerReplicate(msg);
-        break;
-      case CommandAuthFail.NAME:
-        new PacketHandlerAuthFail(msg);
-        break;
-      case CommandAuthOk.NAME:
-        new PacketHandlerAuthOk();
-        break;
+    try {
+      //System.out.println("PIRATE1");
+      Command com = (Command) JSONHelper.fromSerial(msg);
+      String name = com.getCommand();
+      //System.out.println(name);
+     // System.out.println("PIRATE2");
+      switch (name) {
+        case CommandLeaderBoard.NAME:
+          new PacketHandlerLeaderBoard(msg);
+          break;
+        case CommandReplicate.NAME:
+          new PacketHandlerReplicate(msg);
+          break;
+        case CommandAuthFail.NAME:
+          new PacketHandlerAuthFail(msg);
+          break;
+        case CommandAuthOk.NAME:
+          new PacketHandlerAuthOk(msg);
+          break;
+      }
+    }
+    catch(Exception e){
+      e.printStackTrace();
+     // System.out.println("Bol`no");
     }
   }
 }

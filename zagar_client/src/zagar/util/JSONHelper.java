@@ -3,6 +3,9 @@ package zagar.util;
 import com.google.gson.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.*;
+import java.util.Base64;
+
 /**
  * @author apomosov
  */
@@ -28,4 +31,28 @@ public class JSONHelper {
   public static JsonObject getJSONObject(@NotNull String string) {
     return gson.fromJson(string, JsonObject.class);
   }
+
+  public static String toSerial( Object o ) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream( baos );
+    oos.writeObject( o );
+    oos.close();
+    return Base64.getEncoder().encodeToString(baos.toByteArray());
+  }
+
+  public static Object fromSerial( String s ) throws IOException ,
+          ClassNotFoundException {
+    try {
+      byte[] data = Base64.getDecoder().decode(s);
+      ObjectInputStream ois = new ObjectInputStream(
+              new ByteArrayInputStream(data));
+      Object o = ois.readObject();
+      ois.close();
+      return o;
+    }catch(Exception e){
+      e.printStackTrace();
+      return new Object();
+    }
+  }
+
 }

@@ -3,8 +3,8 @@ package network.packets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
 import protocol.CommandAuthFail;
 import utils.JSONHelper;
 
@@ -27,8 +27,16 @@ public class PacketAuthFail {
   }
 
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandAuthFail(login, token, cause));
+    String msg = JSONHelper.toSerial(new CommandAuthFail(login, token, cause));
     log.info("Sending [" + msg + "]");
-    session.getRemote().sendString(msg);
+    try {
+      session.getRemote().sendString(msg);
+    } catch (WebSocketException ex) {
+      log.error("Failed to send", ex);
+    }
+    try {
+      session.disconnect();
+    } catch (WebSocketException ignored) {
+    }
   }
 }

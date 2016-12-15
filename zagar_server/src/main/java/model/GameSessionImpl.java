@@ -1,11 +1,11 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author apomosov
@@ -14,21 +14,19 @@ public class GameSessionImpl implements GameSession {
   private static final IDGenerator idGenerator = new SequentialIDGenerator();
   private final int id = idGenerator.next();
   @NotNull
-  private final Field field = new Field();
+  private final Field field;
   @NotNull
-  private final List<Player> players = new ArrayList<>();
+  private final List<Player> players = new CopyOnWriteArrayList<>();
   @NotNull
   private final FoodGenerator foodGenerator;
   @NotNull
   private final PlayerPlacer playerPlacer;
-  @NotNull
-  private final VirusGenerator virusGenerator;
 
-  public GameSessionImpl(@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
+  public GameSessionImpl(@NotNull Field field,@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer) {
     this.foodGenerator = foodGenerator;
     this.playerPlacer = playerPlacer;
-    this.virusGenerator = virusGenerator;
-    virusGenerator.generate();
+    this.field = field;
+    foodGenerator.run();
   }
 
   @Override
@@ -47,6 +45,7 @@ public class GameSessionImpl implements GameSession {
     return new ArrayList<>(players);
   }
 
+  @NotNull
   @Override
   public Field getField() {
     return field;

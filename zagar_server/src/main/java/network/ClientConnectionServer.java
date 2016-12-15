@@ -10,8 +10,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
+import utils.Configurations;
 
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 /**
  * Created by apomosov on 13.06.16.
@@ -21,9 +22,9 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer(int port) {
+  public ClientConnectionServer(){
     super("client_connection_service");
-    this.port = port;
+    port = Configurations.getIntProperty("clientConnectionPort");
   }
 
   @Override
@@ -47,17 +48,13 @@ public class ClientConnectionServer extends Service {
 
     log.info(getAddress() + " started on port " + port);
 
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
-      }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    while (!Thread.interrupted()) {
+      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
     }
   }
 
-  public static void main(@NotNull String[] args) throws InterruptedException {
-    ClientConnectionServer clientConnectionServer = new ClientConnectionServer(7001);
+  public static void main(@NotNull String[] args) throws Exception {
+    ClientConnectionServer clientConnectionServer = new ClientConnectionServer();
     clientConnectionServer.start();
     clientConnectionServer.join();
   }

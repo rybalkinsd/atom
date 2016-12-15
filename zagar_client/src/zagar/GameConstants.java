@@ -16,5 +16,5 @@ public interface GameConstants {
   String DEFAULT_LOGIN = "zAgar";
   @NotNull
   String DEFAULT_PASSWORD = "pass";
-
+  int FoodSize = 20;
 }

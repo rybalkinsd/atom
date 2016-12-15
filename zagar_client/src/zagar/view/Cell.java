@@ -10,7 +10,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 
 public class Cell {
   public double x, y;
@@ -23,8 +22,14 @@ public class Cell {
   public double xRender;
   public double yRender;
   public int mass;
-  private final boolean virus;
+  private boolean virus;
   private float rotation = 0;
+
+  public int getId(){
+    return id;
+  }
+
+  public boolean getVirus(){ return virus; }
 
   public Cell(double x, double y, float size, int id, boolean isVirus) {
     this.x = x;
@@ -42,7 +47,7 @@ public class Cell {
     this.yRender -= (this.yRender - y) / 5f;
     this.sizeRender -= (this.sizeRender - size) / 9f;
     this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
-    this.rotation += (1f / (Math.max(this.mass, 20) * 2));
+    //this.rotation += (1f / (Math.max(this.mass, 20) * 2));
 
     if (Game.cellNames.containsKey(this.id)) {
       this.name = Game.cellNames.get(this.id);
