@@ -1,74 +1,97 @@
 package model;
 
-import main.ApplicationContext;
+import accountserver.database.users.User;
 import org.jetbrains.annotations.NotNull;
-import utils.IDGenerator;
-import utils.SequentialIDGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author apomosov
  */
 public class Player {
-  public static final IDGenerator idGenerator = new SequentialIDGenerator();
-  private final int id;
-  @NotNull
-  private String name;
-  @NotNull
-  private final List<PlayerCell> cells = new ArrayList<>();
+    private final int id;
+    private Field field;
+    @NotNull
+    private User user;
+    private int windowWidth;
+    private int windowHeight;
 
-  public Player(int id, @NotNull String name) {
-    this.id = id;
-    this.name = name;
-    addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
-  }
-
-  public void addCell(@NotNull PlayerCell cell) {
-    cells.add(cell);
-  }
-
-  public void removeCell(@NotNull PlayerCell cell) {
-    cells.remove(cell);
-  }
-
-  @NotNull
-  public String getName() {
-    return name;
-  }
-
-  public void setName(@NotNull String name) {
-    this.name = name;
-  }
-
-  @NotNull
-  public List<PlayerCell> getCells() {
-    return cells;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  @NotNull
-  @Override
-  public String toString() {
-    return "Player{" +
-        "name='" + name + '\'' +
-        '}';
-  }
-
-  @Override
-  public int hashCode() {
-    return id;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if(obj instanceof Player){
-      return id == ((Player) obj).id;    //TODO: autoimplemented stub
+    public Player(int id, @NotNull User user) {
+        this.id = id;
+        this.user = user;
     }
-    return false;
-  }
+
+    @NotNull
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(@NotNull Field field) {
+        this.field = field;
+    }
+
+    @NotNull
+    public User getUser() {
+        return user;
+    }
+
+    @NotNull
+    public List<PlayerCell> getCells() {
+        return field.getPlayerCells(this);
+    }
+
+    public int getTotalScore() {
+        Optional<Integer> totalScore = getCells().stream()
+                .map(PlayerCell::getMass)
+                .reduce(Math::addExact);
+        return totalScore.isPresent() ?
+                totalScore.get() :
+                0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    long lastMovementTime() {
+        return getCells().stream()
+                .map(PlayerCell::getLastMovementTime)
+                .max(Long::compareTo)
+                .orElse(0L);
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public void setWindowWidth(int windowWidth) {
+        this.windowWidth = windowWidth;
+    }
+
+    public int getWindowHeight() {
+        return windowHeight;
+    }
+
+    public void setWindowHeight(int windowHeight) {
+        this.windowHeight = windowHeight;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Player) && (id == ((Player) obj).id);
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + user.getName() + '\'' +
+                '}';
+    }
 }

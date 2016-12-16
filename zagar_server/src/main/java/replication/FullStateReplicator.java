@@ -3,57 +3,58 @@ package replication;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import model.GameSession;
-import model.Player;
 import model.PlayerCell;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
-import org.eclipse.jetty.websocket.api.Session;
-import protocol.CommandReplicate;
 import protocol.model.Cell;
 import protocol.model.Food;
-import utils.JSONHelper;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Alpi
  * @since 31.10.16
+ *
+ * Replicates full session state to clients
  */
 public class FullStateReplicator implements Replicator {
-  @Override
-  public void replicate() {
-    for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
-      Food[] food = new Food[0];//TODO food and viruses
-      int numberOfCellsInSession = 0;
-      for (Player player : gameSession.getPlayers()) {
-        numberOfCellsInSession += player.getCells().size();
-      }
-      Cell[] cells = new Cell[numberOfCellsInSession];
-      int i = 0;
-      for (Player player : gameSession.getPlayers()) {
-        for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
-          i++;
+    @Override
+    public void replicate() {
+        for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+            List<Food> food = gameSession.getField().getCells(model.Food.class).stream()
+                    .map(f -> new Food(f.getX(), f.getY()))
+                    .collect(Collectors.toList());
+            List<Cell> cells = new ArrayList<>();
+            gameSession.getField()
+                    .getCells(PlayerCell.class)
+                    .forEach(cell -> cells.add(
+                            new Cell(cell.getId(),
+                                    cell.getOwner().getId(),
+                                    false,
+                                    cell.getMass(),
+                                    cell.getX(),
+                                    cell.getY()))
+                    );
+            cells.addAll(
+                    gameSession.getField().getCells(model.Virus.class).stream()
+                            .map(virus ->
+                                    //negative IDs shows that cell not belongs to player
+                                    new Cell(-1, -1, true, virus.getMass(), virus.getX(), virus.getY()))
+                            .collect(Collectors.toList())
+            );
+            ApplicationContext.instance().get(ClientConnections.class).getConnections().forEach(connection -> {
+                if (gameSession.getPlayers().contains(connection.getKey())
+                        && connection.getValue().isOpen()) {
+                    try {
+                        new PacketReplicate(cells, food).write(connection.getValue());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
-      }
-      for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey()) && connection.getValue().isOpen()) {
-          try {
-            new PacketReplicate(cells, food).write(connection.getValue());
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      }
     }
-
-    /*ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions().stream().flatMap(
-        gameSession -> gameSession.getPlayers().stream().flatMap(
-            player -> player.getCells().stream()
-        )
-    ).map(playerCell -> new Cell(playerCell.getId(), ))*/
-  }
 }

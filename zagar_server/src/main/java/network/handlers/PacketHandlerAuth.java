@@ -1,6 +1,8 @@
 package network.handlers;
 
-import accountserver.api.AuthenticationServlet;
+import accountserver.api.auth.AuthenticationApi;
+import accountserver.database.users.User;
+import accountserver.database.users.UserDao;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import model.Player;
@@ -9,37 +11,34 @@ import network.packets.PacketAuthFail;
 import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
-import utils.IDGenerator;
-import utils.JSONDeserializationException;
-import utils.JSONHelper;
+import protocol.commands.CommandAuth;
+import utils.idGeneration.IDGenerator;
+import utils.json.JSONDeserializationException;
+import utils.json.JSONHelper;
 
 import java.io.IOException;
 
-public class PacketHandlerAuth {
-  public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
-    CommandAuth commandAuth;
-    try {
-      commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
-    } catch (JSONDeserializationException e) {
-      e.printStackTrace();
-      return;
+public class PacketHandlerAuth implements PacketHandler {
+    public void handle(@NotNull Session session, @NotNull String json) {
+        try {
+            CommandAuth commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
+            if (!AuthenticationApi.validateToken(commandAuth.getToken())) {
+                new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
+            } else {
+                User user = ApplicationContext.instance().get(UserDao.class).getUserByName(commandAuth.getLogin());
+                if (user == null) {
+                    new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Error getting user from base")
+                            .write(session);
+                    return;
+                }
+                int id = ApplicationContext.instance().get(IDGenerator.class).next();
+                Player player = new Player(id, user);
+                ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
+                new PacketAuthOk().write(session);
+                ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
+            }
+        } catch (JSONDeserializationException | IOException e) {
+            e.printStackTrace();
+        }
     }
-    if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {
-      try {
-        new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    } else {
-      try {
-        Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
-        ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
-        new PacketAuthOk().write(session);
-        ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-  }
 }
