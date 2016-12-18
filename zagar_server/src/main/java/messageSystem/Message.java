@@ -1,7 +1,9 @@
 package messageSystem;
 
+import main.Service;
+
 /**
- * @author e.shubin
+ * Created by User on 26.11.2016.
  */
 public abstract class Message {
     private final Address from;
@@ -20,5 +22,6 @@ public abstract class Message {
         return to;
     }
 
-    public abstract void exec(Abonent abonent);
+    public abstract void execute(Service service);
+
 }

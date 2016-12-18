@@ -3,23 +3,23 @@ package messageSystem;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @author e.shubin
+ * Created by User on 26.11.2016.
  */
-public final class Address {
-  @NotNull
-  private final String name;
+public class Address {
 
-  public Address(@NotNull String name) {
-    this.name = name;
-  }
+    @NotNull private final String name;
 
-  @NotNull
-  public String getName() {
-    return name;
-  }
+    public Address(@NotNull String name) {
+        this.name = name;
+    }
 
-  @Override
-  public String toString() {
-    return '[' + name + ']';
-  }
+    @NotNull
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

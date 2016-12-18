@@ -1,10 +1,12 @@
 package model;
 
 /**
- * @author apomosov
+ * Created by User on 10.10.2016.
  */
+
 public class Food extends Cell {
-  public Food(int x, int y) {
-    super(x, y, GameConstants.FOOD_MASS);
-  }
+
+    public Food(Location location){
+        super(location, GameConstants.FOOD_MASS);
+    }
 }

@@ -66,14 +66,12 @@ public class GameCanvas extends JPanel {
 
       g.setStroke(new BasicStroke(2));
 
-      double range =  Double.min((GameFrame.size.width / 2) / Game.zoom,Double.max(avgX-Game.minSizeX,Game.maxSizeX-avgX));
-      for (double i = avgX - range; i < avgX + range; i += 100) {
+      for (double i = avgX - (GameFrame.size.width / 2) / Game.zoom; i < avgX + (GameFrame.size.width / 2) / Game.zoom; i += 100) {
         i = (int) (i / 100) * 100;
         int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
         g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
       }
-      range=Double.min((GameFrame.size.height / 2) / Game.zoom,Double.max(avgY-Game.minSizeY,Game.maxSizeY-avgY));
-      for (double i = avgY - range; i < avgY + range; i += 100) {
+      for (double i = avgY - (GameFrame.size.height / 2) / Game.zoom; i < avgY + (GameFrame.size.height / 2) / Game.zoom; i += 100) {
         i = (int) (i / 100) * 100;
         int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
         g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
@@ -85,13 +83,26 @@ public class GameCanvas extends JPanel {
     for (int i2 = 0; i2 < Game.cells.length; i2++) {
       Cell cell = Game.cells[i2];
       if (cell != null) {
-        cell.render(g, 1);
+        cell.render(g, 10);
         if (cell.mass > 9) {
-          cell.render(g, Math.max(1 - 1f / (cell.mass / 10f), 0.87f));
+          cell.render(g, (float) Math.max(1 - 1f / (cell.mass / 10f), 0.87));
         }
       }
     }
 
+    for(int i2=0; i2<Game.food.length;i2++){
+      Food foods = Game.food[i2];
+      if(foods !=null){
+        foods.render(g,10);
+      }
+    }
+
+    for(int i3=0; i3<Game.virus.length;i3++){
+      Virus viruss = Game.virus[i3];
+      if(viruss !=null){
+        viruss.render(g,1);
+      }
+    }
     g.setFont(font);
 
     String scoreString = "Score: " + Game.score;

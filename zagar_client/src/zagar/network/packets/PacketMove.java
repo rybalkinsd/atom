@@ -24,7 +24,7 @@ public class PacketMove {
 
   public void write(@NotNull Session s) throws IOException {
     String msg = JSONHelper.toJSON(new CommandMove(x, y));
-    //log.info("Sending [" + msg + "]");
-    //s.getRemote().sendString(msg);TODO
+    log.info("Sending [" + msg + "]");
+    s.getRemote().sendString(msg);
   }
 }

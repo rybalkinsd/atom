@@ -1,56 +1,59 @@
 package model;
 
-import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
 /**
  * @author apomosov
  */
 public abstract class Cell {
-  public static final IDGenerator idGenerator = new SequentialIDGenerator();
+    public static final SequentialIDGenerator idGenerator = new SequentialIDGenerator();
 
-  private int x;
-  private int y;
-  private int radius;
-  private int mass;
+    private Location location;
+    private Location newLocation = new Location(0,0);
+    private int radius;
+    private int mass;
+    private double speed;
 
-  public Cell(int x, int y, int mass) {
-    this.x = x;
-    this.y = y;
-    this.mass = mass;
-    updateRadius();
-  }
+    public Cell(Location location, int mass) {
+        this.location = location;
+        this.mass = mass;
+        updateRadius();
+        updateSpeed();
+    }
 
-  public int getX() {
-    return x;
-  }
+    public Location getLocation(){return location;}
 
-  public void setX(int x) {
-    this.x = x;
-  }
+    public void setLocation(Location location){this.location = location;}
 
-  public int getY() {
-    return y;
-  }
+    public void setNewLocation(Location newLocation){
+        this.newLocation = newLocation;
+    }
 
-  public void setY(int y) {
-    this.y = y;
-  }
+    public Location getNewLocation(){
+        return newLocation;
+    }
 
-  public int getRadius() {
-    return radius;
-  }
+    public int getRadius() {
+        return radius;
+    }
 
-  public int getMass() {
-    return mass;
-  }
+    public int getMass() {
+        return mass;
+    }
 
-  public void setMass(int mass) {
-    this.mass = mass;
-    updateRadius();
-  }
+    public double getSpeed(){
+        return speed;
+    }
 
-  private void updateRadius(){
-    this.radius = (int) Math.sqrt(this.mass/Math.PI);
-  }
+    public void setMass(int mass) {
+        this.mass = mass;
+        updateRadius();
+        updateSpeed();
+    }
+
+    private void updateRadius(){
+        this.radius = (int) Math.sqrt(this.mass/Math.PI);
+    }
+
+    private void updateSpeed(){ speed = 333 * Math.pow(mass, -1/3); }
 }
