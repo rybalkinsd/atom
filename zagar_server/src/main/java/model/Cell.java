@@ -1,8 +1,6 @@
 package model;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import utils.CellQuadTree;
 
 import java.awt.*;
 
@@ -16,8 +14,6 @@ public abstract class Cell {
     private int y;
     private int radius;
     private int mass;
-    @Nullable
-    private CellQuadTree node;
 
     public Cell(int x, int y, int mass) {
         this.x = x;
@@ -53,15 +49,6 @@ public abstract class Cell {
     public void setMass(int mass) {
         this.mass = mass;
         updateRadius();
-    }
-
-    @Nullable
-    public CellQuadTree getNode() {
-        return node;
-    }
-
-    public void setNode(@Nullable CellQuadTree node) {
-        this.node = node;
     }
 
     @Override

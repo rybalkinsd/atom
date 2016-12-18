@@ -1,14 +1,22 @@
 package protocol.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * @author apomosov
  */
 public final class Cell {
+  @Expose
   private final int cellId;
+  @Expose
   private final int playerId;
+  @Expose
   private final boolean isVirus;
+  @Expose
   private final float size;
+  @Expose
   private int x;
+  @Expose
   private int y;
 
   public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y) {
