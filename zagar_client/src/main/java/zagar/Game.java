@@ -267,7 +267,8 @@ public class Game {
 
 //    socket.session.getRemote().sendPing(ByteBuffer.allocate(48));
   }
-  private enum AuthOption {
+
+  public enum AuthOption {
     REGISTER, LOGIN
   }
 
