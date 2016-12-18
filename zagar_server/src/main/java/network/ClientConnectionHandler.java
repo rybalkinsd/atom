@@ -1,8 +1,10 @@
 package network;
 
+import matchmaker.MatchMaker;
 import accountserver.api.TokenContainer;
 import com.google.gson.JsonObject;
 import main.ApplicationContext;
+import model.GameSession;
 import model.Player;
 import network.handlers.PacketHandlerAuth;
 import network.handlers.PacketHandlerEjectMass;
@@ -44,9 +46,18 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     super.onWebSocketClose(statusCode, reason);
     log.info("Socket closed: [" + statusCode + "] " + reason);
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
+    MatchMaker mm = ApplicationContext.instance().get(MatchMaker.class);
     for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
-      if(connection.getValue().equals(getSession())){
+      if(!connection.getValue().isOpen()){
         clientConnections.removeConnection(connection.getKey());
+        log.info("Connection removed " + connection.getKey());
+        for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+          for (Player e: gameSession.getPlayers()){
+            if (connection.getKey() == e){
+              gameSession.leave(connection.getKey());
+            }
+          }
+        }
         try {
           TokenContainer.removeToken(TokenContainer.getTokenByUsername(connection.getKey().getName()));
         }
@@ -62,7 +73,6 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   public void onWebSocketError(@NotNull Throwable cause) {
     super.onWebSocketError(cause);
     cause.printStackTrace(System.err);
-    onWebSocketClose(1002,"Error closing");
   }
 
   public void handlePacket(@NotNull String msg) {

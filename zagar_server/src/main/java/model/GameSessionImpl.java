@@ -1,5 +1,8 @@
 package model;
 
+import mechanics.Mechanics;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
@@ -10,6 +13,7 @@ import java.util.List;
  * @author apomosov
  */
 public class GameSessionImpl implements GameSession {
+  private final static Logger log = LogManager.getLogger(Mechanics.class);
   private static final IDGenerator idGenerator = new SequentialIDGenerator();
   private final int id = idGenerator.next();
   @NotNull
@@ -40,6 +44,7 @@ public class GameSessionImpl implements GameSession {
   @Override
   public void leave(@NotNull Player player) {
     players.remove(player);
+    log.info("Player " + player + " leaved");
   }
 
   @Override

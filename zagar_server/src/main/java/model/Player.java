@@ -169,4 +169,22 @@ public class Player {
         "name='" + name + '\'' +
         '}';
   }
+
+  @Override
+  public boolean equals(Object obj){
+    if (!(obj instanceof Player) || (obj == null))
+      return false;
+    if (obj == this)
+      return true;
+    Player pl = (Player) obj;
+    if (this.name.equals(pl.name) && this.getScore().equals(pl.getScore()) && this.getCells().size() == pl.getCells().size())
+      return true;
+    return false;
+  }
+
+  @Override
+  public int hashCode(){
+    return this.name.hashCode();
+  }
+
 }
