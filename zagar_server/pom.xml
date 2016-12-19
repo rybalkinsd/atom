@@ -20,7 +20,8 @@
         </plugins>
     </build>
     <properties>
-        <hibernate.version>5.1.0.Final</hibernate.version>
+        <!--<hibernate.version>5.1.0.Final</hibernate.version>-->
+        <hibernate.version>5.2.3.Final</hibernate.version>
         <jersey.version>2.7</jersey.version>
         <clientServerProtocol.version>1.0</clientServerProtocol.version>
     </properties>
@@ -59,6 +60,11 @@
             <version>2.5</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.3</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.7</version>
@@ -71,14 +77,19 @@
         </dependency>
 
         <!-- Hibernate -->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-core</artifactId>-->
+            <!--<version>${hibernate.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-entitymanager</artifactId>-->
+            <!--<version>${hibernate.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
         <!-- http://mvnrepository.com/artifact/junit/junit -->
