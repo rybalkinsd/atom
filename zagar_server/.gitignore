@@ -26,6 +26,5 @@ hs_err_pid*
 /src/main/resources/hibernate.cfg.xml
 /src/test/resources/hibernate.cfg.xml
 
-!/zagar-client-1.0.jar
 .gitmodules
 /server.iml

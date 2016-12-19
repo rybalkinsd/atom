@@ -5,7 +5,6 @@ import model.Food;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author apomosov

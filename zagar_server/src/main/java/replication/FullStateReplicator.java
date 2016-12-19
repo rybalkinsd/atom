@@ -7,12 +7,17 @@ import model.Player;
 import model.PlayerCell;
 import model.Virus;
 import network.ClientConnections;
+import network.packets.PacketCellNames;
 import network.packets.PacketLeaderBoard;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import protocol.model.Cell;
+import protocol.model.CellsName;
 import protocol.model.Food;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Map;
 
@@ -21,23 +26,25 @@ import java.util.Map;
  * @since 31.10.16
  */
 public class FullStateReplicator implements Replicator {
+  @NotNull
+  public static final Logger log = LogManager.getLogger(FullStateReplicator.class);
+
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(IMatchMaker.class).getActiveGameSessions()) {
-      int numberOfCellsInSession = 0;
+      int numberOfPlayerCells = 0;
       for (Player player : gameSession.getPlayers()) {
-        numberOfCellsInSession += player.getCells().size();
+        numberOfPlayerCells += player.getCells().size();
       }
-      Cell[] cells = new Cell[
-              numberOfCellsInSession
-              + gameSession.getField().getViruses().size()
-              + gameSession.getField().getFreeCells().size()
-              ];
+      Cell[] cells = new Cell[numberOfPlayerCells + gameSession.getField().getViruses().size() + gameSession.getField().getFreeCells().size()];
+      CellsName[] cellsNames = new CellsName[numberOfPlayerCells];
+
 
       int i = 0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {
           cells[i] = new Cell(playerCell.getCellId(), playerCell.getPlayerId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
+          cellsNames[i] = new CellsName(player.getName() ,playerCell.getCellId());
           i++;
         }
       }
@@ -62,8 +69,9 @@ public class FullStateReplicator implements Replicator {
           try {
             new PacketLeaderBoard(gameSession.getLeaders()).write(connection.getValue());
             new PacketReplicate(cells, food).write(connection.getValue());
+            new PacketCellNames(cellsNames).write(connection.getValue());
           } catch (IOException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage() + " occured during replication process.");
           }
         }
       }

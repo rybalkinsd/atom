@@ -58,7 +58,7 @@ public class MasterServer {
       ApplicationContext.instance().put(IMatchMaker.class, Class.forName(configuration.getMatchMaker()).newInstance());
       ApplicationContext.instance().put(Replicator.class, Class.forName(configuration.getReplicator()).newInstance());
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-      e.printStackTrace();
+      log.fatal(e.getMessage());
       System.exit(1);
       return;
     }
@@ -72,7 +72,7 @@ public class MasterServer {
       messageSystem.registerService(ClientConnectionServer.class,
               (Service) Class.forName(configuration.getServices()[2]).getConstructor(Integer.class).newInstance(configuration.getWSPort()));
     } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
-      e.printStackTrace();
+      log.fatal(e.getMessage());
       System.exit(1);
       return;
     }

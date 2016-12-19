@@ -54,7 +54,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   @Override
   public void onWebSocketError(@NotNull Throwable cause) {
 //    super.onWebSocketError(cause);
-    log.warn(cause.getMessage());
+    log.warn("Socket closed unexpectedly: " + cause.getMessage());
 //    cause.printStackTrace(System.err);
   }
 

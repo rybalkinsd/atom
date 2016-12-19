@@ -40,7 +40,13 @@ public class GameSessionImpl implements GameSession {
 
   @Override
   public void leave(@NotNull Player player) {
+    List<PlayerCell> playerCells = player.getCells();
     players.remove(player);
+
+    playerCells.forEach(playerCell -> {
+      PlayerCell newCell = new PlayerCell(-1, playerCell.getX(), playerCell.getY());
+      newCell.setMass(playerCell.getMass());
+    });
   }
 
   @Override
@@ -58,7 +64,7 @@ public class GameSessionImpl implements GameSession {
       return players.stream()
               .sorted(Comparator.comparing(Player::getScore).reversed())
               .limit(10)
-              .map(player -> player.getName()) //(Player::getName)
+              .map(Player::getName) //(Player::getName)
               .toArray(String[]::new);
   }
 

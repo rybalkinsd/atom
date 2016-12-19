@@ -41,7 +41,8 @@ public class ClientConnectionServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.fatal("Client connection service hasn't started: " + e.getMessage());
+      System.exit(1);
     }
 
     log.info(getAddress() + " started on port " + port);
@@ -51,10 +52,11 @@ public class ClientConnectionServer extends Service {
         ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
       }
       catch (WebSocketException ignore){
+        log.warn("Socket closed unexpectedly: " + ignore.getMessage());
       }
       catch (InterruptedException e) {
-        e.printStackTrace();
-        return;
+        log.fatal("Client connection service unexpectedly interrupted: " + e.getMessage());
+        System.exit(1);
       }
     }
   }

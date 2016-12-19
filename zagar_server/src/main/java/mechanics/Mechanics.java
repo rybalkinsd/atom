@@ -6,7 +6,10 @@ import matchmaker.IMatchMaker;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
-import model.*;
+import model.Cell;
+import model.GameSession;
+import model.Player;
+import model.PlayerCell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +17,6 @@ import ticker.Tickable;
 import ticker.Ticker;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.*;
 import static mechanics.MechanicConstants.*;
@@ -164,6 +166,9 @@ public class Mechanics extends Service implements Tickable {
               }
             }
           }
+
+
+        player.updateScore();
       }
 
 //      for (Cell cell : notNullSpeedCells) {

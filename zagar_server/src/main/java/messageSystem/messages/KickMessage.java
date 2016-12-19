@@ -2,7 +2,6 @@ package messageSystem.messages;
 
 import main.ApplicationContext;
 import messageSystem.Abonent;
-import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import model.Player;
