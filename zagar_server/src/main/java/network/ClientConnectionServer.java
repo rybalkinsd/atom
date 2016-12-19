@@ -34,15 +34,15 @@ public class ClientConnectionServer extends Service {
     super("client_connection_service");
     FileInputStream fis;
     Properties property = new Properties();
-    int por=0;
+    int por=7000;
     try {
       fis = new FileInputStream("src/main/resources/config.properties");
       property.load(fis);
       por = Integer.parseInt(property.getProperty("clientConnectionPort"));
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      log.error(e);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e);
     }
     this.port=por;
   }
@@ -63,7 +63,7 @@ public class ClientConnectionServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
 
     log.info(getAddress() + " started on port " + port);

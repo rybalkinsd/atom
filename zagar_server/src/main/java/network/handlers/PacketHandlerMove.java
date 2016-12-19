@@ -6,6 +6,8 @@ import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.MoveMsg;
 import network.ClientConnections;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
@@ -16,12 +18,14 @@ import model.Player;
 import java.util.Map;
 
 public class PacketHandlerMove {
+  private final static Logger log = LogManager.getLogger(PacketHandlerMove.class);
+
   public PacketHandlerMove(@NotNull Session session, @NotNull String json) {
     CommandMove commandMove;
     try {
       commandMove = JSONHelper.fromJSON(json, CommandMove.class);
     } catch (JSONDeserializationException e) {
-      e.printStackTrace();
+      log.error(e);
       return;
     }
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);

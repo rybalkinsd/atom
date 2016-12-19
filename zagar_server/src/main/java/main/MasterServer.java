@@ -40,13 +40,7 @@ public class MasterServer {
       String services = property.getProperty("services");
       String  leaderboard = property.getProperty("leaderboard");
       String[] ser = services.split(",");
-      log.info("<<<Init params>>>");
-      log.info("account server port: " + accountServerPort);
-      log.info("client connection port: " + clientConnectionPort);
-      log.info("matchmaker: " + matchMaker);
-      log.info("replicator: " + replicator);
-      log.info("Leaderboard: " + leaderboard);
-      log.info("services: " + Arrays.asList(ser));
+      log.info(property);
 
       for (String s : ser) {
         serv.add( (Service) Class.forName(s).newInstance());
@@ -55,17 +49,20 @@ public class MasterServer {
       m = (MatchMaker) Class.forName(matchMaker).newInstance();
       r = (Replicator) Class.forName(replicator).newInstance();
 
-      }
-      catch (IllegalAccessException e) {
+    }
+    catch (IllegalAccessException e) {
         log.error(e);
-      System.exit(1);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IOException e){
-        e.printStackTrace();
-      }
+        System.exit(1);
+    } catch (ClassNotFoundException e) {
+        log.error(e);
+        System.exit(1);
+    } catch (InstantiationException e) {
+        log.error(e);
+        System.exit(1);
+    } catch (IOException e){
+        log.error(e);
+        System.exit(1);
+    }
 
     ApplicationContext.instance().put(MatchMaker.class, m);
     ApplicationContext.instance().put(ClientConnections.class, new ClientConnections());

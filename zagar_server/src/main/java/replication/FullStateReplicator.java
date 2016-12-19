@@ -7,7 +7,10 @@ import model.Player;
 import model.PlayerCell;
 import model.Virus;
 import network.ClientConnections;
+import network.handlers.PacketHandlerMove;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import protocol.CommandReplicate;
 import protocol.model.Cell;
@@ -24,6 +27,7 @@ import java.util.stream.Stream;
  * @since 31.10.16
  */
 public class FullStateReplicator implements Replicator {
+  private final static Logger log = LogManager.getLogger(FullStateReplicator.class);
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
@@ -49,11 +53,10 @@ public class FullStateReplicator implements Replicator {
           try {
             new PacketReplicate(cells, food).write(connection.getValue());
           } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
           }
         }
       }
     }
-
   }
 }

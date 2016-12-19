@@ -37,7 +37,7 @@ public class JsonReplicator implements Replicator{
             Files.lines(Paths.get("src/main/resources/replica.json"), StandardCharsets.UTF_8).forEach(s -> sb.append(s));
             msg=sb.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
         for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
@@ -46,7 +46,7 @@ public class JsonReplicator implements Replicator{
                     try {
                         connection.getValue().getRemote().sendString(msg);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
             }

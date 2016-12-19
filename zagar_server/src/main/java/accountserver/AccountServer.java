@@ -25,15 +25,15 @@ public class AccountServer extends Service {
     super("account_server");
     FileInputStream fis;
     Properties property = new Properties();
-    int por=0;
+    int por=8080;
     try {
       fis = new FileInputStream("src/main/resources/config.properties");
       property.load(fis);
       por = Integer.parseInt(property.getProperty("accountServerPort"));
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      log.error(e);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e);
     }
     this.port=por;
   }
@@ -62,7 +62,7 @@ public class AccountServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
   }
 

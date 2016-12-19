@@ -6,7 +6,6 @@ import model.dao.UserDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 
@@ -28,6 +27,7 @@ public class TokensCollectionImpl implements TokensCollection{
     private static String makeQuotedString(String s){
         return "'" + s + "'";
     }
+
     @Override
     public void addUser(@NotNull User user) {
         if (userDao.getAllWhere("name = " + makeQuotedString(user.getName())).contains(user))
@@ -37,12 +37,13 @@ public class TokensCollectionImpl implements TokensCollection{
             log.info(user+"  added to collection !");
     }
 
-
     @Override
     public boolean authenticate(User user){
         User maybe=userDao.getAllWhere("email = " + makeQuotedString(user.getName())).get(0);
-        if (maybe!=null && maybe.equals(user) && maybe.getPassword().equals(user.getPassword()))
-                return true;
+        if (maybe!=null && maybe.equals(user) && maybe.getPassword().equals(user.getPassword())) {
+            log.info(user + " authenticated");
+            return true;
+        }
         return false;
     }
 
@@ -83,6 +84,7 @@ public class TokensCollectionImpl implements TokensCollection{
 
     @Override
     public List<LeaderBoard> getNLeaders(int N) {
+        log.info(N + " leaders requested");
         return leaderboardDao.getFirstN(N);
     }
 
@@ -93,18 +95,21 @@ public class TokensCollectionImpl implements TokensCollection{
         u.setName(param);
         System.out.println(u);
         userDao.update(u);
+        log.info(u + " changed password");
     }
 
     private void ChangeUserPassword(String param, Token t) {
         User u=userDao.findById(t.getId_user()).get();
         u.setPassword(param);
         userDao.update(u);
+        log.info(u + " changed password");
     }
 
     private void ChangeUserName(String param, Token token) {
         User u=userDao.findById(token.getId_user()).get();
         u.setNikname(param);
         userDao.update(u);
+        log.info(u + " changed name");
     }
 
     private void remove(Token t) {

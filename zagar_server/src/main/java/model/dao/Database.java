@@ -15,7 +15,7 @@ import java.util.function.Function;
  * Created by s on 10.11.16.
  */
 
-class Database {
+public class Database {
     private static final Logger log = LogManager.getLogger(Database.class);
     private static final SessionFactory sessionFactory;
 
@@ -25,7 +25,7 @@ class Database {
 
         log.info("Session factory configured.");
     }
-    static <T> List<T> selectTransactional(Function<Session, List<T>> selectAction) {
+    public static  <T> List<T> selectTransactional(Function<Session, List<T>> selectAction) {
         Transaction txn = null;
         List<T> ts = Collections.emptyList();
         try (Session session = Database.openSession()) {
@@ -41,7 +41,7 @@ class Database {
         return ts;
     }
 
-    static void doTransactional(Function<Session, ?> f) {
+    public static void doTransactional(Function<Session, ?> f) {
         Transaction txn = null;
         try (Session session = Database.openSession()) {
             txn = session.beginTransaction();

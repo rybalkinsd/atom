@@ -19,6 +19,6 @@ public class LeaderBoardMsg extends Message {
 
     @Override
     public void exec(Abonent abonent) {
-        ApplicationContext.instance().get(Leaderboard.class).Sendleaders();
+        ApplicationContext.instance().get(Leaderboard.class).sendleaders();
     }
 }

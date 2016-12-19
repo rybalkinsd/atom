@@ -19,6 +19,8 @@ public class Player {
   @NotNull
   private final List<PlayerCell> cells = new ArrayList<>();
 
+  private double angle;
+
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
@@ -49,6 +51,14 @@ public class Player {
 
   public int getId() {
     return id;
+  }
+
+  public void setAngle(double angle){
+    this.angle=angle;
+  }
+
+  public double getAngle(){
+    return angle;
   }
 
   @NotNull

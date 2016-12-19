@@ -5,7 +5,10 @@ import matchmaker.MatchMaker;
 import model.GameSession;
 import model.Player;
 import network.ClientConnections;
+import network.handlers.PacketHandlerMove;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import protocol.model.Cell;
 import protocol.model.Food;
@@ -18,6 +21,7 @@ import java.util.Random;
  * Created by s on 30.11.16.
  */
 public class RandomReplicator implements Replicator {
+    private final static Logger log = LogManager.getLogger(RandomReplicator.class);
     @Override
     public void replicate() {
         for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
@@ -34,7 +38,7 @@ public class RandomReplicator implements Replicator {
                     try {
                         new PacketReplicate(cells, food).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
             }

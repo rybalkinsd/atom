@@ -61,5 +61,6 @@ public class MoveMsg extends Message{
                 }
             }
         }
+        player.setAngle(Math.atan2(commandMove.getDy(), commandMove.getDx())); // set angle for next actions
     }
 }

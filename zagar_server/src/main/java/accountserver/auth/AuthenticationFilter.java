@@ -61,11 +61,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             data.validateToken(token, flag, param);
         }catch (IllegalArgumentException e){
             requestContext.abortWith(
-                    Response.status(Response.Status.CONFLICT).build());
+                    Response.status(Response.Status.CONFLICT).header("reason", "such name is taken").build());
         }
         catch (Exception e) {
             requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED).build());
+                    Response.status(Response.Status.UNAUTHORIZED).header("reason", "bad password or username").build());
         }
     }
 }

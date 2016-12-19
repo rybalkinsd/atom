@@ -2,6 +2,7 @@ package network.handlers;
 
 
 import main.ApplicationContext;
+import main.MasterServer;
 import matchmaker.MatchMaker;
 import model.Player;
 import model.TokensCollection;
@@ -9,6 +10,8 @@ import model.TokensCollectionImpl;
 import network.ClientConnections;
 import network.packets.PacketAuthFail;
 import network.packets.PacketAuthOk;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
@@ -18,13 +21,15 @@ import utils.JSONHelper;
 import java.io.IOException;
 
 public class PacketHandlerAuth {
+  private final static Logger log = LogManager.getLogger(PacketHandlerAuth.class);
   private static final TokensCollection data=new TokensCollectionImpl();
+
   public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
     CommandAuth commandAuth;
     try {
       commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
     } catch (JSONDeserializationException e) {
-      e.printStackTrace();
+      log.error(e);
       return;
     }
     try {
@@ -37,7 +42,7 @@ public class PacketHandlerAuth {
       try {
         new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
       } catch (IOException m) {
-        m.printStackTrace();
+        log.error(e);
       }
 
     }

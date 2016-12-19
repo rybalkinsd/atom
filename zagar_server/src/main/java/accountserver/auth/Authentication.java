@@ -16,8 +16,8 @@ import javax.ws.rs.core.Response;
 
 @Path("/auth")
 public class Authentication {
-    private static final Logger log= LogManager.getLogger(Authentication.class);
-    private static final TokensCollection data=new TokensCollectionImpl();
+    private static final Logger log = LogManager.getLogger(Authentication.class);
+    private static final TokensCollection data = new TokensCollectionImpl();
 
     @POST
     @Path("register")
@@ -28,14 +28,14 @@ public class Authentication {
 
         System.out.println(user+"  "+ password);
         if (user == null || password == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).header("reason", "pass or name undefined").build();
         }
 
         try {
             data.addUser(new User(user, password));
         }
         catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).header("reason", "such name is taken").build();
         }
 
         log.info("New user '{}' registered", user);
@@ -50,11 +50,11 @@ public class Authentication {
                                      @FormParam("password") String password) {
 
         if (user == null || password == null)
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).header("reason", "pass or name undefined").build();
 
         User client=new User(user, password);
         if (!data.authenticate(client))
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.UNAUTHORIZED).header("reason", "such name is taken").build();
 
         Token token=data.issueToken(client);
         log.info("User '{}' logged in", user);
@@ -67,7 +67,6 @@ public class Authentication {
     @Path("logout")
     @Produces("text/plain")
     public Response outUser() {
-
         return Response.ok("You logged out").build();
     }
 
