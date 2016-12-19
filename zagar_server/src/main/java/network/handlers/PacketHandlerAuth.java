@@ -2,8 +2,6 @@ package network.handlers;
 
 import accountserver.api.Authentification;
 import network.ClientConnections;
-import network.JSONHelper.JSONDeserializationException;
-import network.JSONHelper.JSONHelper;
 import network.packets.PacketAuthFail;
 import network.packets.PacketAuthOk;
 import main.ApplicationContext;
@@ -12,6 +10,8 @@ import model.Player;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
+import utils.JSONDeserializationException;
+import utils.JSONHelper;
 
 import java.io.IOException;
 

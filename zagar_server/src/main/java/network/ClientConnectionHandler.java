@@ -1,20 +1,23 @@
 package network;
 
-import network.JSONHelper.JSONHelper;
-import network.handlers.PacketHandlerAuth;
-import network.handlers.PacketHandlerEjectMass;
-import network.handlers.PacketHandlerMove;
-import network.handlers.PacketHandlerSplit;
 import com.google.gson.JsonObject;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import model.Player;
+import network.handlers.PacketHandlerAuth;
+import network.handlers.PacketHandlerEjectMass;
+import network.handlers.PacketHandlerMove;
+import network.handlers.PacketHandlerSplit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.jetbrains.annotations.NotNull;
-import protocol.*;
+import protocol.CommandAuth;
+import protocol.CommandEjectMass;
+import protocol.CommandMove;
+import protocol.CommandSplit;
+import utils.JSONHelper;
 
 
 public class ClientConnectionHandler extends WebSocketAdapter {

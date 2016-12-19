@@ -2,8 +2,6 @@ package network.handlers;
 
 import network.ClientConnectionServer;
 import network.ClientConnections;
-import network.JSONHelper.JSONDeserializationException;
-import network.JSONHelper.JSONHelper;
 import main.ApplicationContext;
 import mechanics.Mechanics;
 import messageSystem.Address;
@@ -14,6 +12,8 @@ import model.Player;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
+import utils.JSONDeserializationException;
+import utils.JSONHelper;
 
 
 public class PacketHandlerMove {

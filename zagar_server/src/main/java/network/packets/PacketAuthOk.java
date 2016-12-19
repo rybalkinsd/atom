@@ -1,11 +1,11 @@
 package network.packets;
 
-import network.JSONHelper.JSONHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuthOk;
+import utils.JSONHelper;
 
 import java.io.IOException;
 

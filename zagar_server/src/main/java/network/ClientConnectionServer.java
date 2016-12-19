@@ -35,7 +35,7 @@ public class ClientConnectionServer extends Service {
         server.setHandler(context);
 
         ClientConnectionServlet clientConnectionServlet = new ClientConnectionServlet();
-        context.addServlet(new ServletHolder(clientConnectionServlet), "/network");
+        context.addServlet(new ServletHolder(clientConnectionServlet), "/clientConnection");
 
         try {
             server.start();
