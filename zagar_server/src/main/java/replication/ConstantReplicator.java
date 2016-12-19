@@ -1,12 +1,16 @@
 package replication;
 
 import main.ApplicationContext;
+import main.MasterServer;
 import matchmaker.MatchMaker;
 import model.GameSession;
 import model.Player;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.jetbrains.annotations.NotNull;
 import protocol.CommandReplicate;
 import protocol.model.Cell;
 import protocol.model.Food;
@@ -22,6 +26,8 @@ import java.util.Map;
  * Created by Alex on 27.11.2016.
  */
 public class ConstantReplicator implements Replicator {
+    @NotNull
+    private final static Logger log = LogManager.getLogger(MasterServer.class);
 
     @Override
     public void replicate() {
@@ -35,13 +41,13 @@ public class ConstantReplicator implements Replicator {
             }
             System.out.println(msg);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e);
                 }
             }
         }
@@ -50,7 +56,7 @@ public class ConstantReplicator implements Replicator {
         try {
             commandReplicate = JSONHelper.fromJSON(msg, CommandReplicate.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.error("JSON Deserialization", e);
             return;
         }
         protocol.model.Cell[] cells = new Cell[commandReplicate.getCells().length];
@@ -66,7 +72,7 @@ public class ConstantReplicator implements Replicator {
                     try {
                         new PacketReplicate(cells, food).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
             }

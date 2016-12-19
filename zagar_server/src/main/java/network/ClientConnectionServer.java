@@ -41,7 +41,7 @@ public class ClientConnectionServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
 
     log.info(getAddress() + " started on port " + port);
@@ -50,7 +50,7 @@ public class ClientConnectionServer extends Service {
       try{
         ApplicationContext.instance().get(MessageSystem.class).execForService(this);
       } catch (WebSocketException e){
-        e.printStackTrace();
+        log.error(e);
       }
     }
   }

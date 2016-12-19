@@ -47,7 +47,6 @@ public class Mechanics extends Service implements Tickable {
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();
-      e.printStackTrace();
     }
 
     log.info("Mechanics");

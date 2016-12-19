@@ -4,12 +4,16 @@ import java.io.*;
 import java.util.Map;
 
 import main.ApplicationContext;
+import main.MasterServer;
 import matchmaker.MatchMaker;
 import model.GameSession;
 import model.Player;
 import network.ClientConnections;
 import network.packets.PacketLeaderBoard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.jetbrains.annotations.NotNull;
 import protocol.CommandLeaderBoard;
 import protocol.CommandReplicate;
 import utils.JSONDeserializationException;
@@ -19,6 +23,10 @@ import utils.JSONHelper;
  * Created by pashe on 28-Nov-16.
  */
 public class ConstantLBMaker implements LdrBrdMaker {
+    @NotNull
+    private final static Logger log = LogManager.getLogger(MasterServer.class);
+
+
     @Override
     public void makeLB() throws IOException {
         String[] leaderboard = new String[10];
@@ -32,13 +40,13 @@ public class ConstantLBMaker implements LdrBrdMaker {
             }
             System.out.println(msg);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e);
                 }
             }
         }
@@ -46,7 +54,7 @@ public class ConstantLBMaker implements LdrBrdMaker {
         try {
             commandLeaderBoard = JSONHelper.fromJSON(msg,CommandLeaderBoard.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.error(e);
             return;
         }
 
@@ -56,7 +64,7 @@ public class ConstantLBMaker implements LdrBrdMaker {
                     try {
                         new PacketLeaderBoard(commandLeaderBoard.getLeaderBoard()).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
             }

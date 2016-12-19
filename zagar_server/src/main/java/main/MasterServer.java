@@ -56,7 +56,7 @@ public class MasterServer {
       }
       catch (Exception e){
         log.info("DB problems");
-        e.printStackTrace();
+        log.error(e);
       }
       String[] services = props.getProperty("services").split(",");
 
@@ -75,18 +75,8 @@ public class MasterServer {
         service.join();
       }
 
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
+    } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | ClassNotFoundException | IOException | InvocationTargetException e) {
+      log.error(e);
     }
   }
 

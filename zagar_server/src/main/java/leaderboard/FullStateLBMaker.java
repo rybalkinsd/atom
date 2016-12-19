@@ -50,7 +50,7 @@ public class FullStateLBMaker implements LdrBrdMaker {
                     try {
                         new PacketLeaderBoard(commandLeaderBoard.getLeaderBoard()).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error(e);
                     }
                 }
             }

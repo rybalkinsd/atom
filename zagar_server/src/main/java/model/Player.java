@@ -66,6 +66,7 @@ public class Player {
     cells.remove(cell);
     if (cells.size() == 0){
       //Auto respawn
+      markRespawn();
     }
   }
 
@@ -177,7 +178,7 @@ public class Player {
     if (obj == this)
       return true;
     Player pl = (Player) obj;
-    if (this.name.equals(pl.name) && this.getScore().equals(pl.getScore()) && this.getCells().size() == pl.getCells().size())
+    if (this.name.equals(pl.name) && this.getScore().equals(pl.getScore()) && this.getCells().equals(pl.getCells()))
       return true;
     return false;
   }

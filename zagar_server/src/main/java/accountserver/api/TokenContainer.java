@@ -88,56 +88,11 @@ public class TokenContainer{
 
     public static void validateToken(Token token) throws Exception {
         //Checking input token
-        log.info("Entered in validateToken");
         List<Token> tokens = tokenDao.getAllWhere("token = '" + token.getToken() + "'");
-        log.info("List of tokens accepted with token " + token.getToken());
-        log.info("Size of list " + tokens.size());
         if (tokens.size() == 0) {
-            log.info("I throwed exception");
             throw new Exception("Token validation exception");
         }
-        log.info("Correct token");
-    }
-
-    //Changing name of user
-    public static String renameUser(Token token, String name ){
-        List<User> tempusers = userDao.getAllWhere("name = '" + name + "'");
-        if (tempusers.size() == 0){
-            List<Token> oldTokens = tokenDao.getAllWhere("token = '" + token.getToken() + "'");
-            Token temp = oldTokens.get(0);
-            List<User> oldUsers = userDao.getAllWhere("id = '" + temp.getUserId() + "'");
-            User tempuser = oldUsers.get(0);
-            String oldname = tempuser.getName();
-            tempuser.setName(name);
-            userDao.update(tempuser);
-            return oldname;
-            }
-        else{
-            return name;
-        }
-    }
-
-    public static String changePassword(Token token,String newpassword){
-        List<Token> oldTokens = tokenDao.getAllWhere("token = '" + token.getToken() + "'");
-        Token temp = oldTokens.get(0);
-        List<User> oldUsers = userDao.getAllWhere("id = '" + temp.getUserId() + "'");
-        User tempuser = oldUsers.get(0);
-        String oldpass = tempuser.getPassword();
-
-        tempuser.setPassword(newpassword);
-        userDao.update(tempuser);
-        return oldpass;
-    }
-
-    public static String changeEmail(Token token, String newemail){
-        List<Token> oldTokens = tokenDao.getAllWhere("token = '" + token.getToken() + "'");
-        Token temp = oldTokens.get(0);
-        List<User> oldUsers = userDao.getAllWhere("id = '" + temp.getUserId() + "'");
-        User tempuser = oldUsers.get(0);
-        String oldemail = tempuser.getEmail();
-        tempuser.setEmail(newemail);
-        userDao.update(tempuser);
-        return oldemail;
+        log.info("Correct token ", token.toString());
     }
 
     //Removing token for logging out returning username or empty string
@@ -165,19 +120,5 @@ public class TokenContainer{
         }
         throw new Exception();
     }
-
-    // Returning string with logged users
-    public static ArrayList<User> getUsersArraylist(){
-        List<Token> oldTokens = tokenDao.getAll();
-        ArrayList<User> loggedUsers = new ArrayList<>();
-        for (Token element : oldTokens){
-            List<User> oldUsers = userDao.getAllWhere("id = '" + element.getUserId() + "'");
-            User temp = oldUsers.get(0);
-            loggedUsers.add(temp);
-        }
-        log.info(loggedUsers.toString());
-        return loggedUsers;
-    }
-
 }
 

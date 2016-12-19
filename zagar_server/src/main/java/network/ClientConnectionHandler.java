@@ -63,6 +63,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
         }
         catch (Exception e){
           log.info("Token deleting failed");
+          log.error(e);
         }
       }
     }
