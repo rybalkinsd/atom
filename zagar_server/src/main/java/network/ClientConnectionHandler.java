@@ -6,19 +6,13 @@ import com.google.gson.JsonObject;
 import main.ApplicationContext;
 import model.GameSession;
 import model.Player;
-import network.handlers.PacketHandlerAuth;
-import network.handlers.PacketHandlerEjectMass;
-import network.handlers.PacketHandlerMove;
-import network.handlers.PacketHandlerSplit;
+import network.handlers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
-import protocol.CommandEjectMass;
-import protocol.CommandMove;
-import protocol.CommandSplit;
+import protocol.*;
 import utils.JSONHelper;
 
 import java.util.Map;
@@ -91,6 +85,9 @@ public class ClientConnectionHandler extends WebSocketAdapter {
         break;
       case CommandSplit.NAME:
         new PacketHandlerSplit(getSession(), msg);
+        break;
+      case CommandEjectVirus.NAME:
+        new PacketHandlerEjectVirus(getSession(), msg);
         break;
 
     }

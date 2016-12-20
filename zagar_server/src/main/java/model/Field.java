@@ -45,6 +45,11 @@ public class Field {
     foods.add(foodInstance);
     log.info("Food instance " + foodInstance.toString() + " added to " + foods);
   }
+
+  public void addVirus(Virus virusInstance){
+    viruses.add(virusInstance);
+    log.info("Virus instance" + virusInstance.toString() + "added to " + viruses);
+  }
   
   public int getWidth() {
     return width;

@@ -188,4 +188,20 @@ public class Player {
     return this.name.hashCode();
   }
 
+  public Virus ejectVirus() {
+    PlayerCell mainCell = getMainCell();
+    if (mainCell.getMass() >= 40){
+      mainCell.setMass(mainCell.getMass() - 20);
+      int x = mainCell.getX();
+      int y = mainCell.getY();
+      int r = mainCell.getRadius();
+
+      Virus newVirus = new Virus((int) Math.round(x - r * Math.cos(direction)),(int) Math.round( y + r * Math.sin(direction)));
+      mainCell.move(direction, r/2);
+
+      log.info(this + " ejected virus");
+      return newVirus;
+    }
+    return null;
+  }
 }
