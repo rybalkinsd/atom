@@ -58,7 +58,7 @@ public class AccountServer extends Service {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            log.info("Error creating server:\n" + sw.toString());
+            log.error("Error creating server:\n" + sw.toString());
         }
     }
 

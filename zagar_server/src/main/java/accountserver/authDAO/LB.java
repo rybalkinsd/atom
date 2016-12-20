@@ -89,8 +89,8 @@ public class LB implements AuthDAO<Leader> {
     }
 
     @Override
-    public  boolean delete(Leader L){
-        int userid = L.getId();
+    public  boolean delete(Leader leader){
+        int userid = leader.getId();
         try (Connection con = JDBCDbConnection.getConnection();
              Statement stm = con.createStatement()) {
             stm.execute("DELETE FROM leaderboard WHERE userid = " + userid +";");

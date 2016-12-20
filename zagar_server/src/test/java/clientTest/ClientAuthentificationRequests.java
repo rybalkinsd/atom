@@ -1,7 +1,6 @@
-package client;
+package clientTest;
 
 import com.squareup.okhttp.*;
-import accountserver.authInfo.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by User on 06.11.2016.
  */
-public class AuthRequests {
-    private static final Logger log = LogManager.getLogger(AuthRequests.class);
+public class ClientAuthentificationRequests {
+    private static final Logger log = LogManager.getLogger(ClientAuthentificationRequests.class);
     private static final String PROTOCOL = "http";
     private static final String HOST = "localhost";
     private static final String PORT = "8081";

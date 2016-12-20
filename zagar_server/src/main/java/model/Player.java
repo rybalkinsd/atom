@@ -70,4 +70,22 @@ public class Player {
     public void addMass(int mass){
         cells.get(0).setMass(cells.get(0).getMass()+mass);
     }
+
+    @Override
+    public boolean equals(Object other){
+        if( other == null || !(other instanceof Player)){
+            return false;
+        }
+        Player otherPlayer = (Player) other;
+        if(this.getName() == otherPlayer.getName() && this.getId() == otherPlayer.getId()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+        return name.hashCode() + 12 * id;
+    }
 }

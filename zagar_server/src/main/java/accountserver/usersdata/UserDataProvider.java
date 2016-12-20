@@ -33,7 +33,7 @@ public class UserDataProvider {
             }
             return Response.ok((new UsersJSON(loggedInUsers)).writeJson()).build();
         } catch (Exception e){
-            log.info("Error sending users info");
+            log.error("Error sending users info");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
@@ -52,7 +52,7 @@ public class UserDataProvider {
             if (i<n1.size()-1) S+=", ";
         }
         S+=" }";
-        log.info("S");
+        log.info(S);
         return Response.ok(S).build();
     }
 

@@ -71,7 +71,7 @@ public class SmartReplicator implements Replicator {
                     try {
                         new PacketReplicate(cells, foodToAdd, foodToRemove, virus).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error("Error sending replication");
                     }
                 }
             }

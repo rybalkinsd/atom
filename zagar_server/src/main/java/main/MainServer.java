@@ -33,8 +33,7 @@ public class MainServer {
         try {
             properties.load(new FileInputStream(getClass().getClassLoader().getResource(configFileName).getFile()));
         } catch(IOException e){
-            log.info("Error opening properties file");
-            e.printStackTrace();
+            log.error("Error opening properties file");
         }
     }
 
@@ -71,8 +70,7 @@ public class MainServer {
                 service.join();
             }
         } catch (Throwable e){
-            log.info("Error getting properties instance");
-            e.printStackTrace();
+            log.error("Error getting properties instance");
         }
 
     }

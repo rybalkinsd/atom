@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static model.GameConstants.MAX_PLAYERS_IN_SESSION;
 
@@ -27,7 +28,7 @@ public class MatchMakerImpl implements MatchMaker {
     @NotNull
     private final Logger log = LogManager.getLogger(MatchMakerImpl.class);
     @NotNull
-    private final List<GameSession> activeGameSessions = new ArrayList<>();
+    private final List<GameSession> activeGameSessions = new CopyOnWriteArrayList<>();
     @NotNull
     private final ConcurrentHashMap<Integer,Integer> PlayerSession = new ConcurrentHashMap<>();
 

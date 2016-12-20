@@ -43,9 +43,7 @@ public class User {
     public User(String login, String password, String email) {
         this(login, password);
         if(!email.isEmpty()){
-            if(validateEmail(email)){
-                this.email = email;
-            }
+            this.email = email;
         }
     }
 
@@ -78,10 +76,6 @@ public class User {
     public String toString(){
         return String.format("User{id=%s,login=%s,registration_time=%s,email=%s}",
                 id, login, registrationDate, email);
-    }
-
-    private boolean validateEmail(String email){
-        return true;
     }
 
 

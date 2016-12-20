@@ -60,7 +60,7 @@ public class DefaultReplication implements Replicator {
                     try {
                         new PacketReplicate(cells, food, new pFood[0], virus).write(connection.getValue());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        log.error("Error sending default replication");
                     }
                 }
             }

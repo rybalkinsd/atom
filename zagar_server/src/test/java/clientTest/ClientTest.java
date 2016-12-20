@@ -1,9 +1,6 @@
 package clientTest;
 
-import client.AuthRequests;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -14,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ClientTest {
 
-    AuthRequests requests = new AuthRequests();
+    ClientAuthentificationRequests requests = new ClientAuthentificationRequests();
     String login = "Andrew";
     String password = "123";
     String login2 = "Alex";

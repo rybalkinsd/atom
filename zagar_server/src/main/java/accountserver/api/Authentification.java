@@ -51,7 +51,7 @@ public class Authentification {
             log.info("New user '{}' registered", newUser);
             return Response.ok("User " + newUser + " registered").build();
         } catch (Exception e){
-            log.info("Error register user.");
+            log.error("Error register user.");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }

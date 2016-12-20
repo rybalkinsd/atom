@@ -73,7 +73,7 @@ public class FileReplicator implements Replicator {
                     try {
                         new PacketReplicate(cell, food, new pFood[0],virus).write(connection.getValue());
                     } catch (IOException e) {
-
+                        log.error("Error sending file replication");
                     }
                 }
             }

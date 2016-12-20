@@ -1,6 +1,6 @@
 package DAOtest;
 
-import client.AuthRequests;
+import clientTest.ClientAuthentificationRequests;
 import accountserver.api.Authentification;
 import accountserver.authInfo.Leader;
 import accountserver.authInfo.User;
@@ -43,7 +43,7 @@ public class LBtest {
     public void LeaderRegisterTest(){
         String user="LeaderTest";
         String password="LeaderTest";
-        AuthRequests AR=new AuthRequests();
+        ClientAuthentificationRequests AR=new ClientAuthentificationRequests();
         AR.register(user,password);
         User jUser= Authentification.userDAO.getUserByLoginData(user,password);
         Assert.assertEquals(0, Authentification.LB.getUserScore(jUser.getId()));
@@ -64,7 +64,7 @@ public class LBtest {
         ls.add(l2);
         ls.add(l3);
 
-        AuthRequests AR= new AuthRequests();
+        ClientAuthentificationRequests AR= new ClientAuthentificationRequests();
 
         for(int i=0;i<3;i++) {
             String user = ls.get(i);
