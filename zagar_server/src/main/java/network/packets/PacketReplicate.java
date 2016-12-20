@@ -25,14 +25,15 @@ public class PacketReplicate {
     }
 
     public void write(@NotNull Session session) throws IOException {
-        if (!session.isOpen()) return;
         String msg = JSONHelper.toJSON(new CommandReplicate(cells));
         log.trace("Sending [" + msg + "]");
         ByteArrayOutputStream bos = new ByteArrayOutputStream(msg.length());
         GZIPOutputStream gos = new GZIPOutputStream(bos);
         gos.write(msg.getBytes());
         gos.close();
-        session.getRemote().sendBytes(ByteBuffer.wrap(bos.toByteArray()));
+        if (session.isOpen()) {
+            session.getRemote().sendBytes(ByteBuffer.wrap(bos.toByteArray()));
+        }
         bos.close();
     }
 }

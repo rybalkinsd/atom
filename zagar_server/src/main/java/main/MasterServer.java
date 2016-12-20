@@ -88,7 +88,10 @@ public class MasterServer {
             messageSystem.registerService(ClientConnectionServer.class,
                     new ClientConnectionServer(clientConnectionPort));
         }
-        messageSystem.getServices().forEach(Service::start);
+        messageSystem.getServices().forEach(c -> {
+            log.info("FUCK:" + c.getName());
+            c.start();
+        });
 
     }
 

@@ -23,10 +23,12 @@ public class AccountServer extends Service {
     }
 
     public static void main(@NotNull String[] args) throws Exception {
+        log.info("FUCK:I am in main");
         new AccountServer(8080).startApi();
     }
 
     private void startApi() {
+        log.info("FUCK:I am in startApi()");
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
@@ -68,7 +70,8 @@ public class AccountServer extends Service {
 
     @Override
     public void run() {
-        startApi();
+        log.info("FUCK:I am starting startApi()");
+      //  startApi();
         try {
             while (true) {
                 MessageSystem ms = ApplicationContext.instance().get(MessageSystem.class);

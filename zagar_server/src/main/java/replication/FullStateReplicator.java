@@ -5,6 +5,9 @@ import matchmaker.MatchMaker;
 import model.GameSession;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import protocol.model.*;
 
 import java.io.IOException;
@@ -19,6 +22,8 @@ import java.util.stream.Collectors;
  * Replicates full session state to clients
  */
 public class FullStateReplicator implements Replicator {
+    @NotNull
+    private static final Logger log = LogManager.getLogger(FullStateReplicator.class);
     @Override
     public void replicate() {
         for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
@@ -27,7 +32,11 @@ public class FullStateReplicator implements Replicator {
                         if (cell instanceof model.PlayerCell) {
                             model.PlayerCell c = ((model.PlayerCell) cell);
                             return new PlayerCell(
-                                    c.getId(), c.getMass(), c.getCoordinate(), c.getRadius(), c.getOwner().getUser().getName()
+                                    c.getId(),
+                                    c.getMass(),
+                                    c.getCoordinate(),
+                                    c.getRadius(),
+                                    c.getOwner().getUser().getName()
                             );
                         }
                         if (cell instanceof model.EjectedMass) {

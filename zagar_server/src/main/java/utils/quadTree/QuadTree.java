@@ -306,8 +306,8 @@ public class QuadTree<T> {
                         navigateStack.add(node.getSe());
                     }
                     if (node.getSw() != null && (
-                            region.contains(node.getSw().getRegion())) ||
-                            region.intersects(node.getSw().getRegion())
+                            region.contains(node.getSw().getRegion()) ||
+                                    region.intersects(node.getSw().getRegion()))
                             ) {
                         navigateStack.add(node.getSw());
                     }

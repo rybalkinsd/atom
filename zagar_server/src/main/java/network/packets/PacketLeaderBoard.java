@@ -20,9 +20,10 @@ public class PacketLeaderBoard {
     }
 
     public void write(@NotNull Session session) throws IOException {
-        if (!session.isOpen()) return;
         String msg = JSONHelper.toJSON(new CommandLeaderBoard(leaderBoard));
         log.trace("Sending [" + msg + "]");
-        session.getRemote().sendString(msg);
+        if (session.isOpen()) {
+            session.getRemote().sendString(msg);
+        }
     }
 }

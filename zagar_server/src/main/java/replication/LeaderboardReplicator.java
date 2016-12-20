@@ -4,7 +4,10 @@ import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import network.ClientConnections;
 import network.packets.PacketLeaderBoard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -15,6 +18,8 @@ import java.io.IOException;
  * Replicates session leaderboard to clients
  */
 public class LeaderboardReplicator {
+    @NotNull
+    private static final Logger log = LogManager.getLogger(LeaderboardReplicator.class);
     public void replicate() {
         ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()
                 .forEach(gameSession -> {
