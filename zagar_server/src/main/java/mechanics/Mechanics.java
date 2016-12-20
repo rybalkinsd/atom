@@ -3,6 +3,7 @@ package mechanics;
 import main.ApplicationContext;
 import main.Service;
 import matchmaker.MatchMaker;
+import matchmaker.MatchMakerImpl;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
@@ -33,7 +34,7 @@ public class Mechanics extends Service implements Tickable {
     try {
       Thread.sleep(2_000);
     }catch (Exception ignored){}
-    Ticker ticker = new Ticker(this, 50);
+    Ticker ticker = new Ticker(this,50);
     ticker.loop();
   }
 
@@ -44,9 +45,8 @@ public class Mechanics extends Service implements Tickable {
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();
-      e.printStackTrace();
     }
-
+    ApplicationContext.instance().get(MatchMaker.class).checkUnactive();
     eatAll();
     splitAll();
     //   log.info("Start replication");
@@ -88,7 +88,9 @@ public class Mechanics extends Service implements Tickable {
           for (PlayerCell playerCell:enemy.getCells())
             if(player.eat(playerCell))
               //foodArrayList.add(food);
+            {
               enemy.getCells().remove(playerCell);
+            }
 
       //try to eat Food
       for (Player player : gameSession.getPlayers())
@@ -107,24 +109,36 @@ public class Mechanics extends Service implements Tickable {
       //for(model.Food food:foodArrayList) {
         //gameSession.getField().getFoodSet().remove(food);
       //}
+
+      for (Player player : gameSession.getPlayers())
+        if (player.isRespawn()) {
+          gameSession.respawn(player);
+          player.setRespawn(false);
+      }
+
     }
   }
 
   public void EjectMass (@NotNull  Player player,@NotNull CommandEjectMass commandEjectMass)
   {
     player.eject(commandEjectMass.getDx(),commandEjectMass.getDy());
-    log.info("{} wants to eject mass  <{},{}> (in thread {})",player,commandEjectMass.getDx(),commandEjectMass.getDy(),Thread.currentThread());
+    log.debug("{} wants to eject mass  <{},{}> (in thread {})",player,commandEjectMass.getDx(),commandEjectMass.getDy(),Thread.currentThread());
   }
 
   public void Move (@NotNull Player player, @NotNull CommandMove commandMove)
   {
     player.move(commandMove.getDx(),commandMove.getDy());
-    log.info("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
+    log.debug("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
   }
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
-    player.split(commandSplit.getDx(),commandSplit.getDy(),2);
-    log.info("{} wants to split <{},{}>(in thread {})",player,commandSplit.getDx(),commandSplit.getDy(),Thread.currentThread());
+    player.split(commandSplit.getDx(),commandSplit.getDy());
+    log.debug("{} wants to split <{},{}>(in thread {})",player,commandSplit.getDx(),commandSplit.getDy(),Thread.currentThread());
+  }
+
+  public void Respawn (@NotNull Player player){
+    player.setRespawn(true);
+    log.info("{} wants to respawn (in thread {})",player.getName(),Thread.currentThread());
   }
 }

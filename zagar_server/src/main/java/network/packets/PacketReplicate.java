@@ -41,8 +41,7 @@ public class PacketReplicate {
     try {
       packetReplicate = JSONHelper.fromJSON(json,PacketReplicate.class);
     } catch (JSONDeserializationException e) {
-
-      e.printStackTrace();
+      log.error("Failed to read replicate packet from json",e);
     }
     this.cells = packetReplicate.getCells();
     this.food = packetReplicate.getFood();

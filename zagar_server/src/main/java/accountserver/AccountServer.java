@@ -50,7 +50,7 @@ public class AccountServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Failed to start account server",e);
     }
   }
 

@@ -31,10 +31,10 @@ public final class LeaderboardState {
                 best = new String[size];
                 for (int i = 0; i < size; i++) {
                     Map.Entry<String, Integer> record = list.get(i);
-                    best[i] = record.getKey();
+                    best[i] = record.getKey() + " " + record.getValue();
                 }
             }
+            return best;
         }
-        return best;
     }
 }

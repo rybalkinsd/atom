@@ -22,6 +22,15 @@ public final class Cell implements Serializable {
     this.y = y;
   }
 
+  public Cell(Cell cell) {
+    this.cellId = cell.cellId;
+    this.playerId = cell.playerId;
+    this.isVirus = cell.isVirus;
+    this.size = cell.size;
+    this.x = cell.x;
+    this.y = cell.y;
+  }
+
   public int getPlayerId() {
     return playerId;
   }

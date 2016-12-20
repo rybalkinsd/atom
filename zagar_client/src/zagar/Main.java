@@ -1,9 +1,13 @@
 package zagar;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import zagar.view.GameFrame;
 
 public class Main {
+  @NotNull
+  private static final Logger log = LogManager.getLogger(GameThread.class);
   @NotNull
   public static GameFrame frame;
   @NotNull
@@ -17,8 +21,7 @@ public class Main {
     thread.run();
     try {
       thread.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    } catch (InterruptedException ignored) {
     }
   }
 
@@ -26,7 +29,7 @@ public class Main {
     try {
       game.tick();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Failed to tick in game",e);
     }
     frame.render();
   }

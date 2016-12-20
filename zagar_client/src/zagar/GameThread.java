@@ -1,6 +1,12 @@
 package zagar;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+
 public class GameThread extends Thread implements Runnable {
+  @NotNull
+  private static final Logger log = LogManager.getLogger(GameThread.class);
   public GameThread(){
     super("game");
   }
@@ -11,7 +17,7 @@ public class GameThread extends Thread implements Runnable {
       try{
         Main.updateGame();
       } catch (Throwable e) {
-        e.printStackTrace();
+        log.error("Failed to update game",e);
       }
       if (System.currentTimeMillis() % 100 == 0) {
         if( (System.currentTimeMillis() - preTickTime) == 0)

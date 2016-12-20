@@ -1,6 +1,8 @@
 package zagar.util;
 
 import com.google.gson.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -10,6 +12,10 @@ import java.util.Base64;
  * @author apomosov
  */
 public class JSONHelper {
+
+  @NotNull
+  private static final Logger log = LogManager.getLogger(JSONHelper.class);
+
   @NotNull
   private static Gson gson = new GsonBuilder().create();
 
@@ -50,8 +56,8 @@ public class JSONHelper {
       ois.close();
       return o;
     }catch(Exception e){
-      e.printStackTrace();
-      return new Object();
+      log.error("Failed to deserialize object",e);
+      return null;
     }
   }
 

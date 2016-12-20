@@ -22,7 +22,7 @@ public class PacketHandlerReplicate {
       //System.out.println(commandReplicate.getCells()[0]);
      // System.out.println("PIRATE3");
     } catch (IOException | ClassNotFoundException ex ){
-      ex.printStackTrace();
+      log.error("failed to deserialize replicate command",ex);
       return;
     }
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];

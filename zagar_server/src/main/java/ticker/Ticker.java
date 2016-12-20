@@ -30,7 +30,7 @@ public class Ticker {
       tickable.tick(elapsed);
       elapsed = System.nanoTime() - started;
       if (elapsed < sleepTimeNanos) {
-        log.info("All tickers finish at " + TimeUnit.NANOSECONDS.toMillis(elapsed) + " ms");
+        log.debug("All tickers finish at " + TimeUnit.NANOSECONDS.toMillis(elapsed) + " ms");
         LockSupport.parkNanos(sleepTimeNanos - elapsed);
       } /*else {
         log.warn("tick lag " + TimeUnit.NANOSECONDS.toMillis(elapsed - sleepTimeNanos) + " ms");

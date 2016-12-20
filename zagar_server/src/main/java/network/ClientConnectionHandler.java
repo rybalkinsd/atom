@@ -1,11 +1,10 @@
 package network;
 
 import main.ApplicationContext;
+import matchmaker.MatchMaker;
+import model.GameSession;
 import model.Player;
-import network.handlers.PacketHandlerAuth;
-import network.handlers.PacketHandlerEjectMass;
-import network.handlers.PacketHandlerMove;
-import network.handlers.PacketHandlerSplit;
+import network.handlers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
@@ -40,6 +39,11 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
     for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
       if(connection.getValue().equals(getSession())){
+        for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+          if (gameSession.getPlayers().contains(connection.getKey())){
+            gameSession.leave(connection.getKey());
+          }
+        }
         clientConnections.removeConnection(connection.getKey());
       }
     }
@@ -49,7 +53,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   @Override
   public void onWebSocketError(@NotNull Throwable cause) {
     super.onWebSocketError(cause);
-    cause.printStackTrace(System.err);
+    log.error("Web socket error",cause,System.err);
   }
 
   public void handlePacket(@NotNull String msg) {
@@ -68,6 +72,9 @@ public class ClientConnectionHandler extends WebSocketAdapter {
           break;
         case CommandSplit.NAME:
           new PacketHandlerSplit(getSession(), msg);
+          break;
+        case CommandRespawn.NAME:
+          new PacketHandlerRespawn(getSession());
           break;
       }
     }catch(Exception ignored){}

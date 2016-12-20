@@ -9,6 +9,11 @@ public final class Food implements Serializable{
   private int x;
   private int y;
 
+  public Food(Food food){
+    this.x=food.x;
+    this.y=food.y;
+  }
+
   public Food(int x, int y){
     this.x=x;
     this.y=y;
@@ -33,9 +38,10 @@ public final class Food implements Serializable{
 
   @Override
   public String toString(){
-    StringBuilder build = new StringBuilder();
-    build.append("ID FOOD");
-    return build.toString();
+    return "Food{" +
+            "x=" + x +
+            ",y=" + y +
+            "}";
   }
 
 }

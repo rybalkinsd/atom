@@ -18,20 +18,5 @@ import java.util.Map;
  */
 public interface Replicator {
   void replicate();
-
-  default void sendLeaderboard() {
-
-    String leaderboard[]= LeaderboardState.get();
-    for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
-      for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey())) {
-          try {
-            new PacketLeaderBoard(leaderboard).write(connection.getValue());
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    }
-  }
+  void sendLeaderboard();
 }

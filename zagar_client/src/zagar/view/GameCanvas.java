@@ -9,6 +9,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -64,27 +65,27 @@ public class GameCanvas extends JPanel {
       avgY /= Game.player.size();
 
       g.setStroke(new BasicStroke(2));
-      Double displacement=(GameFrame.size.width / 2) / Game.zoom;
-      if(!(displacement.equals(Double.POSITIVE_INFINITY)||displacement.equals(Double.NEGATIVE_INFINITY))) {
-        for (double i = avgX - displacement; i < avgX + displacement; i += 100) {
-          i = (int) (i / 100) * 100;
+      if(Double.isFinite(avgX)&&Double.isFinite(avgY)) {
+        double dx = (GameFrame.size.width / 2) / Game.zoom;
+        double dy = (GameFrame.size.height / 2) / Game.zoom;
+        if (Double.isInfinite(dx))
+          dx = GameFrame.size.width;
+        if (Double.isInfinite(dy))
+          dy = GameFrame.size.height;
+        for (double i = ((int) ((avgX - dx) / 100)) * 100; i < (avgX + dx); i += 100) {
           int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-          g.drawLine((int) x, (int) Game.minSizeY, (int) x, (int) Game.maxSizeY);
+          g.drawLine(x, 0, x, GameFrame.size.height);
         }
-      }
-      displacement=(GameFrame.size.height / 2) / Game.zoom;
-      if(!(displacement.equals(Double.POSITIVE_INFINITY)||displacement.equals(Double.NEGATIVE_INFINITY))) {
-        for (double i = avgY - displacement; i < avgY + displacement; i += 100) {
-          i = (int) (i / 100) * 100;
+        for (double i = ((int) ((avgY - dy) / 100)) * 100; i < (avgY + dy); i += 100) {
           int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
-          g.drawLine((int) Game.minSizeX, (int) y, (int) Game.maxSizeX, (int) y);
+          g.drawLine(0, y, GameFrame.size.width, y);
         }
       }
     }
     g.setFont(fontCells);
 
-    for (int i3=0; i3<Game.food.length; i3++){
-      Food food = Game.food[i3];
+    for (int i=0; i<Game.food.length; i++){
+      Food food = Game.food[i];
       if (food != null){
         food.render(g,1);
       }

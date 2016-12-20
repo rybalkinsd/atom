@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
 import protocol.*;
+import zagar.GameThread;
 import zagar.network.handlers.*;
 import zagar.network.packets.PacketAuth;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ import zagar.Game;
 @WebSocket(maxTextMessageSize = 1024*8)
 public class ServerConnectionSocket {
   @NotNull
-  private static final Logger log = LogManager.getLogger("<<<");
+  private static final Logger log = LogManager.getLogger(ServerConnectionSocket.class);
 
   @NotNull
   private final CountDownLatch closeLatch;
@@ -61,11 +62,8 @@ public class ServerConnectionSocket {
 
   public void handlePacket(@NotNull String msg) {
     try {
-      //System.out.println("PIRATE1");
       Command com = (Command) JSONHelper.fromSerial(msg);
       String name = com.getCommand();
-      //System.out.println(name);
-     // System.out.println("PIRATE2");
       switch (name) {
         case CommandLeaderBoard.NAME:
           new PacketHandlerLeaderBoard(msg);
@@ -82,8 +80,7 @@ public class ServerConnectionSocket {
       }
     }
     catch(Exception e){
-      e.printStackTrace();
-     // System.out.println("Bol`no");
+      log.error("Failed to handle a packet",e);
     }
   }
 }

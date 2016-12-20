@@ -29,4 +29,6 @@ public interface GameSession {
   List<Player> getPlayers();
 
   Field getField();
+
+  void respawn(@NotNull Player player);
 }

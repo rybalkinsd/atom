@@ -40,6 +40,7 @@ public class MasterServer {
     }
     catch (Exception e) {
       log.error("Failed to add an application context class",e);
+      System.exit(0);
       return;
     }
 
@@ -67,6 +68,19 @@ public class MasterServer {
   public boolean isReady(){return ready;}
 
   public static void main(@NotNull String[] args) throws ExecutionException, InterruptedException {
+    for(int i = 0;i<args.length;i++)
+      if(args[i].equals("-config")&&i+1<args.length)
+        Configurations.setConfigs(args[i+1]);
+    if(!Configurations.isSet())
+    {
+      log.info("Configurations not specified, using default configuratons");
+      Configurations.setConfigs("src/main/resources/config.properties");
+    }
+    if(!Configurations.isSet())
+    {
+      log.error("Failed to open default configurations, aborting...");
+      System.exit(0);
+    }
     MasterServer server = new MasterServer();
     server.start();
   }

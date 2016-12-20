@@ -29,10 +29,17 @@ public class GameSessionImpl implements GameSession {
     foodGenerator.run();
   }
 
+
+
   @Override
   public void join(@NotNull Player player) {
     players.add(player);
     this.playerPlacer.place(player);
+  }
+  @Override
+  public void respawn(@NotNull Player player){
+    player.startRespawn();
+    playerPlacer.place(player);
   }
 
   @Override
@@ -57,4 +64,5 @@ public class GameSessionImpl implements GameSession {
         "id=" + id +
         '}';
   }
+
 }

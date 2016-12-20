@@ -35,15 +35,14 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
     @Override
     public void tick(long elapsedNanos) {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             log.error(e);
             Thread.currentThread().interrupt();
-            e.printStackTrace();
         }
 
         //log.info("Start leaderboard replication");
-        @org.jetbrains.annotations.NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+        MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
         Message message = new SendLeaderboardMsg(this.getAddress());
         messageSystem.sendMessage(message);
 
@@ -61,10 +60,13 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
         for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
             int score=0;
             Player player=connection.getKey();
-            for(Cell cell:player.getCells()) {
-                score+=cell.getMass();
+            if(player.getCells().size()==1) {
+                for (Cell cell : player.getCells()) {
+                    score += cell.getMass() * cell.getMass() / 100;
+                }
+                LeaderboardState.update(player.getName(), score);
+
             }
-            LeaderboardState.update(player.getName(),score);
         }
     }
 }

@@ -35,7 +35,6 @@ public class AuthClient {
           .addHeader("content-type", "application/x-www-form-urlencoded")
           .build();
 
-      OkHttpClient client = new OkHttpClient();
       Response response = client.newCall(request).execute();
       return response.isSuccessful();
     } catch (IOException e) {

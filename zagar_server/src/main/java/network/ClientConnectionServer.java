@@ -43,7 +43,7 @@ public class ClientConnectionServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Failed to start client connection server",e);
     }
 
     log.info(getAddress() + " started on port " + port);
