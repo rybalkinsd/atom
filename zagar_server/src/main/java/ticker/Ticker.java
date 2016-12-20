@@ -42,7 +42,7 @@ public class Ticker {
                 log.trace("{} <tick> {}", tickable, tickNumber.incrementAndGet());
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             Thread.currentThread().interrupt();
         }
     }

@@ -51,7 +51,7 @@ public class AccountServer extends Service {
         try {
             server.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class AccountServer extends Service {
                 ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 }

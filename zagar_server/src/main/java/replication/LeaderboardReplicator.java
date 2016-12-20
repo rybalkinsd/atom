@@ -30,7 +30,7 @@ public class LeaderboardReplicator {
                                 try {
                                     new PacketLeaderBoard(lb).write(session);
                                 } catch (IOException e) {
-                                    e.printStackTrace();
+                                    log.fatal(e.getMessage());
                                 }
                             });
                 });

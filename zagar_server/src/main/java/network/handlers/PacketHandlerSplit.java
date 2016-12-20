@@ -18,7 +18,7 @@ public class PacketHandlerSplit implements PacketHandler {
         try {
             commandSplit = JSONHelper.fromJSON(json, CommandSplit.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             return;
         }
 

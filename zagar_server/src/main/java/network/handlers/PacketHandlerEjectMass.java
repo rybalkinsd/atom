@@ -18,7 +18,7 @@ public class PacketHandlerEjectMass implements PacketHandler {
         try {
             commandEjectMass = JSONHelper.fromJSON(json, CommandEjectMass.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             return;
         }
 

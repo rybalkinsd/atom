@@ -48,18 +48,18 @@ public class ClientConnectionServer extends Service {
         try {
             server.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
 
         log.info(getAddress() + " started on port " + port);
 
         try {
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 MessageSystem ms = ApplicationContext.instance().get(MessageSystem.class);
                 ms.execOneForService(this);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 

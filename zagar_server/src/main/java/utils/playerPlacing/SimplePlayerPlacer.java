@@ -2,10 +2,13 @@ package utils.playerPlacing;
 
 import main.ApplicationContext;
 import model.Field;
+import model.GameConstants;
 import model.Player;
 import model.PlayerCell;
 import org.jetbrains.annotations.NotNull;
 import utils.idGeneration.IDGenerator;
+
+import java.awt.geom.Point2D;
 
 /**
  * @author apomosov
@@ -21,9 +24,8 @@ public class SimplePlayerPlacer implements PlayerPlacer {
   @Override
   public void place(@NotNull Player player) {
     int id = ApplicationContext.instance().get(IDGenerator.class).next();
-    PlayerCell playerCell = new PlayerCell(player, id, 0, 0);
-    playerCell.setX(5);
-    playerCell.setY(5);
+    PlayerCell playerCell
+            = new PlayerCell(player, id, new Point2D.Double(5,5), GameConstants.DEFAULT_PLAYER_CELL_MASS);
     field.addCell(playerCell);
   }
 }

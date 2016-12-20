@@ -4,6 +4,7 @@ import mechanics.Mechanics;
 import messageSystem.Abonent;
 import messageSystem.Message;
 import model.Player;
+import model.PlayerCell;
 import network.ClientConnectionServer;
 import org.jetbrains.annotations.NotNull;
 import protocol.commands.CommandEjectMass;
@@ -30,6 +31,6 @@ public class EjectMassMsg extends Message {
     @Override
     public void exec(Abonent abonent) {
         log.trace("EjectMassMsg exec() call");
-        Message.getMessageSystem().getService(Mechanics.class).ejectMass(player, command);
+        player.getCells().forEach(PlayerCell::ejectMass);
     }
 }

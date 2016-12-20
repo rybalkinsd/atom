@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import org.jetbrains.annotations.NotNull;
+import protocol.model.*;
 
 import java.lang.reflect.Type;
 
@@ -14,7 +16,17 @@ import java.lang.reflect.Type;
  * Contains helper functions to work with {@see com.google.gson} library
  */
 public class JSONHelper {
-    private static @NotNull Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private static @NotNull RuntimeTypeAdapterFactory<Cell> cellAdapterFactory =
+            RuntimeTypeAdapterFactory.of(Cell.class)
+            .registerSubtype(Virus.class)
+            .registerSubtype(EjectedMass.class)
+            .registerSubtype(Food.class)
+            .registerSubtype(PlayerCell.class);
+
+    private static @NotNull Gson gson = new GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .registerTypeAdapterFactory(cellAdapterFactory)
+            .create();
 
     /**
      * Serialize given object

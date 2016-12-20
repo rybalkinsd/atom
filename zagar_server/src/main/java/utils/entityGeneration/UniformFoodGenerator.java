@@ -4,6 +4,7 @@ import model.Field;
 import model.Food;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.geom.Point2D;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +58,13 @@ public class UniformFoodGenerator extends FoodGenerator {
         }
         if (getField().getCells(Food.class).size() <= threshold) {
             for (int i = 0; i < foodPerSecond; i++) {
-                Food food = new Food(0, 0);
-                food.setX(rand.nextInt(getField().getWidth()));
-                food.setY(food.getRadius() + rand.nextInt(getField().getHeight() - 2 * food.getRadius()));
+                Food food = new Food(new Point2D.Double(0,0));
+                food.setCoordinate(new Point2D.Double(
+                        food.getRadius() +
+                                rand.nextInt((int)(getField().getSize().getWidth() - 2 * food.getRadius())),
+                        food.getRadius() +
+                                rand.nextInt((int)(getField().getSize().getHeight() - 2 * food.getRadius()))
+                ));
                 getField().addCell(food);
             }
         }

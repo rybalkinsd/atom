@@ -49,7 +49,7 @@ public class SimpleJsonLeaderboard implements LeaderboardDao {
                 log.info("Got users {}", users);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 

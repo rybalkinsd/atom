@@ -52,8 +52,9 @@ public class MasterServer {
                 interfClass = Class.forName(entry.getKey());
                 implClass = Class.forName(entry.getValue());
                 ApplicationContext.instance().put(interfClass, implClass.newInstance());
+                log.info("Loaded implementation {} for interface {}", implClass.getName(), interfClass.getName());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.fatal(e.getMessage());
                 System.exit(-1);
             }
         });

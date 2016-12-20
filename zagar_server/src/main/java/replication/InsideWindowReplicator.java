@@ -2,15 +2,23 @@ package replication;
 
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
-import model.*;
+import model.Cell;
+import model.GameSession;
+import model.Player;
+import model.PlayerCell;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import protocol.model.EjectedMass;
+import protocol.model.Food;
+import protocol.model.Virus;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,93 +38,70 @@ public class InsideWindowReplicator implements Replicator {
         for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
             gameSession.getPlayers().forEach(player -> {
                 List<PlayerCell> playerCells = player.getCells();
-                Point center = calculateCenter(playerCells);
+                Point2D center = calculateCenter(playerCells);
                 int windowWidth = player.getWindowWidth();
                 int windowHeight = player.getWindowHeight();
 
                 final Rectangle2D border = new Rectangle2D.Double(
-                        center.x - (windowWidth * widthFactor / 2) - widthDelta,
-                        center.y + (windowHeight * heightFactor / 2) + heightDelta,
-                        center.x + (windowWidth * widthFactor / 2) + widthDelta,
-                        center.y - (windowHeight * heightFactor / 2) - heightDelta);
+                        center.getX() - (windowWidth * widthFactor / 2) - widthDelta,
+                        center.getY() + (windowHeight * heightFactor / 2) + heightDelta,
+                        center.getX() + (windowWidth * widthFactor / 2) + widthDelta,
+                        center.getY() - (windowHeight * heightFactor / 2) - heightDelta);
 
-                List<PlayerCell> playerCellsToSend = playerCells.stream()
-                        .filter(cell -> border.contains(cell.getX(), cell.getY()))
-                        .collect(Collectors.toList());
-                List<Food> foodsToSend = gameSession.getField()
-                        .getCells(Food.class)
-                        .stream()
-                        .filter(cell -> border.contains(cell.getX(), cell.getY()))
-                        .collect(Collectors.toList());
-                List<Virus> virusesToSend = gameSession.getField()
-                        .getCells(Virus.class)
-                        .stream()
-                        .filter(cell -> border.contains(cell.getX(), cell.getY()))
-                        .collect(Collectors.toList());
-                sendToPlayer(player, playerCellsToSend, foodsToSend, virusesToSend);
+                List<Cell> cellsToSend = gameSession.getField().getCells(Cell.class);
+                sendToPlayer(player, cellsToSend, border);
             });
         }
     }
 
     @NotNull
-    private Point calculateCenter(@NotNull List<PlayerCell> cells) {
-        int x = 0;
-        int y = 0;
+    private Point2D calculateCenter(@NotNull List<PlayerCell> cells) {
+        double x = 0;
+        double y = 0;
         for (Cell cell : cells) {
-            x += cell.getX();
-            y += cell.getY();
+            x += cell.getCoordinate().getX();
+            y += cell.getCoordinate().getY();
         }
         x /= cells.size();
         y /= cells.size();
-        return new Point(x, y);
+        return new Point2D.Double(x, y);
     }
 
     private void sendToPlayer(@NotNull Player player,
-                              @NotNull List<PlayerCell> playerCells,
-                              @NotNull List<Food> foods,
-                              @NotNull List<Virus> viruses) {
+                              @NotNull List<Cell> cellsToSend,
+                              @NotNull Rectangle2D border) {
         Session session = ApplicationContext.instance().get(ClientConnections.class).getSessionByPlayer(player);
         if (session == null) return;
-        List<protocol.model.Cell> playerCellsToSend = playerCells.stream()
-                .map(cell -> new protocol.model.Cell(
-                        cell.getId(),
-                        player.getId(),
-                        false,
-                        cell.getRadius(),
-                        cell.getX(),
-                        cell.getY()))
+        List<protocol.model.Cell> fitsInScreen = cellsToSend.stream()
+                .filter(cell->border.contains(cell.getCoordinate()))
+                .map(cell->{
+                    if (cell instanceof model.PlayerCell) {
+                        model.PlayerCell c = ((model.PlayerCell) cell);
+                        return new protocol.model.PlayerCell(
+                                c.getId(), c.getMass(), c.getCoordinate(), c.getRadius(), c.getOwner().getUser().getName()
+                        );
+                    }
+                    if (cell instanceof model.EjectedMass) {
+                        model.EjectedMass c = ((model.EjectedMass) cell);
+                        return new EjectedMass(c.getMass(), c.getCoordinate(), c.getRadius());
+                    }
+                    if (cell instanceof model.Food) {
+                        model.Food c = ((model.Food) cell);
+                        return new Food(c.getMass(), c.getCoordinate(), c.getRadius());
+                    }
+                    if (cell instanceof model.Virus) {
+                        model.Virus c = ((model.Virus) cell);
+                        return new Virus(c.getMass(), c.getCoordinate(), c.getRadius());
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-        List<protocol.model.Food> foodsToSend = foods.stream()
-                .map(f -> new protocol.model.Food(f.getX(), f.getY()))
-                .collect(Collectors.toList());
-        playerCellsToSend.addAll(
-                viruses.stream()
-                        .map(virus ->
-                                //negative IDs shows that cell not belongs to player
-                                new protocol.model.Cell(
-                                        -1,
-                                        -1,
-                                        true,
-                                        virus.getMass(),
-                                        virus.getX(),
-                                        virus.getY()))
-                        .collect(Collectors.toList())
-        );
         try {
-            new PacketReplicate(playerCellsToSend, foodsToSend).write(session);
+            new PacketReplicate(fitsInScreen).write(session);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 
-    private static final class Point {
-        int x;
-        int y;
-
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
 }

@@ -63,7 +63,7 @@ public class MatchMakerImpl implements MatchMaker {
     private
     @NotNull
     GameSession createNewGame() {
-        Field field = new Field();
+        Field field = new Field(GameConstants.FIELD_SIZE);
         FoodGenerator foodGenerator = new UniformFoodGenerator(field,
                 GameConstants.FOOD_PER_SECOND_GENERATION,
                 GameConstants.MAX_FOOD_ON_FIELD,

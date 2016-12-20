@@ -5,10 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import utils.EatComparator;
 import utils.quadTree.QuadTree;
+import utils.quadTree.TreePoint;
 
-import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -17,17 +20,20 @@ import java.util.stream.Collectors;
 public class Field {
     @NotNull
     private static final Logger log = LogManager.getLogger(Field.class);
-    private static final int width = GameConstants.FIELD_WIDTH;
-    private static final int height = GameConstants.FIELD_HEIGHT;
     @NotNull
-    private static final Rectangle fieldRange = new Rectangle(0, 0, width, height);
+    private final Dimension2D fieldSize;
     @NotNull
-    private final QuadTree<Cell> entities = new QuadTree<>(fieldRange);
+    private final Rectangle2D fieldRange;
+    @NotNull
+    private final QuadTree<Cell> entities;
     @NotNull
     private EatComparator eatComparator = new EatComparator();
 
 
-    public Field() {
+    public Field(@NotNull Dimension2D fieldSize) {
+        this.fieldSize=fieldSize;
+        this.fieldRange = new Rectangle2D.Double(0, 0, fieldSize.getWidth(), fieldSize.getHeight());
+        this.entities = new QuadTree<>(fieldRange);
     }
 
     @NotNull
@@ -56,50 +62,48 @@ public class Field {
     }
 
     public void addCell(@NotNull Cell cell) {
-        log.trace("Field:{} Added {} to ({}, {})", toString(), cell.getClass().getName(), cell.getX(), cell.getY());
-        entities.set(new Point2D.Double(cell.getX(),cell.getY()),cell);
+        log.info("Field:{} Added {} to ({}, {})",
+                toString(), cell.getClass().getName(), cell.getCoordinate().getX(), cell.getCoordinate().getY());
+        entities.set(cell.getCoordinate(),cell);
     }
 
     public void removeCell(@NotNull Cell cell) {
-        log.trace("Removing {} from ({}, {})", cell.getClass().getName(), cell.getX(), cell.getY());
-        entities.remove(new Point2D.Double(cell.getX(),cell.getY()));
+        log.trace("Removing {} from ({}, {})",
+                cell.getClass().getName(), cell.getCoordinate().getX(), cell.getCoordinate().getY());
+        entities.remove(cell.getCoordinate());
     }
 
 
-    public void moveCell(@NotNull Cell cell, int newX, int newY) {
+    public void moveCell(@NotNull Cell cell, @NotNull Point2D newCoordinate) {
         removeCell(cell);
-        cell.setX(newX);
-        cell.setY(newY);
+        cell.setCoordinate(newCoordinate);
         addCell(cell);
     }
 
-    public void tryToEat(@NotNull Player player) {
-        /*player.getCells().forEach(cell -> {
-            //берем 3 ближайших шарика
-            //исходим из предположения, что за один тик в радиус шара не попадет больше 3 шариков
-            //можно сделать проверку, входит ли 3 в радиус, если да, то взять больше ближайших
-            Cell[] candidatesToEat = (Cell[]) entities.nearest(new double[]{cell.getX(), cell.getY()}, 3);
-            Arrays.stream(candidatesToEat)
-                    .filter(c -> Math.pow(c.getX() - cell.getX(), 2.0)
-                            + Math.pow(c.getY() - cell.getY(), 2.0)
-                            < Math.pow(cell.getRadius(), 2.0))//is in cell radius
-                    .filter( c -> eatComparator.compare(cell, c) == 1)//canEat
-                    .forEach(c -> {
-                        cell.eat(c);//todo update player score??
-                        removeCell(c);
-                        if(c instanceof Virus){
-                            cell.explode();//todo add and remove cells in kd
-                        }
-                    });
-        });*/
+    @NotNull
+    public List<Cell> findIntersected(@NotNull Cell cell) {
+        return entities.searchWithin(cell.getBox()).stream()
+                .map(TreePoint::getItem)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
-
-    public int getWidth() {
-        return width;
+    @NotNull
+    public Rectangle2D getRegion(){
+        return fieldRange;
     }
 
-    public int getHeight() {
-        return height;
+    @NotNull
+    public List<Cell> getAllCells() {
+        return entities.getAllPoints().stream()
+                .filter(tp->tp.getItem().isPresent())
+                .map(tp->tp.getItem().get())
+                .collect(Collectors.toList());
+    }
+
+    @NotNull
+    public Dimension2D getSize() {
+        return fieldSize;
     }
 }

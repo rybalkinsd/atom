@@ -15,7 +15,7 @@ public class PacketHandlerWindowSize implements PacketHandler {
         try {
             commandWindowSize = JSONHelper.fromJSON(json, CommandWindowSize.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             return;
         }
         Player player = ApplicationContext.instance().get(ClientConnections.class).getPlayerBySession(session);

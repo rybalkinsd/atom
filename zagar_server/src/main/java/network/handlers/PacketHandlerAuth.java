@@ -20,25 +20,37 @@ import java.io.IOException;
 
 public class PacketHandlerAuth implements PacketHandler {
     public void handle(@NotNull Session session, @NotNull String json) {
+        final ApplicationContext appContext = ApplicationContext.instance();
         try {
             CommandAuth commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
             if (!AuthenticationApi.validateToken(commandAuth.getToken())) {
-                new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Invalid user or password").write(session);
+                log.info("Got invalid token from user '{}'", commandAuth.getLogin());
+                new PacketAuthFail(
+                        commandAuth.getLogin(),
+                        commandAuth.getToken(),
+                        "Invalid user or password"
+                ).write(session);
             } else {
-                User user = ApplicationContext.instance().get(UserDao.class).getUserByName(commandAuth.getLogin());
+                User user = appContext.get(UserDao.class).getUserByName(commandAuth.getLogin());
                 if (user == null) {
-                    new PacketAuthFail(commandAuth.getLogin(), commandAuth.getToken(), "Error getting user from base")
-                            .write(session);
+                    log.info("Non-registered user '{}' tried to auth", commandAuth.getLogin());
+                    new PacketAuthFail(
+                            commandAuth.getLogin(),
+                            commandAuth.getToken(),
+                            "Error getting user from base"
+                    ).write(session);
                     return;
                 }
-                int id = ApplicationContext.instance().get(IDGenerator.class).next();
+                log.info("User '{}' successfully authorized, creating player and joining game",
+                        commandAuth.getLogin());
+                int id = appContext.get(IDGenerator.class).next();
                 Player player = new Player(id, user);
-                ApplicationContext.instance().get(ClientConnections.class).registerConnection(player, session);
+                appContext.get(ClientConnections.class).registerConnection(player, session);
                 new PacketAuthOk().write(session);
-                ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
+                appContext.get(MatchMaker.class).joinGame(player);
             }
         } catch (JSONDeserializationException | IOException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 }

@@ -16,6 +16,7 @@ public class Player {
     private User user;
     private int windowWidth;
     private int windowHeight;
+    private int currentScore = GameConstants.DEFAULT_PLAYER_CELL_MASS;
 
     public Player(int id, @NotNull User user) {
         this.id = id;
@@ -45,9 +46,7 @@ public class Player {
         Optional<Integer> totalScore = getCells().stream()
                 .map(PlayerCell::getMass)
                 .reduce(Math::addExact);
-        return totalScore.isPresent() ?
-                totalScore.get() :
-                0;
+        return totalScore.orElse(0);
     }
 
     public int getId() {
@@ -93,5 +92,13 @@ public class Player {
         return "Player{" +
                 "name='" + user.getName() + '\'' +
                 '}';
+    }
+
+    public void updateScore(int diffValue){
+        int newScore = currentScore + diffValue;
+        if ( newScore < 0){
+            throw new ArithmeticException("score is negative");
+        }
+        currentScore = newScore;
     }
 }

@@ -72,7 +72,7 @@ public class User implements Serializable {
             md.update(password.getBytes());
             passwordHash = md.digest();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             System.exit(1);
         }
         log.info(String.format("Created new user %s, id %d", name, id));
@@ -115,7 +115,7 @@ public class User implements Serializable {
             md.update(password.getBytes());
             return MessageDigest.isEqual(passwordHash, md.digest());
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             System.exit(1);
         }
         return false;
@@ -132,7 +132,7 @@ public class User implements Serializable {
             md.update(newPassword.getBytes());
             passwordHash = md.digest();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             System.exit(1);
         }
     }

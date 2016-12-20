@@ -8,7 +8,6 @@ import network.ClientConnectionServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import replication.FullStateReplicator;
 import replication.Replicator;
 
 /**

@@ -21,11 +21,11 @@ class TreeNode<T> {
     @Nullable
     private final TreeNode<T> parent;
     @NotNull
-    private Type nodeType = Type.EMPTY;
+    private volatile Type nodeType = Type.EMPTY;
     @Nullable
-    private TreeNode<T> nw,ne,sw,se;
+    private volatile TreeNode<T> nw,ne,sw,se;
     @Nullable
-    private TreePoint<T> point;
+    private volatile TreePoint<T> point;
 
     /**
      * Constructs {@link QuadTree} node

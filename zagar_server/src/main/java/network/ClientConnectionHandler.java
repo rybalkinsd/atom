@@ -3,6 +3,7 @@ package network;
 import com.google.gson.JsonObject;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
+import model.Player;
 import network.handlers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,16 +50,13 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketClose(int statusCode, @NotNull String reason) {
         super.onWebSocketClose(statusCode, reason);
         log.info("Socket closed: [" + statusCode + "] " + reason);
-        ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
         MatchMaker mm = ApplicationContext.instance().get(MatchMaker.class);
-        clientConnections.getConnections().forEach((entry) -> {
-            if (!entry.getValue().isOpen()) {
-                clientConnections.removeConnection(entry.getKey());
-                //leave player
-                mm.leaveGame(entry.getKey());
-            }
-        });
-
+        Player player = ApplicationContext.instance().get(ClientConnections.class).getPlayerBySession(getSession());
+        if (player == null) {
+            log.warn("Trying to close session for non-present player");
+            return;
+        }
+        mm.leaveGame(player);
     }
 
     @Override

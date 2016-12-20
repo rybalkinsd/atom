@@ -34,7 +34,7 @@ public class SimpleJsonReplicator implements Replicator {
                 json = out.toString();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             json = null;
         }
     }
@@ -51,11 +51,11 @@ public class SimpleJsonReplicator implements Replicator {
                             if (entry.getValue().isOpen())
                                 entry.getValue().getRemote().sendString(json);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.fatal(e.getMessage());
                         }
                     });
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
         }
     }
 }

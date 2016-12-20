@@ -50,7 +50,7 @@ public class WebServerTest {
         } catch (InterruptedException ignored) {
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             Assert.fail();
         }
     }

@@ -5,6 +5,7 @@ import model.GameConstants;
 import model.Virus;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.geom.Point2D;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +58,12 @@ public class RandomVirusGenerator extends VirusGenerator {
         int virusRadius = (int) Math.sqrt(GameConstants.VIRUS_MASS / Math.PI);
         int virusesToGenerate = numberOfViruses - onField.size() + virusesToRemove;
         for (int i = 0; i < virusesToGenerate; i++) {
-            Virus virus = new Virus(
-                    virusRadius + random.nextInt(getField().getWidth() - 2 * virusRadius),
-                    virusRadius + random.nextInt(getField().getHeight() - 2 * virusRadius)
-            );
+            Virus virus = new Virus(new Point2D.Double(
+                    virusRadius +
+                            random.nextInt((int)getField().getSize().getWidth() - 2 * virusRadius),
+                    virusRadius +
+                            random.nextInt((int)getField().getSize().getHeight() - 2 * virusRadius)
+            ));
             getField().addCell(virus);
         }
     }

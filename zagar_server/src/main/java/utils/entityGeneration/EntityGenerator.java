@@ -1,6 +1,7 @@
 package utils.entityGeneration;
 
 import model.Field;
+import model.GameConstants;
 import org.jetbrains.annotations.NotNull;
 import ticker.Tickable;
 
@@ -16,7 +17,7 @@ public abstract class EntityGenerator implements Tickable {
     private final Field field;
     @NotNull
     private Duration idleDuration = Duration.ZERO;
-
+    private boolean firstRun = true;
     /**
      * Base constructor
      * @param field field where generator will be generate objects
@@ -37,14 +38,16 @@ public abstract class EntityGenerator implements Tickable {
     abstract void generate(@NotNull Duration elapsed);
 
     /**
-     * Calls {@see generate()} method only if {@see idleDuration} greater than 1 second
+     * Calls {@see generate()} method only if {@see idleDuration} greater than {@see GameConstants.GENERATORS_PERIOD}
      * @param elapsed time interval
      */
     @Override
     public void tick(@NotNull Duration elapsed) {
-        //do work only when idleDuration greater than 1 second
-        if (idleDuration.toMillis() >= 1000) {
+        //do work only when idleDuration greater preset value
+        if (idleDuration.compareTo(GameConstants.GENERATORS_PERIOD)>0) {
             idleDuration = Duration.ZERO;
+        } else if (firstRun) {
+            firstRun = false;
         } else {
             idleDuration = idleDuration.plus(elapsed);
             return;

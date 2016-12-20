@@ -18,7 +18,7 @@ public class PacketHandlerMove implements PacketHandler {
         try {
             commandMove = JSONHelper.fromJSON(json, CommandMove.class);
         } catch (JSONDeserializationException e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             return;
         }
 

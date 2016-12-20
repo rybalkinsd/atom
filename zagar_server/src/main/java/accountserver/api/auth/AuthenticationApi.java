@@ -35,12 +35,17 @@ public class AuthenticationApi {
                              @FormParam("password") String password) {
 
         if (username == null || password == null) {
+            log.error("Got null form parameters");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         if (username.equals("") || password.equals("") ||
-                username.equals("null") || password.equals("null") ||
-                ApplicationContext.instance().get(UserDao.class).getUserByName(username) != null) {
+                username.equals("null") || password.equals("null")) {
+            log.info("Got invalid data (empty or 'null' user or password)");
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+        if (ApplicationContext.instance().get(UserDao.class).getUserByName(username) != null) {
+            log.info("User '{}' already registered", username);
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
@@ -48,7 +53,6 @@ public class AuthenticationApi {
         ApplicationContext.instance()
                 .get(UserDao.class)
                 .addUser(user);
-
 
         //добавляем в таблицу Leaderboard
         ApplicationContext.instance()
@@ -67,15 +71,18 @@ public class AuthenticationApi {
                                      @FormParam("password") String password) {
 
         if (username == null || password == null) {
+            log.error("Got null form parameters");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         if (username.equals("") || password.equals("") || username.equals("null") || password.equals("null")) {
+            log.info("Got invalid data (empty or 'null' user or password)");
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
         try {
             // Authenticate the user using the credentials provided
             User user = ApplicationContext.instance().get(UserDao.class).getUserByName(username);
             if (user == null || !user.validatePassword(password)) {
+                log.info("User '{}' is not exist", username);
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
 
@@ -87,7 +94,7 @@ public class AuthenticationApi {
             return Response.ok(token.toString()).build();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.fatal(e.getMessage());
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
@@ -98,8 +105,10 @@ public class AuthenticationApi {
     @Produces("text/plain")
     public Response logout(@Context HttpHeaders headers) {
         Token token = AuthenticationFilter.getTokenFromHeaders(headers);
-        if (token == null)
+        if (token == null) {
+            log.error("Got null token");
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
         ApplicationContext.instance().get(TokenDao.class).removeToken(token);
         return Response.ok("Logged out").build();
     }
