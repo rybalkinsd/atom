@@ -1,4 +1,5 @@
 language: java
-notifications:
-  email: false
-  
+install:
+  - mvn install -DskipTests=true -Dgpg.skip=true -B -V
+jdk:
+  - oraclejdk8
