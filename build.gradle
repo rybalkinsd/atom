@@ -1,22 +1,19 @@
-import org.gradle.plugins.ide.idea.model.*
-
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
-
     group = 'technoatom'
     version = '1.0-SNAPSHOT'
-    sourceCompatibility = 1.8
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
 
     repositories {
         mavenCentral()
     }
 
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
     dependencies {
         testCompile 'junit:junit:4.12'
-    }
-
-    idea {
     }
 }
 
