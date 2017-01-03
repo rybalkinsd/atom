@@ -1,1 +1,8 @@
-downloads/*
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+/out/
+build/
+
+.idea/
