@@ -1,6 +1,6 @@
 package ru.atom.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.core.JsonProcessingException;
 import ru.atom.model.Gender;
 
 import static ru.atom.model.Gender.*;

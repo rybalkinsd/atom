@@ -1,21 +1,24 @@
 package ru.atom.samples.generics;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
+@Ignore
 public class StackImplTest {
-
     private Stack<Integer> stack;
+
     @Before
     public void setUp() throws Exception {
         stack = new StackImpl<>();
     }
 
-    @Test()
+    // // TODO: 04.01.17 move to task branch
+    @Test
     public void testComplex() throws Exception {
         assertNotNull(stack);
         assertNull(stack.peek());
