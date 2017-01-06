@@ -1,3 +1,4 @@
+
 allprojects {
     group = 'technoatom'
     version = '1.0-SNAPSHOT'
@@ -16,6 +17,12 @@ allprojects {
         testCompile 'junit:junit:4.12'
     }
 }
+
+ext.libraries = [
+        jetty_server : 'org.eclipse.jetty:jetty-server:9.3.12.v20160915',
+        jetty_servlet: 'org.eclipse.jetty:jetty-servlet:9.3.12.v20160915',
+]
+
 
 sourceSets {
     main {

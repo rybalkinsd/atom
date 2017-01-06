@@ -1,4 +1,5 @@
 rootProject.name = 'atom'
 include 'lecture01',
-        'lecture02'
+        'lecture02',
+        'frontend'
 
