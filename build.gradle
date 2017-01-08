@@ -1,40 +1,28 @@
+ext {
+    jdkVersion = 1.8
+
+    jettyVersion = '9.3.12.v20160915'
+    junitVersion = '4.+'
+    jacksonVersion = '2.5.3'
+}
 
 allprojects {
     group = 'technoatom'
     version = '1.0-SNAPSHOT'
 
     apply plugin: 'java'
-    apply plugin: 'idea'
 
     repositories {
         mavenCentral()
     }
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
-    dependencies {
-        testCompile 'junit:junit:4.12'
-    }
+    sourceCompatibility = jdkVersion
+    targetCompatibility = jdkVersion
 }
+
 
 ext.libraries = [
-        jetty_server : 'org.eclipse.jetty:jetty-server:9.3.12.v20160915',
-        jetty_servlet: 'org.eclipse.jetty:jetty-servlet:9.3.12.v20160915',
+        jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
+        jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
+        junit: "junit:junit:$junitVersion"
 ]
-
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-    }
-}
-
-

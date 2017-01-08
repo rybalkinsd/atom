@@ -53,6 +53,8 @@ Player = Entity.extend({
 
     deadTimer: 0,
 
+    socket: new WebSocket("ws://localhost:8090/events/"),
+
     init: function(position, controls, id) {
         if (id) {
             this.id = id;
@@ -94,6 +96,26 @@ Player = Entity.extend({
 
         this.bombs = [];
         this.setBombsListener();
+        this.socket.onopen = function() {
+            alert("Соединение установлено.");
+        };
+
+        this.socket.onclose = function(event) {
+            if (event.wasClean) {
+                alert('Соединение закрыто чисто');
+            } else {
+                alert('Обрыв соединения'); // например, "убит" процесс сервера
+            }
+            alert('Код: ' + event.code + ' причина: ' + event.reason);
+        };
+
+        this.socket.onmessage = function(event) {
+            alert("Получены данные " + event.data);
+        };
+
+        this.socket.onerror = function(error) {
+            alert("Ошибка " + error.message);
+        };
     },
 
     setBombsListener: function() {
@@ -143,18 +165,22 @@ Player = Entity.extend({
         var dirX = 0;
         var dirY = 0;
         if (gInputEngine.actions[this.controls.up]) {
+            this.socket.send("up");
             this.animate('up');
             position.y -= this.velocity;
             dirY = -1;
         } else if (gInputEngine.actions[this.controls.down]) {
+            this.socket.send("down");
             this.animate('down');
             position.y += this.velocity;
             dirY = 1;
         } else if (gInputEngine.actions[this.controls.left]) {
+            this.socket.send("left");
             this.animate('left');
             position.x -= this.velocity;
             dirX = -1;
         } else if (gInputEngine.actions[this.controls.right]) {
+            this.socket.send("right");
             this.animate('right');
             position.x += this.velocity;
             dirX = 1;

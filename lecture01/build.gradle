@@ -1,3 +1,7 @@
+dependencies {
+    testCompile rootProject.libraries.junit
+}
+
 sourceSets {
     main {
         java {
