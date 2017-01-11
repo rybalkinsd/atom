@@ -29,7 +29,7 @@ public class GameServer {
         ServletHolder holderEvents = new ServletHolder("ws-events", new WebSocketServlet() {
             @Override
             public void configure(WebSocketServletFactory factory) {
-                factory.register(EventHandler.class);
+                factory.register(ClientConnectionHandler.class);
             }
         });
         context.addServlet(holderEvents, "/events/*");
