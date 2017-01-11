@@ -4,6 +4,8 @@ ext {
     jettyVersion = '9.3.12.v20160915'
     junitVersion = '4.+'
     jacksonVersion = '2.5.3'
+    log4jVersion = '2.7'
+    jetbrainsAnnotationVersion = '15.0'
 }
 
 allprojects {
@@ -24,5 +26,10 @@ allprojects {
 ext.libraries = [
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
-        junit: "junit:junit:$junitVersion"
+        junit: "junit:junit:$junitVersion",
+        log4j: [
+            "org.apache.logging.log4j:log4j-api:$log4jVersion",
+            "org.apache.logging.log4j:log4j-core:$log4jVersion"
+        ],
+        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion"
 ]
