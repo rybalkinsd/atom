@@ -1,26 +1,23 @@
-// code coverage settings
 plugins {
-    id 'net.saliman.cobertura' version '2.3.1'
-    id 'com.github.kt3k.coveralls' version '2.7.1'
+    id "java"
+    id "jacoco"
+    id "com.github.kt3k.coveralls" version "2.6.3"
 }
-cobertura.coverageFormats = ['html', 'xml']
 
 // constants declaration
 ext {
     jdkVersion = 1.8
 
-    jettyVersion = '9.3.12.v20160915'
-    junitVersion = '4.+'
-    jacksonVersion = '2.5.3'
-    log4jVersion = '2.7'
-    jetbrainsAnnotationVersion = '15.0'
+    jettyVersion = "9.3.12.v20160915"
+    junitVersion = "4.+"
+    jacksonVersion = "2.5.3"
+    log4jVersion = "2.7"
+    jetbrainsAnnotationVersion = "15.0"
 }
 
 allprojects {
-    group = 'technoatom'
-    version = '1.0-SNAPSHOT'
-
-    apply plugin: 'java'
+    group = "technoatom"
+    version = "1.0-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -28,6 +25,10 @@ allprojects {
 
     sourceCompatibility = jdkVersion
     targetCompatibility = jdkVersion
+}
+
+subprojects {
+    apply plugin: "java"
 }
 
 // common libraries declaration
@@ -41,3 +42,12 @@ ext.libraries = [
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion"
 ]
+
+// code coverage settings
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
