@@ -1,0 +1,1 @@
+Download dependencies via [Bower](https://github.com/twitter/bower): ```bower install```

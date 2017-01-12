@@ -1,0 +1,16 @@
+{
+  "name": "html5-bomberman",
+  "version": "0.1.0",
+  "main": "index.html",
+  "dependencies": {
+    "bootstrap": "~2.3.1",
+    "PreloadJS": "0.6.1",
+    "EaselJS": "0.8.1",
+    "SoundJS": "0.6.1"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}

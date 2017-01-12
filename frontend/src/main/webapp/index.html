@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <title>HTML5 Bombergirl</title>
+    <meta name="description" content="HTML5 game written in JavaScript with help of EaselJS library">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta property="og:image" content="http://matousskala.cz/files/bomberman_screen.png" />
+
+    <script type="text/javascript" src="bower_components/EaselJS/lib/easeljs-0.8.1.min.js"></script>
+    <script type="text/javascript" src="bower_components/PreloadJS/lib/preloadjs-0.6.1.min.js"></script>
+    <script type="text/javascript" src="bower_components/SoundJS/lib/soundjs-0.6.1.min.js"></script>
+    <script type="text/javascript" src="js/core.js"></script>
+    <script type="text/javascript" src="js/Utils.js"></script>
+    <script type="text/javascript" src="js/Entity.js"></script>
+    <script type="text/javascript" src="js/Player.js"></script>
+    <script type="text/javascript" src="js/Bot.js"></script>
+    <script type="text/javascript" src="js/Bonus.js"></script>
+    <script type="text/javascript" src="js/Tile.js"></script>
+    <script type="text/javascript" src="js/Fire.js"></script>
+    <script type="text/javascript" src="js/Bomb.js"></script>
+    <script type="text/javascript" src="js/Menu.js"></script>
+    <script type="text/javascript" src="js/InputEngine.js"></script>
+    <script type="text/javascript" src="js/GameEngine.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/docs/assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body onload="gGameEngine.load()">
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="html5"><span>HTML5</span></i> Bomber<strong>girl</strong></h1>
+        </div>
+        <div id="game">
+            <canvas id="canvas" width="545" height="416"></canvas>
+        </div>
+        <h3>How to play</h3>
+        <h4>Player 1</h4>
+        <ul>
+            <li><strong>arrow keys</strong> &hellip; move</li>
+            <li><strong>spacebar / alt</strong> &hellip; plant the bomb</li>
+        </ul>
+        <h4>Player 2</h4>
+        <ul>
+            <li><strong>W, A, S, D</strong> &hellip; move</li>
+            <li> <strong>shift</strong> &hellip; plant the bomb</li>
+        </ul>
+
+        <i><strong>M</strong> &hellip; mute / unmute sound</i><br>
+        <i><strong>enter</strong> &hellip; restart</i><br>
+        <i><strong>escape</strong> &hellip; menu</i>
+
+        <hr>
+
+        <div class="footer">
+            <div class="alert alert-success">
+                <img src="img/github.png" width="25">
+                This game has nothing to hide. <a href="http://github.com/MattSkala/html5-bombergirl">Download the source code on GitHub.</a>
+            </div>
+            <p class="pull-left">&copy; 2013 Created by <a href="http://matousskala.cz">Matt Skala</a></p>
+            <p class="pull-right"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img src="http://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" width="60"></a></p>
+            <p class="pull-left credits">
+                Credits: <a href="http://www.newgrounds.com/art/view/hyptosis/tile-art-batch-1">Hyptosis</a>, <a href="http://opengameart.org/content/alternate-lpc-character-sprites-george">George</a>, <a href="http://opengameart.org/content/one-more-lpc-alternate-character">Radomir Dopieralski</a>, <a href="http://www.flashkit.com/soundfx/Cartoon/Explosions/Explosio-Adrian_G-7936">Adrian Gallant</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
