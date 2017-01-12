@@ -19,13 +19,10 @@ public class GameServer {
         connector.setPort(8090);
         server.addConnector(connector);
 
-        // Setup the basic application "context" for this application at "/"
-        // This is also known as the handler tree (in jetty speak)
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         server.setHandler(context);
 
-        // Add a websocket to a specific path spec
         ServletHolder holderEvents = new ServletHolder("ws-events", new WebSocketServlet() {
             @Override
             public void configure(WebSocketServletFactory factory) {

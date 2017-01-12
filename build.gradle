@@ -1,3 +1,11 @@
+// code coverage settings
+plugins {
+    id 'net.saliman.cobertura' version '2.3.1'
+    id 'com.github.kt3k.coveralls' version '2.7.1'
+}
+cobertura.coverageFormats = ['html', 'xml']
+
+// constants declaration
 ext {
     jdkVersion = 1.8
 
@@ -22,7 +30,7 @@ allprojects {
     targetCompatibility = jdkVersion
 }
 
-
+// common libraries declaration
 ext.libraries = [
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
