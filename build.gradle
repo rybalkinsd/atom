@@ -31,6 +31,7 @@ allprojects {
 
 subprojects {
     checkstyle {
+        ignoreFailures = false
         toolVersion = '7.5'
         configFile = rootProject.file('config/checkstyle/checkstyle.xml')
     }
