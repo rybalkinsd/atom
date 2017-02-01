@@ -1,3 +1,17 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    configFile = new File("src/main/resources/checkstyle/", "checkstyle.xml")
+    toolVersion = '7.5'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.stylesheet resources.text.fromFile('src/main/resources/checkstyle/checkstyle-custom.xsl')
+    }
+}
+
 dependencies {
     compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
@@ -5,5 +19,4 @@ dependencies {
     compile "org.eclipse.jetty.websocket:websocket-api:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-server:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-client:$rootProject.jettyVersion"
-
 }
