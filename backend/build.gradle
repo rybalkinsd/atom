@@ -5,5 +5,4 @@ dependencies {
     compile "org.eclipse.jetty.websocket:websocket-api:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-server:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-client:$rootProject.jettyVersion"
-
 }

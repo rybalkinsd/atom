@@ -18,6 +18,7 @@ allprojects {
     version = "1.0-SNAPSHOT"
 
     apply plugin: "java"
+    apply plugin: 'checkstyle'
     apply plugin: "jacoco"
 
     repositories {
@@ -26,6 +27,23 @@ allprojects {
 
     sourceCompatibility = jdkVersion
     targetCompatibility = jdkVersion
+}
+
+subprojects {
+    checkstyle {
+        ignoreFailures = false
+        toolVersion = '7.5'
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.enabled false
+            html.destination "$rootProject.buildDir/report/${project.name}.html"
+            html.stylesheet resources.text.fromFile(rootProject.file('config/checkstyle/checkstyle-custom.xsl'))
+        }
+    }
+
 }
 
 // common libraries declaration
