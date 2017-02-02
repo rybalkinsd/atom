@@ -22,7 +22,8 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     @Override
     public void onWebSocketText(String message) {
         log.info("Received TEXT message: " + message);
-        broker.recieve(getSession(), message);
+
+        broker.receieve(getSession(), message);
         ConnectionPool.broadcast("ping");
     }
 

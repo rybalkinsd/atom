@@ -1,5 +1,7 @@
 package ru.atom.network.message;
 
+import ru.atom.model.input.Move;
+
 /**
  * Created by sergey on 2/2/17.
  */
@@ -15,8 +17,8 @@ public enum Topic {
         this.clazz = clazz;
     }
 
-    public Class<?> getTopicClass() {
-
-    }
+//    public <T> T getTopicClass(Class<T> clazz) {
+//        return clazz;
+//    }
 
 }

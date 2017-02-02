@@ -1,20 +1,21 @@
 package ru.atom.network.message;
 
-import ru.atom.util.JsonHelper;
-
 /**
  * Created by sergey on 2/2/17.
  */
-public class Message<T> {
-    private final Class<T> topic;
-    private final String payload;
+public class Message {
+    private final Class<?> topic;
+    private final String data;
 
-    public Message(Class<T> topic, String payload) {
+    public Message(Class<?> topic, String data) {
         this.topic = topic;
-        this.payload = payload;
+        this.data = data;
     }
 
-    public T internalize() {
-        return JsonHelper.fromJSON(payload, topic);
-    }
+//    public <T> T internalize() {
+//        return JsonHelper.fromJSON(data, topic);
+//    }
+
+
+
 }

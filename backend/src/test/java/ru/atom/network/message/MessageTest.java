@@ -2,6 +2,7 @@ package ru.atom.network.message;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.model.input.Move;
 import ru.atom.util.JsonHelper;
 import ru.atom.util.V;
 

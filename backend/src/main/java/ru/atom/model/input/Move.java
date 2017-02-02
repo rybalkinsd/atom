@@ -1,15 +1,21 @@
-package ru.atom.network.message;
+package ru.atom.model.input;
 
+import ru.atom.model.actor.Pawn;
+import ru.atom.util.JsonHelper;
 import ru.atom.util.V;
 
 /**
  * Created by sergey on 2/2/17.
  */
-public class Move {
+public class Move implements InputAction {
     private final V direction;
 
     Move(V direction) {
         this.direction = direction;
+    }
+
+    public static Move from(String json) {
+        return JsonHelper.fromJSON(json, Move.class);
     }
 
     @Override
@@ -25,5 +31,14 @@ public class Move {
     @Override
     public int hashCode() {
         return direction != null ? direction.hashCode() : 0;
+    }
+
+    public V getDirection() {
+        return direction;
+    }
+
+    @Override
+    public void act(Pawn pawn) {
+        pawn.setVelocity(direction);
     }
 }
