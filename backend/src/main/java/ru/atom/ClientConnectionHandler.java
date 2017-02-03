@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import ru.atom.controller.Game;
 import ru.atom.network.ConnectionPool;
 import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
@@ -15,7 +16,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketConnect(Session session) {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
-        ConnectionPool.putIfAbsent(session, new Player("first"));
+        Game.getInstance().register(session, new Player("first"));
     }
 
     @Override

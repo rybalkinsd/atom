@@ -165,12 +165,12 @@ Player = Entity.extend({
         var dirX = 0;
         var dirY = 0;
         if (gInputEngine.actions[this.controls.up]) {
-            this.socket.send("up");
+
             this.animate('up');
             position.y -= this.velocity;
             dirY = -1;
         } else if (gInputEngine.actions[this.controls.down]) {
-            this.socket.send("down");
+            this.socket.send(gMessages('down'));
             this.animate('down');
             position.y += this.velocity;
             dirY = 1;
@@ -186,6 +186,12 @@ Player = Entity.extend({
             dirX = 1;
         } else {
             this.animate('idle');
+        }
+
+        for (var key in gInputEngine.actions) {
+            if (gInputEngine.actions.hasOwnProperty(key)) {
+                this.socket.send(gInputEngine.actions[key]);
+            }
         }
 
         if (position.x != this.bmp.x || position.y != this.bmp.y) {
@@ -404,3 +410,5 @@ Player = Entity.extend({
         }, 30);
     }
 });
+
+gMessages = new Messages();

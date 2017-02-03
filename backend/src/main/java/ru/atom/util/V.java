@@ -11,6 +11,7 @@ public class V {
     private static final double TOLERANCE = 0.01;
     public static final V ZERO = V.of(0, 0);
 
+    @JsonProperty
     private final double x, y;
 
     private V(double x, double y) {

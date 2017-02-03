@@ -23,9 +23,7 @@ public class ConnectionPool {
     }
 
     public static void broadcast(@NotNull String msg) {
-        pool.forEachKey(PARALLELISM_LEVEL, session -> {
-            send(session, msg);
-        });
+        pool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
     }
 
     public static void shutdown() {

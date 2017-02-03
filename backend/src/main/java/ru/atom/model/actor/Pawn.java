@@ -1,5 +1,6 @@
 package ru.atom.model.actor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.atom.model.input.InputAction;
 import ru.atom.util.V;
 
@@ -10,7 +11,9 @@ import java.util.Collection;
  * Created by sergei-r on 11.01.17.
  */
 public class Pawn extends Actor {
+    @JsonIgnore
     private boolean wantPlantBomb = false;
+    @JsonIgnore
     private Collection<InputAction> inbox = new ArrayList<>();
 
     public Pawn(V position) {
