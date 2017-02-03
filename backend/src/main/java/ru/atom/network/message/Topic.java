@@ -5,5 +5,6 @@ package ru.atom.network.message;
  */
 public enum Topic {
     MOVE,
-    PLANT_BOMB
+    PLANT_BOMB,
+    REPLICA
 }

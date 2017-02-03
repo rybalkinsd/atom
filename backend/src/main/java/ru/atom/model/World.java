@@ -11,7 +11,6 @@ import java.util.Collection;
 public class World implements Tickable {
     private Collection<Actor> actors;
 
-
     @Override
     public void tick(long time) {
         actors.forEach(x -> x.tick(time));

@@ -22,11 +22,15 @@ public class Pawn extends Actor {
     public void tick(long time) {
         inbox.forEach(x -> x.act(this));
         super.tick(time);
+        plantBomb();
         inbox.clear();
     }
 
-    public void plantBomb() {
-        assert wantPlantBomb;
+    private void plantBomb() {
+        if (!wantPlantBomb) {
+            return;
+        }
+
         // action
         wantPlantBomb = false;
     }
