@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionPool {
     private static final int PARALLELISM_LEVEL = 16;
-    private static ConcurrentHashMap<Player, Session> pool = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Session, Player> pool = new ConcurrentHashMap<>();
 
-    public static void putIfAbsent(Player player, Session session) {
-        pool.putIfAbsent(player, session);
+    public static void putIfAbsent(Session session, Player player) {
+        pool.putIfAbsent(session, player);
     }
 
     public static void broadcast(String msg) {
-        pool.forEachValue(PARALLELISM_LEVEL, session -> {
+        pool.forEachKey(PARALLELISM_LEVEL, session -> {
             if (session.isOpen()) {
                 try {
                     session.getRemote().sendString(msg);
@@ -24,11 +24,15 @@ public class ConnectionPool {
     }
 
     public static void shutdown() {
-        pool.forEachValue(PARALLELISM_LEVEL, session -> {
+        pool.forEachKey(PARALLELISM_LEVEL, session -> {
             if (session.isOpen()) {
                 session.close();
             }
         });
+    }
+
+    public static Player get(Session session) {
+        return pool.get(session);
     }
 
 }

@@ -11,7 +11,7 @@ ext {
     jacksonVersion = "2.5.3"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
-    gsonVersion = "1.7.2"
+    jacksonVersion = "2.8.6"
 }
 
 allprojects {
@@ -57,7 +57,7 @@ ext.libraries = [
             "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
-        gson: "com.google.code.gson:gson:$gsonVersion"
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 ]
 
 // code coverage settings

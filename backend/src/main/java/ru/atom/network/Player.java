@@ -1,6 +1,7 @@
 package ru.atom.network;
 
 import org.jetbrains.annotations.NotNull;
+import ru.atom.model.actor.Pawn;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,13 +11,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Player {
     private static final IdGenerator idGenerator = new IdGenerator();
 
+    private final int id;
+
     @NotNull
     private final String name;
-    private final int id;
+
+    private Pawn pawn;
 
     public Player(@NotNull String name) {
         this.id = idGenerator.next();
         this.name = name;
+    }
+
+    private static class IdGenerator {
+        private final AtomicInteger current = new AtomicInteger(0);
+        int next() {
+            return current.getAndIncrement();
+        }
     }
 
     @Override
@@ -27,7 +38,6 @@ public class Player {
         Player player = (Player) o;
 
         return id == player.id;
-
     }
 
     @Override
@@ -35,10 +45,11 @@ public class Player {
         return id;
     }
 
-    private static class IdGenerator {
-        private final AtomicInteger current = new AtomicInteger(0);
-        int next() {
-            return current.getAndIncrement();
-        }
+    public Pawn getPawn() {
+        return pawn;
+    }
+
+    public void setPawn(Pawn pawn) {
+        this.pawn = pawn;
     }
 }

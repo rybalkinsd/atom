@@ -16,14 +16,14 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketConnect(Session session) {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
-        ConnectionPool.putIfAbsent(new Player("first"), session);
+        ConnectionPool.putIfAbsent(session, new Player("first"));
     }
 
     @Override
     public void onWebSocketText(String message) {
         log.info("Received TEXT message: " + message);
 
-        broker.receieve(getSession(), message);
+        broker.receive(getSession(), message);
         ConnectionPool.broadcast("ping");
     }
 

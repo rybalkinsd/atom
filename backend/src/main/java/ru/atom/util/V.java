@@ -1,5 +1,7 @@
 package ru.atom.util;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -7,6 +9,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class V {
     private static final double TOLERANCE = 0.01;
+    public static final V ZERO = V.of(0, 0);
 
     private final double x, y;
 
@@ -15,19 +18,20 @@ public class V {
         this.y = y;
     }
 
-    public static V of(double x, double y) {
+    @JsonCreator
+    public static V of(@JsonProperty("x") double x,  @JsonProperty("y") double y) {
         return new V(x, y);
     }
 
     public V move(double dx, double dy) {
-        return new V(x + dx, y + dy);
+        return V.of(x + dx, y + dy);
     }
     public V move(V v) {
-        return new V(x + v.x, y + v.y);
+        return V.of(x + v.x, y + v.y);
     }
 
     public V times(long v) {
-        return new V(x * v, y * v);
+        return V.of(x * v, y * v);
     }
 
     @Override

@@ -1,7 +1,7 @@
 dependencies {
     compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
-    compile rootProject.libraries.gson
+    compile rootProject.libraries.jackson
 
     compile "org.eclipse.jetty.websocket:websocket-api:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-server:$rootProject.jettyVersion"
