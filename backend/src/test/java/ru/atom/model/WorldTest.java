@@ -6,6 +6,10 @@ import ru.atom.model.actor.Pawn;
 import ru.atom.util.JsonHelper;
 import ru.atom.util.V;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+
+
 /**
  * Created by sergey on 2/3/17.
  */
@@ -21,7 +25,8 @@ public class WorldTest {
 
     @Test
     public void serialization() throws Exception {
-        System.out.println(JsonHelper.toJson(world));
+        Throwable ex = catchThrowable(() -> JsonHelper.toJson(world));
+        assertThat(ex).isNull();
     }
 
 }

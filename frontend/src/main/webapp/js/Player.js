@@ -97,24 +97,24 @@ Player = Entity.extend({
         this.bombs = [];
         this.setBombsListener();
         this.socket.onopen = function() {
-            alert("Соединение установлено.");
+            console.log("Connection established.");
         };
 
         this.socket.onclose = function(event) {
             if (event.wasClean) {
-                alert('Соединение закрыто чисто');
+                console.log('closed');
             } else {
-                alert('Обрыв соединения'); // например, "убит" процесс сервера
+                console.log('alert close'); // например, "убит" процесс сервера
             }
-            alert('Код: ' + event.code + ' причина: ' + event.reason);
+            console.log('Code: ' + event.code + ' cause: ' + event.reason);
         };
 
         this.socket.onmessage = function(event) {
-            alert("Получены данные " + event.data);
+            console.log("D@ta " + event.data);
         };
 
         this.socket.onerror = function(error) {
-            alert("Ошибка " + error.message);
+            console.log("Error " + error.message);
         };
     },
 
@@ -165,22 +165,18 @@ Player = Entity.extend({
         var dirX = 0;
         var dirY = 0;
         if (gInputEngine.actions[this.controls.up]) {
-
             this.animate('up');
             position.y -= this.velocity;
             dirY = -1;
         } else if (gInputEngine.actions[this.controls.down]) {
-            this.socket.send(gMessages('down'));
             this.animate('down');
             position.y += this.velocity;
             dirY = 1;
         } else if (gInputEngine.actions[this.controls.left]) {
-            this.socket.send("left");
             this.animate('left');
             position.x -= this.velocity;
             dirX = -1;
         } else if (gInputEngine.actions[this.controls.right]) {
-            this.socket.send("right");
             this.animate('right');
             position.x += this.velocity;
             dirX = 1;
@@ -190,7 +186,7 @@ Player = Entity.extend({
 
         for (var key in gInputEngine.actions) {
             if (gInputEngine.actions.hasOwnProperty(key)) {
-                this.socket.send(gInputEngine.actions[key]);
+                this.socket.send(gMessages.move(key));
             }
         }
 
@@ -410,5 +406,3 @@ Player = Entity.extend({
         }, 30);
     }
 });
-
-gMessages = new Messages();
