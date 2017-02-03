@@ -1,5 +1,7 @@
 package ru.atom.util;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +13,11 @@ import java.io.IOException;
  * Created by sergey on 2/2/17.
  */
 public final class JsonHelper {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper;
+    static {
+        mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    }
 
     @NotNull
     public static String toJson(@NotNull Object object) {

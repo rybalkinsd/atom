@@ -23,17 +23,17 @@ public class MessageTest {
     }
 
     @Test
-    public void internalize() throws Exception {
-//        assertThat(message.internalize()).isEqualTo(move);
+    public void serialize() throws Exception {
+        System.out.println(JsonHelper.toJson(msg));
+        Throwable ex = catchThrowable(() -> JsonHelper.toJson(msg));
+        assertThat(ex).isNull();
     }
 
     @Test
     public void deserialize() throws Exception {
-        String rawMessage = JsonHelper.toJson(msg);
-
+        String rawMessage = "{\"topic\":\"MOVE\",\"data\":{\"direction\":{\"x\":1.0,\"y\":1.0}}}";
         Throwable ex = catchThrowable(() -> JsonHelper.fromJson(rawMessage, Message.class));
         assertThat(ex).isNull();
     }
-
 
 }

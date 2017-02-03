@@ -2,9 +2,7 @@ Messages = Class.extend({
     move: function (direction) {
         var template = {
             topic: "MOVE",
-            data: {
-
-            }
+            data: {}
         };
 
         if (direction === 'up') {
@@ -12,7 +10,7 @@ Messages = Class.extend({
         } else if (direction === 'down') {
             template.data.direction = { x: 0, y: -1 }
         } else if (direction === 'left') {
-            template.datat.direction = { x: -1, y: 0 }
+            template.data.direction = { x: -1, y: 0 }
         } else if (direction === 'right') {
             template.data.direction = { x: 1, y: 0 }
         }

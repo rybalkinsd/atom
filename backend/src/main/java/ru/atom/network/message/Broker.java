@@ -19,9 +19,11 @@ public class Broker {
             case MOVE:
                 Move move = JsonHelper.fromJson(message.getData(), Move.class);
                 ConnectionPool.get(session).getPawn().addInput(move);
+                break;
             case PLANT_BOMB:
                 PlantBomb plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
                 ConnectionPool.get(session).getPawn().addInput(plant);
+                break;
         }
     }
 

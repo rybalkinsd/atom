@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import ru.atom.controller.Game;
-import ru.atom.network.ConnectionPool;
 import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
 
@@ -24,7 +23,6 @@ public class ClientConnectionHandler extends WebSocketAdapter {
         log.info("Received TEXT message: " + message);
 
         Broker.receive(getSession(), message);
-        ConnectionPool.broadcast("ping");
     }
 
     @Override
