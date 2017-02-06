@@ -1,15 +1,13 @@
 package ru.atom.network.message;
 
-import org.eclipse.jetty.websocket.api.*;
+import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.SessionMock;
 import ru.atom.model.actor.Pawn;
 import ru.atom.network.ConnectionPool;
 import ru.atom.network.Player;
 import ru.atom.util.V;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -25,11 +23,11 @@ public class BrokerTest {
     @Before
     public void setUp() throws Exception {
         broker = new Broker();
-        session = getMockSession();
-        player = new Player("luke");
+        session = new SessionMock();
+        player = new Player("luke", session);
         pawn = new Pawn(V.ZERO);
         player.setPawn(pawn);
-        ConnectionPool.putIfAbsent(session, player);
+        ConnectionPool.add(session, player);
     }
 
     @Test
@@ -41,83 +39,6 @@ public class BrokerTest {
         assertThat(pawn.getPosition()).isNotEqualTo(startPosition);
     }
 
-    private static Session getMockSession() {
-        return new Session() {
-            @Override
-            public void close() {
-            }
 
-            @Override
-            public void close(CloseStatus closeStatus) {
-            }
-
-            @Override
-            public void close(int statusCode, String reason) {
-            }
-
-            @Override
-            public void disconnect() throws IOException {
-            }
-
-            @Override
-            public long getIdleTimeout() {
-                return 0;
-            }
-
-            @Override
-            public InetSocketAddress getLocalAddress() {
-                return null;
-            }
-
-            @Override
-            public WebSocketPolicy getPolicy() {
-                return null;
-            }
-
-            @Override
-            public String getProtocolVersion() {
-                return null;
-            }
-
-            @Override
-            public RemoteEndpoint getRemote() {
-                return null;
-            }
-
-            @Override
-            public InetSocketAddress getRemoteAddress() {
-                return null;
-            }
-
-            @Override
-            public UpgradeRequest getUpgradeRequest() {
-                return null;
-            }
-
-            @Override
-            public UpgradeResponse getUpgradeResponse() {
-                return null;
-            }
-
-            @Override
-            public boolean isOpen() {
-                return false;
-            }
-
-            @Override
-            public boolean isSecure() {
-                return false;
-            }
-
-            @Override
-            public void setIdleTimeout(long ms) {
-            }
-
-            @Override
-            public SuspendToken suspend() {
-                return null;
-            }
-        };
-    }
 
 }

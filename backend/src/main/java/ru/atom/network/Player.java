@@ -1,5 +1,6 @@
 package ru.atom.network;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import ru.atom.model.actor.Pawn;
 
@@ -15,12 +16,14 @@ public class Player {
 
     @NotNull
     private final String name;
+    private final Session session;
 
     private Pawn pawn;
 
-    public Player(@NotNull String name) {
+    public Player(@NotNull String name, Session session) {
         this.id = idGenerator.next();
         this.name = name;
+        this.session = session;
     }
 
     private static class IdGenerator {
@@ -43,6 +46,14 @@ public class Player {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public @NotNull String getName() {
+        return name;
     }
 
     public Pawn getPawn() {

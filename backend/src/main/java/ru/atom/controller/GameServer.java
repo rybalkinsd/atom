@@ -1,4 +1,4 @@
-package ru.atom;
+package ru.atom.controller;
 
 
 import org.apache.logging.log4j.LogManager;
@@ -7,17 +7,23 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
-import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
+import ru.atom.network.message.Broker;
 
 /**
  * Created by sergei-r on 07.01.17.
  */
 public class GameServer {
-    private final static Logger log = LogManager.getLogger(GameServer.class);
-
+    private static final Logger log = LogManager.getLogger(GameServer.class);
     private static final int PORT = 8090;
+
     private Server server;
+    private Broker broker;
+    private GameSessionManager sessionManager;
+
+    private GameServer() {
+        sessionManager = new GameSessionManager();
+        broker = new Broker();
+    }
 
     private void start() {
         server = new Server();
@@ -29,13 +35,10 @@ public class GameServer {
         context.setContextPath("/");
         server.setHandler(context);
 
-        ServletHolder holderEvents = new ServletHolder("ws-events", new WebSocketServlet() {
-            @Override
-            public void configure(WebSocketServletFactory factory) {
-                factory.register(ClientConnectionHandler.class);
-            }
-        });
+        ServletHolder holderEvents = new ServletHolder("ws-events", ClientConnectionHandler.makeServlet());
         context.addServlet(holderEvents, "/events/*");
+
+        new Thread(sessionManager).start();
 
         try {
             server.start();
@@ -49,6 +52,4 @@ public class GameServer {
     public static void main(String[] args) {
         new GameServer().start();
     }
-
-    private GameServer() { }
 }

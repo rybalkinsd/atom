@@ -11,6 +11,12 @@ import ru.atom.util.JsonHelper;
  * Created by sergey on 2/2/17.
  */
 public class Broker {
+    private ConnectionPool connectionPool;
+
+    public Broker() {
+        this.connectionPool = new ConnectionPool();
+    }
+
     public static void receive(@NotNull Session session, @NotNull String msg) {
         Message message = JsonHelper.fromJson(msg, Message.class);
 
