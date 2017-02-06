@@ -15,7 +15,19 @@ public class GameSessionManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        manager = new GameSessionManager();
+        manager = GameSessionManager.getInstance();
+    }
+
+    @Test
+    public void registration() throws Exception {
+        manager.register(new Player("Leonardo", new SessionMock()));
+        assertThat(manager.getQueueSize()).isEqualTo(1);
+        manager.register(new Player("Michelangelo", new SessionMock()));
+        assertThat(manager.getQueueSize()).isEqualTo(2);
+        manager.register(new Player("Donatello", new SessionMock()));
+        assertThat(manager.getQueueSize()).isEqualTo(3);
+        manager.register(new Player("Rafael", new SessionMock()));
+        assertThat(manager.getQueueSize()).isEqualTo(4);
     }
 
     @Test
@@ -24,17 +36,15 @@ public class GameSessionManagerTest {
         assertThat(manager.getGameSessionsNumber()).isEqualTo(0);
         managerThread.start();
         assertThat(manager.getGameSessionsNumber()).isEqualTo(0);
-        GameSessionManager.register(new Player("Leonardo", new SessionMock()));
+        assertThat(manager.getQueueSize()).isEqualTo(0);
+        manager.register(new Player("Leonardo", new SessionMock()));
         assertThat(manager.getGameSessionsNumber()).isEqualTo(0);
-        GameSessionManager.register(new Player("Michelangelo", new SessionMock()));
+        manager.register(new Player("Michelangelo", new SessionMock()));
         assertThat(manager.getGameSessionsNumber()).isEqualTo(0);
-        GameSessionManager.register(new Player("Donatello", new SessionMock()));
+        manager.register(new Player("Donatello", new SessionMock()));
         assertThat(manager.getGameSessionsNumber()).isEqualTo(0);
-        GameSessionManager.register(new Player("Rafael", new SessionMock()));
-        Thread.sleep(10_000);
+        manager.register(new Player("Rafael", new SessionMock()));
+        Thread.sleep(1_000);
         assertThat(manager.getGameSessionsNumber()).isGreaterThan(0);
-        //managerThread.interrupt();
-        //managerThread.join();
-
     }
 }

@@ -16,18 +16,30 @@ import java.util.stream.Collectors;
  */
 public class GameSessionManager implements Runnable {
     private static final Logger log = LogManager.getLogger(GameSessionManager.class);
-    private static final BlockingQueue<Player> queue = new LinkedBlockingQueue<>();
+    private static final GameSessionManager instance = new GameSessionManager();
     public static final int PLAYERS_IN_GAME = 1;
+
+    private final BlockingQueue<Player> queue;
     private final Executor executor;
     private final ConcurrentHashMap<GameSession, GameSession> gameSessions;
 
-    public GameSessionManager() {
+    public static GameSessionManager getInstance() {
+        return instance;
+    }
+
+    private GameSessionManager() {
+        queue = new LinkedBlockingQueue<>();
         this.gameSessions = new ConcurrentHashMap<>();
         this.executor = Executors.newFixedThreadPool(1);
     }
 
-    public int getGameSessionsNumber() {
-        return gameSessions.size();
+    public void register(Player player) {
+        ConnectionPool.add(player.getSession(), player);
+        try {
+            queue.put(player);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -64,13 +76,13 @@ public class GameSessionManager implements Runnable {
                 });
     }
 
-    public static void register(Player player) {
-        ConnectionPool.add(player.getSession(), player);
-        try {
-            queue.put(player);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public int getGameSessionsNumber() {
+        return gameSessions.size();
     }
+
+    public int getQueueSize() {
+        return queue.size();
+    }
+
 
 }

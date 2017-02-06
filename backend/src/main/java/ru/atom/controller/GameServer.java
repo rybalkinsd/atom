@@ -21,7 +21,7 @@ public class GameServer {
     private GameSessionManager sessionManager;
 
     private GameServer() {
-        sessionManager = new GameSessionManager();
+        sessionManager = GameSessionManager.getInstance();
         broker = new Broker();
     }
 

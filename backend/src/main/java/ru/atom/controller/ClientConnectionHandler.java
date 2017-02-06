@@ -13,12 +13,13 @@ import javax.servlet.Servlet;
 
 public class ClientConnectionHandler extends WebSocketAdapter {
     private final static Logger log = LogManager.getLogger(ClientConnectionHandler.class);
+    private GameSessionManager sessionManager = GameSessionManager.getInstance();
 
     @Override
     public void onWebSocketConnect(Session session) {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
-        GameSessionManager.register(new Player("first", session));
+        sessionManager.register(new Player("first", session));
     }
 
     @Override
