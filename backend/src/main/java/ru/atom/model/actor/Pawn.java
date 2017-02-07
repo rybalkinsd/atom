@@ -42,4 +42,8 @@ public class Pawn extends Actor {
         inbox.add(inputAction);
     }
 
+    public void setWantPlantBomb(boolean wantPlantBomb) {
+        this.wantPlantBomb = wantPlantBomb;
+    }
+
 }

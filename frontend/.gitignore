@@ -1,1 +1,4 @@
 /src/main/webapp/bower_components/
+/node_modules/
+/bower.json
+/bower_components/

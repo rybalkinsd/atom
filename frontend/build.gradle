@@ -1,2 +1,27 @@
+plugins {
+    id 'com.craigburke.bower-installer' version '2.5.1'
+}
+
 apply plugin: 'war'
 apply plugin: 'jetty'
+
+def jsComponents = "bower_components"
+
+bower {
+    installBase = jsComponents
+
+    'PreloadJS'('0.6.2')
+    'EaselJS'('0.8.2')
+    'SoundJS'('0.6.2')
+}
+
+war {
+    dependsOn bowerInstall
+
+    from(fileTree(dir: jsComponents, include: '**/*.js').files)
+    into("/js/lib")
+}
+
+clean {
+    dependsOn bowerClean
+}

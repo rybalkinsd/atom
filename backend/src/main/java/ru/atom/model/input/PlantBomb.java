@@ -8,5 +8,6 @@ import ru.atom.model.actor.Pawn;
 public class PlantBomb implements InputAction {
     @Override
     public void act(Pawn pawn) {
+        pawn.setWantPlantBomb(true);
     }
 }
