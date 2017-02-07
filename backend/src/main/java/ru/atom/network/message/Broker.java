@@ -2,6 +2,7 @@ package ru.atom.network.message;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.model.input.InputAction;
 import ru.atom.model.input.Move;
 import ru.atom.model.input.PlantBomb;
 import ru.atom.network.ConnectionPool;
@@ -28,12 +29,12 @@ public class Broker {
         // todo remove redundant casts
         switch (message.getTopic()) {
             case MOVE:
-                Move move = JsonHelper.fromJson(message.getData(), Move.class);
-                connectionPool.get(session).getPawn().addInput(move);
+                InputAction move = JsonHelper.fromJson(message.getData(), Move.class);
+                connectionPool.get(session).consumeInput(move);
                 break;
             case PLANT_BOMB:
-                PlantBomb plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
-                connectionPool.get(session).getPawn().addInput(plant);
+                InputAction plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
+                connectionPool.get(session).consumeInput(plant);;
                 break;
         }
     }

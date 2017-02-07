@@ -2,10 +2,13 @@ package ru.atom.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import ru.atom.model.World;
+import ru.atom.model.actor.Pawn;
 import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
 import ru.atom.network.message.Topic;
+import ru.atom.util.V;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +27,15 @@ public class GameSession implements Runnable {
     private long tickNumber = 0;
 
 
-    public GameSession(List<Player> players) {
+    GameSession(@NotNull List<Player> players) {
+        this.players = players;
         broker = Broker.getInstance();
         world = new World();
-        this.players = players;
+        for (Player player : players) {
+            Pawn pawn = new Pawn(V.of(1, 6));
+            world.register(pawn);
+            player.setPawn(pawn);
+        }
     }
 
     @Override

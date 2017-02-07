@@ -2,7 +2,9 @@ package ru.atom.network;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.atom.model.actor.Pawn;
+import ru.atom.model.input.InputAction;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,13 +16,13 @@ public class Player {
 
     private final int id;
 
-    @NotNull
     private final String name;
     private final Session session;
 
+    @Nullable
     private Pawn pawn;
 
-    public Player(@NotNull String name, Session session) {
+    public Player(@NotNull String name, @NotNull Session session) {
         this.id = idGenerator.next();
         this.name = name;
         this.session = session;
@@ -43,24 +45,26 @@ public class Player {
         return id == player.id;
     }
 
+    public void consumeInput(@NotNull InputAction action) {
+        pawn.addInput(action);
+    }
+
     @Override
     public int hashCode() {
         return id;
     }
 
+    @NotNull
     public Session getSession() {
         return session;
     }
 
-    public @NotNull String getName() {
+    @NotNull
+    public String getName() {
         return name;
     }
 
-    public Pawn getPawn() {
-        return pawn;
-    }
-
-    public void setPawn(Pawn pawn) {
+    public void setPawn(@NotNull Pawn pawn) {
         this.pawn = pawn;
     }
 }

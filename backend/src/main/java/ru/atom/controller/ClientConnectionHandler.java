@@ -47,7 +47,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     }
 
 
-    public static Servlet makeServlet() {
+    static Servlet makeServlet() {
         return new WebSocketServlet() {
             @Override
             public void configure(WebSocketServletFactory factory) {
