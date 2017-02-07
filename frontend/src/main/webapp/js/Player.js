@@ -53,7 +53,7 @@ Player = Entity.extend({
 
     deadTimer: 0,
 
-    socket: new WebSocket("ws://localhost:8090/events/"),
+
 
     init: function(position, controls, id) {
         if (id) {
@@ -96,33 +96,13 @@ Player = Entity.extend({
 
         this.bombs = [];
         this.setBombsListener();
-        this.socket.onopen = function() {
-            console.log("Connection established.");
-        };
-
-        this.socket.onclose = function(event) {
-            if (event.wasClean) {
-                console.log('closed');
-            } else {
-                console.log('alert close'); // например, "убит" процесс сервера
-            }
-            console.log('Code: ' + event.code + ' cause: ' + event.reason);
-        };
-
-        this.socket.onmessage = function(event) {
-            console.log("D@ta " + event.data);
-        };
-
-        this.socket.onerror = function(error) {
-            console.log("Error " + error.message);
-        };
     },
 
     setBombsListener: function() {
         // Subscribe to bombs spawning
         if (!(this instanceof Bot)) {
             var that = this;
-            gInputEngine.addListener(this.controls.bomb, function() {
+            gInputEngine.subscribe(this.controls.bomb, function() {
                 // Check whether there is already bomb on this position
                 for (var i = 0; i < gGameEngine.bombs.length; i++) {
                     var bomb = gGameEngine.bombs[i];
@@ -182,12 +162,6 @@ Player = Entity.extend({
             dirX = 1;
         } else {
             this.animate('idle');
-        }
-
-        for (var key in gInputEngine.actions) {
-            if (gInputEngine.actions.hasOwnProperty(key)) {
-                this.socket.send(gMessages.move(key));
-            }
         }
 
         if (position.x != this.bmp.x || position.y != this.bmp.y) {

@@ -95,12 +95,12 @@ GameEngine = Class.extend({
         this.spawnPlayers();
 
         // Toggle sound
-        gInputEngine.addListener('mute', this.toggleSound);
+        gInputEngine.subscribe('mute', this.toggleSound);
 
         // Restart listener
         // Timeout because when you press enter in address bar too long, it would not show menu
         setTimeout(function() {
-            gInputEngine.addListener('restart', function() {
+            gInputEngine.subscribe('restart', function() {
                 if (gGameEngine.playersCount == 0) {
                     gGameEngine.menu.setMode('single');
                 } else {
@@ -111,7 +111,7 @@ GameEngine = Class.extend({
         }, 200);
 
         // Escape listener
-        gInputEngine.addListener('escape', function() {
+        gInputEngine.subscribe('escape', function() {
             if (!gGameEngine.menu.visible) {
                 gGameEngine.menu.show();
             }
@@ -346,7 +346,7 @@ GameEngine = Class.extend({
     },
 
     restart: function() {
-        gInputEngine.removeAllListeners();
+        // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
     },
