@@ -13,7 +13,13 @@ import javax.servlet.Servlet;
 
 public class ClientConnectionHandler extends WebSocketAdapter {
     private final static Logger log = LogManager.getLogger(ClientConnectionHandler.class);
-    private GameSessionManager sessionManager = GameSessionManager.getInstance();
+    private final GameSessionManager sessionManager;
+    private final Broker broker;
+
+    public ClientConnectionHandler() {
+        sessionManager = GameSessionManager.getInstance();
+        broker = Broker.getInstance();
+    }
 
     @Override
     public void onWebSocketConnect(Session session) {
@@ -26,7 +32,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketText(String message) {
         log.info("Received TEXT message: " + message);
 
-        Broker.receive(getSession(), message);
+        broker.receive(getSession(), message);
     }
 
     @Override

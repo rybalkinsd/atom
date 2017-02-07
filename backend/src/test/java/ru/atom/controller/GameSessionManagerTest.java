@@ -46,5 +46,6 @@ public class GameSessionManagerTest {
         manager.register(new Player("Rafael", new SessionMock()));
         Thread.sleep(1_000);
         assertThat(manager.getGameSessionsNumber()).isGreaterThan(0);
+        managerThread.interrupt();
     }
 }

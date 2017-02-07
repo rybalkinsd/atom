@@ -18,16 +18,18 @@ public class BrokerTest {
     private Broker broker;
     private Session session;
     private Player player;
+    private ConnectionPool connectionPool;
     private Pawn pawn;
 
     @Before
     public void setUp() throws Exception {
-        broker = new Broker();
+        broker = Broker.getInstance();
+        connectionPool =ConnectionPool.getInstance();
         session = new SessionMock();
         player = new Player("luke", session);
         pawn = new Pawn(V.ZERO);
         player.setPawn(pawn);
-        ConnectionPool.add(session, player);
+        connectionPool.add(session, player);
     }
 
     @Test
@@ -38,7 +40,5 @@ public class BrokerTest {
         pawn.tick(10);
         assertThat(pawn.getPosition()).isNotEqualTo(startPosition);
     }
-
-
 
 }

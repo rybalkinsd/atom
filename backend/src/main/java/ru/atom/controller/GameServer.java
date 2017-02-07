@@ -22,7 +22,7 @@ public class GameServer {
 
     private GameServer() {
         sessionManager = GameSessionManager.getInstance();
-        broker = new Broker();
+        broker = Broker.getInstance();
     }
 
     private void start() {

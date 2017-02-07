@@ -10,10 +10,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionPool {
     private final static Logger log = LogManager.getLogger(ConnectionPool.class);
+    private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 4;
-    private static ConcurrentHashMap<Session, Player> pool = new ConcurrentHashMap<>();
 
-    public static void send(@NotNull Session session, @NotNull String msg) {
+    private final ConcurrentHashMap<Session, Player> pool;
+
+    public static ConnectionPool getInstance() {
+        return instance;
+    }
+
+    private ConnectionPool() {
+        pool = new ConcurrentHashMap<>();
+    }
+
+    public void send(@NotNull Session session, @NotNull String msg) {
         if (session.isOpen()) {
             try {
                 session.getRemote().sendString(msg);
@@ -21,11 +31,11 @@ public class ConnectionPool {
         }
     }
 
-    public static void broadcast(@NotNull String msg) {
+    public void broadcast(@NotNull String msg) {
         pool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         pool.forEachKey(PARALLELISM_LEVEL, session -> {
             if (session.isOpen()) {
                 session.close();
@@ -33,17 +43,17 @@ public class ConnectionPool {
         });
     }
 
-    public static Player get(Session session) {
+    public Player get(Session session) {
         return pool.get(session);
     }
 
-    public static void add(Session session, Player player) {
+    public void add(Session session, Player player) {
         if (pool.putIfAbsent(session, player) == null) {
             log.info("{} joined", player.getName());
         }
     }
 
-    public static void remove(Session session) {
+    public void remove(Session session) {
         pool.remove(session);
     }
 }

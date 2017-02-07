@@ -17,6 +17,7 @@ import java.util.concurrent.locks.LockSupport;
 public class GameSession implements Runnable {
     private final static Logger log = LogManager.getLogger(GameSession.class);
     private final static long SLEEP_TIME = 1_000;
+    private final Broker broker;
     private final World world;
     private final List<Player> players;
 
@@ -24,6 +25,7 @@ public class GameSession implements Runnable {
 
 
     public GameSession(List<Player> players) {
+        broker = Broker.getInstance();
         world = new World();
         this.players = players;
     }
@@ -47,7 +49,7 @@ public class GameSession implements Runnable {
 
     private void act(long time) {
         world.tick(time);
-        Broker.broadcast(Topic.REPLICA, world);
+        broker.broadcast(Topic.REPLICA, world);
     }
 
 }

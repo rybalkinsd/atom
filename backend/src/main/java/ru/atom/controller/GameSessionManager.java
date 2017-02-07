@@ -22,19 +22,20 @@ public class GameSessionManager implements Runnable {
     private final BlockingQueue<Player> queue;
     private final Executor executor;
     private final ConcurrentHashMap<GameSession, GameSession> gameSessions;
-
+    private final ConnectionPool connectionPool;
     public static GameSessionManager getInstance() {
         return instance;
     }
 
     private GameSessionManager() {
+        this.connectionPool = ConnectionPool.getInstance();
         queue = new LinkedBlockingQueue<>();
         this.gameSessions = new ConcurrentHashMap<>();
         this.executor = Executors.newFixedThreadPool(1);
     }
 
     public void register(Player player) {
-        ConnectionPool.add(player.getSession(), player);
+        connectionPool.add(player.getSession(), player);
         try {
             queue.put(player);
         } catch (InterruptedException e) {
@@ -66,7 +67,7 @@ public class GameSessionManager implements Runnable {
         CompletableFuture.runAsync(session, executor)
                 .handle((ignored, ex) -> {
                     gameSessions.remove(session);
-                    players.forEach(x -> ConnectionPool.remove(x.getSession()));
+                    players.forEach(x -> connectionPool.remove(x.getSession()));
                     if (ex == null) {
                         log.info("Session {} finished", session);
                     } else {
