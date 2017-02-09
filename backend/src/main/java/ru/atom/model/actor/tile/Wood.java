@@ -14,7 +14,8 @@ public class Wood extends Tile {
     }
 
     @Override
-    public @NotNull CollisionProfile getProfile() {
+    @NotNull
+    public CollisionProfile getProfile() {
         return CollisionProfile.STATIC;
     }
 

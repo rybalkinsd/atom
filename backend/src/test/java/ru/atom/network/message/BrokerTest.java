@@ -24,7 +24,7 @@ public class BrokerTest {
     @Before
     public void setUp() throws Exception {
         broker = Broker.getInstance();
-        connectionPool =ConnectionPool.getInstance();
+        connectionPool = ConnectionPool.getInstance();
         session = new SessionMock();
         player = new Player("luke", session);
         pawn = Pawn.create(V.ZERO);

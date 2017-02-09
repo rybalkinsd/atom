@@ -24,7 +24,6 @@ public class MessageTest {
 
     @Test
     public void serialize() throws Exception {
-        System.out.println(JsonHelper.toJson(msg));
         Throwable ex = catchThrowable(() -> JsonHelper.toJson(msg));
         assertThat(ex).isNull();
     }
