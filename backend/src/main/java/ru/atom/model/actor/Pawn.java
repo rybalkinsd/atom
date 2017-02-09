@@ -1,6 +1,8 @@
 package ru.atom.model.actor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
+import ru.atom.model.collision.CollisionProfile;
 import ru.atom.model.input.InputAction;
 import ru.atom.util.V;
 
@@ -16,7 +18,13 @@ public class Pawn extends Actor {
     @JsonIgnore
     private Collection<InputAction> inbox = new ArrayList<>();
 
-    public Pawn(V position) {
+    public static Pawn create(V position) {
+        Pawn instance = new Pawn(position);
+        instance.postConstruct();
+        return instance;
+    }
+
+    private Pawn(V position) {
         setPosition(position);
         setVelocity(V.ZERO);
     }
@@ -46,4 +54,9 @@ public class Pawn extends Actor {
         this.wantPlantBomb = wantPlantBomb;
     }
 
+    @NotNull
+    @Override
+    public CollisionProfile getProfile() {
+        return CollisionProfile.DYNAMIC;
+    }
 }

@@ -252,25 +252,25 @@ GameEngine = Class.extend({
     spawnBots: function() {
         this.bots = [];
 
-        if (this.botsCount >= 1) {
-            var bot2 = new Bot({ x: 1, y: this.tilesY - 2 });
-            this.bots.push(bot2);
-        }
-
-        if (this.botsCount >= 2) {
-            var bot3 = new Bot({ x: this.tilesX - 2, y: 1 });
-            this.bots.push(bot3);
-        }
-
-        if (this.botsCount >= 3) {
-            var bot = new Bot({ x: this.tilesX - 2, y: this.tilesY - 2 });
-            this.bots.push(bot);
-        }
-
-        if (this.botsCount >= 4) {
-            var bot = new Bot({ x: 1, y: 1 });
-            this.bots.push(bot);
-        }
+        // if (this.botsCount >= 1) {
+        //     var bot2 = new Bot({ x: 1, y: this.tilesY - 2 });
+        //     this.bots.push(bot2);
+        // }
+        //
+        // if (this.botsCount >= 2) {
+        //     var bot3 = new Bot({ x: this.tilesX - 2, y: 1 });
+        //     this.bots.push(bot3);
+        // }
+        //
+        // if (this.botsCount >= 3) {
+        //     var bot = new Bot({ x: this.tilesX - 2, y: this.tilesY - 2 });
+        //     this.bots.push(bot);
+        // }
+        //
+        // if (this.botsCount >= 4) {
+        //     var bot = new Bot({ x: 1, y: 1 });
+        //     this.bots.push(bot);
+        // }
     },
 
     spawnPlayers: function() {

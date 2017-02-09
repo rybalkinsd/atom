@@ -3,12 +3,12 @@ package ru.atom.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.model.Level;
 import ru.atom.model.World;
 import ru.atom.model.actor.Pawn;
 import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
 import ru.atom.network.message.Topic;
-import ru.atom.util.V;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,19 +22,15 @@ public class GameSession implements Runnable {
     private final static long SLEEP_TIME = 1_000;
     private final Broker broker;
     private final World world;
-    private final List<Player> players;
-
     private long tickNumber = 0;
 
 
-    GameSession(@NotNull List<Player> players) {
-        this.players = players;
+    GameSession(@NotNull List<Player> players, Level level) {
         broker = Broker.getInstance();
-        world = new World();
-        for (Player player : players) {
-            Pawn pawn = new Pawn(V.of(1, 6));
-            world.register(pawn);
-            player.setPawn(pawn);
+        world = new World(level);
+        for (int i = 0; i < players.size(); i++) {
+            Pawn pawn = Pawn.create(level.getSpawnPlaces().get(i));
+            players.get(i).setPawn(pawn);
         }
     }
 
@@ -45,7 +41,7 @@ public class GameSession implements Runnable {
             act(SLEEP_TIME);
             long elapsed = System.currentTimeMillis() - started;
             if (elapsed < SLEEP_TIME) {
-                log.info("All tickers finish at {} ms", elapsed);
+                log.info("All tick finish at {} ms", elapsed);
                 LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(SLEEP_TIME - elapsed));
             } else {
                 log.warn("tick lag {} ms", elapsed - SLEEP_TIME);

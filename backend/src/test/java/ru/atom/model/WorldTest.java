@@ -18,8 +18,8 @@ public class WorldTest {
 
     @Before
     public void setUp() throws Exception {
-        world = new World();
-        Pawn pawn = new Pawn(V.of(3, 7));
+        world = new World(Level.STANDARD);
+        Pawn pawn = Pawn.create(V.of(3, 7));
         world.register(pawn);
     }
 

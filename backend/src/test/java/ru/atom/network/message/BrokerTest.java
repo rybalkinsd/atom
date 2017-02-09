@@ -27,7 +27,7 @@ public class BrokerTest {
         connectionPool =ConnectionPool.getInstance();
         session = new SessionMock();
         player = new Player("luke", session);
-        pawn = new Pawn(V.ZERO);
+        pawn = Pawn.create(V.ZERO);
         player.setPawn(pawn);
         connectionPool.add(session, player);
     }

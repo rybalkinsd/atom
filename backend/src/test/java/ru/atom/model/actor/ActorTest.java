@@ -2,6 +2,8 @@ package ru.atom.model.actor;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.model.Level;
+import ru.atom.model.World;
 import ru.atom.util.V;
 
 import java.util.stream.IntStream;
@@ -13,11 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ActorTest {
     private Actor actor;
+
     @Before
     public void setUp() throws Exception {
-        actor = new Actor()
-                .setPosition(V.of(1.0, 2.0))
-                .setVelocity(V.of(-0.01, -0.02));
+        new World(Level.STANDARD);
+        actor = new Actor();
+        actor.setPosition(V.of(1.0, 2.0));
+        actor.setVelocity(V.of(-0.01, -0.02));
 
     }
 

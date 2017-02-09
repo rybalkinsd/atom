@@ -3,6 +3,7 @@ package ru.atom.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.model.Level;
 import ru.atom.network.ConnectionPool;
 import ru.atom.network.Player;
 
@@ -31,7 +32,9 @@ public class GameSessionManager implements Runnable {
         this.connectionPool = ConnectionPool.getInstance();
         queue = new LinkedBlockingQueue<>();
         this.gameSessions = new ConcurrentHashMap<>();
-        this.executor = Executors.newFixedThreadPool(1);
+        this.executor = Executors.newFixedThreadPool(1,r ->
+            new Thread(r, "Game session")
+        );
     }
 
     public void register(Player player) {
@@ -61,7 +64,7 @@ public class GameSessionManager implements Runnable {
 
     private void newSession(@NotNull List<Player> players) {
         log.info("Full house. Starting new game with {}", players.stream().map(Player::getName).collect(Collectors.toList()));
-        GameSession session = new GameSession(players);
+        GameSession session = new GameSession(players, Level.STANDARD);
         gameSessions.put(session, session);
 
         CompletableFuture.runAsync(session, executor)
