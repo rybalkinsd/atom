@@ -58,7 +58,7 @@ public class GameSessionManager implements Runnable {
                 newSession(players);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("Session manager was interrupted", e);
         }
     }
 

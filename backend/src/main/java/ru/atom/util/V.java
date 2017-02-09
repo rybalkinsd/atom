@@ -31,8 +31,12 @@ public class V {
         return V.of(x + v.x, y + v.y);
     }
 
-    public V times(long v) {
-        return V.of(x * v, y * v);
+    public V times(long m) {
+        return V.of(x * m, y * m);
+    }
+
+    public V times(double mx, double my) {
+        return V.of(x * mx, y * my);
     }
 
     @Override
@@ -49,6 +53,14 @@ public class V {
     @Override
     public int hashCode() {
         throw new NotImplementedException();
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     @Override
