@@ -1,7 +1,8 @@
-package ru.atom.model.actor;
+package ru.atom.model.object.actor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.model.object.GameObject;
 import ru.atom.util.V;
 
 /**
@@ -13,13 +14,14 @@ public class Actor extends GameObject implements Tickable {
 
     @Override
     public void tick(long time) {
+        V before = position;
         move(time);
+        log.info("Moved: {} -> {}.", before, position);
+
     }
 
     private void move(long time) {
-        V before = position;
         position = position.move(velocity.times(time));
-        log.info("Moved: {} -> {}.", before, position);
     }
 
     public Actor setVelocity(V velocity) {

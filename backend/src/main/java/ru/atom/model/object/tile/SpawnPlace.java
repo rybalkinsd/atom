@@ -1,4 +1,4 @@
-package ru.atom.model.actor.tile;
+package ru.atom.model.object.tile;
 
 import ru.atom.util.V;
 

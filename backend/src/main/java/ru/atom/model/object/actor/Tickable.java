@@ -1,4 +1,4 @@
-package ru.atom.model.actor;
+package ru.atom.model.object.actor;
 
 /**
  * Created by sergey on 2/2/17.

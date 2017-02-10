@@ -1,8 +1,8 @@
 package ru.atom.model;
 
-import ru.atom.model.actor.Actor;
-import ru.atom.model.actor.GameObject;
-import ru.atom.model.actor.Tickable;
+import ru.atom.model.object.actor.Actor;
+import ru.atom.model.object.GameObject;
+import ru.atom.model.object.actor.Tickable;
 
 import java.util.ArrayList;
 import java.util.Collection;

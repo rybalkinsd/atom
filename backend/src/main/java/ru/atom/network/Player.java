@@ -3,7 +3,7 @@ package ru.atom.network;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.atom.model.actor.Pawn;
+import ru.atom.model.object.actor.Pawn;
 import ru.atom.model.input.InputAction;
 
 import java.util.concurrent.atomic.AtomicInteger;

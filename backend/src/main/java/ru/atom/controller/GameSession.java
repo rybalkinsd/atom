@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import ru.atom.model.Level;
 import ru.atom.model.World;
-import ru.atom.model.actor.Pawn;
+import ru.atom.model.object.actor.Pawn;
 import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
 import ru.atom.network.message.Topic;

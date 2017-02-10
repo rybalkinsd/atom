@@ -1,4 +1,4 @@
-package ru.atom.model.actor.tile;
+package ru.atom.model.object.tile;
 
 import org.jetbrains.annotations.NotNull;
 import ru.atom.model.collision.CollisionProfile;

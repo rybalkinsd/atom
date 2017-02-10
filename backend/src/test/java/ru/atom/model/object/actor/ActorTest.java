@@ -1,4 +1,4 @@
-package ru.atom.model.actor;
+package ru.atom.model.object.actor;
 
 import org.junit.Before;
 import org.junit.Test;

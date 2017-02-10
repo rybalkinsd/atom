@@ -4,7 +4,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Before;
 import org.junit.Test;
 import ru.atom.SessionMock;
-import ru.atom.model.actor.Pawn;
+import ru.atom.model.object.actor.Pawn;
 import ru.atom.network.ConnectionPool;
 import ru.atom.network.Player;
 import ru.atom.util.V;

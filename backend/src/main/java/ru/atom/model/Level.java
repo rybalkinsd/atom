@@ -1,9 +1,9 @@
 package ru.atom.model;
 
-import ru.atom.model.actor.tile.SpawnPlace;
-import ru.atom.model.actor.tile.Tile;
-import ru.atom.model.actor.tile.Wall;
-import ru.atom.model.actor.tile.Wood;
+import ru.atom.model.object.tile.SpawnPlace;
+import ru.atom.model.object.tile.Tile;
+import ru.atom.model.object.tile.Wall;
+import ru.atom.model.object.tile.Wood;
 import ru.atom.util.V;
 
 import java.util.Arrays;
@@ -61,6 +61,7 @@ public enum Level {
     public Collection<Tile> getTiles() {
         return Arrays.stream(tiles)
                 .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 

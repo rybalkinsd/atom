@@ -1,4 +1,4 @@
-package ru.atom.model.actor;
+package ru.atom.model.object.actor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +18,11 @@ public class Pawn extends Actor {
     @JsonIgnore
     private Collection<InputAction> inbox = new ArrayList<>();
 
+    //skills
+    private int maxBombs = 1;
+    private int bombPower = 1;
+    private int velocityModifier = 1;
+
     public static Pawn create(V position) {
         Pawn instance = new Pawn(position);
         instance.postConstruct();
@@ -36,6 +41,8 @@ public class Pawn extends Actor {
         plantBomb();
         inbox.clear();
     }
+
+
 
     private void plantBomb() {
         if (!wantPlantBomb) {

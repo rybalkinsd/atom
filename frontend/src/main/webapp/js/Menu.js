@@ -68,22 +68,16 @@ Menu = Class.extend({
         this.views.push(bg);
 
         // game title
-        text = text || [{text: 'Bomber', color: '#ffffff'}, {text: 'girl', color: '#ff4444'}];
+        text = text || [{text: 'Boom', color: '#ffffff'}];
 
         var title1 = new createjs.Text(text[0].text, "bold 35px Helvetica", text[0].color);
-        var title2 = new createjs.Text(text[1].text, "bold 35px Helvetica", text[1].color);
 
-        var titleWidth = title1.getMeasuredWidth() + title2.getMeasuredWidth();
+        var titleWidth = title1.getMeasuredWidth();
 
         title1.x = gGameEngine.size.w / 2 - titleWidth / 2;
         title1.y = gGameEngine.size.h / 2 - title1.getMeasuredHeight() / 2 - 80;
         gGameEngine.stage.addChild(title1);
         this.views.push(title1);
-
-        title2.x = title1.x + title1.getMeasuredWidth();
-        title2.y = gGameEngine.size.h / 2 - title1.getMeasuredHeight() / 2 - 80;
-        gGameEngine.stage.addChild(title2);
-        this.views.push(title2);
 
         // modes buttons
         var modeSize = 110;
@@ -101,20 +95,14 @@ Menu = Class.extend({
             that.setMode('single');
         });
 
-        var singleTitle1 = new createjs.Text("single", "16px Helvetica", "#ff4444");
-        var singleTitle2 = new createjs.Text("player", "16px Helvetica", "#ffffff");
-        var singleTitleWidth = singleTitle1.getMeasuredWidth() + singleTitle2.getMeasuredWidth();
-        var modeTitlesY = modesY + modeSize - singleTitle1.getMeasuredHeight() - 20;
+        var singleTitle = new createjs.Text("Play", "16px Helvetica", "#ff4444");
+        var singleTitleWidth = singleTitle.getMeasuredWidth();
+        var modeTitlesY = modesY + modeSize - singleTitle.getMeasuredHeight() - 20;
 
-        singleTitle1.x = singleX + (modeSize - singleTitleWidth) / 2;
-        singleTitle1.y = modeTitlesY;
-        gGameEngine.stage.addChild(singleTitle1);
-        this.views.push(singleTitle1)
-
-        singleTitle2.x = singleTitle1.x + singleTitle1.getMeasuredWidth();
-        singleTitle2.y = modeTitlesY;
-        gGameEngine.stage.addChild(singleTitle2);
-        this.views.push(singleTitle2)
+        singleTitle.x = singleX + (modeSize - singleTitleWidth) / 2;
+        singleTitle.y = modeTitlesY;
+        gGameEngine.stage.addChild(singleTitle);
+        this.views.push(singleTitle)
 
         var iconsY = modesY + 13;
         var singleIcon = new createjs.Bitmap("img/betty.png");

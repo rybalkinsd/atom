@@ -1,6 +1,6 @@
-package ru.atom.model.actor.tile;
+package ru.atom.model.object.tile;
 
-import ru.atom.model.actor.GameObject;
+import ru.atom.model.object.GameObject;
 import ru.atom.util.V;
 
 /**

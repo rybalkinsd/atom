@@ -2,7 +2,7 @@ package ru.atom.model.input;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.atom.model.actor.Pawn;
+import ru.atom.model.object.actor.Pawn;
 import ru.atom.util.JsonHelper;
 import ru.atom.util.V;
 
