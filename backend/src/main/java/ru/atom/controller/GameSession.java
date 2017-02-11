@@ -54,6 +54,9 @@ public class GameSession implements Runnable {
     private void act(long time) {
         world.tick(time);
         broker.broadcast(Topic.REPLICA, world);
+        if (world.isGameOver()) {
+            broker.broadcast(Topic.END_MATCH, world.findWinner());
+        }
     }
 
 }

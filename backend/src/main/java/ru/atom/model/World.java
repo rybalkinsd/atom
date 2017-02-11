@@ -1,7 +1,8 @@
 package ru.atom.model;
 
-import ru.atom.model.object.actor.Actor;
 import ru.atom.model.object.GameObject;
+import ru.atom.model.object.actor.Actor;
+import ru.atom.model.object.actor.Pawn;
 import ru.atom.model.object.actor.Tickable;
 
 import java.util.ArrayList;
@@ -40,5 +41,19 @@ public class World implements Tickable {
 
     public void unregister(GameObject gameObject) {
         objects.remove(gameObject);
+    }
+
+    public boolean isGameOver() {
+        return objects.stream()
+                .filter(x -> x instanceof Pawn)
+                .count() <= 1;
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public Pawn findWinner() {
+        return objects.stream()
+                .filter(x -> x instanceof Pawn)
+                .map(x -> (Pawn) x)
+                .findFirst().get();
     }
 }
