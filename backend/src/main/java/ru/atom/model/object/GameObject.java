@@ -28,7 +28,7 @@ public abstract class GameObject implements Collider {
         World.my().ifPresent(world -> world.register(this));
     }
 
-    protected void destroy() {
+    public void destroy() {
         destroySubscriptions.forEach(consumer -> consumer.accept(this));
         World.my().ifPresent(world -> world.unregister(this));
     }

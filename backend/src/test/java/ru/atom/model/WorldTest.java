@@ -15,13 +15,30 @@ import static org.assertj.core.api.Assertions.catchThrowable;
  */
 public class WorldTest {
     private World world;
+    private Pawn player1;
 
     @Before
     public void setUp() throws Exception {
         world = new World(Level.STANDARD);
-        Pawn pawn = Pawn.create(V.of(3, 7));
-        world.register(pawn);
+        player1 = Pawn.create(V.of(3, 7));
     }
+
+    @Test
+    public void getWinnerFromOne() throws Exception {
+        assertThat(world.isGameOver()).isTrue();
+        assertThat(world.findWinner()).isEqualTo(player1);
+    }
+
+    @Test
+    public void getWinnerFromMany() throws Exception {
+        Pawn player2 = Pawn.create(V.of(2, 2));
+        assertThat(world.isGameOver()).isFalse();
+
+        player2.destroy();
+        assertThat(world.isGameOver()).isTrue();
+        assertThat(world.findWinner()).isEqualTo(player1);
+    }
+
 
     @Test
     public void serialization() throws Exception {

@@ -21,7 +21,7 @@ public class Pawn extends Actor {
     //skills
     private int maxBombs = 1;
     private int bombPower = 1;
-    private int velocityModifier = 1;
+    private double speedModifier = 1;
 
     public static Pawn create(V position) {
         Pawn instance = new Pawn(position);
@@ -41,8 +41,6 @@ public class Pawn extends Actor {
         plantBomb();
         inbox.clear();
     }
-
-
 
     private void plantBomb() {
         if (!wantPlantBomb) {
@@ -66,4 +64,20 @@ public class Pawn extends Actor {
     public CollisionProfile getProfile() {
         return CollisionProfile.DYNAMIC;
     }
+
+    public void addSpeed(double value) {
+        assert value > 0;
+        speedModifier += value;
+    }
+
+    public void addBombPower(int value) {
+        assert value > 0;
+        bombPower += value;
+    }
+
+    public void addMaxBombs(int value) {
+        assert value > 0;
+        maxBombs += value;
+    }
 }
+

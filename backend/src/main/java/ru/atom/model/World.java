@@ -19,7 +19,7 @@ public class World implements Tickable {
     public World(Level level) {
         objects = new ArrayList<>();
         objects.addAll(level.getTiles());
-        // fixme unsafe publication
+        // Constructing World object could be accessed only from the same thread
         universe.set(this);
     }
 
@@ -27,7 +27,7 @@ public class World implements Tickable {
     public void tick(long time) {
         objects.stream()
                 .filter(x -> x instanceof Actor)
-                .map(x ->(Actor) x)
+                .map(x -> (Actor) x)
                 .forEach(x -> x.tick(time));
     }
 
