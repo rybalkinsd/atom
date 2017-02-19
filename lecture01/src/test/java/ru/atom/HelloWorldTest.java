@@ -2,8 +2,10 @@ package ru.atom;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by sergei-r on 03.01.17.
@@ -11,10 +13,8 @@ import static org.junit.Assert.assertNotEquals;
 public class HelloWorldTest {
     @Test
     public void getHelloWorld() throws Exception {
-        assertEquals("Hello, World!", HelloWorld.getHelloWorld());
-        assertNotEquals("Some strange string", HelloWorld.getHelloWorld());
+        assertThat(HelloWorld.getHelloWorld(), is(equalTo("Hello, World!")));
+        assertThat(HelloWorld.getHelloWorld(), is(not(equalTo("Some strange string"))));
     }
-
-
 
 }
