@@ -1,0 +1,30 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+*/.idea
+.idea
+*.iml
+out
+gen### Java template
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Hibernate config
+zagar_server/src/main/resources/hibernate.cfg.xml
+
+# Temporary files
+zagar_server/src/main/resources/tmp
+
+*/target

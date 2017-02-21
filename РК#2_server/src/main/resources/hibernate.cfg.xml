@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://54.224.37.210/atom14_tinderdb</property>
+        <property name="hibernate.connection.username">atom14</property>
+        <property name="hibernate.connection.password">atom14</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+        <!-- Print executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="use_sql_comments">true</property>
+
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!--boot boost hack-->
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+
+        <!-- Annotated entity classes -->
+        <mapping class="model.data.User"/>
+        <mapping class="model.data.Token"/>
+        <mapping class="model.data.Match"/>
+
+
+    </session-factory>
+</hibernate-configuration>

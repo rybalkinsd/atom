@@ -1,24 +1,24 @@
 package matchmaker;
 
-import model.GameSession;
-import model.Player;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import utils.RandomPlayerPlacer;
+import utils.RandomVirusGenerator;
+import utils.UniformFoodGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static model.GameConstants.MAX_PLAYERS_IN_SESSION;
 
 /**
  * Creates {@link GameSession} for single player
  *
  * @author Alpi
  */
-public class SinglePlayerMatchMaker implements MatchMaker {
+public class MatchMakerImpl implements MatchMaker {
   @NotNull
-  private final Logger log = LogManager.getLogger(SinglePlayerMatchMaker.class);
+  private final Logger log = LogManager.getLogger(MatchMakerImpl.class);
   @NotNull
   private final List<GameSession> activeGameSessions = new ArrayList<>();
 
@@ -43,13 +43,16 @@ public class SinglePlayerMatchMaker implements MatchMaker {
   }
 
   /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
-   * Log every game instance creation
-   *
    * @return new GameSession
    */
+  private
   @NotNull
-  private GameSession createNewGame() {
-    return new SinglePlayerSession();
+  GameSession createNewGame() {
+    Field field = new Field();
+    //TODO
+    //Ticker ticker = ApplicationContext.instance().get(Ticker.class);
+    UniformFoodGenerator foodGenerator = new UniformFoodGenerator(field, GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
+    //ticker.registerTickable(foodGenerator);
+    return new GameSessionImpl(foodGenerator, new RandomPlayerPlacer(field), new RandomVirusGenerator(field, GameConstants.NUMBER_OF_VIRUSES));
   }
 }
