@@ -1,8 +1,11 @@
 package model;
 
+import model.units.UnitPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 /**
  * Server player avatar
@@ -16,7 +19,8 @@ public class Player {
   @NotNull
   private String name;
 
-  //TODO maybe we need something else here?
+  private ArrayList<UnitPlayer> playerUnits;
+  private int color;
 
   /**
    * Create new Player
@@ -28,6 +32,19 @@ public class Player {
     if (log.isInfoEnabled()) {
       log.info(toString() + " created");
     }
+  }
+
+  public void attack(){
+    ArrayList<UnitPlayer> nUnits = new ArrayList<>();
+    for (int i = 0; i < playerUnits.size(); i++) {
+      nUnits.add(playerUnits.get(i));
+    }
+    playerUnits.addAll(nUnits);
+  }
+
+  @NotNull
+  public String getName() {
+    return name;
   }
 
   @Override

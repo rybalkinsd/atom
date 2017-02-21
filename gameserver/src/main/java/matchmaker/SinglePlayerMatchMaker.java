@@ -1,6 +1,8 @@
 package matchmaker;
 
+import model.GameConstants;
 import model.GameSession;
+import model.GameSessionImpl;
 import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,12 +24,20 @@ public class SinglePlayerMatchMaker implements MatchMaker {
   private final List<GameSession> activeGameSessions = new ArrayList<>();
 
   /**
-   * Creates new GameSession for single player
+   * Serches available game sessions,
+   * if there is no available session,
+   * creates new session
    *
    * @param player single player
    */
   @Override
   public void joinGame(@NotNull Player player) {
+    for (GameSession session : activeGameSessions) {
+      if (session.getPlayersCount() < GameConstants.MAX_PLAYERS_IN_SESSION) {
+        session.join(player);
+        return;
+      }
+    }
     GameSession newGameSession = createNewGame();
     activeGameSessions.add(newGameSession);
     newGameSession.join(player);
@@ -36,19 +46,23 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     }
   }
 
+  /**
+   * Returns all active game sessions
+   * @return List of active game sessions
+   */
   @NotNull
   public List<GameSession> getActiveGameSessions() {
-    return new ArrayList<>(activeGameSessions);
+    return activeGameSessions;
   }
 
   /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
-   * Log every game instance creation
+   * Creates new Game Session
    *
    * @return new GameSession
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    GameSession session = new GameSessionImpl();
+    return session;
   }
 }
