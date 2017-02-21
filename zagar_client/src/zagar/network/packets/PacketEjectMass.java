@@ -11,13 +11,17 @@ import zagar.Game;
 
 public class PacketEjectMass {
   @NotNull
-  private static final Logger log = LogManager.getLogger(">>>");
+  private static final Logger log = LogManager.getLogger(PacketEjectMass.class);
+  private final float dx;
+  private final float dy;
 
-  public PacketEjectMass() {
+  public PacketEjectMass(float dx, float dy) {
+    this.dx = dx;
+    this.dy = dy;
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandEjectMass());
+    String msg = JSONHelper.toSerial(new CommandEjectMass(dx,dy));
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }

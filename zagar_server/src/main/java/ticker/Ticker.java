@@ -1,12 +1,8 @@
 package ticker;
 
-import main.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.LockSupport;
@@ -34,12 +30,12 @@ public class Ticker {
       tickable.tick(elapsed);
       elapsed = System.nanoTime() - started;
       if (elapsed < sleepTimeNanos) {
-        log.info("All tickers finish at " + TimeUnit.NANOSECONDS.toMillis(elapsed) + " ms");
+        log.debug("All tickers finish at " + TimeUnit.NANOSECONDS.toMillis(elapsed) + " ms");
         LockSupport.parkNanos(sleepTimeNanos - elapsed);
-      } else {
+      } /*else {
         log.warn("tick lag " + TimeUnit.NANOSECONDS.toMillis(elapsed - sleepTimeNanos) + " ms");
       }
-      log.info(tickable + " <tick> " + tickNumber.incrementAndGet());
+      log.info(tickable + " <tick> " + tickNumber.incrementAndGet());*/
     }
   }
 }

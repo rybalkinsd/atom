@@ -23,8 +23,8 @@ public class RandomPlayerPlacer implements PlayerPlacer {
     assert(player.getCells().size() == 1);
     Random random = new Random();
     for (PlayerCell playerCell : player.getCells()) {
-      playerCell.setX(playerCell.getRadius() + random.nextInt(field.getWidth() - 2 * playerCell.getRadius()));
-      playerCell.setY(playerCell.getRadius() + random.nextInt(field.getHeight() - 2 * playerCell.getRadius()));
+      playerCell.setX(playerCell.getMass() + random.nextInt(field.getWidth() - 2 * playerCell.getMass()));
+      playerCell.setY(playerCell.getMass() + random.nextInt(field.getHeight() - 2 * playerCell.getMass()));
     }
   }
 }

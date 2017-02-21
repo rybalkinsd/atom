@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import zagar.GameConstants;
 
 import java.io.IOException;
 
@@ -28,19 +27,21 @@ public class AuthClient {
         String.format("user=%s&password=%s", user, password)
     );
 
-    String requestUrl = serviceUrl + "/auth/register";
-    Request request = new Request.Builder()
-        .url(requestUrl)
-        .post(body)
-        .addHeader("content-type", "application/x-www-form-urlencoded")
-        .build();
-
     try {
-      OkHttpClient client = new OkHttpClient();
+      String requestUrl = serviceUrl + "/auth/register";
+      Request request = new Request.Builder()
+          .url(requestUrl)
+          .post(body)
+          .addHeader("content-type", "application/x-www-form-urlencoded")
+          .build();
+
       Response response = client.newCall(request).execute();
       return response.isSuccessful();
     } catch (IOException e) {
       log.warn("Something went wrong in register.", e);
+      return false;
+    } catch (IllegalArgumentException e) {
+      log.warn("Account server on " + serviceUrl + "/auth/login not detected", e);
       return false;
     }
   }
@@ -53,20 +54,22 @@ public class AuthClient {
         mediaType,
         String.format("user=%s&password=%s", user, password)
     );
-    String requestUrl = serviceUrl + "/auth/login";
-    Request request = new Request.Builder()
-        .url(requestUrl)
-        .post(body)
-        .addHeader("content-type", "application/x-www-form-urlencoded")
-        .build();
-
     try {
+      String requestUrl = serviceUrl + "/auth/login";
+      Request request = new Request.Builder()
+          .url(requestUrl)
+          .post(body)
+          .addHeader("content-type", "application/x-www-form-urlencoded")
+          .build();
       Response response = client.newCall(request).execute();
       if (response.isSuccessful()) {
         return response.body().string();
       } else return null;
     } catch (IOException e) {
       log.warn("Something went wrong in login.", e);
+      return null;
+    } catch (IllegalArgumentException e) {
+      log.warn("Account server on " + serviceUrl + "/auth/login not detected", e);
       return null;
     }
   }

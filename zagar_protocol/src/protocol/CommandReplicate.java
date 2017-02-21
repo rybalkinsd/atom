@@ -4,10 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import protocol.model.Cell;
 import protocol.model.Food;
 
+import java.io.Serializable;
+
 /**
  * @author apomosov
  */
-public final class CommandReplicate extends Command {
+public final class CommandReplicate extends Command implements Serializable {
   @NotNull
   public static final String NAME = "cells";
   @NotNull
@@ -21,7 +23,7 @@ public final class CommandReplicate extends Command {
   }
 
   @NotNull
-  public protocol.model.Cell[] getCells() {
+  public Cell[] getCells() {
     return cells;
   }
 

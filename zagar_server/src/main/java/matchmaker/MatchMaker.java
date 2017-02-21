@@ -23,4 +23,6 @@ public interface MatchMaker {
    */
   @NotNull
   List<GameSession> getActiveGameSessions();
+
+  public void checkUnactive();
 }

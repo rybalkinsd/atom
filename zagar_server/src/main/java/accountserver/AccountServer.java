@@ -6,18 +6,23 @@ import main.Service;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
+import utils.Configurations;
+
+import java.io.IOException;
+
 
 
 public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(int port) {
+  public AccountServer() {
     super("account_server");
-    this.port = port;
+    port = Configurations.getIntProperty("accountServerPort");
   }
 
   private void startApi() {
@@ -45,24 +50,19 @@ public class AccountServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Failed to start account server",e);
     }
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    new AccountServer(8080).startApi();
+      new AccountServer().startApi();
   }
 
   @Override
   public void run() {
     startApi();
-
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    while (!Thread.interrupted()) {
+      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
     }
   }
 }

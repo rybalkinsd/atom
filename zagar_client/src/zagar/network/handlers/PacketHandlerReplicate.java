@@ -1,18 +1,15 @@
 package zagar.network.handlers;
 
-import java.nio.ByteBuffer;
-import java.util.Collections;
+import java.io.IOException;
 
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import protocol.CommandLeaderBoard;
 import protocol.CommandReplicate;
-import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.view.Cell;
 import zagar.Game;
 import org.jetbrains.annotations.NotNull;
+import zagar.view.Food;
 
 public class PacketHandlerReplicate {
   @NotNull
@@ -21,9 +18,11 @@ public class PacketHandlerReplicate {
   public PacketHandlerReplicate(@NotNull String json) {
     CommandReplicate commandReplicate;
     try {
-      commandReplicate = JSONHelper.fromJSON(json, CommandReplicate.class);
-    } catch (JSONDeserializationException e) {
-      e.printStackTrace();
+      commandReplicate = (CommandReplicate) JSONHelper.fromSerial(json);
+      //System.out.println(commandReplicate.getCells()[0]);
+     // System.out.println("PIRATE3");
+    } catch (IOException | ClassNotFoundException ex ){
+      log.error("failed to deserialize replicate command",ex);
       return;
     }
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];
@@ -31,10 +30,18 @@ public class PacketHandlerReplicate {
       protocol.model.Cell c = commandReplicate.getCells()[i];
       gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
     }
-
+    Food[] gamefood = new Food[commandReplicate.getFood().length];
+    for (int i = 0; i<commandReplicate.getFood().length;i++){
+      protocol.model.Food f = commandReplicate.getFood()[i];
+      gamefood[i] = new Food(-1,f.getX(),f.getY());
+    }
     Game.player.clear();
-    Collections.addAll(Game.player, gameCells);
+    for (Cell gamecell : gameCells){
+      if ((gamecell.getId() == Game.id) && !gamecell.getVirus())
+        Game.player.add(gamecell);
+    }
     Game.cells = gameCells;
+    Game.food = gamefood;
 
     //TODO
 /*    if (b == null) return;

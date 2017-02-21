@@ -4,6 +4,8 @@ package accountserver.api;
  * Created by s.rybalkin on 28.09.2016.
  */
 
+import dao.AccountDao;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -17,21 +19,17 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AuthenticationServlet {
   @NotNull
   private static final Logger log = LogManager.getLogger(AuthenticationServlet.class);
-
   @NotNull
-  private static ConcurrentHashMap<String, String> credentials;
+  private static final AccountDao dao = new AccountDao();
+
   @NotNull
   private static ConcurrentHashMap<String, Long> tokens;
   @NotNull
   private static ConcurrentHashMap<Long, String> tokensReversed;
 
   static {
-    credentials = new ConcurrentHashMap<>();
-    credentials.put("admin", "admin");
     tokens = new ConcurrentHashMap<>();
-    tokens.put("admin", 1L);
     tokensReversed = new ConcurrentHashMap<>();
-    tokensReversed.put(1L, "admin");
   }
 
   // curl -i
@@ -52,9 +50,12 @@ public class AuthenticationServlet {
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
-    if (credentials.putIfAbsent(user, password) != null) {
+    Pair<String,String> credentials=dao.getByUser(user);
+    if (credentials!=null) {
       return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
+
+    dao.insert(new Pair<>(user, password));
 
     log.info("New user '{}' registered", user);
     return Response.ok("User " + user + " registered.").build();
@@ -95,8 +96,9 @@ public class AuthenticationServlet {
     }
   }
 
-  private boolean authenticate(@NotNull String user, @NotNull String password) throws Exception {
-    return password.equals(credentials.get(user));
+  private boolean authenticate(@NotNull String user, @NotNull String password) {
+    Pair<String,String> credentials=dao.getByUser(user);
+    return (credentials!=null)&&password.equals(credentials.getValue());
   }
 
   @NotNull

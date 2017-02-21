@@ -1,9 +1,11 @@
 package protocol.model;
 
+import java.io.Serializable;
+
 /**
  * @author apomosov
  */
-public final class Cell {
+public final class Cell implements Serializable {
   private final int cellId;
   private final int playerId;
   private final boolean isVirus;
@@ -18,6 +20,15 @@ public final class Cell {
     this.size = size;
     this.x = x;
     this.y = y;
+  }
+
+  public Cell(Cell cell) {
+    this.cellId = cell.cellId;
+    this.playerId = cell.playerId;
+    this.isVirus = cell.isVirus;
+    this.size = cell.size;
+    this.x = cell.x;
+    this.y = cell.y;
   }
 
   public int getPlayerId() {
@@ -43,4 +54,12 @@ public final class Cell {
   public float getSize() {
     return size;
   }
+
+  @Override
+  public String toString(){
+    StringBuilder build = new StringBuilder();
+    build.append("ID ").append(cellId).append("VIRUS ").append(isVirus).append("SIZE").append(size);
+    return build.toString();
+  }
+
 }

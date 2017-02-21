@@ -21,8 +21,11 @@ import zagar.network.ServerConnectionSocket;
 import zagar.network.packets.PacketMove;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
+import zagar.network.packets.PacketRespawn;
+import zagar.network.packets.PacketSplit;
 import zagar.util.Reporter;
 import zagar.view.Cell;
+import zagar.view.Food;
 import zagar.view.GameFrame;
 
 import static zagar.GameConstants.*;
@@ -31,7 +34,11 @@ public class Game {
   @NotNull
   private static final Logger log = LogManager.getLogger(Game.class);
   @NotNull
+  public static int id;
+  @NotNull
   public static volatile Cell[] cells = new Cell[0];
+  @NotNull
+  public static volatile Food[] food = new Food[0];
   @NotNull
   public static ConcurrentLinkedDeque<Cell> player = new ConcurrentLinkedDeque<>();
   @NotNull
@@ -49,12 +56,14 @@ public class Game {
   public static String serverToken;
   @NotNull
   public static String login = DEFAULT_LOGIN;
+  public static int spawnPlayer = -1;
   @NotNull
   public static HashMap<Integer, String> cellNames = new HashMap<>();
   public static long fps = 60;
-  public static boolean rapidEject;
   @NotNull
   public static GameState state = GameState.NOT_AUTHORIZED;
+  public volatile static boolean splitting = false;
+  public volatile static boolean ejecting = false;
   private double zoomm = -1;
   private int sortTimer;
   @NotNull
@@ -64,6 +73,9 @@ public class Game {
 
   public Game() {
     selectHost();
+
+    this.spawnPlayer = 100;
+
     authenticate();
 
     final WebSocketClient client = new WebSocketClient();
@@ -78,14 +90,14 @@ public class Game {
         log.info("Trying to connect <" + gameServerUrl + ">");
         socket.awaitClose(7, TimeUnit.DAYS);
       } catch (Throwable t) {
-        t.printStackTrace();
+        log.error("Failed to connect to client server",t);
       }
     }).start();
   }
 
   private void selectHost()
   {String accountServiceUrl;
-    AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Authentication server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
+    AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Account server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
     this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Game server", accountServiceUrl==null?(DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT):(accountServiceUrl.indexOf(':')<0?(accountServiceUrl):(accountServiceUrl.substring(0,accountServiceUrl.indexOf(':')) + ":" + DEFAULT_GAME_SERVER_PORT))));
   }
 
@@ -127,7 +139,7 @@ public class Game {
 
   @Nullable
   private AuthOption chooseAuthOption() {
-    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER,"CHANGE HOST"};
+    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER, "CHANGE HOST"};
     int authOption = JOptionPane.showOptionDialog(null,
         "Choose authentication option",
         "Authentication",
@@ -149,7 +161,25 @@ public class Game {
   }
 
   public void tick() throws IOException {
-    log.info("[TICK]");
+    if (socket != null && socket.session != null && socket.session.isOpen()) {
+      if (spawnPlayer != -1) {
+        spawnPlayer--;
+      }
+
+      if (spawnPlayer == 0) {
+        log.info("Resetting level (death)");
+      }
+      if (Game.player.size() == 0) {
+        if (socket.session.isOpen() && spawnPlayer == -1) {
+          //death massage
+          score = 0;
+          Game.player.clear();
+          Game.cells = new Cell[Game.cells.length];
+          cellNames.clear();
+        }
+      }
+    }
+
     ArrayList<Integer> toRemove = new ArrayList<>();
 
     for (int i : playerID) {
@@ -186,6 +216,8 @@ public class Game {
         zoomm = 1;
       }
 
+
+
       if (zoomm == -1) {
         zoomm = zoom;
       }
@@ -211,17 +243,27 @@ public class Game {
         y += (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
         followX = x;
         followY = y;
-        (new PacketMove(x, y)).write(socket.session);
 
-        if (rapidEject) {
-          new PacketEjectMass().write();
+        try {
+          new PacketMove(x, y).write();
+          if(splitting) {
+            new PacketSplit(x,y).write();
+            splitting = false;
+          }
+          if(ejecting) {
+            new PacketEjectMass(x,y).write();
+            ejecting=false;
+          }
+
+        } catch (IOException e) {
+         log.error("client.Game exeption {}",e);
         }
       }
     }
 
-    for (int i = 0; i < cells.length; i++) {
-      if (cells[i] != null) {
-        cells[i].tick();
+    for (Cell cell : cells) {
+      if (cell != null) {
+        cell.tick();
       }
     }
 
@@ -231,6 +273,7 @@ public class Game {
       sortCells();
       sortTimer = 0;
     }
+
   }
 
   public static void sortCells() {
@@ -246,6 +289,14 @@ public class Game {
       }
       return Float.compare(o1.size, o2.size);
     });
+
+  }
+
+  public static void respawn() {
+    if (spawnPlayer == -1) {
+      spawnPlayer = 100;
+    }
+    new PacketRespawn();
   }
 
   private enum AuthOption {
@@ -253,6 +304,6 @@ public class Game {
   }
 
   public enum GameState {
-    NOT_AUTHORIZED, AUTHORIZED
+    NOT_AUTHORIZED, AUTHORIZED, CONNECTING
   }
 }

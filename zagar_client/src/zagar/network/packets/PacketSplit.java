@@ -13,11 +13,16 @@ public class PacketSplit {
   @NotNull
   private static final Logger log = LogManager.getLogger(">>>");
 
-  public PacketSplit() {
+  private final float dx;
+  private final float dy;
+
+  public PacketSplit(float dx, float dy) {
+    this.dx = dx;
+    this.dy = dy;
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandSplit());
+    String msg = JSONHelper.toSerial(new CommandSplit(dx,dy));
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }

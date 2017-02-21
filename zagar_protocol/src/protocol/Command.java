@@ -2,10 +2,12 @@ package protocol;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 /**
  * @author apomosov
  */
-public abstract class Command {
+public abstract class Command implements Serializable{
   @NotNull
   private final String command;
 
