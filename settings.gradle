@@ -1,5 +1,6 @@
 rootProject.name = 'atom'
 include 'lecture01'
+include 'homeworks/HW1'
 // include 'lecture02'
 
 // include 'frontend',
