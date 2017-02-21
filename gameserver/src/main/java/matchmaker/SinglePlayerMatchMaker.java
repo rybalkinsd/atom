@@ -2,10 +2,10 @@ package matchmaker;
 
 import model.GameSession;
 import model.Player;
+import model.SinglePlayerGameSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
     return new ArrayList<>(activeGameSessions);
   }
 
+
   /**
    * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
    * Log every game instance creation
@@ -49,6 +50,8 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    SinglePlayerGameSession newGame = new SinglePlayerGameSession();
+    return newGame;
+    //throw new NotImplementedException();//Implement it!
   }
 }
