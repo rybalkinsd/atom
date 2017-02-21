@@ -1,14 +1,10 @@
 package matchmaker;
 
-import model.GameSession;
-import model.Player;
+import com.sun.istack.internal.NotNull;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Creates {@link GameSession} for single player
@@ -28,12 +24,12 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @Override
   public void joinGame(@NotNull Player player) {
-    GameSession newGameSession = createNewGame();
-    activeGameSessions.add(newGameSession);
-    newGameSession.join(player);
-    if (log.isInfoEnabled()) {
-      log.info(player + " joined " + newGameSession);
-    }
+      GameSession newGameSession = createNewGame();
+      activeGameSessions.add(newGameSession);
+      newGameSession.join(player);
+      if (log.isInfoEnabled()) {
+          log.info(player + " joined " + newGameSession);
+      }
   }
 
   @NotNull
@@ -42,13 +38,42 @@ public class SinglePlayerMatchMaker implements MatchMaker {
   }
 
   /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
+   *
    * Log every game instance creation
    *
    * @return new GameSession
    */
-  @NotNull
+  GameSession currentSession = new GameSession() {
+
+      Set<Player> setOfPlayers = new HashSet<>();
+
+      List<Food> listOfFood = new ArrayList<>();
+
+      List<Obstacle> listOfObstacles = new ArrayList<>();
+
+      @Override
+      public void join(Player player){ setOfPlayers.add(player); }
+
+      @Override
+      public void addFood(Food food) { listOfFood.add(food); }
+
+      @Override
+      public void addObstacle(Obstacle obstacle) { listOfObstacles.add(obstacle); }
+
+  };
+
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+      Random random = new Random();
+      int i;
+      for(i = 0; i < GameConstants.STARTING_AMOUNT_OF_FOOD; ++i) {
+          Food food = new Food(random.nextDouble(), random.nextDouble());
+          currentSession.addFood(food);
+      }
+
+      for(i = 0; i < GameConstants.STARTING_AMOUNT_OF_OBSTACLES; ++i) {
+          Obstacle obstacle = new Obstacle(random.nextDouble(), random.nextDouble(), random.nextDouble());
+          currentSession.addObstacle(obstacle);
+      }
+      return currentSession;
   }
 }

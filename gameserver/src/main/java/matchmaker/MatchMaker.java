@@ -1,9 +1,8 @@
 package matchmaker;
 
+import com.sun.istack.internal.NotNull;
 import model.GameSession;
 import model.Player;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 /**
