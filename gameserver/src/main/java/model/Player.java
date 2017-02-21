@@ -1,8 +1,14 @@
 package model;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 import org.jetbrains.annotations.NotNull;
+import server.entities.user.User;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.List;
 
 /**
  * Server player avatar
@@ -11,29 +17,39 @@ import org.jetbrains.annotations.NotNull;
  * @author Alpi
  */
 public class Player {
-  @NotNull
-  private static final Logger log = LogManager.getLogger(Player.class);
-  @NotNull
-  private String name;
 
-  //TODO maybe we need something else here?
+    @NotNull
+    private static final Logger log = LogManager.getLogger(Player.class);
 
-  /**
-   * Create new Player
-   *
-   * @param name        visible name
-   */
-  public Player(@NotNull String name) {
-    this.name = name;
-    if (log.isInfoEnabled()) {
-      log.info(toString() + " created");
+    @NotNull
+    private User user;
+
+    @NotNull
+    private List<Cell> cells = new ArrayList<>(GameConstants.MAX_CELLS);
+
+
+    public Player(@NotNull User user) {
+        this.user = user;
+        Cell initialCell = new Cell(
+                Color.getHSBColor(new Random().nextFloat(),
+                new Random().nextFloat(), new Random().nextFloat()),
+                new Position(new Random().nextDouble() * GameConstants.MAX_BORDER_RIGHT,
+                        new Random().nextDouble() * GameConstants.MAX_BORDER_TOP));
+        this.cells.add(initialCell);
+        if (log.isInfoEnabled()) {
+          log.info(toString() + " created");
+        }
     }
-  }
 
-  @Override
-  public String toString() {
-    return "Player{" +
-        "name='" + name + '\'' +
-        '}';
-  }
+    @NotNull
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" + "name='" + user.getName() +
+                ", cells=" + cells +
+                '}';
+    }
 }
