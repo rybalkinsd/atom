@@ -14,32 +14,34 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author apomosov
  */
 public class ApplicationContext {
-  private static final @NotNull Logger log = LogManager.getLogger(ApplicationContext.class);
-  private static volatile @Nullable ApplicationContext instance;
+    private static final @NotNull Logger log = LogManager.getLogger(ApplicationContext.class);
+    private static volatile @Nullable ApplicationContext instance;
+    private final @NotNull Map<Class, Object> contextMap = new ConcurrentHashMap<>();
 
-  public static @NotNull ApplicationContext instance() {
-    if (instance == null) {
-      synchronized (ApplicationContext.class) {
-        if (instance == null) {
-          instance = new ApplicationContext();
-        }
-      }
+    private ApplicationContext() {
+        log.info(ApplicationContext.class.getName() + " initialized");
     }
-    return instance;
-  }
 
-  private final @NotNull Map<Class, Object> contextMap = new ConcurrentHashMap<>();
+    public static @NotNull ApplicationContext instance() {
+        if (instance == null) {
+            synchronized (ApplicationContext.class) {
+                if (instance == null) {
+                    instance = new ApplicationContext();
+                }
+            }
+        }
+        return instance;
+    }
 
-  public void put(@NotNull Class clazz, @NotNull Object object) {
-    contextMap.put(clazz, object);
-  }
+    public void put(@NotNull Class clazz, @NotNull Object object) {
+        contextMap.put(clazz, object);
+    }
 
-  @NotNull
-  public <T> T get(@NotNull Class<T> type) {
-    return (T) contextMap.get(type);
-  }
+    public <T> T get(@NotNull Class<T> type) {
+        return (T) contextMap.get(type);
+    }
 
-  private ApplicationContext() {
-    log.info(ApplicationContext.class.getName() + " initialized");
-  }
+    public void clear() {
+        contextMap.clear();
+    }
 }

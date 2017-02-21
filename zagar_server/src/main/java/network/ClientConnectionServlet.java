@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("serial")
 public class ClientConnectionServlet extends WebSocketServlet {
-  @Override
-  public void configure(@NotNull WebSocketServletFactory factory) {
-    factory.register(ClientConnectionHandler.class);
-  }
+    @Override
+    public void configure(@NotNull WebSocketServletFactory factory) {
+        factory.register(ClientConnectionHandler.class);
+    }
 }

@@ -3,57 +3,69 @@ package replication;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
 import model.GameSession;
-import model.Player;
-import model.PlayerCell;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
-import org.eclipse.jetty.websocket.api.Session;
-import protocol.CommandReplicate;
-import protocol.model.Cell;
-import protocol.model.Food;
-import utils.JSONHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import protocol.model.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Alpi
  * @since 31.10.16
+ *
+ * Replicates full session state to clients
  */
 public class FullStateReplicator implements Replicator {
-  @Override
-  public void replicate() {
-    for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
-      Food[] food = new Food[0];//TODO food and viruses
-      int numberOfCellsInSession = 0;
-      for (Player player : gameSession.getPlayers()) {
-        numberOfCellsInSession += player.getCells().size();
-      }
-      Cell[] cells = new Cell[numberOfCellsInSession];
-      int i = 0;
-      for (Player player : gameSession.getPlayers()) {
-        for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
-          i++;
-        }
-      }
-      for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey()) && connection.getValue().isOpen()) {
-          try {
-            new PacketReplicate(cells, food).write(connection.getValue());
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    }
+    @NotNull
+    private static final Logger log = LogManager.getLogger(FullStateReplicator.class);
+    @Override
+    public void replicate() {
+        for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+            List<Cell> replicateCells = gameSession.getField().getAllCells().stream()
+                    .map(cell->{
+                        if (cell instanceof model.PlayerCell) {
+                            model.PlayerCell c = ((model.PlayerCell) cell);
+                            return new PlayerCell(
+                                    c.getId(),
+                                    c.getMass(),
+                                    c.getCoordinate(),
+                                    c.getRadius(),
+                                    c.getOwner().getUser().getName()
+                            );
+                        }
+                        if (cell instanceof model.EjectedMass) {
+                            model.EjectedMass c = ((model.EjectedMass) cell);
+                            return new EjectedMass(c.getMass(), c.getCoordinate(), c.getRadius());
+                        }
+                        if (cell instanceof model.Food) {
+                            model.Food c = ((model.Food) cell);
+                            return new Food(c.getMass(), c.getCoordinate(), c.getRadius());
+                        }
+                        if (cell instanceof model.Virus) {
+                            model.Virus c = ((model.Virus) cell);
+                            return new Virus(c.getMass(), c.getCoordinate(), c.getRadius());
+                        }
+                        return null;
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-    /*ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions().stream().flatMap(
-        gameSession -> gameSession.getPlayers().stream().flatMap(
-            player -> player.getCells().stream()
-        )
-    ).map(playerCell -> new Cell(playerCell.getId(), ))*/
-  }
+            ApplicationContext.instance().get(ClientConnections.class).getConnections().forEach(connection -> {
+                if (gameSession.getPlayers().contains(connection.getKey())
+                        && connection.getValue().isOpen()) {
+                    try {
+                        new PacketReplicate(replicateCells).write(connection.getValue());
+                    } catch (IOException e) {
+                        log.fatal(e.getMessage());
+                    }
+                }
+            });
+        }
+    }
 }
