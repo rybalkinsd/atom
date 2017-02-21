@@ -1,7 +1,9 @@
 package matchmaker;
 
+import model.GameField;
 import model.GameSession;
 import model.Player;
+import model.SinglePlayerGameSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +28,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    *
    * @param player single player
    */
+  //todo сессии не удалять при ливе игрока, а делать неактивными, при подключении нового игрока - делать сначала поиск там
   @Override
   public void joinGame(@NotNull Player player) {
     GameSession newGameSession = createNewGame();
@@ -42,13 +45,13 @@ public class SinglePlayerMatchMaker implements MatchMaker {
   }
 
   /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
+   * HOMEWORK 1. Implement new game creation. Instantiate GameSession state
    * Log every game instance creation
    *
    * @return new GameSession
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    return new SinglePlayerGameSession();
   }
 }
