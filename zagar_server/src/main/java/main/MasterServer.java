@@ -1,22 +1,20 @@
 package main;
 
-import accountserver.AccountServer;
+import leaderboard.Leaderboard;
 import matchmaker.MatchMaker;
-import matchmaker.MatchMakerImpl;
 import messageSystem.MessageSystem;
-import network.ClientConnectionServer;
-import mechanics.Mechanics;
 import network.ClientConnections;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import replication.FullStateReplicator;
 import replication.Replicator;
-import ticker.Ticker;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
-
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
+import java.util.Properties;
+import java.io.*;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -27,20 +25,56 @@ public class MasterServer {
 
   private void start() throws ExecutionException, InterruptedException {
     log.info("MasterServer started");
-    //TODO RK3 configure server parameters
-    ApplicationContext.instance().put(MatchMaker.class, new MatchMakerImpl());
+    Properties property = new Properties();
+    MatchMaker m = null;
+    Replicator r = null;
+    Leaderboard l = null;
+    LinkedList<Service> serv = new LinkedList<>();
+    try (FileInputStream fis = new FileInputStream("src/main/resources/config.properties")){
+
+      property.load(fis);
+      int accountServerPort = Integer.parseInt(property.getProperty("accountServerPort"));
+      int clientConnectionPort = Integer.parseInt(property.getProperty("clientConnectionPort"));
+      String matchMaker = property.getProperty("matchMaker");
+      String replicator = property.getProperty("replicator");
+      String services = property.getProperty("services");
+      String  leaderboard = property.getProperty("leaderboard");
+      String[] ser = services.split(",");
+      log.info(property);
+
+      for (String s : ser) {
+        serv.add( (Service) Class.forName(s).newInstance());
+      }
+      l = (Leaderboard) Class.forName(leaderboard).newInstance();
+      m = (MatchMaker) Class.forName(matchMaker).newInstance();
+      r = (Replicator) Class.forName(replicator).newInstance();
+
+    }
+    catch (IllegalAccessException e) {
+        log.error(e);
+        System.exit(1);
+    } catch (ClassNotFoundException e) {
+        log.error(e);
+        System.exit(1);
+    } catch (InstantiationException e) {
+        log.error(e);
+        System.exit(1);
+    } catch (IOException e){
+        log.error(e);
+        System.exit(1);
+    }
+
+    ApplicationContext.instance().put(MatchMaker.class, m);
     ApplicationContext.instance().put(ClientConnections.class, new ClientConnections());
-    ApplicationContext.instance().put(Replicator.class, new FullStateReplicator());
+    ApplicationContext.instance().put(Replicator.class, r);
     ApplicationContext.instance().put(IDGenerator.class, new SequentialIDGenerator());
+    ApplicationContext.instance().put(Leaderboard.class, l);
 
     MessageSystem messageSystem = new MessageSystem();
     ApplicationContext.instance().put(MessageSystem.class, messageSystem);
 
-    Mechanics mechanics = new Mechanics();
+    serv.forEach(s -> messageSystem.registerService(s.getClass(), s));
 
-    messageSystem.registerService(Mechanics.class, mechanics);
-    messageSystem.registerService(AccountServer.class, new AccountServer(8080));
-    messageSystem.registerService(ClientConnectionServer.class, new ClientConnectionServer(7000));
     messageSystem.getServices().forEach(Service::start);
 
     for (Service service : messageSystem.getServices()) {

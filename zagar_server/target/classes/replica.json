@@ -1,0 +1,3 @@
+{"food":[{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":0},{"x":0,"y":0}],
+  "cells":[{"cellId":30,"playerId":92,"isVirus":false,"size":14.077255,"x":104,"y":62},{"cellId":35,"playerId":32,"isVirus":false,"size":44.737267,"x":150,"y":59},{"cellId":67,"playerId":79,"isVirus":false,"size":10.245096,"x":166,"y":221},{"cellId":93,"playerId":57,"isVirus":false,"size":45.307274,"x":153,"y":175},{"cellId":98,"playerId":13,"isVirus":false,"size":23.056454,"x":171,"y":125}],
+  "command":"cells"}

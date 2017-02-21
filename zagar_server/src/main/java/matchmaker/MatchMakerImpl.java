@@ -1,18 +1,15 @@
 package matchmaker;
 
-import main.ApplicationContext;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import ticker.Ticker;
 import utils.RandomPlayerPlacer;
 import utils.RandomVirusGenerator;
-import utils.SimplePlayerPlacer;
 import utils.UniformFoodGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Creates {@link GameSession} for single player
@@ -23,7 +20,7 @@ public class MatchMakerImpl implements MatchMaker {
   @NotNull
   private final Logger log = LogManager.getLogger(MatchMakerImpl.class);
   @NotNull
-  private final List<GameSession> activeGameSessions = new ArrayList<>();
+  private final List<GameSession> activeGameSessions = new CopyOnWriteArrayList();
 
   /**
    * Creates new GameSession for single player

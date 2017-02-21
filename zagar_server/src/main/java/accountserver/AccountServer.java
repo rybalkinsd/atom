@@ -1,8 +1,9 @@
 package accountserver;
 
-import accountserver.api.AuthenticationFilter;
+import accountserver.auth.AuthenticationFilter;
 import main.ApplicationContext;
 import main.Service;
+import messageSystem.Address;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,16 +11,32 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 
 public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(int port) {
+  public AccountServer() {
     super("account_server");
-    this.port = port;
+    FileInputStream fis;
+    Properties property = new Properties();
+    int por=8080;
+    try {
+      fis = new FileInputStream("src/main/resources/config.properties");
+      property.load(fis);
+      por = Integer.parseInt(property.getProperty("accountServerPort"));
+    } catch (FileNotFoundException e) {
+      log.error(e);
+    } catch (IOException e) {
+      log.error(e);
+    }
+    this.port=por;
   }
-
   private void startApi() {
     ServletContextHandler context = new ServletContextHandler();
     context.setContextPath("/");
@@ -33,7 +50,7 @@ public class AccountServer extends Service {
 
     jerseyServlet.setInitParameter(
         "jersey.config.server.provider.packages",
-        "accountserver.api"
+        "accountserver"
     );
 
     jerseyServlet.setInitParameter(
@@ -45,24 +62,19 @@ public class AccountServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
   }
 
   public static void main(@NotNull String[] args) throws Exception {
-    new AccountServer(8080).startApi();
+    new AccountServer().startApi();
   }
 
   @Override
   public void run() {
     startApi();
-
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    while (true) {
+      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
     }
   }
 }

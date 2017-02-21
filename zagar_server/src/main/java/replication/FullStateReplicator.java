@@ -5,8 +5,12 @@ import matchmaker.MatchMaker;
 import model.GameSession;
 import model.Player;
 import model.PlayerCell;
+import model.Virus;
 import network.ClientConnections;
+import network.handlers.PacketHandlerMove;
 import network.packets.PacketReplicate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import protocol.CommandReplicate;
 import protocol.model.Cell;
@@ -23,10 +27,11 @@ import java.util.stream.Stream;
  * @since 31.10.16
  */
 public class FullStateReplicator implements Replicator {
+  private final static Logger log = LogManager.getLogger(FullStateReplicator.class);
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
-      Food[] food = new Food[0];//TODO food and viruses
+      Food[] food = new Food[0];
       int numberOfCellsInSession = 0;
       for (Player player : gameSession.getPlayers()) {
         numberOfCellsInSession += player.getCells().size();
@@ -39,21 +44,19 @@ public class FullStateReplicator implements Replicator {
           i++;
         }
       }
+      for (Virus virus: gameSession.getField().getViruses()) {
+        cells[i] = new Cell(-1, -1, true, virus.getMass(), virus.getX(), virus.getY());
+        i++;
+      }
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey()) && connection.getValue().isOpen()) {
+        if (gameSession.getPlayers().contains(connection.getKey())) {
           try {
             new PacketReplicate(cells, food).write(connection.getValue());
           } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e);
           }
         }
       }
     }
-
-    /*ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions().stream().flatMap(
-        gameSession -> gameSession.getPlayers().stream().flatMap(
-            player -> player.getCells().stream()
-        )
-    ).map(playerCell -> new Cell(playerCell.getId(), ))*/
   }
 }

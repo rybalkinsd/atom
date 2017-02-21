@@ -19,6 +19,8 @@ public class Player {
   @NotNull
   private final List<PlayerCell> cells = new ArrayList<>();
 
+  private double angle;
+
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
@@ -51,24 +53,19 @@ public class Player {
     return id;
   }
 
+  public void setAngle(double angle){
+    this.angle=angle;
+  }
+
+  public double getAngle(){
+    return angle;
+  }
+
   @NotNull
   @Override
   public String toString() {
     return "Player{" +
         "name='" + name + '\'' +
         '}';
-  }
-
-  @Override
-  public int hashCode() {
-    return id;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if(obj instanceof Player){
-      return id == ((Player) obj).id;    //TODO: autoimplemented stub
-    }
-    return false;
   }
 }
