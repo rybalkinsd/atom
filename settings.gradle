@@ -1,7 +1,5 @@
 rootProject.name = 'atom'
-include 'lecture01',
-        'lecture02'
-
-include 'frontend',
+include 'account_server',
+	'frontend',
         'backend'
 
