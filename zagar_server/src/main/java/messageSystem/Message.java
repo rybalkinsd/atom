@@ -1,9 +1,14 @@
 package messageSystem;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author e.shubin
  */
 public abstract class Message {
+    protected static final Logger log = LogManager.getLogger(Message.class);
+
     private final Address from;
     private final Address to;
 

@@ -3,6 +3,7 @@ package zagar.view;
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 import zagar.Main;
+import zagar.util.Colors;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +11,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 
 public class Cell {
   public double x, y;
@@ -24,7 +24,11 @@ public class Cell {
   public double yRender;
   public int mass;
   private final boolean virus;
-  private float rotation = 0;
+
+  private float rotationAngle = 0;
+  private boolean rotating = true;
+
+  private int staticVerges;
 
   public Cell(double x, double y, float size, int id, boolean isVirus) {
     this.x = x;
@@ -42,7 +46,10 @@ public class Cell {
     this.yRender -= (this.yRender - y) / 5f;
     this.sizeRender -= (this.sizeRender - size) / 9f;
     this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
-    this.rotation += (1f / (Math.max(this.mass, 20) * 2));
+
+    if(isRotating()) {
+      this.rotationAngle += (1f / (Math.max(this.mass, 20) * 2));
+    }
 
     if (Game.cellNames.containsKey(this.id)) {
       this.name = Game.cellNames.get(this.id);
@@ -50,7 +57,7 @@ public class Cell {
   }
 
   public void render(@NotNull Graphics2D g, float scale) {
-    if (Game.player.size() > 0) {
+    if (Game.playerCells.size() > 0) {
       Color color = new Color(this.r, this.g, this.b);
       if (scale == 1) {
         color = new Color((int) (this.r / 1.3), (int) (this.g / 1.3), (int) (this.b / 1.3));
@@ -61,15 +68,15 @@ public class Cell {
       float avgX = 0;
       float avgY = 0;
 
-      for (Cell c : Game.player) {
+      for (Cell c : Game.playerCells) {
         if (c != null) {
           avgX += c.xRender;
           avgY += c.yRender;
         }
       }
 
-      avgX /= Game.player.size();
-      avgY /= Game.player.size();
+      avgX /= Game.playerCells.size();
+      avgY /= Game.playerCells.size();
 
       int x = (int) ((this.xRender - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
       int y = (int) ((this.yRender - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
@@ -81,25 +88,25 @@ public class Cell {
       int massRender = (int) ((this.size * this.size) / 100);
       if (virus) {
         Polygon hexagon = new Polygon();
-        int a = 2 * (massRender / 8 + 10);
-        a = Math.min(a, 100);
-        for (int i = 0; i < a; i++) {
+        int verges = staticVerges != 0? staticVerges : 2 * (massRender / 8 + 10);
+        verges = Math.min(verges, 100);
+        for (int i = 0; i < verges; i++) {
           float pi = 3.14f;
           int spike = 0;
           if (i % 2 == 0) {
             spike = (int) (20 * Math.min(Math.max(1, (massRender / 80f)), 8) * Game.zoom);
           }
-          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(-rotation + i * 2 * pi / a)) + size / 2, (int) (y + ((size + spike) / 2) * Math.sin(-rotation + i * 2 * pi / a)) + size / 2);
+          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(-rotationAngle + i * 2 * pi / verges)) + size / 2, (int) (y + ((size + spike) / 2) * Math.sin(-rotationAngle + i * 2 * pi / verges)) + size / 2);
         }
         g.fillPolygon(hexagon);
       } else {
         Polygon hexagon = new Polygon();
-        int a = massRender / 20 + 5;
-        a = Math.min(a, 50);
-        for (int i = 0; i < a; i++) {
+        int verges = staticVerges != 0? staticVerges : massRender / 20 + 5;
+        verges = Math.min(verges, 50);
+        for (int i = 0; i < verges; i++) {
           float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(rotation + i * 2 * pi / a)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(rotation + i * 2 * pi / a)) + size / 2;
+          int pointX = (int) (x + (size / 2) * Math.cos(rotationAngle + i * 2 * pi / verges)) + size / 2;
+          int pointY = (int) (y + (size / 2) * Math.sin(rotationAngle + i * 2 * pi / verges)) + size / 2;
           hexagon.addPoint(pointX, pointY);
         }
         g.fillPolygon(hexagon);
@@ -133,7 +140,7 @@ public class Cell {
     g.drawString(string, x, y);
   }
 
-  public void setColor(byte r, byte g, byte b) {
+  public void setColor(int r, int g, int b) {
     this.r = r;
     this.g = g;
     this.b = b;
@@ -146,6 +153,34 @@ public class Cell {
     if (b < 0) {
       this.b = b + 256;
     }
+  }
+
+  public void setColor(@NotNull Colors color){
+    setColor(color.getR(),color.getG(),color.getB());
+  }
+
+  public float getRotationAngle() {
+    return rotationAngle;
+  }
+
+  public void setRotationAngle(float rotationAngle) {
+    this.rotationAngle = rotationAngle;
+  }
+
+  public boolean isRotating() {
+    return rotating;
+  }
+
+  public void setRotating(boolean rotating) {
+    this.rotating = rotating;
+  }
+
+  public void setStaticVerges(int staticVerges) {
+    this.staticVerges = staticVerges;
+  }
+
+  public float getSize() {
+    return size;
   }
 
   @Override

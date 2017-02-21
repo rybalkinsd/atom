@@ -44,7 +44,7 @@ public class GameFrame extends JFrame {
   public void render() {
     log.info("[RENDER]");
     log.info("CELLS:\n" + Arrays.toString(Game.cells));
-    log.info("PLAYER CELLS SIZE: " + Game.player.size());
+    log.info("PLAYER CELLS SIZE: " + Game.playerCells.size());
     log.info("LEADERBOARD:\n" + Arrays.toString(Game.leaderBoard));
     Point mouseP = getMouseLocation();
     mouseX = mouseP.getX();

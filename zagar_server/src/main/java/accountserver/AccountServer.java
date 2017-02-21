@@ -1,68 +1,73 @@
 package accountserver;
 
-import accountserver.api.AuthenticationFilter;
 import main.ApplicationContext;
 import main.Service;
 import messageSystem.MessageSystem;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.jetbrains.annotations.NotNull;
 
+/**
+ * Created by eugene on 10/7/16.
+ */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class AccountServer extends Service {
-  private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
+  private final org.eclipse.jetty.server.Server jettyServer;
+  private final String rootPath;
   private final int port;
 
-  public AccountServer(int port) {
+  private static final Logger LOG = org.apache.logging.log4j.LogManager.getLogger(AccountServer.class);
+
+
+  public AccountServer() {
+    this(8080,"/*");
+  }
+
+  public AccountServer(Integer port) {
+    this(port, "/*");
+  }
+
+  public AccountServer(Integer port, String rootPath) {
     super("account_server");
+    this.jettyServer = new org.eclipse.jetty.server.Server(port);
+    this.rootPath = rootPath;
     this.port = port;
   }
 
-  private void startApi() {
-    ServletContextHandler context = new ServletContextHandler();
-    context.setContextPath("/");
+  public void run(){
+    ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-    org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(port);
-    server.setHandler(context);
+    ServletHolder jersey = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, rootPath);
 
-    ServletHolder jerseyServlet = context.addServlet(
-        org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-    jerseyServlet.setInitOrder(0);
+    jersey.setInitOrder(0);
+    jersey.setInitParameter("jersey.config.server.provider.packages", "accountserver/api");
 
-    jerseyServlet.setInitParameter(
-        "jersey.config.server.provider.packages",
-        "accountserver.api"
-    );
-
-    jerseyServlet.setInitParameter(
-        "com.sun.jersey.spi.container.ContainerRequestFilters",
-        AuthenticationFilter.class.getCanonicalName()
-    );
-
-    log.info(getAddress() + " started on port " + port);
-    try {
-      server.start();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static void main(@NotNull String[] args) throws Exception {
-    new AccountServer(8080).startApi();
-  }
-
-  @Override
-  public void run() {
-    startApi();
+    jettyServer.setHandler(context);
 
     try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      }
+      jettyServer.start();
+      LOG.info(String.format("server started at %d", port));
+      jettyServer.join();
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOG.fatal("Account server unexpectedly interrupted: " + e.getMessage());
+      System.exit(1);
+    } catch (Exception e) {
+      LOG.fatal(e.getMessage());
+      System.exit(1);
     }
+
+    while (true) {
+      try {
+        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
+      } catch (InterruptedException e) {
+        LOG.fatal("Account server unexpectedly interrupted: " + e.getMessage());
+        return;
+      }
+    }
+  }
+
+  public static void main(String[] args){
+    new AccountServer().run();
   }
 }

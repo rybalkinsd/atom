@@ -20,12 +20,20 @@
         </plugins>
     </build>
     <properties>
-        <hibernate.version>5.1.0.Final</hibernate.version>
+        <hibernate.version>5.2.3.Final</hibernate.version>
         <jersey.version>2.7</jersey.version>
         <clientServerProtocol.version>1.0</clientServerProtocol.version>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.ini4j/ini4j -->
+        <dependency>
+            <groupId>org.ini4j</groupId>
+            <artifactId>ini4j</artifactId>
+            <version>0.5.4</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -114,9 +122,16 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.3</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>atom</groupId>
             <artifactId>zagar-protocol</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 

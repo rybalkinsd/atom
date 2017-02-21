@@ -1,0 +1,27 @@
+[
+  {
+  "id": 1,
+  "name": "Player",
+  "score": 14
+  },
+  {
+    "id": 2,
+    "name": "Plyer1",
+    "score": 15
+  },
+  {
+    "id": 3,
+    "name": "Player2",
+    "score": 12
+  },
+  {
+    "id": 4,
+    "name": "Player3",
+    "score": 7
+  },
+  {
+    "id": 5,
+    "name": "SuperPlayer",
+    "score": 111
+  }
+]

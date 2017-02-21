@@ -1,10 +1,10 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ public class GameSessionImpl implements GameSession {
   private static final IDGenerator idGenerator = new SequentialIDGenerator();
   private final int id = idGenerator.next();
   @NotNull
-  private final Field field = new Field();
+  private final Field field;
   @NotNull
   private final List<Player> players = new ArrayList<>();
   @NotNull
@@ -24,10 +24,11 @@ public class GameSessionImpl implements GameSession {
   @NotNull
   private final VirusGenerator virusGenerator;
 
-  public GameSessionImpl(@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
+  public GameSessionImpl(@NotNull Field field,@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
     this.foodGenerator = foodGenerator;
     this.playerPlacer = playerPlacer;
     this.virusGenerator = virusGenerator;
+    this.field = field;
     virusGenerator.generate();
   }
 
@@ -39,7 +40,13 @@ public class GameSessionImpl implements GameSession {
 
   @Override
   public void leave(@NotNull Player player) {
+    List<PlayerCell> playerCells = player.getCells();
     players.remove(player);
+
+    playerCells.forEach(playerCell -> {
+      PlayerCell newCell = new PlayerCell(-1, playerCell.getX(), playerCell.getY());
+      newCell.setMass(playerCell.getMass());
+    });
   }
 
   @Override
@@ -50,6 +57,23 @@ public class GameSessionImpl implements GameSession {
   @Override
   public Field getField() {
     return field;
+  }
+
+  @Override
+  public String[] getLeaders() {
+      return players.stream()
+              .sorted(Comparator.comparing(Player::getScore).reversed())
+              .limit(10)
+              .map(Player::getName) //(Player::getName)
+              .toArray(String[]::new);
+  }
+
+  public FoodGenerator getFoodGenerator() {
+    return foodGenerator;
+  }
+
+  public VirusGenerator getVirusGenerator() {
+    return virusGenerator;
   }
 
   @Override
