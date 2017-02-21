@@ -5,10 +5,11 @@ import model.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static model.GameConstants.MAX_PLAYERS_IN_SESSION;
 
 /**
  * Creates {@link GameSession} for single player
@@ -49,6 +50,6 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    return new SinglePlayerSession();
   }
 }
