@@ -1,18 +1,27 @@
 package zagar.network.handlers;
 
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
+import protocol.model.pFood;
 import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import protocol.CommandLeaderBoard;
 import protocol.CommandReplicate;
+import protocol.model.pVirus;
+import zagar.GameConstants;
 import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.view.Cell;
 import zagar.Game;
 import org.jetbrains.annotations.NotNull;
+import zagar.view.Food;
+import zagar.view.Virus;
 
 public class PacketHandlerReplicate {
   @NotNull
@@ -26,136 +35,34 @@ public class PacketHandlerReplicate {
       e.printStackTrace();
       return;
     }
+
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];
+    Food[] foodToAdd = new Food[commandReplicate.getFoodToAdd().length];
+    Food[] foodToRemove = new Food[commandReplicate.getFoodToRemove().length];
+    Virus[] gameVirus = new Virus[commandReplicate.getVirus().length];
     for (int i = 0; i < commandReplicate.getCells().length; i++) {
       protocol.model.Cell c = commandReplicate.getCells()[i];
-      gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(), c.isVirus());
+      gameCells[i] = new Cell(c.getX(), c.getY(), c.getSize(), c.getCellId(),c.getName());
     }
-
+    for (int i = 0; i < commandReplicate.getFoodToAdd().length; i++) {
+      pFood c = commandReplicate.getFoodToAdd()[i];
+      foodToAdd[i] = new Food(c.getX(), c.getY());
+    }
+    for (int i = 0; i < commandReplicate.getFoodToRemove().length; i++) {
+      pFood c = commandReplicate.getFoodToRemove()[i];
+      foodToRemove[i] = new Food(c.getX(), c.getY());
+    }
+    for (int i = 0; i < commandReplicate.getVirus().length; i++) {
+      pVirus c = commandReplicate.getVirus()[i];
+      gameVirus[i] = new Virus(c.getX(), c.getY());
+    }
     Game.player.clear();
     Collections.addAll(Game.player, gameCells);
     Game.cells = gameCells;
-
-    //TODO
-/*    if (b == null) return;
-    b.order(ByteOrder.LITTLE_ENDIAN);
-    short destroy = b.getShort(1);
-    int offset = 3;
-    for (int i = 0; i < destroy; i++) {
-      for (int i2 = 0; i2 < Game.cellsNumber; i2++) {
-        Cell c = Game.cells[i2];
-        if (c != null) {
-          if (c.id == b.getInt(offset + 4)) {
-            Game.cells[i2] = null;
-            if (Game.player.contains(c)) {
-              Game.player.remove(c);
-            }
-            System.out.println("Removing " + c.id + " <" + c.name + ">");
-            break;
-          }
-        }
-      }
-      offset += 8;
-    }
-
-    offset = addCell(offset, b);
-
-    offset += 4;
-
-    int destroyCells = b.getInt(offset);
-
-    offset += 4;
-
-    for (int i = 0; i < destroyCells; i++) {
-      for (int i2 = 0; i2 < Game.cellsNumber; i2++) {
-        Cell c = Game.cells[i2];
-        if (c != null) {
-          if (c.id == b.getInt(offset)) {
-            Game.cells[i2] = null;
-            if (Game.player.contains(c)) {
-              Game.player.remove(c);
-            }
-            System.out.println("Removing(2) " + c.id + " <" + c.name + ">");
-            break;
-          }
-        }
-      }
-      offset += 4;
-    }*/
+    List<Food> newFood = new ArrayList<>(Arrays.asList(Game.food));
+    newFood.removeAll(new ArrayList<>(Arrays.asList(foodToRemove)));
+    newFood.addAll(new ArrayList<>(Arrays.asList(foodToAdd)));
+    Game.food = newFood.toArray(new Food[0]);
+    Game.virus = gameVirus;
   }
-
-  /*private int addCell(int offset, @NotNull ByteBuffer b) {
-    int cellID = b.getInt(offset);
-    if (cellID == 0) return offset;
-    int x = b.getInt(offset + 4);
-    int y = b.getInt(offset + 8);
-    short size = b.getShort(offset + 12);
-
-    byte red = b.get(offset + 14);
-    byte green = b.get(offset + 15);
-    byte blue = b.get(offset + 16);
-
-    boolean flag = false;
-
-    for (int i = 0; i < Game.cellsNumber; i++) {
-      Cell c = Game.cells[i];
-      if (c != null) {
-        if (c.id == cellID) {
-          flag = true;
-        }
-      }
-    }
-
-    byte flags = b.get(offset + 17);
-    boolean virus = (flags & 1) == 1;
-
-    if ((flags & 2) == 1) {
-      offset += 4;
-    }
-    if ((flags & 4) == 1) {
-      offset += 8;
-    }
-    if ((flags & 8) == 1) {
-      offset += 16;
-    }
-
-    offset += 18;
-    String name = "";
-    while (b.getShort(offset) != 0) {
-      name += b.getChar(offset);
-      offset += 2;
-    }
-
-    if (!flag) {
-      log.info("Adding new cell " + cellID + " <" + name + ">" + " /" + Game.cellsNumber + "/");
-      Cell cell = new Cell(x, y, size, cellID, virus);
-      if (name.length() > 0) {
-        Game.cellNames.put(cellID, name);
-      }
-      cell.setColor(red, green, blue);
-      Game.addCell(cell);
-      cell.tick();
-    } else {
-      for (Cell cell : Game.cells) {
-        if (cell != null) {
-          if (cell.id == cellID) {
-            cell.x = x;
-            cell.y = y;
-            cell.size = size;
-            if (name.length() > 0) {
-              cell.name = name;
-              Game.cellNames.put(cellID, name);
-            }
-            cell.setColor(red, green, blue);
-          }
-        }
-      }
-    }
-
-    offset += 2;
-    if (b.getInt(offset) != 0) {
-      offset = addCell(offset, b);
-    }
-    return offset;
-  }*/
 }

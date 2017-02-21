@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>atom</groupId>
-    <artifactId>zagar-protocol</artifactId>
-    <version>1.0</version>
+    <groupId>gameserver</groupId>
+    <artifactId>protocol</artifactId>
+    <version>1.1</version>
     <build>
         <sourceDirectory>src</sourceDirectory>
         <plugins>

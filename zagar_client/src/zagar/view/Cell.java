@@ -1,5 +1,7 @@
 package zagar.view;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 import zagar.Main;
@@ -10,9 +12,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 
 public class Cell {
+  private static final Logger log = LogManager.getLogger(Cell.class);
   public double x, y;
   public int id;
   public float size;
@@ -22,19 +24,19 @@ public class Cell {
   public float sizeRender;
   public double xRender;
   public double yRender;
-  public int mass;
-  private final boolean virus;
+  public double mass ;
   private float rotation = 0;
 
-  public Cell(double x, double y, float size, int id, boolean isVirus) {
+  public Cell(double x, double y, float size, int id,String name) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.id = id;
-    this.virus = isVirus;
     this.xRender = this.x;
     this.yRender = this.y;
     this.sizeRender = this.size;
+    this.mass = size*size*Math.PI;
+    this.name = name;
   }
 
   public void tick() {
@@ -79,33 +81,18 @@ public class Cell {
       }
 
       int massRender = (int) ((this.size * this.size) / 100);
-      if (virus) {
-        Polygon hexagon = new Polygon();
-        int a = 2 * (massRender / 8 + 10);
-        a = Math.min(a, 100);
-        for (int i = 0; i < a; i++) {
-          float pi = 3.14f;
-          int spike = 0;
-          if (i % 2 == 0) {
-            spike = (int) (20 * Math.min(Math.max(1, (massRender / 80f)), 8) * Game.zoom);
-          }
-          hexagon.addPoint((int) (x + ((size + spike) / 2) * Math.cos(-rotation + i * 2 * pi / a)) + size / 2, (int) (y + ((size + spike) / 2) * Math.sin(-rotation + i * 2 * pi / a)) + size / 2);
-        }
-        g.fillPolygon(hexagon);
-      } else {
-        Polygon hexagon = new Polygon();
-        int a = massRender / 20 + 5;
-        a = Math.min(a, 50);
-        for (int i = 0; i < a; i++) {
-          float pi = 3.14f;
-          int pointX = (int) (x + (size / 2) * Math.cos(rotation + i * 2 * pi / a)) + size / 2;
-          int pointY = (int) (y + (size / 2) * Math.sin(rotation + i * 2 * pi / a)) + size / 2;
-          hexagon.addPoint(pointX, pointY);
-        }
-        g.fillPolygon(hexagon);
+      Polygon hexagon = new Polygon();
+      int a = massRender / 20 + 5;
+      a = Math.min(a, 50);
+      for (int i = 0; i < a; i++) {
+        float pi = 3.14f;
+        int pointX = (int) (x + (size / 2) * Math.cos(rotation + i * 2 * pi / a)) + size / 2;
+        int pointY = (int) (y + (size / 2) * Math.sin(rotation + i * 2 * pi / a)) + size / 2;
+        hexagon.addPoint(pointX, pointY);
       }
+      g.fillPolygon(hexagon);
 
-      if (this.name.length() > 0 || (this.mass > 30 && !this.virus)) {
+      if (this.name.length() > 0 || (this.mass > 3)) {
         Font font = Main.frame.canvas.fontCells;
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         FontMetrics fm = img.getGraphics().getFontMetrics(font);
@@ -151,10 +138,10 @@ public class Cell {
   @Override
   public String toString() {
     return "Cell{" +
-        "x=" + x +
-        ", y=" + y +
-        ", id=" + id +
-        ", size=" + size +
-        '}';
+            "x=" + x +
+            ", y=" + y +
+            ", id=" + id +
+            ", size=" + size +
+            '}';
   }
 }

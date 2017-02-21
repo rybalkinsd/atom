@@ -3,36 +3,32 @@ package protocol.model;
 /**
  * @author apomosov
  */
-public final class Cell {
+public  class Cell {
   private final int cellId;
   private final int playerId;
-  private final boolean isVirus;
   private final float size;
-  private int x;
-  private int y;
+  private double x;
+  private double y;
+  private String name;
 
-  public Cell(int cellId, int playerId, boolean isVirus, float size, int x, int y) {
+  public Cell(int cellId, int playerId, float size, double x, double y, String name) {
     this.cellId = cellId;
     this.playerId = playerId;
-    this.isVirus = isVirus;
     this.size = size;
     this.x = x;
     this.y = y;
+    this.name = name;
   }
 
   public int getPlayerId() {
     return playerId;
   }
 
-  public boolean isVirus() {
-    return isVirus;
-  }
-
-  public int getX() {
+  public double getX() {
     return x;
   }
 
-  public int getY() {
+  public double getY() {
     return y;
   }
 
@@ -43,4 +39,5 @@ public final class Cell {
   public float getSize() {
     return size;
   }
+  public String getName() {return  name;}
 }

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import zagar.util.JSONHelper;
 import zagar.Game;
 
-@WebSocket(maxTextMessageSize = 1024)
+@WebSocket(maxTextMessageSize = 102400)
 public class ServerConnectionSocket {
   @NotNull
   private static final Logger log = LogManager.getLogger("<<<");

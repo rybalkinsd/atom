@@ -1,68 +1,77 @@
 package accountserver;
 
-import accountserver.api.AuthenticationFilter;
+import accountserver.api.Authentification;
 import main.ApplicationContext;
 import main.Service;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.jetbrains.annotations.NotNull;
+import accountserver.api.AutorizationFilter;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
+/**
+ * Created by User on 20.10.2016.
+ */
 public class AccountServer extends Service {
-  private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
-  private final int port;
 
-  public AccountServer(int port) {
-    super("account_server");
-    this.port = port;
-  }
+    private final int port;
+    private static final Logger log = LogManager.getLogger(AccountServer.class);
 
-  private void startApi() {
-    ServletContextHandler context = new ServletContextHandler();
-    context.setContextPath("/");
-
-    org.eclipse.jetty.server.Server server = new org.eclipse.jetty.server.Server(port);
-    server.setHandler(context);
-
-    ServletHolder jerseyServlet = context.addServlet(
-        org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-    jerseyServlet.setInitOrder(0);
-
-    jerseyServlet.setInitParameter(
-        "jersey.config.server.provider.packages",
-        "accountserver.api"
-    );
-
-    jerseyServlet.setInitParameter(
-        "com.sun.jersey.spi.container.ContainerRequestFilters",
-        AuthenticationFilter.class.getCanonicalName()
-    );
-
-    log.info(getAddress() + " started on port " + port);
-    try {
-      server.start();
-    } catch (Exception e) {
-      e.printStackTrace();
+    public AccountServer(int port){
+        super("account_server");
+        log.info("account server start");
+        this.port = port;
     }
-  }
 
-  public static void main(@NotNull String[] args) throws Exception {
-    new AccountServer(8080).startApi();
-  }
+    public void startServer(){
 
-  @Override
-  public void run() {
-    startApi();
+        Server gameServer = new Server(port);
 
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+        ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        contextHandler.setContextPath("/");
+
+        gameServer.setHandler(contextHandler);
+
+        ServletHolder jerseyServlet = contextHandler.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
+
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                "accountserver"
+        );
+
+        jerseyServlet.setInitParameter(
+                "com.sun.jersey.spi.container.ContainerRequestFilters",
+                AutorizationFilter.class.getCanonicalName()
+        );
+
+        try {
+            gameServer.start();
+            Authentification.userDAO.getAll();
+        }catch (Exception e){
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            log.error("Error creating server:\n" + sw.toString());
+        }
     }
-  }
+
+    @Override
+    public void run(){
+        startServer();
+        while(true) {
+            ApplicationContext.get(MessageSystem.class).executeForService(this);
+        }
+    }
+
+    public static void main(String[] args) {
+        new AccountServer(8081).run();
+    }
+
 }

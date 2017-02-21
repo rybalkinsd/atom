@@ -23,7 +23,9 @@ import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
 import zagar.util.Reporter;
 import zagar.view.Cell;
+import zagar.view.Food;
 import zagar.view.GameFrame;
+import zagar.view.Virus;
 
 import static zagar.GameConstants.*;
 
@@ -32,6 +34,10 @@ public class Game {
   private static final Logger log = LogManager.getLogger(Game.class);
   @NotNull
   public static volatile Cell[] cells = new Cell[0];
+  @NotNull
+  public static volatile Food[] food= new Food[0];
+  @NotNull
+  public static volatile Virus[] virus = new Virus[0];
   @NotNull
   public static ConcurrentLinkedDeque<Cell> player = new ConcurrentLinkedDeque<>();
   @NotNull
@@ -63,7 +69,8 @@ public class Game {
   public AuthClient authClient = new AuthClient();
 
   public Game() {
-    selectHost();
+    this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Host", DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT));
+
     authenticate();
 
     final WebSocketClient client = new WebSocketClient();
@@ -83,59 +90,44 @@ public class Game {
     }).start();
   }
 
-  private void selectHost()
-  {String accountServiceUrl;
-    AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Authentication server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
-    this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Game server", accountServiceUrl==null?(DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT):(accountServiceUrl.indexOf(':')<0?(accountServiceUrl):(accountServiceUrl.substring(0,accountServiceUrl.indexOf(':')) + ":" + DEFAULT_GAME_SERVER_PORT))));
-  }
-
   private void authenticate() {
     while (serverToken == null) {
       AuthOption authOption = chooseAuthOption();
       if (authOption == null) {
         return;
       }
-      if (authOption == AuthOption.REGISTER||authOption == AuthOption.LOGIN)
-      {
-        String password=null;
-        login = JOptionPane.showInputDialog(null, "Login", DEFAULT_LOGIN);
-        if(login!=null)
-          password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
-
-        if (password != null && login != null) {
-          if (authOption == AuthOption.REGISTER) {
-            if (!authClient.register(login, password)) {
-              Reporter.reportFail("Register failed", "Register failed");
-            }
-          } else if (authOption == AuthOption.LOGIN) {
-            serverToken = authClient.login(Game.login, password);
-            if (serverToken == null) {
-              Reporter.reportWarn("Login failed", "Login failed");
-            }
-          }
-        }
+      this.login = JOptionPane.showInputDialog(null, "Login", DEFAULT_LOGIN);
+      String password = (JOptionPane.showInputDialog(null, "Password", DEFAULT_PASSWORD));
+      if (login == null) {
+        login = DEFAULT_LOGIN;
       }
-      else if (authOption == AuthOption.CHANGE_HOST){
-        String accountServiceUrl;
-        AuthClient.setServiceUrl("http://" + (accountServiceUrl=JOptionPane.showInputDialog(null, "Account server", DEFAULT_ACCOUNT_SERVER_HOST + ":" + DEFAULT_ACCOUNT_SERVER_PORT)));
-        this.gameServerUrl = "ws://" + (JOptionPane.showInputDialog(null, "Game server", accountServiceUrl==null?
-                (DEFAULT_GAME_SERVER_HOST + ":" + DEFAULT_GAME_SERVER_PORT): (accountServiceUrl.indexOf(':')<0?
-                (accountServiceUrl):(accountServiceUrl.substring(0,accountServiceUrl.indexOf(':')) + ":" + DEFAULT_GAME_SERVER_PORT))));
+      if (password == null) {
+        password = DEFAULT_PASSWORD;
+      }
+      if (authOption == AuthOption.REGISTER) {
+        if (!authClient.register(login, password)) {
+          Reporter.reportFail("Register failed", "Register failed");
+        }
+      } else {
+        serverToken = authClient.login(Game.login, password);
+        if (serverToken == null) {
+          Reporter.reportWarn("Login failed", "Login failed");
+        }
       }
     }
   }
 
   @Nullable
   private AuthOption chooseAuthOption() {
-    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER,"CHANGE HOST"};
+    Object[] options = {AuthOption.LOGIN, AuthOption.REGISTER};
     int authOption = JOptionPane.showOptionDialog(null,
-        "Choose authentication option",
-        "Authentication",
-        JOptionPane.YES_NO_CANCEL_OPTION,
-        JOptionPane.QUESTION_MESSAGE,
-        null,
-        options,
-        options[1]);
+            "Choose authentication option",
+            "Authentication",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[1]);
 
     if (authOption == 0) {
       return AuthOption.LOGIN;
@@ -143,8 +135,6 @@ public class Game {
     if (authOption == 1) {
       return AuthOption.REGISTER;
     }
-    if (authOption == 2)
-      return AuthOption.CHANGE_HOST;
     return null;
   }
 
@@ -225,10 +215,24 @@ public class Game {
       }
     }
 
+    for (int i = 0; i < food.length; i++) {
+      if (food[i] != null) {
+        food[i].tick();
+      }
+    }
+
+    for(int i = 0; i<virus.length; i++){
+      if(virus[i] != null){
+        virus[i].tick();
+      }
+    }
+
     sortTimer++;
 
     if (sortTimer > 10) {
       sortCells();
+      //sortFood();
+      //sortVirus();
       sortTimer = 0;
     }
   }
@@ -248,8 +252,38 @@ public class Game {
     });
   }
 
+  /*public static void sortFood() {
+    Arrays.sort(food, (o1, o2) -> {
+      if (o1 == null && o2 == null) {
+        return 0;
+      }
+      if (o1 == null) {
+        return 1;
+      }
+      if (o2 == null) {
+        return -1;
+      }
+      return Float.compare(o1.size, o2.size);
+    });
+  }*/
+
+  /*public static void sortVirus() {
+    Arrays.sort(virus, (o1, o2) -> {
+      if (o1 == null && o2 == null) {
+        return 0;
+      }
+      if (o1 == null) {
+        return 1;
+      }
+      if (o2 == null) {
+        return -1;
+      }
+      return Float.compare(o1.size, o2.size);
+    });
+  }*/
+
   private enum AuthOption {
-    REGISTER, LOGIN, CHANGE_HOST
+    REGISTER, LOGIN;
   }
 
   public enum GameState {
