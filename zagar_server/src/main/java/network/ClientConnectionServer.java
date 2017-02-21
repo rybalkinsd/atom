@@ -9,9 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by apomosov on 13.06.16.
@@ -21,7 +20,7 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer(int port) {
+  public ClientConnectionServer(Integer port) {
     super("client_connection_service");
     this.port = port;
   }
@@ -42,17 +41,17 @@ public class ClientConnectionServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
 
     log.info(getAddress() + " started on port " + port);
 
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this);
+    while (true) {
+      try{
+        ApplicationContext.instance().get(MessageSystem.class).execForService(this);
+      } catch (WebSocketException e){
+        log.error(e);
       }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
     }
   }
 

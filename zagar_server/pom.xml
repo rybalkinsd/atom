@@ -20,7 +20,7 @@
         </plugins>
     </build>
     <properties>
-        <hibernate.version>5.1.0.Final</hibernate.version>
+        <hibernate.version>5.2.3.Final</hibernate.version>
         <jersey.version>2.7</jersey.version>
         <clientServerProtocol.version>1.0</clientServerProtocol.version>
     </properties>

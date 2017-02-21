@@ -3,10 +3,13 @@ package mechanics;
 import com.sun.jmx.remote.internal.ClientCommunicatorAdmin;
 import main.ApplicationContext;
 import main.Service;
+import matchmaker.MatchMaker;
 import messageSystem.Abonent;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
+import messageSystem.messages.LeaderboardMsg;
 import messageSystem.messages.ReplicateMsg;
+import model.GameSession;
 import network.ClientConnectionServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import replication.Replicator;
 import ticker.Tickable;
 import ticker.Ticker;
+
+import java.util.ArrayList;
 
 /**
  * Created by apomosov on 14.05.16.
@@ -29,7 +34,9 @@ public class Mechanics extends Service implements Tickable {
   @Override
   public void run() {
     log.info(getAddress() + " started");
-    Ticker ticker = new Ticker(this, 1);
+    //Ticker ticker = new Ticker(this, 1);
+    Ticker ticker = ApplicationContext.instance().get(Ticker.class);
+    ticker.registerTickable(this);
     ticker.loop();
   }
 
@@ -40,14 +47,20 @@ public class Mechanics extends Service implements Tickable {
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();
-      e.printStackTrace();
+    }
+
+    log.info("Mechanics");
+    for (GameSession GS: ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+      GS.update();
     }
 
     log.info("Start replication");
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
     Message message = new ReplicateMsg(this.getAddress());
     messageSystem.sendMessage(message);
-
+    log.info("Start making leaderboard");
+    Message lbmessage = new LeaderboardMsg(this.getAddress());
+    messageSystem.sendMessage(lbmessage);
     //execute all messages from queue
     messageSystem.execForService(this);
   }

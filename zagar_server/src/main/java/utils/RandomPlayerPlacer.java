@@ -20,11 +20,17 @@ public class RandomPlayerPlacer implements PlayerPlacer {
 
   @Override
   public void place(@NotNull Player player) {
-    assert(player.getCells().size() == 1);
+    try {
+      assert(player.getCells().size() == 1);
+    } catch (Exception e){
+      player.getCells().clear();
+      player.addCell(new PlayerCell(PlayerCell.idGenerator.next(), 0,0));
+    }
     Random random = new Random();
     for (PlayerCell playerCell : player.getCells()) {
       playerCell.setX(playerCell.getRadius() + random.nextInt(field.getWidth() - 2 * playerCell.getRadius()));
       playerCell.setY(playerCell.getRadius() + random.nextInt(field.getHeight() - 2 * playerCell.getRadius()));
     }
+    player.respawned();
   }
 }

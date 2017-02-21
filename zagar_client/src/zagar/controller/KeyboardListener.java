@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
+import zagar.network.packets.PacketEjectVirus;
 import zagar.network.packets.PacketSplit;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,9 @@ public class KeyboardListener implements KeyListener {
           }
           if (e.getKeyCode() == KeyEvent.VK_T) {
             Game.rapidEject = true;
+          }
+          if (e.getKeyCode() == KeyEvent.VK_Q) {
+            new PacketEjectVirus().write();
           }
         }
       }

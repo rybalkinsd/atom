@@ -3,6 +3,7 @@ package accountserver;
 import accountserver.api.AuthenticationFilter;
 import main.ApplicationContext;
 import main.Service;
+import messageSystem.Address;
 import messageSystem.MessageSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,7 @@ public class AccountServer extends Service {
   private final static @NotNull Logger log = LogManager.getLogger(AccountServer.class);
   private final int port;
 
-  public AccountServer(int port) {
+  public AccountServer(Integer port) {
     super("account_server");
     this.port = port;
   }
@@ -45,7 +46,7 @@ public class AccountServer extends Service {
     try {
       server.start();
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e);
     }
   }
 
@@ -56,13 +57,8 @@ public class AccountServer extends Service {
   @Override
   public void run() {
     startApi();
-
-    try {
-      while (true) {
-        ApplicationContext.instance().get(MessageSystem.class).execOneForService(this, 100);
-      }
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+    while (true) {
+      ApplicationContext.instance().get(MessageSystem.class).execForService(this);
     }
   }
 }

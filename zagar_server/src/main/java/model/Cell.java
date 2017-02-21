@@ -50,6 +50,19 @@ public abstract class Cell {
     updateRadius();
   }
 
+  @Override
+  public boolean equals(Object obj){
+    if (!(obj instanceof Player) || (obj == null))
+      return false;
+    if (obj == this)
+      return true;
+    Cell cell = (Cell) obj;
+    if ((this.getMass() == cell.getMass()) && (this.getX() == cell.getX()) && (this.getY() == cell.getY()))
+      return true;
+    return false;
+  }
+
+
   private void updateRadius(){
     this.radius = (int) Math.sqrt(this.mass/Math.PI);
   }

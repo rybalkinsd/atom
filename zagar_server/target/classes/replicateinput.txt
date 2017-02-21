@@ -1,0 +1,1 @@
+{"food":[],"cells":[{"cellId":0,"playerId":0,"isVirus":false,"size":40.0,"x":755,"y":433},{"cellId":1,"playerId":1,"isVirus":false,"size":40.0,"x":700,"y":333}],"command":"cells"}

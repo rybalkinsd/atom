@@ -1,5 +1,7 @@
 package accountserver.api;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.NotAuthorizedException;
@@ -13,6 +15,7 @@ import java.io.IOException;
 @Authorized
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
+  private static final Logger log = LogManager.getLogger(AuthenticationFilter.class);
   @Override
   public void filter(@NotNull ContainerRequestContext requestContext) throws IOException {
 
@@ -26,15 +29,20 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     // Extract the token from the HTTP Authorization header
-    String token = authorizationHeader.substring("Bearer".length()).trim();
+    Token token = new Token(authorizationHeader);
 
-    if (!validateToken(token)) {
+    try {
+      // Validate the token
+      validateToken(token);
+      log.info("Validate token passed");
+    } catch (Exception e) {
       requestContext.abortWith(
-          Response.status(Response.Status.UNAUTHORIZED).build());
+              Response.status(Response.Status.UNAUTHORIZED).build());
+      log.info("Not valid token" );
     }
   }
 
-  private boolean validateToken(@NotNull String token) {
-    return AuthenticationServlet.validateToken(token);
+  private void validateToken(Token token) throws Exception {
+    TokenContainer.validateToken(token);
   }
 }

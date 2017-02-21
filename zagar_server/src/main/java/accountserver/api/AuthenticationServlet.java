@@ -18,22 +18,6 @@ public class AuthenticationServlet {
   @NotNull
   private static final Logger log = LogManager.getLogger(AuthenticationServlet.class);
 
-  @NotNull
-  private static ConcurrentHashMap<String, String> credentials;
-  @NotNull
-  private static ConcurrentHashMap<String, Long> tokens;
-  @NotNull
-  private static ConcurrentHashMap<Long, String> tokensReversed;
-
-  static {
-    credentials = new ConcurrentHashMap<>();
-    credentials.put("admin", "admin");
-    tokens = new ConcurrentHashMap<>();
-    tokens.put("admin", 1L);
-    tokensReversed = new ConcurrentHashMap<>();
-    tokensReversed.put(1L, "admin");
-  }
-
   // curl -i
   //      -X POST
   //      -H "Content-Type: application/x-www-form-urlencoded"
@@ -52,7 +36,15 @@ public class AuthenticationServlet {
       return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
-    if (credentials.putIfAbsent(user, password) != null) {
+//    if (credentials.putIfAbsent(user, password) != null) {
+//      return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+//    }
+    User newUser = new User(user)
+            .setPassword(password);
+    log.info("New temp user created {} ", user);
+    //Checking acceptability of username
+    if (!TokenContainer.addUser(newUser)) {
+      log.info("Not Acceptable you ruined registration");
       return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
 
@@ -80,44 +72,22 @@ public class AuthenticationServlet {
 
     try {
       // Authenticate the user using the credentials provided
-      if (!authenticate(user, password)) {
+      User currentUser = TokenContainer.getUserByString(user);
+      log.info(currentUser.getName() + "not bad request");
+      if ((currentUser.getName() == null)||(!TokenContainer.authenticate(currentUser,user, password))) {
+        log.info("Bad password");
         return Response.status(Response.Status.UNAUTHORIZED).build();
       }
       // Issue a token for the user
-      long token = issueToken(user);
-      log.info("User '{}' logged in", user);
+      Token token = TokenContainer.issueToken(currentUser);
+      log.info("User '{}' logged in, token '{}'", user, token.getToken());
 
       // Return the token on the response
-      return Response.ok(Long.toString(token)).build();
+      return Response.ok(Long.toString(token.getToken())).build();
 
     } catch (Exception e) {
       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
   }
 
-  private boolean authenticate(@NotNull String user, @NotNull String password) throws Exception {
-    return password.equals(credentials.get(user));
-  }
-
-  @NotNull
-  private Long issueToken(@NotNull String user) {
-    Long token = tokens.get(user);
-    if (token != null) {
-      return token;
-    }
-
-    token = ThreadLocalRandom.current().nextLong();
-    tokens.put(user, token);
-    tokensReversed.put(token, user);
-    return token;
-  }
-
-  public static boolean validateToken(@NotNull String rawToken) {
-    Long token = Long.parseLong(rawToken);
-    if (!tokensReversed.containsKey(token)) {
-      return false;
-    }
-    log.info("Correct token from '{}'", tokensReversed.get(token));
-    return true;
-  }
 }
