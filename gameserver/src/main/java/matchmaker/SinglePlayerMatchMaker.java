@@ -2,6 +2,7 @@ package matchmaker;
 
 import model.GameSession;
 import model.Player;
+import model.SingleGameSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +16,8 @@ import java.util.List;
  *
  * @author Alpi
  */
+//Ввиду того, что не совсем пока ясно точное разделения данных на те, что на сервере и у игрока,
+//не разделил на соответствующие подгруппы
 public class SinglePlayerMatchMaker implements MatchMaker {
   @NotNull
   private final Logger log = LogManager.getLogger(SinglePlayerMatchMaker.class);
@@ -26,6 +29,7 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    *
    * @param player single player
    */
+
   @Override
   public void joinGame(@NotNull Player player) {
     GameSession newGameSession = createNewGame();
@@ -49,6 +53,16 @@ public class SinglePlayerMatchMaker implements MatchMaker {
    */
   @NotNull
   private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
+    /*for(int i=0; i<activeGameSessions.size(); i++){
+      if(activeGameSessions.get(i).FreePlace())
+       return activeGameSessions.get(i);
+    }*/  //для многопользовательской игры
+
+    //Создаем игровую сессию для нового игрока
+    GameSession newGameSession = new SingleGameSession();
+    if (log.isInfoEnabled()) {
+      log.info(newGameSession + "was created");
+    }
+    return newGameSession;
   }
 }
