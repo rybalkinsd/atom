@@ -1,54 +1,64 @@
 package matchmaker;
 
-import model.GameSession;
-import model.Player;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Creates {@link GameSession} for single player
  *
  * @author Alpi
  */
-public class SinglePlayerMatchMaker implements MatchMaker {
-  @NotNull
-  private final Logger log = LogManager.getLogger(SinglePlayerMatchMaker.class);
-  @NotNull
-  private final List<GameSession> activeGameSessions = new ArrayList<>();
+public class SinglePlayerMatchMaker implements IMatchMaker {
+    @NotNull
+    private final Logger log = LogManager.getLogger(SinglePlayerMatchMaker.class);
+    @NotNull
+    private final List<GameSession> activeGameSessions = new ArrayList<>();
 
-  /**
-   * Creates new GameSession for single player
-   *
-   * @param player single player
-   */
-  @Override
-  public void joinGame(@NotNull Player player) {
-    GameSession newGameSession = createNewGame();
-    activeGameSessions.add(newGameSession);
-    newGameSession.join(player);
-    if (log.isInfoEnabled()) {
-      log.info(player + " joined " + newGameSession);
+    /**
+     * Creates new GameSession for single player
+     *
+     * @param user single player
+     */
+    @Override
+    public GameSession joinGame(@NotNull User user) {
+        Player player = new Player(user);
+        GameSession newGameSession =  new GameSession();
+        activeGameSessions.add(newGameSession);
+        newGameSession.join(player);
+        if (log.isInfoEnabled()) {
+            log.info(player + " joined " + newGameSession);
+        }
+        user.setSession(newGameSession);
+        user.setPlayer(player);
+        return newGameSession;
     }
-  }
 
-  @NotNull
-  public List<GameSession> getActiveGameSessions() {
-    return new ArrayList<>(activeGameSessions);
-  }
+    @Override
+    public boolean leaveGame(@NotNull User user) {
+        Player player = user.getPlayer();
+        if (player != null) {
+            for (GameSession session : activeGameSessions) {
+                if (session.containsPlayer(player)) {
+                    session.leave(player.getId());
+                    user.setSession(null);
+                    user.setPlayer(null);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-  /**
-   * TODO HOMEWORK 1. Implement new game creation. Instantiate GameSession state
-   * Log every game instance creation
-   *
-   * @return new GameSession
-   */
-  @NotNull
-  private GameSession createNewGame() {
-    throw new NotImplementedException();//Implement it!
-  }
+    @NotNull
+    public List<GameSession> getActiveGameSessions() {
+        return new ArrayList<>(activeGameSessions);
+    }
+
+    /**
+     * startNewGame function was deleted, because it calls only for GameSession constructor and was redundant.
+     */
 }
