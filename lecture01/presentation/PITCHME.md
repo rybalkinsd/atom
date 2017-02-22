@@ -616,6 +616,7 @@ It tracks all branches and pull requests
 #HSLIDE
 # Homework 1
 1. Fix tests in branch **homework1**
+[https://github.com/rybalkinsd/atom/tree/homework1](https://github.com/rybalkinsd/atom/tree/homework1)
 2. Make pull request to course repository
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 3. Make sure tests are passing in travis  
