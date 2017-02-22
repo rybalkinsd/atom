@@ -42,7 +42,7 @@ public class Util {
         if (values.length == 0) {
             throw new UnsupportedOperationException();
         } else {
-            long summ=0L;
+            long summ = 0L;
             for (int elem : values) {
                 summ += elem;
             }
