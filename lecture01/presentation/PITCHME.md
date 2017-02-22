@@ -544,7 +544,7 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 > git pull upstream lecture01 --rebase
 > git add MyFixedFile1.java MyFixedFile2.java
 > git commit -m 'Fixed all bugs and added new'
-> git push
+> git push -u origin lecture01
 ```
 5. make **pull-request**
 
