@@ -464,7 +464,7 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 #HSLIDE
 ## Git branches
 https://www.atlassian.com/git/tutorials/using-branches
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 300px; float: left;"/>  
 
 #HSLIDE
 ## git branch commands
