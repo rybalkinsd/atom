@@ -556,7 +556,7 @@ master
 
 #HSLIDE
 # Gradle
-https://gradle.org/
+https://gradle.org/  
 **Gradle** - build automation system  
 Like **maven** but more powerful  
 do not need installation ([details](https://gradle.org/install)), just use:
@@ -572,7 +572,7 @@ do not need installation ([details](https://gradle.org/install)), just use:
 ```
 
 #HSLIDE
-## What gradle can
+## Why gradle?
 - build/test/jar ... your project
 - support custom build stages, configurable with **groovy**
 - manage dependencies (automatacally download)
@@ -611,7 +611,7 @@ Continuous Integration Tool
 [https://travis-ci.org/](https://travis-ci.org/)  
 
 When you push to repository - Travis automatically runs gradle build on server
-It tracks all branches and pull requests
+It tracks all branches and pull requests  
 [https://travis-ci.org/rybalkinsd/atom/pull_requests](https://travis-ci.org/rybalkinsd/atom/pull_requests)  
 
 **check your pull requests there!**
