@@ -464,7 +464,7 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 #HSLIDE
 ## Git branches
 https://www.atlassian.com/git/tutorials/using-branches
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 300px; float: left;"/>  
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="float: left;"/>  
 
 #HSLIDE
 ## git branch commands
@@ -572,7 +572,7 @@ do not need installation ([details](https://gradle.org/install)), just use:
 ```
 
 #HSLIDE
-## What grandle can
+## What gradle can
 - build/test/jar ... your project
 - support custom build stages, configurable with **groovy**
 - manage dependencies (automatacally download)
@@ -636,7 +636,7 @@ It tracks all branches and pull requests
 3. Make sure tests are passing in travis  
 
 **Deadline:** 1 March
-**Mark:** **5 balls**
+**Mark:** **5 points**
 
 #HSLIDE
 ## Литература
