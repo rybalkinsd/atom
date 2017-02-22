@@ -537,11 +537,11 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 3. **checkout** branch which you want to contribute
 ```bash
 > git fetch upstream
-> git checkout homework-branch
+> git checkout -b lecture01 upstream/lecture01
 ```
 4. make changes and **push** them to **your fork**
 ```bash
-> git pull upstream master --rebase
+> git pull upstream lecture01 --rebase
 > git add MyFixedFile1.java MyFixedFile2.java
 > git commit -m 'Fixed all bugs and added new'
 > git push
