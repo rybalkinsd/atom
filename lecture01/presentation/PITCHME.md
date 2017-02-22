@@ -463,7 +463,7 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 
 #HSLIDE
 ## Git branches
-[Guide on using branches from atlassian](https://www.atlassian.com/git/tutorials/using-branches)
+[[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
 <img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
 
 #HSLIDE
@@ -511,7 +511,7 @@ master
 ```
 
 #HSLIDE
-## git commit commands
+## git update commands
 взять новые изменения из удаленного репозитория
 ```bash
 > git pull origin master --rebase
