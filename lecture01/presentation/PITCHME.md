@@ -464,7 +464,7 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 #HSLIDE
 ## Git branches
 https://www.atlassian.com/git/tutorials/using-branches
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 750px; float: left;"/>  
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
 
 #HSLIDE
 ## git branch commands
@@ -475,7 +475,11 @@ master
 ```
 взять последние сведени о ветках из удаленного репозитория
 ```bash
-> git fetch
+> git fetch origin
+```
+взять последние сведени о ветках из форкнутого репозитория
+```bash
+> git fetch upstream
 ```
 выбрать ветку lecture1
 ```bash
@@ -528,7 +532,7 @@ master
 ```
 3. **checkout** branch which you want to contribute
 ```bash
-> git fetch
+> git fetch upstream
 > git checkout homework-branch
 ```
 4. make changes and **push** them to **your fork**
