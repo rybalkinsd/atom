@@ -505,10 +505,19 @@ master
 ```bash
 > git push
 ```
+
+#HSLIDE
+## git commit commands
 взять новые изменения из удаленного репозитория
 ```bash
-> git pull --rebase
+> git pull origin master --rebase
 ```
+взять новые изменения из репозитория, который вы отфоркали
+```bash
+> git pull upstream master --rebase
+```
+**--rebase** заставляет git переносить ваши изменения поверх новых  
+(возможны конфликты)
 
 #HSLIDE
 ## Github workflow
@@ -524,7 +533,7 @@ master
 ```
 4. make changes and **push** them to **your fork**
 ```bash
-> git pull --rebase
+> git pull upstream master --rebase
 > git add MyFixedFile1.java MyFixedFile2.java
 > git commit -m 'Fixed all bugs and added new'
 > git push
@@ -616,7 +625,8 @@ It tracks all branches and pull requests
 #HSLIDE
 # Homework 1
 1. Fix tests in branch **homework1**
-[https://github.com/rybalkinsd/atom/tree/homework1](https://github.com/rybalkinsd/atom/tree/homework1)
+[Github branch](https://github.com/rybalkinsd/atom/tree/homework1)
+[Travis build](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
 2. Make pull request to course repository
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 3. Make sure tests are passing in travis  
