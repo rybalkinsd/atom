@@ -18,7 +18,9 @@ public class Util {
     public static int max(int[] values) {
         int result = values[0];
         for (int v : values) {
-            if (result < v) result = v;
+            if (result < v) {
+                result = v;
+            }
         }
         return result;
     }
