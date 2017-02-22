@@ -527,6 +527,7 @@ master
 ## Git practice
 We not practice to make changes in our fork and **pull-request** them to **course repository**  
 
+
 #HSLIDE
 ## Github workflow
 1. **Fork** project
@@ -537,7 +538,7 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 3. **checkout** branch which you want to contribute
 ```bash
 > git fetch upstream
-> git checkout homework-branch
+> git checkout homework-branch 
 ```
 4. make changes and **push** them to **your fork**
 ```bash
