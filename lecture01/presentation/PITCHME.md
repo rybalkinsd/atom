@@ -524,6 +524,10 @@ master
 (возможны конфликты)
 
 #HSLIDE
+## Git practice
+We not practice to make changes in our fork and **pull-request** them to **course repository**  
+
+#HSLIDE
 ## Github workflow
 1. **Fork** project
 2. **clone** forked project
