@@ -473,9 +473,8 @@ Now we have **course repository** known as **upstream**,
 We now practice to make changes in our **working copy** of **your fork**, then push them to **your fork** on github and **pull-request** them to **course repository**  
 
 You will push only to **your fork** (**not** to **course repository**)  
-You will show your changes to us via **pull request**  
 
-[**fork** local copy] ==push==> [**fork** repo on github] ==pull request==> [**course repo**]
+[**fork** local copy] ==push==> [**fork** repo] ==pull request==> [**course repo**]
 
 
 #HSLIDE
@@ -644,7 +643,7 @@ It tracks all branches and pull requests
 1. Fix tests in branch **homework1** and push it to **your fork**  
 [[Github branch]](https://github.com/rybalkinsd/atom/tree/homework1)
 [[Travis build]](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
-2. Make pull request to course repository
+2. Make pull request to **course repository**
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 3. Make sure **tests** and **checkstyle** are passing in **Travis**  
 
