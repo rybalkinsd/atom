@@ -16,7 +16,16 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        if (values.length > 0) {
+            int max = values[0];
+            for (int i: values) {
+                if (max < i) {
+                    max = i;
+                }
+            }
+            return max;
+        }
+        throw new IllegalArgumentException("Can't support zero-length arrays");
     }
 
     /**
@@ -26,7 +35,14 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        if (values.length > 0) {
+            long sum = 0;
+            for (int i: values) {
+                sum += i;
+            }
+            return sum;
+        }
+        throw new IllegalArgumentException("Can't support zero-length arrays");
     }
 
 
