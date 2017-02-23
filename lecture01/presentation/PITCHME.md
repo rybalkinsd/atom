@@ -428,14 +428,11 @@ So they use java archives (**jar**) that contain all necessary class files and c
 
 #HSLIDE 
 # Git
-Distributed **version control system**  
-Install git:  
-[https://git-scm.com/](https://git-scm.com/)
+Distributed **version control system**   
+[Install git](https://git-scm.com/)
 
-How it is different from **svn**?
-
-(We will just cover basic commands  
-To better understand git - get some course)
+(We will just cover commands, necessary for our workflow  
+To better understand **git** - get some course)
 
 #HSLIDE
 ## Fork repository and set upstream
@@ -467,12 +464,12 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 
 #HSLIDE
 ## Git practice
-Now we have course repository known as **upstream**,  
+Now we have **course repository** known as **upstream**,  
 **your fork**, known as **origin**  
 
-We now practice to make changes in our **working copy** of **your fork**, then push the to **your fork** on github and **pull-request** them to **course repository**  
+We now practice to make changes in our **working copy** of **your fork**, then push them to **your fork** on github and **pull-request** them to **course repository**  
 
-You will push only to **your fork** (_not_ to **course repository**)
+You will push only to **your fork** (**not** to **course repository**)  
 You will show your changes to us via **pull request**
 
 #HSLIDE
@@ -535,14 +532,14 @@ master
 ```bash
 > git commit -m 'Сообщение с пояснением коммита'
 ```
-послать изменения в удаленный (публичный) репозиторий
+послать изменения в **ваш форк** на github
 ```bash
 > git push
 ```
 
 #HSLIDE
 ## git update commands
-взять новые изменения из **форка**
+взять новые изменения из **вашего форка**
 ```bash
 > git pull --rebase origin master
 ```
@@ -550,7 +547,7 @@ master
 ```bash
 > git pull --rebase upstream master
 ```
-**--rebase** заставляет git переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
+**--rebase** заставляет **git** переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
 (возможны конфликты)
 
 
