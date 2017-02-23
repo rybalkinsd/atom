@@ -63,7 +63,7 @@ https://atom.mail.ru/
 12 лекций/семинаров + 3 рубежных контроля + защита проектов
 1. **Intro** - познаем основы языка, знакомимся с инструментарием
 2. **Java WEB** - учимся писать web-сервисы
-3. **Persisnence** - работаем с базами данных
+3. **Persistence** - работаем с базами данных
 4. **Client-server interaction** - общаемся по сети
 5. **Game mechanics** - строим игру
 6. **Final project** - защищаем групповой проект
@@ -441,12 +441,12 @@ To better understand **git** - get some course)
 ```bash
 > git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
 ```
-2. Настроим синхронизацию репозитория, чтобы вы работали со свежей версией кода
+2. Свяжем **ваш форк** с **репозиторием курса**, чтобы вы могли их синхронизировать и работать со свежей версией кода
 ```bash
 > cd atom
 > git remote add upstream https://github.com/rybalkinsd/atom.git
 ```
-3. Проверим, что синхронизация включена
+3. Проверим, что нам удалось связать репозитории
 ```bash
 > git remote -v
 origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
@@ -460,8 +460,11 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 
 #HSLIDE
 ## Git branches
+We will use git branches to communicate.  
+we will do **homeworks** in branches (like homeworkN) and all the **class activity** in repository will be in branches (like **lectureN**)  
+
 [[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 400px; float: left;"/>  
 
 #HSLIDE
 ## Git practice
@@ -471,7 +474,10 @@ Now we have **course repository** known as **upstream**,
 We now practice to make changes in our **working copy** of **your fork**, then push them to **your fork** on github and **pull-request** them to **course repository**  
 
 You will push only to **your fork** (**not** to **course repository**)  
-You will show your changes to us via **pull request**
+You will show your changes to us via **pull request**  
+
+[**fork** local copy] ==push==> [**fork** repo on github] ==pull request==> [**course repo**]
+
 
 #HSLIDE
 ## Github workflow
@@ -509,18 +515,18 @@ master
 ```bash
 > git fetch upstream
 ```
-переключиться на ветку lecture1
+переключиться на ветку **lecture1**
 ```bash
 > git checkout lecture1
 ```
-Создать ветку new-branch
+Создать ветку **new-branch**
 ```bash
 > git checkout -b new-branch
 ```
 
 #HSLIDE
 ## git commit commands
-посмотреть состояние рабочей копии
+посмотреть состояние **рабочей копии**
 ```bash
 > git status
 ...
@@ -529,7 +535,7 @@ master
 ```bash
 > git add changed_file
 ```
-зафиксировать изменения в локальном репозитории
+зафиксировать изменения в **локальном репозитории**
 ```bash
 > git commit -m 'Сообщение с пояснением коммита'
 ```
@@ -565,6 +571,7 @@ master
 # Gradle
 https://gradle.org/  
 **Gradle** - build automation system  
+
 Like **maven** but more powerful  
 do not need installation ([details](https://gradle.org/install)), just use:
 
@@ -582,8 +589,8 @@ do not need installation ([details](https://gradle.org/install)), just use:
 ## Why gradle?
 - build/test/jar ... your project
 - support custom build stages, configurable with **groovy**
-- manage dependencies (automatacally download)
-- manage dependencies between projects  
+- manage **dependencies** (automatacally download)
+- manage project structure  
   
 build configuration is contained in **build.gradle**  
 gradle settings are defined in **gradle.settings**  
@@ -617,7 +624,7 @@ So your code will not build unless style is correct :)
 Continuous Integration Tool  
 [https://travis-ci.org/](https://travis-ci.org/)  
 
-When you push to repository - Travis automatically runs gradle build on server
+When you push to repository - Travis automatically runs gradle build on server  
 It tracks all branches and pull requests  
 [https://travis-ci.org/rybalkinsd/atom/pull_requests](https://travis-ci.org/rybalkinsd/atom/pull_requests)  
 
@@ -635,15 +642,15 @@ It tracks all branches and pull requests
 
 #HSLIDE
 # Homework 1
-1. Fix tests in branch **homework1**  
+1. Fix tests in branch **homework1** and push it to **your fork**  
 [[Github branch]](https://github.com/rybalkinsd/atom/tree/homework1)
 [[Travis build]](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
 2. Make pull request to course repository
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
-3. Make sure tests are passing in Travis  
+3. Make sure **tests** and **checkstyle** are passing in **Travis**  
 
 **Deadline:** 1 March  
-**Mark:** **5 points**
+**Mark:** 5 points
 
 #HSLIDE
 ## Литература
