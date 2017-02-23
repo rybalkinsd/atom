@@ -156,7 +156,7 @@ https://atom.mail.ru/
 6. Homework 1  
 
 #HSLIDE 
-# Basic types
+### Basic types
 | Type          | Size          | Range             |
 | ------------- |:-------------:| -----------------:|
 | boolean       | undefined*    | true/false        |
