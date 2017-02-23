@@ -252,7 +252,7 @@ for (int i = 0; i < numberOfObjects; i++) {
 
 int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 for (int i : digits ) {
-    System.out.println(“Digit: “ + digit);
+    System.out.println(“Digit: “ + i);
 }
 
 //Для хипстеров
@@ -428,8 +428,8 @@ So they use java archives (**jar**) that contain all necessary class files and c
 
 #HSLIDE 
 # Git
-Distributed **version control system**
-Install git  
+Distributed **version control system**  
+Install git:  
 [https://git-scm.com/](https://git-scm.com/)
 
 How it is different from **svn**?
@@ -439,13 +439,9 @@ To better understand git - get some course)
 
 #HSLIDE
 ## Fork repository and set upstream
-1. После форка в вашем github появится копия репозитория
+1. После форка в вашем github появится несинхронизованная копия (fork)
 ```bash
 > git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
-```
-если вы его уже склонировали раньше, то обновите
-```bash
-> git pull --rebase
 ```
 2. Настроим синхронизацию репозитория, чтобы вы работали со свежей версией кода
 ```bash
@@ -460,6 +456,9 @@ origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
 upstream https://github.com/rybalkinsd/atom.git (fetch)
 upstream https://github.com/rybalkinsd/atom.git (push)
 ```
+Теперь ваш fork будет известен git-у как **origin** (по умолчанию)  
+а репозиторий курса - как **upstream** (только что настроили)  
+Коммитить вы будете только в **свой fork** (origin)
 
 #HSLIDE
 ## Git branches
@@ -473,15 +472,15 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 > git branch
 master
 ```
-взять последние сведени о ветках из удаленного репозитория
+взять последние сведения о ветках из **вашего форка**
 ```bash
 > git fetch origin
 ```
-взять последние сведени о ветках из форкнутого репозитория
+взять последние сведени о ветках из **репозитория курса**
 ```bash
 > git fetch upstream
 ```
-выбрать ветку lecture1
+переключиться на ветку lecture1
 ```bash
 > git checkout lecture1
 ```
@@ -512,15 +511,15 @@ master
 
 #HSLIDE
 ## git update commands
-взять новые изменения из удаленного репозитория
+взять новые изменения из **форка**
 ```bash
-> git pull origin master --rebase
+> git pull --rebase origin master
 ```
-взять новые изменения из репозитория, который вы отфоркали
+взять новые изменения из **репозитория курса**
 ```bash
-> git pull upstream master --rebase
+> git pull --rebase upstream master
 ```
-**--rebase** заставляет git переносить ваши изменения поверх новых  
+**--rebase** заставляет git переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
 (возможны конфликты)
 
 #HSLIDE
@@ -529,8 +528,8 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 
 #HSLIDE
 ## Github workflow
-1. **Fork** project
-2. **clone** forked project
+1. **Fork** project **(only once)**
+2. **clone** your fork
 ```bash
 > git clone https://github.com/MY-GITHUB-NAME/atom
 ```
@@ -541,7 +540,7 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 ```
 4. make changes and **push** them to **your fork**
 ```bash
-> git pull upstream lecture01 --rebase
+> git pull --rebase upstream lecture01
 > git add MyFixedFile1.java MyFixedFile2.java
 > git commit -m 'Fixed all bugs and added new'
 > git push -u origin lecture01
@@ -632,14 +631,14 @@ It tracks all branches and pull requests
 
 #HSLIDE
 # Homework 1
-1. Fix tests in branch **homework1**
-[Github branch](https://github.com/rybalkinsd/atom/tree/homework1)
-[Travis build](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
+1. Fix tests in branch **homework1**  
+[[Github branch]](https://github.com/rybalkinsd/atom/tree/homework1)
+[[Travis build]](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
 2. Make pull request to course repository
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
-3. Make sure tests are passing in travis  
+3. Make sure tests are passing in Travis  
 
-**Deadline:** 1 March
+**Deadline:** 1 March  
 **Mark:** **5 points**
 
 #HSLIDE
@@ -647,7 +646,7 @@ It tracks all branches and pull requests
 **Thinking in Java** (в русском переводе - философия Java)  
 [https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486](https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486)  
   
-Хорошая книга, придерживаться ее мы, конечно не будем
+Хорошая книга, придерживаться ее мы, конечно, не будем
 
 #HSLIDE
 ## IDE
