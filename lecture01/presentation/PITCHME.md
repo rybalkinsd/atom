@@ -156,7 +156,7 @@ https://atom.mail.ru/
 6. Homework 1  
 
 #HSLIDE 
-### Basic types
+## Basic types
 | Type          | Size          | Range             |
 | ------------- |:-------------:| -----------------:|
 | boolean       | undefined*    | true/false        |
@@ -168,7 +168,7 @@ https://atom.mail.ru/
 | float         | 4 bytes       | IEEE 754          |
 | double        | 8 bytes       | IEEE 754          |
 | **reference** | system bitness|                   |
-* This data type represents one bit of information, but its "size" isn't something that's precisely defined.
+* Not defined by specification but actually 1 byte in hotspot
 
 #HSLIDE 
 # Operators
