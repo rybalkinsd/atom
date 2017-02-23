@@ -534,7 +534,7 @@ master
 ```
 послать изменения в **ваш форк** на github
 ```bash
-> git push
+> git push origin branch-to-push
 ```
 
 #HSLIDE
