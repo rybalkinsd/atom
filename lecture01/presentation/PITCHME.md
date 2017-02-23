@@ -437,17 +437,14 @@ To better understand **git** - get some course)
 
 #HSLIDE
 ## Fork repository and set upstream
-1. После форка в вашем github появится несинхронизованная копия (fork)
+1. После форка в вашем github появится несинхронизованная копия (**fork**), **склонируем** ее и получим **рабочую копию** форка у себя на компьютере
 ```bash
 > git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
 ```
-2. Свяжем **ваш форк** с **репозиторием курса**, чтобы вы могли их синхронизировать и работать со свежей версией кода
+2. Свяжем **рабочую копию вашего форка** с **репозиторием курса**, чтобы вы могли их синхронизировать и работать со свежей версией кода и проверим, что **репозиторий курса** вашей рабочей **копии**
 ```bash
 > cd atom
 > git remote add upstream https://github.com/rybalkinsd/atom.git
-```
-3. Проверим, что нам удалось связать репозитории
-```bash
 > git remote -v
 origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
 origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
@@ -456,12 +453,11 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 ```
 Теперь ваш fork будет известен git-у как **origin** (по умолчанию)  
 а репозиторий курса - как **upstream** (только что настроили)  
-Коммитить вы будете только в **свой fork** (origin)
 
 #HSLIDE
 ## Git branches
 We will use git branches to communicate.  
-we will do **homeworks** in branches (like homeworkN) and all the **class activity** in repository will be in branches (like **lectureN**)  
+we will do **homeworks** in branches (like **homeworkN**) and all the **class activity** in repository will be in branches (like **lectureN**)  
 
 [[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
 <img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 400px; float: left;"/>  
@@ -475,7 +471,7 @@ We now practice to make changes in our **working copy** of **your fork**, then p
 
 You will push only to **your fork** (**not** to **course repository**)  
 
-[**fork** local copy] ==push==> [**fork** repo] ==pull request==> [**course repo**]
+[**fork local copy**] ==push==> [**fork repo**] ==pull request==> [**course repo**]
 
 
 #HSLIDE
