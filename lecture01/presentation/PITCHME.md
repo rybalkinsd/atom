@@ -143,7 +143,7 @@ https://atom.mail.ru/
 - Java is compiled to **Byte Code** (not to machine codes), which is executed by **Java Virtual Machine (JVM)**
 - automatic memory management **(GC)**
 - Java is **object-oriented**, **class-based**
-- static strong safe Typization
+- static strong safe typization
 - concurrent
 
 #HSLIDE 
