@@ -437,7 +437,7 @@ To better understand **git** - get some course)
 
 #HSLIDE
 ## Fork repository and set upstream
-1. После форка в вашем github появится несинхронизованная копия (**fork**), **склонируем** ее и получим **рабочую копию** форка у себя на компьютере
+1. После форка в вашем github появится несинхронизованная копия (**fork**), **склонируем** ее и получим **рабочую копию** форка
 ```bash
 > git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
 ```
