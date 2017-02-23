@@ -168,7 +168,7 @@ https://atom.mail.ru/
 | float         | 4 bytes       | IEEE 754          |
 | double        | 8 bytes       | IEEE 754          |
 | **reference** | system bitness|                   |
-* Not defined by specification but actually 1 byte in hotspot
+* Not defined by specification but actually 1 byte in hotspot.
 
 #HSLIDE 
 # Operators
