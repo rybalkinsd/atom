@@ -171,7 +171,7 @@ https://atom.mail.ru/
 * Not defined by specification, but actually 1 byte in hotspot.
 
 #HSLIDE 
-# Operators
+## Operators
 |Operator type  |Operator                   |
 |---------------|---------------------------|
 |Assignment     | =, +=, *= …^=             |
