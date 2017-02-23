@@ -466,6 +466,37 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 <img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
 
 #HSLIDE
+## Git practice
+Now we have course repository known as **upstream**,  
+**your fork**, known as **origin**  
+
+We now practice to make changes in our **working copy** of **your fork**, then push the to **your fork** on github and **pull-request** them to **course repository**  
+
+You will push only to **your fork** (_not_ to **course repository**)
+You will show your changes to us via **pull request**
+
+#HSLIDE
+## Github workflow
+1. **Fork** project **(only once)**
+2. **clone** your fork
+```bash
+> git clone https://github.com/MY-GITHUB-NAME/atom
+```
+3. **checkout** branch which you want to contribute
+```bash
+> git fetch upstream
+> git checkout -b lecture01 upstream/lecture01
+```
+4. make changes and **push** them to **your fork**
+```bash
+> git pull --rebase upstream lecture01
+> git add MyFixedFile1.java MyFixedFile2.java
+> git commit -m 'Fixed all bugs and added new'
+> git push -u origin lecture01
+```
+5. make **pull-request**
+
+#HSLIDE
 ## git branch commands
 Посмотреть текущую ветку
 ```bash
@@ -476,7 +507,7 @@ master
 ```bash
 > git fetch origin
 ```
-взять последние сведени о ветках из **репозитория курса**
+взять последние сведения о ветках из **репозитория курса**
 ```bash
 > git fetch upstream
 ```
@@ -521,31 +552,6 @@ master
 ```
 **--rebase** заставляет git переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
 (возможны конфликты)
-
-#HSLIDE
-## Git practice
-We now practice to make changes in our **fork** and **pull-request** them to **course repository**  
-
-#HSLIDE
-## Github workflow
-1. **Fork** project **(only once)**
-2. **clone** your fork
-```bash
-> git clone https://github.com/MY-GITHUB-NAME/atom
-```
-3. **checkout** branch which you want to contribute
-```bash
-> git fetch upstream
-> git checkout -b lecture01 upstream/lecture01
-```
-4. make changes and **push** them to **your fork**
-```bash
-> git pull --rebase upstream lecture01
-> git add MyFixedFile1.java MyFixedFile2.java
-> git commit -m 'Fixed all bugs and added new'
-> git push -u origin lecture01
-```
-5. make **pull-request**
 
 
 #HSLIDE 
