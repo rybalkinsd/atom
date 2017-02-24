@@ -45,7 +45,7 @@ public class UtilTest {
 
     @Test
     public void sum0() throws Exception {
-        assertThat(Util.sum(new int[]{42}), is(equalTo(42L)));
+        assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
     }
 
     @Test
