@@ -143,7 +143,7 @@ https://atom.mail.ru/
 - Java is compiled to **Byte Code** (not to machine codes), which is executed by **Java Virtual Machine (JVM)**
 - automatic memory management **(GC)**
 - Java is **object-oriented**, **class-based**
-- static strong safe typisation
+- static strong safe typization
 - concurrent
 
 #HSLIDE 
@@ -156,10 +156,10 @@ https://atom.mail.ru/
 6. Homework 1  
 
 #HSLIDE 
-# Basic types
+## Basic types
 | Type          | Size          | Range             |
 | ------------- |:-------------:| -----------------:|
-| boolean       | undefined     | true/false        |
+| boolean       | undefined*    | true/false        |
 | byte          | 1 byte        | -128-127          |
 | char          | 2 bytes       | \u0000-\uffff     |
 | short         | 2 bytes       | -32768 - 32767    |
@@ -168,9 +168,10 @@ https://atom.mail.ru/
 | float         | 4 bytes       | IEEE 754          |
 | double        | 8 bytes       | IEEE 754          |
 | **reference** | system bitness|                   |
+* Not defined by specification, but actually 1 byte in hotspot.
 
 #HSLIDE 
-# Operators
+## Operators
 |Operator type  |Operator                   |
 |---------------|---------------------------|
 |Assignment     | =, +=, *= …^=             |
@@ -197,7 +198,7 @@ if (value1 == value2)
     System.out.println("value1 == value2");
 
 int commonVariable = 0;
-if (commonVarialbe > -42) { // ← начало блока
+if (commonVariable > -42) { // ← начало блока
     int innerVariable = commonVariable + 1;
     System.out.println(String.format(“Inner variable is %d“, innerVariable));
 } // ← конец блока
