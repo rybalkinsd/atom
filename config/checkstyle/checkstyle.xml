@@ -15,7 +15,7 @@
 <module name = "Checker">
     <property name="charset" value="UTF-8"/>
 
-    <property name="severity" value="warning"/>
+    <property name="severity" value="error"/>
 
     <property name="fileExtensions" value="java, properties, xml"/>
     <!-- Checks for whitespace                               -->
@@ -170,11 +170,6 @@
         </module>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
-        <module name="CustomImportOrder">
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="separateLineBetweenGroups" value="true"/>
-            <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
-        </module>
         <module name="MethodParamPad"/>
         <module name="ParenPad"/>
         <module name="OperatorWrap">
