@@ -16,7 +16,7 @@ public class Util {
      */
     public static int max(int[] values) {
         if (values.length <= 0) {
-            throw new IllegalArgumentException("Task condition."); // Task condition? Throw an exception.
+            throw new IllegalArgumentException(); // Task condition? Throw an exception.
         }
         int maxVal = values[0];
         for (int i = 1; i < values.length; i++) {
@@ -36,7 +36,7 @@ public class Util {
     public static long sum(int[] values) {
         //throw new UnsupportedOperationException();
         if (values.length <= 0) {
-            throw new IllegalArgumentException("Task condition."); // Task condition? Throw an exception.
+            throw new IllegalArgumentException(); // Task condition? Throw an exception.
         }
         long sum = 0L;
         for (int i = 0; i < values.length; i++) {
