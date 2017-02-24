@@ -32,7 +32,7 @@ public class Util {
      */
 
     public static long sum(int[] values) {
-        int sumnum = 0;
+        long sumnum = 0L;
         for (int i = 0; i < values.length ; i++) {
             sumnum += values[i];
         }
