@@ -3,10 +3,9 @@ package ru.atom;
 /**
  * In this assignment you need to implement the following util methods.
  * Note:
- *  throw new UnsupportedOperationException(); - is just a stub
+ * throw new UnsupportedOperationException(); - is just a stub
  */
 public class Util {
-
 
 
     /**
@@ -16,7 +15,16 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        if (values.length <= 0) {
+            throw new IllegalArgumentException("Task condition."); // Task condition? Throw an exception.
+        }
+        int maxVal = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > maxVal) {
+                maxVal = values[i];
+            }
+        }
+        return maxVal;
     }
 
     /**
@@ -26,7 +34,15 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        if (values.length <= 0) {
+            throw new IllegalArgumentException("Task condition."); // Task condition? Throw an exception.
+        }
+        long sum = 0L;
+        for (int i = 0; i < values.length; i++) {
+            sum = sum + values[i];
+        }
+        return sum;
     }
 
 
