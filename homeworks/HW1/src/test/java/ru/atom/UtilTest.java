@@ -1,7 +1,6 @@
 package ru.atom;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -10,25 +9,21 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class UtilTest {
 
-    @Ignore
     @Test
     public void max0() throws Exception {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
     }
 
-    @Ignore
     @Test
     public void max1() throws Exception {
         assertThat(Util.max(new int[]{1, 2, 3}), is(equalTo(3)));
     }
 
-    @Ignore
     @Test
     public void max2() throws Exception {
         assertThat(Util.max(new int[]{2, 2, 0}), is(equalTo(2)));
     }
 
-    @Ignore
     @Test
     public void max3() throws Exception {
         int[] values = {3262, 3989, 4825, 3751, 147, 2376, 2866, 1192, 2259, 905, 4810, 2481, 4243,
@@ -48,25 +43,21 @@ public class UtilTest {
         assertThat(Util.max(values), is(equalTo(4913)));
     }
 
-    @Ignore
     @Test
     public void sum0() throws Exception {
         assertThat(Util.sum(new int[]{42}), is(equalTo(42L)));
     }
 
-    @Ignore
     @Test
     public void sum1() throws Exception {
         assertThat(Util.sum(new int[]{1, -2, 3}), is(equalTo(2L)));
     }
 
-    @Ignore
     @Test
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
 
-    @Ignore
     @Test
     public void sum3() throws Exception {
 
