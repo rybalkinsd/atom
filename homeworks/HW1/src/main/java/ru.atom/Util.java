@@ -30,10 +30,10 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        int E = 0;
-        for (int i:values) {
-            e += values[i];
+        int sumv = 0;
+        for (int i = 0; i < values.length ; i++) {
+            sumv += values[i];
         }
-        return e;
+        return sumv;
     }
 }
