@@ -38,12 +38,11 @@ public class Util {
      */
     public static long sum(int[] values) {
 
-        int valuesLength = values.length;
-        if (valuesLength == 0) {
+        if (values.length == 0) {
             throw new UnsupportedOperationException();            
         }
-        long sum = 0;
-        for (int i = 0; i < valuesLength; i++) {
+        int sum = 0;
+        for (int i = 0; i < values.length; i++) {
             sum += values[i];
         }
         return sum;
