@@ -5,6 +5,8 @@ package ru.atom;
  * Note:
  * throw new UnsupportedOperationException(); - is just a stub
  */
+ 
+// HomeWork 1.
 public class Util {
 
 
