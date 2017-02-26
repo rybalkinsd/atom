@@ -17,17 +17,17 @@ public class Util {
      */
     public static int max(int[] values) {
         
-        int N = values.length;
-        if (N == 0) {
+        int n = values.length;
+        if (n == 0) {
             throw new UnsupportedOperationException();            
         }
-        int MaxValue = values[0];
-        for (int i = 0; i < N; i++) {
-            if (values[i] > MaxValue) {
-                MaxValue = values[i];
+        int maxValue = values[0];
+        for (int i = 0; i < n; i++) {
+            if (values[i] > maxValue) {
+                maxValue = values[i];
             }
         }
-        return MaxValue;
+        return maxValue;
     }
 
     /**
@@ -38,12 +38,12 @@ public class Util {
      */
     public static long sum(int[] values) {
 
-        int N = values.length;
-        if (N == 0) {
+        int n = values.length;
+        if (n == 0) {
             throw new UnsupportedOperationException();            
         }
         long sum = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             sum += values[i];
         }
         return sum;
