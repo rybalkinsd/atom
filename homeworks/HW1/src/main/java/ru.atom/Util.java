@@ -1,5 +1,9 @@
 package ru.atom;
 
+import java.util.Arrays;
+import java.util.OptionalInt;
+import java.util.concurrent.atomic.LongAdder;
+
 /**
  * In this assignment you need to implement the following util methods.
  * Note:
@@ -16,6 +20,10 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
+        OptionalInt max = Arrays.stream(values).max();
+        if (max.isPresent()) {
+            return max.getAsInt();
+        }
         throw new UnsupportedOperationException();
     }
 
@@ -26,7 +34,9 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        LongAdder longAdder = new LongAdder();
+        Arrays.stream(values).forEach(longAdder::add);
+        return longAdder.longValue();
     }
 
 
