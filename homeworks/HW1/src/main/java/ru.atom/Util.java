@@ -34,7 +34,7 @@ public class Util {
      */
     public static long sum(int[] values) {
         //throw new UnsupportedOperationException();
-        int sum = 0;
+        long sum = 0L;
         for (int i = 0; i < values.length; ++i)  {
             sum += values[i];
         }
