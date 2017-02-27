@@ -30,7 +30,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        int sumv = 0;
+        long sumv = 0;
         for (int i = 0; i < values.length ; i++) {
             sumv += values[i];
         }
