@@ -9,19 +9,16 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class UtilTest {
-
-    
+  
     @Test
     public void max0() throws Exception {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
     }
-    
-    
+       
     @Test
     public void max1() throws Exception {
         assertThat(Util.max(new int[]{1, 2, 3}), is(equalTo(3)));
-    }
-    
+    }   
     
     @Test
     public void max2() throws Exception {
@@ -47,24 +44,20 @@ public class UtilTest {
         assertThat(Util.max(values), is(equalTo(4913)));
     }
 
-    
     @Test
     public void sum0() throws Exception {
         assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
-    }
-    
+    }  
     
     @Test
     public void sum1() throws Exception {
         assertThat(Util.sum(new int[]{1, -2, 3}), is(equalTo(2L)));
-    }
-    
+    }   
     
     @Test
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
-
     
     @Test
     public void sum3() throws Exception {
