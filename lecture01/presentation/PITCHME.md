@@ -23,7 +23,7 @@ https://atom.mail.ru/
 
 #HSLIDE
 # Цель курса
-Практическое введение в разработку серверных web приложений на Java  
+Практическое введение в разработку серверных web приложений на Java
 Практическая часть - разработка сервера для мультиплеерной игры
 
 **Мы научимся:**
@@ -463,8 +463,8 @@ upstream https://github.com/rybalkinsd/atom.git (push)
 
 #HSLIDE
 ## Git branches
-[[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 500px; float: left;"/>  
+https://www.atlassian.com/git/tutorials/using-branches
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 750px; float: left;"/>  
 
 #HSLIDE
 ## git branch commands
@@ -475,11 +475,7 @@ master
 ```
 взять последние сведени о ветках из удаленного репозитория
 ```bash
-> git fetch origin
-```
-взять последние сведени о ветках из форкнутого репозитория
-```bash
-> git fetch upstream
+> git fetch
 ```
 выбрать ветку lecture1
 ```bash
@@ -509,23 +505,10 @@ master
 ```bash
 > git push
 ```
-
-#HSLIDE
-## git update commands
 взять новые изменения из удаленного репозитория
 ```bash
-> git pull origin master --rebase
+> git pull --rebase
 ```
-взять новые изменения из репозитория, который вы отфоркали
-```bash
-> git pull upstream master --rebase
-```
-**--rebase** заставляет git переносить ваши изменения поверх новых  
-(возможны конфликты)
-
-#HSLIDE
-## Git practice
-We not practice to make changes in our fork and **pull-request** them to **course repository**  
 
 #HSLIDE
 ## Github workflow
@@ -536,15 +519,15 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 ```
 3. **checkout** branch which you want to contribute
 ```bash
-> git fetch upstream
-> git checkout -b lecture01 upstream/lecture01
+> git fetch
+> git checkout homework-branch
 ```
 4. make changes and **push** them to **your fork**
 ```bash
-> git pull upstream lecture01 --rebase
+> git pull --rebase
 > git add MyFixedFile1.java MyFixedFile2.java
 > git commit -m 'Fixed all bugs and added new'
-> git push -u origin lecture01
+> git push
 ```
 5. make **pull-request**
 
@@ -560,7 +543,7 @@ We not practice to make changes in our fork and **pull-request** them to **cours
 
 #HSLIDE
 # Gradle
-https://gradle.org/  
+https://gradle.org/
 **Gradle** - build automation system  
 Like **maven** but more powerful  
 do not need installation ([details](https://gradle.org/install)), just use:
@@ -576,7 +559,7 @@ do not need installation ([details](https://gradle.org/install)), just use:
 ```
 
 #HSLIDE
-## Why gradle?
+## What grandle can
 - build/test/jar ... your project
 - support custom build stages, configurable with **groovy**
 - manage dependencies (automatacally download)
@@ -615,7 +598,7 @@ Continuous Integration Tool
 [https://travis-ci.org/](https://travis-ci.org/)  
 
 When you push to repository - Travis automatically runs gradle build on server
-It tracks all branches and pull requests  
+It tracks all branches and pull requests
 [https://travis-ci.org/rybalkinsd/atom/pull_requests](https://travis-ci.org/rybalkinsd/atom/pull_requests)  
 
 **check your pull requests there!**
@@ -633,14 +616,12 @@ It tracks all branches and pull requests
 #HSLIDE
 # Homework 1
 1. Fix tests in branch **homework1**
-[Github branch](https://github.com/rybalkinsd/atom/tree/homework1)
-[Travis build](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
 2. Make pull request to course repository
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 3. Make sure tests are passing in travis  
 
 **Deadline:** 1 March
-**Mark:** **5 points**
+**Mark:** **5 balls**
 
 #HSLIDE
 ## Литература
