@@ -1,4 +1,4 @@
-﻿package ru.atom;
+package ru.atom;
 
 /**
  * In this assignment you need to implement the following util methods.
@@ -16,13 +16,13 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-	int maxVal = 0;
-	for (int i = 0; i < values.length; i++) {
-            if (values[i] > maxVal) {
-		maxVal = values[i];
+        int max = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > max) {
+                max = values[i];
             }
-	}
-	return maxVal;
+        }
+        return max;
     }
 
     /**
@@ -32,11 +32,11 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-	long sum = 0L;
-	for (int i = 0; i < values.length; i++) {
+        long sum = 0L;
+        for (int i = 0; i < values.length; i++) {
             sum += values[i];
-	}
-	return sum;
+        }
+        return sum;
     }
 
 
