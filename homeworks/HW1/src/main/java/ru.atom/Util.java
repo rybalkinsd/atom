@@ -16,7 +16,13 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int maxValue = values[0];
+        for (int i : values) { 
+            if (i > maxValue) { 
+                maxValue = i;
+            }              
+        }
+        return maxValue;
     }
 
     /**
@@ -26,7 +32,11 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sumValues = 0;
+        for (int i : values) { 
+            sumValues += i;         
+        }
+        return sumValues; 
     }
 
 
