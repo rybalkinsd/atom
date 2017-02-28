@@ -20,7 +20,7 @@ public class Util {
             int max = values[0];
             for (int i = 1; i < values.length; i++) {
                 if (max < values[i]) {
-                    max = values[i] + 2;
+                    max = values[i];
                 }
             }
             return max;
