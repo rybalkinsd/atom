@@ -13,10 +13,16 @@ public class Util {
      * Returns the greatest of {@code int} values.
      *
      * @param values an argument. Assume values.length > 0.
-     * @return the largest of values.
+     * @return the largest of values.   
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int maxn = -2000;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > maxn) {
+                maxn = values[i];
+            }
+        }
+        return maxn;
     }
 
     /**
@@ -26,8 +32,10 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sumn = 0;
+        for (int i = 0; i < values.length; i++) {
+            sumn = sumn + values[i];
+        }
+        return sumn;
     }
-
-
 }
