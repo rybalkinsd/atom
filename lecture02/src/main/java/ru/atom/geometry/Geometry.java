@@ -11,7 +11,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 
 public final class Geometry {
-    
+
     private Geometry() {
     }
 
@@ -31,6 +31,7 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        Point point = new Point(x, y);
+        return point;
     }
 }
