@@ -23,6 +23,7 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
+
         throw new NotImplementedException();
     }
 
@@ -31,6 +32,7 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        Point point = new Point(x, y);
+        return point;
     }
 }
