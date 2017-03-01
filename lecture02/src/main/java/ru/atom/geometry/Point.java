@@ -5,23 +5,61 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
+public class Point implements Collider {
     // fields
     // and methods
 
+    public Point() {
+
+    }
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Coordinates
+    int x;
+    int y;
+
     /**
-     * @param o - other object to check equality with
+     * @param o
+     *            - other object to check equality with
      * @return true if two points are equal and not null.
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         // cast from Object to Point
         Point point = (Point) o;
 
         // your code here
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
+
+        return isColliding(point);
+
+    }
+
+    @Override
+    public boolean isColliding(Collider other) {
+        // TODO Auto-generated method stub
+
+        if (this == other)
+            return true;
+        if (other == null || getClass() != other.getClass())
+            return false;
+
+        // cast from Object to Point
+        Point point = (Point) other;
+
+        if (x == point.x && y == point.y) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
