@@ -209,16 +209,17 @@ Titled message **is a** Message
     private Object topSecret; 
     ```
 
-1. **protected** - as private + from subclasses
-    ```java
-    protected Boolean секретик;
-    ```
-
-1. **default** (package private) - as protected + within package
+1. **default** (package private) - as private + within package
     ```java
     int number = 42;
     ```
 
+1. **protected** - as default + from subclasses
+    ```java
+    protected Boolean секретик;
+    ```
+	
+	
 1. **public** - worldwide
     ```java
     public String getMe;
