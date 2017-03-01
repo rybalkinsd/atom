@@ -6,17 +6,25 @@ package ru.atom;
  *  throw new UnsupportedOperationException(); - is just a stub
  */
 public class Util {
-
-
-
+    
     /**
      * Returns the greatest of {@code int} values.
      *
      * @param values an argument. Assume values.length > 0.
-     * @return the largest of values.
+     * @return the largest of values.   
      */
+    
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int maxn = values[0];
+        if (values.length == 0) {
+            throw new UnsupportedOperationException();
+        }
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > maxn) {
+                maxn = values[i];
+            }
+        }
+        return maxn;
     }
 
     /**
@@ -25,9 +33,15 @@ public class Util {
      * @param values an argument. Assume values.length > 0.
      * @return the sum of all values.
      */
+
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sumn = 0;
+        if (values.length == 0) {
+            throw new UnsupportedOperationException();
+        }
+        for (int i = 0; i < values.length; i++) {
+            sumn = sumn + values[i];
+        }
+        return sumn;
     }
-
-
 }
