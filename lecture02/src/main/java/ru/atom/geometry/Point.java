@@ -5,9 +5,15 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
+public class Point implements Collider {
     // fields
-    // and methods
+    int x;
+    int y;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+            }
+
 
     /**
      * @param o - other object to check equality with
@@ -20,8 +26,20 @@ public class Point /* super class and interfaces here if necessary */ {
 
         // cast from Object to Point
         Point point = (Point) o;
+        if (this.x == (point).x && this.y == (point).y) {
+            return true;
+        }
+        return false;
+    }
+    }
 
-        // your code here
-        throw new NotImplementedException();
+
+        //throw new NotImplementedException();
+    @Override
+    public boolean isColliding(Collider other) {
+        if (this.x == ((Point) other).x && this.y == ((Point) other).y) {
+            return true;
+                    }
+        return false;
     }
 }
