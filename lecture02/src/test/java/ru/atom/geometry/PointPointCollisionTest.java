@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Ignore
 public class PointPointCollisionTest {
     @Test
     public void pointSelfCollide() {

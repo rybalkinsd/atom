@@ -31,6 +31,8 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        Collider point = new Point(x, y);
+        return point;
+        //throw new NotImplementedException();
     }
 }
