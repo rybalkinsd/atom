@@ -97,7 +97,8 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
             return isColliding((Bar) other);
-        } else if (other instanceof Point) {
+        }
+        else if (other instanceof Point) {
             return isColliding((Point)other);
         }
         return false;
