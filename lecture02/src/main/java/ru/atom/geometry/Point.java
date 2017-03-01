@@ -9,8 +9,10 @@ public class Point implements Collider/* super class and interfaces here if nece
     // fields
     int x;
     int y;
+
     Point() {
     }
+
     // and methods
     Point(int x, int y) {
         this.x = x;
@@ -38,7 +40,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Point point = (Point) other;
-        if (( point.x != x )||( point.y != y ))
+        if ((point.x != x) || (point.y != y))
             return false;
         else return true;
     }
