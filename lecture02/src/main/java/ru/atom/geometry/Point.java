@@ -8,7 +8,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Point implements Collider {
     protected int x;
     protected int y;
-    // and methods
 
     public Point(int x, int y) {
         this.x = x;
@@ -27,11 +26,7 @@ public class Point implements Collider {
         // cast from Object to Point
         Point point = (Point) o;
 
-        if (this.x == point.x && this.y == point.y) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.x == point.x && this.y == point.y);
     }
 
     @Override
