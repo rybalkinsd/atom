@@ -7,7 +7,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Point implements Collider/* super class and interfaces here if necessary */ {
     // fields
-    private int x, y;
+    private int x;
+    private int y;
     // and methods
 
     public Point(int x, int y) {
@@ -15,7 +16,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         this.y = y;
     }
 
-    public boolean isColliding(Collider other){
+    public boolean isColliding(Collider other) {
         return this.equals(other);
         //return this.x == other.x && this.y == other.y;
     }
@@ -23,6 +24,7 @@ public class Point implements Collider/* super class and interfaces here if nece
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,6 +34,6 @@ public class Point implements Collider/* super class and interfaces here if nece
         Point point = (Point) o;
         return (this.x == point.x) && (this.y == point.y);
         // your code here
-       // throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 }
