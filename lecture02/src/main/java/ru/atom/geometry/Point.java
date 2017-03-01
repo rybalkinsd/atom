@@ -1,13 +1,35 @@
 package ru.atom.geometry;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ru.atom.geometry.Collider;
 
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
-    // fields
-    // and methods
+public class Point implements Collider /* super class and interfaces here if necessary */ {
+    private int x;
+    private int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public void setX(int new_x) {
+        this.x = new_x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public void setY(int new_y) {
+        this.y = new_y;
+    }
 
     /**
      * @param o - other object to check equality with
@@ -22,6 +44,17 @@ public class Point /* super class and interfaces here if necessary */ {
         Point point = (Point) o;
 
         // your code here
-        throw new NotImplementedException();
+        return this.getX() == point.getX() && this.getY() == point.getY();
+    }
+
+    public boolean isColliding(Collider o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Collider)) return false;
+
+        if (o instanceof Point) {
+            Point point = (Point) o;
+            return this.getX() == point.getX() && this.getY() == point.getY();
+        } else return false;
+        // fix colliding for Bar
     }
 }
