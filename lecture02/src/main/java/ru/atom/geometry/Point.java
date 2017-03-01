@@ -19,16 +19,16 @@ public class Point implements Collider /* super class and interfaces here if nec
         return this.x;
     }
 
-    public void setX(int new_x) {
-        this.x = new_x;
+    public void setX(int newX) {
+        this.x = newX;
     }
 
     public int getY() {
         return this.y;
     }
 
-    public void setY(int new_y) {
-        this.y = new_y;
+    public void setY(int newY) {
+        this.y = newY;
     }
 
     /**
