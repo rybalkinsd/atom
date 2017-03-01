@@ -27,7 +27,7 @@ public class Util {
          }
          return max;
       }
-    }
+    
 
     /**
      * Returns the sum of all {@code int} values.
@@ -38,12 +38,12 @@ public class Util {
     public static long sum(int[] values) {
   	if (values.length < 1) {
             throw new IllegalArgumentException();
+}
         long sum = 0L;
         for (int val : values) {
              sum += val;
          }
          return sum;
     }
-
 
 }
