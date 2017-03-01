@@ -6,7 +6,7 @@ package ru.atom.geometry;
 public class Point implements Collider {
     int xCoord;
     int yCoord;
-    
+
     public Point(int xCoord, int yCoord) {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
