@@ -6,8 +6,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Template class for
  */
 public class Point implements Collider {
-    int x;
-    int y;
+    public int x;
+    public int y;
 
     public Point(int x, int y)
     {
@@ -30,8 +30,7 @@ public class Point implements Collider {
     }
 
     @Override
-    public boolean isColliding(Collider other)
-    {
+    public boolean isColliding(Collider other) {
         return equals(other);
     }
 }
