@@ -34,7 +34,17 @@ public class Point implements Collider/* super class and interfaces here if nece
 
     @Override
     public boolean isColliding(Collider other) {
-        return this.equals(other);
+        if (other.getClass() == Point.class) {
+            return this.equals(other);
+        }
+        if (other.getClass() == Bar.class) {
+            Bar bar = (Bar) other;
+            return (bar.getLeftCornerPoint().getX() <= x
+                    && bar.getLeftCornerPoint().getY() <= y
+                    && bar.getRightCornerPoint().getX() >= x
+                    && bar.getRightCornerPoint().getY() >= y);
+        }
+        throw new IllegalArgumentException();
     }
 
     public int getX() {
