@@ -9,7 +9,8 @@ public class Point implements Collider {
     private int x;
     private int y;
     // and methods
-    public Point(int x, int y){
+
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -31,7 +32,7 @@ public class Point implements Collider {
     }
 
     @Override
-    public boolean isColliding(Collider point){
+    public boolean isColliding(Collider point) {
         return this.equals(point);
     }
 }
