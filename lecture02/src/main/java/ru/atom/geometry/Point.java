@@ -10,10 +10,10 @@ public class Point implements Collider/* super class and interfaces here if nece
     int x;
     int y;
 
-    Point () {
+    Point() {
     }
 
-    Point (int x, int y) {
+    Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
