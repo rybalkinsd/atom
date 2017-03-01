@@ -32,7 +32,7 @@ public final class Geometry {
      */
     public static Collider createPoint(int x, int y) {
 
-//        throw new NotImplementedException();
+        //throw new NotImplementedException();
         Point point = new Point(x,y);
         return point;
     }

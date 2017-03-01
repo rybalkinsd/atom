@@ -10,11 +10,10 @@ public class Point implements Collider/* super class and interfaces here if nece
     int x;
     int y;
 
-    Point (){
-
+    Point () {
     }
 
-    Point (int x, int y){
+    Point (int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -35,7 +34,7 @@ public class Point implements Collider/* super class and interfaces here if nece
 
         // your code here
         return isColliding(point);
-//        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     @Override
@@ -43,7 +42,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Point point = (Point) other;
-        if (x != point.x || y != point.y )
+        if (x != point.x || y != point.y)
             return false;
         return true;
     }
