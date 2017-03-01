@@ -29,7 +29,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        return Arrays.stream(Arrays.stream(values).asLongStream().toArray()).sum();
+        return Arrays.stream(values).asLongStream().sum();
     }
 
 
