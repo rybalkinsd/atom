@@ -3,6 +3,11 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:$rootProject.jacksonVersion"
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.HelloWorld' }
+}
+
 sourceSets {
     main {
         java {
