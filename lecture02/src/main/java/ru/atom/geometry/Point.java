@@ -5,8 +5,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
-    // fields
+public class Point implements Collider {
+    int xCoord;
+    int yCoord;
+    public Point(int xCoord, int yCoord) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
     // and methods
 
     /**
@@ -20,8 +25,22 @@ public class Point /* super class and interfaces here if necessary */ {
 
         // cast from Object to Point
         Point point = (Point) o;
+        if (point.xCoord == this.xCoord && point.yCoord ==  this.yCoord) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        // your code here
-        throw new NotImplementedException();
+    @Override
+    public boolean isColliding(Collider other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Point pointTwo = (Point) other;
+        if (pointTwo.xCoord == this.xCoord && pointTwo.yCoord == this.yCoord) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
