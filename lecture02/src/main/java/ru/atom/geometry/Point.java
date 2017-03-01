@@ -15,6 +15,13 @@ public class Point implements Collider /* super class and interfaces here if nec
         this.y = y;
     }
 
+    public int getX () {
+        return x;
+    }
+
+    public int getY () {
+        return y;
+    }
 
     /**
      * @param o - other object to check equality with
