@@ -1,13 +1,12 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * Template class for
  */
 public class Point implements Collider {
     int xCoord;
     int yCoord;
+    
     public Point(int xCoord, int yCoord) {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
