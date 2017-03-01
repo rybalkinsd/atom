@@ -15,11 +15,11 @@ public class Point implements Collider /* super class and interfaces here if nec
         this.y = y;
     }
 
-    public int getX () {
+    public int getX() {
         return x;
     }
 
-    public int getY () {
+    public int getY() {
         return y;
     }
 
