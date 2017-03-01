@@ -5,7 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point implements Collider{
+public class Point implements Collider {
     private int x;
     private int y;
 
