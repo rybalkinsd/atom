@@ -42,21 +42,21 @@ public class Bar implements Collider {
     }
 
     boolean isColliding(Bar bar) {
-        if (left > bar.left+bar.width ||
-            left+width < bar.left ||
-            bottom+height < bar.bottom ||
-            bottom > bar.bottom+bar.height) {
+        if (left > bar.left + bar.width
+                || left + width < bar.left
+                || bottom + height < bar.bottom
+                || bottom > bar.bottom + bar.height) {
             return false;
         }
         return true;
     }
 
     @Override public boolean equals(Object other) {
-        if(!(other instanceof Bar)) {
+        if (!(other instanceof Bar)) {
             return false;
         }
         Bar bar = (Bar) other;
-        return left == bar.left && bottom == bar.bottom &&
-                width == bar.width && height == bar.height;
+        return left == bar.left && bottom == bar.bottom
+                && width == bar.width && height == bar.height;
     }
 }
