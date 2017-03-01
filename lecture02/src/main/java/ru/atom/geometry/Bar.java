@@ -14,11 +14,11 @@ public class Bar implements Collider {
         bottom = y1;
         width = x2 - x1;
         height = y2 - y1;
-        if (width<0) {
+        if (width < 0) {
             left += width;
             width = -width;
         }
-        if (height<0) {
+        if (height < 0) {
             bottom += height;
             height = -height;
         }
