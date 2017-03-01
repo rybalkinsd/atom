@@ -16,3 +16,8 @@
     margin-top: 1;
     margin-bottom: 0;
 }
+
+.reveal .slide-number {
+    font-size: 24pt;
+    color: #ffffff;
+}
