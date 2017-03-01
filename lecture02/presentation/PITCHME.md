@@ -8,55 +8,62 @@ lecture 2
 https://atom.mail.ru/
 
 #HSLIDE
-# About me
-<img src="https://avatars2.githubusercontent.com/u/710546?v=3&s=460" alt="me" style="width: 220px; float: left;"/>  
-
-  yan.brikl@gmail.com 
-  [https://github.com/rybalkinsd](https://github.com/rybalkinsd)  
-
-  Java 5+ years
-
+### About me
+<img src="https://avatars2.githubusercontent.com/u/710546?v=3&s=460" alt="me" style="width: 200px;"/>
+    
+- yan.brikl@gmail.com 
+- [https://github.com/rybalkinsd](https://github.com/rybalkinsd)
+- Java 5+ years
 - Yandex, Allods Team (mail.ru group)
 - Currently Senior Software Engineer at AliExpress.com
 
 **Люблю зеленые билды**  
 
 #HSLIDE
-# Agenda
-1. Classes and objects
-1. Homework 2  
+### get ready
+```bash
+> git fetch upstream
+> git checkout -b lecture02 upstream/lecture02
+```
 
 #HSLIDE
-# Classes and objects 
+### Agenda
+1. Classes and objects
+1. Inheritance
+1. Interface and abstract class
+1. Enum
+
+#HSLIDE
+### Classes and objects
 1. **[Classes and objects]**  
-1. Homework 2  
+1. Inheritance
+1. Interface and Abstract class
+1. Enum
 
 #HSLIDE 
-# Flashback
+### Flashback
 - Java is **object-oriented**, **class-based**
 - Java has static strong typization 
 
-
 #HSLIDE
-## Object oriented
-- Everything is an object*
-- No code outside object
-
-
-#HSLIDE
-## Static strong typization
- - Static == compile time
+### Static strong typization
+- Static == compile time
     + \+ fast runtime
     + \+ errors in compile time
     - \- more time on prototyping
- - strong typization - *no strict definition* example:
+- strong typization - *no strict definition*, example:
     ```java
     long num = 42; // <-- legal
     int mindTheGap = 42L; // <-- compilation error
     ```
  
 #HSLIDE
-### Definition
+### Object oriented
+- Everything is an object*
+- No code outside class
+
+#HSLIDE
+### `class` Definition
 ```java
 class Player {
     private int id;
@@ -71,21 +78,43 @@ Player myPlayer = new Player();
 ```
 
 #HSLIDE
-### Constructor
-```java
-class Player {
-    private int id;
-    private String name;
-    
-    public Player(int paramId, String paramName) {
-        id = paramId;
-        name = paramName;
-    }
-}
-``` 
+### Behind the scenes
+<img src="lecture02/presentation/assets/img/allocation.png" alt="me" style="width: 750px;"/>
+ 
+**pOne != pTwo**
+ 
+**pTwo == winner**
 
 #HSLIDE
-### Looks shitty
+### `null` keyword
+
+`null` is a default value for reference type.
+
+```java
+String str = null;
+
+Player player = null;
+
+assertThat(player, is(not(instanceOf(Player.class)))); // <-- OK
+assertFalse(player instanceOf Player); // <-- OK
+assertThat(null, is(not(instanceOf(AnyClass.class)))); // <-- OK 
+```
+
+#HSLIDE
+### quiz
+
+```java
+System.out.println(null == null);
+
+// 1. `false` in output
+// 2. `true`  in output
+// 3. NullPointerException
+```
+
+[Read more about `null`](http://javarevisited.blogspot.ru/2014/12/9-things-about-null-in-java.html)
+
+#HSLIDE
+###Constructor
 ```java
 class Player {
     private int id;
@@ -97,6 +126,8 @@ class Player {
     }
 }
 ```
+
+Looks shitty
 
 #HSLIDE
 ### `this` keyword
@@ -114,7 +145,9 @@ class Player {
 [Read more about `this`](https://docs.oracle.com/javase/tutorial/java/javaOO/thiskey.html)
 
 #HSLIDE
-#### OK, now we have a constructor `Player(int id, String name)`
+### OK, now we have a constructor
+ 
+`Player(int id, String name)`
 
 ```java
 Player simplePlayer = new Player();
@@ -124,499 +157,564 @@ Player customPlayer = new Player(10, "Niels Bohr");
 #### Looks good?
 
 #HSLIDE
-#### Of cause *NO*
+### Default constructor
 
-No-arguments constructor is *defined* in class 
-if and only if no other constructor is defined&
-
-
-#HSLIDE 
-# 3. Basic syntax 
-1. Course structure  
-2. Language architecture  
-3. **[Basic syntax]**    
-4. Git  
-5. Gradle
-6. Homework 1  
-
-
-#HSLIDE
-#Expressions
-
+Of course *NO*.
 ```java
-int value = 0;
-
-int[] array = new int[10];
-array[0] = 100;
-
-System.out.println("Hello, world!");
-
-if (value1 == value2)
-    System.out.println("value1 == value2");
-
-int commonVariable = 0;
-if (commonVariable > -42) { // ← начало блока
-    int innerVariable = commonVariable + 1;
-    System.out.println(String.format(“Inner variable is %d“, innerVariable));
-} // ← конец блока
-/*
-    а здесь innerVariable уже нет
-*/
+Player simplePlayer = new Player(); // <-- Compilation error
 ```
+
+The default constructor is a no-argument constructor automatically generated **unless** you define any constructor in class.
+
+[Read more in official docs](https://docs.oracle.com/javase/tutorial/java/javaOO/constructors.html)
+
+[Read more on Stackoverflow](http://stackoverflow.com/questions/4488716/java-default-constructor)
+
+
 #HSLIDE
-##if else
-```java
-if (18 == yourAge) {
-    // у вас всё хорошо
-} else if (yourAge > 18
-           && yourAge <= 25) {
-    // бывало и лучше
-} else {
-    // ¯\_(ツ)_/¯
-}
-```
+### Inheritance
+1. Classes and objects  
+1. **[Inheritance]**
+1. Interface and Abstract class
+1. Enum
+
+
 #HSLIDE
-## switch case
+### Inheritance
+#### Is-a relation
+
 ```java
-switch (countOfApple) {
-    case 1: // у нас есть 1 яблоко
-        break;
-    case 2: // у нас есть 2 яблока
-        break;
-    …
-    default: 
-        // прочие случаи
-        break;
+class Message { 
+    private String content;
 }
 
-```
-
-#HSLIDE
-## loops
-```
-while (expression) statement
-
-do { statement } while (expression)
-
-for (initialization; termination; increment)
-    statement
-```
-**Examples:**
-```java
-for (int i = 0; i < numberOfObjects; i++) {
-    // iterates numberOfObjects times,
-    // if numberOfObjects >= 0
-}
-
-int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-for (int i : digits ) {
-    System.out.println(“Digit: “ + i);
-}
-
-//Для хипстеров
-IntStream.range(0, 10).forEach(digit -> System.out.println(digit));
-
-IntStream.range(0, 10).forEach(System.out::println);
-
-```
-
-#HSLIDE 
-# Methods
-```java
-public int getCountOfApples(List<Integer> boxes, Integer[] numberOfBoxes) 
-        throws Throwable {
-
-    Integer sumOfApples = 0;
-    for (Integer i : numberOfBoxes) {
-        sumOfApples += boxes.get(i);
-    }
-    return sumOfApples;
+class TitledMessage extends Message {
+    private String title;
 }
 ```
-**Method signature** – method name + argument list
+Titled message **is a** Message
 
-Access modifier **public**  
-Return type **int**  
-Method name **getCountOfApples**  
-Parameter list **( … )**  
-Exception list **throws Throwable**  
-Method body **{ … }**  
+#### Single class – single superclass
+
 
 #HSLIDE
-# JDK Setup
-1. Download [**JDK8**](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
+# Java does not support multiple inheritance
 
-2. Look inside jdk directory
-```
-> ls jdk8/
-```
-```
-> ls jdk8/bin/
-```
-java, javac, javap, jar
 
 #HSLIDE
-## JDK/JRE/JVM
-**JDK** - Java Development Kit  
-**JRE** - Java Runtime Environment  
-**JVM** - Java Virtual Machine 
-<img src="lecture01/presentation/assets/img/jdk-jre2.png" alt="me" style="width: 900px; float: left;"/>  
+### Access modifiers
+
+1. **private** - only from class code
+    ```java
+    private Object topSecret; 
+    ```
+
+1. **protected** - as private + from subclasses
+    ```java
+    protected Boolean секретик;
+    ```
+
+1. **default** (package private) - as protected + within package
+    ```java
+    int number = 42;
+    ```
+
+1. **public** - worldwide
+    ```java
+    public String getMe;
+    ```
+
+[Read more in official docs](https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html)
+
 
 #HSLIDE
-**JDK** - Java Development Kit  
-**JRE** - Java Runtime Environment  
-**JVM** - Java Virtual Machine   
-<img src="lecture01/presentation/assets/img/jdk-jre.png" alt="me" style="width: 750px; float: left;"/>  
-  
-**JDK** =  
-JRE + Tools  
-  
-**JRE** =  
-JVM + Lang + Libs
+### `instanceof` operator, miss me?
 
-#HSLIDE 
-## From source to running program
-<img src="lecture01/presentation/assets/img/codeflow.png" alt="me" style="width: 750px; float: left;"/>  
-
-#HSLIDE 
-## JDK setup *nix 
-set **path** and **JAVA_HOME** environment variables  
-**Linux:**
-```bash
-> echo "PATH='/path/to/jdk8/bin:$PATH'" >> ~/.bashrc
-> echo "JAVA_HOME='/path/to/jdk8/'" >> ~/.bashrc
-> source ~/.bashrc
-> echo $PATH
-...
-> java -version
-...
-```
-**macOS:** (possibly sudo)
-```bash
-> echo "PATH='/path/to/jdk8/bin:$PATH'" >> /etc/profile
-> echo "JAVA_HOME='/path/to/jdk8/'" >> /etc/profile
-> source /etc/profile
-> echo $PATH
-...
-> java -version
-...
-```
-
-#HSLIDE 
-## JDK setup Windows
-[только через настройки системы](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html) :(  
-Изменения подхватятся терминалом только после перезапуска терминала
-```bat
-> echo %PATH%
-...
-> java -version
-...
-```
-
-#HSLIDE 
-# Hello, World!
-**HelloWorld.java**
 ```java
-public class HelloWorld {
-    public static void main(String[] args) { //entry point
-        System.out.println("Hello, World!");
+Message message = new Message();
+
+assertTrue(message instanceof Message); // <-- OK
+assertThat(message, is(instanceOf(Message.class))); // <-- OK
+```
+
+`instanceof` **is not** slow	
+
+
+#HSLIDE
+### `Object` class #1
+Everything* is instance of `Object`.
+
+```java
+// Informally
+class Message extends Object { 
+}
+```
+
+```java
+assertThat(message, is(instanceOf(Object.class))); // <-- OK
+```
+
+#HSLIDE
+### Constructors and inheritance
+
+I want:
+```java
+TitlesMessage message = new TitledMessage(title, content);
+```
+
+#HSLIDE
+### Constructors and inheritance
+
+```java
+class Message {
+    private String content;
+    
+    public Message(String content) {
+        this.content = content;
     }
 }
 ```
-1. ```public static void main(String[] args)``` is an entry point
-2. All executable code must be inside **classes**
-3. public class name **must** match file name
-4. ```System.out.println("Hello, World!");``` - is a standard way to print to console
-5. Every statement must end with **;**
-
-#HSLIDE 
-# compile and run
-
-1. Compile program with **javac**
-```bash
-> javac HelloWorld.java
-```
-
-2. Run program with **java**
-```bash
-> java HelloWorld
-Hello, World!
-```
 
 #HSLIDE
-## Byte-code
-Let's look inside HelloWorld.class
-```bash
-> javap -c HelloWorld.class
-```
-```
-Compiled from "HelloWorld.java"
-public class HelloWorld {
-  public HelloWorld();
-    Code:
-       0: aload_0
-       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-       4: return
+### Constructors and inheritance
 
-  public static void main(java.lang.String[]);
-    Code:
-       0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
-       3: ldc           #3                  // String Hello, World!
-       5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-       8: return
+```java
+class TitledMessage extends Message {
+    private String title;
+    
+    public TitledMessage(String title, String content) {
+        // hmmmm
+    }
+}
+
+class Message {
+    private String content;
+    
+    public Message(String content) {
+        this.content = content;
+    }
 }
 ```
-#HSLIDE
-## Java distribution
-Multiple **.class** files are not handy for distribution
-(what if our project is big and we want to use a number of libraries)
-  
-So they use java archives (**jar**) that contain all necessary class files and custom content
-
-(Later in course)
-
-#HSLIDE 
-# 4. Git 
-1. Course structure  
-2. Language architecture  
-3. Basic syntax  
-4. **[Git]**  
-5. Gradle  
-6. Homework 1  
-
-#HSLIDE 
-# Git
-Distributed **version control system**   
-[Install git](https://git-scm.com/)
-
-(We will just cover commands, necessary for our workflow  
-To better understand **git** - get some course)
-
-#HSLIDE
-## Fork repository and set upstream
-1. После форка в вашем github появится несинхронизованная копия (**fork**), **склонируем** ее и получим **рабочую копию** форка
-```bash
-> git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
-```
-2. Свяжем **рабочую копию вашего форка** с **репозиторием курса**, чтобы вы могли их синхронизировать и работать со свежей версией кода и проверим, что это сработало
-```bash
-> cd atom
-> git remote add upstream https://github.com/rybalkinsd/atom.git
-> git remote -v
-origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
-upstream https://github.com/rybalkinsd/atom.git (fetch)
-upstream https://github.com/rybalkinsd/atom.git (push)
-```
-Теперь ваш fork будет известен git-у как **origin** (по умолчанию)  
-а репозиторий курса - как **upstream** (только что настроили)  
-
-#HSLIDE
-## Git branches
-We will use git branches to communicate.  
-we will do **homeworks** in branches (like **homeworkN**) and all the **class activity** in repository will be in branches (like **lectureN**)  
-
-[[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 400px; float: left;"/>  
-
-#HSLIDE
-## Git practice
-Now we have **course repository** known as **upstream**,  
-**your fork**, known as **origin**  
-
-We now practice to make changes in our **working copy** of **your fork**, then push them to **your fork** on github and **pull-request** them to **course repository**  
-
-You will push only to **your fork** (**not** to **course repository**)  
-
-[**fork local copy**] ==push==> [**fork repo**] ==pull request==> [**course repo**]
 
 
 #HSLIDE
-## Github workflow
-1. **Fork** project **(only once)**
-2. **clone** your fork
-```bash
-> git clone https://github.com/MY-GITHUB-NAME/atom
-```
-3. **checkout** branch which you want to contribute
-```bash
-> git fetch upstream
-> git checkout -b lecture01 upstream/lecture01
-```
-4. make changes and **push** them to **your fork**
-```bash
-> git pull --rebase upstream lecture01
-> git add MyFixedFile1.java MyFixedFile2.java
-> git commit -m 'Fixed all bugs and added new'
-> git push -u origin lecture01
-```
-5. make **pull-request**
+### super
 
-#HSLIDE
-## git branch commands
-Посмотреть текущую ветку
-```bash
-> git branch
-master
-```
-взять последние сведения о ветках из **вашего форка**
-```bash
-> git fetch origin
-```
-взять последние сведения о ветках из **репозитория курса**
-```bash
-> git fetch upstream
-```
-переключиться на ветку **lecture1**
-```bash
-> git checkout lecture1
-```
-Создать ветку **new-branch**
-```bash
-> git checkout -b new-branch
-```
+```java
+class TitledMessage extends Message {
+    private String title;
+    
+    public TitledMessage(String title, String content) {
+       super(content);
+       this.title = title;
+    }
+}
 
-#HSLIDE
-## git commit commands
-посмотреть состояние **рабочей копии**
-```bash
-> git status
-...
+class Message {
+    private String content;
+    
+    public Message(String content) {
+        this.content = content;
+    }
+}
 ```
-добавить файл к будущему коммиту (stage)
-```bash
-> git add changed_file
-```
-зафиксировать изменения в **локальном репозитории**
-```bash
-> git commit -m 'Сообщение с пояснением коммита'
-```
-послать изменения в **ваш форк** на github
-```bash
-> git push origin branch-to-push
-```
-
-#HSLIDE
-## git update commands
-взять новые изменения из **вашего форка**
-```bash
-> git pull --rebase origin master
-```
-взять новые изменения из **репозитория курса**
-```bash
-> git pull --rebase upstream master
-```
-**--rebase** заставляет **git** переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
-(возможны конфликты)
-
-
-#HSLIDE 
-# 5. Gradle 
-1. Course structure  
-2. Language architecture  
-3. Basic syntax  
-4. Git  
-5. **[Gradle]**  
-6. Homework 1  
-
-#HSLIDE
-# Gradle
-https://gradle.org/  
-**Gradle** - build automation system  
-
-Like **maven** but more powerful  
-do not need installation ([details](https://gradle.org/install)), just use:
-
-
-**Windows:**
-```bat
-> gradlew.bat
-```
-**linux/macOS:**
-```bash
-> ./gradlew
-```
-
-#HSLIDE
-## Why gradle?
-- build/test/jar ... your project
-- support custom build stages, configurable with **groovy**
-- manage **dependencies** (automatacally download)
-- manage project structure  
-  
-build configuration is contained in **build.gradle**  
-gradle settings are defined in **gradle.settings**  
-
-#HSLIDE
-## Gradle workflow
-https://guides.gradle.org/creating-java-applications/  
-  
-To build project from scratch, run tests and checkstyle:  
-**linux/macOS:**
-```
-> ./gradlew clean build
-```
-**Windows:**
-```
-> gradlew.bat clean build
-```
-
-#HSLIDE
-## Checkstyle
-There exist verbose [styleguide](https://google.github.io/styleguide/javaguide.html) from google
-  
-To make it easier we added "checkstyle" to our **gradle** build
-[https://docs.gradle.org/current/userguide/checkstyle_plugin.html](https://docs.gradle.org/current/userguide/checkstyle_plugin.html)  
-  
-So your code will not build unless style is correct :)
 
 
 #HSLIDE
-# Travis  
-Continuous Integration Tool  
-[https://travis-ci.org/](https://travis-ci.org/)  
+### What about init order?
 
-When you push to repository - Travis automatically runs gradle build on server  
-It tracks all branches and pull requests  
-[https://travis-ci.org/rybalkinsd/atom/pull_requests](https://travis-ci.org/rybalkinsd/atom/pull_requests)  
+@See ru.atom.instantiation
 
-**check your pull requests there!**
-**all tests must pass!**
-
-#HSLIDE 
-# 6. Homework 1 
-1. Course structure  
-2. Language architecture  
-3. Basic syntax  
-4. Git  
-5. Gradle  
-6. **[Homework 1]**  
 
 #HSLIDE
-# Homework 1
-1. Fix tests in branch **homework1** and push it to **your fork**  
-[[Github branch]](https://github.com/rybalkinsd/atom/tree/homework1)
-[[Travis build]](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
-2. Make pull request to **course repository**
-[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
-3. Make sure **tests** and **checkstyle** are passing in **Travis**  
+### Methods
+Declaration
+```java
+class Message {
+    private String content;
 
-**Deadline:** 1 March  
-**Mark:** 5 points
+    public String getContent();
+    
+    public Message(String content) {
+        this.content = content;
+    }
+}
+```
+
+Usage
+```java
+Message message = new Message("my content");
+message.getContent();
+
+assertThat(message.getContent(), is(equalTo("my content"))); // <-- OK
+```
+
 
 #HSLIDE
-## Литература
-**Thinking in Java** (в русском переводе - философия Java)  
-[https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486](https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486)  
-  
-Хорошая книга, придерживаться ее мы, конечно, не будем
+### Methods, overloading
+
+Lets add some "pagination"
+```java
+class Message {
+    private static final int CHARS_PER_PAGE = 256;
+    private String content;
+    
+    private String getContent() {
+        return content;
+    }
+    
+    private String getContent(int pageNum) {
+        if (pageNum < 0) {
+            throw new IllegalArgumentException(
+                    "Page number should be >= 0, got " + pageNum);
+        }
+            
+        return content.substring(pageNum * CHARS_PER_PAGE, 
+            (pageNum + 1) * CHARS_PER_PAGE);
+    }
+    
+    // ...
+}
+```
+
 
 #HSLIDE
-## IDE
-**Intellij IDEA**  
-[https://www.jetbrains.com/idea/](https://www.jetbrains.com/idea/)  
-  
-**Community edition** будет достаточно, но для студентов часто бесплатно предоставляют **professional edition**
+### `static` keyword
+
+static - "common for all class instances"
+
+Definition
+```java
+class Utils {
+    public static final int DEFAULT_MAX = 0;
+    public static int getMax(int[] values) {
+        if (values == null || values.length == 0) {
+            return DEFAULT_MAX;
+        }
+        
+        return Arrays.stream(values)
+                .max()
+                .getAsInt();    
+    }
+}
+```
+
+Usage
+```java
+int max = Utils.getMax(new int[] {1, 2, 3});
+System.out.println(Utils.DEFAULT_MAX);
+
+```
+
+
+#HSLIDE
+### Methods, polymorphism
+```java
+class TitledMessage extends Message {
+    private String title;
+    
+    @Override
+    public String getContent() {
+        return "Title: " + this.title + ".\n" + getContent();
+    }
+    // ...
+}
+```
+
+
+#HSLIDE
+### Override definition
+
+Instance method in a subclass with the **same signature** (name, plus the number and the type of its parameters) 
+and **return type** as an instance method in the superclass **overrides** the superclass's method.
+
+[Read more in official docs](https://docs.oracle.com/javase/tutorial/java/IandI/override.html)
+
+**Note:** `@Override` is **just an annotation to declare** your intentions to override method 
+
+
+#HSLIDE
+### `Object` class #2
+```java
+class Object {
+    public boolean equals(Object obj)
+    public int hashCode()
+    public String toString()
+
+    public final Class getClass()
+    protected Object clone() throws CloneNotSupportedException
+    protected void finalize() throws Throwable
+    // ...
+}
+```
+
+
+#HSLIDE
+### So
+
+```java
+class Message {
+    private String content;
+    
+    @Override
+    public String toString() {
+        return content;
+    }
+}
+```
+
+
+#HSLIDE
+### Polymorphism, One more thing #1
+
+```java
+Message message = new TitledMessage("Awesome title", "Perfect content");
+
+message instanceOf TitledMessage <-- It is true 
+```
+
+**Do not** disclose the details of implementation (without need).
+
+Сonsequence - use "interface" wherever you can.
+
+
+#HSLIDE
+### Polymorphism, One more thing #2
+
+Override resolves method in **runtime**
+
+*Note:*
+Overload resolves method in **compile-time**
+
+
+#HSLIDE
+### Interface and Abstract class
+1. Classes and objects  
+1. Inheritance
+1. **[Interface and Abstract class]**
+1. Enum
+
+
+#HSLIDE
+### `interface` definition
+
+```java
+interface Storable {
+    void saveTo(File file); 
+}
+```
+
+
+#HSLIDE
+### `interface` usage
+
+```java
+class Message implements Storable {
+    private String content;
+    
+    @Override
+    public void saveTo(File file) {
+        // some stuff to save Message to file
+    }  
+    
+    // ...
+} 
+```
+
+```java
+Storable smthToSave = new Message("Perfect content");
+smthToSave.saveTo(new File("path to file"));
+
+assertThat(smthToSave, is(instanceOf(Message.class))); // <-- OK
+assertThat(smthToSave, is(instanceOf(Storable.class))); // <-- OK
+```
+
+#HSLIDE
+### Single class - multiple interfaces
+
+```java
+class Message implements Storable, Sendable, Readable {
+}
+```
+
+
+#HSLIDE
+### Interface inheritance
+
+```java
+interface FaultTolerantStorable extends Storable, Serializable {
+    void handleStoreErrors();
+    
+    default boolean checkStored(File file) {
+        return file != null && file.exists();
+    }
+    
+}
+```
+
+#HSLIDE
+### `abstract` class
+```java
+public abstract class AbstractHuman {
+    protected String name;
+    public abstract String sayHi();
+}
+
+public class Englishman {
+    
+    @Override
+    public String sayHi() {
+        return "Hi, I'm" + name;
+    }
+}
+```
+
+
+#HSLIDE
+### abstract class vs interface
+
+|                   | Interface             | Abstract class                |
+|:----------------- |:--------------------- | :-----------------------------|
+| Inheritance       | implement many        | extend one                    |
+| Fields            | public static only    | no limits                     |
+| Access modifiers  | public only           | no abstract private methods   |
+| Constructors      | no constructors       | no limits                     |
+
+
+#HSLIDE
+1. Classes and objects  
+1. Inheritance
+1. Interface and Abstract class
+1. **[Enum]**
+
+
+#HSLIDE
+### Enum
+```java
+enum Gender {
+    Male,
+    Female,
+    Other    
+}
+```
+
+No inheritance for enums.
+
+Interfaces are allowed.
+
+
+#HSLIDE
+### Enum
+
+@See ru.atom.enums 
+
+
+#HSLIDE
+### All together now
+```java
+package ru.atom.model.object.actor;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.atom.model.object.GameObject;
+import ru.atom.util.V;
+
+public class Actor extends GameObject implements Tickable {
+    private final static Logger log = LogManager.getLogger(Actor.class);
+    private V velocity;
+
+    @Override
+    public void tick(long time) {
+        V before = position;
+        move(time);
+        log.info("Moved: {} -> {}.", before, position);
+
+    }
+
+    private void move(long time) {
+        position = position.move(velocity.times(time));
+    }
+
+    public final Actor setVelocity(V velocity) {
+        this.velocity = velocity;
+        return this;
+    }
+}
+```
+
+
+#HSLIDE
+### packages and import
+ **Package** is a grouping of related types providing access protection and name space management.
+ 
+ - make types easier to find and use
+ - avoid naming conflicts
+ - control access
+ 
+Fundamental classes are in java.lang
+
+[Read more in official docs](https://docs.oracle.com/javase/tutorial/java/package/packages.html)
+
+
+#HSLIDE
+### `final` keyword
+
+- constant declaration 
+```java
+class Utils {
+    public final int DEFAULT_MAX = 0;
+}
+```
+    
+- final method (forbidden override)
+```java
+class Message {
+    public final String getContent() { 
+       return content; 
+    } 
+}
+```
+    
+- final class (forbidden inheritance)
+```java
+final class Message {
+}
+```
+
+
+#HSLIDE
+### Practice
+@See ru.atom.geometry
+
+<img src="lecture02/presentation/assets/img/geometry.png" alt="geometry" style="width: 750px;"/>
+
+
+#HSLIDE
+### How to
+1. Pull-request from your repo /lecture02 to course repo /lecture02
+2. 3 Points
+    - remove `@Ignore` from `PointPointCollisionTest`
+    - all tests and checks should pass
+3. 3 Points more
+   - remove `@Ignore` from `BarBarCollisionTest` and `BarPointCollisionTest`
+   - all tests and checks should pass
+   
+      
+#HSLIDE
+### Bonus - gradlew build
+```bash
+# build fat jar @see build.gradle in lecture02 submodule 
+> ./gradlew :lecture02:jar
+> blah-blah
+> BUILD SUCCESSFUL
+
+> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> Hello, World!
+
+# jar listing
+> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+```
+
 
 #HSLIDE
 **Оставьте обратную связь**
