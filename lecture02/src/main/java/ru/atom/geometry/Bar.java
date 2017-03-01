@@ -12,8 +12,8 @@ public class Bar implements Collider {
     public Bar(int x1, int y1, int x2, int y2) {
         left = x1;
         bottom = y1;
-        width = x2-x1;
-        height = y2-y1;
+        width = x2 - x1;
+        height = y2 - y1;
         if (width<0) {
             left += width;
             width = -width;
@@ -33,8 +33,8 @@ public class Bar implements Collider {
     }
 
     boolean isColliding(Point point) {
-        boolean intersectsX = point.x>=left && point.x<=left+width;
-        boolean intersectsY = point.y>=bottom && point.y<=bottom+height;
+        boolean intersectsX = point.x >= left && point.x <= left + width;
+        boolean intersectsY = point.y >= bottom && point.y <= bottom + height;
         return intersectsX && intersectsY;
     }
 }
