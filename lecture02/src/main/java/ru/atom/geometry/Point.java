@@ -30,6 +30,9 @@ public class Point implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        return equals(other);
+        if(other instanceof Point) {
+            return equals(other);
+        }
+        return other.isColliding(this);
     }
 }

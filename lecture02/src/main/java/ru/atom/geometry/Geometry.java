@@ -22,8 +22,8 @@ public final class Geometry {
      * (It is not relevant, which opposite corners you choose to define bar)
      * @return new Bar
      */
-    public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new NotImplementedException();
+    public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        return new Bar(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
     }
 
     /**
