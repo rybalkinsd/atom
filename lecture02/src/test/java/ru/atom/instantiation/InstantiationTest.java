@@ -15,7 +15,7 @@ public class InstantiationTest {
         Base sub = new Sub();
     }
 
-    /**
+    /**x
      * Порядок инициализации при инстанцировании класса Sub.
      */
     @Test
