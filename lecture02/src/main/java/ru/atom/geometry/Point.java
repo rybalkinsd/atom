@@ -7,7 +7,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Point implements Collider /* super class and interfaces here if necessary */ {
 
-    private int x, y;
+    private int x;
+    private int y;
 
     public Point(int x, int y) {
         this.x = x;
