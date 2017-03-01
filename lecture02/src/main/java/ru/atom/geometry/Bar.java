@@ -7,10 +7,10 @@ import java.util.Arrays;
  */
 public class Bar implements Collider {
 
-    int firstPointX;
-    int firstCornerY;
-    int secondCornerX;
-    int secondCornerY;
+    private int firstPointX;
+    private int firstCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     public Bar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstPointX = firstPointX;
@@ -23,13 +23,10 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other.getClass() == Point.class) {
             Point point = (Point) other;
-            if (Math.min(this.firstPointX, this.secondCornerX) <= point.x
-                    && point.x <= Math.max(this.firstPointX, this.secondCornerX)
-                    && Math.min(this.firstCornerY, this.secondCornerY) <= point.y
-                    && point.y <= Math.max(this.firstCornerY, this.secondCornerY))
-                return true;
-            else
-                return false;
+            return (Math.min(this.firstPointX, this.secondCornerX) <= point.getX()
+                    && point.getX() <= Math.max(this.firstPointX, this.secondCornerX)
+                    && Math.min(this.firstCornerY, this.secondCornerY) <= point.getY()
+                    && point.getY() <= Math.max(this.firstCornerY, this.secondCornerY));
         } else {
             return equals(other);
         }
@@ -50,12 +47,9 @@ public class Bar implements Collider {
                 .stream().min(Integer::compareTo).get();
         int maxHorizontal = Arrays.asList(bar.firstPointX, bar.secondCornerX, this.firstPointX, this.secondCornerX)
                 .stream().max(Integer::compareTo).get();
-        if (maxVertical - minVertical <= Math.abs(bar.firstCornerY - bar.secondCornerY)
+        return (maxVertical - minVertical <= Math.abs(bar.firstCornerY - bar.secondCornerY)
                 + Math.abs(this.firstCornerY - this.secondCornerY)
                 && maxHorizontal - minHorizontal <= Math.abs(bar.firstPointX - bar.secondCornerX)
-                + Math.abs(this.firstPointX - this.secondCornerX))
-            return true;
-        else
-            return false;
+                + Math.abs(this.firstPointX - this.secondCornerX));
     }
 }

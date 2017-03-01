@@ -5,13 +5,21 @@ package ru.atom.geometry;
  */
 public class Point implements Collider /* super class and interfaces here if necessary */ {
     // fields
-    int x;
-    int y;
+    private int x;
+    private int y;
     // and methods
 
     Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     @Override
@@ -30,10 +38,7 @@ public class Point implements Collider /* super class and interfaces here if nec
 
         // cast from Object to Point
         Point point = (Point) o;
-        if (this.x == point.x && this.y == point.y)
-            return true;
-        else
-            return false;
+        return (this.x == point.x && this.y == point.y);
         // your code here
     }
 }
