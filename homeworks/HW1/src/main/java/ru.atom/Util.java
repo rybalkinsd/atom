@@ -37,7 +37,7 @@ public class Util {
 
     public static long sum(int[] values) {
         if (values.length > 0) {
-            int sum = 0;
+            long sum = 0;
             for (int i = 0;i < values.length;i++) {
                 sum += values[i];
             }
