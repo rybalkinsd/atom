@@ -1,6 +1,7 @@
 package ru.atom.geometry;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  *  ^ Y
  *  |
@@ -31,6 +32,6 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        return new Point(x, y);
     }
 }
