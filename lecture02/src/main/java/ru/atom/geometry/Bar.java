@@ -3,7 +3,7 @@ package ru.atom.geometry;
 /**
  * Created by Даша on 01.03.2017.
  */
-public class Bar implements Collider{
+public class Bar implements Collider {
     //fields
     private int firstPointX;
     private int firstCornerY;
@@ -16,20 +16,18 @@ public class Bar implements Collider{
 
     public Bar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
         if (firstPointX < secondCornerX) {
-            this.firstPointX=firstPointX;
+            this.firstPointX = firstPointX;
             this.secondCornerX = secondCornerX;
-        }
-        else {
-            this.secondCornerX=firstPointX;
-            this.firstPointX=secondCornerX;
+        } else {
+            this.secondCornerX = firstPointX;
+            this.firstPointX = secondCornerX;
         }
         if (firstCornerY < secondCornerY) {
-            this.firstCornerY=firstCornerY;
+            this.firstCornerY = firstCornerY;
             this.secondCornerY = secondCornerY;
-        }
-        else {
-            this.secondCornerY=firstCornerY;
-            this.firstCornerY=secondCornerY;
+        } else {
+            this.secondCornerY = firstCornerY;
+            this.firstCornerY = secondCornerY;
         }
     }
 
@@ -40,13 +38,11 @@ public class Bar implements Collider{
                     || (this.firstPointX <= bar.secondCornerX) && (this.secondCornerX >= bar.secondCornerX))
                     && ((this.firstCornerY <= bar.firstCornerY) && (this.secondCornerY >= bar.firstCornerY)
                     || (this.firstCornerY <= bar.secondCornerY) && (this.secondCornerY >= bar.secondCornerY));
-        }
-        else if (other.getClass() == Point.class) {
+        } else if (other.getClass() == Point.class) {
             Point point = (Point) other;
             return (this.firstPointX <= point.getX()) && (this.secondCornerX >= point.getX())
                     && (this.firstCornerY <= point.getY()) && (this.secondCornerY >= point.getY());
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -56,6 +52,7 @@ public class Bar implements Collider{
 
         // cast from Object to Bar
         Bar bar = (Bar) o;
-        return (this.firstPointX == bar.firstPointX) && (this.firstCornerY == bar.firstCornerY) && (this.secondCornerX == bar.secondCornerX) && (this.secondCornerX == bar.secondCornerX);
+        return (this.firstPointX == bar.firstPointX) && (this.firstCornerY == bar.firstCornerY)
+                && (this.secondCornerX == bar.secondCornerX) && (this.secondCornerX == bar.secondCornerX);
     }
 }
