@@ -6,11 +6,18 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Ignore
+//@Ignore
 public class BarPointCollisionTest {
     @Test
-    public void pointInsideBar() {
+    public void pointInsideBar1() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
+        Collider point = Geometry.createPoint(50, 50);
+        assertThat(bar.isColliding(point), is(true));
+    }
+
+    @Test
+    public void pointInsideBar2() {
+        Collider bar = Geometry.createBar(100, 0, 0, 100);
         Collider point = Geometry.createPoint(50, 50);
         assertThat(bar.isColliding(point), is(true));
     }
