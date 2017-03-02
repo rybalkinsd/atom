@@ -208,15 +208,15 @@ Titled message **is a** Message
     ```java
     private Object topSecret; 
     ```
-
-1. **protected** - as private + from subclasses
-    ```java
-    protected Boolean секретик;
-    ```
-
-1. **default** (package private) - as protected + within package
+    
+1. **default** (package private) - as private + within package
     ```java
     int number = 42;
+    ```
+
+1. **protected** - as default + from subclasses
+    ```java
+    protected Boolean секретик;
     ```
 
 1. **public** - worldwide
@@ -333,7 +333,9 @@ Declaration
 class Message {
     private String content;
 
-    public String getContent();
+    public String getContent() {
+        return content;
+    }
     
     public Message(String content) {
         this.content = content;
@@ -560,8 +562,7 @@ public abstract class AbstractHuman {
     public abstract String sayHi();
 }
 
-public class Englishman {
-    
+public class Englishman extends AbstractHuman {
     @Override
     public String sayHi() {
         return "Hi, I'm" + name;
