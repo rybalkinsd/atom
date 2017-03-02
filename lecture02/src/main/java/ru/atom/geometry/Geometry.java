@@ -25,7 +25,13 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new NotImplementedException();
+       /* Point point1 = new Point(firstPointX, firstCornerY);
+        Point point2 = new Point(secondCornerX, secondCornerY);*/
+        if (firstPointX == secondCornerX || firstCornerY == secondCornerY) {
+            throw new NotImplementedException();
+        }
+        Bar bar = new Bar(firstPointX, firstCornerY, secondCornerX, secondCornerY);
+        return bar;
     }
 
     /**
@@ -41,3 +47,4 @@ public final class Geometry {
     }
 
 }
+
