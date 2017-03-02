@@ -1,7 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * Template class for
  */
@@ -52,12 +50,7 @@ public class Point implements Collider {
 
         // cast from Object to Point
         Point point = (Point) o;
-        if (this.getX() == point.getX() && this.getY() == point.getY()) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return (this.getX() == point.getX() && this.getY() == point.getY());
         // your code here
         //throw new NotImplementedException();
     }
