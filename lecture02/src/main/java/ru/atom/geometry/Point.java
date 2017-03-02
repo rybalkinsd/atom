@@ -7,13 +7,30 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Point implements Collider {
     // fields
-    int x;
-    int y;
+    private int x;
+    private int y;
     public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
             }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    @Override
+    public boolean isColliding(Collider other) {
+        return this.equals((Point) other);
+    }
 
     /**
      * @param o - other object to check equality with
@@ -26,20 +43,14 @@ public class Point implements Collider {
 
         // cast from Object to Point
         Point point = (Point) o;
-        if (this.x == (point).x && this.y == (point).y) {
+        if (this.getX() == point.getX() && this.getY() == point.getY()) {
             return true;
+        } else {
+            return false;
         }
-        return false;
-    }
-    }
 
 
         //throw new NotImplementedException();
-    @Override
-    public boolean isColliding(Collider other) {
-        if (this.x == ((Point) other).x && this.y == ((Point) other).y) {
-            return true;
-                    }
-        return false;
+
     }
 }
