@@ -23,17 +23,18 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-       Bar b = new Bar();
-       Point f = new Point();
-       f.setX(firstPointX);
-       f.setY(firstCornerY);
-       Point s = new Point();
-       s.setX(secondCornerX);
-       s.setY(secondCornerY);
-       b.setL(f);
-       b.setR(s);
-       return b;
+        Point far = new Point();
+        far.setX(firstPointX);
+        far.setY(firstCornerY);
 
+        Point so = new Point();
+        so.setX(secondCornerX);
+        so.setY(secondCornerY);
+
+        Bar bar = new Bar();
+        bar.setL(far);
+        bar.setR(so);
+        return bar;
     }
 
     /**
@@ -41,9 +42,9 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        Point p = new Point();
-        p.setX(x);
-        p.setY(y);
-        return p;
+        Point point = new Point();
+        point.setX(x);
+        point.setY(y);
+        return point;
     }
 }

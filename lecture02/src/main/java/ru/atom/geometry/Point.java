@@ -35,18 +35,23 @@ public class Point implements Collider /* super class and interfaces here if nec
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        //if (o == null || getClass() != o.getClass()) return false;
-        // cast from Object to Point
+        if (this == o) {
+            return true;
+        }
         Point point = (Point) o;
-        if( this.getX()==point.getX()&&this.getY()==point.getY()) {return true;}
+        if (this.getX() == point.getX() && this.getY() == point.getY()) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean isColliding(Collider other) {
-        if(this.getX()==((Point) other).getX()&&this.getY()==((Point) other).getY())
-        return true;
+        if (this.getX() == ((Point) other).getX()
+            && this.getY() == ((Point) other).getY()) {
+            return true;
+        }
+
         return false;
     }
 }

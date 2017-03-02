@@ -1,7 +1,6 @@
 package ru.atom.geometry;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import java.lang.Math.*;
 import java.util.Objects;
 
 /**
@@ -36,32 +35,43 @@ public class Bar extends Point implements Collider /* super class and interfaces
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        //if (o == null || getClass() != o.getClass()) return false;
-        // cast from Object to Point
-        Bar b = (Bar) o;
-        if (Math.abs(this.getR().getX() - this.getL().getX()) == Math.abs(b.getR().getX() - b.getL().getX()) &&
-                Math.abs(this.getR().getY() - this.getL().getY()) == Math.abs(b.getR().getY() - b.getL().getY()))
+        if (this == o) {
             return true;
+        }
+        Bar bar = (Bar) o;
+        int param = this.getR().getY();
+        if (Math.abs(this.getR().getX() - this.getL().getX()) == Math.abs(bar.getR().getX() - bar.getL().getX())
+                && Math.abs(param - this.getL().getY()) == Math.abs(bar.getR().getY() - bar.getL().getY())) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean isColliding(Collider other) {
-        if(this == other) return true;
-        System.out.println(other.getClass().toString());
-        if (other.getClass().toString().equals("class ru.atom.geometry.Bar")) {
-            Bar b = (Bar) other;
-            if (this.getR().getY() < b.getL().getY() || this.getR().getX() < b.getL().getX() ||
-                    this.getL().getX() > b.getR().getX() || this.getL().getY() > b.getR().getY())
+        if (this == other) {
+            return true;
+        } else if (other.getClass().toString().equals("class ru.atom.geometry.Bar")) {
+            Bar bar = (Bar) other;
+            if (this.getR().getY() < bar.getL().getY()
+                    || this.getR().getX() < bar.getL().getX()
+                    || this.getL().getX() > bar.getR().getX()
+                    || this.getL().getY() > bar.getR().getY()) {
                 return false;
+            }
             return true;
         } else if (other.getClass().toString().equals("class ru.atom.geometry.Point")) {
-            Point b = (Point) other;
-            if (this.getR().getY() >= b.getY() && this.getR().getX() >= b.getX() &&
-                    this.getL().getY() <= b.getY() && this.getL().getX() <= b.getX()) return true;
+            Point bar = (Point) other;
+            if (this.getR().getY() >= bar.getY()
+                && this.getR().getX() >= bar.getX()
+                && this.getL().getY() <= bar.getY()
+                && this.getL().getX() <= bar.getX()) {
+                return true;
+            }
+
             return false;
         }
+
         return false;
     }
 }
