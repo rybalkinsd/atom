@@ -43,14 +43,14 @@ public class Point implements Collider {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)return true;
-        if (o == null || getClass() != o.getClass())return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         // cast from Object to Point
         Point point = (Point) o;
-        if(this.getX() == point.getX() && this.getY() == point.getY()) {
+        if (this.getX() == point.getX() && this.getY() == point.getY()) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
