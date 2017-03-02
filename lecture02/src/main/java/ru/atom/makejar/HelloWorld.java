@@ -1,7 +1,7 @@
-package ru.atom;
+package ru.atom.makejar;
 
 /**
- * Created by sergey on 2/28/17.
+ * Class just to test fat jar packing
  */
 public class HelloWorld {
     public static void main(String[] args) {
