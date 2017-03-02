@@ -12,8 +12,9 @@ public class Bar implements Collider {
 
 
     public Bar(int x1, int y1, int x2, int y2) {
-        this.leftCornerPoint = new Point(x1, y1);
-        this.rightCornerPoint = new Point(x2, y2);
+//        this.leftCornerPoint = new Point(x1, y1);
+//        this.rightCornerPoint = new Point(x2, y2);
+        regeneratePoints(x1, y1, x2, y2);
     }
 
     @Override
@@ -51,5 +52,24 @@ public class Bar implements Collider {
 
     public Point getRightCornerPoint() {
         return rightCornerPoint;
+    }
+
+    /**
+     * This func use for set left bottom corner and right top corner.
+     */
+    private void regeneratePoints(int x1, int y1, int x2, int y2) {
+        if (x2 < x1) {
+            int tmp = x2;
+            x2 = x1;
+            x1 = tmp;
+        }
+        if (y2 < y1) {
+            int tmp = y2;
+            y2 = y1;
+            y1 = tmp;
+        }
+
+        leftCornerPoint = new Point(x1, y1);
+        rightCornerPoint = new Point(x2, y2);
     }
 }
