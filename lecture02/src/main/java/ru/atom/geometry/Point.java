@@ -33,6 +33,7 @@ public class Point implements Collider /* super class and interfaces here if nec
         }
     }
 
+
     @Override
     public boolean isColliding(Collider other) {
         if (this.equals(other)) return true;
