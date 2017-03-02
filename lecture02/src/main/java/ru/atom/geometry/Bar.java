@@ -13,26 +13,25 @@ public class Bar implements Collider {
 
     public boolean isColliding(Collider other) {
 
-        Bar thisStandarded = ((Bar) this).getStandardBar();
+        Bar thisStandarded = this.getStandardBar();
         if (other.getClass() == Point.class) {
-           other = (Point) other;
-           if (thisStandarded.x1 <= ((Point) other).x && thisStandarded.x2 >= ((Point) other).x
-                   && thisStandarded.y1 <= ((Point) other).y && thisStandarded.y2 >= ((Point) other).y) return true;
-           return false;
+            Point point = (Point) other;
+            if (thisStandarded.x1 <= point.x && thisStandarded.x2 >= point.x
+                   && thisStandarded.y1 <= point.y && thisStandarded.y2 >= point.y) return true;
+            return false;
         }
         if (other.getClass() == Bar.class) {
-            other = (Bar) other;
             Bar bar = ((Bar) other).getStandardBar();
-            if (((thisStandarded.x1 <= ((Bar) bar).x1 && thisStandarded.x2 >= ((Bar) bar).x1)
-                    || (thisStandarded.x1 <= ((Bar) bar).x2 && thisStandarded.x2 >= ((Bar) bar).x2))
-                    && ((thisStandarded.y1 <= ((Bar) bar).y1 && thisStandarded.y2 >= ((Bar) bar).y1)
-                    || (thisStandarded.y1 <= ((Bar) bar).y2 && thisStandarded.y2 >= ((Bar) bar).y2)
-                    || (thisStandarded.y1 > ((Bar) bar).y1 && thisStandarded.y2 < ((Bar) bar).y2))) return true;
-            if (((thisStandarded.y1 <= ((Bar) bar).y1 && thisStandarded.y2 >= ((Bar) bar).y1)
-                    || (thisStandarded.y1 <= ((Bar) bar).y2 && thisStandarded.y2 >= ((Bar) bar).y2))
-                    && ((thisStandarded.x1 <= ((Bar) bar).x1 && thisStandarded.x2 >= ((Bar) bar).x1)
-                    || (thisStandarded.x1 <= ((Bar) bar).x2 && thisStandarded.x2 >= ((Bar) bar).x2)
-                    || (thisStandarded.x1 > ((Bar) bar).x1 && thisStandarded.x2 < ((Bar) bar).x2))) return true;
+            if (((thisStandarded.x1 <= bar.x1 && thisStandarded.x2 >= bar.x1)
+                    || (thisStandarded.x1 <= bar.x2 && thisStandarded.x2 >= bar.x2))
+                    && ((thisStandarded.y1 <= bar.y1 && thisStandarded.y2 >= bar.y1)
+                    || (thisStandarded.y1 <= bar.y2 && thisStandarded.y2 >= bar.y2)
+                    || (thisStandarded.y1 > bar.y1 && thisStandarded.y2 < bar.y2))) return true;
+            if (((thisStandarded.y1 <= bar.y1 && thisStandarded.y2 >= bar.y1)
+                    || (thisStandarded.y1 <= bar.y2 && thisStandarded.y2 >= bar.y2))
+                    && ((thisStandarded.x1 <= bar.x1 && thisStandarded.x2 >= bar.x1)
+                    || (thisStandarded.x1 <= bar.x2 && thisStandarded.x2 >= bar.x2)
+                    || (thisStandarded.x1 > bar.x1 && thisStandarded.x2 < bar.x2))) return true;
             return false;
         }
         return false;
@@ -48,8 +47,9 @@ public class Bar implements Collider {
         if (o == null || getClass() != o.getClass()) return false;
 
         Bar bar = ((Bar) o).getStandardBar();
-        Bar thisStandarded = ((Bar) this).getStandardBar();
-        if (thisStandarded.x1 == ((Bar) bar).x1 && thisStandarded.x2 == ((Bar) bar).x2 && thisStandarded.y1 == ((Bar) bar).y1 && thisStandarded.y2 == ((Bar) bar).y2) return true;
+        Bar thisStandarded = this.getStandardBar();
+        if (thisStandarded.x1 == bar.x1 && thisStandarded.x2 == bar.x2
+                && thisStandarded.y1 == bar.y1 && thisStandarded.y2 == bar.y2) return true;
         else return false;
 
     }
@@ -59,16 +59,14 @@ public class Bar implements Collider {
         if (this.x1 < this.x2) {
             standard.x1 = this.x1;
             standard.x2 = this.x2;
-        }
-        else {
+        } else {
             standard.x1 = this.x2;
             standard.x2 = this.x1;
-        };
+        }
         if (this.y1 < this.y2) {
             standard.y1 = this.y1;
             standard.y2 = this.y2;
-        }
-        else {
+        } else {
             standard.y1 = this.y2;
             standard.y2 = this.y1;
         }

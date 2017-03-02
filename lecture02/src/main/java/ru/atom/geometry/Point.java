@@ -25,7 +25,7 @@ public class Point implements Collider /* super class and interfaces here if nec
 
         // cast from Object to Point
         Point point = (Point) o;
-        if ((this.x == (( Point)o).x) && (this.y == (( Point)o).y)) return true;
+        if ((this.x == point.x) && (this.y == point.y)) return true;
         else return false;
 
     }
