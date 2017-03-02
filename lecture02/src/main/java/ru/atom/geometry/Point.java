@@ -29,7 +29,7 @@ public class Point implements Collider {
 
         return equals(other);
 
-        }
+    }
 
     /**
      * @param o - other object to check equality with
@@ -45,7 +45,7 @@ public class Point implements Collider {
         // cast from Object to Point
         Point point = (Point) o;
 
-        return (this.x == point.x && this.y == point.y );
+        return (this.x == point.x && this.y == point.y);
 
     }
 }
