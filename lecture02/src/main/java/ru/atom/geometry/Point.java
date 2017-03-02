@@ -10,16 +10,23 @@ public class Point implements Collider/* super class and interfaces here if nece
     private int x;
     private int y;
     // and methods
+    public Point() {
+    }
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public boolean isColliding(Collider other) {
-        return this.equals(other);
-        //return this.x == other.x && this.y == other.y;
+    public int getX() {
+        return this.x;
     }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public boolean isColliding(Collider other) { return this.equals(other); }
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
