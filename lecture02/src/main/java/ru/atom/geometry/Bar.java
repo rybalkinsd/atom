@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Template class for
  */
-public class Bar extends Point implements Collider /* super class and interfaces here if necessary */ {
+public class Bar extends Point implements Collider  {
     // fields
     // and methods
     private Point l;
@@ -21,18 +21,15 @@ public class Bar extends Point implements Collider /* super class and interfaces
         return this.r;
     }
 
-    public void setL(Point l) {
+    public void setBar(Point l,Point r) {
         this.l = l;
-    }
-
-    public void setR(Point r) {
         this.r = r;
     }
-
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

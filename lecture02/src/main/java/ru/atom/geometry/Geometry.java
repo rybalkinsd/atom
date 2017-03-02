@@ -11,9 +11,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 
 public final class Geometry {
-    
-    private Geometry() {
-    }
 
     /**
      * Bar is a rectangle, which borders are parallel to coordinate axis
@@ -24,16 +21,12 @@ public final class Geometry {
      */
     public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
         Point far = new Point();
-        far.setX(firstPointX);
-        far.setY(firstCornerY);
-
+        far.setPoint(firstPointX,firstCornerY);
         Point so = new Point();
-        so.setX(secondCornerX);
-        so.setY(secondCornerY);
+        so.setPoint(secondCornerX,secondCornerY);
 
         Bar bar = new Bar();
-        bar.setL(far);
-        bar.setR(so);
+        bar.setBar(far,so);
         return bar;
     }
 
@@ -43,8 +36,7 @@ public final class Geometry {
      */
     public static Collider createPoint(int x, int y) {
         Point point = new Point();
-        point.setX(x);
-        point.setY(y);
+        point.setPoint(x,y);
         return point;
     }
 }
