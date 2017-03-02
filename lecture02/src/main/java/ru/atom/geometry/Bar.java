@@ -89,8 +89,7 @@ public class Bar implements Collider /* super class and interfaces here if neces
                 || (firstPointX == bar.secondCornerX
                 && firstCornerY == bar.secondCornerY
                 && secondCornerX == bar.firstPointX
-                && secondCornerY == bar.firstCornerY)
-                ) {
+                && secondCornerY == bar.firstCornerY)) {
             return true;
         }
 
