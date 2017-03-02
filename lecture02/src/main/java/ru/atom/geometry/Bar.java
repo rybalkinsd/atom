@@ -10,10 +10,7 @@ public class Bar implements Collider {
 
     private Point rightCornerPoint;
 
-
     public Bar(int x1, int y1, int x2, int y2) {
-//        this.leftCornerPoint = new Point(x1, y1);
-//        this.rightCornerPoint = new Point(x2, y2);
         regeneratePoints(x1, y1, x2, y2);
     }
 
@@ -22,16 +19,15 @@ public class Bar implements Collider {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        // cast from Object to Point
         Bar bar = (Bar) o;
 
-        // your code here
-        return (leftCornerPoint == bar.getLeftCornerPoint() && rightCornerPoint == bar.getRightCornerPoint());
+        return leftCornerPoint.equals(bar.getLeftCornerPoint())
+                && rightCornerPoint.equals(bar.getRightCornerPoint());
     }
 
     @Override
     public boolean isColliding(Collider other) {
-        if (other.getClass() == Point.class) {
+        if (other instanceof Point) {
             Point point = (Point) other;
 
             return (leftCornerPoint.getX() <= point.getX()
@@ -39,9 +35,13 @@ public class Bar implements Collider {
                     && rightCornerPoint.getX() >= point.getX()
                     && rightCornerPoint.getY() >= point.getY());
         }
-        if (other.getClass() == Point.class) {
+        if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            return false;
+
+            return !((rightCornerPoint.getX() < bar.getLeftCornerPoint().getX())
+                    || (leftCornerPoint.getX() > bar.getRightCornerPoint().getX())
+                    || (rightCornerPoint.getY() < bar.getLeftCornerPoint().getY())
+                    || (leftCornerPoint.getY() > bar.getRightCornerPoint().getY()));
         }
         throw new IllegalArgumentException();
     }
