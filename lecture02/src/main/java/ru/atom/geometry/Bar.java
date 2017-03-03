@@ -1,5 +1,7 @@
 package ru.atom.geometry;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  * Created by kinetik on 01.03.17.
  */
@@ -16,6 +18,38 @@ public class Bar implements Collider {
         this.secondCornerY = secondCornerY;
     }
 
+    public int getFirstCornerX() {
+        return this.firstCornerX;
+    }
+
+    public int getFirstCornerY() {
+        return this.firstCornerY;
+    }
+
+    public int getSecondCornerX() {
+        return this.secondCornerX;
+    }
+
+    public int getSecondCornerY() {
+        return this.secondCornerY;
+    }
+
+    public void setFirstCornerX(int firstCornerX) {
+        this.firstCornerX = firstCornerX;
+    }
+
+    public void setFirstCornerY(int firstCornerY) {
+        this.firstCornerY = firstCornerY;
+    }
+
+    public void setSecondCornerX(int secondCornerX) {
+        this.secondCornerX = secondCornerX;
+    }
+
+    public void setSecondCornerY(int secondCornerY) {
+        this.secondCornerY = secondCornerY;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -23,17 +57,21 @@ public class Bar implements Collider {
 
         // cast from Object to Point
         Bar bar = (Bar) o;
-        if (bar.firstCornerX == this.firstCornerX && bar.firstCornerY ==  this.firstCornerY
-               && bar.secondCornerX == this.secondCornerX && bar.secondCornerY == this.secondCornerY) {
+        if (bar.getFirstCornerX() == this.getFirstCornerX() && bar.getFirstCornerY() ==  this.getFirstCornerY()
+               && bar.getSecondCornerX() == this.getSecondCornerX()
+                && bar.getSecondCornerY() == this.getSecondCornerY()) {
             return true;
-        } else if (bar.firstCornerX == this.secondCornerX && bar.firstCornerY == this.secondCornerY
-                && bar.secondCornerX == this.firstCornerX && bar.secondCornerY == this.firstCornerY) {
+        } else if (bar.getFirstCornerX() == this.getSecondCornerX() && bar.getFirstCornerY() == this.getSecondCornerY()
+                && bar.getSecondCornerX() == this.getFirstCornerX()
+                && bar.getSecondCornerY() == this.getFirstCornerY()) {
             return true;
-        } else if (bar.firstCornerX == this.secondCornerX && bar.firstCornerY == this.firstCornerY
-                && bar.secondCornerX == this.firstCornerX && bar.secondCornerY == this.secondCornerY) {
+        } else if (bar.getFirstCornerX() == this.getSecondCornerX() && bar.getFirstCornerY() == this.getFirstCornerY()
+                && bar.getSecondCornerX() == this.getFirstCornerX()
+                && bar.getSecondCornerY() == this.getSecondCornerY()) {
             return true;
-        } else if (bar.firstCornerX == this.firstCornerX && bar.firstCornerY == this.secondCornerY
-                && bar.secondCornerX == this.secondCornerX && bar.secondCornerY == this.firstCornerY) {
+        } else if (bar.getFirstCornerX() == this.getFirstCornerX() && bar.getFirstCornerY() == this.getSecondCornerY()
+                && bar.getSecondCornerX() == this.getSecondCornerX()
+                && bar.getSecondCornerY() == this.getFirstCornerY()) {
             return true;
         } else {
             return false;
@@ -45,8 +83,8 @@ public class Bar implements Collider {
         if (this == other) return true;
         if (other instanceof Point) {
             Point point = (Point) other;
-            if (point.xCoord >= this.firstCornerX && point.xCoord <= this.secondCornerX
-                   && point.yCoord >= this.firstCornerY && point.yCoord <= this.secondCornerY) {
+            if (point.getxCoord() >= this.getFirstCornerX() && point.getxCoord() <= this.getSecondCornerX()
+                   && point.getyCoord() >= this.getFirstCornerY() && point.getyCoord() <= this.getSecondCornerY()) {
                 return true;
             } else {
                 return false;
@@ -56,18 +94,21 @@ public class Bar implements Collider {
             if (bar.equals(this)) {
                 return true;
             } else {
-                if (bar.firstCornerX > this.secondCornerX || bar.secondCornerY < this.firstCornerY
-                        || bar.secondCornerX < this.firstCornerX || bar.firstCornerY > this.secondCornerY) {
+                if (bar.getFirstCornerX() > this.getSecondCornerX() || bar.getSecondCornerY() < this.getFirstCornerY()
+                        || bar.getSecondCornerX() < this.getFirstCornerX()
+                        || bar.getFirstCornerY() > this.getSecondCornerY()) {
                     return false;
-                } else if (this.firstCornerX > bar.secondCornerX || this.secondCornerY < bar.firstCornerY
-                        || this.secondCornerX < bar.firstCornerX || this.firstCornerY > this.secondCornerY) {
+                } else if (this.getFirstCornerX() > bar.getSecondCornerX()
+                        || this.getSecondCornerY() < bar.getFirstCornerY()
+                        || this.getSecondCornerX() < bar.getFirstCornerX()
+                        || this.getFirstCornerY() > this.getSecondCornerY()) {
                     return false;
                 } else {
                     return true;
                 }
             }
         } else {
-            return false;
+            throw new NotImplementedException();
         }
     }
 }

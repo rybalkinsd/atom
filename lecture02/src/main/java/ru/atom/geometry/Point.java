@@ -4,14 +4,29 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider {
-    int xCoord;
-    int yCoord;
+    private int xCoord;
+    private int yCoord;
 
     public Point(int xCoord, int yCoord) {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
     }
-    // and methods
+
+    public int getxCoord() {
+        return this.xCoord;
+    }
+
+    public int getyCoord() {
+        return this.yCoord;
+    }
+
+    public void setxCoord(int xCoord) {
+        this.xCoord = xCoord;
+    }
+
+    public void setyCoord(int yCoord) {
+        this.yCoord = yCoord;
+    }
 
     /**
      * @param o - other object to check equality with
