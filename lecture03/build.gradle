@@ -1,0 +1,17 @@
+dependencies {
+    testCompile rootProject.libraries.junit
+    compile "com.fasterxml.jackson.core:jackson-databind:$rootProject.jacksonVersion"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
