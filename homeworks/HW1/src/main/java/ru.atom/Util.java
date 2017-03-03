@@ -36,6 +36,4 @@ public class Util {
         }
         return sum;
     }
-
-
 }
