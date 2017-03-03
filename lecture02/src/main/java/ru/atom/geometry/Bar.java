@@ -7,16 +7,32 @@ import static java.lang.Math.min;
  * Created by ilysk on 01.03.17.
  */
 public class Bar implements Collider {
-    protected int firstCornerX;
-    protected int firstCornerY;
-    protected int secondCornerX;
-    protected int secondCornerY;
+    private int firstCornerX;
+    private int firstCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstCornerX = min(firstCornerX, secondCornerX);
         this.firstCornerY = min(firstCornerY, secondCornerY);
         this.secondCornerX = max(firstCornerX, secondCornerX);
         this.secondCornerY = max(firstCornerY, secondCornerY);
+    }
+
+    public int getFirstCornerX() {
+        return firstCornerX;
+    }
+
+    public int getFirstCornerY() {
+        return firstCornerY;
+    }
+
+    public int getSecondCornerX() {
+        return secondCornerX;
+    }
+
+    public int getSecondCornerY() {
+        return secondCornerY;
     }
 
     @Override
@@ -39,8 +55,8 @@ public class Bar implements Collider {
 
             Point point = (Point) o;
 
-            return point.x >= this.firstCornerX && point.x <= this.secondCornerX
-                    && point.y >= this.firstCornerY && point.y <= this.secondCornerY;
+            return point.getX() >= this.firstCornerX && point.getX() <= this.secondCornerX
+                    && point.getY() >= this.firstCornerY && point.getY() <= this.secondCornerY;
         } else {
             Bar bar = (Bar) o;
 
