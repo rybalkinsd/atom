@@ -13,24 +13,6 @@ public class Bar implements Collider {
     private int secondCornerY;
 
 
-    /*    public int getFirstCornerX() {
-        return firstCornerX;
-    }
-
-    public int getFirstCornerY() {
-        return firstCornerY;
-    }
-
-    public int getSecondCornerX() {
-        return secondCornerX;
-    }
-
-    public int getSecondCornerY() {
-        return secondCornerY;
-    }
-    */
-
-
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstCornerX = min(firstCornerX, secondCornerX);   //X of left bot
         this.firstCornerY = min(firstCornerY, secondCornerY);   //Y of left bot
@@ -43,8 +25,7 @@ public class Bar implements Collider {
 
 
         if (other instanceof Point) {
-            // Point processing
-            //System.out.println("here");
+
             if (this == other) return true;
 
             Point point = (Point) other;
@@ -54,8 +35,6 @@ public class Bar implements Collider {
                     || point.getY() > this.secondCornerY);
 
         } else if (other instanceof Bar) {
-
-            // Bar processing
 
             if (this == other) return true;
 

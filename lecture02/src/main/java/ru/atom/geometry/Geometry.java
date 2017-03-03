@@ -28,7 +28,6 @@ public final class Geometry {
 
         Collider myCollider = (Collider) new Bar(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
         return myCollider;
-        //throw new NotImplementedException();
     }
 
     /**
