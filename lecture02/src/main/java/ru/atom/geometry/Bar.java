@@ -3,9 +3,6 @@ package ru.atom.geometry;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Objects;
 
-/**
- * Template class for
- */
 public class Bar extends Point implements Collider  {
     // fields
     // and methods
