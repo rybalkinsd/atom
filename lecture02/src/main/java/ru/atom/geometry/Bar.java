@@ -13,7 +13,7 @@ public class Bar implements Collider {
     private int secondCornerY;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        if ( firstCornerX > secondCornerX) {
+        if (firstCornerX > secondCornerX) {
             int buf = firstCornerX;
             firstCornerX = secondCornerX;
             secondCornerX = buf;
@@ -97,8 +97,7 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
             return isColliding((Bar) other);
-        }
-        else if (other instanceof Point) {
+        } else if (other instanceof Point) {
             return isColliding((Point)other);
         }
         return false;

@@ -1,6 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  *  ^ Y
  *  |
