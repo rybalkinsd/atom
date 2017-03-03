@@ -16,7 +16,7 @@ public class Point implements Collider {
         return (this.equals(other)) && (this.equals(other));
     }
 
-    public Point (int x, int y) {
+    public Point(int x, int y) {
         this.xCoor = x;
         this.yCoor = y;
     }

@@ -9,7 +9,7 @@ public class Bar implements Collider {
     private int secondCornerX;
     private int secondCornerY;
 
-    public Bar (int x1, int y1, int x2, int y2) {
+    public Bar(int x1, int y1, int x2, int y2) {
         this.firstCornerX = x1;
         this.firstCornerY = y1;
         this.secondCornerX = x2;
@@ -27,36 +27,36 @@ public class Bar implements Collider {
 
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
-            boolean xCollide;
-            boolean yCollide;
+            boolean xcollide;
+            boolean ycollide;
             Point point = (Point) other;
             if (this.firstCornerX > this.secondCornerX) {
                 if (point.xCoor <= this.firstCornerX && point.xCoor >= this.secondCornerX) {
-                    xCollide = true;
+                    xcollide = true;
                 } else {
-                    xCollide = false;
+                    xcollide = false;
                 }
             } else {
                 if (point.xCoor >= this.firstCornerX && point.xCoor <= this.secondCornerX) {
-                    xCollide = true;
+                    xcollide = true;
                 } else {
-                    xCollide = false;
+                    xcollide = false;
                 }
             }
             if (this.firstCornerY > this.secondCornerY) {
                 if (point.yCoor <= this.firstCornerY && point.yCoor >= this.secondCornerY) {
-                    yCollide = true;
+                    ycollide = true;
                 } else {
-                    yCollide = false;
+                    ycollide = false;
                 }
             } else {
                 if (point.yCoor >= this.firstCornerY && point.yCoor <= this.secondCornerY) {
-                    yCollide = true;
+                    ycollide = true;
                 } else {
-                    yCollide = false;
+                    ycollide = false;
                 }
             }
-            return xCollide && yCollide;
+            return xcollide && ycollide;
         } else {
             Bar bar = (Bar) other;
             Point[] barCorners = getCorners(bar);
@@ -79,15 +79,15 @@ public class Bar implements Collider {
     @Override
     public boolean equals(Object o) {
         Bar other = (Bar) o;
-        int xLeft1 = min(this.firstCornerX, this.secondCornerX);
-        int xRight1 = max(this.firstCornerX, this.secondCornerX);
-        int yBot1 = min(this.firstCornerY, this.secondCornerY);
-        int yTop1 = max(this.firstCornerY, this.secondCornerY);
-        int xLeft2 = min(other.firstCornerX, other.secondCornerX);
-        int xRight2 = max(other.firstCornerX, other.secondCornerX);
-        int yBot2 = min(other.firstCornerY, other.secondCornerY);
-        int yTop2 = max(other.firstCornerY, other.secondCornerY);
-        return xLeft1 == xLeft2 && xRight1 == xRight2 && yBot1 == yBot2
-                && yTop1 == yTop2;
+        int xleft1 = min(this.firstCornerX, this.secondCornerX);
+        int xright1 = max(this.firstCornerX, this.secondCornerX);
+        int ybot1 = min(this.firstCornerY, this.secondCornerY);
+        int ytop1 = max(this.firstCornerY, this.secondCornerY);
+        int xleft2 = min(other.firstCornerX, other.secondCornerX);
+        int xright2 = max(other.firstCornerX, other.secondCornerX);
+        int ybot2 = min(other.firstCornerY, other.secondCornerY);
+        int ytop2 = max(other.firstCornerY, other.secondCornerY);
+        return xleft1 == xleft2 && xright1 == xright2 && ybot1 == ybot2
+                && ytop1 == ytop2;
     }
 }
