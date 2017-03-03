@@ -14,6 +14,7 @@ public class Point implements Collider {
         this.x = x;
         this.y = y;
     }
+
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
@@ -28,6 +29,7 @@ public class Point implements Collider {
         if ((this.x == point.x) && (this.y == point.y)) {
             return true;
         }
+
         // your code here
         return false;
     }
@@ -38,5 +40,13 @@ public class Point implements Collider {
             return true;
         }
         return false;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
