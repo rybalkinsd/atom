@@ -84,12 +84,6 @@ public class BarBarCollisionTest {
         assertThat(point1.isColliding(point2), is(false));
     }
 
-   // @Test
-   // public void brilk () {
-   //     Collider bar = Geometry.createBar(0, 0, 100, 100);
-    //    Collider point = Geometry.createPoint(50, 50);
-    //    assertThat(equals(Geometry.createPoint(50,50)));
-  //  }
     @Test
     public void pointInsideBar() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
