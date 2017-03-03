@@ -3,7 +3,9 @@ package ru.atom.geometry;
 /**
  * Created by home on 03.03.2017.
  */
+
 public class Bar implements Collider {
+    
     private int x;
     private int y;
 
