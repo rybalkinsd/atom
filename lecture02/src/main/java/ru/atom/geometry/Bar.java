@@ -1,5 +1,7 @@
 package ru.atom.geometry;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
  * Created by Western-Co on 01.03.2017.
  */
@@ -13,6 +15,38 @@ public class Bar implements Collider {
         this.firstPointX = firstPointX;
         this.firstCornerY = firstCornerY;
         this.secondCornerX = secondCornerX;
+        this.secondCornerY = secondCornerY;
+    }
+
+    public int getFirstPointX() {
+        return firstPointX;
+    }
+
+    public void setFirstPointX(int firstPointX) {
+        this.firstPointX = firstPointX;
+    }
+
+    public int getFirstCornerY() {
+        return firstCornerY;
+    }
+
+    public void setFirstCornerY(int firstCornerY) {
+        this.firstCornerY = firstCornerY;
+    }
+
+    public int getSecondCornerX() {
+        return secondCornerX;
+    }
+
+    public void setSecondCornerX(int secondCornerX) {
+        this.secondCornerX = secondCornerX;
+    }
+
+    public int getSecondCornerY() {
+        return secondCornerY;
+    }
+
+    public void setSecondCornerY(int secondCornerY) {
         this.secondCornerY = secondCornerY;
     }
 
@@ -35,7 +69,6 @@ public class Bar implements Collider {
     @Override
     public boolean isColliding(Collider other) {
         if (other.getClass() == this.getClass()) {
-            //if (instanceOf)
             Bar thisBar = orientiedBar(this);
             Bar otherBar = orientiedBar((Bar) other);
             if (thisBar.firstPointX > otherBar.secondCornerX
@@ -48,19 +81,21 @@ public class Bar implements Collider {
             }
         } else if (other.getClass() == Point.class) {
             Point otherPoint = (Point) other;
-            if ((firstPointX <= otherPoint.x && otherPoint.x <= secondCornerX)
-                && (firstCornerY <= otherPoint.y && otherPoint.y <= secondCornerY)) {
+            if ((firstPointX <= otherPoint.getX() && otherPoint.getX() <= secondCornerX)
+                && (firstCornerY <= otherPoint.getY() && otherPoint.getY() <= secondCornerY)) {
                 return  true;
             }
+        } else {
+            throw new NotImplementedException();
         }
         return false;
     }
 
     private Bar orientiedBar(Bar toOrientied) {
-        int firstX = Math.min(toOrientied.firstPointX, toOrientied.secondCornerX);
-        int firstY = Math.min(toOrientied.firstCornerY, toOrientied.secondCornerY);
-        int secondX = Math.max(toOrientied.firstPointX, toOrientied.secondCornerX);
-        int secondY = Math.max(toOrientied.firstCornerY, toOrientied.secondCornerY);
+        int firstX = Math.min(toOrientied.getFirstPointX(), toOrientied.getSecondCornerX());
+        int firstY = Math.min(toOrientied.getFirstCornerY(), toOrientied.getSecondCornerY());
+        int secondX = Math.max(toOrientied.getFirstPointX(), toOrientied.getSecondCornerX());
+        int secondY = Math.max(toOrientied.getFirstCornerY(), toOrientied.getSecondCornerY());
         Bar bar = new Bar(firstX, firstY, secondX, secondY);
         return bar;
     }
