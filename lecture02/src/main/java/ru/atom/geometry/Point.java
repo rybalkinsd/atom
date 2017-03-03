@@ -1,12 +1,15 @@
 package ru.atom.geometry;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ implements Collider {
-    // fields
-    // and methods
-    private int x, y;
+
+public class Point implements Collider {
+
+    private int x;
+    private int y;
+
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -15,6 +18,7 @@ public class Point /* super class and interfaces here if necessary */ implements
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,18 +28,14 @@ public class Point /* super class and interfaces here if necessary */ implements
         if ((this.x == point.x) && (this.y == point.y)) {
             return true;
         }
-
         // your code here
         return false;
     }
+
     @Override
     public boolean isColliding(Collider other) {
-        if (this == other) {
+        if (this.equals(other)) {
             return true;
-        }else {
-            if (this.equals(other)) {
-                return true;
-            }
         }
         return false;
     }
