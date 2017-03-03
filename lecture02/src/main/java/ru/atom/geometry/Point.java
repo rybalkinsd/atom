@@ -12,8 +12,14 @@ public class Point implements Collider {
         this.x = x;
         this.y = y;
     }
-    // fields
-    // and methods
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
 
     /**
      * @param o - other object to check equality with
@@ -34,6 +40,10 @@ public class Point implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
             return this.equals(other);
+        }
+        if (other instanceof Bar) {
+            return (((Bar) other).getLowerLeftX() <= this.x && this.x <= ((Bar) other).getUpperRightX() &&
+                    ((Bar) other).getLowerLeftY() <= this.y && this.y <= ((Bar) other).getUpperRightY());
         }
         return false;
     }
