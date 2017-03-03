@@ -49,7 +49,7 @@ public class Point implements Collider /* super class and interfaces here if nec
                 return true;
             }
             return false;
-        } catch (Exception e) {
+        } catch (Exception allException) {
             throw new NotImplementedException();
         }
     }
