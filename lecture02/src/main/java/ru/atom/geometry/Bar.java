@@ -1,5 +1,7 @@
 package ru.atom.geometry;
 
+import java.lang.IllegalArgumentException;
+
 /**
  * Created by zarina on 02.03.17.
  */
@@ -41,7 +43,10 @@ public class Bar implements Collider {
                 || this.isPointIntoBar(other.firstPoint) || this.isPointIntoBar(other.secondPoint)
                 || other.isPointIntoBar(this.firstPoint) || other.isPointIntoBar(this.secondPoint);
         }
-        return (o instanceof Point) && this.isPointIntoBar((Point) o);
+        if ((o instanceof Point)) {
+            return this.isPointIntoBar((Point) o);
+        }
+        throw new IllegalArgumentException("Can't support argument type");
     }
 
     private boolean isPointIntoBar(Point point) {
