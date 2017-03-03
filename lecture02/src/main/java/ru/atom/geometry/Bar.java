@@ -25,7 +25,8 @@ public class Bar implements Collider {
         }
 
         Bar otherP = (Bar) o;
-        return this.firstP.equals(otherP.firstP) && this.secondP.equals(otherP.secondP) || this.firstP.equals(otherP.secondP)
+        return this.firstP.equals(otherP.firstP) && this.secondP.equals(otherP.secondP) 
+                || this.firstP.equals(otherP.secondP)
                 && this.secondP.equals(otherP.firstP) || this.secondP.getX() == otherP.firstP.getX() 
                 && this.secondP.getY() == otherP.secondP.getY()
                 && this.firstP.getX() == otherP.secondP.getX() && this.firstP.getY() == otherP.firstP.getY() 
