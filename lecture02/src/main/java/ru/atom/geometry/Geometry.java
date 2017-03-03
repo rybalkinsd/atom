@@ -1,6 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  *  ^ Y
  *  |
@@ -11,7 +10,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 
 public final class Geometry {
-    
+
     private Geometry() {
     }
 
@@ -23,14 +22,14 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new NotImplementedException();
+        return new Bar(firstPointX, firstCornerY, secondCornerX, secondCornerY);
     }
 
     /**
      * 2D point
      * @return new Point
      */
-    public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+    public static Point createPoint(int x, int y) {
+        return new Point(x, y);
     }
 }
