@@ -18,12 +18,12 @@ public class UtilTest {
     public void max1() throws Exception {
         assertThat(Util.max(new int[]{1, 2, 3}), is(equalTo(3)));
     }
-    
+
     @Test
     public void max2() throws Exception {
         assertThat(Util.max(new int[]{2, 2, 0}), is(equalTo(2)));
     }
-    
+
     @Test
     public void max3() throws Exception {
         int[] values = {3262, 3989, 4825, 3751, 147, 2376, 2866, 1192, 2259, 905, 4810, 2481, 4243,
@@ -52,12 +52,12 @@ public class UtilTest {
     public void sum1() throws Exception {
         assertThat(Util.sum(new int[]{1, -2, 3}), is(equalTo(2L)));
     }
-    
+
     @Test
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
-    
+
     @Test
     public void sum3() throws Exception {
 
