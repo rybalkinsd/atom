@@ -1,5 +1,8 @@
 package ru.atom.geometry;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 public class Bar implements Collider {
     int firstPointX;
     int firstCornerY;
@@ -7,28 +10,10 @@ public class Bar implements Collider {
     int secondCornerY;
 
     Bar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        // ориентирование по диагонали
-        if ((firstPointX > secondCornerX) && (firstCornerY > secondCornerY)) {
-            this.firstPointX = secondCornerX;
-            this.secondCornerX = firstPointX;
-            this.firstCornerY = secondCornerY;
-            this.secondCornerY = firstCornerY;
-        } else if (firstPointX > secondCornerX) {
-            this.firstPointX = secondCornerX;
-            this.secondCornerX = firstPointX;
-            this.firstCornerY = firstCornerY;
-            this.secondCornerY = secondCornerY;
-        } else if (firstCornerY > secondCornerY) {
-            this.firstPointX = firstPointX;
-            this.secondCornerX = secondCornerX;
-            this.firstCornerY = secondCornerY;
-            this.secondCornerY = firstCornerY;
-        } else {
-            this.firstPointX = firstPointX;
-            this.firstCornerY = firstCornerY;
-            this.secondCornerX = secondCornerX;
-            this.secondCornerY = secondCornerY;
-        }
+        this.firstPointX = min(firstPointX, secondCornerX);
+        this.firstCornerY = min(firstCornerY, secondCornerY);
+        this.secondCornerX = max(firstPointX, secondCornerX) ;
+        this.secondCornerY = max(firstCornerY, secondCornerY);
     }
 
     @Override
