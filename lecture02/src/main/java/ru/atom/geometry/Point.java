@@ -5,11 +5,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-<<<<<<< HEAD
-public class Point /* super class and interfaces here if necessary */ {
-=======
+
 public class Point implements Collider /* super class and interfaces here if necessary */ {
->>>>>>> 803adbb... 'FixedFor1Task'
     // fields
     // and methods
 
@@ -42,15 +39,11 @@ public class Point implements Collider /* super class and interfaces here if nec
         Point point = (Point) o;
 
         // your code here
-<<<<<<< HEAD
-        throw new NotImplementedException();
-=======
         return (this.getX() == point.getX() && this.getY() == point.getY());
     }
 
     @Override
     public boolean isColliding(Collider other) {
         return (this.equals(other));
->>>>>>> 803adbb... 'FixedFor1Task'
     }
 }
