@@ -31,11 +31,7 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-<<<<<<< HEAD
-        throw new NotImplementedException();
-=======
         Collider pointNew = new Point(x, y);
         return pointNew;
->>>>>>> 803adbb... 'FixedFor1Task'
     }
 }
