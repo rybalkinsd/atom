@@ -7,14 +7,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Bar implements Collider {
 
-    private Point firstP, secondP;
+    private Point firstP;
+    private Point secondP;
 
     public Bar(Point firstP, Point secondP) {
         this.firstP = firstP;
         this.secondP = secondP;
-//        firstY = firstCornerY;
-//        secondX = secondCornerX;
-//        secondY = secondCornerY;
     }
 
     @Override
@@ -27,8 +25,10 @@ public class Bar implements Collider {
         }
 
         Bar other_p = (Bar) o;
-        return this.firstP.equals(other_p.firstP) && this.secondP.equals(other_p.secondP) || this.firstP.equals(other_p.secondP) && this.secondP.equals(other_p.firstP) || this.secondP.getX() == other_p.firstP.getX() && this.secondP.getY() == other_p.secondP.getY()
-                && this.firstP.getX() == other_p.secondP.getX() && this.firstP.getY() == other_p.firstP.getY() || this.secondP.getX() == other_p.secondP.getX() && this.secondP.getY() == other_p.firstP.getY()
+        return this.firstP.equals(other_p.firstP) && this.secondP.equals(other_p.secondP) || this.firstP.equals(other_p.secondP)
+                && this.secondP.equals(other_p.firstP) || this.secondP.getX() == other_p.firstP.getX() && this.secondP.getY() == other_p.secondP.getY()
+                && this.firstP.getX() == other_p.secondP.getX() && this.firstP.getY() == other_p.firstP.getY() || this.secondP.getX() == other_p.secondP.getX()
+                && this.secondP.getY() == other_p.firstP.getY()
                 && this.firstP.getX() == other_p.firstP.getX() && this.firstP.getY() == other_p.secondP.getY();
 
     }
@@ -38,9 +38,10 @@ public class Bar implements Collider {
         try {
             if (o instanceof Bar) {
 
-                Bar other_p = (Bar) o;
+                Bar otherP = (Bar) o;
 
-                return this.equals(other_p) || this.CheckPoint(other_p.firstP) || this.CheckPoint(other_p.secondP) || other_p.CheckPoint(this.firstP) || other_p.CheckPoint(this.secondP);
+                return this.equals(otherP) || this.CheckPoint(otherP.firstP) || this.CheckPoint(otherP.secondP)
+                        || otherP.CheckPoint(this.firstP) || otherP.CheckPoint(this.secondP);
             }
             return (o instanceof Point) && this.CheckPoint((Point) o);
         } catch (Exception e) {
@@ -49,7 +50,8 @@ public class Bar implements Collider {
     }
 
     private boolean CheckPoint(Point point) {
-        return this.firstP.getX() <= point.getX() && this.secondP.getX() >= point.getX() && this.firstP.getY() <= point.getY() && this.secondP.getY() >= point.getY();
+        return this.firstP.getX() <= point.getX() && this.secondP.getX() >= point.getX()
+                && this.firstP.getY() <= point.getY() && this.secondP.getY() >= point.getY();
 
     }
 
