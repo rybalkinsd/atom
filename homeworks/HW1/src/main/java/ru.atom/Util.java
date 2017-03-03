@@ -35,7 +35,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        int sum = 0;
+        long sum = 0;
         if (values.length == 0) {
             throw new UnsupportedOperationException();
         }
