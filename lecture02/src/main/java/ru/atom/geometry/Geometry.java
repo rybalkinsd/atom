@@ -34,7 +34,6 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-//        Point point = new Point(x, y);
         return new Point(x, y);
     }
 }
