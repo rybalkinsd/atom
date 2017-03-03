@@ -96,12 +96,12 @@ public class Bar implements Collider {
                     && firstPointX <= bar.secondCornerX
                     && firstCornerY <= bar.secondCornerY
                     && firstCornerY >= bar.firstCornerY));
-            } else return  false;
-        }
-
-
-
+        } else return  false;
     }
+
+
+
+}
 
             
         
