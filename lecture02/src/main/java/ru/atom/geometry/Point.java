@@ -6,12 +6,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Template class for
  */
 public class Point implements Collider /* super class and interfaces here if necessary */ {
-    private int x;// fields
+    private int x;
     private int y;
-    // and methods
+
     public Point(int x, int y) {
-        this.x=x;
-        this.y=y;
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
@@ -33,7 +33,7 @@ public class Point implements Collider /* super class and interfaces here if nec
 
         // cast from Object to Point
         Point point = (Point) o;
-        if ((getX()==point.getX())&&(getY()==point.getY()))
+        if ((getX() == point.getX()) && (getY() == point.getY()))
             return true;
         else return false;
     }
@@ -53,3 +53,4 @@ public class Point implements Collider /* super class and interfaces here if nec
         else return  false;
     }
 }
+
