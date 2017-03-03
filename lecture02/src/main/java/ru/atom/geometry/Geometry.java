@@ -1,6 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  *  ^ Y
  *  |
@@ -22,8 +21,8 @@ public final class Geometry {
      * (It is not relevant, which opposite corners you choose to define bar)
      * @return new Bar
      */
-    public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new NotImplementedException();
+    public static Collider createBar(int firstPointX, int firstPointY, int secondPointX, int secondPointY) {
+        return new Bar(firstPointX, firstPointY, secondPointX, secondPointY);
     }
 
     /**
@@ -31,6 +30,6 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        return new Point(x, y);
     }
 }
