@@ -1,10 +1,10 @@
 package ru.atom.geometry;
 
-import java.util.Objects;
 
-/**
- * Created by mrsndmn on 01.03.17.
- */
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
+
 public class Bar implements Collider {
 
     private int firstCornerX;
@@ -32,10 +32,10 @@ public class Bar implements Collider {
 
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        this.firstCornerX = firstCornerX;
-        this.firstCornerY = firstCornerY;
-        this.secondCornerX = secondCornerX;
-        this.secondCornerY = secondCornerY;
+        this.firstCornerX = min(firstCornerX, secondCornerX);   //X of left bot
+        this.firstCornerY = min(firstCornerY, secondCornerY);   //Y of left bot
+        this.secondCornerX = max(firstCornerX, secondCornerX);  //X of right top
+        this.secondCornerY = max(firstCornerY, secondCornerY);  //Y of right top
     }
 
     @Override
@@ -52,7 +52,6 @@ public class Bar implements Collider {
                     || point.getY() < this.firstCornerY
                     || point.getX() > this.secondCornerX
                     || point.getY() > this.secondCornerY);
-
 
         } else if (other instanceof Bar) {
 

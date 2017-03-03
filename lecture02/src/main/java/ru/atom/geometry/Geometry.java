@@ -1,7 +1,5 @@
 package ru.atom.geometry;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
@@ -28,10 +26,7 @@ public final class Geometry {
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
 
-        Collider myCollider = (Collider) new Bar(min(firstCornerX, secondCornerX),//X of left bot
-                                            min(firstCornerY, secondCornerY),   //Y of left bot
-                                            max(firstCornerX, secondCornerX),   //X of right top
-                                            max(firstCornerY, secondCornerY));  //Y of right top
+        Collider myCollider = (Collider) new Bar(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
         return myCollider;
         //throw new NotImplementedException();
     }
@@ -43,7 +38,7 @@ public final class Geometry {
 
     public static Collider createPoint(int x, int y) {
 
-        return  (Collider) new Point(x, y);
+        return new Point(x, y);
 
     }
 }
