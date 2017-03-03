@@ -19,7 +19,7 @@ public class PointPointCollisionTest {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(100, 100);
         assertThat(point1.equals(point2), is(true));
-}
+    }
 
     @Test
     public void equalPointsCollide() {
