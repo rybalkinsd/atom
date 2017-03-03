@@ -13,11 +13,11 @@ public class Point implements Collider {
         this.y = y;
     }
 
-    public int getX(){
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
@@ -42,8 +42,8 @@ public class Point implements Collider {
             return this.equals(other);
         }
         if (other instanceof Bar) {
-            return (((Bar) other).getLowerLeftX() <= this.x && this.x <= ((Bar) other).getUpperRightX() &&
-                    ((Bar) other).getLowerLeftY() <= this.y && this.y <= ((Bar) other).getUpperRightY());
+            return (((Bar) other).getLowerLeftX() <= this.x && this.x <= ((Bar) other).getUpperRightX()
+                    && ((Bar) other).getLowerLeftY() <= this.y && this.y <= ((Bar) other).getUpperRightY());
         }
         return false;
     }
