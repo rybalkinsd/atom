@@ -1,6 +1,6 @@
 package ru.atom.geometry;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Created by dmitriy on 01.03.17.
@@ -39,14 +39,14 @@ public class Bar implements Collider {
 
         // cast from Object to Point
         Bar bar = (Bar) o;
-        int minVertical = Arrays.asList(bar.firstCornerY, bar.secondCornerY, this.firstCornerY, this.secondCornerY)
-                .stream().min(Integer::compareTo).get();
-        int maxVertical = Arrays.asList(bar.firstCornerY, bar.secondCornerY, this.firstCornerY, this.secondCornerY)
-                .stream().max(Integer::compareTo).get();
-        int minHorizontal = Arrays.asList(bar.firstPointX, bar.secondCornerX, this.firstPointX, this.secondCornerX)
-                .stream().min(Integer::compareTo).get();
-        int maxHorizontal = Arrays.asList(bar.firstPointX, bar.secondCornerX, this.firstPointX, this.secondCornerX)
-                .stream().max(Integer::compareTo).get();
+        int minVertical = Stream.of(bar.firstCornerY, bar.secondCornerY, this.firstCornerY, this.secondCornerY)
+                .min(Integer::compareTo).get();
+        int maxVertical = Stream.of(bar.firstCornerY, bar.secondCornerY, this.firstCornerY, this.secondCornerY)
+                .max(Integer::compareTo).get();
+        int minHorizontal = Stream.of(bar.firstPointX, bar.secondCornerX, this.firstPointX, this.secondCornerX)
+                .min(Integer::compareTo).get();
+        int maxHorizontal = Stream.of(bar.firstPointX, bar.secondCornerX, this.firstPointX, this.secondCornerX)
+                .max(Integer::compareTo).get();
         return (maxVertical - minVertical <= Math.abs(bar.firstCornerY - bar.secondCornerY)
                 + Math.abs(this.firstCornerY - this.secondCornerY)
                 && maxHorizontal - minHorizontal <= Math.abs(bar.firstPointX - bar.secondCornerX)
