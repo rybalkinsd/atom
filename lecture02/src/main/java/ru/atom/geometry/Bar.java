@@ -39,11 +39,11 @@ public class Bar implements Collider {
         return bottom;
     }
     
-    public Bar setWidth(int width) {
-        this.width = width;
+    public Bar setWidth(int newWidth) {
+        width = newWidth;
         if (width < 0) {
             left += width;
-            this.width = -width;
+            width = -width;
         }
         return this;
     }
@@ -52,8 +52,8 @@ public class Bar implements Collider {
         return width;
     }
     
-    public Bar setHeight(int height) {
-        this.height = height;
+    public Bar setHeight(int newHeight) {
+        height = newHeight;
         if (height < 0) {
             bottom += height;
             height = -height;
