@@ -1,13 +1,21 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+public class Point implements Collider {
+    private final int x;
+    private final int y;
 
-/**
- * Template class for
- */
-public class Point /* super class and interfaces here if necessary */ {
-    // fields
-    // and methods
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     /**
      * @param o - other object to check equality with
@@ -18,10 +26,17 @@ public class Point /* super class and interfaces here if necessary */ {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        // cast from Object to Point
         Point point = (Point) o;
 
-        // your code here
-        throw new NotImplementedException();
+        return isColliding(point);
+    }
+
+    @Override
+    public boolean isColliding(Collider other) {
+        if (this.x == ((Point) other).getX() && this.y == ((Point) other).getY()) {
+            return true;
+        }
+
+        return false;
     }
 }
