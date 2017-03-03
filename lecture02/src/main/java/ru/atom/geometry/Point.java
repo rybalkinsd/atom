@@ -47,6 +47,11 @@ public class Point implements Collider {
     }
 
     @Override
+    public int hashCode() {
+        return this.getyCoord() ^ this.getxCoord();
+    }
+
+    @Override
     public boolean isColliding(Collider other) {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;

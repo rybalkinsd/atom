@@ -79,6 +79,15 @@ public class Bar implements Collider {
     }
 
     @Override
+    public int hashCode() {
+        int hashValue = this.getFirstCornerX();
+        hashValue = 13 * hashValue + this.getSecondCornerX();
+        hashValue = 13 * hashValue + this.getFirstCornerY();
+        hashValue = 13 * hashValue + this.getSecondCornerY();
+        return hashValue;
+    }
+
+    @Override
     public boolean isColliding(Collider other) {
         if (this == other) return true;
         if (other instanceof Point) {
