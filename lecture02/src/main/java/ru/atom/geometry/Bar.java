@@ -3,11 +3,11 @@ package ru.atom.geometry;
 /**
  * Created by pavel on 02.03.17.
  */
-public class Bar implements Collider {
-    int firstPointX;
-    int firstCornerY;
-    int secondCornerX;
-    int secondCornerY;
+class Bar implements Collider {
+    private final int firstPointX;
+    private final int firstCornerY;
+    private final int secondCornerX;
+    private final int secondCornerY;
 
     Bar(int firestPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstPointX = firestPointX;
@@ -36,10 +36,10 @@ public class Bar implements Collider {
         if (other instanceof Point) {
             Point otherPoint = (Point) other;
 
-            return (this.firstPointX <= otherPoint.x)
-                    && (this.firstCornerY <= otherPoint.y)
-                    && (this.secondCornerX >= otherPoint.x)
-                    && (this.secondCornerY >= otherPoint.y);
+            return (this.firstPointX <= otherPoint.getX())
+                    && (this.firstCornerY <= otherPoint.getY())
+                    && (this.secondCornerX >= otherPoint.getX())
+                    && (this.secondCornerY >= otherPoint.getY());
         } else {
             Bar otherBar = (Bar) other;
 
