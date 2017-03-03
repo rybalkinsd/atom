@@ -35,7 +35,7 @@ public class Point implements Collider /* super class and interfaces here if nec
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
-    @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -44,7 +44,8 @@ public class Point implements Collider /* super class and interfaces here if nec
         Point point = (Point) o;
 
         // your code here
-        return this.getX() == point.getX() && this.getY() == point.getY();
+        return this.getX() == point.getX()
+                && this.getY() == point.getY();
     }
 
     public boolean isColliding(Collider o) {
@@ -53,7 +54,14 @@ public class Point implements Collider /* super class and interfaces here if nec
 
         if (o instanceof Point) {
             Point point = (Point) o;
-            return this.getX() == point.getX() && this.getY() == point.getY();
+            return this.getX() == point.getX()
+                    && this.getY() == point.getY();
+        } else if (o instanceof Bar) {
+            Bar bar = (Bar) o;
+            return (bar.getFirstCornerX() <= this.x
+                    && this.x <= bar.getSecondCornerX()
+                    && bar.getFirstCornerY() <= this.y
+                    && this.y <= bar.getSecondCornerY());
         } else return false;
         // fix colliding for Bar
     }
