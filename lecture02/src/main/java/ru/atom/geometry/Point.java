@@ -39,7 +39,7 @@ public class Point implements Collider {
 
         // cast from Object to Point
         Point point = (Point) o;
-        if (point.xCoord == this.xCoord && point.yCoord ==  this.yCoord) {
+        if (point.getxCoord() == this.getxCoord() && point.getyCoord() ==  this.getyCoord()) {
             return true;
         } else {
             return false;
@@ -51,7 +51,7 @@ public class Point implements Collider {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Point pointTwo = (Point) other;
-        if (pointTwo.xCoord == this.xCoord && pointTwo.yCoord == this.yCoord) {
+        if (pointTwo.getxCoord() == this.getxCoord() && pointTwo.getyCoord() == this.getyCoord()) {
             return true;
         } else {
             return false;
