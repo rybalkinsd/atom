@@ -1,23 +1,35 @@
 package ru.atom.geometry;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by Ксения on 01.03.2017.
  */
 
-public class Bar implements Collider {
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+public final class Bar implements Collider {
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+
+    Bar() {
+
+    }
+
+    Bar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        x1 = firstPointX;
+        y1 = firstCornerY;
+        x2 = secondCornerX;
+        y2 = secondCornerY;
+    }
 
     public boolean isColliding(Collider other) {
 
         Bar thisStandarded = this.getStandardBar();
         if (other.getClass() == Point.class) {
             Point point = (Point) other;
-            if (thisStandarded.x1 <= point.x && thisStandarded.x2 >= point.x
-                   && thisStandarded.y1 <= point.y && thisStandarded.y2 >= point.y) return true;
+            if (thisStandarded.x1 <= point.getX() && thisStandarded.x2 >= point.getX()
+                   && thisStandarded.y1 <= point.getY() && thisStandarded.y2 >= point.getY()) return true;
             return false;
         }
         if (other.getClass() == Bar.class) {
@@ -34,7 +46,7 @@ public class Bar implements Collider {
                     || (thisStandarded.x1 > bar.x1 && thisStandarded.x2 < bar.x2))) return true;
             return false;
         }
-        return false;
+        throw new NotImplementedException();
     }
 
     /**
@@ -42,7 +54,7 @@ public class Bar implements Collider {
      * @return true if two points are equal and not null.
      */
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -54,7 +66,7 @@ public class Bar implements Collider {
 
     }
 
-    public Bar getStandardBar() {
+    private Bar getStandardBar() {
         Bar standard = new Bar();
         if (this.x1 < this.x2) {
             standard.x1 = this.x1;
