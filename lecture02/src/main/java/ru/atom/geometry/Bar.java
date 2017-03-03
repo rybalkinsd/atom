@@ -1,27 +1,14 @@
 package ru.atom.geometry;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public class Bar implements Collider {
-    static final int step = 50;
-    Point start;
-    Point end;
+    private final Point startPoint;
+    private final Point endPoint;
 
     public Bar(int x1, int y1, int x2, int y2) {
-        if (x1 < x2 && y1 < y2) {
-            start = new Point(x1, y1);
-            end = new Point(x2, y2);
-        }
-        if (x1 > x2 && y1 < y2) {
-            start = new Point(x2, y1);
-            end = new Point(x1, y2);
-        }
-        if (x1 < x2 && y1 > y2) {
-            start = new Point(x1, y2);
-            end = new Point(x2, y1);
-        }
-        if (x1 > x2 && y1 > y2) {
-            start = new Point(x2, y2);
-            end = new Point(x1, y1);
-        }
+        startPoint = new Point(Math.min(x1, x2), Math.min(y1, y2));
+        endPoint = new Point(Math.max(x1, x2), Math.max(y1, y2));
     }
 
     @Override
@@ -32,14 +19,7 @@ public class Bar implements Collider {
 
         Bar bar = (Bar) o;
 
-        if (this.start.equals(bar.start) && this.start.equals(bar.end)) {
-            return true;
-        }
-        if (bar.start.x >= this.start.x && bar.start.y >= this.start.y
-                && bar.end.x <= this.end.x && bar.end.y <= this.end.y) {
-            return true;
-        }
-        return false;
+        return (this.startPoint.equals(bar.startPoint) && this.endPoint.equals(bar.endPoint));
     }
 
     @Override
@@ -48,34 +28,42 @@ public class Bar implements Collider {
     }
 
     public boolean isIncludes(Collider collider) {
-        if (collider.getClass() == Bar.class) {
+        if (collider instanceof Bar) {
             Bar bar = (Bar) collider;
-            if (bar.start.x >= this.start.x && bar.start.y >= this.start.y
-                    && bar.end.x <= this.end.x && bar.end.y <= this.end.y) {
+            if (bar.startPoint.getX() >= this.startPoint.getX() && bar.startPoint.getY() >= this.startPoint.getY()
+                    && bar.endPoint.getX() <= this.endPoint.getX() && bar.endPoint.getY() <= this.endPoint.getY()) {
                 return true;
             }
+            return false;
         }
-        if (collider.getClass() == Point.class) {
+        if (collider instanceof Point) {
             Point point = (Point) collider;
-            if (point.x >= this.start.x && point.x <= this.end.x
-                    && point.y >= this.start.y && point.y <= this.end.y) {
+            if (point.getX() >= this.startPoint.getX() && point.getX() <= this.endPoint.getX()
+                    && point.getY() >= this.startPoint.getY() && point.getY() <= this.endPoint.getY()) {
                 return true;
             }
+            return false;
         }
-        return false;
+        throw new NotImplementedException();
     }
 
     public boolean isIntersects(Collider collider) {
-        if (collider.getClass() == Bar.class) {
+        if (collider instanceof Bar) {
             Bar bar = (Bar) collider;
-            for (int x = bar.start.x; x < bar.end.x; x += step) {
-                for (int y = bar.start.y; y < bar.end.y; y += step) {
-                    if (isIncludes(new Point(x, y))) {
-                        return true;
-                    }
-                }
+            if (this.isIncludes(bar.startPoint) || this.isIncludes(bar.endPoint)) {
+                return true;
             }
+            if (bar.startPoint.getX() >= this.startPoint.getX()
+                    && bar.endPoint.getX() <= this.endPoint.getX()
+                    && bar.startPoint.getY() <= this.startPoint.getY()
+                    && bar.endPoint.getY() >= this.endPoint.getY()) {
+                return true;
+            }
+            return false;
         }
-        return false;
+        if (collider instanceof Point) {
+            return false;
+        }
+        throw new NotImplementedException();
     }
 }

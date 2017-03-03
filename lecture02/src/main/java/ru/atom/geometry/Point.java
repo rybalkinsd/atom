@@ -1,19 +1,20 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-/**
- * Template class for
- */
 public class Point implements Collider {
-    // fields
-    // and methods
-    int x;
-    int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     /**
@@ -25,16 +26,14 @@ public class Point implements Collider {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        // cast from Object to Point
         Point point = (Point) o;
 
-        // your code here
         return isColliding(point);
     }
 
     @Override
     public boolean isColliding(Collider other) {
-        if (this.x == ((Point) other).x && this.y == ((Point) other).y) {
+        if (this.x == ((Point) other).getX() && this.y == ((Point) other).getY()) {
             return true;
         }
 
