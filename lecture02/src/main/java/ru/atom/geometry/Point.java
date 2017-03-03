@@ -16,6 +16,14 @@ public class Point implements Collider {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 
 
     // fields
