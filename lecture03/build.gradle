@@ -1,6 +1,6 @@
 dependencies {
     testCompile rootProject.libraries.junit
-    compile "com.fasterxml.jackson.core:jackson-databind:$rootProject.jacksonVersion"
+    compile rootProject.libraries.log4j
 }
 
 sourceSets {
