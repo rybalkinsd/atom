@@ -8,15 +8,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Point implements Collider {
     private int firstPointX;
     private int secondPointY;
-    private int firstCornerX;
-    private int secondCornerY;
 
     public Point(int x, int y) {
         firstPointX = x;
         secondPointY = y;
     }
 
-   
+
 
     public void setFirstPointX(int point){
         firstPointX = point;
@@ -49,7 +47,7 @@ public class Point implements Collider {
 
         // cast from Object to Point
         Point point = (Point) o;
-        if(this.getFirstPointX() == point.getFirstPointX() && this.getSecondPointY() == point.getSecondPointY()) {
+        if (this.getFirstPointX() == point.getFirstPointX() && this.getSecondPointY() == point.getSecondPointY()) {
             return true;
         }
         else
