@@ -10,7 +10,7 @@
 С этого домашнего задания мы начинаем разработку сервера для игры **bomber-man**  
 
 Клиент мы возьмем из этого проекта:  
-[https://github.com/MattSkala/html5-bombergirl](https://github.com/MattSkala/html5-bombergirl)  
+[http://bombergirl.matousskala.cz/](http://bombergirl.matousskala.cz/)  
 
 Поиграйте в игру и подумайте, какие классы нужны для описания механики игры **на сервере**. (Из названия игры понятно, что там должны быть как минимум бомбы и девочки)  
   
