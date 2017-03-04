@@ -8,11 +8,15 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Point implements Collider {
     private int firstPointX;
     private int secondPointY;
+    private int firstCornerX;
+    private int secondCornerY;
 
-    public Point(int x, int y){
+    public Point(int x, int y) {
         firstPointX = x;
         secondPointY = y;
     }
+
+   
 
     public void setFirstPointX(int point){
         firstPointX = point;
