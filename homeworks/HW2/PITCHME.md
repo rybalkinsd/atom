@@ -1,6 +1,7 @@
 #HSLIDE
 Давайте сделаем сейчас
 ```bash
+> git fetch upstream
 > git checkout -b homework2 upstream/homework2
 ```
 и посмотрим на ДЗ
@@ -37,6 +38,7 @@
 
 1) Создайте ветку **homework2** (если еще не создали)
 ```bash
+> git fetch upstream
 > git checkout -b homework2 upstream/homework2
 ```
 иначе
