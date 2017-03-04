@@ -1,6 +1,6 @@
 package ru.atom.geometry;
 
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
