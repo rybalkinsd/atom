@@ -5,13 +5,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Template class for
  */
-public class Point implements Collider /* super class and interfaces here if necessary */ {
+public final class Point implements Collider /* super class and interfaces here if necessary */ {
     int x;
     int y;// fields
-
-    // and methods
-    Point() {
-    }
 
     Point(int x, int y) {
         this.x = x;
@@ -43,5 +39,13 @@ public class Point implements Collider /* super class and interfaces here if nec
             return false;
         }
         return true;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
