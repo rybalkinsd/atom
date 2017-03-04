@@ -42,7 +42,7 @@ public class Point implements Collider/* super class and interfaces here if nece
 
         // cast from Object to Point
         Point point = (Point) o;
-        return (this.x == point.x) && (this.y == point.y);
+        return (x == point.x) && (y == point.y);
         // your code here
         // throw new NotImplementedException();
     }
