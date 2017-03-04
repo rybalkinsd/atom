@@ -1,6 +1,6 @@
 package ru.atom.geometry;
 
-import java.util.Arrays;
+import java.lang.Math;
 
 /**
  * Created by BBPax on 01.03.17.
@@ -27,10 +27,10 @@ public class Bar implements Collider {
     */
 
     public void setBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        this.firstCornerX = Arrays.asList(firstCornerX, secondCornerX).stream().min(Integer::compareTo).get();
-        this.firstCornerY = Arrays.asList(firstCornerY, secondCornerY).stream().min(Integer::compareTo).get();
-        this.secondCornerX = Arrays.asList(firstCornerX,secondCornerX).stream().max(Integer::compareTo).get();
-        this.secondCornerY = Arrays.asList(firstCornerY, secondCornerY).stream().max(Integer::compareTo).get();
+        this.firstCornerX = Math.min(firstCornerX, secondCornerX);
+        this.firstCornerY = Math.min(firstCornerY, secondCornerY);
+        this.secondCornerX = Math.max(firstCornerX, secondCornerX);
+        this.secondCornerY = Math.max(firstCornerY, secondCornerY);
     }
 
     public int getFirstCornerX() {
