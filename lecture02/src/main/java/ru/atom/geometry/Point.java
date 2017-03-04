@@ -6,8 +6,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Template class for
  */
 public final class Point implements Collider /* super class and interfaces here if necessary */ {
-    int x;
-    int y;// fields
+    final int x;
+    final int y;// fields
 
     Point(int x, int y) {
         this.x = x;

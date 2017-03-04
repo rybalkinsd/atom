@@ -4,13 +4,15 @@ package ru.atom.geometry;
  * Created by Юля on 02.03.2017.
  */
 public final class Bar implements Collider /* super class and interfaces here if necessary */ {
-    private Point maxPoint;
-    private Point minPoint;// fields
+    private final Point maxPoint;
+    private final Point minPoint;// fields
 
 
     Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        maxPoint = new Point(getMaxCoordinate(firstCornerX, secondCornerX), getMaxCoordinate(firstCornerY, secondCornerY));
-        minPoint = new Point(getMinCoordinate(firstCornerX, secondCornerX), getMinCoordinate(firstCornerY, secondCornerY));
+        maxPoint = new Point(getMaxCoordinate(firstCornerX, secondCornerX),
+                getMaxCoordinate(firstCornerY, secondCornerY));
+        minPoint = new Point(getMinCoordinate(firstCornerX, secondCornerX),
+                getMinCoordinate(firstCornerY, secondCornerY));
     }
 
     /**
