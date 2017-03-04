@@ -24,16 +24,10 @@ public class Point implements Collider {
     }
 
     public boolean isColliding(Collider other) {
-        if (other instanceof Point) {
-            Point point = (Point) other;
-            if ((point.getX() == this.x) && (point.getY() == this.y)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        if (other.equals(this)) {
+            return true;
         }
+        return false;
     }
 
     /**
