@@ -11,10 +11,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 
 public final class Geometry {
-    
-    private Geometry() {
-    }
 
+    private Geometry() {}
     /**
      * Bar is a rectangle, which borders are parallel to coordinate axis
      * Like selection bar in desktop, this bar is defined by two opposite corners
@@ -22,15 +20,19 @@ public final class Geometry {
      * (It is not relevant, which opposite corners you choose to define bar)
      * @return new Bar
      */
-    public static Collider createBar(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new NotImplementedException();
+
+    public static Collider createBar(int firstPointX, int firstPointY, int secondPointX, int secondPointY) {
+        Bar bar = new Bar(firstPointX, firstPointY, secondPointX, secondPointY);
+        return bar;
     }
 
     /**
      * 2D point
      * @return new Point
      */
+
     public static Collider createPoint(int x, int y) {
-        throw new NotImplementedException();
+        Point point = new Point(x,y);
+        return point;
     }
 }
