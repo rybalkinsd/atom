@@ -118,7 +118,7 @@
                      value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="CatchParameterName">
-            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern"
                      value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -166,7 +166,6 @@
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="1"/>
         </module>
-        <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
         <module name="MethodParamPad"/>
         <module name="ParenPad"/>
@@ -199,7 +198,7 @@
             <property name="ignoreInlineTags" value="false"/>
         </module>
         <module name="EmptyCatchBlock">
-            <property name="exceptionVariableName" value="expected"/>
+            <property name="exceptionVariableName" value="ignored"/>
         </module>
         <module name="CommentsIndentation"/>
     </module>

@@ -1,10 +1,6 @@
 dependencies {
     testCompile rootProject.libraries.junit
-}
-
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.makejar.HelloWorld' }
+    compile rootProject.libraries.log4j
 }
 
 sourceSets {
