@@ -83,7 +83,7 @@ public class BarBarCollisionTest {
         Collider point2 = Geometry.createPoint(200, 200);
         assertThat(point1.isColliding(point2), is(false));
     }
-    
+
     @Test
     public void pointInsideBar() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
