@@ -8,26 +8,29 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> implements List<E>, ListIterator<E> {
 
+    private int size = 0;
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return  (size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        Iterator<E> iterator;
+
+
     }
 
     @Override

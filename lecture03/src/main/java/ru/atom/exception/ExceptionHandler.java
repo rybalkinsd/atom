@@ -15,7 +15,7 @@ public class ExceptionHandler {
 
     public static void simpleHandle() {
         try {
-            // some statements here
+            // some statements heregit checkout -b lecture03 upstream/lecture03
             throw new SubException("problem in ExceptionHandler::simpleHandle");
         } catch (SubException e) {
             log.error(e.getMessage(), e);
