@@ -1,12 +1,4 @@
 #HSLIDE
-Давайте сделаем сейчас
-```bash
-> git fetch upstream
-> git checkout -b homework2 upstream/homework2
-```
-и посмотрим на ДЗ
-
-#HSLIDE
 ##Домашнее задание 2
 С этого домашнего задания мы начинаем разработку сервера для игры **bomber-man**  
 
@@ -42,14 +34,10 @@
 #HSLIDE
 ###Как сдавать?
 
-1) Создайте ветку **homework2** (если еще не создали)
+1) Создайте ветку **homework2**
 ```bash
 > git fetch upstream
 > git checkout -b homework2 upstream/homework2
-```
-иначе
-```
-> git checkout homework2
 ```
 2) выполните в ней задание2 и запушьте в свой репозитрий
 ```bash
