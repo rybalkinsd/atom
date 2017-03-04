@@ -16,19 +16,19 @@ public class Point implements Collider {
 
 
 
-    public void setFirstPointX(int point){
+    public void setFirstPointX(int point) {
         firstPointX = point;
     }
 
-    public void setSecondPointY(int point){
+    public void setSecondPointY(int point) {
         secondPointY = point;
     }
 
-    public int getFirstPointX(){
+    public int getFirstPointX() {
         return firstPointX;
     }
 
-    public int getSecondPointY(){
+    public int getSecondPointY() {
         return secondPointY;
     }
 
