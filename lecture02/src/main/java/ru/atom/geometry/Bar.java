@@ -46,20 +46,21 @@ public class Bar implements Collider {
         return secondCornerY;
     }
 
-    private boolean pointIntervalIntersection(int pointZ, int Z1, int Z2) {
+    private boolean pointIntervalIntersection(int pointZ, int z1, int z2) {
         int temp;
-        if (Z1 > Z2) {
-            temp = Z1;
-            Z1 = Z2;
-            Z2 = temp;
+        if (z1 > z2) {
+            temp = z1;
+            z1 = z2;
+            z2 = temp;
         }
-        if ((pointZ >= Z1) && (pointZ <= Z2)) {
+        if ((pointZ >= z1) && (pointZ <= z2)) {
             return true;
         }
         return false;
     }
 
-    private boolean intervalIntervalIntersection(int firstCornerZ1, int secondCornerZ1, int firstCornerZ2, int secondCornerZ2) {
+    private boolean intervalIntervalIntersection(int firstCornerZ1, int secondCornerZ1,
+                                                 int firstCornerZ2, int secondCornerZ2) {
         int temp;
         if (firstCornerZ1 > firstCornerZ2) {
             temp = firstCornerZ1;
@@ -89,8 +90,10 @@ public class Bar implements Collider {
         }
         if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            if (intervalIntervalIntersection(bar.firstCornerX, bar.secondCornerX, this.firstCornerX, this.secondCornerX)) {
-                if (intervalIntervalIntersection(bar.firstCornerY, bar.secondCornerY, this.firstCornerY, this.secondCornerY)) {
+            if (intervalIntervalIntersection(bar.firstCornerX, bar.secondCornerX,
+                                            this.firstCornerX, this.secondCornerX)) {
+                if (intervalIntervalIntersection(bar.firstCornerY, bar.secondCornerY,
+                                                this.firstCornerY, this.secondCornerY)) {
                     return true;
                 }
             }
