@@ -21,19 +21,22 @@ public class Bar implements Collider /* super class and interfaces here if neces
     }
 
     /**
-     * @param o - other object to check equality with
+     * @param other - other object to check equality with
      * @return true if two points are equal and not null.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        // cast from Object to Point
-        Bar bar = (Bar) o;
-
-        return isColliding(bar);// your code here
-        //throw new NotImplementedException();
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Point maxPointNew = getMaxPoint(firstPointX, firstCornerY, secondCornerX, secondCornerY);
+        Point minPointNew = getMinPoint(firstPointX, firstCornerY, secondCornerX, secondCornerY);
+        Bar bar = (Bar) other;
+        Point maxPointNewOther = getMaxPoint(bar.firstPointX, bar.firstCornerY, bar.secondCornerX, bar.secondCornerY);
+        Point minPointNewOther = getMinPoint(bar.firstPointX, bar.firstCornerY, bar.secondCornerX, bar.secondCornerY);
+        if (maxPointNew.equals(maxPointNewOther) && minPointNew.equals(minPointNewOther)) {
+            return true;
+        }
+        return false;//throw new NotImplementedException();
     }
 
 
@@ -43,108 +46,61 @@ public class Bar implements Collider /* super class and interfaces here if neces
         if (other == null) return false;
         if (getClass() != other.getClass()) {
             Point point = (Point) other;
-            if ((((firstPointX < secondCornerX)
-                    && (point.x <= secondCornerX)
-                    && (point.x >= firstPointX))
-                    && ((firstCornerY < secondCornerY)
-                    && (point.y <= secondCornerY)
-                    && (point.y >= firstCornerY)))
-                    || (((firstPointX > secondCornerX)
-                    && (point.x >= secondCornerX)
-                    && (point.x <= firstPointX))
-                    &&
-                    ((firstCornerY < secondCornerY)
-                            && (point.y <= secondCornerY)
-                            && (point.y >= firstCornerY)))
-                    || (((firstPointX > secondCornerX)
-                    && (point.x >= secondCornerX)
-                    && (point.x <= firstPointX))
-                    && ((firstCornerY < secondCornerY)
-                    && (point.y <= secondCornerY)
-                    && (point.y >= firstCornerY)))
-                    || (((firstPointX < secondCornerX)
-                    && (point.x <= secondCornerX)
-                    && (point.x >= firstPointX))
-                    && ((firstCornerY < secondCornerY)
-                    && (point.y >= secondCornerY)
-                    && (point.y <= firstCornerY)))) {
-                return true;
-            }
-            return false;
+            return checkPointInside(point.x, point.y, firstPointX, firstCornerY, secondCornerX, secondCornerY);
         }
         Bar bar = (Bar) other;
-        if ((firstPointX == bar.firstPointX
-                && firstCornerY == bar.firstCornerY
-                && secondCornerX == bar.secondCornerX
-                &&
-                secondCornerY == bar.secondCornerY)
-                || (firstPointX == bar.firstPointX
-                && secondCornerX == bar.secondCornerX
-                && firstCornerY == bar.secondCornerY
-                && secondCornerY == bar.firstCornerY)
-                || (firstPointX == bar.secondCornerX
-                && secondCornerX == bar.firstPointX
-                && firstCornerY == bar.firstCornerY
-                && secondCornerY == bar.secondCornerY)
-                || (firstPointX == bar.secondCornerX
-                && firstCornerY == bar.secondCornerY
-                && secondCornerX == bar.firstPointX
-                && secondCornerY == bar.firstCornerY)) {
+        int maxXOther = getMaxCoordinate(bar.firstPointX, bar.secondCornerX);
+        int maxYOther = getMaxCoordinate(bar.firstCornerY, bar.secondCornerY);
+        int minXOther = getMinCoordinate(bar.firstPointX, bar.secondCornerX);
+        int minYOther = getMinCoordinate(bar.firstCornerY, bar.secondCornerY);
+        if ((checkPointInside(minXOther, minYOther, firstPointX, firstCornerY, secondCornerX, secondCornerY))
+                || (checkPointInside(maxXOther, maxYOther, firstPointX, firstCornerY, secondCornerX, secondCornerY))) {
             return true;
         }
-
-        if (((((firstPointX < secondCornerX)
-                && (bar.firstPointX <= secondCornerX)
-                && (bar.firstPointX >= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.firstCornerY <= secondCornerY)
-                && (bar.firstCornerY >= firstCornerY)))
-                || (((firstPointX > secondCornerX)
-                && (bar.firstPointX >= secondCornerX)
-                && (bar.firstPointX <= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.firstCornerY <= secondCornerY)
-                && (bar.firstCornerY >= firstCornerY)))
-                || (((firstPointX > secondCornerX)
-                && (bar.firstPointX >= secondCornerX)
-                && (bar.firstPointX <= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.firstCornerY <= secondCornerY)
-                && (bar.firstCornerY >= firstCornerY)))
-                || (((firstPointX < secondCornerX)
-                && (bar.firstPointX <= secondCornerX)
-                && (bar.firstPointX >= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.firstCornerY >= secondCornerY)
-                && (bar.firstCornerY <= firstCornerY))))
-                || ((((firstPointX < secondCornerX)
-                && (bar.secondCornerX <= secondCornerX)
-                && (bar.secondCornerX >= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.secondCornerY <= secondCornerY)
-                && (bar.secondCornerY >= firstCornerY)))
-                || (((firstPointX > secondCornerX)
-                && (bar.secondCornerX >= secondCornerX)
-                && (bar.secondCornerX <= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.secondCornerY <= secondCornerY)
-                && (bar.secondCornerY >= firstCornerY)))
-                || (((firstPointX > secondCornerX)
-                && (bar.secondCornerX >= secondCornerX)
-                && (bar.secondCornerX <= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.secondCornerY <= secondCornerY)
-                && (bar.secondCornerY >= firstCornerY)))
-                || (((firstPointX < secondCornerX)
-                && (bar.secondCornerX <= secondCornerX)
-                && (bar.secondCornerX >= firstPointX))
-                && ((firstCornerY < secondCornerY)
-                && (bar.secondCornerY >= secondCornerY)
-                && (bar.secondCornerY <= firstCornerY))))) {
-            return true;
-        }
-        return false;// your code here
+        return false;
         //throw new NotImplementedException();
+    }
+
+    private int getMaxCoordinate(int firstCoordinate, int secondCoordinate) {
+        if (firstCoordinate > secondCoordinate) {
+            return firstCoordinate;
+        } else {
+            return secondCoordinate;
+        }
+    }
+
+    private int getMinCoordinate(int firstCoordinate, int secondCoordinate) {
+        if (firstCoordinate < secondCoordinate) {
+            return firstCoordinate;
+        } else {
+            return secondCoordinate;
+        }
+    }
+
+    //Правая верхняя точка
+    private Point getMaxPoint(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        int CoordinateX = getMaxCoordinate(firstPointX, secondCornerX);
+        int CoordinateY = getMaxCoordinate(firstCornerY, secondCornerY);
+        return new Point(CoordinateX, CoordinateY);
+    }
+
+    //Левая нижняя точка
+    private Point getMinPoint(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        int CoordinateX = getMinCoordinate(firstPointX, secondCornerX);
+        int CoordinateY = getMinCoordinate(firstCornerY, secondCornerY);
+        return new Point(CoordinateX, CoordinateY);
+    }
+
+    private boolean checkPointInside(int x, int y, int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        int maxCoordinateX = getMaxCoordinate(firstPointX, secondCornerX);
+        int maxCoordinateY = getMaxCoordinate(firstCornerY, secondCornerY);
+        int minCoordinateX = getMinCoordinate(firstPointX, secondCornerX);
+        int minCoordinateY = getMinCoordinate(firstCornerY, secondCornerY);
+        return checkCoordinateInside(x, minCoordinateX, maxCoordinateX) && checkCoordinateInside(y, minCoordinateY, maxCoordinateY);
+    }
+
+    private boolean checkCoordinateInside(int pointCoordinate, int barMinCoordinate, int barMaxCoordinate) {
+        return (pointCoordinate <= barMaxCoordinate) && (pointCoordinate >= barMinCoordinate);
     }
 }
 
