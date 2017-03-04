@@ -79,24 +79,25 @@ public class Bar implements Collider /* super class and interfaces here if neces
 
     //Правая верхняя точка
     private Point getMaxPoint(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        int CoordinateX = getMaxCoordinate(firstPointX, secondCornerX);
-        int CoordinateY = getMaxCoordinate(firstCornerY, secondCornerY);
-        return new Point(CoordinateX, CoordinateY);
+        int coordinateX = getMaxCoordinate(firstPointX, secondCornerX);
+        int coordinateY = getMaxCoordinate(firstCornerY, secondCornerY);
+        return new Point(coordinateX, coordinateY);
     }
 
     //Левая нижняя точка
     private Point getMinPoint(int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        int CoordinateX = getMinCoordinate(firstPointX, secondCornerX);
-        int CoordinateY = getMinCoordinate(firstCornerY, secondCornerY);
-        return new Point(CoordinateX, CoordinateY);
+        int coordinateX = getMinCoordinate(firstPointX, secondCornerX);
+        int coordinateY = getMinCoordinate(firstCornerY, secondCornerY);
+        return new Point(coordinateX, coordinateY);
     }
 
-    private boolean checkPointInside(int x, int y, int firstPointX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        int maxCoordinateX = getMaxCoordinate(firstPointX, secondCornerX);
-        int maxCoordinateY = getMaxCoordinate(firstCornerY, secondCornerY);
-        int minCoordinateX = getMinCoordinate(firstPointX, secondCornerX);
-        int minCoordinateY = getMinCoordinate(firstCornerY, secondCornerY);
-        return checkCoordinateInside(x, minCoordinateX, maxCoordinateX) && checkCoordinateInside(y, minCoordinateY, maxCoordinateY);
+    private boolean checkPointInside(int x, int y, int firstX, int firstY, int secondX, int secondY) {
+        int maxCoordinateX = getMaxCoordinate(firstX, secondX);
+        int maxCoordinateY = getMaxCoordinate(firstY, secondY);
+        int minCoordinateX = getMinCoordinate(firstX, secondX);
+        int minCoordinateY = getMinCoordinate(firstY, secondY);
+        return checkCoordinateInside(x, minCoordinateX, maxCoordinateX)
+                && checkCoordinateInside(y, minCoordinateY, maxCoordinateY);
     }
 
     private boolean checkCoordinateInside(int pointCoordinate, int barMinCoordinate, int barMaxCoordinate) {
