@@ -5,11 +5,9 @@ package ru.atom.geometry;
  */
 
 public class Bar implements Collider {
-    
+
     private int x;
     private int y;
-
-    private Point justPoint = new Point(x, y);
 
     public int getX() {
         return x;
@@ -25,10 +23,10 @@ public class Bar implements Collider {
     private int secondY;
 
     public Bar(int firstX, int firstY, int secondX, int secondY) {
-        this.firstX = firstX;
-        this.firstY = firstY;
-        this.secondX = secondX;
-        this.secondY = secondY;
+        this.firstX = Math.min(firstX, secondX);
+        this.firstY = Math.min(firstY, secondY);
+        this.secondX = Math.max(firstX,secondX);
+        this.secondY = Math.max(firstY,secondY);
     }
 
     @Override
@@ -36,26 +34,30 @@ public class Bar implements Collider {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bar bar = (Bar) o;
-        if (x >= this.firstX && x <= this.secondX && y >= this.firstY && y <= this.secondY) {
-            return true;
-        }
-        return false;
+
+        return (this.firstX == bar.firstX
+                 && this.firstY == bar.firstY
+                 && this.secondY == bar.secondY
+                 && this.secondX == bar.secondX);
+
     }
 
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
-            return ((Point) other).getX() >= this.firstX
-                    && ((Point) other).getY() >= this.firstY
-                    && ((Point) other).getX() <= this.secondX
-                    && ((Point) other).getY() <= this.secondY;
+            Point point = (Point) other;
+            return point.getX() >= this.firstX
+                    && point.getY() >= this.firstY
+                    && point.getX() <= this.secondX
+                    && point.getY() <= this.secondY;
         }
 
         if (other instanceof Bar) {
-            return ((Bar) other).justPoint.getX() > this.firstX
-                    || ((Bar) other).justPoint.getY() > this.firstY
-                    || ((Bar) other).justPoint.getX() < this.secondX
-                    || ((Bar) other).justPoint.getY() < this.secondY;
+            Bar bar = (Bar) other;
+            return !((this.secondX < bar.firstX)
+                    || (this.secondY < bar.firstY)
+                    || (this.firstX > bar.secondX)
+                    || (this.firstY > bar.secondY));
         }
         return false;
     }
