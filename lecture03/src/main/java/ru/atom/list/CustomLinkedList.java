@@ -7,22 +7,43 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import ru.atom.list.ListNode;
 
 public class CustomLinkedList<E> implements List<E> {
+    public ListNode<E> head;
+    public int listSize = 0;
+    private Class<E> type = E;
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return this.listSize;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return this.head == null || this.size() == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        if (o == null || this.isEmpty()) return false;
+        if (!(type.isInstance(o))) {
+            return false;
+        }
+        try {
+            E e = (E) o;
+        } catch (Exception exc) {
+            return false;
+        }
+
+        ListNode<E> i = this.head;
+        while (i.next != null) {
+            if (i.elem.equals(e)) {
+                return true;
+            }
+            i = i.next;
+        return false;
+        }
     }
 
     @Override
@@ -32,7 +53,19 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        if (this.isEmpty()) {
+            this.head = new ListNode<>(e);
+            this.listSize += 1;
+            return true;
+        } else {
+            ListNode<E> i = this.head;
+            while (i.next != null) {
+                i = i.next;
+            }
+            i.next = new ListNode<E>(e);
+            this.listSize += 1;
+            return true;
+        }
     }
 
     @Override
@@ -47,12 +80,25 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        this.listSize = 0;
+        this.head = null;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (index >= this.size()) {
+            return null;
+        };
+        int i = 0;
+        ListNode<E> tmp = this.head;
+        while ((i <= index) && (tmp.next != null) ) {
+            if (i == index) {
+                return tmp.elem;
+            }
+            i += 1;
+            tmp = tmp.next;
+        }
+        return tmp.elem;
     }
 
     @Override
