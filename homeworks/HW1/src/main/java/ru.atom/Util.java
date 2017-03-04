@@ -1,6 +1,5 @@
 package ru.atom;
 
-import java.lang.Math.*;
 import java.util.Arrays;
 
 /**
