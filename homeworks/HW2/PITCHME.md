@@ -21,7 +21,7 @@
 
 #HSLIDE
 ### Диаграмма интерфейсов, которые необходимо реализовать  
-<img src="homeworks/HW2/assets/img/diagram.png" alt="diagram" style="width: 500px; float: left;"/>
+<img src="homeworks/HW2/assets/img/diagram.png" alt="diagram" style="width: 700px; float: left;"/>
 
 
 #HSLIDE
