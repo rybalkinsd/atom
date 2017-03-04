@@ -16,14 +16,14 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-         int max = values[0];
-         for (int val : values) {
-             if (val > max) {
-                 max = val;
-             }
-         }
-         return max;
-      }
+        int max = values[0];
+        for (int val : values) {
+            if (val > max) {
+                max = val;
+            }
+        }
+    return max;
+    }
     
 
     /**
@@ -35,9 +35,9 @@ public class Util {
     public static long sum(int[] values) {
         long sum = 0L;
         for (int val : values) {
-             sum += val;
-         }
-         return sum;
+            sum += val;
+        }
+        return sum;
     }
 
 }
