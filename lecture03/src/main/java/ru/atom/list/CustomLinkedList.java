@@ -6,38 +6,82 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+
+    private ListNode<E> head = new ListNode<>(null, null, null);
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        if (head.next == null) {
+            return new Integer(0);
+        }
+        int numb = 0;
+        ListNode temp = head.next;
+        while (temp != head) {
+            numb++;
+            temp = temp.next;
+        }
+        return numb;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return head.next == null;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        ListNode temp = head.next;
+        for (int i = 0; i < this.size(); i++) {
+            if (temp.equals(o)) {
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new MyIterator<E>(head);
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode temp = new ListNode(e, head, null);
+        if (head.prev == null) {
+            head.prev = temp;
+            head.next = temp;
+            temp.prev = head;
+            temp.next = head;
+        } else {
+            temp.prev = head.prev;
+            head.prev.next = temp;
+            head.prev = temp;
+        }
+
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (!this.contains(o)) {
+            return false;
+        } else {
+            ListNode temp = head.next;
+            for (int i = 0; i < this.size(); i++) {
+                if (temp.equals(o)) {
+                    temp.prev.next = temp.next;
+                    temp.next.prev = temp.prev;
+                    break;
+                }
+                temp = temp.next;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -52,17 +96,35 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        ListNode<E> temp = head;
+        for (int i = 0; i <= index; i++) {
+            temp = temp.next;
+        }
+        return temp.element;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        if (!this.contains(o)) {
+            return -1;
+        } else {
+            ListNode temp = head.next;
+            for (int i = 0; i < this.size(); i++) {
+                if (temp.equals(o)) {
+                    return i;
+                }
+                temp = temp.next;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E el : c) {
+            this.add(el);
+        }
+        return true;
     }
 
 
