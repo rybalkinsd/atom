@@ -70,7 +70,7 @@ public class CustomLinkedList<E> implements List<E> {
         return false;
     }
     
-    private boolean removeNode(ListNode<E> node) {
+    private void removeNode(ListNode<E> node) {
         if (node.next != null) node.next.prev = node.prev;
         if (node == first) first = node.next;
         else node.prev.next = node.next;
