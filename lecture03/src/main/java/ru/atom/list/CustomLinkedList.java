@@ -2,13 +2,16 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Iterator;
+import java.util.Collection;
 
 // import ru.atom.list.ListNode;
 
 public class CustomLinkedList<E> implements List<E> {
-    public ListNode<E> head;
-    public int listSize = 0;
+    private ListNode<E> head;
+    private int listSize = 0;
 
     @Override
     public int size() {
@@ -24,13 +27,13 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean contains(Object o) {
         if (o == null) return false;
         try {
-            E e = (E) o;
-            ListNode<E> i = this.head;
-            while (i != null) {
-                if (i.elem.equals(e)) {
+            E elemValue = (E) o;
+            ListNode<E> iterateVar = this.head;
+            while (iterateVar != null) {
+                if (iterateVar.getValue().equals(elemValue)) {
                     return true;
                 }
-                i = i.next;
+                iterateVar = iterateVar.getNext();
             }
             return false;
         } catch (Exception anyExec) {
@@ -48,7 +51,7 @@ public class CustomLinkedList<E> implements List<E> {
                 if (it == null && head != null) {
                     return true;
                 } else if (it != null) {
-                    return it.next != null;
+                    return it.getNext() != null;
                 } else {
                     return false;
                 }
@@ -59,8 +62,8 @@ public class CustomLinkedList<E> implements List<E> {
                 if (it == null)
                     it = head;
                 else
-                    it = it.next;
-                    return it.elem;
+                    it = it.getNext();
+                    return it.getValue();
             }
         };
     }
@@ -72,11 +75,11 @@ public class CustomLinkedList<E> implements List<E> {
             this.listSize += 1;
             return true;
         } else {
-            ListNode<E> i = this.head;
-            while (i.next != null) {
-                i = i.next;
+            ListNode<E> iterateVar = this.head;
+            while (iterateVar.getNext() != null) {
+                iterateVar = iterateVar.getNext();
             }
-            i.next = new ListNode<E>(e);
+            iterateVar.setNext(new ListNode<E>(e));
             this.listSize += 1;
             return true;
         }
@@ -86,20 +89,20 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean remove(Object o) {
         if (o == null) return false;
         try {
-            E e = (E) o;
-            int c = 0;
-            ListNode<E> i = this.head;
-            while (i.next != null) {
-                if (i.elem.equals(e)) {
-                    if (c == 0) {
-                        this.head = i.next;
+            E elemValue = (E) o;
+            int countIndex = 0;
+            ListNode<E> iterateVar = this.head;
+            while (iterateVar.getNext() != null) {
+                if (iterateVar.getValue().equals(elemValue)) {
+                    if (countIndex == 0) {
+                        this.head = iterateVar.getNext();
                     }
-                    i.next = i.next.next;
+                    iterateVar.setNext(iterateVar.getNext().getNext());
                     this.listSize -= 1;
                     return true;
                 }
-                c += 1;
-                i = i.next;
+                countIndex += 1;
+                iterateVar = iterateVar.getNext();
             }
             return false;
         } catch (Exception anyExec) {
@@ -109,7 +112,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Iterator i=c.iterator(); i.hasNext();) {
+        for (Iterator i = c.iterator(); i.hasNext();) {
             boolean tmp = this.contains(i.next());
             if (!tmp) return false;
         }
@@ -126,32 +129,32 @@ public class CustomLinkedList<E> implements List<E> {
     public E get(int index) {
         if (index >= this.size()) {
             return null;
-        };
-        int i = 0;
-        ListNode<E> tmp = this.head;
-        while ((i <= index) && (tmp.next != null) ) {
-            if (i == index) {
-                return tmp.elem;
-            }
-            i += 1;
-            tmp = tmp.next;
         }
-        return tmp.elem;
+        int iterateVar = 0;
+        ListNode<E> tmp = this.head;
+        while ((iterateVar <= index) && (tmp.getNext() != null)) {
+            if (iterateVar == index) {
+                return tmp.getValue();
+            }
+            iterateVar += 1;
+            tmp = tmp.getNext();
+        }
+        return tmp.getValue();
     }
 
     @Override
     public int indexOf(Object o) {
         if (o == null) return -1;
         try {
-            E e = (E) o;
-            int c = 0;
-            ListNode<E> i = this.head;
-            while (i != null) {
-                if (i.elem.equals(e)) {
-                    return c;
+            E elemValue = (E) o;
+            int countIndex = 0;
+            ListNode<E> iterateVar = this.head;
+            while (iterateVar != null) {
+                if (iterateVar.getValue().equals(elemValue)) {
+                    return countIndex;
                 }
-                c += 1;
-                i = i.next;
+                countIndex += 1;
+                iterateVar = iterateVar.getNext();
             }
             return -1;
         } catch (Exception anyExec) {
@@ -161,7 +164,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (Iterator i=c.iterator(); i.hasNext();) {
+        for (Iterator i = c.iterator(); i.hasNext();) {
             boolean tmp = this.add((E) i.next());
         }
         return true;
