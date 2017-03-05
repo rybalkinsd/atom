@@ -5,4 +5,5 @@ include 'lecture03'
 include 'lecture04'
 
 include 'homeworks/HW1'
+include 'homeworks/HW2'
 

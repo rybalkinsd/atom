@@ -5,7 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class Point implements Collider {
     private final int x;
     private final int y;
-    
+
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -39,7 +39,7 @@ public class Point implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other instanceof Point){ 
+        if (other instanceof Point) {
             return this.equals(other);
         }
         throw new NotImplementedException();
