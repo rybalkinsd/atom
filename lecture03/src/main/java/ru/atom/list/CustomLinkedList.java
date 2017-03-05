@@ -94,7 +94,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index < 0 && index >= len) throw new IndexOutOfBoundsException();
+        if (index < 0 || index >= len) throw new IndexOutOfBoundsException();
         ListNode<E> node = first;
         while (index-- > 0) node = node.next;
         return node.element;
