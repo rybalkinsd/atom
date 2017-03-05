@@ -2,8 +2,10 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.*;
-
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
     private ListNode<E> first;
@@ -86,20 +88,20 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean containsAll(Collection<?> c) {
         boolean isContains = true;
-        Object[] a = c.toArray();
-        int numNew = a.length;
+        Object[] array = c.toArray();
+        int numNew = array.length;
         if (numNew == 0)
             return false;
 
         Iterator<E> iterator = this.iterator();
         while (iterator.hasNext()) {
-            if (iterator.next() == ((E) a[0])) {
+            if (iterator.next() == ((E) array[0])) {
                 break;
             }
         }
-        for (int i = 1; i < a.length; i++) {
+        for (int i = 1; i < array.length; i++) {
             if (iterator.hasNext()) {
-                if (iterator.next() != a[i]) {
+                if (iterator.next() != array[i]) {
                     isContains = false;
                     break;
                 }
@@ -110,11 +112,11 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        for (ListNode<E> current = first; current != null; ) {
-            ListNode<E> nextNode = current.getNext();
+        for (ListNode<E> current = first; current != null;) {
             current.setElement(null);
-            current.setNext(null);
             current.setPrev(null);
+            ListNode<E> nextNode = current.getNext();
+            current.setNext(null);
             current = nextNode;
         }
         first = last = null;
@@ -168,12 +170,12 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
+        Object[] array = c.toArray();
+        int numNew = array.length;
         if (numNew == 0)
             return false;
 
-        for(E element: c) {
+        for (E element: c) {
             add(element);
         }
         return true;

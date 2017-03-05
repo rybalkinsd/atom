@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ExceptionHandler {
-//    private static final Logger log = LogManager.getLogger();
     private static final Logger log = LogManager.getLogger(ExceptionHandler.class);
 
     public static void simpleHandle() {
