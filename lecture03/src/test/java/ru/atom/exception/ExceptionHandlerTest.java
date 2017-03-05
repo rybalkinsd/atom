@@ -1,5 +1,7 @@
 package ru.atom.exception;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -8,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ExceptionHandlerTest {
+    //private static final Logger log = LogManager.getLogger(ExceptionHandler.class);
 
     @Test
     public void testSimpleHandle() throws Exception {
@@ -15,7 +18,7 @@ public class ExceptionHandlerTest {
     }
 
     @Test
-    public void testExceptionThrower() throws Exception {
+    public void testExceptionThrower() /*throws Exception*/ {
         try {
             ExceptionHandler.exceptionThrower();
         } catch (Exception ex) {
@@ -48,6 +51,7 @@ public class ExceptionHandlerTest {
         }
 
         {
+            System.out.println(this.getClass().getResource("/FileToRead.txt").getPath());
             String line = ExceptionHandler.readOneLineFromFile(
                     this.getClass().getResource("/FileToRead.txt").getPath());
             assertEquals("First line in FileToRead.txt", line);

@@ -15,6 +15,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
+    private List<Integer> containsList = new CustomLinkedList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +25,8 @@ public class CustomLinkedListTest {
         stringList.add("Hello");
         stringList.add(", ");
         stringList.add("world!");
+
+        containsList.addAll(Arrays.asList(1, 2, 3, 4, 5));
     }
 
     @Test
@@ -39,6 +42,9 @@ public class CustomLinkedListTest {
 
         assertThat(stringList.contains(", "), is(true));
         assertThat(stringList.contains("World"), is(false));
+
+        assertThat(containsList.containsAll(Arrays.asList(2, 3, 4)), is(true));
+        assertThat(containsList.containsAll(Arrays.asList(2, 3, 5)), is(false));
     }
 
     @Test
