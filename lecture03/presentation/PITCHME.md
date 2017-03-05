@@ -591,7 +591,7 @@ java.lang.Object
 
 
 #HSLIDE
-### ArrayList. Summary #2
+### LinkedList. Summary #2
 - Providing interfaces
     - List
     - Deque
