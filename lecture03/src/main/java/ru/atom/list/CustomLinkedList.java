@@ -10,34 +10,104 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private ListNode<E> header;
+
+    public CustomLinkedList() {
+        this.header = null;
+    }
+
     @Override
     public int size() {
-        throw new NotImplementedException();
+        int size = 0;
+        for (E it : this)
+            size++;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return header == null;
     }
 
     @Override
-    public boolean contains(Object o) {
-        throw new NotImplementedException();
+    public boolean contains(Object obj) {
+        if (header != null)
+            for (E it : this)
+                if (it.equals(obj))
+                    return true;
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new Iterator<E>() {
+            private ListNode<E> it = null;
+
+            @Override
+            public boolean hasNext() {
+                if (it == null && header != null) {
+                    return true;
+                } else if (it != null) {
+                    return it.getNextIndex() != null;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public E next() {
+                if (it == null)
+                    it = header;
+                else
+                    it = it.getNextIndex();
+                return it.getValue();
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode<E> temp = new ListNode<>();
+        temp.setValue(e);
+        if (header == null) {
+            header = temp;
+        } else {
+            ListNode<E> it = header;
+            while (it.getNextIndex() != null)
+                it = it.getNextIndex();
+            temp.setPrevIndex(it);
+            it.setNextIndex(temp);
+        }
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode temp = header;
+        for (E it : this) {
+            if (it.equals(o)) {
+                if (temp.getPrevIndex() == null) {
+                    temp.getNextIndex().setPrevIndex(null);
+                    header = temp.getNextIndex();
+                    return true;
+                } else {
+                    if (temp.getNextIndex() == null) {
+                        temp.getPrevIndex().setNextIndex(null);
+                        temp = null;
+                        return true;
+                    } else {
+                        ListNode tempPrev = temp.getPrevIndex();
+                        ListNode tempNext = temp.getNextIndex();
+                        tempNext.setPrevIndex(temp.getPrevIndex());
+                        tempPrev.setNextIndex(temp.getNextIndex());
+                        temp = null;
+                        return true;
+                    }
+                }
+            }
+            temp = temp.getNextIndex();
+        }
+        return true;
     }
 
     @Override
@@ -62,7 +132,10 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E it : c) {
+            this.add(it);
+        }
+        return true;
     }
 
 

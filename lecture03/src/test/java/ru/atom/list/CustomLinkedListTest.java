@@ -11,7 +11,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -65,9 +64,9 @@ public class CustomLinkedListTest {
 
     @Test
     public void removeTest() throws Exception {
-        intList.remove((Integer) 42);
-        assertThat(intList.contains(42), is(false));
-        assertThat(intList.contains(38), is(true));
-        assertThat(intList.size(), is(1));
+        stringList.remove(", ");
+        assertThat(stringList.contains(", "), is(false));
+        assertThat(stringList.contains("world!") && stringList.contains("Hello"), is(true));
+        assertThat(stringList.size(), is(2));
     }
 }
