@@ -9,60 +9,113 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private int len;
+    private ListNode<E> first;
+    private ListNode<E> last;
+
+    public CustomLinkedList() {
+        len = 0;
+        first = null;
+        last = null;
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return len;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return len == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> node = first;
+        while (node != null) {
+            if (node.element.equals(o)) return true;
+            node = node.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomLinkedListIterator<E>(first);
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode<E> newNode = new ListNode<E>();
+        newNode.element = e;
+        newNode.prev = last;
+        if (last == null) first = newNode;
+        else last.next = newNode;
+        last = newNode;
+        len++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> node = first;
+        while (node != null) {
+            if (!node.element.equals(o)) {
+                node = node.next;
+                continue;
+            }
+            removeNode(node);
+            return true;
+        }
+        return false;
+    }
+    
+    private void removeNode(ListNode<E> node) {
+        if (node.next != null) node.next.prev = node.prev;
+        if (node == first) first = node.next;
+        else node.prev.next = node.next;
+        len--;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object e : c) {
+            if (!contains(e)) return false;
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        first = null;
+        last = null;
+        len = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (index < 0 || index >= len) throw new IndexOutOfBoundsException();
+        ListNode<E> node = first;
+        while (index-- > 0) node = node.next;
+        return node.element;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> node = first;
+        int result = 0;
+        while (node != null) {
+            if (node.element.equals(o)) return result;
+            result++;
+            node = node.next;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E e : c) add(e);
+        return true;
     }
 
 
