@@ -2,17 +2,13 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-import ru.atom.list.ListNode;
+// import ru.atom.list.ListNode;
 
 public class CustomLinkedList<E> implements List<E> {
     public ListNode<E> head;
     public int listSize = 0;
-    private Class<E> type = E;
 
     @Override
     public int size() {
@@ -26,23 +22,19 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        if (o == null || this.isEmpty()) return false;
-        if (!(type.isInstance(o))) {
-            return false;
-        }
+        if (o == null) return false;
         try {
             E e = (E) o;
-        } catch (Exception exc) {
-            return false;
-        }
-
-        ListNode<E> i = this.head;
-        while (i.next != null) {
-            if (i.elem.equals(e)) {
-                return true;
+            ListNode<E> i = this.head;
+            while (i != null) {
+                if (i.elem.equals(e)) {
+                    return true;
+                }
+                i = i.next;
             }
-            i = i.next;
-        return false;
+            return false;
+        } catch (Exception anyExec) {
+            return false;
         }
     }
 
@@ -70,12 +62,36 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (o == null) return false;
+        try {
+            E e = (E) o;
+            int c = 0;
+            ListNode<E> i = this.head;
+            while (i.next != null) {
+                if (i.elem.equals(e)) {
+                    if (c == 0) {
+                        this.head = i.next;
+                    }
+                    i.next = i.next.next;
+                    this.listSize -= 1;
+                    return true;
+                }
+                c += 1;
+                i = i.next;
+            }
+            return false;
+        } catch (Exception anyExec) {
+            return false;
+        }
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Iterator i=c.iterator(); i.hasNext();) {
+            boolean tmp = this.contains(i.next());
+            if (!tmp) return false;
+        }
+        return true;
     }
 
     @Override
@@ -103,17 +119,31 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        if (o == null) return -1;
+        try {
+            E e = (E) o;
+            int c = 0;
+            ListNode<E> i = this.head;
+            while (i != null) {
+                if (i.elem.equals(e)) {
+                    return c;
+                }
+                c += 1;
+                i = i.next;
+            }
+            return -1;
+        } catch (Exception anyExec) {
+            return -1;
+        }
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (Iterator i=c.iterator(); i.hasNext();) {
+            boolean tmp = this.add((E) i.next());
+        }
+        return true;
     }
-
-
-
-
 
 
     /*
