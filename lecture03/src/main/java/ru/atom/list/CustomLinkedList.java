@@ -2,7 +2,10 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
@@ -19,7 +22,7 @@ public class CustomLinkedList<E> implements List<E> {
         int size = 0;
         ListNode<E> tmp = head;
 
-        while (tmp != null){
+        while (tmp != null) {
             tmp = tmp.getNext();
             ++size;
         }
@@ -36,7 +39,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean contains(Object o) {
         ListNode<E> tmp = head;
 
-        while (tmp != null){
+        while (tmp != null) {
             if (tmp.getValue().equals(o)) {
                 return true;
             }
@@ -72,7 +75,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean remove(Object o) {
         ListNode<E> tmp = head;
 
-        while (tmp != null){
+        while (tmp != null) {
             if (tmp.getValue().equals(o)) {
                 if (tmp == head) {
                     head = head.getNext();
@@ -108,12 +111,12 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        int i = 0;
+        int findIndex = 0;
         ListNode<E> tmp = head;
 
-        while (tmp != null && i != index) {
+        while (tmp != null && findIndex != index) {
             tmp = tmp.getNext();
-            ++i;
+            ++findIndex;
         }
 
         return tmp.getValue();
@@ -121,15 +124,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        int i = 0;
+        int findIndex = 0;
         ListNode<E> tmp = head;
 
-        while (tmp != null){
+        while (tmp != null) {
             if (tmp.getValue().equals(o)) {
-                return i;
+                return findIndex;
             }
             tmp = tmp.getNext();
-            ++i;
+            ++findIndex;
         }
 
         return -1;

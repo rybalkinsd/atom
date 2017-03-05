@@ -21,15 +21,15 @@ public class ListNode<E> {
         this.prev = prev;
     }
 
-    public E getValue(){
+    public E getValue() {
         return this.value;
     }
 
-    public ListNode<E> getNext(){
+    public ListNode<E> getNext() {
         return this.next;
     }
 
-    public ListNode<E> getPrev(){
+    public ListNode<E> getPrev() {
         return this.prev;
     }
 }

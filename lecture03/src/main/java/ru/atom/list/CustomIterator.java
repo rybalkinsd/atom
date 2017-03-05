@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Created by Vlad on 05.03.2017.
  */
-public class CustomIterator<E> implements Iterator<E>{
+public class CustomIterator<E> implements Iterator<E> {
     private ListNode<E> node;
 
     public CustomIterator(ListNode<E> node) {
