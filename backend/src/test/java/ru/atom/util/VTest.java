@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
  */
 public class VTest {
     private V v;
+
     @Before
     public void setUp() throws Exception {
         v = V.of(1, 2);

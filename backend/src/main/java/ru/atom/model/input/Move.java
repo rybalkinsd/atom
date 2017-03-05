@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.model.object.actor.Pawn;
 import ru.atom.util.JsonHelper;
-import ru.atom.util.V;
 
 /**
  * Created by sergey on 2/2/17.
  */
 public class Move implements InputAction {
-    private final V direction;
+    private final Direction direction;
 
     @JsonCreator
-    public Move(@JsonProperty("direction") V direction) {
+    public Move(@JsonProperty("direction") Direction direction) {
         this.direction = direction;
     }
 
@@ -36,12 +35,12 @@ public class Move implements InputAction {
         return direction != null ? direction.hashCode() : 0;
     }
 
-    public V getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
     @Override
     public void act(Pawn pawn) {
-        pawn.setVelocity(direction);
+        pawn.setVelocity(direction.getVector());
     }
 }
