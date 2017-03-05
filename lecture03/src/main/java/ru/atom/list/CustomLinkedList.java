@@ -9,60 +9,180 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private ListNode<E> header = null;
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        if (this.header == null) {
+            return 0;
+        }
+        int counter = 0;
+        ListNode<E> el = this.header;
+        do {
+            el = el.getNextValue();
+            counter += 1;
+        } while (!el.equals(header));
+        return counter;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        if (this.header == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        if (this.header == null) {
+            return false;
+        } else {
+            ListNode<E> el = this.header;
+            do {
+                if (el.getValue().equals(o)) {
+                    return true;
+                }
+                el = el.getNextValue();
+            } while (!el.getNextValue().equals(header));
+            return false;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new Iterator<E>() {
+            ListNode<E> element = header;
+            boolean notTouchHeader = true;
+
+            @Override
+            public boolean hasNext() {
+                if (header == null) {
+                    return false;
+                }
+                return !element.getNextValue().equals(header);
+            }
+
+            @Override
+            public E next() {
+                if (notTouchHeader) {
+                    notTouchHeader = false;
+                    return element.getValue();
+                } else if (hasNext()) {
+                    element = element.getNextValue();
+                    return element.getValue();
+                } else {
+                    throw new IndexOutOfBoundsException();
+                }
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        if (this.header == null) {
+            ListNode<E> node = new ListNode<E>(e);
+            this.header = node;
+        } else {
+            ListNode<E> node = new ListNode<E>(e);
+            node.setNextValue(header);
+            header.setPastValue(node);
+            ListNode<E> element = this.header;
+            do {
+                element = element.getNextValue();
+            } while (!element.getNextValue().equals(header));
+            element.setNextValue(node);
+            node.setPastValue(element);
+        }
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> el = this.header.getNextValue();
+        boolean bolka = false;
+        while (!el.equals(header)) {
+            if (el.getValue().equals(o)) {
+                ListNode<E> prev = el.getPastValue();
+                ListNode<E> next = el.getNextValue();
+                prev.setNextValue(next);
+                next.setPastValue(prev);
+                bolka = true;
+            }
+            el = el.getNextValue();
+        }
+        if (this.header.getValue().equals(o)) {
+            if (this.size() == 1) {
+                this.header = null;
+                bolka = true;
+            } else {
+                ListNode<E> prev = header.getPastValue();
+                ListNode<E> next = header.getNextValue();
+                prev.setNextValue(next);
+                next.setPastValue(prev);
+                this.header = prev;
+                bolka = true;
+            }
+        }
+        return bolka;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object o : c) {
+            if (!this.contains(o)) {
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        ListNode<E> elem = this.header;
+        while (elem.getNextValue() != null) {
+            ListNode<E> next = elem.getNextValue();
+            elem = null;
+            elem = next;
+        }
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (this.size() >= index) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            ListNode<E> elem = this.header;
+            for (int i = 0; i < index; i++) {
+                elem = elem.getNextValue();
+            }
+            return elem.getValue();
+        }
     }
 
     @Override
     public int indexOf(Object o) {
+        ListNode<E> elem = this.header;
+        for (int i = 0; i < this.size(); i++) {
+            if (elem.getValue().equals(o)) {
+                return i;
+            }
+            elem = elem.getNextValue();
+        }
         throw new NotImplementedException();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        try {
+            for (Object o: c) {
+                this.add((E) o);
+            }
+            return true;
+        } catch (ClassCastException ex) {
+            return false;
+        }
     }
 
 
