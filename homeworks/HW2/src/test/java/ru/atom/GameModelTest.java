@@ -65,23 +65,25 @@ public class GameModelTest {
         GameSession gameSession = TestGameSessionCreator.createGameSession();
         List<Temporary> temporaries = gameSession.getGameObjects().stream()
                 .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
-        
+                .map(o -> (Temporary) o).collect(Collectors.toList());
+
         Assert.assertFalse(temporaries.isEmpty());
-        
-        long maxLifeTime = temporaries.stream().max(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
-        long minLifeTime = temporaries.stream().min(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+
+        long maxLifeTime = temporaries.stream()
+                .max(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+        long minLifeTime = temporaries.stream()
+                .min(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
         gameSession.tick(minLifeTime - 1);
         List<Temporary> temporariesAfterSmallTime = gameSession.getGameObjects().stream()
                 .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
+                .map(o -> (Temporary) o).collect(Collectors.toList());
         Assert.assertTrue(temporaries.containsAll(temporariesAfterSmallTime));
         Assert.assertTrue(temporariesAfterSmallTime.containsAll(temporaries));
-        
+
         gameSession.tick(maxLifeTime + 1);
         temporaries = gameSession.getGameObjects().stream()
                 .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
+                .map(o -> (Temporary) o).collect(Collectors.toList());
         Assert.assertTrue(temporaries.isEmpty());
     }
 }

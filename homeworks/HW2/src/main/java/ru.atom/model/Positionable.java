@@ -4,13 +4,12 @@ import ru.atom.geometry.Point;
 
 /**
  * GameObject that has coordinates
- * 
- *  ^ Y
- *  |
- *  |
- *  |
- *  |          X
- *  .---------->
+ * ^ Y
+ * |
+ * |
+ * |
+ * |          X
+ * .---------->
  */
 public interface Positionable extends GameObject {
     /**
