@@ -113,7 +113,7 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        /*ListNode<E> node = head.next;
+        ListNode<E> node = head.next;
         int index = 0;
         while (node != null && node != head) {
             if (node.element.equals(o))
@@ -123,13 +123,14 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
                 index++;
             }
         }
-        throw*/
-        throw new NotImplementedException();
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E e: c)
+            add(e);
+        return true;
     }
 
 
