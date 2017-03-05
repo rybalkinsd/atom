@@ -40,13 +40,13 @@ public class GameModelTest {
             if (gameObject instanceof Movable) {
                 Point firstPosition = ((Movable) gameObject).getPosition();
                 Point currentPosition = ((Movable) gameObject).move(Movable.Direction.UP);
-                Assert.assertTrue(currentPosition.getX() > firstPosition.getX());
+                Assert.assertTrue(currentPosition.getY() > firstPosition.getY());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.DOWN);
                 Assert.assertTrue(currentPosition.getX() == firstPosition.getX());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.RIGHT);
-                Assert.assertTrue(currentPosition.getY() > firstPosition.getY());
+                Assert.assertTrue(currentPosition.getX() > firstPosition.getX());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.LEFT);
                 Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
@@ -69,10 +69,11 @@ public class GameModelTest {
 
         Assert.assertFalse(temporaries.isEmpty());
 
-        long maxLifeTime = temporaries.stream()
-                .max(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
-        long minLifeTime = temporaries.stream()
-                .min(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+        final long maxLifeTime = temporaries.stream().max(
+                Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+        final long minLifeTime = temporaries.stream().min(
+                Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+
         gameSession.tick(minLifeTime - 1);
         List<Temporary> temporariesAfterSmallTime = gameSession.getGameObjects().stream()
                 .filter(o -> o instanceof Temporary)
