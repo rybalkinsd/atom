@@ -10,7 +10,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 
-public class CustomLinkedList<E> extends ListNode implements List<E> {
+public class CustomLinkedList<E> implements List<E> {
 
     private int size;
     private ListNode<E> header = new ListNode<>();
@@ -29,13 +29,13 @@ public class CustomLinkedList<E> extends ListNode implements List<E> {
     public boolean contains(Object o) {
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue() == o) {
+            if (node.getValue().equals(o)) {
                 return true;
             } else {
                 node = node.getNext();
             }
         }
-        return size == 0 ? header.getNext().getValue() == o : false;
+        return false;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class CustomLinkedList<E> extends ListNode implements List<E> {
     public boolean remove(Object o) {
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue() == o) {
+            if (node.getValue().equals(o)) {
                 ListNode prevNode = node.getPrev();
                 ListNode nextNode = node.getNext();
                 prevNode.setNext(nextNode);
@@ -130,7 +130,7 @@ public class CustomLinkedList<E> extends ListNode implements List<E> {
         int potentialIndex = 0;
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue() == o) {
+            if (node.getValue().equals(o)) {
                 return potentialIndex;
             } else {
                 node = node.getNext();
