@@ -40,7 +40,29 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new Iterator<E>() {
+            private ListNode<E> it = null;
+
+            @Override
+            public boolean hasNext() {
+                if (it == null && head != null) {
+                    return true;
+                } else if (it != null) {
+                    return it.next != null;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public E next() {
+                if (it == null)
+                    it = head;
+                else
+                    it = it.next;
+                    return it.elem;
+            }
+        };
     }
 
     @Override
