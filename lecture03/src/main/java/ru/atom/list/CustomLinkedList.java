@@ -64,12 +64,17 @@ public class CustomLinkedList<E> implements List<E> {
                 node = node.next;
                 continue;
             }
-            if (node == first) first = node.next;
-            else node.prev.next = node.next;
-            len--;
+            removeNode(node);
             return true;
         }
         return false;
+    }
+    
+    private boolean removeNode(ListNode<E> node) {
+        if (node.next != null) node.next.prev = node.prev;
+        if (node == first) first = node.next;
+        else node.prev.next = node.next;
+        len--;
     }
 
     @Override
@@ -89,7 +94,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index >= len) throw new IndexOutOfBoundsException();
+        if (index < 0 && index >= len) throw new IndexOutOfBoundsException();
         ListNode<E> node = first;
         while (index-- > 0) node = node.next;
         return node.element;
