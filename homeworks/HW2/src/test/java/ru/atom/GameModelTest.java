@@ -70,10 +70,11 @@ public class GameModelTest {
 
         Assert.assertFalse(temporaries.isEmpty());
 
-        long maxLifeTime = temporaries.stream()
-                .max(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
-        long minLifeTime = temporaries.stream()
-                .min(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+        final long maxLifeTime = temporaries.stream().max(
+                Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+        final long minLifeTime = temporaries.stream().min(
+                Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
+
         gameSession.tick(minLifeTime - 1);
         List<Temporary> temporariesAfterSmallTime = gameSession.getGameObjects().stream()
                 .filter(o -> o instanceof Temporary)
