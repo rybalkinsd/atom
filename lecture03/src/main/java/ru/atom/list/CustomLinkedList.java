@@ -57,13 +57,13 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        return indexOf(o) != 0;
+        return indexOf(o) != -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object elem: c) {
-            if (indexOf((E)elem) == 0) {
+            if (indexOf((E)elem) == -1) {
                 return false;
             }
         }
@@ -94,9 +94,8 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        ListNode<E> lish = new ListNode<E>();
         if (getelem(indexOf(o)) != null) {
-            lish = getelem(indexOf(o)).getPrev();
+            ListNode<E> lish  = getelem(indexOf(o));
             if (lish.getPrev() != null) {
                 if (lish.getNext() != null) {
                     lish.getPrev().setNext(lish.getNext());
@@ -150,7 +149,7 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
     }
 
     private ListNode<E> getelem(int index) {
-        if (index > 0) {
+        if (index >= 0) {
             ListNode<E> elem = this.getHead();
             for (int i = 1; i <= index; i++) {
                 if (elem.getNext() != null) {
@@ -169,7 +168,7 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
     public int indexOf(Object o) {
         ListNode<E> elem = this.getHead();
         o = (E) o;
-        int inta = 1;
+        int inta = 0;
         while (elem != null) {
             if (elem.getElement() == o) {
                 return inta;
@@ -178,7 +177,7 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
                 elem = elem.getNext();
             }
         }
-        return 0;
+        return -1;
     }
 
     @Override
