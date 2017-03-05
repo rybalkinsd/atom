@@ -28,7 +28,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        return Arrays.stream(values).sum();
+        return Arrays.stream(values).asLongStream().sum();
     }
 
 
