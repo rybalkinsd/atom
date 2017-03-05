@@ -1,74 +1,198 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
+import java.util.Collections;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
+    @Override
+    public Iterator<E> iterator() {
+        ListNode<E> spas = new ListNode<E>();
+        spas.setNext(this);
+        spas.setPrev(null);
+        ListNode<E> header = spas;
+        if (this.isEmpty()) {
+            return Collections.<E>emptyList().iterator();
+        } else {
+            return new Iterator<E>() {
+                private ListNode<E> currentNode = header;
+                @Override
+                public boolean hasNext() {
+                    return currentNode.getNext() != null;
+                }
+
+                @Override
+                public E next() {
+                    if (hasNext()) {
+                        currentNode = currentNode.getNext();
+                        return   currentNode.getElement();
+                    } else {
+                        throw new NoSuchElementException();
+                    }
+                }
+            };
+        }
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        ListNode<E> nya = this;
+        int inta = 1;
+        while (nya.getNext() != null) {
+            inta++;
+            nya = nya.getNext();
+        }
+        return inta;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return this == null;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean add(E e) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        throw new NotImplementedException();
+        return indexOf(o) != 0;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object elem: c) {
+            if (indexOf((E)elem) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean add(E e) {
+
+        if (this.getElement() == null) {
+            this.setPrev(null);
+            this.setElement(e);
+            return true;
+        } else {
+            ListNode<E> nya = new ListNode<E>();
+            ListNode<E> end = this;
+            nya.setElement(e);
+            while (end.getNext() != null) {
+                end = end.getNext();
+            }
+            end.setNext(nya);
+            nya.setPrev(end);
+            nya.setNext(null);
+
+            return true;
+        }
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        ListNode<E> lish = new ListNode<E>();
+        if (getelem(indexOf(o)) != null) {
+            lish = getelem(indexOf(o)).getPrev();
+            if (lish.getPrev() != null) {
+                if (lish.getNext() != null) {
+                    lish.getPrev().setNext(lish.getNext());
+                    lish.getNext().setPrev(lish.getPrev());
+                    return true;
+                } else {
+                    lish.getPrev().setNext(null);
+                    lish.setNext(null);
+                    lish.setPrev(null);
+                    lish.setElement(null);
+                    return true;
+                }
+            } else {
+                if (this.getNext() != null) {
+                    this.setElement(this.getNext().getElement());
+                    this.getNext().setPrev(null);
+                    this.setNext(this.getNext().getNext());
+                    if (this.getNext() != null) {
+                        this.getNext().setPrev(this);
+                    }
+                    return true;
+                } else {
+                    this.setElement(null);
+                }
+            }
+        } else {
+            return false;
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        this.setNext(null);
+        this.setPrev(null);
+        this.setElement(null);
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        ListNode<E> elem = this.getHead();
+        for (int i = 1; i <= index; i++) {
+            if (elem.getNext() != null) {
+                elem = elem.getNext();
+            } else {
+                return null;
+            }
+
+        }
+        return  elem.getElement();
+    }
+
+    private ListNode<E> getelem(int index) {
+        if (index > 0) {
+            ListNode<E> elem = this.getHead();
+            for (int i = 1; i <= index; i++) {
+                if (elem.getNext() != null) {
+                    elem = elem.getNext();
+                } else {
+                    return null;
+                }
+            }
+            return  elem;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> elem = this.getHead();
+        o = (E) o;
+        int inta = 1;
+        while (elem != null) {
+            if (elem.getElement() == o) {
+                return inta;
+            } else {
+                inta++;
+                elem = elem.getNext();
+            }
+        }
+        return 0;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E o : c) {
+            if (o != null) {
+                add(o);
+
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
-
-
-
-
-
 
     /*
       !!! Implement methods below Only if you know what you are doing !!!
@@ -77,7 +201,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public boolean addAll(int index, Collection<? extends E> c) {
         return false;
     }
@@ -85,7 +209,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public boolean removeAll(Collection<?> c) {
         return false;
     }
@@ -93,7 +217,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public boolean retainAll(Collection<?> c) {
         return false;
     }
@@ -101,14 +225,14 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public void add(int index, E element) {
     }
 
     /**
      * Do not implement
      */
-    @Override
+
     public E remove(int index) {
         return null;
     }
@@ -116,7 +240,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public int lastIndexOf(Object o) {
         return 0;
     }
@@ -124,7 +248,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public ListIterator<E> listIterator() {
         return null;
     }
@@ -132,7 +256,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public ListIterator<E> listIterator(int index) {
         return null;
     }
@@ -140,7 +264,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
     }
@@ -148,7 +272,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public Object[] toArray() {
         return new Object[0];
     }
@@ -156,7 +280,7 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public <T> T[] toArray(T[] a) {
         return null;
     }
@@ -164,8 +288,9 @@ public class CustomLinkedList<E> implements List<E> {
     /**
      * Do not implement
      */
-    @Override
+
     public E set(int index, E element) {
         return null;
     }
+
 }
