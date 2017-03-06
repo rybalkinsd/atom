@@ -21,13 +21,15 @@ public class GameSession implements Tickable {
     @Override
     public void tick(long elapsed) {
         log.info("tick");
+        ArrayList<Temporary> dead = new ArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
-                gameObjects.remove(gameObject);
+                dead.add((Temporary)gameObject);
             }
         }
+        gameObjects.removeAll(dead);
     }
 }
