@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: junit:junit:4.+">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Could not resolve junit:junit:4.+." />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

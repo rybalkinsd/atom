@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.atom.UtilTest" tests="8" skipped="8" failures="0" errors="0" timestamp="2017-02-22T17:07:50" hostname="Antonio" time="0.014">
+  <properties/>
+  <testcase name="max0" classname="ru.atom.UtilTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="max1" classname="ru.atom.UtilTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="max2" classname="ru.atom.UtilTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="max3" classname="ru.atom.UtilTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="sum0" classname="ru.atom.UtilTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="sum1" classname="ru.atom.UtilTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="sum2" classname="ru.atom.UtilTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="sum3" classname="ru.atom.UtilTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
