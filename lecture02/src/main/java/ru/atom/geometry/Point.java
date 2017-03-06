@@ -21,10 +21,10 @@ public class Point implements Collider /* super class and interfaces here if nec
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
         if (o == null)
             return false;
+        if (this == o)
+            return true;
         if (o.getClass() == this.getClass()) {
             Point point = (Point) o;
             if (point.x == this.x && point.y == this.y)
@@ -36,7 +36,8 @@ public class Point implements Collider /* super class and interfaces here if nec
         // your code here
 
     }
-    public boolean isColliding(Collider other){
+
+    public boolean isColliding(Collider other) {
         if (equals(other)) return true;
         return false;
     }

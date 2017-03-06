@@ -39,19 +39,20 @@ public final class Geometry {
                 int max1, max2, max3, max4,
                         may1, may2, may3, may4;
                 Bar bar = (Bar) other;
-                if (this.fp.x <= this.sp.x) {
-                    max1 = this.fp.x;
-                    max2 = this.sp.x;
-                } else {
-                    max2 = this.fp.x;
-                    max1 = this.sp.x;
-                }
+
                 if (this.fp.y <= this.sp.y) {
                     may1 = this.fp.y;
                     may2 = this.sp.y;
                 } else {
                     may2 = this.fp.y;
                     may1 = this.sp.y;
+                }
+                if (this.fp.x <= this.sp.x) {
+                    max1 = this.fp.x;
+                    max2 = this.sp.x;
+                } else {
+                    max2 = this.fp.x;
+                    max1 = this.sp.x;
                 }
                 if (bar.fp.x <= bar.sp.x) {
                     max3 = bar.fp.x;
