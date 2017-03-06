@@ -9,15 +9,19 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    ListNode<E> head = new ListNode<>();
 
     @Override
     public int size() {
+        int count = 0;
         throw new NotImplementedException();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        if (head.next == head.element
+            && head.prev == head.element) return true;
+        else return false;
     }
 
     @Override
