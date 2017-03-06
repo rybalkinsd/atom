@@ -1,0 +1,20 @@
+Signature-Version: 1.0
+Created-By: 1.5.0_22 (Sun Microsystems Inc.)
+SHA1-Digest-Manifest-Main-Attributes: be7htApDaMBXrMBm/5bVS8jQYIQ=
+SHA1-Digest-Manifest: rwP1u6dWkhwPDDYLu/c3jTGrztQ=
+
+Name: org/jacoco/agent/AgentJar.class
+SHA1-Digest: L7YENfXX+fZQsjy6fTAhltTDqlI=
+
+Name: META-INF/maven/org.jacoco/org.jacoco.agent/pom.xml
+SHA1-Digest: lVx9VY1ecSJb0Rl5y5oClVEcXBc=
+
+Name: jacocoagent.jar
+SHA1-Digest: ml0pG/ktWz8RnOXl71G8HUyDJxQ=
+
+Name: META-INF/maven/org.jacoco/org.jacoco.agent/pom.properties
+SHA1-Digest: hWQn3dO3NeXlK8BQI4Wp2FX6Bhc=
+
+Name: about.html
+SHA1-Digest: WJzXbX7LXigIoPlBePRlnkLNn8w=
+

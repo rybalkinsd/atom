@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1726721363/atom.iml" filepath="$PROJECT_DIR$/.idea/modules/1726721363/atom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1726721363/atom_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1726721363/atom_main.iml" group="atom" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1726721363/atom_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1726721363/atom_test.iml" group="atom" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1.iml" filepath="$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1.iml" group="homeworks/HW1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1_main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1_main.iml" group="homeworks/HW1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1_test.iml" filepath="$PROJECT_DIR$/.idea/modules/-1813383366/homeworks_HW1_test.iml" group="homeworks/HW1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096771/lecture01.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096771/lecture01.iml" group="lecture01" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096771/lecture01_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096771/lecture01_main.iml" group="lecture01" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096771/lecture01_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096771/lecture01_test.iml" group="lecture01" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lecture02.iml" filepath="$PROJECT_DIR$/.idea/modules/lecture02.iml" group="lecture02" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lecture02_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lecture02_main.iml" group="lecture02" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lecture02_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lecture02_test.iml" group="lecture02" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096773/lecture03.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096773/lecture03.iml" group="lecture03" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096773/lecture03_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096773/lecture03_main.iml" group="lecture03" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1945096773/lecture03_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1945096773/lecture03_test.iml" group="lecture03" />
+    </modules>
+  </component>
+</project>
