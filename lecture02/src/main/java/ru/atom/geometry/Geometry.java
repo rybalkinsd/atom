@@ -36,8 +36,14 @@ public final class Geometry {
             if (this == other)
                 return true;
             if (other.getClass() == this.getClass()) {
-                int max1, max2, max3, max4,
-                        may1, may2, may3, may4;
+                int max1;
+                int max2;
+                int max3;
+                int max4;
+                int may1;
+                int may2;
+                int may3;
+                int may4;
                 Bar bar = (Bar) other;
 
                 if (this.fp.y <= this.sp.y) {
@@ -75,7 +81,10 @@ public final class Geometry {
             }
             if (other instanceof Point) {
                 Point point = (Point) other;
-                int max1, max2, may1, may2;
+                int max1;
+                int max2;
+                int may1;
+                int may2;
                 if (this.fp.x <= this.sp.x) {
                     max2 = this.sp.x;
                     max1 = this.fp.x;
@@ -103,8 +112,14 @@ public final class Geometry {
             if (o == null)
                 return false;
             if (o.getClass() == this.getClass()) {
-                int max1, max2, max3, max4,
-                        may1, may2, may3, may4;
+                int max1;
+                int max2;
+                int max3;
+                int max4;
+                int may1;
+                int may2;
+                int may3;
+                int may4;
                 Bar bar = (Bar) o;
                 if (this.fp.x <= this.sp.x) {
                     max1 = this.fp.x;
