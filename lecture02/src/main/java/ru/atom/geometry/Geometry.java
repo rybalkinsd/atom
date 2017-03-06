@@ -31,10 +31,10 @@ public final class Geometry {
 
         @Override
         public boolean isColliding(Collider other) {
-            if (this == other)
-                return true;
             if (other == null)
                 return false;
+            if (this == other)
+                return true;
             if (other.getClass() == this.getClass()) {
                 int max1, max2, max3, max4,
                         may1, may2, may3, may4;
