@@ -33,7 +33,11 @@ public class Bomb implements Positionable, Temporary {
 
     @Override
     public boolean isDead() {
-        return elapsedTime >= LIFETIME;
+        long temp = elapsedTime;
+        if (elapsedTime >= LIFETIME) {
+            elapsedTime = 0;
+        }
+        return temp >= LIFETIME;
     }
 
     @Override

@@ -7,10 +7,9 @@ public class Player implements Movable {
     private Point position;
     private boolean boosted;
     private int velocity = 2;
-    private int bombsMax;
-    private int bombStrength;
+    private int bombsMax = 1;
+    private int bombStrength = 1;
     private boolean isDead = false;
-    private long lifetime;
 
     public Player(int x, int y) {
         this.position = new Point(x, y);
@@ -19,7 +18,6 @@ public class Player implements Movable {
 
     @Override
     public void tick(long elapsed) {
-        lifetime += elapsed;
     }
 
     @Override
@@ -36,16 +34,16 @@ public class Player implements Movable {
     public Point move(Direction direction) {
         switch (direction) {
             case UP:
-                position = new Point(position.getX(), position.getY() + velocity);
+                position = new Point(position.getX(), position.getY() + velocity/* * elapsed*/);
                 return position;
             case DOWN:
-                position = new Point(position.getX(), position.getY() - velocity);
+                position = new Point(position.getX(), position.getY() - velocity/* * elapsed*/);
                 return position;
             case RIGHT:
-                position = new Point(position.getX() + velocity, position.getY());
+                position = new Point(position.getX() + velocity/* * elapsed*/, position.getY());
                 return position;
             case LEFT:
-                position = new Point(position.getX() - velocity, position.getY());
+                position = new Point(position.getX() - velocity/* * elapsed*/, position.getY());
                 return position;
             case IDLE:
                 return position;
