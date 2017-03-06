@@ -77,8 +77,9 @@ public final class Geometry {
                 Point point = (Point) other;
                 int max1, max2, may1, may2;
                 if (this.fp.x <= this.sp.x) {
-                    max1 = this.fp.x;
                     max2 = this.sp.x;
+                    max1 = this.fp.x;
+
                 } else {
                     max2 = this.fp.x;
                     max1 = this.sp.x;

@@ -21,7 +21,7 @@ public class Point implements Collider /* super class and interfaces here if nec
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (o == this)
             return true;
         if (o == null)
             return false;
