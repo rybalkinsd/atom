@@ -2,13 +2,16 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-
-import java.util.*;
+import java.util.Objects;
+import java.util.List;
+import java.util.Iterator;
+import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.ConcurrentModificationException;
 import java.util.function.Consumer;
-
+import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
-
 
     private int size = 0;
     private int modCount = 0;
@@ -123,15 +126,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     ListNode<E> listNode(int index) {
         if (index < (size >> 1)) {
-            ListNode<E> x = first;
+            ListNode<E> currentNode = first;
             for (int i = 0; i < index; i++)
-                x = x.next;
-            return x;
+                currentNode = currentNode.next;
+            return currentNode;
         } else {
-            ListNode<E> x = last;
+            ListNode<E> currentNode = last;
             for (int i = size - 1; i > index; i--)
-                x = x.prev;
-            return x;
+                currentNode = currentNode.prev;
+            return currentNode;
         }
     }
 
@@ -139,12 +142,13 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean addAll(int index, Collection<? extends E> c) {
         checkPositionIndex(index);
 
-        Object[] a = c.toArray();
-        int numNew = a.length;
+        Object[] object = c.toArray();
+        int numNew = object.length;
         if (numNew == 0)
             return false;
 
-        ListNode<E> pred, succ;
+        ListNode<E> pred;
+        ListNode<E> succ;
         if (index == size) {
             succ = null;
             pred = last;
@@ -153,9 +157,9 @@ public class CustomLinkedList<E> implements List<E> {
             pred = succ.prev;
         }
 
-        for (Object o : a) {
-            E e = (E) o;
-            ListNode<E> newListNode = new ListNode<>(pred, e, null);
+        for (Object o : object) {
+            E element = (E) o;
+            ListNode<E> newListNode = new ListNode<>(pred, element, null);
             if (pred == null)
                 first = newListNode;
             else
@@ -396,19 +400,19 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         checkElementIndex(index);
-        ListNode<E> x = listNode(index);
-        E oldVal = x.item;
-        x.item = element;
+        ListNode<E> currentNode = listNode(index);
+        E oldVal = currentNode.item;
+        currentNode.item = element;
         return oldVal;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
         boolean modified = false;
-        Iterator<?> e = iterator();
-        while (e.hasNext()) {
-            if (c.contains(e.next())) {
-                e.remove();
+        Iterator<?> element = iterator();
+        while (element.hasNext()) {
+            if (c.contains(element.next())) {
+                element.remove();
                 modified = true;
             }
         }
