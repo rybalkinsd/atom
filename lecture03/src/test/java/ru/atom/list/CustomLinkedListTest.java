@@ -16,6 +16,7 @@ public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
     private List<Integer> intMyList = new CustomLinkedList<>();
+    //private List<Integer> intMyListZero = new CustomLinkedList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -29,6 +30,7 @@ public class CustomLinkedListTest {
 
     @Test
     public void sizeTest() throws Exception {
+        assertThat(intMyList.size(), is(equalTo(0)));
         assertThat(intList.size(), is(equalTo(2)));
         assertThat(stringList.size(), is(equalTo(3)));
     }
@@ -82,11 +84,13 @@ public class CustomLinkedListTest {
     @Test
     public void isEmptyTest() throws Exception {
         assertThat(intMyList.isEmpty(), is(equalTo(true)));
+        assertThat(intList.isEmpty(), is(equalTo(false)));
     }
 
     @Test
     public void lastIndexOfTest() throws Exception {
         assertThat(intList.lastIndexOf(42), is(0));
+        assertThat(stringList.lastIndexOf("world!"), is(2));
     }
 
     @Test
@@ -118,4 +122,11 @@ public class CustomLinkedListTest {
         assertThat(intList.contains(67), is(true));
         assertThat(intList.size(), is(2));
     }
+
+    @Test
+    public void removeTwoTest() throws Exception {
+        assertThat(intMyList.remove((Integer) 42), is(false));
+    }
+
+
 }

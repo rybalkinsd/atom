@@ -31,7 +31,11 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return head == null;
+        size();
+        if (size == 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
