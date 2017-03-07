@@ -1,11 +1,11 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 
 public class CustomLinkedList<E> implements List<E> {
@@ -13,60 +13,122 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int size() {
-        int count = 0;
-        throw new NotImplementedException();
+        int count  = 0;
+        ListNode<E> listElem = head;
+        while (listElem.getNext() != head) {
+            listElem = listElem.getNext();
+            count++;
+        }
+        return count;
     }
 
     @Override
     public boolean isEmpty() {
-        if (head.next == head.element
-            && head.prev == head.element) return true;
-        else return false;
+        return head.getPrev() == head ;
     }
 
     @Override
-    public boolean contains(Object o) {
-        throw new NotImplementedException();
+    public boolean contains(Object o) throws ClassCastException , NullPointerException {
+        if (o == null || isEmpty()) return false;
+        else {
+            E otherElement = (E)o;
+            ListNode<E> listElement = head;
+            boolean answer = false;
+            for (int i = 0; i <= size(); i++) {
+                if (listElement.getElement() == otherElement) answer = true;
+                listElement = listElement.getNext();
+            }
+            return answer;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new Iterator<E>() {
+
+            ListNode<E> listElement = head;
+
+            @Override
+            public boolean hasNext() {
+                return listElement.getNext() != head;
+            }
+
+            @Override
+            public E next() {
+                if (hasNext()) {
+                    listElement = listElement.getNext();
+                    return listElement.getElement();
+                } else throw new NoSuchElementException();
+
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode<E> list = new ListNode<>(e, head, head.getPrev());
+        head.getPrev().setNext(list);
+        head.setPrev(list);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (o == null || isEmpty()) return false;
+        else {
+            E otherElement = (E)o;
+            ListNode<E> listElement = head;
+            boolean answer = false;
+            for (int i = 0; i <= size(); i++) {
+                if (listElement.getElement() == otherElement) {
+                    listElement.getPrev().setNext(listElement.getNext());
+                    listElement.getNext().setPrev(listElement.getPrev());
+                    answer = true;
+                }
+                listElement = listElement.getNext();
+            }
+            return answer;
+        }
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+    public boolean containsAll(Collection<?> c) throws ClassCastException , NullPointerException {
+        for (Object o: c) {
+            if (!contains(o)) return false;
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        head.setNext(head);
+        head.setPrev(head);
     }
 
     @Override
-    public E get(int index) {
-        throw new NotImplementedException();
+    public E get(int index) throws IndexOutOfBoundsException  {
+        ListNode<E> list = head;
+        for (int i = 0; i <= index; i++) {
+            list = list.getNext();
+        }
+        return list.getElement();
     }
 
     @Override
-    public int indexOf(Object o) {
-        throw new NotImplementedException();
+    public int indexOf(Object o) throws ClassCastException , NullPointerException {
+        ListNode<E> list = head;
+        for (int i = 0; i <= size(); i++) {
+            if (list.getElement().equals(o)) return i;
+            list = list.getNext();
+        }
+        return -1;
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+    public boolean addAll(Collection<? extends E> c) throws UnsupportedOperationException, ClassCastException,
+            NullPointerException, IllegalArgumentException {
+        c.forEach(this::add);
+        return true;
     }
 
 
