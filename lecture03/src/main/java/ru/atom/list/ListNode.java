@@ -7,7 +7,7 @@ import java.util.Objects;
  * Contains ref to next node, prev node and value
  */
 public class ListNode<E> {
-    E element;
+    private E element;
     ListNode<E> prev;
     ListNode<E> next;
 
@@ -17,6 +17,9 @@ public class ListNode<E> {
         this.next = next;
     }
 
+    public E getElement() {
+        return element;
+    }
 
 
 }

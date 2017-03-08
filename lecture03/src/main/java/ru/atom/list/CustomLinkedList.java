@@ -32,7 +32,7 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode<E> qq = first;
         E el = (E) o;
         for (int i = 0; i < size; i++) {
-            if  (el.equals(qq.element)) {
+            if  (el.equals(qq.getElement())) {
                 return true;
             }
             qq = qq.next;
@@ -60,7 +60,7 @@ public class CustomLinkedList<E> implements List<E> {
                 if (this.hasNext() == false) throw new NoSuchElementException();
                 else {
                     key = key.next;
-                    return key.element;
+                    return key.getElement();
                 }
             }
         };
@@ -87,7 +87,7 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode<E> qq = first;
         E el = (E) o;
         for (int i = 0; i < size; i++) {
-            if  (el.equals(qq.element)) {
+            if  (el.equals(qq.getElement())) {
                 if (i != 0)  qq.prev.next = qq.next;
                 if (i != (size - 1))  qq.next.prev = qq.prev;
                 if (i == 0) first = qq.next;
@@ -124,7 +124,7 @@ public class CustomLinkedList<E> implements List<E> {
         for (int i = 0; i < index; i++) {
             qq = qq.next;
         }
-        return qq.element;
+        return qq.getElement();
     }
 
     @Override
