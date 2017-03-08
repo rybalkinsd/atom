@@ -10,7 +10,8 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
-    ListNode<E> first, last;
+    ListNode<E> first;
+    ListNode<E> last;
     int size;
 
     @Override
@@ -31,8 +32,8 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode<E> qq = first;
         E el = (E) o;
         for (int i = 0; i < size; i++) {
-             if  (el.equals(qq.element)) {
-             return true;
+            if  (el.equals(qq.element)) {
+                return true;
             }
             qq = qq.next;
 
@@ -46,23 +47,23 @@ public class CustomLinkedList<E> implements List<E> {
     public Iterator<E> iterator() {
         Iterator<E> elem = new Iterator<E>() {
 
-           private ListNode<E> key = new ListNode(null,null, first);
+            private ListNode<E> key = new ListNode(null,null, first);
 
-           @Override
-           public boolean hasNext() {
-               if (key.next == null) return false;
-               else return true;
-           }
+            @Override
+            public boolean hasNext() {
+                if (key.next == null) return false;
+                else return true;
+            }
 
-           @Override
-           public E next() {
-               if (this.hasNext() == false) throw new NoSuchElementException();
-               else {
-                   key = key.next;
-                   return key.element;
+            @Override
+            public E next() {
+                if (this.hasNext() == false) throw new NoSuchElementException();
+                else {
+                    key = key.next;
+                    return key.element;
                }
-           }
-       };
+            }
+        };
         return elem;
     }
 
