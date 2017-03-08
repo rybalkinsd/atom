@@ -61,7 +61,7 @@ public class CustomLinkedList<E> implements List<E> {
                 else {
                     key = key.next;
                     return key.element;
-               }
+                }
             }
         };
         return elem;
