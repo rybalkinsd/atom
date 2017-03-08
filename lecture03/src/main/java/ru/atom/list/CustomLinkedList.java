@@ -90,7 +90,7 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object element : c) {
-            if(!this.contains(element)) {
+            if (!this.contains(element)) {
                 return false;
             }
         }
