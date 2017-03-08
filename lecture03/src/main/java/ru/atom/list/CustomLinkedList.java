@@ -8,36 +8,110 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
+
+    private ListNode<E> head;
+    private int size;
+
+    public CustomLinkedList() {
+        size = 0;
+        head = new ListNode<E>();
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return head == null;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        if (o == null) {
+            return false;
+        } else {
+            ListNode<E> node = head.next;
+            while (node != null && node != head) {
+                if (node.element.equals(o))
+                    return true;
+                else {
+                    node = node.next;
+                }
+            }
+            return false;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomLinkedListIterator(head.next);
+    }
+
+    private final class CustomLinkedListIterator implements Iterator<E> {
+
+        private int currentIndex = 0;
+        private ListNode<E> node;
+
+
+        public CustomLinkedListIterator(ListNode<E> node) {
+            this.node = node;
+        }
+
+        @Override
+        public E next() {
+            E element = node.element;
+            node = node.next;
+            currentIndex++;
+            return element;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode<E> node = new ListNode<>();
+        node.element = e;
+        node.next = head;
+        node.prev = head.prev;
+
+        if (head.prev != null) {
+            node.next = head;
+            node.prev = head.prev;
+            head.prev.next = node;
+            head.prev = node;
+        } else {
+            node.next = head;
+            node.prev = head;
+            head.prev = node;
+            head.next = node;
+        }
+        size ++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> node = head.next;
+        while (node != null && node != head) {
+            if (node.element.equals(o)) {
+                ListNode<E> oldNode = node.prev;
+                ListNode<E> newNode = node.next;
+                oldNode.next = newNode;
+                //node.prev.next = node.next;
+                //node.next.prev = node.prev;
+                size--;
+                return true;
+            }
+            node = node.next;
+        }
+        return false;
     }
 
     @Override
@@ -47,22 +121,45 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        size = 0;
+        head = null;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        ListNode<E> node = head.next;
+        int count = 0;
+        while (node != null && node != head) {
+            if (index == count)
+                return node.element;
+            else {
+                node = node.next;
+                count++;
+            }
+        }
+        return null;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> node = head.next;
+        int index = 0;
+        while (node != null && node != head) {
+            if (node.element.equals(o))
+                return index;
+            else {
+                node = node.next;
+                index++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E e: c)
+            add(e);
+        return true;
     }
 
 
