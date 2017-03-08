@@ -121,7 +121,7 @@ public class CustomLinkedList<E> implements List<E> {
     public E get(int index) {
         ListNode<E> qq = first;
 
-        for ( int i = 0; i < index; i++ ) {
+        for (int i = 0; i < index; i++) {
             qq = qq.next;
         }
         return qq.element;
