@@ -103,22 +103,36 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+
+        for (Object i : c) {
+            if (contains(i) == false) return false;
+        }
+        return  true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        first = null;
+        last = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        ListNode<E> qq = first;
+
+        for ( int i = 0; i < index; i++ ) {
+            qq = qq.next;
+        }
+        return qq.element;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        int i = 0;
+        while (contains(o) != true) i++;
+        return i;
+
     }
 
     @Override
