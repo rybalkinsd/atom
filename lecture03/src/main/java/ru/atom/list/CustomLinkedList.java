@@ -129,9 +129,9 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        int i = 0;
-        while (contains(o) != true) i++;
-        return i;
+        int index = 0;
+        while (contains(o) != true) index++;
+        return index;
 
     }
 
