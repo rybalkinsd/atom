@@ -30,24 +30,48 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-       if (o == null) {
+        if (o == null) {
             return false;
-       } else {
-           ListNode<E> node = head.next;
-           while (node != null && node != head) {
-               if (node.element.equals(o))
-                   return true;
-               else {
-                   node = node.next;
-               }
-           }
-           return false;
-       }
+        } else {
+            ListNode<E> node = head.next;
+            while (node != null && node != head) {
+                if (node.element.equals(o))
+                    return true;
+                else {
+                    node = node.next;
+                }
+            }
+            return false;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomLinkedListIterator(head.next);
+    }
+
+    private final class CustomLinkedListIterator implements Iterator<E> {
+
+        private int currentIndex = 0;
+        private ListNode<E> node;
+
+
+        public CustomLinkedListIterator(ListNode<E> node) {
+            this.node = node;
+        }
+
+        @Override
+        public E next() {
+            E element = node.element;
+            node = node.next;
+            currentIndex++;
+            return element;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
     }
 
     @Override
@@ -58,12 +82,16 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
         node.prev = head.prev;
 
         if (head.prev != null) {
+            node.next = head;
+            node.prev = head.prev;
             head.prev.next = node;
+            head.prev = node;
         } else {
+            node.next = head;
+            node.prev = head;
+            head.prev = node;
             head.next = node;
         }
-        head.prev = node;
-
         size ++;
         return true;
     }
@@ -73,12 +101,15 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
         ListNode<E> node = head.next;
         while (node != null && node != head) {
             if (node.element.equals(o)) {
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
+                ListNode<E> oldNode = node.prev;
+                ListNode<E> newNode = node.next;
+                oldNode.next = newNode;
+                //node.prev.next = node.next;
+                //node.next.prev = node.prev;
                 size--;
                 return true;
             }
-            else node = node.next;
+            node = node.next;
         }
         return false;
     }
@@ -90,10 +121,8 @@ public class CustomLinkedList<E> extends ListNode<E> implements List<E> {
 
     @Override
     public void clear() {
-        while (head != null && head.prev != head) {
-            remove(0);
-            head = head.next;
-        }
+        size = 0;
+        head = null;
     }
 
     @Override

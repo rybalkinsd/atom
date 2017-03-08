@@ -52,7 +52,6 @@ public class CustomLinkedListTest {
         for (String s : stringList) {
             stringBuilder.append(s);
         }
-
         assertThat(stringBuilder.toString(), is(equalTo("Hello, world!")));
     }
 
