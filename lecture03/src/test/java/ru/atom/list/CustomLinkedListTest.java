@@ -62,6 +62,13 @@ public class CustomLinkedListTest {
         intList.addAll(Arrays.asList(1, 2, 3, 4, 5));
         assertThat(intList.size(), is(equalTo(2 + 5)));
     }
+    
+    //My Test
+    @Test
+    public void getTest() throws Exception {
+        assertThat(intList.get((Integer) 2), is(equalTo(1)));
+        assertThat(intList.indexOf((Integer) 2), is(equalTo(3)));
+    }
 
     @Test
     public void removeTest() throws Exception {
@@ -70,4 +77,22 @@ public class CustomLinkedListTest {
         assertThat(intList.contains(38), is(true));
         assertThat(intList.size(), is(1));
     }
+    
+    //My Test
+    @Test
+    public void clearTest() throws Exception {
+        assertThat(intList.isEmpty(), is(false));
+        intList.clear();
+        stringList.clear();
+        assertThat(intList.isEmpty(), is(true));
+        assertThat(stringList.isEmpty(), is(true));
+    }
+
+    //My Test
+    @Test
+    public void containsAllTest() throws Exception {
+        assertThat(intList.containsAll(Arrays.asList(1, 2, 3, 4, 38)), is(true));
+        assertThat(intList.containsAll(Arrays.asList(1, 2, 3, 7, 38)), is(false));
+    }
+    
 }
