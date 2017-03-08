@@ -9,25 +9,25 @@ import static sun.nio.cs.Surrogate.is;
 
 
 public class CustomLinkedList<E> implements List<E> {
-    ListNode<E> prev,next,first, last;
+    ListNode<E> first, last;
 
     int size;
 
     @Override
     public int size() {
-    return  size;
+        return  size;
     }
 
     @Override
     public boolean isEmpty() {
-        if (size == 0) {return true;}
+        if (size == 0) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean contains(Object o) {
-
-
         ListNode<E> qq = first;
                 E el = (E) o;
         for (int i = 0; i < size; i++) {
@@ -89,8 +89,8 @@ public class CustomLinkedList<E> implements List<E> {
             if  (el.equals(qq.element)) {
                 if (i != 0)  qq.prev.next = qq.next;
                 if (i != (size-1))  qq.next.prev = qq.prev;
-                if (i==0) first=qq.next;
-                if (i==(size-1)) last=qq.prev;
+                if (i==0) first = qq.next;
+                if (i==(size-1)) last = qq.prev;
                 return true;
             }
             qq = qq.next;
