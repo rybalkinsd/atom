@@ -9,15 +9,17 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private int size;
+    private ListNode<E> header = new ListNode<E>();
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return size == 0;
     }
 
     @Override
@@ -32,7 +34,8 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        ListNode newLisNode = new ListNode<e>();
+
     }
 
     @Override
