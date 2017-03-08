@@ -89,7 +89,12 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object element : c) {
+            if(!this.contains(element)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -117,7 +122,17 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> list = first;
+        int count = 0;
+        while (list != null) {
+            if (list.getElement().equals(o)) {
+                return count;
+            } else {
+                list = list.getNext();
+                count++;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -229,6 +244,6 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public E set(int index, E element) {
-        return null;
+        throw new NotImplementedException();
     }
 }
