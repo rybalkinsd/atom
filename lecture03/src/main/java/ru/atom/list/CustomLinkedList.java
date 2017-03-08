@@ -2,15 +2,15 @@ package ru.atom.list;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.*;
-
-import static com.sun.javafx.fxml.expression.Expression.equalTo;
-import static sun.nio.cs.Surrogate.is;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
     ListNode<E> first, last;
-
     int size;
 
     @Override
@@ -29,9 +29,9 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean contains(Object o) {
         ListNode<E> qq = first;
-                E el = (E) o;
+        E el = (E) o;
         for (int i = 0; i < size; i++) {
-            if  (el.equals(qq.element)) {
+             if  (el.equals(qq.element)) {
              return true;
             }
             qq = qq.next;
@@ -44,7 +44,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-       Iterator<E> elem = new Iterator<E>() {
+        Iterator<E> elem = new Iterator<E>() {
 
            private ListNode<E> key = new ListNode(null,null, first);
 
@@ -57,7 +57,7 @@ public class CustomLinkedList<E> implements List<E> {
            @Override
            public E next() {
                if (this.hasNext() == false) throw new NoSuchElementException();
-                else {
+               else {
                    key = key.next;
                    return key.element;
                }
@@ -88,9 +88,9 @@ public class CustomLinkedList<E> implements List<E> {
         for (int i = 0; i < size; i++) {
             if  (el.equals(qq.element)) {
                 if (i != 0)  qq.prev.next = qq.next;
-                if (i != (size-1))  qq.next.prev = qq.prev;
-                if (i==0) first = qq.next;
-                if (i==(size-1)) last = qq.prev;
+                if (i != (size - 1))  qq.next.prev = qq.prev;
+                if (i == 0) first = qq.next;
+                if (i == (size - 1)) last = qq.prev;
                 return true;
             }
             qq = qq.next;

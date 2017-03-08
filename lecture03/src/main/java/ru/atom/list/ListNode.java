@@ -10,12 +10,11 @@ public class ListNode<E> {
     E element;
     ListNode<E> prev;
     ListNode<E> next;
-    private ListNode<E> size;
 
-    public  ListNode(E element, ListNode<E> prev, ListNode<E> next){
-      this.element = element;
-      this.prev = prev;
-      this.next = next;
+    public  ListNode(E element, ListNode<E> prev, ListNode<E> next) {
+        this.element = element;
+        this.prev = prev;
+        this.next = next;
     }
 
 
