@@ -22,7 +22,7 @@ public class CustomIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-        if (element.getNext() == null){
+        if (element.getNext() == null) {
             throw new NoSuchElementException();
         }
         element = element.getNext();
