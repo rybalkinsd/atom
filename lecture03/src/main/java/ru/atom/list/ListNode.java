@@ -8,7 +8,7 @@ public class ListNode<E> {
     private ListNode<E> next;
     private ListNode<E> prev;
 
-    public ListNode (E element, ListNode<E> prev, ListNode<E> next) {
+    public ListNode(E element, ListNode<E> prev, ListNode<E> next) {
         this.element = element;
         this.next = next;
         this.prev = prev;
