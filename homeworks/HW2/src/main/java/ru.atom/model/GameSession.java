@@ -9,13 +9,31 @@ import java.util.List;
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
+    private int gameObjectId;
+
+    public GameSession(int gameObjectId) {
+        this.gameObjectId = gameObjectId;
+    }
 
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
     }
 
+    public int getGameObjectId() {
+        return gameObjectId;
+    }
+
     public void addGameObject(GameObject gameObject) {
-        gameObjects.add(gameObject);
+        try {
+            gameObjects.add(gameObject);
+            log.info("Create an object " + gameObject.getClass() + " with id=" + gameObject.getId());
+            this.gameObjectId += 1;
+        } catch (IllegalArgumentException ex) {
+            log.error("IllegalArgumentException with " + gameObject.getClass() + ", id = " + gameObject.getId());
+        } catch (Exception ex) {
+            log.error("Exception " + ex.getClass() + " with cause" + ex.getCause() + " with sttrace "
+                    + ex.getStackTrace());
+        }
     }
 
     @Override
