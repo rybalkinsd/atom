@@ -9,10 +9,16 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private int size = 0;
+    private ListNode<E> first;
+    private ListNode<E> last;
+
+    CustomLinkedList() {
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
@@ -22,48 +28,159 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        return indexOf(o) != -1;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomIterator<>(first);
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        linkLast(e);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (x.item == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object e : c)
+            if (!contains(e))
+                return false;
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        for (ListNode<E> x = first; x != null; ) {
+            ListNode<E> next = x.next;
+            x.item = null;
+            x.next = null;
+            x.prev = null;
+            x = next;
+        }
+        first = null;
+        last = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+
+        ListNode<E> element;
+        if (index < (size >> 1)) {
+            element = first;
+            for (int i = 0; i < index; i++)
+                element = element.next;
+        } else {
+            element = last;
+            for (int i = size - 1; i > index; i--)
+                element = element.prev;
+        }
+        return element.item;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        int index = 0;
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (x.item == null)
+                    return index;
+                index++;
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        Object[] all = c.toArray();
+        int numNew = all.length;
+        if (numNew == 0)
+            return false;
+
+        ListNode<E> pred = last;
+
+        for (Object o : all) {
+            ListNode<E> newNode = new ListNode<>(pred, (E) o, null);
+            if (pred == null)
+                first = newNode;
+            else
+                pred.next = newNode;
+            pred = newNode;
+        }
+
+        last = pred;
+
+        size += numNew;
+        return true;
     }
+
+    private void linkLast(E e) {
+        final ListNode<E> l = last;
+        final ListNode<E> newNode = new ListNode<>(l, e, null);
+        last = newNode;
+        if (l == null)
+            first = newNode;
+        else
+            l.next = newNode;
+        size++;
+    }
+
+    private E unlink(ListNode<E> x) {
+        final E element = x.item;
+        final ListNode<E> next = x.next;
+        final ListNode<E> prev = x.prev;
+
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
+            x.next = null;
+        }
+
+        x.item = null;
+        size--;
+        return element;
+    }
+
+
 
 
 
