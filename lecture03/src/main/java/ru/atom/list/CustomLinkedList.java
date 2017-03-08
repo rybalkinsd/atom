@@ -10,59 +10,137 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+
+    private ListNode<E> first = null;
+    private int size = 0;
+
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return (this.size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> list = first;
+        while (list != null) {
+            if (list.getElement().equals(o)) {
+                return true;
+            }
+            list = list.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomIterator<E>(first);
     }
 
     @Override
-    public boolean add(E e) {
-        throw new NotImplementedException();
+    public boolean add(E e) { //добавляет элемент в конец списка и в случае удачного добавления возвращает true
+
+        if (first == null) {
+            first = new ListNode<E>(e, null, null);
+            size++;
+            return true;
+        }
+        ListNode<E> list = first;
+        ListNode<E> prev = null;
+        while (list != null) {
+            prev = list;
+            list = list.getNext();
+        }
+        prev.setNext(new ListNode<E>(e, prev, null));
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> list = first;
+        while (list != null) {
+            if (list.getElement().equals(o)) {
+                size --;
+                return deleteList(list);
+            }
+            list = list.getNext();
+        }
+        return false;
+    }
+
+    public boolean deleteList(ListNode<E> list) {
+        ListNode<E> prev = list.getPrev();
+        ListNode<E> next = list.getNext();
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.setNext(next);
+        }
+        if (next != null) {
+            next.setPrev(prev);
+        }
+        return true;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object element : c) {
+            if (!this.contains(element)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        first = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode<E> list = first;
+        int count = 0;
+        while (list != null) {
+            if (count == index) {
+                break;
+            }
+            list = list.getNext();
+            count++;
+        }
+        return list.getElement();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        ListNode<E> list = first;
+        int count = 0;
+        while (list != null) {
+            if (list.getElement().equals(o)) {
+                return count;
+            } else {
+                list = list.getNext();
+                count++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E e : c) {
+            add(e);
+        }
+        return true;
     }
 
 
@@ -166,6 +244,6 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public E set(int index, E element) {
-        return null;
+        throw new NotImplementedException();
     }
 }
