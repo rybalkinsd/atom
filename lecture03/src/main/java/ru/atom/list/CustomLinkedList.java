@@ -27,8 +27,8 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean contains(Object o) {
         ListNode<E> list = first;
-        while (list != null){
-            if (list.getElement().equals(o)){
+        while (list != null) {
+            if (list.getElement().equals(o)) {
                 return true;
             }
             list = list.getNext();
@@ -51,7 +51,7 @@ public class CustomLinkedList<E> implements List<E> {
         }
         ListNode<E> list = first;
         ListNode<E> prev = null;
-        while (list != null){
+        while (list != null) {
             prev = list;
             list = list.getNext();
         }
