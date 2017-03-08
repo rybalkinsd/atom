@@ -112,10 +112,9 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public int indexOf(Object o) {
         int index = 0;
-        E el = (E) o;
         ListNode tmp = header.getNext();
         while (tmp.getNext() != null) {
-            if (tmp.getElement().equals(el))
+            if (tmp.getElement().equals(o))
                 return index;
             tmp = tmp.getNext();
             index++;
@@ -125,9 +124,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        Object[] objects = c.toArray();
-        for (Object o: objects) {
-            E el = (E) o;
+        for (E el: c) {
             this.add(el);
         }
         return true;
