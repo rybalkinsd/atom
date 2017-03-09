@@ -1,23 +1,23 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ListIterator;
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 
 public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
-    private ListNode<E> head = new ListNode<>(null, null, null);
+    private ListNode<E> head;
+
+    CustomLinkedList() {
+        this.head = new ListNode<>();
+    }
 
     @Override
     public int size() {
-        if (head.next == null) {
-            return new Integer(0);
-        }
         int numb = 0;
         ListNode temp = head.next;
         while (temp != head) {
@@ -36,7 +36,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public boolean contains(Object o) {
         ListNode temp = head.next;
         for (int i = 0; i < this.size(); i++) {
-            if (temp.equals(o)) {
+            if (temp.element.equals(o)) {
                 return true;
             }
             temp = temp.next;
@@ -76,6 +76,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
                 if (temp.equals(o)) {
                     temp.prev.next = temp.next;
                     temp.next.prev = temp.prev;
+                    temp.element = null;
                     break;
                 }
                 temp = temp.next;
@@ -86,12 +87,21 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Iterator<?> temp = c.iterator(); temp.hasNext();) {
+            Object next = temp.next();
+            if (!this.contains(next)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        for (Iterator<E> temp = this.iterator(); temp.hasNext();) {
+            E next = temp.next();
+            this.remove(next);
+        }
     }
 
     @Override
@@ -137,50 +147,117 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
      */
 
     /**
-     * Do not implement
+     * Do not implement(completed)
+     *
      */
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        if (index < 0 || index > this.size()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            for (Iterator<? extends E> temp = c.iterator(); temp.hasNext();) {
+                E next = temp.next();
+                this.add(index, next);
+                index++;
+            }
+        }
+        return true;
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        if (c == null) {
+            return false;
+        } else {
+            for (Iterator<E> temp = this.iterator(); temp.hasNext();) {
+                E obj = temp.next();
+                if (c.contains(obj)) {
+                    temp.remove();
+                }
+            }
+        }
+        return true;
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        if (c == null) {
+            return false;
+        } else {
+            for (Iterator<E> temp = this.iterator(); temp.hasNext();) {
+                E obj = temp.next();
+                if (!c.contains(obj)) {
+                    temp.remove();
+                }
+            }
+        }
+        return true;
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public void add(int index, E element) {
+        ListNode<E> temp = head;
+        if (index == this.size()) {
+            ListNode<E> el = new ListNode<E>(element, head, head.prev);
+            head.prev.next = el;
+            head.prev = el;
+        } else {
+            for (int i = 0; i <= index; i++) {
+                temp = temp.next;
+            }
+            ListNode<E> el = new ListNode<E>(element, temp, temp.prev);
+            temp.prev.next = el;
+            temp.prev = el;
+        }
+
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public E remove(int index) {
+        if (this.size() == 0) {
+            throw new NoSuchElementException();
+        }
+        int position = 0;
+        for (Iterator<E> temp = this.iterator(); temp.hasNext();) {
+            E next = temp.next();
+            position++;
+            if (position > index) {
+                temp.remove();
+                return next;
+            }
+        }
         return null;
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        if (!this.contains(o)) {
+            return -1;
+        } else {
+            ListNode temp = head.prev;
+            for (int i = this.size() - 1; i <= 0; i--) {
+                if (temp.equals(o)) {
+                    return i;
+                }
+                temp = temp.prev;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -200,11 +277,23 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     }
 
     /**
-     * Do not implement
+     * Do not implement(completed)
      */
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        List<E> sub = new CustomLinkedList<E>();
+        if (fromIndex > toIndex || fromIndex < 0 || toIndex >= this.size()) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            int position = 0;
+            for (E temp : this) {
+                if (position >= fromIndex && position < toIndex) {
+                    sub.add(temp);
+                }
+                position++;
+            }
+        }
+        return sub;
     }
 
     /**

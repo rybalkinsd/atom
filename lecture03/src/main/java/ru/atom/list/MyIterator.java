@@ -1,7 +1,5 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Iterator;
 
 /**
@@ -18,6 +16,12 @@ public class MyIterator<E> implements Iterator {
     public E next() {
         this.current = this.current.next;
         return this.current.element;
+    }
+
+    @Override
+    public void remove() {
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
     }
 
     @Override

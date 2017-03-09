@@ -8,6 +8,12 @@ public class ListNode<E> {
     ListNode<E> next;
     ListNode<E> prev;
 
+    ListNode() {
+        E element = null;
+        next = this;
+        prev = this;
+    }
+
     ListNode(E element, ListNode<E> next, ListNode<E> prev) {
         this.element = element;
         this.next = next;
