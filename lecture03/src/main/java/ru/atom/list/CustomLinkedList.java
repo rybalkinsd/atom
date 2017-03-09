@@ -1,6 +1,5 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,64 +8,140 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private ListNode<E> head;
+    private int size;
+
+    public CustomLinkedList() {
+        head = new ListNode<>();
+        size = 0;
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        return indexOf(o) >= 0;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new Itr(head.getNext());
+    }
+
+    private final class Itr implements Iterator<E> {
+        private ListNode<E> item;
+        private int curPos = 0;
+
+        Itr(ListNode<E> item) {
+            this.item = item;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return curPos < size;
+        }
+
+        @Override
+        public E next() {
+            E value = item.getValue();
+            item = item.getNext();
+            curPos++;
+            return value;
+        }
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        if (e == null) {
+            throw new NullPointerException("This list does not permit null elements");
+        }
+
+        ListNode<E> newElement = new ListNode<>(e);
+
+        ListNode<E> oldTail = head.getPrev();
+        head.setPrev(newElement);
+        oldTail.setNext(newElement);
+        newElement.setPrev(oldTail);
+        newElement.setNext(head);
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (o == null) {
+            throw new NullPointerException("This list does not permit null elements");
+        }
+        ListNode<E> tmp = head.getNext();
+        for (int i = 0; i < size; i++) {
+            if (tmp.getValue().equals(o)) {
+                ListNode<E> old = tmp.getPrev();
+                ListNode<E> next = tmp.getNext();
+                old.setNext(next);
+                next.setPrev(old);
+                size--;
+                return true;
+            }
+            tmp = tmp.getNext();
+        }
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object item : c) {
+            if (!contains(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        head = new ListNode<>();
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        if (index >= size || index < 0)
+            throw new IndexOutOfBoundsException();
+        ListNode<E> tmp = head.getNext();
+        for (int i = 0; i < index; i++) {
+            tmp = tmp.getNext();
+        }
+        return tmp.getValue();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        if (o == null) {
+            throw new NullPointerException("This list does not permit null elements");
+        }
+        ListNode<E> tmp = head.getNext();
+        for (int i = 0; i < size; i++) {
+            if (tmp.getValue().equals(o)) {
+                return i;
+            }
+            tmp = tmp.getNext();
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        c.forEach(this::add);
+        return true;
     }
-
-
-
 
 
 
