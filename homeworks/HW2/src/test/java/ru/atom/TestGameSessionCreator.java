@@ -1,11 +1,11 @@
 package ru.atom;
 
 import ru.atom.geometry.Point;
-import ru.atom.model.GameObjects.Bomb;
-import ru.atom.model.GameObjects.StableBox;
-import ru.atom.model.GameObjects.TemporaryBox;
+import ru.atom.model.Bomb;
+import ru.atom.model.StableBox;
+import ru.atom.model.TemporaryBox;
 import ru.atom.model.GameSession;
-import ru.atom.model.GameObjects.Girl;
+import ru.atom.model.Girl;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game

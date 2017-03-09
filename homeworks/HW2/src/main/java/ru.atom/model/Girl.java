@@ -1,11 +1,8 @@
-package ru.atom.model.GameObjects;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
-import ru.atom.model.AbstractGameObject;
-import ru.atom.model.Dieable;
-import ru.atom.model.Movable;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -26,7 +23,8 @@ public class Girl extends AbstractGameObject implements Movable, Dieable {
         this.speed = 1;
         this.direction = Direction.IDLE;
         this.isDead = false;
-        log.info(this + " was created");
+        log.info(this
+                + " was created");
     }
 
     @Override
@@ -74,15 +72,17 @@ public class Girl extends AbstractGameObject implements Movable, Dieable {
 
     @Override
     public String toString() {
-        return "Girl{" +
-                "id=" + id +
-                '}';
+        return "Girl{"
+                + "id="
+                + id
+                + '}';
     }
 
     @Override
     public boolean isDead() {
         if (isDead) {
-            log.info(this + " is dead");
+            log.info(this
+                    + " is dead");
             return isDead;
         } else {
             return false;

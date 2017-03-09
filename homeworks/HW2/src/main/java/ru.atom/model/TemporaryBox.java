@@ -1,9 +1,8 @@
-package ru.atom.model.GameObjects;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
 
 
 /**
@@ -20,7 +19,8 @@ public class TemporaryBox extends AbstractGameObject implements Positionable, Di
         this.position = position;
         this.id = AbstractGameObject.id++;
         this.isDead = false;
-        log.info(this + " was created");
+        log.info(this
+                + " was created");
     }
 
     @Override
@@ -36,7 +36,8 @@ public class TemporaryBox extends AbstractGameObject implements Positionable, Di
     @Override
     public boolean isDead() {
         if (isDead) {
-            log.info(this + " is dead");
+            log.info(this
+                    + " is dead");
             return isDead;
         } else {
             return false;
@@ -49,8 +50,9 @@ public class TemporaryBox extends AbstractGameObject implements Positionable, Di
 
     @Override
     public String toString() {
-        return "TemporaryBox{" +
-                "id=" + id +
-                '}';
+        return "TemporaryBox{"
+                + "id="
+                + id
+                + '}';
     }
 }

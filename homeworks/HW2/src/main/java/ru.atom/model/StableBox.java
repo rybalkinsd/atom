@@ -1,10 +1,8 @@
-package ru.atom.model.GameObjects;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
-import ru.atom.model.AbstractGameObject;
-import ru.atom.model.Positionable;
 
 
 /**
@@ -19,7 +17,8 @@ public class StableBox extends AbstractGameObject implements Positionable {
     public StableBox(Point position) {
         this.position = position;
         this.id = AbstractGameObject.id++;
-        log.info(this + " was created");
+        log.info(this
+                + " was created");
     }
 
     @Override
@@ -34,8 +33,9 @@ public class StableBox extends AbstractGameObject implements Positionable {
 
     @Override
     public String toString() {
-        return "StableBox{" +
-                "id=" + id +
-                '}';
+        return "StableBox{"
+                + "id="
+                + id
+                + '}';
     }
 }

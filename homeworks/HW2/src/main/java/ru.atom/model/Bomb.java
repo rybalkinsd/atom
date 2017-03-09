@@ -1,11 +1,8 @@
-package ru.atom.model.GameObjects;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
-import ru.atom.model.AbstractGameObject;
-import ru.atom.model.Positionable;
-import ru.atom.model.Temporary;
 
 /**
  * Created by pavel on 06.03.17.
@@ -61,8 +58,9 @@ public class Bomb extends AbstractGameObject implements Positionable, Temporary 
 
     @Override
     public String toString() {
-        return "Bomb{" +
-                "id=" + getId() +
-                '}';
+        return "Bomb{"
+                + "id="
+                + getId()
+                + '}';
     }
 }
