@@ -18,17 +18,17 @@ public class GameSession implements Tickable {
         gameObjects.add(gameObject);
     }
 
-    @Override
     public void tick(long elapsed) {
         log.info("tick");
-        for (int i = 0; i < gameObjects.size(); i++) {
-            if (gameObjects.get(i) instanceof Tickable) {
-                ((Tickable) gameObjects.get(i)).tick(elapsed);
+        ArrayList<Temporary> dead = new ArrayList<>();
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject instanceof Tickable) {
+                ((Tickable) gameObject).tick(elapsed);
             }
-            if (gameObjects.get(i) instanceof Temporary && ((Temporary) gameObjects.get(i)).isDead()) {
-                gameObjects.remove(i);
-                i--;
+            if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
+                dead.add((Temporary) gameObject);
             }
         }
+        gameObjects.removeAll(dead);
     }
 }
