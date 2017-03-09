@@ -18,7 +18,6 @@ public class GameSession implements Tickable {
         gameObjects.add(gameObject);
     }
 
-    @Override
     public void tick(long elapsed) {
         log.info("tick");
         ArrayList<Temporary> dead = new ArrayList<>();
