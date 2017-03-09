@@ -1,6 +1,5 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -41,7 +40,7 @@ public class CustomLinkedList<E> implements List<E> {
         private ListNode<E> item;
         private int curPos = 0;
 
-        public Itr(ListNode<E> item) {
+        Itr(ListNode<E> item) {
             this.item = item;
         }
 
@@ -64,20 +63,14 @@ public class CustomLinkedList<E> implements List<E> {
         if (e == null) {
             throw new NullPointerException("This list does not permit null elements");
         }
-        ListNode<E> tmp = new ListNode<E>();
-        tmp.setValue(e);
-        if (head.getPrev() == null) {
-            head.setPrev(tmp);
-            head.setNext(tmp);
-            tmp.setNext(head);
-            tmp.setPrev(head);
-        } else {
-            ListNode<E> oldTail = head.getPrev();
-            head.setPrev(tmp);
-            oldTail.setNext(tmp);
-            tmp.setPrev(oldTail);
-            tmp.setNext(head);
-        }
+
+        ListNode<E> newElement = new ListNode<>(e);
+
+        ListNode<E> oldTail = head.getPrev();
+        head.setPrev(newElement);
+        oldTail.setNext(newElement);
+        newElement.setPrev(oldTail);
+        newElement.setNext(head);
         size++;
         return true;
     }
@@ -93,6 +86,7 @@ public class CustomLinkedList<E> implements List<E> {
                 ListNode<E> old = tmp.getPrev();
                 ListNode<E> next = tmp.getNext();
                 old.setNext(next);
+                next.setPrev(old);
                 size--;
                 return true;
             }
@@ -103,7 +97,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object item :c) {
+        for (Object item : c) {
             if (!contains(item)) {
                 return false;
             }

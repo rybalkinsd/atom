@@ -44,6 +44,7 @@ public class CustomLinkedListTest {
 
     @Test
     public void forEachTest() throws Exception {
+
         long sum = 0;
         for (Integer integer : intList) {
             sum += integer;
@@ -79,4 +80,11 @@ public class CustomLinkedListTest {
         assertThat(intList.size(), is(0));
     }
 
+    @Test
+    public void removeAllTest() {
+        intList.remove((Integer)42);
+        intList.remove((Integer)38);
+        intList.remove((Integer)0);
+        assertThat(intList.size(), is(0));
+    }
 }
