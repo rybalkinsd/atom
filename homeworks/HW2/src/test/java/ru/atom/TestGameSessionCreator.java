@@ -1,7 +1,11 @@
 package ru.atom;
 
+import ru.atom.geometry.Point;
+import ru.atom.model.GameObjects.Bomb;
+import ru.atom.model.GameObjects.StableBox;
+import ru.atom.model.GameObjects.TemporaryBox;
 import ru.atom.model.GameSession;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ru.atom.model.GameObjects.Girl;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game
@@ -12,7 +16,14 @@ public final class TestGameSessionCreator {
 
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
-        //TODO populate your game session with sample objects
-        throw new NotImplementedException();
+        gameSession.addGameObject(new Girl(new Point(1, 1)));
+        gameSession.addGameObject(new Girl(new Point(1, 5)));
+        gameSession.addGameObject(new Bomb(new Point(2, 3)));
+        gameSession.addGameObject(new Bomb(new Point(4, 1)));
+        gameSession.addGameObject(new StableBox(new Point(1, 2)));
+        gameSession.addGameObject(new StableBox(new Point(3, 4)));
+        gameSession.addGameObject(new TemporaryBox(new Point(4,3)));
+        gameSession.addGameObject(new TemporaryBox(new Point(3,5)));
+        return gameSession;
     }
 }
