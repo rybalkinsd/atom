@@ -25,6 +25,10 @@ https://atom.mail.ru/
 1. Java HTTP Client
 
 #HSLIDE
+## Collections
+<img src="lecture03/presentation/assets/img/collectionimpl.png" alt="exception" style="width: 500px;"/> 
+
+#HSLIDE
 ### Interface Set
 -  A collection that contains no duplicate elements.  More formally, sets
    contain no pair of elements **e1** and **e2** such that
@@ -199,7 +203,7 @@ TreeMap
 
 #HSLIDE
 ## Network communication
-There exist numerous protocols that make network communication possible
+There exist numerous protocols for network communication
 <img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
 
 #HSLIDE
@@ -323,6 +327,7 @@ curl -i
 
 #HSLIDE
 ## POST Example
+Raw HTTP:
 ```http
 POST /auth/login
 HTTP/1.1
@@ -330,6 +335,7 @@ Content-Type: application/x-www-form-urlencoded Host: localhost:8080
 
 login=user&password=password
 ```
+cURL:
 ```bash
 >curl -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
