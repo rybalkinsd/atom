@@ -24,38 +24,76 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        ListNode node = header.getNext();
+        while (node != header) {
+            if (node.getElement().equals(o)) return true;
+            node = node.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomLinkedListIterator<E>(header);
     }
 
     @Override
     public boolean add(E e) {
-        ListNode newLisNode = new ListNode<e>();
-
+        ListNode newListNode = new ListNode<E>();
+        newListNode.setElement(e);
+        if (size == 0) {
+            header.setNext(newListNode);
+            header.setPrev(newListNode);
+            newListNode.setPrev(header);
+            newListNode.setNext(header);
+        } else if (size > 0) {
+            ListNode last = header.getPrev();
+            header.setPrev(newListNode);
+            last.setNext(newListNode);
+            newListNode.setPrev(last);
+            newListNode.setNext(header);
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        ListNode node = header.getNext();
+        while (node != header) {
+            if (node.getElement().equals(o)) {
+                node.getPrev().setNext(node.getNext());
+                node.getNext().setPrev(node.getPrev());
+                size--;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        for (Object i : c) {
+            if (!contains(i)) return false;
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        header.setNext(null);
+        header.setPrev(null);
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        ListNode<E> node = header.getNext();
+        if (index >= size || index < 0) throw new IndexOutOfBoundsException();
+        for (int i = 0; i < index; i++) {
+            node = node.getNext();
+        }
+        return node.getElement();
     }
 
     @Override
