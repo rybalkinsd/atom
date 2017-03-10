@@ -28,37 +28,37 @@ public class Bonus implements Temporary, Positionable {
         RANGE,
     }
 
-    public Bonus(int x, int y, Type bonusType)
-    {
+    public Bonus(int x, int y, Type bonusType) {
         this.position = new Point(x, y);
         this.id = GameSession.getId();
         this.lifeTime = 0;
         this.bonusType = bonusType;
-        LOG.info("BONUS (id = {}) was created in ({};{}) lifeTime == {}, BONUS == {} ", this.id, position.getX(), position.getY(), this.getLifetimeMillis(), this.bonusType);
+        LOG.info("BONUS (id = {}) was created in ({};{}) lifeTime == {}, BONUS == {} ",
+                this.id, position.getX(), position.getY(), this.getLifetimeMillis(), this.bonusType);
     }
 
     @Override
-    public long getLifetimeMillis(){
+    public long getLifetimeMillis() {
         return this.LIFE_TIME_MILLIS;
     }
 
     @Override
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
     @Override
-    public void tick(long elapsed){
+    public void tick(long elapsed) {
         lifeTime += elapsed;
     }
 
     @Override
-    public boolean isDead(){
+    public boolean isDead() {
         return this.lifeTime >= this.LIFE_TIME_MILLIS;
     }
 
     @Override
-    public Point getPosition(){
+    public Point getPosition() {
         return this.position;
     }
 

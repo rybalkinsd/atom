@@ -24,7 +24,8 @@ public class Player implements Movable {
         power = 1;
         velocity = 1;
         this.id = GameSession.getId();
-        LOG.info("Player new ( id = {} ) is created in ( {};{} ) ", this.id, getPosition().getX(), getPosition().getY());
+        LOG.info("Player new ( id = {} ) is created in ( {};{} ) ",
+                this.id, getPosition().getX(), getPosition().getY());
     }
 
     public void setPowerBomb(int power) {

@@ -29,27 +29,27 @@ public class Bomb implements Temporary, Positionable {
     }
 
     @Override
-    public long getLifetimeMillis(){
+    public long getLifetimeMillis() {
         return this.LIFE_TIME_MILLIS;
     }
 
     @Override
-    public boolean isDead(){
+    public boolean isDead() {
         return this.lifeTime >= this.LIFE_TIME_MILLIS;
     }
 
     @Override
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
     @Override
-    public void tick(long elapsed){
+    public void tick(long elapsed) {
         lifeTime += elapsed;
     }
 
     @Override
-    public Point getPosition(){
+    public Point getPosition() {
         return this.position;
     }
 

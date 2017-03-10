@@ -16,18 +16,19 @@ public class UnbreakableWall implements Positionable {
     private int id;
 
     public UnbreakableWall(int x, int y) {
-        this.position = new Point(x,y);
+        this.position = new Point(x, y);
         this.id = GameSession.getId();
-        LOG.info("UnbreakableWall ( id = {} ) was created in ( {};{} ) ", this.id, position.getX(), position.getY());
+        LOG.info("UnbreakableWall ( id = {} ) was created in ( {};{} ) ",
+                this.id, position.getX(), position.getY());
     }
 
     @Override
-    public Point getPosition(){
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public int getId(){
+    public int getId() {
         return id;
     }
 }
