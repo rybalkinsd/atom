@@ -1,8 +1,12 @@
 dependencies {
     compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.jackson
 
     compile "org.eclipse.jetty.websocket:websocket-api:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-server:$rootProject.jettyVersion"
     compile "org.eclipse.jetty.websocket:websocket-client:$rootProject.jettyVersion"
+
+    testCompile rootProject.libraries.junit
+    testCompile 'org.assertj:assertj-core:3.6.2'
 }

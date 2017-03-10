@@ -1,26 +1,38 @@
-package ru.atom;
+package ru.atom.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
-import ru.atom.network.ConnectionPool;
+import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import ru.atom.network.Player;
+import ru.atom.network.message.Broker;
+
+import javax.servlet.Servlet;
 
 public class ClientConnectionHandler extends WebSocketAdapter {
     private final static Logger log = LogManager.getLogger(ClientConnectionHandler.class);
+    private final GameSessionManager sessionManager;
+    private final Broker broker;
+
+    public ClientConnectionHandler() {
+        sessionManager = GameSessionManager.getInstance();
+        broker = Broker.getInstance();
+    }
 
     @Override
     public void onWebSocketConnect(Session session) {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
-        ConnectionPool.putIfAbsent(new Player("first"), session);
+        sessionManager.register(new Player("first", session));
     }
 
     @Override
     public void onWebSocketText(String message) {
         log.info("Received TEXT message: " + message);
-        ConnectionPool.broadcast("ping");
+
+        broker.receive(getSession(), message);
     }
 
     @Override
@@ -32,5 +44,15 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     @Override
     public void onWebSocketError(Throwable cause) {
         log.error("Socket error: ", cause);
+    }
+
+
+    static Servlet makeServlet() {
+        return new WebSocketServlet() {
+            @Override
+            public void configure(WebSocketServletFactory factory) {
+                factory.register(ClientConnectionHandler.class);
+            }
+        };
     }
 }

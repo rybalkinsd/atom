@@ -11,7 +11,7 @@ InputEngine = Class.extend({
      */
     actions: {},
 
-    listeners: [],
+    subscribers: [],
 
     init: function() {
     },
@@ -23,12 +23,6 @@ InputEngine = Class.extend({
         this.bind(39, 'right');
         this.bind(32, 'bomb');
         this.bind(18, 'bomb');
-
-        this.bind(87, 'up2');
-        this.bind(65, 'left2');
-        this.bind(83, 'down2');
-        this.bind(68, 'right2');
-        this.bind(16, 'bomb2');
 
         this.bind(13, 'restart');
         this.bind(27, 'escape');
@@ -52,11 +46,10 @@ InputEngine = Class.extend({
         if (action) {
             gInputEngine.actions[action] = false;
 
-            var listeners = gInputEngine.listeners[action];
-            if (listeners) {
-                for (var i = 0; i < listeners.length; i++) {
-                    var listener = listeners[i];
-                    listener();
+            var subscribers = gInputEngine.subscribers[action]
+            if (subscribers) {
+                for (var i = 0; i <subscribers.length; i++ ) {
+                    subscribers[i]()
                 }
             }
             event.preventDefault();
@@ -72,13 +65,9 @@ InputEngine = Class.extend({
         this.bindings[key] = action;
     },
 
-    addListener: function(action, listener) {
-        this.listeners[action] = this.listeners[action] || [];
-        this.listeners[action].push(listener);
-    },
-
-    removeAllListeners: function() {
-        this.listeners = [];
+    subscribe: function (action, callback) {
+        this.subscribers[action] = this.subscribers[action] || []
+        this.subscribers[action].push(callback)
     }
 });
 

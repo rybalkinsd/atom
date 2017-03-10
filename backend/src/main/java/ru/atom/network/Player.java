@@ -1,6 +1,10 @@
 package ru.atom.network;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.atom.model.object.actor.Pawn;
+import ru.atom.model.input.InputAction;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,13 +14,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Player {
     private static final IdGenerator idGenerator = new IdGenerator();
 
-    @NotNull
-    private final String name;
     private final int id;
 
-    public Player(@NotNull String name) {
+    private final String name;
+    private final Session session;
+
+    @Nullable
+    private Pawn pawn;
+
+    public Player(@NotNull String name, @NotNull Session session) {
         this.id = idGenerator.next();
         this.name = name;
+        this.session = session;
+    }
+
+    private static class IdGenerator {
+        private final AtomicInteger current = new AtomicInteger(0);
+        int next() {
+            return current.getAndIncrement();
+        }
     }
 
     @Override
@@ -27,7 +43,10 @@ public class Player {
         Player player = (Player) o;
 
         return id == player.id;
+    }
 
+    public void consumeInput(@NotNull InputAction action) {
+        pawn.addInput(action);
     }
 
     @Override
@@ -35,10 +54,17 @@ public class Player {
         return id;
     }
 
-    private static class IdGenerator {
-        private final AtomicInteger current = new AtomicInteger(0);
-        int next() {
-            return current.getAndIncrement();
-        }
+    @NotNull
+    public Session getSession() {
+        return session;
+    }
+
+    @NotNull
+    public String getName() {
+        return name;
+    }
+
+    public void setPawn(@NotNull Pawn pawn) {
+        this.pawn = pawn;
     }
 }
