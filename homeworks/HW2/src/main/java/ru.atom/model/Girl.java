@@ -16,8 +16,6 @@ public class Girl extends ObjectPosition implements Movable {
             case DOWN:
                 position.setY(position.getY() - 1);
                 break;
-            case IDLE:
-                break;
             case LEFT:
                 position.setX(position.getX() - 1);
                 break;
@@ -26,6 +24,8 @@ public class Girl extends ObjectPosition implements Movable {
                 break;
             case UP:
                 position.setY(position.getY() + 1);
+                break;
+            default:
                 break;
         }
         return null;
