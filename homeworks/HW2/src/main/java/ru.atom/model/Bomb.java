@@ -11,7 +11,7 @@ public class Bomb implements Temporary, Positionable  {
     public Bomb(Point position) {
         this.id = Gamesession.SetObjectId();
         this.position = position;
-        this elapsedTime =0L;
+        this.elapsedTime =0L;
     }
 
     @Override
