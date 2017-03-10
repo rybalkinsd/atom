@@ -1,46 +1,50 @@
-package ru.atom.model;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
++package ru.atom.model;
 import ru.atom.geometry.Point;
 
-public class Player extends CommonGameObject implements Movable {
-    private static final Logger logger = LogManager.getlogger(Player.class);
+public class Girl implements Movable {
 
-    private int bombPower;
-    private int explosionRange;
-    private int speed;
-    private int timeMillis;
+    private Point position;
+    private long lifetime;
+    private int velocity = 1;
+    private final int id;
 
-    public Player(int x, int y) {
-        super(x, y);
-        bombPower = 1;
-        explosionRange = 3;
-        speed = 1;
-        logger.info("new player id = {} x = {} y = {} speed = {}", getId(), x, y, speed, );
-
+    public Girl(int x, int y) {
+        this.position = new Point(x, y);
+        this.lifetime = 0;
+        this.id = GameSession.setObjectId();
     }
-
-    public Player(int x, int y, int speed, int bombPower, int explosionRange) {
-        super(x, y);
-        if (speed <= 0) {
-            logger.error("invalid speed");
-            throw new IllegalArgumentException;
-        }
-        this.speed = speed;
-        this.bombPower = bombPower;
-        this.explosionRange = explosionRange;
-        logger.info("new player id = {} x = {} y = {} speed = {}", getId(), x, y, speed, );
-    }
-
-    @Override
-    public void tick(long elapsed) {
-        timeMillis += elapsed;
-    }
-
     @Override
     public Point move(Direction direction) {
-        return direction.move(this.position, this.velocity);
+        switch (direction) {
+            case UP:
+                position = new Point(position.getX(), position.getY() + velocity);
+                return position;
+            case DOWN:
+                position = new Point(position.getX(), position.getY() - velocity);
+                return position;
+            case LEFT:
+                position = new Point(position.getX() - velocity, position.getY());
+                return position;
+            case RIGHT:
+                position = new Point(position.getX() + velocity, position.getY());
+                return position;
+            case IDLE:
+                return position;
+            default:
+                return position;
+        }
+    }
+    @Override
+    public void tick(long elapsed) {
+        lifetime += elapsed;
     }
 
-}
+    @Override
+    public Point getPosition() {
+        return position;
+    }
+    @Override
+    public int setObject() {
+        return id;
+    }
+ }
