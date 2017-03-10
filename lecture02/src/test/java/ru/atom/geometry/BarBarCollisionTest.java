@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@Ignore
 public class BarBarCollisionTest {
     @Test
     public void barSelfCollide() {
@@ -149,7 +148,7 @@ public class BarBarCollisionTest {
     }
 
     @Test
-    public void barIntersectsBar14() {
+    public void barIntersectsBar4() {
         Collider bar1 = Geometry.createBar(50, 0, 150, 100);
         Collider bar2 = Geometry.createBar(0, 0, 100, 100);
         assertThat(bar1.isColliding(bar2), is(true));
@@ -173,6 +172,13 @@ public class BarBarCollisionTest {
     public void barIntersectsBarByBorder1() {
         Collider bar1 = Geometry.createBar(0, 0, 100, 100);
         Collider bar2 = Geometry.createBar(0, 100, 100, 200);
+        assertThat(bar1.isColliding(bar2), is(true));
+    }
+
+    @Test
+    public void barIntersectsBarMyCustomTest() {
+        Collider bar1 = Geometry.createBar(50, 0, 100, 150);
+        Collider bar2 = Geometry.createBar(0, 50, 150, 100);
         assertThat(bar1.isColliding(bar2), is(true));
     }
 
