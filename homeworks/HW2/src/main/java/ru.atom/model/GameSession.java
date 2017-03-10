@@ -18,6 +18,12 @@ public class GameSession implements Tickable {
         gameObjects.add(gameObject);
     }
 
+    private static int id;
+
+    public static int getId() {
+        return id++;
+    }
+
     @Override
     public void tick(long elapsed) {
         log.info("tick");
