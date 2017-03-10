@@ -1,7 +1,7 @@
 package ru.atom.model;
 import ru.atom.geometry.Point;
 
-public class Girl implements Movable {
+public class Player implements Movable {
 
     private Point position;
     private long lifetime;
