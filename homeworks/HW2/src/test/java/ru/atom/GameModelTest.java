@@ -7,7 +7,6 @@ import ru.atom.model.GameObject;
 import ru.atom.model.GameSession;
 import ru.atom.model.Movable;
 import ru.atom.model.Temporary;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
