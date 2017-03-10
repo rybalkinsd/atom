@@ -1,4 +1,4 @@
-+package ru.atom.model;
+package ru.atom.model;
 import ru.atom.geometry.Point;
 
 public class Girl implements Movable {
