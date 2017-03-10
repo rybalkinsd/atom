@@ -9,13 +9,31 @@ import java.util.List;
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
+    private static int objectId = 0;
 
-    public List<GameObject> getGameObjects() {
-        return new ArrayList<>(gameObjects);
+    public static int setObject() {
+
+        return objectId++;
     }
 
-    public void addGameObject(GameObject gameObject) {
-        gameObjects.add(gameObject);
+    public List<GameObject> getGameObjects() {
+
+        if(gameObjects == null || gameObjects.isEmpty()) {
+            return new ArrayList<>(gameObjects);
+        } else {
+            return gameObjects;
+        }
+
+    }
+
+    public void addGameObject(GameObject gameObject)
+    {
+        try {
+            log.info("Object : {} with id={} created.", gameObject.getClass(), gameObject.getId());
+            gameObjects.add(gameObject);
+        } catch (IllegalArgumentException ex) {
+            log.warn("Illegal argument exeption in {}", gameObject.getClass());
+        }
     }
 
     @Override
@@ -27,7 +45,7 @@ public class GameSession implements Tickable {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
-                dead.add((Temporary)gameObject);
+                dead.add((Temporary) gameObject);
             }
         }
         gameObjects.removeAll(dead);
