@@ -38,24 +38,24 @@ public class CustomLinkedList<E> implements List<E> {
     public Iterator<E> iterator() {
         if (isEmpty()) {
             return Collections.<E>emptyList().iterator();
-            }
+        }
         return new Iterator<E>() {
             ListNode<E> currentNode = header;
 
             @Override
             public boolean hasNext() {
                 return currentNode.getNext() != header;
-                }
+            }
 
             @Override
             public E next() {
                 if (hasNext()) {
                     currentNode = currentNode.getNext();
                     return currentNode.getElement();
-                    } else {
-                        throw new NoSuchElementException();
-                    }
+                } else {
+                    throw new NoSuchElementException();
                 }
+            }
         };
     }
 
@@ -122,7 +122,7 @@ public class CustomLinkedList<E> implements List<E> {
     public int indexOf(Object o) {
         int index = 0;
         ListNode node = header;
-        while(node.getNext() != header) {
+        while (node.getNext() != header) {
             index++;
             if (node.getElement().equals(o)) return index;
         }
