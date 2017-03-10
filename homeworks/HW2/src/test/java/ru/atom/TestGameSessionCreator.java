@@ -1,6 +1,11 @@
 package ru.atom;
 
+import ru.atom.geometry.Point;
 import ru.atom.model.GameSession;
+import ru.atom.model.Girl;
+import ru.atom.model.Bomb;
+import ru.atom.model.WoodenWall;
+import ru.atom.model.StoneWall;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -12,7 +17,14 @@ public final class TestGameSessionCreator {
 
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
-        //TODO populate your game session with sample objects
-        throw new NotImplementedException();
+        gameSession.addGameObject(new Girl(new Point(0,0)));
+        gameSession.addGameObject(new Girl(new Point(10,10)));
+        gameSession.addGameObject(new Bomb(new Point(3,3)));
+        gameSession.addGameObject(new Bomb(new Point(5,5)));
+        gameSession.addGameObject(new WoodenWall(new Point(3,0)));
+        gameSession.addGameObject(new WoodenWall(new Point(0,3)));
+        gameSession.addGameObject(new StoneWall(new Point(5,0)));
+        gameSession.addGameObject(new StoneWall(new Point(0,5)));
+        return  gameSession;
     }
 }
