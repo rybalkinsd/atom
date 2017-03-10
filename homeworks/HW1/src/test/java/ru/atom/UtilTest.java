@@ -15,19 +15,16 @@ public class UtilTest {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
     }
     
-    @Ignore
     @Test
     public void max1() throws Exception {
         assertThat(Util.max(new int[]{1, 2, 3}), is(equalTo(3)));
     }
     
-    @Ignore
     @Test
     public void max2() throws Exception {
         assertThat(Util.max(new int[]{2, 2, 0}), is(equalTo(2)));
     }
     
-    @Ignore
     @Test
     public void max3() throws Exception {
         int[] values = {3262, 3989, 4825, 3751, 147, 2376, 2866, 1192, 2259, 905, 4810, 2481, 4243,
@@ -47,25 +44,21 @@ public class UtilTest {
         assertThat(Util.max(values), is(equalTo(4913)));
     }
 
-    @Ignore
     @Test
     public void sum0() throws Exception {
         assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
     }
     
-    @Ignore
     @Test
     public void sum1() throws Exception {
         assertThat(Util.sum(new int[]{1, -2, 3}), is(equalTo(2L)));
     }
-    
-    @Ignore
+
     @Test
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
 
-    @Ignore
     @Test
     public void sum3() throws Exception {
 
@@ -94,7 +87,7 @@ public class UtilTest {
             648594179,
             138818586, 1010622968, 1962459435, 1094552702, 1720653188, 459927890, 1564744780,
             1862441085,
-            -1068370747, 392433034, 849064597, 54063467, 1941706502, -2026755411, 1746401471, 
+            -1068370747, 392433034, 849064597, 54063467, 1941706502, -2026755411, 1746401471,
             -581914911,
             -1725686074, 625172077, -1020914484, 924333092, 1493320209, -1161778103, 871637343,
             -121482510, 981020657, -1393758230, 905799, -1444587907, -2088543963, -1112634928,
@@ -231,10 +224,8 @@ public class UtilTest {
             1629852897,
             -1319628676, -302467241, -1923901237, -465304261, 1837141845, -94260489, -1453201333,
             -282733829, 1445939205, 735726297, -929182944, -1364892304, 1054274764, -1389528304,
-            230403624, 2089178816, -2031848796, -434079731, 282818750, 1283007243, -2133152874,
-            1414327400, 815984940, 495461839, -107851191, -1472540960, -264932259, -41121395};
-
-        assertThat(Util.sum(values), is(equalTo(-1_851_807_826L)));
+            230403624, 2089178816, -2031848796, -434079731, 282818750, 1283007243, -2133152874};
+        assertThat(Util.sum(values), is(equalTo(-54230743752L)));
 
     }
 
