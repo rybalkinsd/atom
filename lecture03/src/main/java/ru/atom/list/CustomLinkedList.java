@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Collections;
+import java.util.NoSuchElementException;
 
 
 public class CustomLinkedList<E> implements List<E> {
@@ -34,7 +36,27 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new CustomLinkedListIterator<E>(header);
+        if (isEmpty()) {
+            return Collections.<E>emptyList().iterator();
+            }
+        return new Iterator<E>() {
+            ListNode<E> currentNode = header;
+
+            @Override
+            public boolean hasNext() {
+                return currentNode.getNext() != header;
+                }
+
+            @Override
+            public E next() {
+                if (hasNext()) {
+                    currentNode = currentNode.getNext();
+                    return currentNode.getElement();
+                    } else {
+                        throw new NoSuchElementException();
+                    }
+                }
+        };
     }
 
     @Override
@@ -98,12 +120,19 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        int index = 0;
+        ListNode node = header;
+        while(node.getNext() != header) {
+            index++;
+            if (node.getElement().equals(o)) return index;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        for (E i : c) add(i);
+        return true;
     }
 
 
