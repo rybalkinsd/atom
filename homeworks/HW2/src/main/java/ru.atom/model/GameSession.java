@@ -11,7 +11,7 @@ public class GameSession implements Tickable {
     private List<GameObject> gameObjects = new ArrayList<>();
     private static int objectId = 0;
 
-    public static int setObject() {
+    public static int setObjectId() {
 
         return objectId++;
     }
