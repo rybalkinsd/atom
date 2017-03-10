@@ -1,5 +1,6 @@
 package ru.atom;
 
+import ru.atom.model.Bomb;
 import ru.atom.model.GameSession;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -13,6 +14,8 @@ public final class TestGameSessionCreator {
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
         //TODO populate your game session with sample objects
-        throw new NotImplementedException();
+        Bomb bomb = new Bomb();
+        gameSession.addGameObject(bomb);
+        return gameSession;
     }
 }
