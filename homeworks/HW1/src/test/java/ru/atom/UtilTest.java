@@ -10,7 +10,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class UtilTest {
 
-    @Ignore
     @Test
     public void max0() throws Exception {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
