@@ -2,7 +2,7 @@ package ru.atom.mode1;
 
 import ru.atom.geometry.Point;
 
-public class Bomb implements Temporry  {
+public class Bomb implements Temporary, Positionable  {
     private int id;
     private Point position;
     private static final long bomb_lifetime = 1000;
