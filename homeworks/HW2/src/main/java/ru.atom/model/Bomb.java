@@ -6,38 +6,39 @@ import ru.atom.geometry.Point;
  * Created by galina on 09.03.17.
  */
 public class Bomb implements Temporary, Positionable {
-    private Point Position;
-    private  int BombId;
-    private  long LifetimeMs;
-    private final long TimeBeforeExplosion = 2000;
+    private Point position;
+    private  int bombId;
+    private  long lifetimeMs;
+    private final long timeBeforeExplosion = 2000;
 
     public  Bomb(Point pos) {
-        this.Position = pos;
-        this.LifetimeMs = 0;
-        BombId = GameSession.getId();
+        this.position = pos;
+        this.lifetimeMs = 0;
+        bombId = GameSession.getId();
     }
+
     @Override
     public int getId() {
-        return BombId;
+        return bombId;
     }
 
     @Override
     public Point getPosition() {
-        return Position;
+        return position;
     }
 
     @Override
     public long getLifetimeMillis() {
-        return TimeBeforeExplosion;
+        return timeBeforeExplosion;
     }
 
     @Override
     public boolean isDead() {
-        return LifetimeMs > TimeBeforeExplosion;
+        return lifetimeMs > timeBeforeExplosion;
     }
 
     @Override
     public void tick(long elapsed) {
-        LifetimeMs = LifetimeMs + elapsed;
+        lifetimeMs = lifetimeMs + elapsed;
     }
 }

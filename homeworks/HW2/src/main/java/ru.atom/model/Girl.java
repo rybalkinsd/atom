@@ -6,48 +6,49 @@ import ru.atom.geometry.Point;
  * Created by galina on 09.03.17.
  */
 public class Girl implements Movable, Positionable {
-    private int GirlId;
-    private Point Position;
-    private  long LifeTimeMs;
+    private int girlId;
+    private Point position;
+    private  long lifeTimeMs;
 
     public  Girl(Point pos) {
-        this.Position = pos;
-        this.LifeTimeMs = 0;
-        GirlId = GameSession.getId();
+        this.position = pos;
+        this.lifeTimeMs = 0;
+        girlId = GameSession.getId();
     }
+
     @Override
     public int getId() {
-        return GirlId;
+        return girlId;
     }
 
     @Override
     public void tick(long elapsed) {
-        LifeTimeMs = LifeTimeMs + elapsed;
+        lifeTimeMs = lifeTimeMs + elapsed;
     }
 
     @Override
     public Point getPosition() {
-        return Position;
+        return position;
     }
 
     @Override
     public Point move(Direction direction) {
         if (direction == Direction.DOWN)
-            Position = new Point(Position.getX(), Position.getY()-1);
+            position = new Point(position.getX(), position.getY() - 1);
         if (direction == Direction.UP)
-            Position = new Point(Position.getX(), Position.getY()+1);
+            position = new Point(position.getX(), position.getY() + 1);
         if (direction == Direction.LEFT)
-            Position = new Point(Position.getX()-1, Position.getY());
+            position = new Point(position.getX() - 1, position.getY());
         if (direction == Direction.RIGHT)
-            Position = new Point(Position.getX()+1, Position.getY());
-        return Position;
+            position = new Point(position.getX() + 1, position.getY());
+        return position;
     }
 
     public long getLifeTimeMs() {
-        return LifeTimeMs;
+        return lifeTimeMs;
     }
 
     public void setLifeTimeMs(long lifeTimeMs) {
-        LifeTimeMs = lifeTimeMs;
+        this.lifeTimeMs = lifeTimeMs;
     }
 }

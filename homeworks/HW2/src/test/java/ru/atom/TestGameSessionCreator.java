@@ -1,7 +1,11 @@
 package ru.atom;
 
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
+import ru.atom.model.GameSession;
+import ru.atom.model.Girl;
+import ru.atom.model.Bomb;
+import ru.atom.model.WoodenWall;
+import ru.atom.model.StoneWall;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
