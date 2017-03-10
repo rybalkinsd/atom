@@ -1,7 +1,7 @@
 #HSLIDE
 # Java
-lecture 3
-## Generics & Collections
+lecture 4
+## Web client
 
 
 #HSLIDE
@@ -50,7 +50,7 @@ It makes no guarantees as to the iteration order of the set.
 
 #HSLIDE
 ### HashSet. Internals
-<img src="lecture03/presentation/assets/img/hashset.png" alt="exception" style="width: 600px;"/> 
+<img src="lecture03/presentation/assets/img/hashset.png" alt="exception" style="width: 500px;"/> 
  
 
 #HSLIDE
@@ -83,7 +83,7 @@ depending on which constructor is used.
 
 #HSLIDE
 ### TreeSet. Internals
-<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 600px;"/>
+<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
 
 [Read more (RU)](https://habrahabr.ru/post/65617/)
 
@@ -185,6 +185,7 @@ TreeMap
 ### HashMap. Internals 
 <img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
 
+#HSLIDE
 ### Agenda
 1. Collections
 1. **[Client - server architecture]**
@@ -199,12 +200,13 @@ TreeMap
 #HSLIDE
 ## Network communication
 There exist numerous protocols that make network communication possible
-<img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 750px;"/>
+<img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
 
 #HSLIDE
 ## Bomber man architecture
 <img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
 
+#HSLIDE
 ### Agenda
 1. Collections
 1. Client - server architecture
@@ -221,9 +223,9 @@ There exist numerous protocols that make network communication possible
 #HSLIDE
 ## HTTP Basics
 [https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
-**Resource** - any entity
-**URI** - (Universal Resource Identifiers)
-**Method** - what to do with **resource**
+- **Resource** - any entity
+- **URI** - (Universal Resource Identifiers)
+- **Method** - what to do with **resource**
 
 #HSLIDE
 ## HTTP Server
@@ -233,7 +235,7 @@ Serves HTTP requests. (By default on **80 TCP port**)
 - NGINX
 - libraries (Jetty in Java)
 
-Web servers have different functionality and can be extendible
+Web servers have different functionality and can be extendible  
 For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
 
 #HSLIDE
@@ -248,12 +250,12 @@ For example, one can extend server functionality by custom logic (e.g. for dynam
 ```
 > telnet example.org
 ```
-type request:
+request:
 ```http
 GET /index.html HTTP/1.1
 host: example.com
 ```
-now you get response:
+response:
 ```
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
@@ -275,7 +277,7 @@ Content-Length: 1270
 
 #HSLIDE
 ## HTTP Request
-Request contsists of
+**Request consists of**
 1. Request header (starting with **method**)
 1. [Request body]
 
@@ -292,12 +294,12 @@ removes resource
 
 #HSLIDE
 ## HTTP Response
-Responce constst of
+**Responce consists of**
 1. Status code
 1. Response header
 1. [Response Body]
 
-[rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)
+[rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 
@@ -311,8 +313,8 @@ Responce constst of
 
 #HSLIDE
 ## cURL
-Super popular command line tool for network (especially http) testing
-[https://curl.haxx.se/](https://curl.haxx.se/)
+Super popular command line tool for multiple protocols (including **http**) testing  
+[https://curl.haxx.se/](https://curl.haxx.se/)  
 it wraps **libcurl** library, which is available for all major languages
 
 #HSLIDE
