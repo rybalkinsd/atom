@@ -14,4 +14,5 @@ public interface Temporary extends Tickable, GameObject {
      * @return true if GameObject is dead
      */
     boolean isDead();
+
 }

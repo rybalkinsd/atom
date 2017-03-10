@@ -1,5 +1,7 @@
 package ru.atom.model;
 
+import ru.atom.model.UniqueId;
+
 /**
  * Any entity of game mechanics
  */
