@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
-    private static final Logger log = LogManager.getLogger(GameSession.class);
+    private static final Logger LOG = LogManager.getLogger(GameSession.class);
+
+    private static int idCount = 0;
+
     private List<GameObject> gameObjects = new ArrayList<>();
 
     public List<GameObject> getGameObjects() {
@@ -16,20 +19,25 @@ public class GameSession implements Tickable {
 
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
+        idCount++;
     }
 
     @Override
     public void tick(long elapsed) {
-        log.info("tick");
+        LOG.info("tick");
         ArrayList<Temporary> dead = new ArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
-                dead.add((Temporary)gameObject);
+                dead.add((Temporary) gameObject);
             }
         }
         gameObjects.removeAll(dead);
+    }
+
+    public static int getId() {
+        return idCount;
     }
 }
