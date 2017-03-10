@@ -17,9 +17,9 @@ public class Brick extends PositionableGameObject {
 
     @Override
     public String toString() {
-        return "Brick{" +
-                "id=" + getId() +
-                " position=(" + position.getX() + ";" + position.getY() +
-                '}';
+        return "Brick{"
+                + "id=" + getId()
+                + " position=(" + position.getX() + ";" + position.getY()
+                + '}';
     }
 }

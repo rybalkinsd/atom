@@ -16,9 +16,9 @@ public class Block extends PositionableGameObject {
 
     @Override
     public String toString() {
-        return "Block{" +
-                "id=" + getId() +
-                " position=(" + position.getX() + ";" + position.getY() +
-                '}';
+        return "Block{"
+                + "id=" + getId()
+                + " position=(" + position.getX() + ";" + position.getY()
+                + '}';
     }
 }

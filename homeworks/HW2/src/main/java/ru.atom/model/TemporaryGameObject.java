@@ -1,29 +1,28 @@
 package ru.atom.model;
 
 import ru.atom.geometry.Point;
-import sun.awt.LightweightFrame;
 
 /**
  * Created by Auerbah on 10.03.2017.
  */
 public abstract class TemporaryGameObject extends PositionableGameObject implements Temporary  {
-    protected long LifetimeMillis;
+    protected long lifetimeMillis;
 
-    public TemporaryGameObject(Point position, long LifetimeMillis) {
+    public TemporaryGameObject(Point position, long lifetimeMillis) {
         super(position);
-        this.LifetimeMillis = LifetimeMillis;
+        this.lifetimeMillis = lifetimeMillis;
     }
 
-    public TemporaryGameObject(int x, int y, long LifetimeMillis) {
+    public TemporaryGameObject(int x, int y, long lifetimeMillis) {
         super(x, y);
-        this.LifetimeMillis = LifetimeMillis;
+        this.lifetimeMillis = lifetimeMillis;
     }
 
     /**
      * @return lifetime in milliseconds
      */
     public long getLifetimeMillis() {
-        return LifetimeMillis;
+        return lifetimeMillis;
     }
 
     /**
@@ -31,13 +30,13 @@ public abstract class TemporaryGameObject extends PositionableGameObject impleme
      * @return true if GameObject is dead
      */
     public boolean isDead() {
-        return LifetimeMillis <= 0;
+        return lifetimeMillis <= 0;
     }
 
     @Override
     public void tick(long elapsed) {
-        if(!isDead()) {
-            LifetimeMillis -= elapsed;
+        if (!isDead()) {
+            lifetimeMillis -= elapsed;
         }
     }
 }

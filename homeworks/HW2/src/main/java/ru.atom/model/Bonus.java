@@ -7,21 +7,21 @@ import ru.atom.geometry.Point;
  */
 public class Bonus extends TemporaryGameObject {
 
-    public Bonus(Point position, long LifetimeMillis) {
-        super(position, LifetimeMillis);
+    public Bonus(Point position, long lifetimeMillis) {
+        super(position, lifetimeMillis);
     }
 
-    public Bonus(int x, int y, long LifetimeMillis) {
-        super(x, y, LifetimeMillis);
+    public Bonus(int x, int y, long lifetimeMillis) {
+        super(x, y, lifetimeMillis);
     }
 
     @Override
     public String toString() {
-        return "Bonus{" +
-                "id=" + getId() +
-                " position=(" + position.getX() + ";" + position.getY() +
-                " lifetime=(" + getLifetimeMillis() +
-                " isDead=(" + isDead() +
-                '}';
+        return "Bonus{"
+                + "id=" + getId()
+                + " position=(" + position.getX() + ";" + position.getY()
+                + " lifetime=(" + getLifetimeMillis()
+                + " isDead=(" + isDead()
+                + '}';
     }
 }

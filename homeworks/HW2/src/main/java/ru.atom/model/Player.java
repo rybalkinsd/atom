@@ -22,33 +22,35 @@ public class Player extends PositionableGameObject implements Movable {
 
     @Override
     public Point move(Direction direction) {
-        int x = position.getX();
-        int y = position.getY();
+        int positionX = position.getX();
+        int positionY = position.getY();
         switch (direction) {
             case DOWN:
-                y -= GameSession.DEFAULT_PLAYER_SPEED;
+                positionY -= GameSession.DEFAULT_PLAYER_SPEED;
                 break;
             case UP:
-                y += GameSession.DEFAULT_PLAYER_SPEED;
+                positionY += GameSession.DEFAULT_PLAYER_SPEED;
                 break;
             case RIGHT:
-                x += GameSession.DEFAULT_PLAYER_SPEED;
+                positionX += GameSession.DEFAULT_PLAYER_SPEED;
                 break;
             case LEFT:
-                x -= GameSession.DEFAULT_PLAYER_SPEED;
+                positionX -= GameSession.DEFAULT_PLAYER_SPEED;
                 break;
             case IDLE:
                 break;
+            default:
+                break;
         }
-        position = new Point(x, y);
+        position = new Point(positionX, positionY);
         return position;
     }
 
     @Override
     public String toString() {
-        return "Player{" +
-                "id=" + getId() +
-                " position=(" + position.getX() + ";" + position.getY() +
-                '}';
+        return "Player{"
+                + "id=" + getId()
+                + " position=(" + position.getX() + ";" + position.getY()
+                + '}';
     }
 }
