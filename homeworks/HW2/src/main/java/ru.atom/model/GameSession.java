@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
+
+    private static int currentId;
+
+    static int createUniqueId() {
+        return currentId++;
+    }
+
     private static final Logger log = LogManager.getLogger(GameSession.class);
+
     private List<GameObject> gameObjects = new ArrayList<>();
 
     public List<GameObject> getGameObjects() {
@@ -15,6 +23,8 @@ public class GameSession implements Tickable {
     }
 
     public void addGameObject(GameObject gameObject) {
+        log.info("Created game object " + gameObject.getClass().getName()
+                + "with Id " + gameObject.getId());
         gameObjects.add(gameObject);
     }
 
