@@ -32,4 +32,5 @@ public class GameSession implements Tickable {
         }
         gameObjects.removeAll(dead);
     }
+
 }
