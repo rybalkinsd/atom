@@ -15,6 +15,7 @@ public class GameSession implements Tickable {
     }
 
     public void addGameObject(GameObject gameObject) {
+        log.info("Object added {}", gameObject);
         gameObjects.add(gameObject);
     }
 
@@ -27,7 +28,7 @@ public class GameSession implements Tickable {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
-                dead.add((Temporary)gameObject);
+                dead.add((Temporary) gameObject);
             }
         }
         gameObjects.removeAll(dead);
