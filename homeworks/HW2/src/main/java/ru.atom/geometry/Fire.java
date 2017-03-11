@@ -5,25 +5,25 @@ import ru.atom.model.GameObject;
 import ru.atom.model.Positionable;
 import ru.atom.model.Temporary;
 
-public class Fire implements GameObject,Positionable,Temporary {
+public class Fire implements GameObject, Positionable, Temporary {
     private final Point position;
     private final long lifeTimeMs = 100;
     private long workTimeMs = 0;
     private boolean isDead = false;
     private final int id;
 
-    public Fire (int x, int y) {
-        this.position = new Point (x, y);
+    public Fire(int x, int y) {
+        this.position = new Point(x, y);
         id = GameSession.getNextId();
     }
 
     @Override
-    public int getId () {
+    public int getId() {
         return id;
     }
 
     @Override
-    public Point getPosition () {
+    public Point getPosition() {
         return position;
     }
 
@@ -33,19 +33,19 @@ public class Fire implements GameObject,Positionable,Temporary {
     }
 
     @Override
-    public boolean isDead () {
+    public boolean isDead() {
         return isDead;
     }
 
     @Override
-    public void tick (long elapsed) {
+    public void tick(long elapsed) {
         workTimeMs += elapsed;
         if (workTimeMs >= lifeTimeMs) {
             isDead = true;
         }
     }
 
-    private void destroy () {
+    private void destroy() {
         //destroy boxes and kill girls
     }
 }

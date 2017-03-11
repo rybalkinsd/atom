@@ -25,7 +25,7 @@ public class GameSession implements Tickable {
         gameObjects.add(gameObject);
     }
 
-    public static int getNextId () {
+    public static int getNextId() {
         return currentId++;
     }
 
@@ -38,7 +38,7 @@ public class GameSession implements Tickable {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
-                dead.add((Temporary)gameObject);
+                dead.add((Temporary) gameObject);
             }
         }
         gameObjects.removeAll(dead);

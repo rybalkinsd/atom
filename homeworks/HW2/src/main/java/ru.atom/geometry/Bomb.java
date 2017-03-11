@@ -12,33 +12,33 @@ public class Bomb implements GameObject, Positionable, Temporary {
     private boolean isDead = false;
     private final int id;
 
-    public Bomb (int x, int y) {
+    public Bomb(int x, int y) {
         this.position = new Point(x, y);
         id = GameSession.getNextId();
     }
 
     @Override
-    public int getId () {
+    public int getId() {
         return id;
     }
 
     @Override
-    public Point getPosition () {
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public long getLifetimeMillis () {
+    public long getLifetimeMillis() {
         return lifeTimeMs;
     }
 
     @Override
-    public boolean isDead () {
+    public boolean isDead() {
         return isDead;
     }
 
     @Override
-    public void tick (long elapsed) {
+    public void tick(long elapsed) {
         workTimeMs += elapsed;
         if (workTimeMs >= lifeTimeMs) {
             isDead = true;

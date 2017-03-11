@@ -8,18 +8,18 @@ public class Bonus implements GameObject, Positionable {
     private final Point position;
     private final int id;
 
-    public Bonus (int x, int y) {
-        this.position = new Point (x, y);
-        id  = GameSession.getNextId();
+    public Bonus(int x, int y) {
+        this.position = new Point(x, y);
+        id = GameSession.getNextId();
     }
 
     @Override
-    public Point getPosition () {
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public int getId () {
+    public int getId() {
         return id;
     }
 }

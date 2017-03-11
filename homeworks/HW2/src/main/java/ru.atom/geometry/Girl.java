@@ -10,40 +10,40 @@ public class Girl implements GameObject, Movable {
     private int step = 1;
     private final int id;
 
-    public Girl (int x, int y) {
-        this.position = new Point (x, y);
+    public Girl(int x, int y) {
+        this.position = new Point(x, y);
         id = GameSession.getNextId();
     }
 
     @Override
-    public int getId () {
+    public int getId() {
         return id;
     }
 
     @Override
-    public Point getPosition () {
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public void tick (long elapsed) {
+    public void tick(long elapsed) {
         move(direction);
     }
 
     @Override
-    public Point move (Direction direction) {
+    public Point move(Direction direction) {
         switch (direction) {
             case UP:
-                position = new Point (position.getX(), position.getY() + step);
+                position = new Point(position.getX(), position.getY() + step);
                 break;
             case DOWN:
-                position = new Point (position.getX(), position.getY() - step);
+                position = new Point(position.getX(), position.getY() - step);
                 break;
             case LEFT:
-                position = new Point (position.getX() - step, position.getY());
+                position = new Point(position.getX() - step, position.getY());
                 break;
             case RIGHT:
-                position = new Point (position.getX() + step, position.getY());
+                position = new Point(position.getX() + step, position.getY());
                 break;
             default:
                 break;
