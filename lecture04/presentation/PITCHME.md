@@ -22,6 +22,7 @@ https://atom.mail.ru/
 1. Client - server architecture
 1. HTTP
 1. cURL
+1. REST API
 1. Java HTTP Client
 
 #HSLIDE
@@ -179,7 +180,9 @@ Complexity is similar to **TreeMap**
 1. Collections
 1. **[Client - server architecture]**
 1. HTTP
+1. REST API
 1. cURL
+
 1. Java HTTP Client
 
 #HSLIDE
@@ -196,7 +199,7 @@ There exist numerous protocols for network communication. OSI:
 The choice of protocol depends on **requirements**
 
 #HSLIDE
-## Bomber man architecture
+## Bomberman architecture
 <img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
@@ -205,6 +208,7 @@ The choice of protocol depends on **requirements**
 1. Client - server architecture
 1. **[HTTP]**
 1. cURL
+1. REST API
 1. Java HTTP Client
 
 #HSLIDE
@@ -311,6 +315,7 @@ removes resource
 1. Client - server architecture
 1. HTTP
 1. **[cURL]**
+1. REST API
 1. Java HTTP Client
 
 #HSLIDE
@@ -370,7 +375,99 @@ http://localhost:8080/auth/login
 1. Client - server architecture
 1. HTTP
 1. cURL
+1. **[REST API]**
+1. Java HTTP Client
+
+#HSLIDE
+REST (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
+There are also some restrictions on how services must use HTTP for communication
+
+#HSLIDE
+## Bomberman architecture
+Here client and account server communicate via **REST API**
+<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
+
+#HSLIDE
+## REST API
+REST API is a common way for services to publish their functionality for other services.  
+### REST API Examples:
+**Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)
+**Github:** [https://developer.github.com/v3/](https://developer.github.com/v3/)
+
+#HSLIDE
+## Chat REST API. View Online
+online:
+```
+    Protocol: HTTP
+    Path: chat/online
+    Method: GET
+    Host: {IP}:8080
+    Response:
+      Success code: 200
+```
+
+#HSLIDE
+## Chat REST API. Login
+login:
+```
+    Protocol: HTTP
+    Path: chat/login
+    Method: POST
+    PathParam: name
+    Host: {IP}:8080
+    Response:
+      Success code: 200
+      Fail code:
+        400 - Already logined
+        400 - Too long name (longer than 30 symbols)
+```
+#HSLIDE
+## Chat REST API. View Online
+online:
+```
+    Protocol: HTTP
+    Path: chat/online
+    Method: GET
+    Host: {IP}:8080
+    Response:
+      Success code: 200
+```
+> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
+
+#HSLIDE
+## Chat REST API. Say
+login:
+```
+    Protocol: HTTP
+    Path: chat/say
+    Method: POST
+    PathParam: name
+    Body:
+      msg="my message"
+    Host: {IP}:8080
+    Response:
+      Success code: 200
+      Fail code:
+        401 - Not logined
+        400 - Too long message (longer than 140 symbols)
+```
+
+> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
+
+#HSLIDE
+### Agenda
+1. Collections
+1. Client - server architecture
+1. HTTP
+1. cURL
+1. REST API
 1. **[Java HTTP Client]**
+
+#HSLIDE
+## OkHTTP
+We use OkHTTP library as java HTTP Client
+[http://square.github.io/okhttp/](http://square.github.io/okhttp/)
+###@see ru.atom.http.client
 
 #HSLIDE
 ```java
