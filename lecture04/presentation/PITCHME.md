@@ -32,7 +32,7 @@ https://atom.mail.ru/
 interface Map<K, V>
 ``` 
 
-An object that maps keys to values.
+An object that maps **keys** to **values**.
 Cannot contain duplicate keys.
 Each key map to at most one value.
  
@@ -65,22 +65,31 @@ From official FAQ:
 - EnumMap
 
 #HSLIDE
-### Complexity
-HashMap
+## HashMap - map where hashing is used to speedup search for element in map  
+So **containsKey()** and **get(key)** are **O(1)**  
+To support this we must implement **hashCode()** for objects, stored in Map  
+**hashCode()** and **equals()** must hold contract
+
+#HSLIDE
+### HashMap. General contract
+For objects **a** and **b**:
+```java
+a.key.equals(b.key) => a.key.hashCode() == b.key.hashCode()
+
+if a.key.hashCode() == b.key.hashCode() 
+          a may be not equal b
+          
+a.key.hashcode() is the same during object lifetime
+```
+
+#HSLIDE
+### HashMap. Complexity
 
 |  containsKey  | get   | put   | remove | 
 |:----------:|:-----:|:-----:|:------:|
 | O(1)       | O(1)  |  O(1) | O(1)  |
 
-
-TreeMap
-
-|  containsKey  | get   | put   | remove |
-|:----------:|:-----:|:-----:|:------:|
-| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
-
 [Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
 
 #HSLIDE
 ### HashMap. Internals 
@@ -128,6 +137,9 @@ What about null?
 |  contains  | add   | get   | remove | 
 |:----------:|:-----:|:-----:|:------:|
 | O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
+
+[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
+
 
 #HSLIDE
 ### Interface Set
