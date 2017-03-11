@@ -1,34 +1,36 @@
-package ru.atom.mode1;
+package ru.atom.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
 
-public class Bomb implements Temporary, Positionable  {
-    private int id;
-    private Point position;
-    private static final long bomb_lifetime = 1000;
-    private long elapsedTime;
+public class Bomb extends AbstractGameObject implements Temporary {
+    private static final Logger log = LogManager.getLogger(Bomb.class);
+    private long lifeTimeBomb;
+    private long boomTimeBomb;
 
     public Bomb(Point position) {
-        this.id = Gamesession.SetObjectId();
-        this.position = position;
-        this.elapsedTime =0L;
+        super(position.getX(), position.getY());
+        this.lifeTimeBomb = 3000;
+        this.boomTimeBomb = 0L;
+        log.info("Bomb has been planted id={} x={} y={}", getId(), position.getX(), position.getY());
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
 
     @Override
     public long getLifetimeMillis() {
-        returm bomb_lifetime;
+        return lifeTimeBomb;
+    }
+
+    @Override
+    public void tick(long elapsed) {
+        boomTimeBomb += elapsed;
     }
 
     @Override
     public boolean isDead() {
-        if(elapsedTime >= bomb_lifetime) {
-            return true;
-        }
-        return false;
+        boolean boom = (boomTimeBomb > lifeTimeBomb);
+        log.info("CABOOM!");
+        return boom;
     }
 }
