@@ -29,10 +29,10 @@ public class Bar implements Collider {
             if (this == other) return true;
 
             Point point = (Point) other;
-            return  !(point.getX() < this.firstCornerX
-                    || point.getY() < this.firstCornerY
-                    || point.getX() > this.secondCornerX
-                    || point.getY() > this.secondCornerY);
+            return  (point.getX() >= this.firstCornerX
+                    && point.getY() >= this.firstCornerY
+                    && point.getX() <= this.secondCornerX
+                    && point.getY() <= this.secondCornerY);
 
         } else if (other instanceof Bar) {
 
@@ -40,10 +40,10 @@ public class Bar implements Collider {
 
             Bar bar = (Bar) other;
 
-            return !(bar.secondCornerX < this.firstCornerX
-                    || bar.secondCornerY < this.firstCornerY
-                    || bar.firstCornerX > this.secondCornerX
-                    || bar.firstCornerY > this.secondCornerY);
+            return (bar.secondCornerX >= this.firstCornerX
+                    && bar.secondCornerY >= this.firstCornerY
+                    && bar.firstCornerX <= this.secondCornerX
+                    && bar.firstCornerY <= this.secondCornerY);
 
         }
         throw new IllegalArgumentException();
@@ -58,10 +58,10 @@ public class Bar implements Collider {
 
         Bar bar = (Bar) o;
 
-        return !(bar.firstCornerX != this.firstCornerX
-                 || bar.firstCornerY != this.firstCornerY
-                 || bar.secondCornerX != this.secondCornerX
-                 || bar.secondCornerY != this.secondCornerY);
+        return (bar.firstCornerX == this.firstCornerX
+                 && bar.firstCornerY == this.firstCornerY
+                 && bar.secondCornerX == this.secondCornerX
+                 && bar.secondCornerY == this.secondCornerY);
 
     }
 
