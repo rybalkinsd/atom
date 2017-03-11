@@ -9,7 +9,7 @@ public class Fire implements Positionable, Temporary {
     private Point position;
     private final int id;
     private static final int lifeTime = 100;
-    private long BurningdTime = 0;
+    private long burningdTime = 0;
     private boolean idDead = false;
 
     public Fire(int x, int y) {
@@ -24,7 +24,7 @@ public class Fire implements Positionable, Temporary {
 
     @Override
     public void tick(long elapsed) {
-        BurningdTime += elapsed;
+        burningdTime += elapsed;
 
     }
 
@@ -37,7 +37,7 @@ public class Fire implements Positionable, Temporary {
     @Override
     public boolean isDead() {
 
-        return BurningdTime > lifeTime;
+        return burningdTime > lifeTime;
     }
 
     @Override

@@ -8,8 +8,8 @@ import ru.atom.geometry.Point;
 public class Bomb implements Positionable, Temporary {
     private Point position;
     private final int id;
-    private static final int Blasttime = 200;
-    private long Bombtimer = 0;
+    private static final int blasttime = 200;
+    private long bombtimer = 0;
     private boolean isDead = false;
 
     public Bomb(int x, int y) {
@@ -19,22 +19,24 @@ public class Bomb implements Positionable, Temporary {
 
     @Override
     public int getId() {
+
         return id;
     }
 
     @Override
     public void tick(long elapsed) {
-        Bombtimer += elapsed;
+        bombtimer += elapsed;
     }
 
     @Override
     public long getLifetimeMillis() {
-        return Blasttime;
+        return blasttime;
     }
 
     @Override
     public boolean isDead() {
-        return Bombtimer > Blasttime;
+
+        return bombtimer > blasttime;
     }
 
     @Override

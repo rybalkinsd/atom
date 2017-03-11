@@ -10,9 +10,9 @@ public class Girl implements Movable, Positionable {
     private Point position;
     private final int id;
     private long elapsedTime = 0;
-    private int NumberOfBombs = 1;
-    private int NumberofMortgagedbomb = 0;
-    private int BombForce = 1;
+    private int numberOfBombs = 1;
+    private int numberofMortgagedbomb = 0;
+    private int bombForce = 1;
     private int velocity = 20;
     private boolean isDead = false;
 
@@ -27,22 +27,22 @@ public class Girl implements Movable, Positionable {
     }
 
     public void IncreaseNumberOfBombs() {
-        NumberOfBombs += 1;
+        numberOfBombs += 1;
     }
 
     public void IncreaseNumberofMortgagedbomb() {
-        NumberofMortgagedbomb += 1;
+        numberofMortgagedbomb += 1;
 
     }
 
     public void DecreaseNumberofMortgagedbomb() {
-        if (NumberofMortgagedbomb > 1) {
-            NumberofMortgagedbomb -= 1;
+        if (numberofMortgagedbomb > 1) {
+            numberofMortgagedbomb -= 1;
         }
     }
 
     public void IncreaseBombForce() {
-        BombForce += 2;
+        bombForce += 2;
     }
 
 
