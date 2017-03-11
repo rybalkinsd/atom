@@ -29,10 +29,18 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean contains(Object o) {
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue().equals(o)) {
-                return true;
+            if (node.getValue() != null) {
+                if (node.getValue().equals(o)) {
+                    return true;
+                } else {
+                    node = node.getNext();
+                }
             } else {
-                node = node.getNext();
+                if (o == null) {
+                    return  true;
+                } else {
+                    node = node.getNext();
+                }
             }
         }
         return false;
@@ -45,7 +53,7 @@ public class CustomLinkedList<E> implements List<E> {
         } else {
             return new Iterator<E>() {
 
-                private ListNode currentNode = header;
+                private ListNode<E> currentNode = header;
 
                 @Override
                 public boolean hasNext() {
@@ -56,7 +64,7 @@ public class CustomLinkedList<E> implements List<E> {
                 public E next() {
                     if (hasNext()) {
                         currentNode = currentNode.getNext();
-                        return (E) currentNode.getValue();
+                        return currentNode.getValue();
                     } else {
                         throw new NoSuchElementException();
                     }
@@ -89,15 +97,28 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean remove(Object o) {
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue().equals(o)) {
-                ListNode prevNode = node.getPrev();
-                ListNode nextNode = node.getNext();
-                prevNode.setNext(nextNode);
-                nextNode.setPrev(prevNode);
-                size--;
-                return true;
+            if (node.getValue() != null) {
+                if (node.getValue().equals(o)) {
+                    ListNode prevNode = node.getPrev();
+                    ListNode nextNode = node.getNext();
+                    prevNode.setNext(nextNode);
+                    nextNode.setPrev(prevNode);
+                    size--;
+                    return true;
+                } else {
+                    node = node.getNext();
+                }
             } else {
-                node = node.getNext();
+                if (o == null) {
+                    ListNode prevNode = node.getPrev();
+                    ListNode nextNode = node.getNext();
+                    prevNode.setNext(nextNode);
+                    nextNode.setPrev(prevNode);
+                    size--;
+                    return true;
+                } else {
+                    node = node.getNext();
+                }
             }
         }
         return false;
@@ -122,7 +143,17 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        return (E) header.getPrev().getValue();
+        if (index < size) {
+            ListNode<E> node = header.getNext();
+            if (index < this.size()) {
+                for (int i = 1; i < index; i++) {
+                    node = node.getNext();
+                }
+            }
+            return node.getValue();
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
@@ -130,11 +161,20 @@ public class CustomLinkedList<E> implements List<E> {
         int potentialIndex = 0;
         ListNode node = header.getNext();
         while (node != header) {
-            if (node.getValue().equals(o)) {
-                return potentialIndex;
+            if (node.getValue() != null) {
+                if (node.getValue().equals(o)) {
+                    return potentialIndex;
+                } else {
+                    node = node.getNext();
+                    potentialIndex++;
+                }
             } else {
-                node = node.getNext();
-                potentialIndex++;
+                if (o == null) {
+                    return potentialIndex;
+                } else {
+                    node = node.getNext();
+                    potentialIndex++;
+                }
             }
         }
         return -1;
