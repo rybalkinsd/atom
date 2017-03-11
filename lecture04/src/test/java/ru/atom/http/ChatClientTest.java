@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_NAME_IN_CHAT = "Aleksei";
+    private static String MY_MESSAGE_TO_CHAT = "watashi wa Aleksei desu";
 
     @Test
     public void viewOnline() throws IOException {
@@ -25,7 +25,7 @@ public class ChatClientTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
+        Assert.assertTrue(response.code() == 200 || body.equals("Already logined"));
     }
 
     @Test
