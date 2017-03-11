@@ -6,6 +6,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import sun.util.resources.cldr.ms.CalendarData_ms_MY;
 
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
+    private static final String HOST = "wtfis.ru";
     private static final String PORT = ":8080";
 
     //GET host:port/chat/online
@@ -27,7 +28,7 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
-    //GET host:port/chat/login?name=my_name
+    //POST host:port/chat/login?name=my_name
     public static Response login(String name) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
@@ -38,8 +39,8 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
-    //GET host:port/chat/say?name=my_name
-    //Body: "my_message"
+    //POST host:port/chat/say?name=my_name
+    //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
         throw new NotImplementedException();
     }
