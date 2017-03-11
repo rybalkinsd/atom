@@ -427,7 +427,7 @@ REST API is a common way for services to publish their functionality for other s
 We got a chat REST service open for you on  
   
 Implement **chat client** and enjoy!
-###@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
+@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
 #HSLIDE
 ## Chat REST API. View Online
@@ -521,9 +521,6 @@ We use OkHTTP library as java HTTP Client
 #HSLIDE
 ## POST example from Java
 ```java
-#HSLIDE
-## GET example from Java
-```java
   //GET host:port/chat/online
   public static Response viewOnline() throws IOException {
     Request request = new Request.Builder()
@@ -534,7 +531,6 @@ We use OkHTTP library as java HTTP Client
 
     return client.newCall(request).execute();
   }
-```
 ```
 
 #HSLIDE
