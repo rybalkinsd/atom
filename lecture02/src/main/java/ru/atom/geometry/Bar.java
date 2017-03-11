@@ -1,6 +1,6 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.lang.IllegalArgumentException;
 
 /**
  * Created by IGIntellectual on 03.03.2017.
