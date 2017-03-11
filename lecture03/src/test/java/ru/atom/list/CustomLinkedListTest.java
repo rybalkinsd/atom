@@ -1,17 +1,16 @@
 package ru.atom.list;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -70,4 +69,18 @@ public class CustomLinkedListTest {
         assertThat(intList.contains(38), is(true));
         assertThat(intList.size(), is(1));
     }
+
+
+    @Test
+    public void indexOfTest() throws Exception {
+
+        assertThat(stringList.indexOf("Hello"), is(0));
+        assertThat(stringList.indexOf(", "), is(1));
+        assertThat(stringList.indexOf("world!"), is(2));
+
+        assertThat(intList.indexOf(42), is(0));
+        assertThat(intList.indexOf(38), is(1));
+        assertThat(intList.indexOf(0), is(-1));
+    }
+
 }
