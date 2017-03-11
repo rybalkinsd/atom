@@ -59,7 +59,7 @@ ext.libraries = [
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
-        jersey_server: "org.glassfish.jersey.core:jersey-server$jerseyVersion",
+        jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
 ]
 
