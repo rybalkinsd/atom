@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
+
+    private static int id = 0;
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
 
@@ -31,5 +33,9 @@ public class GameSession implements Tickable {
             }
         }
         gameObjects.removeAll(dead);
+    }
+
+    static int createObjecId() {
+        return id++;
     }
 }
