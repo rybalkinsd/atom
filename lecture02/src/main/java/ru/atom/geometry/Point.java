@@ -1,13 +1,9 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * Template class for
  */
 public class Point implements Collider {
-    // fields
-    // and methods
     private int x;
     private int y;
 
@@ -24,13 +20,25 @@ public class Point implements Collider {
         return y;
     }
 
+    boolean isHigher(Point p) {
+        return this.y >= p.y;
+    }
+
+    boolean isLower(Point p) {
+        return this.y <= p.y;
+    }
+
+    boolean isRight(Point p) {
+        return this.x >= p.x;
+    }
+
+    boolean isLeft(Point p) {
+        return this.x <= p.x;
+    }
 
     @Override
     public boolean isColliding(Collider other) {
-        if (this.equals(other)) {
-            return true;
-        }
-        return false;
+        return this.equals(other);
     }
 
     /**
@@ -46,9 +54,6 @@ public class Point implements Collider {
         Point point = (Point) o;
 
         // your code here
-        if (this.x == point.x && this.y == point.y) {
-            return true;
-        }
-        return false;
+        return this.x == point.x && this.y == point.y;
     }
 }
