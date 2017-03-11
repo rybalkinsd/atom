@@ -3,7 +3,7 @@ package ru.atom.model;
 
 import ru.atom.geometry.Point;
 
-public class Brick implements Positionable{
+public class Brick implements Positionable {
 
     private final int id;
     private final Point position;

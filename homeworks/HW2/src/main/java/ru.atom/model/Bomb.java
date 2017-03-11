@@ -7,7 +7,7 @@ public class Bomb implements Temporary, Positionable {
     private final int id;
     private final Point position;
     private final long lifeTime;
-    private long time=0L;
+    private long time = 0L;
 
     public Bomb(int id, Point position, long lifeTime) {
         this.id = id;
@@ -22,7 +22,7 @@ public class Bomb implements Temporary, Positionable {
 
     @Override
     public void tick(long elapsed) {
-       time += elapsed;
+        time += elapsed;
 
     }
 

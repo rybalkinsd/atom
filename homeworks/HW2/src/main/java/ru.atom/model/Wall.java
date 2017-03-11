@@ -6,7 +6,7 @@ public class Wall implements Positionable, Tickable {
 
     private final int id;
     private final Point position;
-    private long time=0l;
+    private long time = 0L;
 
     public Wall(int id, Point position) {
         this.id = id;
@@ -25,7 +25,7 @@ public class Wall implements Positionable, Tickable {
 
     @Override
     public void tick(long elapsed) {
-        time+=elapsed;
+        time += elapsed;
     }
 
 

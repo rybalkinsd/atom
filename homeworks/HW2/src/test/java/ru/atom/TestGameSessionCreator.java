@@ -2,7 +2,6 @@ package ru.atom;
 
 import ru.atom.geometry.Point;
 import ru.atom.model.GameSession;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import ru.atom.model.Bomb;
 import ru.atom.model.Bomber;
