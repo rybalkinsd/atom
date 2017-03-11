@@ -20,7 +20,7 @@ public class GameSession implements Tickable {
         gameObjects.add(gameObject);
     }
 
-    public static int getGameObjectId(){
+    public static int getGameObjectId() {
         return ++gameObjectId;
     }
 
