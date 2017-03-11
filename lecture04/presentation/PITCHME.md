@@ -184,12 +184,12 @@ Complexity is similar to **TreeMap**
 
 #HSLIDE
 ## Client - server architecture
-<img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>
+<img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
 Which protocol to use for client-server inreraction?
 
 #HSLIDE
 ## Network communication
-There exist numerous protocols for network communication (OSI)
+There exist numerous protocols for network communication. OSI:
 <img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
 
 #HSLIDE
