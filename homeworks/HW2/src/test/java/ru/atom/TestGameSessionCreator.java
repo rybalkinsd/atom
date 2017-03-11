@@ -1,7 +1,13 @@
 package ru.atom;
 
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
+import ru.atom.model.GameSession;
+import ru.atom.model.Player;
+import ru.atom.model.PermanentBlock;
+import ru.atom.model.TemporaryBlock;
+import ru.atom.model.Fire;
+import ru.atom.model.Bomb;
+import ru.atom.model.PowerUp;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game

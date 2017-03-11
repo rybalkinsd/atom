@@ -3,7 +3,10 @@ package ru.atom;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
+import ru.atom.model.GameSession;
+import ru.atom.model.GameObject;
+import ru.atom.model.Movable;
+import ru.atom.model.Temporary;
 
 import java.util.Comparator;
 import java.util.List;

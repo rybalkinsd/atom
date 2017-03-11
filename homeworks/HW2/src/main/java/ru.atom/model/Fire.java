@@ -41,8 +41,12 @@ public class Fire implements Positionable, Temporary {
     }
 
     @Override
-    public Point getPosition() { return position; }
+    public Point getPosition() {
+        return position;
+    }
 
     @Override
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 }
