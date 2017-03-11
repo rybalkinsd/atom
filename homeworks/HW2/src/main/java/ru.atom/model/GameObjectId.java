@@ -5,7 +5,7 @@ package ru.atom.model;
  */
 public class GameObjectId implements GameObject {
     private static int count = 0;
-    private int id = count++;
+    private static int id = count++;
 
 
     @Override

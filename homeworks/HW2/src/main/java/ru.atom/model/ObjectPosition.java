@@ -15,6 +15,6 @@ public class ObjectPosition extends GameObjectId implements Positionable {
 
     @Override
     public Point getPosition() {
-        return position;
+        return new Point(position.getX(), position.getY());
     }
 }
