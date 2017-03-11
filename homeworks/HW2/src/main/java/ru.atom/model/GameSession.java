@@ -9,13 +9,19 @@ import java.util.List;
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
+    public static int id = 0;
 
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
     }
 
     public void addGameObject(GameObject gameObject) {
+        log.info(gameObject.getClass().getName() + " with id = " + gameObject.getId() + " is created");
         gameObjects.add(gameObject);
+    }
+
+    public static int setGameObjectId() {
+        return id++;
     }
 
     @Override
