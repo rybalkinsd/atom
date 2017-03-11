@@ -15,4 +15,5 @@ public interface Movable extends Positionable, Tickable {
     enum Direction {
         UP, DOWN, RIGHT, LEFT, IDLE
     }
+
 }
