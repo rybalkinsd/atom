@@ -65,9 +65,10 @@ From official FAQ:
 - EnumMap
 
 #HSLIDE
-## HashMap - map where hashing is used to speedup search for element in map  
+## HashMap
+**HashMap** - map where hashing is used to speedup search for element in map  
 So **containsKey()** and **get(key)** are **O(1)**  
-To support this we must implement **hashCode()** for objects, stored in Map  
+To support this we must implement **hashCode()** for **keys**  
 **hashCode()** and **equals()** must hold contract
 
 #HSLIDE
@@ -83,6 +84,11 @@ a.key.hashcode() is the same during object lifetime
 ```
 
 #HSLIDE
+### HashMap. Internals 
+<img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
+
+
+#HSLIDE
 ### HashMap. Complexity
 
 |  containsKey  | get   | put   | remove | 
@@ -90,10 +96,6 @@ a.key.hashcode() is the same during object lifetime
 | O(1)       | O(1)  |  O(1) | O(1)  |
 
 [Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
-#HSLIDE
-### HashMap. Internals 
-<img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
 
 
 #HSLIDE
@@ -160,7 +162,7 @@ What about null?
 
 #HSLIDE
 ### HashSet
-Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)
+Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)  
 It makes no guarantees as to the iteration order of the set.
  
 #HSLIDE
@@ -184,7 +186,7 @@ a.hashcode() is the same during object lifetime
 
 #HSLIDE
 ### TreeSet
-Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)
+Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)  
 Complexity is similar to **TreeMap**
 
 #HSLIDE
@@ -194,13 +196,12 @@ Complexity is similar to **TreeMap**
 1. HTTP
 1. REST API
 1. cURL
-
 1. Java HTTP Client
 
 #HSLIDE
 ## Client - server architecture
 <img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
-Which protocol to use for client-server inreraction?
+Which protocol to use for client-server interaction?
 
 #HSLIDE
 ## Network communication
@@ -312,7 +313,7 @@ removes resource
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #HSLIDE
-## When use HTTP for inter-program communication?
+### When to use HTTP for inter-program communication?
 **When we want:**
 - simplicity (easy to develop and test)
 - scalability (just use load balancer, i.e. **nginx**)
@@ -338,7 +339,7 @@ it wraps **libcurl** library, which is available for all major languages
 
 #HSLIDE
 ## GET Example
-Request:
+Request from cURL:
 ```bash
 > curl -i -X GET -H "Host: example.org" example.org
 ```
@@ -358,27 +359,33 @@ Content-Length: 1270
 
 <!doctype html>
 <html>
-<head>
+  <head>
+    ...
 ```
+#HSLIDE
+#GET from browser
+When you enter adress line in browser, in creates **GET** request  
+So we can do previous example just by typing in browser:
+> example.org
 
 
 #HSLIDE
 ## POST Example
 Raw HTTP:
 ```http
-POST /auth/login
-HTTP/1.1
-Content-Type: application/x-www-form-urlencoded Host: localhost:8080
+POST /chat/say HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080
 
-login=user&password=password
+msg="Привет всем в этом чатике"
 ```
 cURL:
 ```bash
 >curl -X POST \
 -H "Content-Type: application/x-www-form-urlencoded" \
 -H "Host: localhost:8080" \
--d 'login=admin&password=admin' \
-http://localhost:8080/auth/login
+-d 'msg="Привет всем в этом чатике"'' \
+http://localhost:8080/chat/say
 ```
 
 #HSLIDE
