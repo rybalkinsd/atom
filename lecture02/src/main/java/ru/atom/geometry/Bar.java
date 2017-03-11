@@ -38,15 +38,15 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider o) {
-            if (o instanceof Bar) {
+        if (o instanceof Bar) {
 
-                Bar otherP = (Bar) o;
+            Bar otherP = (Bar) o;
 
-                return this.equals(otherP) || this.checkPoint(otherP.firstP) || this.checkPoint(otherP.secondP)
+            return this.equals(otherP) || this.checkPoint(otherP.firstP) || this.checkPoint(otherP.secondP)
                         || otherP.checkPoint(this.firstP) || otherP.checkPoint(this.secondP);
-            }
-            if (o instanceof Point) {
-                return this.checkPoint((Point) o);
+        }
+        if (o instanceof Point) {
+            return this.checkPoint((Point) o);
         }
         throw new IllegalArgumentException("Argument Type");
     }
