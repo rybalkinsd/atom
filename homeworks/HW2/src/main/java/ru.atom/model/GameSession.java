@@ -15,6 +15,7 @@ public class GameSession implements Tickable {
     }
 
     public void addGameObject(GameObject gameObject) {
+        log.info("new game class: " + gameObject.getClass() + " id = " + gameObject.getId());
         gameObjects.add(gameObject);
     }
 
