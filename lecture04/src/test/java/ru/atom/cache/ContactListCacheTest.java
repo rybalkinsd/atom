@@ -9,8 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.hamcrest.CoreMatchers.*;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -47,7 +50,7 @@ public class ContactListCacheTest {
         cache1.put(newOne, contacts);
         assertThat(cache1.getSize(), is(equalTo(cache1.getCapacity())));
         assertThat(cache1.get(johnny), is(nullValue()));
-        assertThat(cache1.get(newOne), is(not(nullValue())));
+        assertThat(cache1.get(newOne), is(notNullValue()));
     }
 
     @Test

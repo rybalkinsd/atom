@@ -11,7 +11,9 @@ public abstract class AbstractCache<K, V> {
     }
 
     public abstract boolean put(K k, V v);
+
     public abstract V get(K k);
+
     public abstract int getSize();
 
     public int getCapacity() {
