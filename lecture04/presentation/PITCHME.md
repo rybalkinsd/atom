@@ -207,7 +207,7 @@ There exist numerous protocols for network communication
 ## HTTP
 **Application layer client-server protocol**
 
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
+<img src="lecture04/presentation/assets/img/HTTP.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
 ## HTTP Basics
@@ -302,13 +302,36 @@ removes resource
 
 #HSLIDE
 ## cURL
-Super popular command line tool for multiple protocols (including **http**) testing  
+Super popular command line tool for multiple protocols testing (including **HTTP**)   
 [https://curl.haxx.se/](https://curl.haxx.se/)  
 it wraps **libcurl** library, which is available for all major languages
 
 #HSLIDE
 ## GET Example
-curl -i 
+Request:
+```bash
+> curl -i -X GET -H "Host: example.org" example.org
+```
+Response:
+```
+```http
+HTTP/1.1 200 OK
+Cache-Control: max-age=604800
+Content-Type: text/html
+Date: Sat, 11 Mar 2017 00:22:28 GMT
+Etag: "359670651+ident"
+Expires: Sat, 18 Mar 2017 00:22:28 GMT
+Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
+Server: ECS (phl/9D2C)
+Vary: Accept-Encoding
+X-Cache: HIT
+Content-Length: 1270
+
+<!doctype html>
+<html>
+<head>
+```
+
 
 #HSLIDE
 ## POST Example
@@ -352,6 +375,9 @@ Response response = client.newCall(request).execute();
 
 #HSLIDE
 ### Summary
+1. Sets contain unique values
+1. Maps contain pairs with unique keys
+1. HTTP is popular client-server protocol for inter-program communication
 
 #HSLIDE
 **Оставьте обратную связь**
