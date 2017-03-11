@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class ChatClientTest {
     private static String MY_NAME_IN_CHAT = "Areksei";
-    private static String MY_MESSAGE_TO_CHAT = "Oyasumi.";
+    private static String MY_MESSAGE_TO_CHAT = "Konnichiwa.";
 
     @Test
     public void viewOnline() throws IOException {
