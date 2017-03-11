@@ -11,6 +11,7 @@ public interface Temporary extends Tickable, GameObject {
 
     /**
      * Checks if gameObject is dead. If it becomes dead, executes death actions
+     *
      * @return true if GameObject is dead
      */
     boolean isDead();
