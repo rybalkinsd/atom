@@ -14,6 +14,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
+    private List empty = new CustomLinkedList();
 
     @Before
     public void setUp() throws Exception {
@@ -83,13 +84,15 @@ public class CustomLinkedListTest {
         assertThat(intList.indexOf(0), is(-1));
     }
 
-    public void stupidTest() {
-        assertThat(intList.set(0, 123),is(false));
-        assertThat(intList.toArray(), is(equalTo(null)));
-        assertThat(intList.subList(1,3), is(equalTo(null)));
-        assertThat(intList.listIterator(), is(equalTo(null)));
-        assertThat(intList.remove(1),is(equalTo(null)));
-        assertThat(intList.lastIndexOf(intList),is(equalTo(0)));
+    @Test
+    public void emptyTests() {
+        assertThat(intList.isEmpty(),is(false));
+        assertThat(empty.isEmpty(),is(true));
     }
 
+    @Test
+    public void getTest() throws Exception {
+        assertThat(intList.get(0),is(equalTo(42)));
+        assertThat(stringList.get(0),is(equalTo("Hello")));
+    }
 }
