@@ -15,5 +15,6 @@ public interface Positionable extends GameObject {
     /**
      * @return Current position
      */
+    
     Point getPosition();
 }
