@@ -7,7 +7,7 @@ ext {
     jdkVersion = 1.8
 
     jettyVersion = "9.3.12.v20160915"
-    junitVersion = "4.+"
+    junitVersion = "4.12"
     jacksonVersion = "2.5.3"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
