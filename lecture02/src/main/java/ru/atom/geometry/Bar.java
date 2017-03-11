@@ -45,8 +45,7 @@ public class Bar implements Collider {
                 return this.equals(otherP) || this.checkPoint(otherP.firstP) || this.checkPoint(otherP.secondP)
                         || otherP.checkPoint(this.firstP) || otherP.checkPoint(this.secondP);
             }
-            return (o instanceof Point) && this.checkPoint((Point) o);
-            if ((o instanceof Point)) {
+            if (o instanceof Point) {
                 return this.checkPoint((Point) o);
         }
         throw new IllegalArgumentException("Argument Type");
