@@ -185,11 +185,15 @@ Complexity is similar to **TreeMap**
 #HSLIDE
 ## Client - server architecture
 <img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>
+Which protocol to use for client-server inreraction?
 
 #HSLIDE
 ## Network communication
-There exist numerous protocols for network communication
+There exist numerous protocols for network communication (OSI)
 <img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
+
+#HSLIDE
+The choice of protocol depends on **requirements**
 
 #HSLIDE
 ## Bomber man architecture
@@ -291,6 +295,15 @@ removes resource
 [rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
+#HSLIDE
+## When use HTTP for inter-program communication?
+**When we want:**
+- simplicity (easy to develop and test)
+- scalability (just use load balancer, i.e. **nginx**)
+
+**under restrictions:**
+- mediocre performance (not real time)
+- client-server only - no push requests from server
 
 #HSLIDE
 ### Agenda
