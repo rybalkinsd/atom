@@ -1,6 +1,11 @@
 package ru.atom;
 
-import ru.atom.model.*;
+import ru.atom.model.Block;
+import ru.atom.model.Bomb;
+import ru.atom.model.Fire;
+import ru.atom.model.Girl;
+import ru.atom.model.EverlastingBox;
+import ru.atom.model.GameSession;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
