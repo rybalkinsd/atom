@@ -38,7 +38,6 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider o) {
-        try {
             if (o instanceof Bar) {
 
                 Bar otherP = (Bar) o;
@@ -47,9 +46,10 @@ public class Bar implements Collider {
                         || otherP.checkPoint(this.firstP) || otherP.checkPoint(this.secondP);
             }
             return (o instanceof Point) && this.checkPoint((Point) o);
-        } catch (Exception allException) {
-            throw new NotImplementedException();
+            if ((o instanceof Point)) {
+                return this.checkPoint((Point) o);
         }
+        throw new IllegalArgumentException("Argument Type");
     }
 
     private boolean checkPoint(Point point) {
