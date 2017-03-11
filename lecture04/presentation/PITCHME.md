@@ -25,102 +25,6 @@ https://atom.mail.ru/
 1. Java HTTP Client
 
 #HSLIDE
-## Collections
-<img src="lecture03/presentation/assets/img/collectionimpl.png" alt="exception" style="width: 500px;"/> 
-
-#HSLIDE
-### Interface Set
--  A collection that contains no duplicate elements.  More formally, sets
-   contain no pair of elements **e1** and **e2** such that
-    ```java
-       e1.equals(e2);
-    ```
-    
-- Implementations
-    - HashSet 
-    - TreeSet
-    - EnumSet 
-    - ConcurrentSkipListSet 
-    - CopyOnWriteArraySet 
-    - LinkedHashSet
-    - ...
-
-
-#HSLIDE
-### HashSet
-Set interface implementation, backed by a hash table (actually a HashMap instance).
-It makes no guarantees as to the iteration order of the set.
-
-
-#HSLIDE
-### HashSet. Internals
-<img src="lecture03/presentation/assets/img/hashset.png" alt="exception" style="width: 500px;"/> 
- 
-
-#HSLIDE
-### General contract
-For objects **a** and **b**:
-```java
-a.equals(b) => a.hashCode() == b.hashCode()
-
-if a.hashCode() == b.hashCode() 
-          a may be not equal b
-          
-a.hashcode() is the same during object lifetime
-```
-
-
-#HSLIDE
-### HashSet. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) |  O(1)  |
-
-
-#HSLIDE
-### TreeSet
-The elements are ordered using their **Comparable** natural 
-ordering, or by **Comparator** provided at set creation time, 
-depending on which constructor is used.
-
-
-#HSLIDE
-### TreeSet. Internals
-<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
-
-[Read more (RU)](https://habrahabr.ru/post/65617/)
-
-#HSLIDE
-### Functional interface Comparable<T>
-
-```java
-@Override
-public int compareTo(T o) {
-	return this.field – o.field;
-}
-```
-
-
-#HSLIDE
-### compareTo & equals
-Any type of contract?
-```java
-a.equals(b) == true => a.compareTo(b) == 0
-``` 
-
-What about null?
-
-
-#HSLIDE
-### HashSet. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
-
-
-#HSLIDE
 ### Map 
 
 ```java
@@ -152,20 +56,12 @@ From official FAQ:
 > We feel that mappings are not collections and collections are not mappings. 
 > If a Map is a Collection, what are the elements? 
 
-
 #HSLIDE
 ### Map implementations
 - HashMap
 - TreeMap
 - LinkedHashMap
 - EnumMap
-
-
-#HSLIDE
-### Notes
-1. HashSet is cutted HashMap
-1. TreeSet is cutted TreeMap 
-
 
 #HSLIDE
 ### Complexity
@@ -188,6 +84,95 @@ TreeMap
 #HSLIDE
 ### HashMap. Internals 
 <img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
+
+
+#HSLIDE
+### TreeMap
+The keys are ordered using their **Comparable** natural 
+ordering, or by **Comparator** provided at set creation time, 
+depending on which constructor is used.
+
+
+#HSLIDE
+### TreeMap. Internals
+<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
+
+[Read more (RU)](https://habrahabr.ru/post/65617/)
+
+
+#HSLIDE
+### Functional interface Comparable<T>
+
+```java
+@Override
+public int compareTo(T o) {
+  return this.field – o.field;
+}
+```
+
+
+#HSLIDE
+### compareTo & equals
+Any type of contract?
+```java
+a.equals(b) == true => a.compareTo(b) == 0
+``` 
+
+What about null?
+
+
+#HSLIDE
+### TreeMap. Complexity
+
+|  contains  | add   | get   | remove | 
+|:----------:|:-----:|:-----:|:------:|
+| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
+
+#HSLIDE
+### Interface Set
+-  A collection that contains no duplicate elements.  More formally, sets
+   contain no pair of elements **e1** and **e2** such that
+    ```java
+       e1.equals(e2);
+    ```
+    
+- Implementations
+    - HashSet 
+    - TreeSet
+    - EnumSet 
+    - ConcurrentSkipListSet 
+    - CopyOnWriteArraySet 
+    - LinkedHashSet
+    - ...
+
+#HSLIDE
+### HashSet
+Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)
+It makes no guarantees as to the iteration order of the set.
+ 
+#HSLIDE
+### General contract
+For objects **a** and **b**:
+```java
+a.equals(b) => a.hashCode() == b.hashCode()
+
+if a.hashCode() == b.hashCode() 
+          a may be not equal b
+          
+a.hashcode() is the same during object lifetime
+```
+
+#HSLIDE
+### HashSet. Complexity
+
+|  contains  | add   | get   | remove | 
+|:----------:|:-----:|:-----:|:------:|
+| O(1)       | O(1)  |  O(1) |  O(1)  |
+
+#HSLIDE
+### TreeSet
+Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)
+Complexity is similar to **TreeMap**
 
 #HSLIDE
 ### Agenda
