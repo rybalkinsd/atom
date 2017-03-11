@@ -1,7 +1,5 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +34,7 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean add(E e){
+    public boolean add(E e) {
         linkLast(e);
         return true;
     }
@@ -51,36 +49,36 @@ public class CustomLinkedList<E> implements List<E> {
                 }
             }
         } else {
-        for (ListNode<E> x = first; x != null; x = x.next) {
-            if (o.equals(x.value)) {
-                unlink(x);
-                return true;
-            }
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.value)) {
+                    unlink(x);
+                    return true;
+                }
             }
         }
-         return false;
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object e : c)
-                       if (!contains(e))
-                           return false;
+            if (!contains(e))
+                return false;
         return true;
     }
 
     @Override
     public void clear() {
         for (ListNode<E> x = first; x != null; ) {
-                       ListNode<E> next = x.next;
-                       x.value = null;
-                       x.next = null;
-                       x.prev = null;
-                       x = next;
-                   }
-               first = null;
-               last = null;
-               size = 0;
+            ListNode<E> next = x.next;
+            x.value = null;
+            x.next = null;
+            x.prev = null;
+            x = next;
+        }
+        first = null;
+        last = null;
+        size = 0;
     }
 
     @Override
@@ -100,13 +98,13 @@ public class CustomLinkedList<E> implements List<E> {
         if (o == null) {
             for (ListNode<E> x = first; x != null; x = x.next) {
                 if (x.value == null)
-                return index;
+                    return index;
                 index++;
             }
         } else {
             for (ListNode<E> x = first; x != null; x = x.next) {
                 if (o.equals(x.value))
-                return index;
+                    return index;
                 index++;
             }
         }
@@ -139,10 +137,10 @@ public class CustomLinkedList<E> implements List<E> {
         final ListNode<E> l = last;
         final ListNode<E> newNode = new ListNode<>(l, e, null);
         last = newNode;
-         if (l == null)
+        if (l == null)
             first = newNode;
-                else
-        l.next = newNode;
+        else
+            l.next = newNode;
         size++;
     }
 
