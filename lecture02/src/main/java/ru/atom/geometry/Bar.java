@@ -16,12 +16,12 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            return p1.isLeft(bar.p2) && p1.isLower(bar.p2) &&
-                    p2.isRight(bar.p1) && p2.isHigher(bar.p1);
+            return p1.isLeft(bar.p2) && p1.isLower(bar.p2)
+                    && p2.isRight(bar.p1) && p2.isHigher(bar.p1);
         } else if (other instanceof Point) {
             Point point = (Point) other;
-            return p1.isLeft(point) && p1.isLower(point) &&
-                    p2.isRight(point) && p2.isHigher(point);
+            return p1.isLeft(point) && p1.isLower(point)
+                    && p2.isRight(point) && p2.isHigher(point);
         }
         return false;
     }
