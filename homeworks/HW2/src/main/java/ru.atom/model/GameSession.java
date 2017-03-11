@@ -16,7 +16,12 @@ public class GameSession implements Tickable {
     }
 
     public void addGameObject(GameObject gameObject) {
-        gameObjects.add(gameObject);
+        if (gameObject == null) {
+            log.error("Null obbject cant be created");
+        } else {
+            gameObjects.add(gameObject);
+            log.info(String.format("Object Created %s", gameObject));
+        }
     }
 
     @Override

@@ -25,8 +25,8 @@ public final class TestGameSessionCreator {
         gameSession.addGameObject(new Wall(0, point1));
         gameSession.addGameObject(new Wall(1, point2));
 
-        gameSession.addGameObject(new Bomb(2,point1,10));
-        gameSession.addGameObject(new Bomb(3, point2, 100));
+        gameSession.addGameObject(new Bomb(2,point1,1000));
+        gameSession.addGameObject(new Bomb(3, point2, 10000));
 
         gameSession.addGameObject(new Bomber(4,point1, 1));
         gameSession.addGameObject(new Bomber(5, point2, 2));

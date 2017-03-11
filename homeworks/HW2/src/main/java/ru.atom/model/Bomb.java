@@ -22,7 +22,8 @@ public class Bomb implements Temporary, Positionable {
 
     @Override
     public void tick(long elapsed) {
-       time -= elapsed;
+       time += elapsed;
+
     }
 
     @Override
