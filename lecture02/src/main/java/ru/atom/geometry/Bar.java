@@ -3,10 +3,10 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    int firstCornerX;
-    int firstCornerY;
-    int secondCornerX;
-    int secondCornerY;
+    private int firstCornerX;
+    private int firstCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     Bar() {
     }
@@ -91,5 +91,6 @@ public class Bar implements Collider {
             return true;
         } else
             return false;
+
     }
 }
