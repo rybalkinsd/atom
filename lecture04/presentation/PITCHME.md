@@ -240,7 +240,7 @@ For example, one can extend server functionality by custom logic (e.g. for dynam
 
 #HSLIDE
 ## HTTP via telnet
-```
+```bash
 > telnet example.org
 ```
 request:
@@ -326,7 +326,6 @@ Request:
 > curl -i -X GET -H "Host: example.org" example.org
 ```
 Response:
-```
 ```http
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
