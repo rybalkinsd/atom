@@ -11,33 +11,38 @@ public class Girl implements Movable, Positionable {
     private final int id;
     private long elapsedTime = 0;
     private int NumberOfBombs = 1;
-    private int NumberofMortgagedbomb=0;
+    private int NumberofMortgagedbomb = 0;
     private int BombForce = 1;
     private int velocity = 20;
     private boolean isDead = false;
 
-    public Girl(int x, int y){
-        position=new Point(x,y);
-        id=GameSession.idCounter();
+    public Girl(int x, int y) {
+        position = new Point(x, y);
+        id = GameSession.idCounter();
 
     }
-    public void IncreaseVelocity(){
-        velocity+=15;
+
+    public void IncreaseVelocity() {
+        velocity += 15;
     }
-    public void IncreaseNumberOfBombs(){
-        NumberOfBombs+=1;
+
+    public void IncreaseNumberOfBombs() {
+        NumberOfBombs += 1;
     }
-    public void IncreaseNumberofMortgagedbomb(){
-        NumberofMortgagedbomb+=1;
+
+    public void IncreaseNumberofMortgagedbomb() {
+        NumberofMortgagedbomb += 1;
 
     }
-    public void DecreaseNumberofMortgagedbomb(){
-        if (NumberofMortgagedbomb>1) {
+
+    public void DecreaseNumberofMortgagedbomb() {
+        if (NumberofMortgagedbomb > 1) {
             NumberofMortgagedbomb -= 1;
         }
     }
-    public void IncreaseBombForce(){
-        BombForce+=2;
+
+    public void IncreaseBombForce() {
+        BombForce += 2;
     }
 
 
@@ -49,7 +54,7 @@ public class Girl implements Movable, Positionable {
 
     @Override
     public void tick(long elapsed) {
-        elapsedTime+=elapsed;
+        elapsedTime += elapsed;
 
     }
 

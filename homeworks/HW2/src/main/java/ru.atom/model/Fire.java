@@ -30,16 +30,19 @@ public class Fire implements Positionable, Temporary {
 
     @Override
     public long getLifetimeMillis() {
+
         return lifeTime;
     }
 
     @Override
     public boolean isDead() {
+
         return BurningdTime > lifeTime;
     }
 
     @Override
     public Point getPosition() {
+
         return position;
     }
 }

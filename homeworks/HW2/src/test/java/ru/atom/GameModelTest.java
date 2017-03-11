@@ -74,9 +74,7 @@ public class GameModelTest {
                 .map(o -> (Temporary) o).collect(Collectors.toList());
 
 
-
         Assert.assertFalse(temporaries.isEmpty());
-
 
 
         long maxLifeTime = temporaries.stream()
@@ -98,7 +96,6 @@ public class GameModelTest {
         Assert.assertTrue(temporaries.containsAll(temporariesAfterSmallTime));
 
         Assert.assertTrue(temporariesAfterSmallTime.containsAll(temporaries));
-
 
 
         gameSession.tick(maxLifeTime + 1);
