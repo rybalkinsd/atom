@@ -1,50 +1,55 @@
 package ru.atom.model;
 import ru.atom.geometry.Point;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class Player implements Movable {
 
-    private Point position;
-    private long lifetime;
+public class Player extends AbstractGameObject implements Movable {
+    private static final Logger log = LogManager.getLogger(Player.class);
     private int velocity = 1;
-    private final int id;
+    private long playerLifeTime;
+    private int boomPower;
+    private Point newPosition;
 
-    public Girl(int x, int y) {
-        this.position = new Point(x, y);
-        this.lifetime = 0;
-        this.id = GameSession.setObjectId();
+    public Player(Point position) {
+        super(position.getX(), position.getY());
+        this.velocity = 1;
+        this.newPosition = new Point(position.getX(), position.getY());
+        boomPower = 3;
+        playerLifeTime = 0L;
+        log.info("New player was created id={}, x={}, y={}, StartPowerBomb={}, StartVelocity={}",
+                getId(), position.getX(), position.getY(), boomPower, velocity);
     }
-    @Override
-    public Point move(Direction direction) {
-        switch (direction) {
-            case UP:
-                position = new Point(position.getX(), position.getY() + velocity);
-                return position;
-            case DOWN:
-                position = new Point(position.getX(), position.getY() - velocity);
-                return position;
-            case LEFT:
-                position = new Point(position.getX() - velocity, position.getY());
-                return position;
-            case RIGHT:
-                position = new Point(position.getX() + velocity, position.getY());
-                return position;
-            case IDLE:
-                return position;
-            default:
-                return position;
-        }
-    }
+
     @Override
     public void tick(long elapsed) {
-        lifetime += elapsed;
+        playerLifeTime += elapsed;
     }
 
     @Override
     public Point getPosition() {
-        return position;
+        return newPosition;
     }
+
     @Override
-    public int setObject() {
-        return id;
+    public Point move(Direction direction) {
+        if (direction == null) {
+            log.error("direction has null pointer");
+            throw new NullPointerException();
+        }
+        switch (direction) {
+            case UP:
+                return new Point(newPosition.getX(), newPosition.getY() + velocity);
+            case DOWN:
+                return new Point(newPosition.getX(), newPosition.getY() - velocity);
+            case LEFT:
+                return new Point(newPosition.getX() - velocity, newPosition.getY());
+            case RIGHT:
+                return new Point(newPosition.getX() + velocity, newPosition.getY());
+            case IDLE:
+                return newPosition;
+            default:
+                return newPosition;
+        }
     }
  }
