@@ -66,7 +66,7 @@ From official FAQ:
 
 #HSLIDE
 ## HashMap
-**HashMap** - map where hashing is used to speedup search for element in map  
+**HashMap** - map where hashing is used to speedup search by key
 So **containsKey()** and **get(key)** are **O(1)**  
 To support this we must implement **hashCode()** for **keys**  
 **hashCode()** and **equals()** must hold contract
@@ -313,6 +313,12 @@ removes resource
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #HSLIDE
+##HTTP via browser
+When you enter adress line in browser, in creates **GET** request  
+So we can do previous example just by typing in browser:
+> example.org
+
+#HSLIDE
 ### When to use HTTP for inter-program communication?
 **When we want:**
 - simplicity (easy to develop and test)
@@ -362,12 +368,6 @@ Content-Length: 1270
   <head>
     ...
 ```
-#HSLIDE
-#GET from browser
-When you enter adress line in browser, in creates **GET** request  
-So we can do previous example just by typing in browser:
-> example.org
-
 
 #HSLIDE
 ## POST Example
@@ -387,6 +387,14 @@ cURL:
 -d 'msg="Привет всем в этом чатике"'' \
 http://localhost:8080/chat/say
 ```
+response:
+```http
+HTTP/1.1 200 OK
+Date: Sat, 11 Mar 2017 13:05:11 GMT
+Content-Length: 0
+Server: Jetty(9.3.12.v20160915)
+
+```
 
 #HSLIDE
 ### Agenda
@@ -398,7 +406,8 @@ http://localhost:8080/chat/say
 1. Java HTTP Client
 
 #HSLIDE
-REST (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
+## REST
+**REST** (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
 There are also some restrictions on how services must use HTTP for communication
 
 #HSLIDE
@@ -410,8 +419,15 @@ Here client and account server communicate via **REST API**
 ## REST API
 REST API is a common way for services to publish their functionality for other services.  
 ### REST API Examples:
-**Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)
+**Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)  
 **Github:** [https://developer.github.com/v3/](https://developer.github.com/v3/)
+
+#HSLIDE
+## HTTP Client Pracrice
+We got a chat REST service open for you on  
+  
+Implement **chat client** and enjoy!
+###@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
 #HSLIDE
 ## Chat REST API. View Online
@@ -489,23 +505,45 @@ We use OkHTTP library as java HTTP Client
 ###@see ru.atom.http.client
 
 #HSLIDE
+## GET example from Java
 ```java
-OkHttpClient client = new OkHttpClient();
-MediaType mediaType = MediaType.parse("application/x-www-form-
-urlencoded"); RequestBody body = RequestBody.create(mediaType,
-"login=admin&password=admin"); Request request = new Request.Builder()
-.url("http://localhost:8080/auth/login")
-.post(body)
-.addHeader("content-type", "application/x-www-form-urlencoded") .addHeader("host", "localhost:8080")
-.build();
-Response response = client.newCall(request).execute();
+  //GET host:port/chat/online
+  public static Response viewOnline() throws IOException {
+    Request request = new Request.Builder()
+        .get()
+        .url(PROTOCOL + HOST + PORT + "/chat/online")
+        .addHeader("host", HOST + PORT)
+        .build();
+
+    return client.newCall(request).execute();
+  }
+```
+#HSLIDE
+## POST example from Java
+```java
+#HSLIDE
+## GET example from Java
+```java
+  //GET host:port/chat/online
+  public static Response viewOnline() throws IOException {
+    Request request = new Request.Builder()
+        .get()
+        .url(PROTOCOL + HOST + PORT + "/chat/online")
+        .addHeader("host", HOST + PORT)
+        .build();
+
+    return client.newCall(request).execute();
+  }
+```
 ```
 
 #HSLIDE
 ### Summary
-1. Sets contain unique values
-1. Maps contain pairs with unique keys
-1. HTTP is popular client-server protocol for inter-program communication
+1. **Sets** contain unique values
+1. **Maps** contain pairs with unique keys
+1. We **must** hold equals-hashCode and eqals-compareTo contracts
+1. **HTTP** is popular client-server protocol for inter-program communication  
+Learn it!
 
 #HSLIDE
 **Оставьте обратную связь**
