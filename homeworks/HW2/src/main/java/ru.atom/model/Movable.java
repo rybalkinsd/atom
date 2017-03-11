@@ -13,34 +13,7 @@ public interface Movable extends Positionable, Tickable {
     Point move(Direction direction);
 
     enum Direction {
-        UP {
-            @Override
-            public Point move (Point point,int motion) {
-                return new Point(point.getX(), point.getY() + motion);
-            }
-        }, DOWN {
-            @Override
-            public Point move (Point point, int motion) {
-                return new Point(point.getX(), point.getY() - motion);
-            }
-        }, RIGHT {
-            @Override
-            public Point move (Point point,int motion) {
-                return new Point(point.getX() + motion, point.getY());
-            }
-        }, LEFT {
-            @Override
-            public Point move (Point point,int motion) {
-                return new Point(point.getX() - motion, point.getY() + motion);
-            }
-        }, IDLE {
-                @Override
-                public Point move (Point point,int motion) {
-                    return point;
-            }
-        };
-
-        public abstract Point move(Point point, int motion);
+        UP, DOWN, RIGHT, LEFT, IDLE
     }
 
 
