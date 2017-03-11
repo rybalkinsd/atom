@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@Ignore
+//@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -25,7 +25,7 @@ public class CustomLinkedListTest {
         stringList.add(", ");
         stringList.add("world!");
     }
-
+    
     @Test
     public void sizeTest() throws Exception {
         assertThat(intList.size(), is(equalTo(2)));
