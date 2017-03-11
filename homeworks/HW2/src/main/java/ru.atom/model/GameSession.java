@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
+
+    private static int counter = 0;
+
     private static final Logger log = LogManager.getLogger(GameSession.class);
+    private static String messageFormat = "Created object #{}, class={}";
     private List<GameObject> gameObjects = new ArrayList<>();
 
     public List<GameObject> getGameObjects() {
@@ -16,6 +20,11 @@ public class GameSession implements Tickable {
 
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
+        log.info(messageFormat, gameObject.getId(), gameObject.getClass());
+    }
+
+    public static int getGameObjectId() {
+        return counter++;
     }
 
     @Override
