@@ -38,7 +38,7 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
         Random random = new Random();
         List<Person> keys = new ArrayList<>(contactMap.keySet());
         if (getSize() >= capacity) {
-            contactMap.remove(keys.get( random.nextInt(keys.size()) ));
+            contactMap.remove(keys.get(random.nextInt(keys.size())));
         }
 
         return true;
