@@ -22,26 +22,26 @@ public class Girl implements Movable, Positionable {
 
     }
 
-    public void IncreaseVelocity() {
+    public void increaseVelocity() {
         velocity += 15;
     }
 
-    public void IncreaseNumberOfBombs() {
+    public void increaseNumberOfBombs() {
         numberOfBombs += 1;
     }
 
-    public void IncreaseNumberofMortgagedbomb() {
+    public void increaseNumberofMortgagedbomb() {
         numberofMortgagedbomb += 1;
 
     }
 
-    public void DecreaseNumberofMortgagedbomb() {
+    public void decreaseNumberofMortgagedbomb() {
         if (numberofMortgagedbomb > 1) {
             numberofMortgagedbomb -= 1;
         }
     }
 
-    public void IncreaseBombForce() {
+    public void increaseBombForce() {
         bombForce += 2;
     }
 
