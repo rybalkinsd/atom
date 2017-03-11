@@ -19,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by Sergey Rybalkin on 11/03/17.
  */
-@Ignore
 public class ContactListCacheTest {
     private ContactListCache cache1;
     private ContactListCache cache1000;
