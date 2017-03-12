@@ -42,11 +42,24 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new NotImplementedException();
+        login(name);
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name)
+                .post(RequestBody.create(mediaType, "msg=" + msg))
+                .build();
+
+        return client.newCall(request).execute();
     }
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        throw new NotImplementedException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/chat")
+                .addHeader("host", HOST + PORT)
+                .build();
+
+        return client.newCall(request).execute();
     }
 }
