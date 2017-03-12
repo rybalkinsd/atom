@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "INoskovIgor";
+    private static String MY_NAME_IN_CHAT = "NoskovIgorTravis";
     private static String MY_MESSAGE_TO_CHAT = "Hello, my friends! I'm Noskov Igor.";
 
     @Test
@@ -24,7 +24,7 @@ public class ChatClientTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
+        Assert.assertTrue(response.code() == 200 || body.equals("Already logined"));
     }
 
     @Test
