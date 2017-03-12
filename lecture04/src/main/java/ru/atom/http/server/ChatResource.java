@@ -53,7 +53,7 @@ public class ChatResource {
         if (!logined.contains(name)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
-        if(msg == null) {
+        if (msg == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
         }
         if (msg.length() > 140) {
