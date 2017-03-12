@@ -2,14 +2,24 @@ package ru.atom.http;
 
 import okhttp3.Response;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "MickBaranovTravisTest";
-    private static String MY_MESSAGE_TO_CHAT = "Test message Mik Baranov Travis";
+    private static String MY_NAME_IN_CHAT = "MickBaranovTravisCI";
+    private static String MY_MESSAGE_TO_CHAT = "Test message Mik Baranov TravisCI";
+
+    @Before
+    public void login() throws IOException {
+        Response response = ChatClient.login(MY_NAME_IN_CHAT);
+        System.out.println("[" + response + "]");
+        String body = response.body().string();
+        System.out.println();
+        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
+    }
 
     @Test
     public void viewOnline() throws IOException {
@@ -17,15 +27,6 @@ public class ChatClientTest {
         System.out.println("[" + response + "]");
         System.out.println(response.body().string());
         Assert.assertEquals(200, response.code());
-    }
-
-    @Test
-    public void login() throws IOException {
-        Response response = ChatClient.login(MY_NAME_IN_CHAT);
-        System.out.println("[" + response + "]");
-        String body = response.body().string();
-        System.out.println();
-        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
     }
 
     @Test

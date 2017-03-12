@@ -12,10 +12,12 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
     public ContactListCache(int capacity) {
         super(capacity);
     }
+
     private HashMap<Person, List<? extends Person>> personList = new HashMap<>();
+
     @Override
     public boolean put(Person person, List<? extends Person> people) {
-        if(this.personList.size() > (this.capacity -1 )) {
+        if (this.personList.size() > (this.capacity - 1)) {
             this.removeAny();
             this.personList.put(person, people);
             return true;

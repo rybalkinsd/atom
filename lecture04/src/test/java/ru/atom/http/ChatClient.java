@@ -1,9 +1,12 @@
 package ru.atom.http;
 
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.RequestBody;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 
 public class ChatClient {
@@ -39,7 +42,7 @@ public class ChatClient {
     public static Response say(String name, String msg) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "msg='"+msg+"'"))
+                .post(RequestBody.create(mediaType, "msg='" + msg + "'"))
                 .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name)
                 .build();
         return client.newCall(request).execute();
