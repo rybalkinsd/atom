@@ -33,7 +33,7 @@ public class ChatResource {
         if (logined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        log.info("[" + name + "]" + " logined");
+        log.info("[" + name + "] logined");
         logined.add(name);
         chat.add("[" + name + "] joined");
         return Response.ok().build();
@@ -53,12 +53,13 @@ public class ChatResource {
         if (!logined.contains(name)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
-        if (msg == null) {
+        if(msg == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
         }
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
+        log.info("[" + name + "]: " + msg);
         chat.add("[" + name + "]: " + msg);
         return Response.ok().build();
     }
