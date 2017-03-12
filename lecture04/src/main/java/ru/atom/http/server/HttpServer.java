@@ -20,7 +20,6 @@ public class HttpServer {
                 "jersey.config.server.provider.packages",
                 "ru.atom.http"
         );
-
         jettyServer.start();
     }
 }
