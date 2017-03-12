@@ -39,7 +39,7 @@ public class ChatClient {
     }
 
     //POST host:port/chat/say?name=my_name
-    //Body: "my_message"
+    //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
         login(name);
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
