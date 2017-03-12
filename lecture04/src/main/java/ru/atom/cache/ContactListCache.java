@@ -16,9 +16,7 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
 
     @Override
     public boolean put(Person person, List<? extends Person> people) {
-        if (this.getSize() == this.getCapacity()) {
-            this.removeAny();
-        }
+        if (this.getSize() == this.getCapacity()) this.removeAny();
         return this.friends.put(person, people) == people;
     }
 

@@ -23,9 +23,11 @@ public class Person {
 
         Person person = (Person) o;
 
-        if (getFirstName() != null ? !getFirstName().equals(person.getFirstName()) : person.getFirstName() != null)
+        if (getFirstName() != null ? !getFirstName().equals(person.getFirstName()) :
+                person.getFirstName() != null)
             return false;
-        return getFamilyName() != null ? getFamilyName().equals(person.getFamilyName()) : person.getFamilyName() == null;
+        return getFamilyName() != null ? getFamilyName().equals(person.getFamilyName()) :
+                person.getFamilyName() == null;
     }
 
     @Override
@@ -38,8 +40,7 @@ public class Person {
     /*public int getHash(){
         int hash = firstName.hashCode() + familyName.hashCode();
         return hash;
-    }// your code here
-*/
+    }// your code here*/
 
 
     public String getFirstName() {
