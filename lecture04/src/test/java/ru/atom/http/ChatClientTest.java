@@ -2,13 +2,12 @@ package ru.atom.http;
 
 import okhttp3.Response;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "NoskovIgor";
+    private static String MY_NAME_IN_CHAT = "INoskovIgor";
     private static String MY_MESSAGE_TO_CHAT = "Hello, my friends! I'm Noskov Igor.";
 
     @Test
