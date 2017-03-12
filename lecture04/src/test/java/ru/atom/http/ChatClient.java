@@ -1,10 +1,6 @@
 package ru.atom.http;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import sun.util.resources.cldr.ms.CalendarData_ms_MY;
 
@@ -42,11 +38,21 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new NotImplementedException();
+        String url = PROTOCOL + HOST + PORT + "/chat/say?name=" + name;
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request myReq = new Request.Builder()
+                .post(RequestBody.create(mediaType, "msg=" + msg))
+                .url(url)
+                .build();
+        return client.newCall(myReq).execute();
     }
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        throw new NotImplementedException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/chat")
+                .build();
+        return client.newCall(request).execute();
     }
 }

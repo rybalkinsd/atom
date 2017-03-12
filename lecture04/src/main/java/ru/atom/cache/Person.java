@@ -13,6 +13,23 @@ public class Person {
     }
 
     // your code here
+    @Override
+    public int hashCode() {
+        return getFirstName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        Person that = (Person) obj;
+        if (this.getFamilyName().equals(that.getFamilyName())
+                && this.getFirstName().equals(that.getFirstName())) {
+            return true;
+        }
+        return false;
+    }
 
     public String getFirstName() {
         return firstName;

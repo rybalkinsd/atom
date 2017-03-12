@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_NAME_IN_CHAT = "Egor_ShchurbinTravis";
+    private static String MY_MESSAGE_TO_CHAT = "Let's ROCK! In Travis";
 
     @Test
     public void viewOnline() throws IOException {
