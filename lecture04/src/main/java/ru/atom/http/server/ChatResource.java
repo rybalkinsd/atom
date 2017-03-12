@@ -46,7 +46,7 @@ public class ChatResource {
         return Response.ok(String.join("\n", logined)).build();
     }
 
-    @POST
+    /*@POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/say")
     public Response say(@QueryParam("name") String name, @FormParam("msg") String msg) {
@@ -58,7 +58,7 @@ public class ChatResource {
         }
         chat.add("[" + name + "]: " + msg);
         return Response.ok().build();
-    }
+    }*/
 
     @GET
     @Produces("text/plain")
