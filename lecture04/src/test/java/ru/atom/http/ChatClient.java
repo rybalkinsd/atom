@@ -6,6 +6,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import sun.util.resources.cldr.ms.CalendarData_ms_MY;
 
 import java.io.IOException;
 
@@ -26,6 +27,7 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
+    //POST host:port/chat/login?name=my_name
     public static Response login(String name) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
@@ -36,6 +38,8 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
+    //POST host:port/chat/say?name=my_name
+    //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
