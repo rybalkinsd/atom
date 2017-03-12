@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Ignore
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
+    /*private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
     private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
 
     @Test
@@ -43,5 +43,5 @@ public class ChatClientTest {
         System.out.println("[" + response + "]");
         System.out.println(response.body().string());
         Assert.assertEquals(200, response.code());
-    }
+    }*/
 }
