@@ -46,19 +46,22 @@ public class ChatResource {
         return Response.ok(String.join("\n", logined)).build();
     }
 
-    /*@POST
+    @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/say")
     public Response say(@QueryParam("name") String name, @FormParam("msg") String msg) {
         if (!logined.contains(name)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
+        if (msg == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
+        }
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
         chat.add("[" + name + "]: " + msg);
         return Response.ok().build();
-    }*/
+    }
 
     @GET
     @Produces("text/plain")
