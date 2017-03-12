@@ -25,7 +25,7 @@ public class Bomb implements Temporary, Positionable, Tickable {
 
     @Override
     public long getLifetimeMillis() {
-        return currentTime;
+        return lifeTime;
     }
 
     @Override
