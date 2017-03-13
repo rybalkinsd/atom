@@ -12,8 +12,6 @@ public class Person {
         this.familyName = familyName;
     }
 
-    // your code here
-
     public String getFirstName() {
         return firstName;
     }
