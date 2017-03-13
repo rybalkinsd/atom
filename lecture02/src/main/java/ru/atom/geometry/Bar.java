@@ -8,15 +8,31 @@ public class Bar implements Collider {
     int xMin;
     int yMax;
     int yMin;
-    
+
     public Bar(int x1, int y1, int x2, int y2) {
-        defineMaxMin(x1, y1, x2, y2);
+        setBounds(x1, y1, x2, y2);
 
         // r = new Rectangle(xMin,yMin,xMax-xMin+1,yMax-yMin+1);
     }
     // Rectangle r;
 
-    public void defineMaxMin(int x1, int y1, int x2, int y2) {
+    public int getXmax() {
+        return xMax;
+    }
+
+    public int getXmin() {
+        return xMin;
+    }
+
+    public int getYmax() {
+        return yMax;
+    }
+
+    public int getYmin() {
+        return yMin;
+    }
+
+    public void setBounds(int x1, int y1, int x2, int y2) {
         if (x1 <= x2) {
             xMax = x2;
             xMin = x1;

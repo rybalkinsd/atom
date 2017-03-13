@@ -9,10 +9,6 @@ public class Point implements Collider {
     // fields
     // and methods
 
-    public Point() {
-
-    }
-
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -21,6 +17,14 @@ public class Point implements Collider {
     // Coordinates
     int x;
     int y;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     /**
      * @param o
@@ -37,29 +41,15 @@ public class Point implements Collider {
         // cast from Object to Point
         Point point = (Point) o;
 
-        // your code here
-        // throw new NotImplementedException();
-
-        return isColliding(point);
-
+        return (x == point.x && y == point.y);
     }
 
     @Override
     public boolean isColliding(Collider other) {
-        // TODO Auto-generated method stub
 
-        if (this == other)
-            return true;
-        if (other == null || getClass() != other.getClass())
-            return false;
+        if (other instanceof Point)
+            return equals(other);
 
-        // cast from Object to Point
-        Point point = (Point) other;
-
-        if (x == point.x && y == point.y) {
-            return true;
-        } else {
-            return false;
-        }
+        throw new NotImplementedException();
     }
 }
