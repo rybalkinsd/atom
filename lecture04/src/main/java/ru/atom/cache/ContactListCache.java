@@ -1,34 +1,42 @@
 package ru.atom.cache;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
+import java.util.HashMap;
 import java.util.List;
 
-/**
- * What about Map?
- */
 public class ContactListCache extends AbstractCache<Person, List<? extends Person>> {
+
+
+    private HashMap<Person, List<? extends Person>> friends;
+
+
     public ContactListCache(int capacity) {
         super(capacity);
+        this.friends = new HashMap<>(capacity);
     }
 
     @Override
     public boolean put(Person person, List<? extends Person> people) {
-        throw new NotImplementedException();
+        if (this.getSize() == this.getCapacity()) this.removeAny();
+        return this.friends.put(person, people) == people;
     }
 
     @Override
     public List<? extends Person> get(Person person) {
-        throw new NotImplementedException();
+        return this.friends.get(person);
     }
+
 
     @Override
     public int getSize() {
-        throw new NotImplementedException();
+        return this.friends.size();
     }
 
     private boolean removeAny() {
-        throw new NotImplementedException();
+        for (Person removePerson : friends.keySet()) {
+            friends.remove(removePerson);
+            return true;
+        }
+        return false;
     }
 
 }
