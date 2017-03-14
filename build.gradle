@@ -7,10 +7,12 @@ ext {
     jdkVersion = 1.8
 
     jettyVersion = "9.3.12.v20160915"
-    junitVersion = "4.+"
+    junitVersion = "4.12"
     jacksonVersion = "2.5.3"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
+    okhttpVersion = "3.6.0"
+    jerseyVersion = "2.25.1"
 }
 
 allprojects {
@@ -55,7 +57,10 @@ ext.libraries = [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
             "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
-        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion"
+        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
+        okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+        jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
 ]
 
 // code coverage settings
