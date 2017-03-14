@@ -1,14 +1,12 @@
 package ru.atom.list;
 
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class CustomLinkedList<E> implements List<E> {
     private ListNode<E> first = null;
     private int size = 0;
+    private ListNode<E> last = null;
 
     @Override
     public int size() {
@@ -24,7 +22,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean contains(Object o) {
         ListNode<E> node = first;
         while (node != null) {
-            if (node.getValue().equals(o)) {
+            if (Objects.equals(node.getValue(), o)) {
                 return true;
             }
             node = node.getNext();
@@ -41,16 +39,13 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean add(E e) {
         if (first == null) {
             first = new ListNode<E>(e, null, null);
+            last = first;
             size++;
             return true;
         }
-        ListNode<E> node = first;
-        ListNode<E> prev = null;
-        while (node != null) {
-            prev = node;
-            node = node.getNext();
-        }
-        prev.setNext(new ListNode<E>(e, prev, null));
+        ListNode<E> node = last;
+        last = new ListNode<E>(e, node, null);
+        node.setNext(last);
         size++;
         return true;
     }
@@ -59,7 +54,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean remove(Object o) {
         ListNode<E> node = first;
         while (node != null) {
-            if (node.getValue().equals(o)) {
+            if (Objects.equals(node.getValue(), o)) {
                 size--;
                 return deleteNode(node);
             }
@@ -76,7 +71,9 @@ public class CustomLinkedList<E> implements List<E> {
         } else {
             prev.setNext(next);
         }
-        if (next != null) {
+        if (next == null) {
+            last = prev;
+        } else {
             next.setPrevious(prev);
         }
         return true;
@@ -94,6 +91,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
+        last = null;
         first = null;
         size = 0;
     }
@@ -120,7 +118,7 @@ public class CustomLinkedList<E> implements List<E> {
         int index = 0;
         ListNode<E> node = first;
         while (node != null) {
-            if (node.getValue().equals(o)) {
+            if (Objects.equals(node.getValue(), o)) {
                 return index;
             }
             node = node.getNext();
