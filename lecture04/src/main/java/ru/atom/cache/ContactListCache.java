@@ -2,6 +2,7 @@ package ru.atom.cache;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,23 +13,30 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
         super(capacity);
     }
 
+    HashMap<Person, List<? extends Person>> newMap = new HashMap<>(capacity);
+
     @Override
     public boolean put(Person person, List<? extends Person> people) {
-        throw new NotImplementedException();
+        if (getSize() == capacity) {
+            removeAny();
+        }
+        newMap.put(person,people);
+        return true;
     }
 
     @Override
     public List<? extends Person> get(Person person) {
-        throw new NotImplementedException();
+        return newMap.get(person);
     }
 
     @Override
     public int getSize() {
-        throw new NotImplementedException();
+        return newMap.size();
     }
 
     private boolean removeAny() {
-        throw new NotImplementedException();
+        Person key = this.newMap.keySet().iterator().next();
+        return this.newMap.remove(key) != null;
     }
 
 }
