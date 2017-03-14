@@ -85,11 +85,20 @@ class Thread implements Runnable {
 
 #HSLIDE
 ### Start and Run
+```java
+new Thread().start();
+
+new Thread( runnable ).start();
+```
+
+#HSLIDE
+### Start and Run
 <img src="lecture05/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
 
 
 #HSLIDE
-@See ru.ato.thread.* and tests
+### 
+@See ru.atom.thread.instantiation and tests
 
 - instantiation
 - Thread::start
@@ -97,13 +106,53 @@ class Thread implements Runnable {
 - Thread::interrupt
 - Thread::sleep
 
+#HSLIDE
+### Waiting for thread termination
+@See ru.atom.thread.join and tests
+
+- Thread::join
+- Thread::interrupt
+
 
 #HSLIDE
-### 
+### Practice #1
+Our Bomberman is a client server game.
 
+As a client server game we have Clients or **Connections**
+
+Clients want to play. So, we have Games or **GameSessions** 
+ 
+
+#HSLIDE
+### Matchmaker
+<img src="lecture05/presentation/assets/img/mm.png" alt="exception" style="width: 750px;"/>
+
+
+#HSLIDE
+### Matchmaking algorithm
+**Assume we have a queue storing connections**
+
+Matchmaker is an infinity-loop algorithm with steps
+1. **Poll connection** from queue
+1. **Collect** polled connection to game GameSession candidates
+1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
+    - If **no** continue to step #1
+    - If **yes**
+        1. Create GameSession
+        2. Clean GameSession candidates
 
 #HSLIDE
 ### jstack
+
+Util to observe java process stack state.
+ 
+```bash
+#show all java processes
+> jcmd
+# get report
+> jstack <pid> > report.info
+> less report.info
+```
 
 
 #HSLIDE

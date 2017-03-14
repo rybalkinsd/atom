@@ -2,8 +2,6 @@ package ru.atom.thread.mm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.thread.Connection;
-import ru.atom.thread.ThreadSafeQueue;
 
 import java.util.concurrent.atomic.AtomicLong;
 

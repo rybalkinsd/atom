@@ -1,10 +1,8 @@
-package ru.atom.thread;
+package ru.atom.thread.instantiation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import ru.atom.thread.instantiation.CounterExtendsThread;
-import ru.atom.thread.instantiation.CounterImplementsRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,13 @@ public class ThreadCreationTest {
 
     @Test
     public void singleInstance() throws Exception {
-        Thread ext = new CounterExtendsThread();
-        Thread run = new Thread(new CounterImplementsRunnable());
-        log.info("All threads inited");
+        Thread ext = new NotifierExtendsThread();
+        ext.setName(NotifierExtendsThread.class.getSimpleName());
+
+        Thread run = new Thread(new NotifierImplementsRunnable());
+        run.setName(NotifierImplementsRunnable.class.getSimpleName());
+
+        log.info("All threads created");
 
         ext.start();
         run.start();
@@ -34,14 +36,17 @@ public class ThreadCreationTest {
 
     @Test
     public void multipleInstance() throws Exception {
-        final int threadOfTypeNum = 10;
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            Thread ext = new NotifierExtendsThread();
+            ext.setName(NotifierExtendsThread.class.getSimpleName() + " " + i);
+            threads.add(ext);
 
-        List<Thread> threads = new ArrayList<>(2 * threadOfTypeNum);
-        for (int i = 0; i < threadOfTypeNum; i++) {
-            threads.add(new CounterExtendsThread());
-            threads.add(new Thread(new CounterImplementsRunnable()));
+            Thread run = new Thread(new NotifierImplementsRunnable());
+            run.setName(NotifierImplementsRunnable.class.getSimpleName() + " " + i);
+            threads.add(run);
         }
-        log.info("All threads inited");
+        log.info("All threads created");
 
         threads.forEach(Thread::start);
         log.info("All threads started");

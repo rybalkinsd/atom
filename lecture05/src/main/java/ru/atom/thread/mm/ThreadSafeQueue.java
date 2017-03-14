@@ -1,4 +1,4 @@
-package ru.atom.thread;
+package ru.atom.thread.mm;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -6,10 +6,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by sergey on 3/14/17.
  */
-public class ThreadSafeQueue {
+class ThreadSafeQueue {
     private static BlockingQueue<Connection> instance = new LinkedBlockingQueue<>();
 
-    public static BlockingQueue<Connection> getInstance() {
+    static BlockingQueue<Connection> getInstance() {
         return instance;
     }
 }
