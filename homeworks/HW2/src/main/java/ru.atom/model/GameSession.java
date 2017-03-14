@@ -8,7 +8,12 @@ import java.util.List;
 
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
+    private static int id = 0;
     private List<GameObject> gameObjects = new ArrayList<>();
+
+    public static int createId() {
+        return id++;
+    }
 
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
