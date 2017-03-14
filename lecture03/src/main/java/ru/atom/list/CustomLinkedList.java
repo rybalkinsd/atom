@@ -87,13 +87,9 @@ public class CustomLinkedList<E> implements List<E> {
         } else {
             ListNode<E> node = new ListNode<E>(e);
             node.setNextValue(header);
+            node.setPastValue(header.getPastValue());
+            header.getPastValue().setNextValue(node);
             header.setPastValue(node);
-            ListNode<E> element = this.header;
-            do {
-                element = element.getNextValue();
-            } while (!element.getNextValue().equals(header));
-            element.setNextValue(node);
-            node.setPastValue(element);
         }
         return true;
     }
