@@ -37,6 +37,7 @@ public class Point implements Collider {
         return result;
     }
 
+
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
