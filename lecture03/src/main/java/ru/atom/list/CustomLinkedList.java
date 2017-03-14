@@ -61,7 +61,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        if(size != 0) {
+        if (size != 0) {
             ListNode<E> temp = new ListNode<>(e, header, header.getPrevIndex());
             temp.getPrevIndex().setNextIndex(temp);
             header.setPrevIndex(temp);

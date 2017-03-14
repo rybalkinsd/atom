@@ -5,7 +5,7 @@ public class ListNode<E> {
     private ListNode nextIndex;
     private ListNode prevIndex;
 
-    public ListNode (E value, ListNode nextIndex, ListNode prevIndex){
+    public ListNode(E value, ListNode nextIndex, ListNode prevIndex) {
         this.value = value;
         this.nextIndex = nextIndex;
         this.prevIndex = prevIndex;
