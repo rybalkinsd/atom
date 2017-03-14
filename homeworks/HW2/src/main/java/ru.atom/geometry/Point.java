@@ -1,7 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class Point implements Collider {
     private final int x;
     private final int y;
@@ -42,6 +40,6 @@ public class Point implements Collider {
         if (other instanceof Point) {
             return this.equals(other);
         }
-        throw new NotImplementedException();
+        throw new IllegalArgumentException("Can't support argument type");
     }
 }
