@@ -21,4 +21,19 @@ public class Person {
     public String getFamilyName() {
         return familyName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Person)) {
+            return false;
+        } else {
+            Person temp = (Person) obj;
+            return familyName.equals(temp.getFamilyName()) && firstName.equals(temp.getFirstName());
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return firstName.hashCode() + familyName.hashCode();
+    }
 }
