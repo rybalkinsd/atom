@@ -12,13 +12,25 @@ public class Person {
         this.familyName = familyName;
     }
 
-    // your code here
-
     public String getFirstName() {
         return firstName;
     }
 
     public String getFamilyName() {
         return familyName;
+    }
+
+    @Override
+    public int hashCode() {
+        return firstName.hashCode() + 2 * familyName.hashCode() + 17;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Person) {
+            return ((Person) obj).familyName.equals(this.familyName) && ((Person) obj).firstName.equals(this.firstName);
+        } else {
+            return false;
+        }
     }
 }
