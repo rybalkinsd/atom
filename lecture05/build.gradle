@@ -8,11 +8,6 @@ dependencies {
     compile rootProject.libraries.jersey_containers
 }
 
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.http.server.HttpServer' }
-}
-
 sourceSets {
     main {
         java {
