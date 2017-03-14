@@ -18,6 +18,7 @@ https://atom.mail.ru/
 
 Refresh gradle project
 
+
 #HSLIDE
 ### Agenda
 1. Threads
@@ -26,6 +27,7 @@ Refresh gradle project
 1. Practice #2
 1. Annotations
 1. HTTP Web Server
+
 
 #HSLIDE
 ### Why do we need parallel execution?
@@ -75,13 +77,15 @@ interface Runnable {
 ### class Thread
 ```java
 class Thread implements Runnable {  
-    public synchronized void start() {
-        // ...
-    }
-    // ...
+    void start() {}
+    void interrupt() {} 
+    void join() {}
     
+    static sleep(long time) {}
+    // ...
 }
 ```
+
 
 #HSLIDE
 ### Start and Run
@@ -90,6 +94,7 @@ new Thread().start();
 
 new Thread( runnable ).start();
 ```
+
 
 #HSLIDE
 ### Start and Run
@@ -105,6 +110,7 @@ new Thread( runnable ).start();
 - Thread::isInterrupted
 - Thread::interrupt
 - Thread::sleep
+
 
 #HSLIDE
 ### Waiting for thread termination
@@ -180,11 +186,7 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 
 #HSLIDE
 ### Queue
-<img src="lecture05/presentation/assets/img/queue.png" alt="mmalgo" style="width: 750px;"/>
-
-
-
-
+<img src="lecture05/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
 
 
 #HSLIDE
@@ -201,9 +203,40 @@ Util to observe java process stack state.
 
 
 #HSLIDE
+### Web server
+Web server - is a system that processes request via HTTP.
+
+Examples:
+- Apache HTTP Server
+- NGINX
+
+Can be embedded into application
+- Jetty
+- Tomcat
+
+Plain web server is ok for static content. 
+
+
+#HSLIDE
+### Application server
+Two types of solutions:
+1. Old smelly JEE
+    - Sun GlassFish
+    - IBM WebSphere
+    - RedHat JBoss
+1. The other way
+
+
+#HSLIDE
+### Servlet
+<img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
+
+
+
+#HSLIDE
 ### Summary
+1. Threads are not difficult until concurrency comes
 1. Keep learning **HTTP** 
-1. 
 
 #HSLIDE
 **Оставьте обратную связь**
