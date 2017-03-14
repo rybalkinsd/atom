@@ -64,9 +64,9 @@ public class CustomLinkedListTest {
 
     @Test
     public void removeTest() throws Exception {
-        stringList.remove(", ");
-        assertThat(stringList.contains(", "), is(false));
-        assertThat(stringList.contains("world!") && stringList.contains("Hello"), is(true));
+        stringList.remove("world!");
+        assertThat(stringList.contains("world!"), is(false));
+        assertThat(stringList.contains(", ") && stringList.contains("Hello"), is(true));
         assertThat(stringList.size(), is(2));
     }
 }

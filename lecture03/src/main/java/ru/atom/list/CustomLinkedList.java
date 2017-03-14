@@ -11,16 +11,16 @@ import java.util.ListIterator;
 public class CustomLinkedList<E> implements List<E> {
 
     private ListNode<E> header;
+    private int size = 0;
 
     public CustomLinkedList() {
-        this.header = null;
+        header = new ListNode<E>(null, null, null);
+        header.setNextIndex(header);
+        header.setPrevIndex(header);
     }
 
     @Override
     public int size() {
-        int size = 0;
-        for (E it : this)
-            size++;
         return size;
     }
 
@@ -41,42 +41,34 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private ListNode<E> it = null;
+            private ListNode<E> it = header;
+            private int counter = 0;
 
             @Override
             public boolean hasNext() {
-                if (it == null && header != null) {
-                    return true;
-                } else if (it != null) {
-                    return it.getNextIndex() != null;
-                } else {
-                    return false;
-                }
+                return counter != size;
             }
 
             @Override
             public E next() {
-                if (it == null)
-                    it = header;
-                else
-                    it = it.getNextIndex();
-                return it.getValue();
+                E temp = it.getValue();
+                it = it.getNextIndex();
+                counter++;
+                return temp;
             }
         };
     }
 
     @Override
     public boolean add(E e) {
-        ListNode<E> temp = new ListNode<>();
-        temp.setValue(e);
-        if (header == null) {
-            header = temp;
+        if(size != 0) {
+            ListNode<E> temp = new ListNode<>(e, header, header.getPrevIndex());
+            temp.getPrevIndex().setNextIndex(temp);
+            header.setPrevIndex(temp);
+            size++;
         } else {
-            ListNode<E> it = header;
-            while (it.getNextIndex() != null)
-                it = it.getNextIndex();
-            temp.setPrevIndex(it);
-            it.setNextIndex(temp);
+            header.setValue(e);
+            size++;
         }
         return true;
     }
@@ -86,23 +78,15 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode temp = header;
         for (E it : this) {
             if (it.equals(o)) {
-                if (temp.getPrevIndex() == null) {
-                    temp.getNextIndex().setPrevIndex(null);
+                size--;
+                if (temp == header) {
+                    temp.getNextIndex().setPrevIndex(header.getPrevIndex());
                     header = temp.getNextIndex();
                     return true;
                 } else {
-                    if (temp.getNextIndex() == null) {
-                        temp.getPrevIndex().setNextIndex(null);
-                        temp = null;
-                        return true;
-                    } else {
-                        ListNode tempPrev = temp.getPrevIndex();
-                        ListNode tempNext = temp.getNextIndex();
-                        tempNext.setPrevIndex(temp.getPrevIndex());
-                        tempPrev.setNextIndex(temp.getNextIndex());
-                        temp = null;
-                        return true;
-                    }
+                    temp.getPrevIndex().setNextIndex(temp.getNextIndex());
+                    temp.getNextIndex().setPrevIndex(temp.getPrevIndex());
+                    return true;
                 }
             }
             temp = temp.getNextIndex();

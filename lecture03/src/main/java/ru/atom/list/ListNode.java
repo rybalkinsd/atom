@@ -1,12 +1,15 @@
 package ru.atom.list;
 
-/**
- * Contains ref to next node, prev node and value
- */
 public class ListNode<E> {
     private E value;
     private ListNode nextIndex;
     private ListNode prevIndex;
+
+    public ListNode (E value, ListNode nextIndex, ListNode prevIndex){
+        this.value = value;
+        this.nextIndex = nextIndex;
+        this.prevIndex = prevIndex;
+    }
 
     public ListNode getNextIndex() {
         return nextIndex;
