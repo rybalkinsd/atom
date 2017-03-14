@@ -1,8 +1,5 @@
 package ru.atom.cache;
 
-/**
- * Created by Sergey Rybalkin on 11/03/17.
- */
 public class Person {
     private final String firstName;
     private final String familyName;
@@ -12,7 +9,16 @@ public class Person {
         this.familyName = familyName;
     }
 
-    // your code here
+    @Override
+    public int hashCode() {
+        return firstName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Person person = (Person) o;
+        return firstName.equals(person.getFirstName()) && familyName.equals(person.getFamilyName());
+    }
 
     public String getFirstName() {
         return firstName;
