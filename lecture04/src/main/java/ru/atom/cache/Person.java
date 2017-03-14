@@ -12,7 +12,6 @@ public class Person {
         this.familyName = familyName;
     }
 
-    // your code here
 
     public String getFirstName() {
         return firstName;
@@ -21,4 +20,22 @@ public class Person {
     public String getFamilyName() {
         return familyName;
     }
+
+    @Override
+    public int hashCode() {
+
+        return getFirstName().hashCode() + getFamilyName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        Person person = (Person) o;
+        return (this.getFamilyName().equals(person.getFamilyName())
+                && this.getFirstName().equals(person.getFirstName()));
+
+    }
+
 }
