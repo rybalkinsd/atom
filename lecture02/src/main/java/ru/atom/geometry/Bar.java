@@ -4,10 +4,10 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    int xMax;
-    int xMin;
-    int yMax;
-    int yMin;
+    protected int xMax;
+    protected int xMin;
+    protected int yMax;
+    protected int yMin;
 
     public Bar(int x1, int y1, int x2, int y2) {
         setBounds(x1, y1, x2, y2);

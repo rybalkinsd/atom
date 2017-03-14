@@ -15,8 +15,8 @@ public class Point implements Collider {
     }
 
     // Coordinates
-    int x;
-    int y;
+    protected int x;
+    protected int y;
 
     public int getX() {
         return x;
