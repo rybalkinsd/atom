@@ -25,8 +25,9 @@ Refresh gradle project
 1. Practice #1
 1. Servlets
 1. Practice #2
-1. Annotations
 1. HTTP Web Server
+1. Practice #3
+1. Annotations
 
 
 #HSLIDE
@@ -100,9 +101,8 @@ new Thread( runnable ).start();
 ### Start and Run
 <img src="lecture05/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
 
-
 #HSLIDE
-### 
+### Thread instantiation
 @See ru.atom.thread.instantiation and tests
 
 - instantiation
@@ -118,6 +118,19 @@ new Thread( runnable ).start();
 
 - Thread::join
 - Thread::interrupt
+
+
+#HSLIDE
+### jstack
+Util to observe java process stack state.
+ 
+```bash
+# show all java processes
+> jcmd
+# get report
+> jstack <pid> > report.info
+> less report.info
+```
 
 
 #HSLIDE
@@ -149,7 +162,7 @@ Matchmaker is an infinity-loop algorithm with steps
 1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
     - If **no** continue to step #1
     - If **yes**
-        1. Create GameSession
+        1. Create and save GameSession
         1. Clean GameSession candidates
         1. Continue to step #1
 
@@ -184,22 +197,15 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 }
 ```
 
+
 #HSLIDE
 ### Queue
 <img src="lecture05/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
 
 
 #HSLIDE
-### jstack
-Util to observe java process stack state.
- 
-```bash
-# show all java processes
-> jcmd
-# get report
-> jstack <pid> > report.info
-> less report.info
-```
+### And now
+@See ru.atom.thread.mm and tests 
 
 
 #HSLIDE
@@ -211,7 +217,7 @@ Examples:
 - NGINX
 
 Can be embedded into application
-- Jetty
+- Jetty **our choice**
 - Tomcat
 
 Plain web server is ok for static content. 
@@ -232,10 +238,39 @@ Two types of solutions:
 <img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
 
 
+#HSLIDE
+### Jetty
+Jetty provides a Web server and javax.servlet container
+
+Supports
+- HTTP/2
+- WebSocket
+- ...
+
+
+#HSLIDE
+### Server approximate behavior
+1. Start
+1. Initialize internal servlets
+1. Create a "mapping" **(request, /path)** -> handling servlet
+1. Apply mapping on incoming request
+1. Process **single request in single thread** but in parallel*
+1. Process routing of outgoing response
+
+
+#HSLIDE
+### Practice #2
+
+@See
+
+#HSLIDE
+### Make MatchMaker great again
+
 
 #HSLIDE
 ### Summary
 1. Threads are not difficult until concurrency comes
+
 1. Keep learning **HTTP** 
 
 #HSLIDE
