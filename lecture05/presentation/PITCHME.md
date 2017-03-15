@@ -290,13 +290,78 @@ Serving two types of request:
 @See ru.atom.servlet.mm
 
 
-    
-    
+#HSLIDE
+### +/- of plain Servlets
+1. Is it convenient?
+1. Could I write less code?
+1. Is it as easy as you can imagine?
+
+
+#HSLIDE
+### Annotations
+What annotations did you see before?
+
+
+#HSLIDE
+### Override
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
+```
+
+
+#HSLIDE
+### Reflection API
+Reflection is an API to find information about classes/fields/methods 
+in application runtime.
+
+@See ru.atom.annotation and tests
+
+
+#HSLIDE
+### Jersey
+[Jersey](https://jersey.java.net/) is
+1. RESTful Web services framework
+1. Serlvet-free from our point of view
+1. Lightweight (low overhead) compare to servlets
+1. Minimalistic syntax
+
+
+#HSLIDE
+### Jersey Hello World
+@See ru.atom.jersey.hw
+
+- @Path, @GET, @POST annotations
+- jersey initialization
 
 
 #HSLIDE
 ### Make MatchMaker great again
+Goals
+1. Migrate to jersey
+1. Migrate connect from GET to POST
 
+
+#HSLIDE
+### API
+Serving two types of reques
+1. ```bash
+    POST /connect HTTP/1.1
+    Host: localhost:8080
+    Content-Type: application/x-www-form-urlencoded
+    
+    id=1&name=bomberman
+    ```
+1. View all games list 
+    ```bash
+    GET /games HTTP/1.1
+    Host: localhost:8080
+    ```
+    
+@See ru.atom.jersey.mm
+    
 
 #HSLIDE
 ### Summary
