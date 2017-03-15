@@ -1,7 +1,5 @@
 package ru.atom.thread.practice;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.List;
 
 /**
@@ -10,14 +8,30 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        for (EventProducer ev : eventProducers)
+            new Thread(ev).start();
+
+        try {
+            Thread.sleep(1_000);
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted");
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        long res = 0;
+        for (Event e : EventQueue.getInstance()) {
+            if (e.getEventType() == Event.EventType.GOOD)
+                res++;
+        }
+        return res;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        long res = 0;
+        for (Event e : EventQueue.getInstance())
+            if (e.getEventType() == Event.EventType.BAD)
+                res++;
+        return res;
     }
 }
