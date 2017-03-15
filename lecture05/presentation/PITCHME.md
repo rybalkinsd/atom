@@ -18,14 +18,14 @@ https://atom.mail.ru/
 
 Refresh gradle project
 
+
 #HSLIDE
 ### Agenda
 1. Threads
-1. Practice #1
 1. Servlets
-1. Practice #2
-1. Annotations
 1. HTTP Web Server
+1. Annotations
+
 
 #HSLIDE
 ### Why do we need parallel execution?
@@ -47,7 +47,7 @@ Refresh gradle project
 
 #HSLIDE
 ### Process vs Thread
-<img src="lecture05/presentation/assets/img/process.png" alt="exception" style="width: 450px;"/>
+<img src="lecture05/presentation/assets/img/process.png" alt="process" style="width: 450px;"/>
 
 
 #HSLIDE
@@ -75,21 +75,32 @@ interface Runnable {
 ### class Thread
 ```java
 class Thread implements Runnable {  
-    public synchronized void start() {
-        // ...
-    }
-    // ...
+    void start() {}
+    void interrupt() {} 
+    void join() {}
     
+    static sleep(long time) {}
+    // ...
 }
 ```
+
+
+#HSLIDE
+### Start and Run
+```java
+new Thread().start();
+
+new Thread( runnable ).start();
+```
+
 
 #HSLIDE
 ### Start and Run
 <img src="lecture05/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
 
-
 #HSLIDE
-@See ru.ato.thread.* and tests
+### Thread instantiation
+@See ru.atom.thread.instantiation and tests
 
 - instantiation
 - Thread::start
@@ -99,489 +110,312 @@ class Thread implements Runnable {
 
 
 #HSLIDE
-### 
+### Waiting for thread termination
+@See ru.atom.thread.join and tests
+
+- Thread::join
+- Thread::interrupt
 
 
 #HSLIDE
 ### jstack
-
-
-#HSLIDE
-## HashMap
-**HashMap** - map where hashing is used to speedup search by key
-So **containsKey()** and **get(key)** are **O(1)**  
-To support this we must implement **hashCode()** for **keys**  
-**hashCode()** and **equals()** must hold contract
-
-#HSLIDE
-### HashMap. General contract
-For objects **a** and **b**:
-```java
-a.key.equals(b.key) => a.key.hashCode() == b.key.hashCode()
-
-if a.key.hashCode() == b.key.hashCode() 
-          a may be not equal b
-          
-a.key.hashcode() is the same during object lifetime
+Util to observe java process stack state.
+ 
+```bash
+# show all java processes
+> jcmd
+# get report
+> jstack <pid> > report.info
+> less report.info
 ```
 
-#HSLIDE
-### HashMap. Internals 
-<img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
-
 
 #HSLIDE
-### HashMap. Complexity
+### Practice #1
+Our Bomberman is a client server game.
 
-|  containsKey  | get   | put   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) | O(1)  |
+As a client server game we have Clients or **Connections**
 
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
+Clients want to play. So, we have Games or **GameSessions** 
+ 
 
 #HSLIDE
-### TreeMap
-The keys are ordered using their **Comparable** natural 
-ordering, or by **Comparator** provided at set creation time, 
-depending on which constructor is used.
+### Matchmaker
+<img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
 
 
 #HSLIDE
-### TreeMap. Internals
-<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
-
-[Read more (RU)](https://habrahabr.ru/post/65617/)
+### Matchmaking algorithm
+<img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
 
 
 #HSLIDE
-### Functional interface Comparable<T>
+### Matchmaking algorithm
+**Assume we have a queue storing connections**
+
+Matchmaker is an infinity-loop algorithm with steps
+1. **Poll connection** from queue
+1. **Collect** polled connection to game GameSession candidates
+1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
+    - If **no** continue to step #1
+    - If **yes**
+        - Create and save GameSession
+        - Clean GameSession candidates
+        - Continue to step #1
+
+
+#HSLIDE
+### Connection producer
+We do not have server to get connections for now. 
+
+We need an instance to emulate client.  
+
+**Connection producer** will put new requests to our **queue** time-to-time.
+
+It is possible to have many producers.
+
+
+#HSLIDE
+### Queue
+Queue is a shared resource in a multi-threaded environment.
+
+We will use **BlockingQueue** implementation.
 
 ```java
-@Override
-public int compareTo(T o) {
-  return this.field – o.field;
+interface BlockingQueue<E> implements java.util.Queue<E> {
+    /** 
+     * Inserts the specified element into this queue ...
+     */
+    boolean offer(E e);
+    
+    /**
+    * Retrieves and removes the head of this queue, waiting up to the
+    * specified wait time if necessary for an element to become available.
+    */
+    E poll(long timeout, TimeUnit unit);   
 }
 ```
 
 
 #HSLIDE
-### compareTo & equals
-Any type of contract?
-```java
-a.equals(b) == true => a.compareTo(b) == 0
-``` 
-
-What about null?
+### Queue
+<img src="lecture05/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
 
 
 #HSLIDE
-### TreeMap. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
-
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
+### And now
+@See ru.atom.thread.mm and tests 
 
 
 #HSLIDE
-### Interface Set
--  A collection that contains no duplicate elements.  More formally, sets
-   contain no pair of elements **e1** and **e2** such that
-    ```java
-       e1.equals(e2);
-    ```
-    
-- Implementations
-    - HashSet 
-    - TreeSet
-    - EnumSet 
-    - ConcurrentSkipListSet 
-    - CopyOnWriteArraySet 
-    - LinkedHashSet
-    - ...
-
-#HSLIDE
-### HashSet
-Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)  
-It makes no guarantees as to the iteration order of the set.
+### Your turn
+@See ru.atom.thread.practice in tests
  
-#HSLIDE
-### General contract
-For objects **a** and **b**:
-```java
-a.equals(b) => a.hashCode() == b.hashCode()
+We have
+1. Event producers
+1. ThreadSafe Event queue
+1. Event processor
 
-if a.hashCode() == b.hashCode() 
-          a may be not equal b
-          
-a.hashcode() is the same during object lifetime
-```
+You want to
+1. Fix `EventProcessorTest`
+1. Remove @Ignore annotation
+1. Implement missing methods
 
-#HSLIDE
-### HashSet. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) |  O(1)  |
 
 #HSLIDE
-### TreeSet
-Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)  
-Complexity is similar to **TreeMap**
+### Web server
+Web server - is a system that processes request via HTTP.
 
-#HSLIDE
-### Agenda
-1. Collections
-1. **[Client - server architecture]**
-1. HTTP
-1. REST API
-1. cURL
-1. Java HTTP Client
-
-#HSLIDE
-## Client - server architecture
-<img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
-Which protocol to use for client-server interaction?
-
-#HSLIDE
-## Network communication
-There exist numerous protocols for network communication. OSI:
-<img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
-
-#HSLIDE
-The choice of protocol depends on **requirements**
-
-#HSLIDE
-## Bomberman architecture
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
-
-#HSLIDE
-### Agenda
-1. Collections
-1. Client - server architecture
-1. **[HTTP]**
-1. cURL
-1. REST API
-1. Java HTTP Client
-
-#HSLIDE
-## HTTP
-**Application layer client-server protocol**
-
-<img src="lecture04/presentation/assets/img/HTTP.png" alt="exception" style="width: 750px;"/>
-
-#HSLIDE
-## HTTP Basics
-[https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
-- **Resource** - any entity
-- **URI** - (Universal Resource Identifiers)
-- **Method** - what to do with **resource**
-
-#HSLIDE
-## HTTP Server
-Aka **Web Server**.
-Serves HTTP requests. (By default on **80 TCP port**)
-- Apache
+Examples:
+- Apache HTTP Server
 - NGINX
-- libraries (Jetty in Java)
 
-Web servers have different functionality and can be extendible  
-For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
+Can be embedded into application
+- Jetty **our choice**
+- Tomcat
 
-#HSLIDE
-## HTTP Client
-- web browser
-- cURL
-- libraries (e.g. **libcurl**)
-- telnet
+Plain web server is ok for static content. 
+
 
 #HSLIDE
-## HTTP via telnet
-```bash
-> telnet example.org
-```
-request:
-```http
-GET /index.html HTTP/1.1
-host: example.com
-```
-response:
-```
-HTTP/1.1 200 OK
-Cache-Control: max-age=604800
-Content-Type: text/html
-Date: Fri, 10 Mar 2017 16:21:07 GMT
-Etag: "359670651+ident"
-Expires: Fri, 17 Mar 2017 16:21:07 GMT
-Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D60)
-Vary: Accept-Encoding
-X-Cache: HIT
-Content-Length: 1270
+### Application server
+Two types of solutions:
+1. Old smelly JEE
+    - Sun GlassFish
+    - IBM WebSphere
+    - RedHat JBoss
+1. The other way
 
-<!doctype html>
-<html>
-    <head>
-    ...
-```
 
 #HSLIDE
-## HTTP Request
-**Request consists of**
-1. Request header (starting with **method**)
-1. [Request body]
+### Servlet
+<img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
 
-**Methods:**
-- **GET**
-Request resource. **GET** must not change resource
-- **POST**
-Creates new resource
-- **PUT**
-Changes resource
-- **DELETE**
-removes resource
+
+#HSLIDE
+### Jetty
+Jetty provides a Web server and javax.servlet container
+
+Supports
+- HTTP/2
+- WebSocket
 - ...
 
-#HSLIDE
-## HTTP Response
-**Responce consists of**
-1. Status code
-1. Response header
-1. [Response Body]
-
-[rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
-[wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #HSLIDE
-##HTTP via browser
-When you enter adress line in browser, in creates **GET** request  
-So we can do previous example just by typing in browser:
-> example.org
+### Server approximate behavior
+1. Start
+1. Initialize internal servlets
+1. Create a "mapping" **(request, /path)** -> handling servlet
+1. Apply mapping on incoming request
+1. Process **single request in single thread** but in parallel*
+1. Process routing of outgoing response
+
 
 #HSLIDE
-### When to use HTTP for inter-program communication?
-**When we want:**
-- simplicity (easy to develop and test)
-- scalability (just use load balancer, i.e. **nginx**)
+### HelloWorld servlet
+@See ru.atom.servlet.hw
 
-**under restrictions:**
-- mediocre performance (not real time)
-- client-server only - no push requests from server
+- Servlet class
+- doGet / doPost
+- jetty server init
 
-#HSLIDE
-### Agenda
-1. Collections
-1. Client - server architecture
-1. HTTP
-1. **[cURL]**
-1. REST API
-1. Java HTTP Client
 
 #HSLIDE
-## cURL
-Super popular command line tool for multiple protocols testing (including **HTTP**)   
-[https://curl.haxx.se/](https://curl.haxx.se/)  
-it wraps **libcurl** library, which is available for all major languages
+### Practice #2
+No more Connection Producers.
+
+Now we can start a **jetty server**.
+
 
 #HSLIDE
-## GET Example
-Request from cURL:
+### API
+Serving two types of request:
+- Connect new player with **id** and **name**
 ```bash
-> curl -i -X GET -H "Host: example.org" example.org
-```
-Response:
-```http
-HTTP/1.1 200 OK
-Cache-Control: max-age=604800
-Content-Type: text/html
-Date: Sat, 11 Mar 2017 00:22:28 GMT
-Etag: "359670651+ident"
-Expires: Sat, 18 Mar 2017 00:22:28 GMT
-Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D2C)
-Vary: Accept-Encoding
-X-Cache: HIT
-Content-Length: 1270
-
-<!doctype html>
-<html>
-  <head>
-    ...
-```
-
-#HSLIDE
-## POST Example
-Raw HTTP:
-```http
-POST /chat/say HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+GET /connect?id=1&amp;name=bomberman HTTP/1.1
 Host: localhost:8080
-
-msg="Привет всем в этом чатике"
 ```
-cURL:
+
+- View all games list 
 ```bash
->curl -X POST \
--H "Content-Type: application/x-www-form-urlencoded" \
--H "Host: localhost:8080" \
--d 'msg="Привет всем в этом чатике"'' \
-http://localhost:8080/chat/say
+GET /games HTTP/1.1
+Host: localhost:8080
 ```
-response:
-```http
-HTTP/1.1 200 OK
-Date: Sat, 11 Mar 2017 13:05:11 GMT
-Content-Length: 0
-Server: Jetty(9.3.12.v20160915)
+    
+@See ru.atom.servlet.mm
 
-```
 
 #HSLIDE
-### Agenda
-1. Collections
-1. Client - server architecture
-1. HTTP
-1. cURL
-1. **[REST API]**
-1. Java HTTP Client
+### +/- of plain Servlets
+1. Is it convenient?
+1. Could I write less code?
+1. Is it as easy as you can imagine?
+
 
 #HSLIDE
-## REST
-**REST** (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
-There are also some restrictions on how services must use HTTP for communication
+### Annotations
+What annotations did you see before?
+
 
 #HSLIDE
-## Bomberman architecture
-Here client and account server communicate via **REST API**
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
-
-#HSLIDE
-## REST API
-REST API is a common way for services to publish their functionality for other services.  
-### REST API Examples:
-**Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)  
-**Github:** [https://developer.github.com/v3/](https://developer.github.com/v3/)
-
-#HSLIDE
-## HTTP Client Pracrice
-We got a chat REST service open for you on  
-  
-Implement **chat client** and enjoy!
-@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
-
-#HSLIDE
-## Chat REST API. View Online
-online:
-```
-    Protocol: HTTP
-    Path: chat/online
-    Method: GET
-    Host: {IP}:8080
-    Response:
-      Success code: 200
-```
-
-#HSLIDE
-## Chat REST API. Login
-login:
-```
-    Protocol: HTTP
-    Path: chat/login
-    Method: POST
-    PathParam: name
-    Host: {IP}:8080
-    Response:
-      Success code: 200
-      Fail code:
-        400 - Already logined
-        400 - Too long name (longer than 30 symbols)
-```
-#HSLIDE
-## Chat REST API. View Online
-online:
-```
-    Protocol: HTTP
-    Path: chat/online
-    Method: GET
-    Host: {IP}:8080
-    Response:
-      Success code: 200
-```
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
-
-#HSLIDE
-## Chat REST API. Say
-login:
-```
-    Protocol: HTTP
-    Path: chat/say
-    Method: POST
-    PathParam: name
-    Body:
-      msg="my message"
-    Host: {IP}:8080
-    Response:
-      Success code: 200
-      Fail code:
-        401 - Not logined
-        400 - Too long message (longer than 140 symbols)
-```
-
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
-
-#HSLIDE
-### Agenda
-1. Collections
-1. Client - server architecture
-1. HTTP
-1. cURL
-1. REST API
-1. **[Java HTTP Client]**
-
-#HSLIDE
-## OkHTTP
-We use OkHTTP library as java HTTP Client
-[http://square.github.io/okhttp/](http://square.github.io/okhttp/)
-###@see ru.atom.http.client
-
-#HSLIDE
-## GET example from Java
+### Override
 ```java
-  //GET host:port/chat/online
-  public static Response viewOnline() throws IOException {
-    Request request = new Request.Builder()
-        .get()
-        .url(PROTOCOL + HOST + PORT + "/chat/online")
-        .addHeader("host", HOST + PORT)
-        .build();
-
-    return client.newCall(request).execute();
-  }
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
 ```
+
+
 #HSLIDE
-## POST example from Java
-```java
-  //GET host:port/chat/online
-  public static Response viewOnline() throws IOException {
-    Request request = new Request.Builder()
-        .get()
-        .url(PROTOCOL + HOST + PORT + "/chat/online")
-        .addHeader("host", HOST + PORT)
-        .build();
+### Reflection API
+Reflection is an API to find information about classes/fields/methods 
+in application runtime.
 
-    return client.newCall(request).execute();
-  }
+@See ru.atom.annotation and tests
+
+
+#HSLIDE
+### Jersey
+[Jersey](https://jersey.java.net/) is
+1. RESTful Web services framework
+1. Serlvet-free from our point of view
+1. Lightweight (low overhead) compare to servlets
+1. Minimalistic syntax
+
+
+#HSLIDE
+### Jersey Hello World
+@See ru.atom.jersey.hw
+
+- @Path, @GET, @POST annotations
+- jersey initialization
+
+
+#HSLIDE
+### Make MatchMaker great again
+Goals
+1. Migrate to jersey
+1. Migrate connect method from GET to POST
+
+
+#HSLIDE
+### API
+Serving two types of request
+
+- Connect 
+
+```bash
+POST /connect HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+id=1&name=bomberman
 ```
+
+-View all games list
+ 
+```bash
+GET /games HTTP/1.1
+Host: localhost:8080
+```
+    
+@See ru.atom.jersey.mm
+    
+
+#HSLIDE
+### Interceptors and filters
+Sometimes you want to add some aspect to your method.
+
+Authorization:
+
+```bash
+POST /connect HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+Authorization: <auth token>
+
+id=1&name=bomberman
+```
+
+
+#HSLIDE
+### Authorized aspect
+@See ru.atom.jersey.aspect
+
+- Filter definition
+- Adding filter in jetty context
+- Applying filter to methods
+
 
 #HSLIDE
 ### Summary
-1. **Sets** contain unique values
-1. **Maps** contain pairs with unique keys
-1. We **must** hold equals-hashCode and eqals-compareTo contracts
-1. **HTTP** is popular client-server protocol for inter-program communication  
-Learn it!
+1. Threads are not difficult until concurrency comes
+1. Jersey is lightweight and good with jetty
+1. Annotations info can disappear in compile-time 
+1. Keep learning **HTTP** 
+
 
 #HSLIDE
 **Оставьте обратную связь**
