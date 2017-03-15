@@ -276,16 +276,17 @@ Now we can start a **jetty server**.
 #HSLIDE
 ### API
 Serving two types of request:
-1. Connect new player with **id** and **name**
-    ```bash
-    GET /connect?id=1&amp;name=bomberman HTTP/1.1
-    Host: localhost:8080
-    ```
-1. View all games list 
-    ```bash
-    GET /games HTTP/1.1
-    Host: localhost:8080
-    ```
+- Connect new player with **id** and **name**
+```bash
+GET /connect?id=1&amp;name=bomberman HTTP/1.1
+Host: localhost:8080
+```
+
+- View all games list 
+```bash
+GET /games HTTP/1.1
+Host: localhost:8080
+```
     
 @See ru.atom.servlet.mm
 
@@ -341,24 +342,27 @@ in application runtime.
 ### Make MatchMaker great again
 Goals
 1. Migrate to jersey
-1. Migrate connect from GET to POST
+1. Migrate connect method from GET to POST
 
 
 #HSLIDE
 ### API
-Serving two types of reques
-1. ```bash
-    POST /connect HTTP/1.1
-    Host: localhost:8080
-    Content-Type: application/x-www-form-urlencoded
-    
-    id=1&name=bomberman
-    ```
-1. View all games list 
-    ```bash
-    GET /games HTTP/1.1
-    Host: localhost:8080
-    ```
+Serving two types of request
+
+- Connect 
+```bash
+POST /connect HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+
+id=1&name=bomberman
+```
+
+-View all games list 
+```bash
+GET /games HTTP/1.1
+Host: localhost:8080
+```
     
 @See ru.atom.jersey.mm
     
