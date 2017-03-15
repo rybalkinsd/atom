@@ -2,8 +2,6 @@ package ru.atom.thread.mm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.thread.Connection;
-import ru.atom.thread.ThreadSafeQueue;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,8 +19,7 @@ public class ConnectionProducer implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             long newId = id.getAndIncrement();
 
-
-            ThreadSafeQueue.getInstance().add(new Connection(newId, names[(int) (newId % names.length)]));
+            ThreadSafeQueue.getInstance().offer(new Connection(newId, names[(int) (newId % names.length)]));
             log.info("Connection {} added.", newId);
             try {
                 Thread.sleep(1_000);
