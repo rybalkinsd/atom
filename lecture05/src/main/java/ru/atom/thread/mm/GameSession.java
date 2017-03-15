@@ -29,4 +29,8 @@ public class GameSession {
                 ", id=" + id +
                 '}';
     }
+
+    public long getId() {
+        return id;
+    }
 }

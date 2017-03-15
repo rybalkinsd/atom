@@ -1,12 +1,11 @@
-package ru.atom.servlet.connection;
+package ru.atom.jersey.mm;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.thread.mm.MatchMaker;
 
-/**
- * Created by sergey on 3/15/17.
- */
+
 public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
         ServletContextHandler context = new ServletContextHandler();
@@ -15,7 +14,15 @@ public class MatchMakerServer {
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(context);
 
-        context.addServlet(ConnectionHandler.class, "/connect/*");
+        ServletHolder jerseyServlet = context.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
+
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                "ru.atom.jersey.mm"
+        );
+
         jettyServer.start();
 
         Thread matchMaker = new Thread(new MatchMaker());

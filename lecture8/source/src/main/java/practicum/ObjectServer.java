@@ -17,7 +17,7 @@ public class ObjectServer {
     //Run server forever
     while (true) {
       try (
-          //Block until connection established
+          //Block until mm established
           Socket clientSocket = listener.accept();
           //Open InputStream to read Objects from socket
            ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())
