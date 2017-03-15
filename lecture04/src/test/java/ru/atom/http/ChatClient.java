@@ -41,11 +41,9 @@ public class ChatClient {
     //GET host:port/chat/say?name=my_name
     //Body: "my_message"
     public static Response say(String name, String msg) throws IOException {
-        //throw new NotImplementedException();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        //RequestBody body = RequestBody.create(mediaType, msg);
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "msg='" + msg + "'"))
+                .post(RequestBody.create(mediaType, "msg=" + msg))
                 .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name)
                 .build();
 
