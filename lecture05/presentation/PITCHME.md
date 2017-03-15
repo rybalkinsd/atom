@@ -366,7 +366,10 @@ Serving two types of reques
 #HSLIDE
 ### Summary
 1. Threads are not difficult until concurrency comes
+1. Jersey is lightweight and good with jetty
+1. Annotations info can disappear in compile-time 
 1. Keep learning **HTTP** 
+
 
 #HSLIDE
 **Оставьте обратную связь**
