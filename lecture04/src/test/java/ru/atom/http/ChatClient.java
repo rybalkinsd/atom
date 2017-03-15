@@ -28,7 +28,6 @@ public class ChatClient {
     }
 
     //POST host:port/chat/login?name=my_name
-
     public static Response login(String name) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
