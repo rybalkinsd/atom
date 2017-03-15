@@ -2,9 +2,6 @@ package ru.atom.thread.mm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.thread.Connection;
-import ru.atom.thread.GameSession;
-import ru.atom.thread.ThreadSafeQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +28,9 @@ public class MatchMaker implements Runnable {
             }
 
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
-                GameSession gameSession = new GameSession(candidates.toArray(new Connection[0]));
-                log.info(gameSession);
+                GameSession session = new GameSession(candidates.toArray(new Connection[0]));
+                log.info(session);
+                ThreadSafeStorage.put(session);
                 candidates.clear();
             }
         }
