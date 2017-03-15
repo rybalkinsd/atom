@@ -22,11 +22,8 @@ Refresh gradle project
 #HSLIDE
 ### Agenda
 1. Threads
-1. Practice #1
 1. Servlets
-1. Practice #2
 1. HTTP Web Server
-1. Practice #3
 1. Annotations
 
 
@@ -162,16 +159,18 @@ Matchmaker is an infinity-loop algorithm with steps
 1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
     - If **no** continue to step #1
     - If **yes**
-        1. Create and save GameSession
-        1. Clean GameSession candidates
-        1. Continue to step #1
+        - Create and save GameSession
+        - Clean GameSession candidates
+        - Continue to step #1
 
 
 #HSLIDE
 ### Connection producer
-We do not have server to get connections for now.
+We do not have server to get connections for now. 
 
-Connection producer will put new requests to our **queue** time-to-time.
+We need an instance to emulate client.  
+
+**Connection producer** will put new requests to our **queue** time-to-time.
 
 It is possible to have many producers.
 
@@ -259,9 +258,41 @@ Supports
 
 
 #HSLIDE
-### Practice #2
+### HelloWorld servlet
+@See ru.atom.servlet.hw
 
-@See
+- Servlet class
+- doGet / doPost
+- jetty server init
+
+
+#HSLIDE
+### Practice #2
+No more Connection Producers.
+
+Now we can start a **jetty server**.
+
+
+#HSLIDE
+### API
+Serving two types of request:
+1. Connect new player with **id** and **name**
+    ```bash
+    GET /connect?id=1&amp;name=bomberman HTTP/1.1
+    Host: localhost:8080
+    ```
+1. View all games list 
+    ```bash
+    GET /games HTTP/1.1
+    Host: localhost:8080
+    ```
+    
+@See ru.atom.servlet.mm
+
+
+    
+    
+
 
 #HSLIDE
 ### Make MatchMaker great again
@@ -270,7 +301,6 @@ Supports
 #HSLIDE
 ### Summary
 1. Threads are not difficult until concurrency comes
-
 1. Keep learning **HTTP** 
 
 #HSLIDE
