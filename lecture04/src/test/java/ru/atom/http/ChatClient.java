@@ -27,7 +27,7 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
-    //GET host:port/chat/login?name=my_name
+    //POST host:port/chat/login?name=my_name
 
     public static Response login(String name) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
