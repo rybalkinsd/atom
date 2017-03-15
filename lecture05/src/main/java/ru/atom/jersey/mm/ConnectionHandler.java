@@ -3,6 +3,7 @@ package ru.atom.jersey.mm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.jersey.aspect.Authorized;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ThreadSafeQueue;
 
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Response;
 public class ConnectionHandler {
     private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
 
+    @Authorized
     @POST
     @Consumes("application/x-www-form-urlencoded")
     public Response connect(@FormParam("id") long id,

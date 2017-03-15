@@ -364,6 +364,30 @@ Serving two types of reques
     
 
 #HSLIDE
+### Interceptors and filters
+Sometimes you want to add some aspect to your method.
+
+Authorisation:
+```bash
+POST /connect HTTP/1.1
+Host: localhost:8080
+Content-Type: application/x-www-form-urlencoded
+Authorization: <auth token>
+
+id=1&name=bomberman
+```
+
+
+#HSLIDE
+### Authorized aspect
+@See ru.atom.jersey.aspect
+
+- Filter definition
+- Adding filter in jetty context
+- Applying filter to methods
+
+
+#HSLIDE
 ### Summary
 1. Threads are not difficult until concurrency comes
 1. Jersey is lightweight and good with jetty
