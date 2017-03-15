@@ -350,6 +350,7 @@ Goals
 Serving two types of request
 
 - Connect 
+
 ```bash
 POST /connect HTTP/1.1
 Host: localhost:8080
@@ -358,7 +359,8 @@ Content-Type: application/x-www-form-urlencoded
 id=1&name=bomberman
 ```
 
--View all games list 
+-View all games list
+ 
 ```bash
 GET /games HTTP/1.1
 Host: localhost:8080
@@ -371,7 +373,8 @@ Host: localhost:8080
 ### Interceptors and filters
 Sometimes you want to add some aspect to your method.
 
-Authorisation:
+Authorization:
+
 ```bash
 POST /connect HTTP/1.1
 Host: localhost:8080
