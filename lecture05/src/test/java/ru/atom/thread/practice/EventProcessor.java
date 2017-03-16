@@ -2,6 +2,7 @@ package ru.atom.thread.practice;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,14 +11,39 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for (EventProducer event : eventProducers) {
+            threads.add(new Thread(event));
+            threads.get(threads.size() - 1).start();
+        }
+
+        threads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                System.out.println("Execution is interrupted");
+            }
+        });
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        long countGood = 0;
+        for (Event event : EventQueue.getInstance()) {
+            if (event.getEventType() == Event.EventType.GOOD) {
+                countGood++;
+            }
+        }
+        return countGood;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        long countBad = 0;
+        for (Event event : EventQueue.getInstance()) {
+            if (event.getEventType() == Event.EventType.BAD) {
+                countBad++;
+            }
+        }
+        return countBad;
     }
 }
