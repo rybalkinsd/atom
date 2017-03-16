@@ -27,10 +27,7 @@ public class GameModelTest {
         Assert.assertFalse(gameObjects.size() == 0);
     }
 
-    /**
-     * Checks that Movable GameObjects-s move
-     * Collisions are ignored
-     */
+    
     @Test
     public void movement() {
         GameSession gameSession = TestGameSessionCreator.createGameSession();
