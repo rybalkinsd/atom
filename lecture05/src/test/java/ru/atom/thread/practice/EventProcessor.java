@@ -1,5 +1,6 @@
 package ru.atom.thread.practice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,30 +9,32 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        for (EventProducer ev : eventProducers)
-            new Thread(ev).start();
+        List<Thread> threads = new ArrayList<>();
+        eventProducers.forEach(eventProducer ->
+                threads.add(new Thread(eventProducer)));
+        threads.forEach(Thread::start);
 
-        try {
-            Thread.sleep(1_000);
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted");
-        }
+        do {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                System.out.println("Interrupted");
+                return;
+            }
+        } while (threads.stream().anyMatch(Thread::isAlive));
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        long res = 0;
-        for (Event e : EventQueue.getInstance()) {
-            if (e.getEventType() == Event.EventType.GOOD)
-                res++;
-        }
-        return res;
+        return EventQueue.getInstance()
+                .stream()
+                .filter(event -> event.getEventType() == Event.EventType.GOOD)
+                .count();
     }
 
     public static long countTotalNumberOfBadEvents() {
-        long res = 0;
-        for (Event e : EventQueue.getInstance())
-            if (e.getEventType() == Event.EventType.BAD)
-                res++;
-        return res;
+        return EventQueue.getInstance()
+                .stream()
+                .filter(event -> event.getEventType() == Event.EventType.BAD)
+                .count();
     }
 }
