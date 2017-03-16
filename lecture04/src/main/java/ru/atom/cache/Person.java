@@ -19,4 +19,19 @@ public class Person {
     public String getFamilyName() {
         return familyName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Person) {
+            return ((Person) obj).getFamilyName().equals(this.familyName) &&
+                    ((Person) obj).getFirstName().equals(this.firstName);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return firstName.hashCode() + 2 * familyName.hashCode() + 17;
+    }
 }

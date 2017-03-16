@@ -1,7 +1,5 @@
 package ru.atom.cache;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,13 +7,16 @@ import java.util.List;
  * What about Map?
  */
 public class ContactListCache extends AbstractCache<Person, List<? extends Person>>  {
+
+    private HashMap<Person, List<? extends Person>> hashMap = new HashMap<>();
+
     public ContactListCache(int capacity) {
         super(capacity);
     }
-    HashMap<Person, List<? extends Person>> hashMap = new HashMap<>();
 
     @Override
     public boolean put(Person person, List<? extends Person> people) {
+        removeAny();
         hashMap.put(person, people);
         return true;
     }
@@ -33,7 +34,8 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
 
     private boolean removeAny() {
         if (hashMap.size() >= capacity) {
-
+            Person person = hashMap.keySet().iterator().next();
+            return hashMap.remove(person) != null;
         }
         return true;
     }

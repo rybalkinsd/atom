@@ -43,20 +43,9 @@ public class ChatClient {
     //Body: "my_message"
     public static Response say(String name, String msg) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody requestBody = new RequestBody() {
-            @Override
-            public MediaType contentType() {
-                return null;
-            }
-
-            @Override
-            public void writeTo(BufferedSink sink) throws IOException {
-
-            }
-        }
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, msg))
-                .url(PROTOCOL + HOST + PORT + "chat/say?name=" + name)
+                .post(RequestBody.create(mediaType, "msg=" + msg))
+                .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name)
                 .build();
 
         return client.newCall(request).execute();
@@ -64,6 +53,11 @@ public class ChatClient {
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        throw new NotImplementedException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/chat/")
+                .addHeader("host", HOST + PORT)
+                .build();
+        return client.newCall(request).execute();
     }
 }
