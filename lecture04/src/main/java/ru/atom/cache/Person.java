@@ -23,8 +23,7 @@ public class Person {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Person) {
-            return (((Person) obj).getFamilyName().equals(this.familyName) &&
-                    ((Person) obj).getFirstName().equals(this.firstName));
+            return (((Person) obj).getFamilyName().equals(this.familyName) && ((Person) obj).getFirstName().equals(this.firstName));
         } else {
             return false;
         }
