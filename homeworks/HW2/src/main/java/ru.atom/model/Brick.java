@@ -28,6 +28,7 @@ public final class Brick implements Positionable, Tickable {
     public int getId() {
         return id;
     }
+    
     @Override
     public void tick(long elapsed) {
         lifetime += elapsed;
