@@ -37,7 +37,7 @@ public class EventProcessor {
     public static long countTotalNumberOfGoodEvents() {
         long summair = 0;
         for (Event event: EventQueue.getInstance()) {
-            if (event.getEventType()==Event.EventType.GOOD) {
+            if (event.getEventType() == Event.EventType.GOOD) {
                 summair += 1;
             }
         }
@@ -47,7 +47,7 @@ public class EventProcessor {
     public static long countTotalNumberOfBadEvents() {
         long summair = 0;
         for (Event event: EventQueue.getInstance()) {
-            if (event.getEventType()==Event.EventType.BAD) {
+            if (event.getEventType() == Event.EventType.BAD) {
                 summair += 1;
             }
         }
