@@ -34,12 +34,12 @@ public class EventProcessor {
     }
 
     public static long countEventsType(Event.EventType type) {
-                long count = 0;
-                for (Event event : EventQueue.getInstance()) {
-                        if (event.getEventType() == type){
-                            count++;
-                        }
-                    }
-               return count;
+        long count = 0;
+        for (Event event : EventQueue.getInstance()) {
+            if (event.getEventType() == type) {
+                count++;
+            }
+        }
+        return count;
     }
 }
