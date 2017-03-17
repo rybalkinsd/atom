@@ -1,6 +1,6 @@
 package ru.atom.thread.practice;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -10,14 +10,36 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        List<Thread> threadArrayList = new ArrayList<>();
+        for (EventProducer producer : eventProducers) {
+            threadArrayList.add(new Thread(producer));
+        }
+        threadArrayList.forEach(Thread::start);
+        for (Thread thread : threadArrayList) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                return;
+            }
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        return countEventsType(Event.EventType.GOOD);
     }
 
+
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        return countEventsType(Event.EventType.BAD);
+    }
+
+    public static long countEventsType(Event.EventType type) {
+                long count = 0;
+                for (Event event : EventQueue.getInstance()) {
+                        if (event.getEventType() == type){
+                            count++;
+                        }
+                    }
+               return count;
     }
 }
