@@ -14,14 +14,14 @@ public class EventProcessor {
                 threads.add(new Thread(eventProducer)));
         threads.forEach(Thread::start);
 
-        do {
+        for (Thread thread : threads) {
             try {
-                Thread.sleep(10);
+                thread.join();
             } catch (InterruptedException e) {
                 System.out.println("Interrupted");
                 return;
             }
-        } while (threads.stream().anyMatch(Thread::isAlive));
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
