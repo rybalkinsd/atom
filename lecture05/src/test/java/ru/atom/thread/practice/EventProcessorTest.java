@@ -13,7 +13,7 @@ import java.util.Arrays;
 @Ignore
 public class EventProcessorTest {
     @Test
-    public void process() {
+    public void process() throws  Exception {
         Assert.assertEquals(0, EventProcessor.countTotalNumberOfGoodEvents());
         Assert.assertEquals(0, EventProcessor.countTotalNumberOfBadEvents());
 
