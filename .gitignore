@@ -5,3 +5,5 @@ build/
 
 .idea/
 /*/build/
+lecture03/src/main/main.iml
+lecture03/src/test/test.iml
