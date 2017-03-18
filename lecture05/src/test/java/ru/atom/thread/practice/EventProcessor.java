@@ -16,7 +16,7 @@ public class EventProcessor {
         List<Thread> producerThreads = eventProducers.stream().map(Thread::new).collect(Collectors.toList());
         producerThreads.forEach(Thread::start);
 
-        for (Thread t : producerThreads){
+        for (Thread t : producerThreads) {
             try {
                 t.join();
             } catch (InterruptedException e) {
