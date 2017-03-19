@@ -59,6 +59,7 @@ public class ChatClient {
                 .url(PROTOCOL + HOST + PORT + "/chat/chat")
                 .build();
 
+
         return client.newCall(request).execute();
     }
 }

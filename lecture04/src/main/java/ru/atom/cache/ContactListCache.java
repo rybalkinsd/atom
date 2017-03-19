@@ -35,6 +35,7 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
         return friends.size();
     }
 
+
     private boolean removeAny() {
         for (HashMap.Entry entry : friends.entrySet()) {
             friends.remove(entry.getKey());

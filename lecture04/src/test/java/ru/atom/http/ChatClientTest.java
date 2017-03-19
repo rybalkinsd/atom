@@ -19,6 +19,7 @@ public class ChatClientTest {
         Assert.assertEquals(200, response.code());
     }
 
+    
     @Test
     public void login() throws IOException {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);

@@ -26,6 +26,7 @@ public class Person {
         return familyName != null &&  person.familyName != null && familyName.equals(person.familyName);
     }
 
+
     @Override
     public int hashCode() {
         int result = firstName != null ? firstName.hashCode() : 0;
@@ -40,4 +41,5 @@ public class Person {
     public String getFamilyName() {
         return familyName;
     }
+
 }
