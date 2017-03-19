@@ -1,23 +1,53 @@
 package ru.atom.thread.practice;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author apomosov
  * @since 15.03.17
  */
+
+/*
+Kondratiev D.
+ */
 public class EventProcessor {
+    private static final Logger log = LogManager.getLogger(EventProcessor.class);
+
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for (EventProducer producer: eventProducers)
+            threads.add(new Thread(producer));
+
+        for (Thread current : threads) {
+            current.start();
+            try {
+                current.join();
+            } catch (InterruptedException e) {
+                log.info("Interrupted!");
+            }
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        long GoodEvents = 0;
+        for (Event newEvent:EventQueue.getInstance()) {
+            if (newEvent.getEventType() == Event.EventType.GOOD)
+                GoodEvents++;
+        }
+        return GoodEvents;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        long BadEvents = 0;
+        for (Event newEvent:EventQueue.getInstance()) {
+            if (newEvent.getEventType() == Event.EventType.GOOD)
+                BadEvents++;
+        }
+        return BadEvents;
     }
 }
