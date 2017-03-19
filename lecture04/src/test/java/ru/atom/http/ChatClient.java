@@ -30,7 +30,7 @@ public class ChatClient {
 
     //POST host:port/chat/login?name=my_name
     public static Response login(String name) throws IOException {
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        MediaType mediaType = MediaType.parse("http://wtfis.ru:8080/chat/online");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
                 .url(PROTOCOL + HOST + PORT + "/chat/login?name=" + name)
@@ -42,11 +42,20 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new NotImplementedException();
+        MediaType mediaType = MediaType.parse("http://wtfis.ru:8080/chat/online");
+        Request responce = new Responce.Builder()
+        .post(RequestBody.create(MediaType.parse(msg)) )
+        .url(PROTOCOL + HOST + Port +"/chat/say?msg=my_msg" +msg)
+        .build();
+        return client.newCall(request).execute();
     }
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        throw new NotImplementedException();
+        Request request = new Request.Builder()
+                .post( )
+                .url(PROTOCOL + HOST + Port +"" )
+                .build();
+        return client.newCall(request).execute();
     }
 }
