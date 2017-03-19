@@ -34,20 +34,20 @@ public class EventProcessor {
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        long GoodEvents = 0;
+        long goodEvents = 0;
         for (Event newEvent:EventQueue.getInstance()) {
             if (newEvent.getEventType() == Event.EventType.GOOD)
-                GoodEvents++;
+                goodEvents++;
         }
-        return GoodEvents;
+        return goodEvents;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        long BadEvents = 0;
+        long badEvents = 0;
         for (Event newEvent:EventQueue.getInstance()) {
             if (newEvent.getEventType() == Event.EventType.GOOD)
-                BadEvents++;
+                badEvents++;
         }
-        return BadEvents;
+        return badEvents;
     }
 }
