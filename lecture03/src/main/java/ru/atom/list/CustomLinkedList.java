@@ -11,6 +11,7 @@ import java.util.Collection;
 
 public class CustomLinkedList<E> implements List<E> {
     private ListNode<E> head;
+    private ListNode<E> tail;
     private int listSize = 0;
 
     @Override
@@ -72,14 +73,12 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean add(E e) {
         if (this.isEmpty()) {
             this.head = new ListNode<>(e);
+            this.tail = this.head;
             this.listSize += 1;
             return true;
         } else {
-            ListNode<E> iterateVar = this.head;
-            while (iterateVar.getNext() != null) {
-                iterateVar = iterateVar.getNext();
-            }
-            iterateVar.setNext(new ListNode<E>(e));
+            tail.setNext(new ListNode<E>(e));
+            this.tail = tail.getNext();
             this.listSize += 1;
             return true;
         }
@@ -92,16 +91,21 @@ public class CustomLinkedList<E> implements List<E> {
             E elemValue = (E) o;
             int countIndex = 0;
             ListNode<E> iterateVar = this.head;
+            ListNode<E> prev = null;
             while (iterateVar.getNext() != null) {
                 if (iterateVar.getValue().equals(elemValue)) {
                     if (countIndex == 0) {
                         this.head = iterateVar.getNext();
+                    }
+                    if (countIndex == this.size()) {
+                        this.tail = prev;
                     }
                     iterateVar.setNext(iterateVar.getNext().getNext());
                     this.listSize -= 1;
                     return true;
                 }
                 countIndex += 1;
+                prev = iterateVar;
                 iterateVar = iterateVar.getNext();
             }
             return false;
@@ -123,6 +127,7 @@ public class CustomLinkedList<E> implements List<E> {
     public void clear() {
         this.listSize = 0;
         this.head = null;
+        this.tail = null;
     }
 
     @Override
