@@ -10,6 +10,7 @@ public abstract class AbstractCache<K, V> {
         this.capacity = capacity;
     }
 
+
     public abstract boolean put(K k, V v);
 
     public abstract V get(K k);
