@@ -1,6 +1,5 @@
 package ru.atom.thread.practice;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -9,15 +8,38 @@ import java.util.List;
  * @since 15.03.17
  */
 public class EventProcessor {
+    static long totalNumberofGoodEvents = 0L;
+    static long totalNumberofBadEvents = 0L;
+
+
+
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        for (EventProducer i : eventProducers) {
+            Thread thread = new Thread(i);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        for (Event i : EventQueue.getInstance()) {
+            if (i.getEventType() == Event.EventType.GOOD) {
+                totalNumberofGoodEvents ++;
+            }
+        }
+        return totalNumberofGoodEvents;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        for (Event i : EventQueue.getInstance()) {
+            if (i.getEventType() == Event.EventType.BAD) {
+                totalNumberofBadEvents ++;
+            }
+        }
+        return totalNumberofBadEvents;
     }
 }
