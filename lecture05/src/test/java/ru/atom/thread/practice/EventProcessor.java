@@ -9,15 +9,29 @@ import java.util.List;
  * @since 15.03.17
  */
 public class EventProcessor {
+    static long good = 0;
+    static long bad = 0;
+
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new NotImplementedException();
+        for (EventProducer event : eventProducers) {
+            if (event.getClass().toString().equals("class ru.atom.thread.practice.BadEventProducer")) {
+                event.run();
+                bad += EventQueue.getInstance().size();
+                EventQueue.getInstance().clear();
+            } else {
+                event.run();
+                good += EventQueue.getInstance().size();
+                EventQueue.getInstance().clear();
+
+            }
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new NotImplementedException();
+        return good;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new NotImplementedException();
+        return bad;
     }
 }
