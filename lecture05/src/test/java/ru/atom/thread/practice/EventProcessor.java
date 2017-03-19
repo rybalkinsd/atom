@@ -21,27 +21,27 @@ public class EventProcessor {
             currentThread.start();
             try {
                 currentThread.join();
-            } catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 log.info("Interrupted");
             }
         }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        long NumberOfGoodEvents = 0;
+        long numberOfGoodEvents = 0;
         for (Event newEvent:EventQueue.getInstance()) {
             if (newEvent.getEventType() == Event.EventType.GOOD)
-                NumberOfGoodEvents++;
-            }
-        return NumberOfGoodEvents;
+                numberOfGoodEvents++;
+        }
+        return numberOfGoodEvents;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        long NumberOfBadEvents = 0;
+        long numberOfBadEvents = 0;
         for (Event newEvent:EventQueue.getInstance()) {
             if (newEvent.getEventType() == Event.EventType.GOOD)
-                NumberOfBadEvents++;
+                numberOfBadEvents++;
         }
-        return NumberOfBadEvents;
+        return numberOfBadEvents;
     }
 }
