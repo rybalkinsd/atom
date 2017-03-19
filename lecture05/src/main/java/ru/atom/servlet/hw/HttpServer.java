@@ -11,7 +11,7 @@ public class HttpServer {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
-        Server jettyServer = new Server(8080);
+        Server jettyServer = new Server(8090);
         jettyServer.setHandler(context);
 
         context.addServlet(HelloWorldServlet.class, "/*");
