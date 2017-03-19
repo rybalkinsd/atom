@@ -2,9 +2,9 @@ package ru.atom.network.message;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.model.input.Direction;
 import ru.atom.model.input.Move;
 import ru.atom.util.JsonHelper;
-import ru.atom.util.V;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -18,7 +18,7 @@ public class MessageTest {
 
     @Before
     public void setUp() throws Exception {
-        move = new Move(V.of(1.0, 2.0));
+        move = new Move(Direction.UP);
         msg = new Message(Topic.MOVE, JsonHelper.toJson(move));
     }
 
@@ -30,7 +30,7 @@ public class MessageTest {
 
     @Test
     public void deserialize() throws Exception {
-        String rawMessage = "{\"topic\":\"MOVE\",\"data\":{\"direction\":{\"x\":1.0,\"y\":1.0}}}";
+        String rawMessage = "{\"topic\":\"MOVE\",\"data\":{\"direction\": \"UP\"}}";
         Throwable ex = catchThrowable(() -> JsonHelper.fromJson(rawMessage, Message.class));
         assertThat(ex).isNull();
     }

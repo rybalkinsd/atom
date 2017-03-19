@@ -34,7 +34,7 @@ public class BrokerTest {
 
     @Test
     public void receiveMove() throws Exception {
-        String moveMsg = "{\"topic\":\"MOVE\",\"data\":{\"direction\":{\"x\":1.0,\"y\":1.0}}}";
+        String moveMsg = "{\"topic\":\"MOVE\",\"data\":{\"direction\":\"UP\"}}";
         broker.receive(session, moveMsg);
         V startPosition = pawn.getPosition();
         pawn.tick(10);
