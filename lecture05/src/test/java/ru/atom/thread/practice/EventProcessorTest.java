@@ -1,7 +1,7 @@
 package ru.atom.thread.practice;
 
 import org.junit.Assert;
-import org.junit.Ignore;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @author apomosov
  * @since 15.03.17
  */
-@Ignore
+
 public class EventProcessorTest {
     @Test
     public void process() {
