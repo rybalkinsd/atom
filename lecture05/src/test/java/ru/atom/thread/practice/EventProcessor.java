@@ -8,8 +8,8 @@ import java.util.List;
  * @since 15.03.17
  */
 public class EventProcessor {
-    static long totalNumberofGoodEvents = 0L;
-    static long totalNumberofBadEvents = 0L;
+    private static long totalNumberofGoodEvents = 0L;
+    private static long totalNumberofBadEvents = 0L;
 
 
 
