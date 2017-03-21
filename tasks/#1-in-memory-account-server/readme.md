@@ -9,7 +9,7 @@
 - web-сервис **match maker**, в коротом реализован механизм авторизации
 [[match maker]](https://github.com/rybalkinsd/atom/tree/master/lecture05/src/main/java/ru/atom/jersey/mm)
 
-- кроме того, на **лекции 4** вы можете посмотреть на реализацию сервера чата из **лекции 4**
+- кроме того, на **лекции 4** вы можете посмотреть на реализацию сервера чата
 [[chat server]](https://github.com/rybalkinsd/atom/tree/master/lecture04/src/main/java/ru/atom/http/server)
 
 ## Технологический стек:
@@ -23,7 +23,7 @@ Jetty передает обработку HTTP запросов соответс
 
 ### Jax-rs and Jersey
 The Java API for RESTful Web Services (**Jax-rs**) - это [набор спецификаций](https://jcp.org/en/jsr/detail?id=311), описывающих простой интерфейс для написания REST-сервисов  
-**[Jersey](https://jersey.java.net/)** - реализация Jax-rs, поплулярный web-framework
+**[Jersey](https://jersey.java.net/)** - реализация Jax-rs, популярный web-framework
 
 **Полезные статьи про Jax-rs:**
 - [на Хабре](https://habrahabr.ru/post/140181/)
