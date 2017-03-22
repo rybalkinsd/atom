@@ -24,6 +24,16 @@ public class ChatResource {
     Calendar cal = Calendar.getInstance();
     SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 
+    private String getColoredString(String user, String separator, String msg) {
+        String result = "<font color=\"green\">" + time.format(cal.getTime()) + "</font>"+
+                "[" +
+                "<font color=\"#DF013A\">" +
+                user +
+                "</font>" +
+                "]" + separator +
+                " " + msg;
+        return result;
+    }
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -38,13 +48,7 @@ public class ChatResource {
 
         log.info(  time.format(cal.getTime()) + "[" + name + "] logined");
         logined.add(name);
-        chat.add( "<font color=\"green\">" + time.format(cal.getTime()) + "</font>"+
-                "[" +
-                "<font color=\"#DF013A\">" +
-                name +
-                "</font>"+
-                "]: "
-                +"joined");
+        chat.add(getColoredString(name, " ", "logined"));
         return Response.ok().build();
     }
 
@@ -74,14 +78,7 @@ public class ChatResource {
         System.out.println( time.format(cal.getTime()) );
 
         log.info( time.format(cal.getTime()) + "[" + name + "]: " + msg);
-        chat.add( "<font color=\"red\">" + time.format(cal.getTime()) + "</font>" +
-
-                "[" +
-                "<font color=\"#FF00BF\">" +
-                name +
-                "</font>"+
-                "]: " +
-                             msg );
+        chat.add(getColoredString(name, ":", msg));
         return Response.ok().build();
     }
 
@@ -98,7 +95,7 @@ public class ChatResource {
     public Response logout(@QueryParam("name") String name) {
         if (logined.contains(name)) {
             logined.remove(name);
-            chat.add("[" + name + "] logout");
+            chat.add(getColoredString(name, " ", "logout"));
             log.info("[" + name + "] logout");
             return Response.ok().build();
         } else {
