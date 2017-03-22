@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-@Path("/chat")
+@Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
@@ -71,6 +71,13 @@ public class ChatResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/logout")
     public Response logout(@QueryParam("name") String name) {
-        return Response.status(Response.Status.NO_CONTENT).build();
+        if (logined.contains(name)) {
+            logined.remove(name);
+            chat.add("[" + name + "] logout");
+            log.info("[" + name + "] logout");
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("User is not login on chat").build();
+        }
     }
 }
