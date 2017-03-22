@@ -12,12 +12,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
+
+    Calendar cal = Calendar.getInstance();
+    SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -29,9 +35,16 @@ public class ChatResource {
         if (logined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        log.info("[" + name + "] logined");
+
+        log.info(  time.format(cal.getTime()) + "[" + name + "] logined");
         logined.add(name);
-        chat.add("[" + name + "] joined");
+        chat.add( "<font color=\"green\">" + time.format(cal.getTime()) + "</font>"+
+                "[" +
+                "<font color=\"#DF013A\">" +
+                name +
+                "</font>"+
+                "]: "
+                +"joined");
         return Response.ok().build();
     }
 
@@ -55,8 +68,20 @@ public class ChatResource {
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
-        log.info("[" + name + "]: " + msg);
-        chat.add("[" + name + "]: " + msg);
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+        System.out.println( time.format(cal.getTime()) );
+
+        log.info( time.format(cal.getTime()) + "[" + name + "]: " + msg);
+        chat.add( "<font color=\"red\">" + time.format(cal.getTime()) + "</font>" +
+
+                "[" +
+                "<font color=\"#FF00BF\">" +
+                name +
+                "</font>"+
+                "]: " +
+                             msg );
         return Response.ok().build();
     }
 
