@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
-    private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
+    private static final LinkedList<String> logined = new LinkedList<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
 
     @POST
