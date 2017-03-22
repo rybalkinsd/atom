@@ -11,10 +11,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class HttpServer {
     public static void main(String[] args) throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
-                createChatContext(),
-                createResourceContext()
-        });
+        contexts.setHandlers(new Handler[] { createChatContext(), createResourceContext() });
 
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
@@ -24,20 +21,16 @@ public class HttpServer {
 
     private static ServletContextHandler createChatContext() {
         ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/chat/*");
-        ServletHolder jerseyServlet = context.addServlet(
-                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        // context.setContextPath("/chat/*");
+        context.setContextPath("/*");
+        ServletHolder jerseyServlet = context
+            .addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
 
-        jerseyServlet.setInitParameter(
-                "jersey.config.server.provider.packages",
-                "ru.atom.http"
-        );
+        jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "ru.atom.http");
 
-        jerseyServlet.setInitParameter(
-                "com.sun.jersey.spi.container.ContainerResponseFilters",
-                CrossBrowserFilter.class.getCanonicalName()
-        );
+        jerseyServlet.setInitParameter("com.sun.jersey.spi.container.ContainerResponseFilters",
+            CrossBrowserFilter.class.getCanonicalName());
 
         return context;
     }
@@ -46,7 +39,7 @@ public class HttpServer {
         ContextHandler context = new ContextHandler();
         context.setContextPath("/");
         ResourceHandler handler = new ResourceHandler();
-        handler.setWelcomeFiles(new String[]{"index.html"});
+        handler.setWelcomeFiles(new String[] { "index.html" });
 
         String serverRoot = HttpServer.class.getResource("/static").toString();
         handler.setResourceBase(serverRoot);
