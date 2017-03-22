@@ -2,19 +2,25 @@ package ru.atom.http.server;
 
 import org.eclipse.jetty.util.ConcurrentArrayQueue;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 /**
  * Created by dmbragin on 3/22/17.
  */
-public class ChatDAO {
+public class ChatDao {
     private File targetFile;
     private OutputStream outStream;
     private InputStream inputStream;
 
-    public ChatDAO(String filePath) {
+    public ChatDao(String filePath) {
         this.targetFile = new File(filePath);
         try {
             this.outStream = new FileOutputStream(targetFile, true);
@@ -40,7 +46,7 @@ public class ChatDAO {
     public ConcurrentArrayQueue<String> getAll() {
         ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))){
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String strLine;
             while ((strLine = br.readLine()) != null)   {
                 logined.offer(strLine);

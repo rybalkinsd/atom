@@ -14,10 +14,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Path("/")
 public class ChatResource {
-    private static final ChatDAO chatDAO = new ChatDAO("/Users/dmbragin/test.txt");
+    private static final ChatDao chatDAO = new ChatDao("/Users/dmbragin/test.txt");
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
     private static final ConcurrentArrayQueue<String> chat = chatDAO.getAll();
@@ -39,6 +41,23 @@ public class ChatResource {
     private void addInfoToChat(String coloredString) {
         chat.add(coloredString);
         chatDAO.write(coloredString);
+    }
+
+    private String linksParser(String msg) {
+        String regex = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(msg);
+        String newStr = msg;
+        while (matcher.find()) {
+            String urlStr = matcher.group();
+            log.info("link detected: " + urlStr);
+            if (matcher.group(1).equals("http://")) {
+                newStr = msg.replace(urlStr, "<a href=\"" + urlStr + "\">" + urlStr + "</a>");
+            } else {
+                newStr = msg.replace(urlStr, "<a href=\"http://" + urlStr + "\">" + urlStr + "</a>");
+            }
+        }
+        return newStr;
     }
 
     @POST
