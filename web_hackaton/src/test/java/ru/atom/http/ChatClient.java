@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "wtfis.ru";
+    private static final String HOST = "localhost";
     private static final String PORT = ":8080";
 
     //GET host:port/chat/online
@@ -42,11 +42,21 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new NotImplementedException();
+        String url = PROTOCOL + HOST + PORT + "/chat/say?name=" + name;
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request myReq = new Request.Builder()
+                .post(RequestBody.create(mediaType, "msg=" + msg))
+                .url(url)
+                .build();
+        return client.newCall(myReq).execute();
     }
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        throw new NotImplementedException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/chat")
+                .build();
+        return client.newCall(request).execute();
     }
 }
