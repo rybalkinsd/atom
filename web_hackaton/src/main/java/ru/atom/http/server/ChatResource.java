@@ -1,6 +1,5 @@
 package ru.atom.http.server;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.util.ConcurrentArrayQueue;
@@ -64,10 +63,12 @@ public class ChatResource {
                     " symbols)").build();
         }
         log.info("[" + name + "]: " + msg);
-        Pattern p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])");
-        Matcher m = p.matcher(msg);
-        while(m.find()) {
-            msg = m.replaceFirst("<a href=\"" + msg.substring(m.start(), m.end()) + "\">" + msg.substring(m.start(), m.end()) + "</a>");
+        Pattern pattern = Pattern.compile(
+                "(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])");
+        Matcher match = pattern.matcher(msg);
+        while (match.find()) {
+            msg = match.replaceFirst("<a href=\"" + msg.substring(match.start(), match.end()) + "\">" +
+                    msg.substring(match.start(), match.end()) + "</a>");
         }
         chat.add("[<span style=\"color:red\">" + name
                 + "</span> <span style=\"color:green\">" + new Date(System.currentTimeMillis()) + "</span>]: " + msg);
