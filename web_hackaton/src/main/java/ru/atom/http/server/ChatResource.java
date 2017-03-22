@@ -12,7 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -25,18 +29,15 @@ public class ChatResource {
     private static final ExtraInit ex = new ExtraInit().makeinit();
 
 
-    static void readFromFile(){
-//        System.out.println("read");
+    static void readFromFile() {
         File file = new File(fileName);
         if (file.exists()) {
             try {
                 BufferedReader in = new BufferedReader(new FileReader(file.getAbsoluteFile()));
                 try {
-//                    System.out.println("read in try");
-                    String s;
-                    while ((s = in.readLine()) != null) {
-//                        System.out.println("read read");
-                        chat.add(s);
+                    String str;
+                    while ((str = in.readLine()) != null) {
+                        chat.add(str);
                     }
                 } finally {
                     in.close();
@@ -47,20 +48,18 @@ public class ChatResource {
         }
     }
 
-    void saveToFile(){
-//        System.out.println("save");
+    void saveToFile() {
         File file = new File(fileName);
         try {
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.createNewFile();
             }
             PrintWriter out = new PrintWriter(file.getAbsoluteFile());
-            for (String str : chat){
-//                System.out.println("saving");
+            for (String str : chat) {
                 out.println(str);
             }
             out.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("error");
         }
     }
@@ -120,10 +119,12 @@ public class ChatResource {
             log.info("2" + msg2);
             String msg3 = new String(msg.substring(msg.indexOf(".com") + 4));
             log.info("3" + msg3);
-            chat.add("[" + name + "]: " + msg1 + "<a href=msg2>" + msg2 + "</a>" + msg3+" <font color=0D823B>" + day + "." + month + "." + year + " " + hours + ":" + min + "</font>");
-        } else{
-            log.info("[" + name + "]: " + msg + " " + day + "." + month + "." + year + " " + hours + ":" + min);
-            chat.add("[" + name + "]: " + msg + " <font color=0D823B>" + day + "." + month + "." + year + " " + hours + ":" + min + "</font>");
+            chat.add("[" + name + "]: " + msg1 + "<a href=msg2>" + msg2 + "</a>" + msg3
+                    + " <font color=0D823B>" + day + "." + month + "." + year + " "
+                    + hours + ":" + min + "</font>");
+        } else {
+            chat.add("[" + name + "]: " + msg + " <font color=0D823B>"
+                    + day + "." + month + "." + year + " " + hours + ":" + min + "</font>");
         }
         saveToFile();
         return Response.ok().build();
