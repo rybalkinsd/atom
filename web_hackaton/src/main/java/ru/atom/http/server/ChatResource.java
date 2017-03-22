@@ -22,18 +22,19 @@ import javax.ws.rs.core.Response;
 @Path("/chat")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
-    
+
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
-    
+
     private static String filePath = "C://Users/Serge/cygwin/atom/web_hackaton/src/main/resources/History.txt";
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")
     public Response login(@QueryParam("name") String name) {
-    	if (name.length() > 30) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
+        if (name.length() > 30) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(")
+                .build();
         }
         if (logined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
@@ -49,43 +50,44 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/online")
     public Response online() {
-    	return Response.ok(String.join("\n", logined)).build();
+        return Response.ok(String.join("\n", logined)).build();
     }
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/say")
     public Response say(@QueryParam("name") String name, @FormParam("msg") String msg) {
-    	if (!logined.contains(name)) {
+        if (!logined.contains(name)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
         if (msg == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("No message provided")
+                .build();
         }
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
         if (msg.equals("exit")) {
             log.info("[" + name + "] logged out");
-            /*ConcurrentArrayQueue<String> logined1 = new ConcurrentArrayQueue<>();
-            for(int i=0; i<logined.size(); ++i) {
-            	logined1.add(logined.poll());           	
-            }
-            logined.clear();*/
-            for(int i = 0; i < (logined.size()-1); ++i) {
-            	logined.add(logined.element());
-            	logined.poll();
+            /*
+             * ConcurrentArrayQueue<String> logined1 = new
+             * ConcurrentArrayQueue<>(); for(int i=0; i<logined.size(); ++i) {
+             * logined1.add(logined.poll()); } logined.clear();
+             */
+            for (int i = 0; i < (logined.size() - 1); ++i) {
+                logined.add(logined.element());
+                logined.poll();
             }
             logined.poll();
             LocalDateTime ldt = LocalDateTime.now();
-            chat.add("[ (" + ldt.getHour()+ ":" + ldt.getMinute() + ") " + name + "] left");
+            chat.add("[ (" + ldt.getHour() + ":" + ldt.getMinute() + ") " + name + "] left");
             write("[" + name + "] left" + "\n");
         } else {
-        	log.info("[" + name + "]: " + msg);
-        	LocalDateTime ldt = LocalDateTime.now();
-        	chat.add("[ (" + ldt.getHour()+ ":" + ldt.getMinute() + ") " + name + "]: " + msg);
-        	write("[" + name + "]: " + msg + "\n");
-        	
+            log.info("[" + name + "]: " + msg);
+            LocalDateTime ldt = LocalDateTime.now();
+            chat.add("[ (" + ldt.getHour() + ":" + ldt.getMinute() + ") " + name + "]: " + msg);
+            write("[" + name + "]: " + msg + "\n");
+
         }
         return Response.ok().build();
     }
@@ -94,24 +96,24 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/chat")
     public Response chat() {
-    	return Response.ok(String.join("\n", chat)).build();
+        return Response.ok(String.join("\n", chat)).build();
     }
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/logout")
     public Response logout(@QueryParam("name") String name) {
-    	
-    	if(!logined.contains(name)){
-    		return Response.status(Response.Status.BAD_REQUEST).entity("No such user :(").build();
-    	}
+
+        if (!logined.contains(name)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No such user :(").build();
+        }
         log.info("[" + name + "] logged out");
         logined.remove(name);
         chat.add("[" + name + "] left");
         write("[" + name + "] left" + "\n");
         return Response.ok().build();
     }
-    
+
     public static void write(String text) {
         try {
             Files.write(Paths.get(filePath), text.getBytes(), StandardOpenOption.APPEND);
