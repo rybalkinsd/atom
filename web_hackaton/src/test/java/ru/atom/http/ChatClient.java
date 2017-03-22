@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "wtfis.ru";
+    private static final String HOST = "localhost";
     private static final String PORT = ":8080";
 
     //GET host:port/chat/online
@@ -53,12 +53,6 @@ public class ChatClient {
 
     //GET host:port/chat/chat
     public static Response viewChat() throws IOException {
-        Request request = new Request.Builder()
-                .get()
-                .url(PROTOCOL + HOST + PORT + "/chat/chat")
-                .addHeader("host", HOST + PORT)
-                .build();
-
-        return client.newCall(request).execute();
+        throw new NotImplementedException();
     }
 }
