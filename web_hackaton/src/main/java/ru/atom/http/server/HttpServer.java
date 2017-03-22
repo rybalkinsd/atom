@@ -20,6 +20,7 @@ public class HttpServer {
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
+;
     }
 
     private static ServletContextHandler createChatContext() {
