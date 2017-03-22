@@ -10,7 +10,7 @@ public class ExtraInit {
         return ourInstance;
     }
 
-    static void makeinit() {
+    public ExtraInit() {
         ChatResource.readFromFile();
     }
 }

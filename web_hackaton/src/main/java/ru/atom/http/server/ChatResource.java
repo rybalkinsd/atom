@@ -26,7 +26,7 @@ public class ChatResource {
     private static final ConcurrentLinkedQueue<String> logined = new ConcurrentLinkedQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
     private static String fileName = new String("history");
-    private static final ExtraInit ex = new ExtraInit().makeinit();
+    private static final ExtraInit ex = new ExtraInit();
 
 
     static void readFromFile() {
