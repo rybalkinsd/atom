@@ -11,7 +11,7 @@ public class MatchMakerServer {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
-        Server jettyServer = new Server(8080);
+        Server jettyServer = new Server(8088);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
