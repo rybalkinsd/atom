@@ -22,12 +22,12 @@ public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
+    private static final Calendar cal = Calendar.getInstance();
+    private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 
-    Calendar cal = Calendar.getInstance();
-    SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 
-    private String getColoredString(String user, String separator, String msg) {
-        String result = "<font color=\"green\">" + time.format(cal.getTime()) + "</font>"+
+    private static String getColoredString(String user, String separator, String msg) {
+        String result = "<font color=\"green\">" + time.format(cal.getTime()) + "</font>" +
                 "[" +
                 "<font color=\"#DF013A\">" +
                 user +
@@ -65,7 +65,7 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
 
-        log.info(  time.format(cal.getTime()) + "[" + name + "] logined");
+        log.info(time.format(cal.getTime()) + "[" + name + "] logined");
         logined.add(name);
         chat.add(getColoredString(name, " ", "logined"));
         return Response.ok().build();
@@ -94,12 +94,12 @@ public class ChatResource {
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-        System.out.println( time.format(cal.getTime()) );
+        System.out.println(time.format(cal.getTime()));
 
-        //<a href="http://www.yandex.ru">Поисковая система Яндекс</a>
 
-        log.info( time.format(cal.getTime()) + "[" + name + "]: " + msg);
-        chat.add(getColoredString(name, ":", linksParser(msg)));
+        log.info(time.format(cal.getTime()) + "[" + name + "]: " + msg);
+        chat.add(getColoredString(name, ":", msg));
+
         return Response.ok().build();
     }
 
