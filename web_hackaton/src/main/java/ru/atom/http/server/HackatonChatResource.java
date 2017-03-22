@@ -40,7 +40,9 @@ public class HackatonChatResource {
         } else {
             log.info("User {} loggined ", name);
             loggined.add(name);
-            messages.add("[" + name + "] joined to chat");
+            Date date = Calendar.getInstance().getTime();
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            messages.add(format.format(date) + "[" + name + "] joined to chat");
             return Response.ok().build();
         }
     }
