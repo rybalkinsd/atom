@@ -11,7 +11,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class HttpServer {
     public static void main(String[] args) throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
+        contexts.setHandlers(new Handler[]{
                 createChatContext(),
                 createResourceContext()
         });
