@@ -13,15 +13,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
-    private static final LinkedHashMap<String, Long> chat = new LinkedHashMap<>();
+    private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -35,7 +36,8 @@ public class ChatResource {
         }
         log.info("[" + name + "] logined");
         logined.add(name);
-        chat.put("[" + name + "] joined", System.currentTimeMillis());
+        chat.add("[<span style=\"color:red\">" + name +
+                 "</span> <span style=\"color:green\">" + new Date(System.currentTimeMillis()) + "</span>]: joined");
         return Response.ok().build();
     }
 
@@ -61,7 +63,13 @@ public class ChatResource {
                     " symbols)").build();
         }
         log.info("[" + name + "]: " + msg);
-        chat.put("[" + name + "]: " + msg, System.currentTimeMillis());
+        Pattern p = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])");
+        Matcher m = p.matcher(msg);
+        while(m.find()) {
+            msg = m.replaceFirst("<a href=\"" + msg.substring(m.start(), m.end()) + "\">" + msg.substring(m.start(), m.end()) + "</a>");
+        }
+        chat.add("[<span style=\"color:red\">" + name
+                + "</span> <span style=\"color:green\">" + new Date(System.currentTimeMillis()) + "</span>]: " + msg);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -69,7 +77,7 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/chat")
     public Response chat() {
-        return Response.ok(String.join("\n ", chat.keySet())).build();
+        return Response.ok(String.join("\n ", chat)).build();
     }
 
     @POST
