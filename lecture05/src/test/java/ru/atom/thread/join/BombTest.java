@@ -13,7 +13,7 @@ public class BombTest {
     @Test
     public void boom() throws Exception {
         Thread.currentThread().setName("Bomberman");
-        Thread bomb = new Thread(new Bomb(10));
+        Thread bomb = new Thread(new Bomb(10000));
         log.info("bomb thread created");
 
         bomb.start();
