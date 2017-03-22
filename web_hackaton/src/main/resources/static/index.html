@@ -1,5 +1,5 @@
 <script>
-  var host = "wtfis.ru";
+  var host = "localhost";
   var port = 8080;
 </script>
 
@@ -54,9 +54,13 @@
 <body>
 <div id="header">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input id="nameLogin" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
     </form>
+    <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
+    <input id="nameLogout" name="name" value="" style="font-size:medium" type="text">
+    <input value="Logout" style="font-size:large" type="submit">
+</form>
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
@@ -86,7 +90,7 @@ function loadHistory() {
            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
     });
 }
-setInterval(loadHistory, 1000);
+setInterval(loadHistory, 300);
 
 </script>
 <script>
@@ -119,6 +123,26 @@ function login() {
         "method": "POST",
         "crossDomain": true,
         "url": "http://" + host + ":" + port + "/chat/login?"+name,
+    }
+
+   $.ajax(settings).done(function(response) {
+        loadHistory();
+   }).fail(function (jqXHR, textStatus) {
+       alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+       console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+   });
+}
+</script>
+
+
+<script>
+function logout() {
+   var name = $('#logoutform').serialize();
+
+   var settings = {
+        "method": "POST",
+        "crossDomain": true,
+        "url": "http://" + host + ":" + port + "/chat/logout?"+name,
     }
 
    $.ajax(settings).done(function(response) {
