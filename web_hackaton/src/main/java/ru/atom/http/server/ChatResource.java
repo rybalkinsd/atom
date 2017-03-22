@@ -63,8 +63,10 @@ public class ChatResource {
 
         String msgColored = "<span style=\"background-color:green\">" + msg + "</span>";
         String nameColored = "<span style=\"background-color:red\">" + "[" + name + "]" + "</span>";
+        String dataColored = "<span style=\"background-color:pink\">" + "[" + formdate + "]" + "</span>";
         msg = msgColored;
         name = nameColored;
+        formdate = dataColored;
         log.info("[" + name + "][" + formdate + "]: " + msg);
         chat.add("[" + name + "][" + formdate + "]: " + msg);
         return Response.ok().build();
