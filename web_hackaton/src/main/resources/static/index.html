@@ -1,5 +1,5 @@
 <script>
-  var host = "wtfis.ru";
+  var host = "localhost";
   var port = 8080;
 </script>
 
@@ -56,6 +56,10 @@
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
+    </form>
+    <form method="POST" id="nameform1" action="javascript:void(null);" onsubmit="logout()">
+        <input id="namedel" name="name" value="" style="font-size:medium" type="text">
+        <input value="Logout" style="font-size:large" type="submit" >
     </form>
 </div>
 <div id="body">
@@ -128,4 +132,22 @@ function login() {
        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
    });
 }
+</script>
+<script>
+    function logout() {
+        var name = $('#nameform1').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout?"+name,
+        }
+
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
 </script>
