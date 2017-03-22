@@ -89,6 +89,8 @@ public class ChatResource {
         }
         logined.remove(name);
         log.info("[" + name + "]: logged out");
+        chat.add("[<span style=\"color:red\">" + name +
+                "</span> <span style=\"color:green\">" + new Date(System.currentTimeMillis()) + "</span>]: logged out");
         return Response.status(Response.Status.OK).build();
     }
 }
