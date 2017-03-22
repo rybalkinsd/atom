@@ -1,6 +1,7 @@
 <script>
-  var host = "wtfis.ru";
+  var host = "localhost";
   var port = 8080;
+
 </script>
 
 <html>
@@ -29,6 +30,11 @@
         width: 15%;
     }
 
+    .submitbutton {
+        font-size:large;
+        width: 100px;
+    }
+
     #header {
         background: #336666;
         padding: 10px;
@@ -49,13 +55,19 @@
         height: 30px; /* Height of the footer */
         background: #336666;
     }
+
 </style>
 
 <body>
 <div id="header">
+    <h1 class="title">My chat</h1>
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <input value="Login" class="submitbutton" type="submit">
+    </form>
+    <form method="POST" id="nameform2" action="javascript:void(null);" onsubmit="logout()">
+        <input id="name2" name="name" value="" style="font-size:medium" type="text">
+        <input value="Logout" class="submitbutton" type="submit">
     </form>
 </div>
 <div id="body">
@@ -88,6 +100,7 @@ function loadHistory() {
 }
 setInterval(loadHistory, 1000);
 
+
 </script>
 <script>
 function say() {
@@ -110,6 +123,7 @@ function say() {
    });
 }
 
+
 </script>
 <script>
 function login() {
@@ -128,4 +142,24 @@ function login() {
        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
    });
 }
+
+</script>
+<script>
+    function logout() {
+        var name = $('#nameform2').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout?"+name,
+        }
+
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
 </script>
