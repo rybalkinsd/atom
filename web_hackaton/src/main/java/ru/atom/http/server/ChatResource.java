@@ -24,12 +24,12 @@ public class ChatResource {
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
     private static final Logger log = LogManager.getLogger(ChatResource.class);
-//    FileWriter fileW;
-//    FileReader fileR;
+    //FileWriter fileW;
+    //FileReader fileR;
 
     public ChatResource() throws IOException {
-//        fileW = new FileWriter("C:/Users/Ксения/atom/web_hackaton/src/main/resources/History.txt", true);
-        //while (fileR.)
+    // fileW = new FileWriter("C:/Users/Ксения/atom/web_hackaton/src/main/resources/History.txt", true);
+        // while (fileR.)
     }
 
     @POST
@@ -46,7 +46,7 @@ public class ChatResource {
         logined.add(name);
         chat.add("[" + name + "] joined");
         return Response.ok().build();
-        }
+    }
 
     @GET
     @Produces("text/plain")
@@ -68,13 +68,13 @@ public class ChatResource {
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
-        if (msg.contains("http:") || msg.contains("https:")|| msg.contains("www.") || msg.matches("http || www")) {
+        if (msg.contains("http:") || msg.contains("https:") || msg.contains("www.") || msg.matches("http || www")) {
             msg = "<a href=\"" + msg + "\">" + msg + "</a>";
         }
 
-        String dataColored= "<span style=\"background-color:red\">" +  "[" + new Date() + "] " + "</span>";
-        String nameColored= "<span style=\"background-color:green\">" +  "[" + name + "] " + "</span>";
-        String msgColored= "<span style=\"background-color:blue\">" + msg + "</span>";
+        String dataColored = "<span style=\"background-color:red\">" +  "[" + new Date() + "] " + "</span>";
+        String nameColored = "<span style=\"background-color:green\">" +  "[" + name + "] " + "</span>";
+        String msgColored = "<span style=\"background-color:blue\">" + msg + "</span>";
 
 
         msg = nameColored + " " + dataColored + " " + msgColored;
@@ -84,14 +84,14 @@ public class ChatResource {
         log.info(msg);
         chat.add(msg);
 
-//        try {
-//            fileW.write(msg);
-//            fileW.append('\n');
-//            fileW.flush();
-//            log.info("Message { } was written", msg);
-//        } catch (Exception ex) {
-//            log.warn("Message { } wasn't written", msg);
-//        }
+        //        try {
+        //            fileW.write(msg);
+        //            fileW.append('\n');
+        //            fileW.flush();
+        //            log.info("Message { } was written", msg);
+        //        } catch (Exception ex) {
+        //            log.warn("Message { } wasn't written", msg);
+        //        }
         return Response.ok().build();
     }
 
@@ -118,8 +118,7 @@ public class ChatResource {
         if (logined.remove(name)) {                             //удаляет только последнего пользователя
             log.info("[" + name + "] logouted");
             chat.add("[" + name + "] logouted");
-        }
-        else log.info("[" + name + "] wasn't logined");
+        } else log.info("[" + name + "] wasn't logined");
         return Response.ok().build();
     }
 }
