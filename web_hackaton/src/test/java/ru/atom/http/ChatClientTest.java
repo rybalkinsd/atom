@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-@Ignore
+
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "sasha";
+    private static String MY_NAME_IN_CHAT = "K";
     private static String MY_MESSAGE_TO_CHAT = "Всем привет в этом чатике!";
 
     @Test
