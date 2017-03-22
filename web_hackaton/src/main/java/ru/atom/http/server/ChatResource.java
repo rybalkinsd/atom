@@ -14,6 +14,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Path("/")
 public class ChatResource {
@@ -33,6 +35,23 @@ public class ChatResource {
                 "]" + separator +
                 " " + msg;
         return result;
+    }
+
+    private String linksParser (String msg) {
+        String regex = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(msg);
+        String new_str = msg;
+        while(m.find()) {
+            String urlStr = m.group();
+            log.info("link detected: "+ urlStr);
+            if (m.group(1).equals("http://")) {
+                new_str = msg.replace (urlStr, "<a href=\"" + urlStr + "\">"+ urlStr +"</a>");
+            } else {
+                new_str = msg.replace (urlStr, "<a href=\"http://" + urlStr + "\">"+ urlStr +"</a>");
+            }
+        }
+        return new_str;
     }
 
     @POST
@@ -77,8 +96,10 @@ public class ChatResource {
         SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
         System.out.println( time.format(cal.getTime()) );
 
+        //<a href="http://www.yandex.ru">Поисковая система Яндекс</a>
+
         log.info( time.format(cal.getTime()) + "[" + name + "]: " + msg);
-        chat.add(getColoredString(name, ":", msg));
+        chat.add(getColoredString(name, ":", linksParser(msg)));
         return Response.ok().build();
     }
 
