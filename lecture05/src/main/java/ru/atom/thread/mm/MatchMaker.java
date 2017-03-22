@@ -21,7 +21,7 @@ public class MatchMaker implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 candidates.add(
-                        ThreadSafeQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
+                        ThreadSafeQueue.getInstance().poll(10000, TimeUnit.SECONDS)
                 );
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
