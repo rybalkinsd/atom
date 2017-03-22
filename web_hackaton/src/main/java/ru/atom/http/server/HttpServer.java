@@ -48,7 +48,7 @@ public class HttpServer {
         ResourceHandler handler = new ResourceHandler();
         handler.setWelcomeFiles(new String[]{"index.html"});
 
-        String serverRoot = HttpServer.class.getResource("/static").getFile();
+        String serverRoot = HttpServer.class.getResource("/static").toString();
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
