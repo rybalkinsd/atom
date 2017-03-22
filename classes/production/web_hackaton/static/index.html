@@ -57,10 +57,6 @@
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
     </form>
-    <form method="POST" id="nameform2" action="javascript:void(null);" onsubmit="logout()">
-        <input id="name2" name="name" value="" style="font-size:medium" type="text">
-        <input value="Logout" style="font-size:large" type="submit">
-    </form>
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
@@ -123,23 +119,6 @@ function login() {
         "method": "POST",
         "crossDomain": true,
         "url": "http://" + host + ":" + port + "/chat/login?"+name,
-    }
-
-   $.ajax(settings).done(function(response) {
-        loadHistory();
-   }).fail(function (jqXHR, textStatus) {
-       alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-       console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-   });
-}
-
-function logout() {
-   var name = $('#nameform').serialize();
-
-   var settings = {
-        "method": "POST",
-        "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/logout?"+name,
     }
 
    $.ajax(settings).done(function(response) {
