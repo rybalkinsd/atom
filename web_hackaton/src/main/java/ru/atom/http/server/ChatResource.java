@@ -14,28 +14,29 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
-    private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
+    private static final ConcurrentLinkedQueue<String> logined = new ConcurrentLinkedQueue<>();
     private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
     private static String fileName = new String("history");
     private static final ExtraInit ex = new ExtraInit().makeinit();
 
 
     static void readFromFile(){
-        System.out.println("read");
+//        System.out.println("read");
         File file = new File(fileName);
         if (file.exists()) {
             try {
                 BufferedReader in = new BufferedReader(new FileReader(file.getAbsoluteFile()));
                 try {
-                    System.out.println("read in try");
+//                    System.out.println("read in try");
                     String s;
                     while ((s = in.readLine()) != null) {
-                        System.out.println("read read");
-                        chat.add(s + "\n");
+//                        System.out.println("read read");
+                        chat.add(s);
                     }
                 } finally {
                     in.close();
@@ -47,7 +48,7 @@ public class ChatResource {
     }
 
     void saveToFile(){
-        System.out.println("save");
+//        System.out.println("save");
         File file = new File(fileName);
         try {
             if(!file.exists()) {
@@ -55,7 +56,7 @@ public class ChatResource {
             }
             PrintWriter out = new PrintWriter(file.getAbsoluteFile());
             for (String str : chat){
-                System.out.println("saving");
+//                System.out.println("saving");
                 out.println(str);
             }
             out.close();
@@ -144,7 +145,7 @@ public class ChatResource {
         }
         log.info("[" + name + "]: has been logged out");
         logined.remove(name);
-        chat.remove(name);
+        System.out.println(logined.contains(name));
         chat.add("[" + name + "]: has been logged out");
         saveToFile();
         return Response.ok().build();
