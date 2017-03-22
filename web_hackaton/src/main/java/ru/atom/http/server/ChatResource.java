@@ -17,9 +17,10 @@ import java.util.Calendar;
 
 @Path("/")
 public class ChatResource {
+    private static final ChatDAO chatDAO = new ChatDAO("/Users/dmbragin/test.txt");
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
-    private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
+    private static final ConcurrentArrayQueue<String> chat = chatDAO.getAll();
     private static final Calendar cal = Calendar.getInstance();
     private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 
@@ -35,6 +36,11 @@ public class ChatResource {
         return result;
     }
 
+    private void addInfoToChat(String coloredString) {
+        chat.add(coloredString);
+        chatDAO.write(coloredString);
+    }
+
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")
@@ -46,9 +52,10 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
 
-        log.info(time.format(cal.getTime()) + "[" + name + "] logined");
         logined.add(name);
-        chat.add(getColoredString(name, " ", "logined"));
+        log.info(time.format(cal.getTime()) + "[" + name + "] logined");
+        String coloredString = getColoredString(name, " ", "logined");
+        addInfoToChat(coloredString);
         return Response.ok().build();
     }
 
@@ -73,12 +80,9 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
 
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
-        System.out.println(time.format(cal.getTime()));
-
-        log.info(time.format(cal.getTime()) + "[" + name + "]: " + msg);
-        chat.add(getColoredString(name, ":", msg));
+        log.info(time.format(cal.getTime()) + "[" + name + "]:" + msg);
+        String coloredString = getColoredString(name, ":", msg);
+        addInfoToChat(coloredString);
         return Response.ok().build();
     }
 
@@ -95,7 +99,9 @@ public class ChatResource {
     public Response logout(@QueryParam("name") String name) {
         if (logined.contains(name)) {
             logined.remove(name);
-            chat.add(getColoredString(name, " ", "logout"));
+
+            String coloredString = getColoredString(name, " ", "logout");
+            addInfoToChat(coloredString);
             log.info("[" + name + "] logout");
             return Response.ok().build();
         } else {
