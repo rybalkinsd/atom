@@ -1,16 +1,16 @@
 <script>
-  var host = "wtfis.ru";
+  var host = "localhost";
   var port = 8080;
 </script>
 
 <html>
 <style>
     :root {
-        background: #336666;
+        background: #60ACCC;
     }
 
     .chat {
-        background: #99CCCC;
+        background: #3F96CC;
         font-family: "Courier New", Courier, monospace;
         padding: 7px;
         margin: 0 0 1em;
@@ -30,7 +30,7 @@
     }
 
     #header {
-        background: #336666;
+        background: #3F96CC;
         padding: 10px;
         padding-bottom: 0;
     }
@@ -47,7 +47,7 @@
         bottom: 0;
         width: 100%;
         height: 30px; /* Height of the footer */
-        background: #336666;
+        background: #127ecc;
     }
 </style>
 
@@ -56,6 +56,9 @@
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
+    </form>
+    <form method="POST" id="logout" action="javascript:void(null);" onsubmit="logout()">
+        <input value="Logout" style="font-size:large" type="submit">
     </form>
 </div>
 <div id="body">
@@ -128,4 +131,22 @@ function login() {
        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
    });
 }
+</script>
+<script>
+    function logout() {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout?"+name,
+        }
+
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
 </script>
