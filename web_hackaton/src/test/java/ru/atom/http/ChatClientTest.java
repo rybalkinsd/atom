@@ -9,8 +9,8 @@ import java.io.IOException;
 
 @Ignore
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "sasha";
-    private static String MY_MESSAGE_TO_CHAT = "Всем привет в этом чатике!";
+    private static String MY_NAME_IN_CHAT = "Areksei";
+    private static String MY_MESSAGE_TO_CHAT = "Всем привет!";
 
     @Test
     public void viewOnline() throws IOException {

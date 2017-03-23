@@ -24,7 +24,7 @@ public class HttpServer {
 
     private static ServletContextHandler createChatContext() {
         ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/chat/*");
+        context.setContextPath("/");
         ServletHolder jerseyServlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
