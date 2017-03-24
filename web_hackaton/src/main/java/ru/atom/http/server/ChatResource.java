@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -22,14 +21,12 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Path("/chat")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
-    private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
+    private static final ConcurrentLinkedQueue<String> logined = new ConcurrentLinkedQueue<>();
     private static final ConcurrentArrayQueue<String> chat = loadHistory();
 
     public ChatResource() {
