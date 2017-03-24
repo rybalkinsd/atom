@@ -2,7 +2,6 @@ package ru.atom.http.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.util.ConcurrentArrayQueue;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,8 +13,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 @Path("/chat")
-public class ChatResource {
-    private static final Logger log = LogManager.getLogger(ChatResource.class);
+public class HackatonChatResource {
+    private static final Logger log = LogManager.getLogger(HackatonChatResource.class);
 
     @POST
     @Consumes("application/x-www-form-urlencoded")

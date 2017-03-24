@@ -8,7 +8,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-public class HttpServer {
+public class HackatonHttpServer {
     public static void main(String[] args) throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
@@ -48,7 +48,7 @@ public class HttpServer {
         ResourceHandler handler = new ResourceHandler();
         handler.setWelcomeFiles(new String[]{"index.html"});
 
-        String serverRoot = HttpServer.class.getResource("/static").toString();
+        String serverRoot = HackatonHttpServer.class.getResource("/static").toString();
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
