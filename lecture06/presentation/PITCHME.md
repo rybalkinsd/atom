@@ -1,6 +1,6 @@
 #HSLIDE
 # Java
-lecture 5
+lecture 6
 ## Java + DB 
 
 
@@ -30,9 +30,7 @@ linux
 apt-get install postgresql-9.4
 ```
 
-windows
-
-    [[Download page]](https://www.postgresql.org/download/windows/)
+windows [[Download page]](https://www.postgresql.org/download/windows/)
 
 
 mac
@@ -51,6 +49,8 @@ mac
 ```postgresql
 select * from pg_catalog.pg_tables;
 ```
+
+`\q to exit :)`
 
 #HSLIDE
 ### Agenda
@@ -265,6 +265,35 @@ commit;
 ### Java Database Connectivity
 <img src="lecture06/presentation/assets/img/jdbc.png" alt="process" style="width: 750px;"/>
 
+
+#HSLIDE
+### Connection
+```java
+import java.sql.*;
+
+Class.forName("org.postgresql.Driver");
+Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+Statement stm = con.createStatement();
+ResultSet rs = stm.executeQuery("select * from chat.user");
+```
+
+#HSLIDE
+### Dao
+@See ru.atom.lecture06.server.model
+@See ru.atom.lecture06.server.dao
+
+- dao
+- model
+- dbConnection
+
+#HSLIDE
+### DAO
+
+
+
+
+#HSLIDE
+### Types mapping
 
 #HSLIDE
 ### Summary
