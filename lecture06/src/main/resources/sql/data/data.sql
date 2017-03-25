@@ -13,3 +13,6 @@ select *
 from chat.message
 where time > '2017-03-25';
 
+select *
+from chat."user";
+

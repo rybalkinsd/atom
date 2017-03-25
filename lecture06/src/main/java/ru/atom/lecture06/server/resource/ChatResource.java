@@ -47,10 +47,12 @@ public class ChatResource {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        newUser = userDao.getByName(name);
         log.info("[" + name + "] logined");
-
-        //TODO send message "[user]: joined"
-
+        Message message = new Message()
+                .setUser(newUser)
+                .setValue("[" + name + "] logined");
+        messageDao.insert(message);
         return Response.ok().build();
     }
 
@@ -97,17 +99,14 @@ public class ChatResource {
     @Path("/chat")
     public Response chat(@QueryParam("name") String name) {
         if (name == null || name.isEmpty()) {
-            List<Message> chatHistory = messageDao.getAll();
-            return Response.ok(String.join("\n", chatHistory
-                    .stream()
-                    .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
-                    .collect(Collectors.toList()))).build();
+            return Response.ok("You should login to read chat").build();
         }
 
         User user = userDao.getByName(name);
 
         if (user == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
+            return Response.ok("You should login to read chat").build();
+            // return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
         }
 
         List<Message> chatHistory = messageDao.getAll();
