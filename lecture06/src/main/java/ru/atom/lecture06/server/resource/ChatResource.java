@@ -47,7 +47,7 @@ public class ChatResource {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
-        log.info("[" + name + "] joined");
+        log.info("[" + name + "] logined");
 
         Message message = new Message()
                 .setUser(userDao.getByName(name))
