@@ -6,7 +6,7 @@ values ('admin');
 insert into chat.message ("user", time, value)
 values (currval('chat.user_id_seq'), now(), 'my super user message');
 
-delete from chat.user where login = 'admin';
+delete from chat.user where login = 'cxv';
 
 --- select test
 select *

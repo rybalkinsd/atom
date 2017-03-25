@@ -4,16 +4,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.ws.rs.core.Response;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.sql.Statement;
 
 /**
  * Created by sergey on 3/25/17.
@@ -87,7 +86,19 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        User user = null;
+        try (Connection connection = DbConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement("select* from chat.user where login = ? ")
+        ) {
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                user = mapToUser(rs);
+            }
+        } catch (SQLException e) {
+            log.error("Failed to get user by name {}", name, e);
+        }
+        return user;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

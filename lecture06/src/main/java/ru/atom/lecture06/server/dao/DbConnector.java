@@ -3,6 +3,7 @@ package ru.atom.lecture06.server.dao;
 /**
  * Created by sergey on 3/25/17.
  */
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,9 +19,9 @@ class DbConnector {
     private static final String URL;
     private static final String HOST = "wtfis.ru";
     private static final int PORT = 5432;
-    private static final String DB_NAME = "chatdb_sasha";
-    private static final String USER = "sasha";
-    private static final String PASSWORD = "int21h";
+    private static final String DB_NAME = "chatdb_atom34";
+    private static final String USER = "atom34";
+    private static final String PASSWORD = "atom34";
 
     static {
         try {
@@ -38,5 +39,6 @@ class DbConnector {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    private DbConnector() { }
+    private DbConnector() {
+    }
 }
