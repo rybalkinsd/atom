@@ -98,8 +98,10 @@ Within
 
 #HSLIDE
 ### DB types
-todo
-
+- SQL
+- NoSQL
+- In-memory
+- embedded
 
 #HSLIDE
 ### Transaction
