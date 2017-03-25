@@ -48,9 +48,11 @@ public class ChatResource {
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
-
-        //TODO send message "[user]: joined"
-
+        User author = userDao.getByName(name);
+        Message message = new Message()
+                .setUser(author)
+                .setValue("joined");
+        messageDao.insert(message);
         return Response.ok().build();
     }
 
@@ -113,7 +115,7 @@ public class ChatResource {
         List<Message> chatHistory = messageDao.getAll();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
 }
