@@ -6,6 +6,7 @@ import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.validation.constraints.Null;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -87,7 +88,13 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        User user;
+        try {
+            user = getAllWhere("chat.user.login = '" + name + "'").get(0);
+        } catch (IndexOutOfBoundsException e) {
+            user = null;
+        }
+        return user;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

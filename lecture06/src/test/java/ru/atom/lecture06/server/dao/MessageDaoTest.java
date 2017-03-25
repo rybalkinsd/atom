@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageDaoTest {
     private MessageDao messageDao;
+    private UserDao userDao;
     private String msg ;
     private Message message;
     private int messagesBeforeTest;
@@ -22,10 +23,12 @@ public class MessageDaoTest {
     @Before
     public void setUp() throws Exception {
         messageDao = new MessageDao();
+        userDao = new UserDao();
         msg = "Hello World " + new Random().nextInt(999999);
+        User user = userDao.getAll().get(0);
         messagesBeforeTest = messageDao.getAll().size();
         message = new Message()
-                .setUser(new User().setId(7))
+                .setUser(user)
                 .setValue(msg);
 
         messageDao.insert(message);
