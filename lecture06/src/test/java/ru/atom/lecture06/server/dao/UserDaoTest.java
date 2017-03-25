@@ -53,7 +53,7 @@ public class UserDaoTest {
     @Test
     public void getByNameTest() throws Exception {
         List<User> users = userDao.getAll();
-        if(!users.isEmpty()){
+        if (!users.isEmpty()) {
             assertEquals(users.get(0), userDao.getByName(users.get(0).getLogin()));
         }
     }

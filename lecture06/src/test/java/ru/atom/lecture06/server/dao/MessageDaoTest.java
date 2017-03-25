@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageDaoTest {
     private MessageDao messageDao;
-    private String msg ;
+    private String msg;
     private Message message;
     private int messagesBeforeTest;
 

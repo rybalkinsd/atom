@@ -41,7 +41,9 @@ public class User {
         User user = (User) o;
 
         if (id != user.id) return false;
-        return login != null ? login.equals(user.login) : user.login == null;
+        if (login != null ? !login.equals(user.login) : user.login != null) return false;
+
+        return true;
     }
 
     @Override
