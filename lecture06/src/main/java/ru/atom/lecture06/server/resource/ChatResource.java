@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class ChatResource {
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        messageDao.insert(new Message().setUser(userDao.getByName(name)).setTimestamp(new Date()).setValue("joined"));
 
         return Response.ok().build();
     }

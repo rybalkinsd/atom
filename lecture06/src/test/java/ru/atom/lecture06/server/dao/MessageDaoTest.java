@@ -25,7 +25,7 @@ public class MessageDaoTest {
         msg = "Hello World " + new Random().nextInt(999999);
         messagesBeforeTest = messageDao.getAll().size();
         message = new Message()
-                .setUser(new User().setId(7))
+                .setUser(new User().setId(14))
                 .setValue(msg);
 
         messageDao.insert(message);
