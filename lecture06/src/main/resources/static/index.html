@@ -76,6 +76,7 @@
             $( "#history" ).html(response.replace(/\n/g, "<br />"))
             $( "#history" ).scrollTop( $( "#history" )[0].scrollHeight );
         }).fail(function (jqXHR, textStatus) {
+            $( "#history" ).html("Not logined");
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
