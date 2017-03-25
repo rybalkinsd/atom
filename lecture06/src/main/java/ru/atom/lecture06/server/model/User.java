@@ -1,5 +1,5 @@
 package ru.atom.lecture06.server.model;
-
+import ru.atom.lecture06.server.dao.MessageDao;
 /**
  * Created by sergey on 3/25/17.
  */
@@ -22,6 +22,7 @@ public class User {
 
     public User setLogin(String login) {
         this.login = login;
+
         return this;
     }
 

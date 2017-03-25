@@ -29,6 +29,8 @@ public class UserDao implements Dao<User> {
             "select * " +
             "from chat.user " +
             "where ";
+    @Language("sql")
+    private static final String SELECT_MSG = " select * " + " from chat.message " + "WHERE USER = ('%s')"
 
     @Language("sql")
     private static final String INSERT_USER_TEMPLATE =
@@ -51,6 +53,9 @@ public class UserDao implements Dao<User> {
 
         return persons;
     }
+
+  //
+
 
     @Override
     public List<User> getAllWhere(String... conditions) {

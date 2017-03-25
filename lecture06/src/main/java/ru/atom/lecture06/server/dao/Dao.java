@@ -1,5 +1,7 @@
 package ru.atom.lecture06.server.dao;
 
+import ru.atom.lecture06.server.model.User;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -36,4 +38,5 @@ public interface Dao<T> {
                 getAllWhere("id=" + id).get(0)
         );
     }
+
 }

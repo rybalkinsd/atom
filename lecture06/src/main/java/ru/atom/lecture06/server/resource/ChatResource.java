@@ -59,7 +59,10 @@ public class ChatResource {
     @Path("/online")
     public Response online() {
         List<User> all = userDao.getAll();
-        return Response.ok(String.join("\n", all.stream().map(User::getLogin).collect(Collectors.toList()))).build();
+        return Response.ok(String.join("\n", all.stream()
+                .map(User::getLogin)
+                .collect(Collectors.toList())))
+                .build();
     }
 
     @POST
@@ -97,6 +100,9 @@ public class ChatResource {
     @Path("/chat")
     public Response chat() {
         List<Message> chatHistory = messageDao.getAll();
-        return Response.ok(String.join("\n", chatHistory.stream().map(Message::getValue).collect(Collectors.toList()))).build();
+        return Response.ok(String.join("\n", chatHistory.stream()
+                .map(Message::getValue)
+                .collect(Collectors.toList())))
+                .build();
     }
 }
