@@ -3,6 +3,11 @@ package ru.atom.lecture06.server.resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.util.ConcurrentArrayQueue;
+import org.w3c.dom.UserDataHandler;
+import ru.atom.lecture06.server.dao.MessageDao;
+import ru.atom.lecture06.server.dao.UserDao;
+import ru.atom.lecture06.server.model.Message;
+import ru.atom.lecture06.server.model.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -12,13 +17,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
-    private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
-    private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
+    private static final UserDao userDao = new UserDao();
+    private static final MessageDao messageDao = new MessageDao();
+
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -27,18 +35,20 @@ public class ChatResource {
         if (name.length() < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too short name, sorry :(").build();
         }
-        if (name.length() > 30) {
+        if (name.length() > 20) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
         }
         if (name.toLowerCase().contains("gitler")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Gitler not allowed, sorry :(").build();
         }
-        if (logined.contains(name)) {
+        List<User> alreadyLogined = userDao.getAllWhere("user.login = " + name);
+        if (alreadyLogined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
         log.info("[" + name + "] logined");
-        logined.add(name);
-        chat.add("[" + name + "] joined");
+        User newUser = new User();
+        newUser.setLogin(name);
+        userDao.insert(newUser);
         return Response.ok().build();
     }
 
@@ -46,7 +56,8 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/online")
     public Response online() {
-        return Response.ok(String.join("\n", logined)).build();
+        List<User> all = userDao.getAll();
+        return Response.ok(String.join("\n", all.stream().map(User::getLogin).collect(Collectors.toList()))).build();
     }
 
     @POST
@@ -56,7 +67,9 @@ public class ChatResource {
         if (name == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Name not provided").build();
         }
-        if (!logined.contains(name)) {
+
+        List<User> alreadyLogined = userDao.getAllWhere("user.login = " + name);
+        if (alreadyLogined.isEmpty()) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
         if (msg == null) {
@@ -65,8 +78,12 @@ public class ChatResource {
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
+        User author = alreadyLogined.get(0);
         log.info("[" + name + "]: " + msg);
-        chat.add("[" + name + "]: " + msg);
+        Message message = new Message();
+        message.setUser(author.getId());
+        message.setValue(msg);
+        messageDao.insert(message);
         return Response.ok().build();
     }
 
@@ -74,6 +91,7 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/chat")
     public Response chat() {
-        return Response.ok(String.join("\n", chat)).build();
+        List<Message> chatHistory = messageDao.getAll();
+        return Response.ok(String.join("\n", chatHistory.stream().map(Message::getValue).collect(Collectors.toList()))).build();
     }
 }
