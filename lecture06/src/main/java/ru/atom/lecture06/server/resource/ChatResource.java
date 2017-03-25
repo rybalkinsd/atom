@@ -95,8 +95,21 @@ public class ChatResource {
     @GET
     @Produces("text/plain")
     @Path("/chat")
-    public Response chat() {
+    public Response chat(@QueryParam("name") String name) {
+        if (name == null) {
+            return Response.status(Response.Status.NO_CONTENT).entity("Login to see messages").build();
+        }
+
+        User user = userDao.getByName(name);
+
+        if (user == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
+        }
+
         List<Message> chatHistory = messageDao.getAll();
-        return Response.ok(String.join("\n", chatHistory.stream().map(Message::getValue).collect(Collectors.toList()))).build();
+        return Response.ok(String.join("\n", chatHistory
+                .stream()
+                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .collect(Collectors.toList()))).build();
     }
 }

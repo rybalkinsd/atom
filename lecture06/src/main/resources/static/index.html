@@ -66,9 +66,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
     function loadHistory() {
+        var name = $('#nameform').serialize();
         var settings = {
             "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/chat",
+            "url": "http://" + host + ":" + port + "/chat/chat?"+name,
             "method": "GET",
         }
         $.ajax(settings).done(function (response) {
@@ -115,4 +116,3 @@
         });
     }
 </script>
-Raw
