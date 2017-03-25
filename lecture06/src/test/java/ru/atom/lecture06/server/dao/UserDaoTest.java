@@ -36,6 +36,11 @@ public class UserDaoTest {
     }
 
     @Test
+    public void getByNameTest() throws Exception {
+        assertTrue(userDao.getByName(login).getLogin().equals(login));
+    }
+
+    @Test
     public void insertTest() throws Exception {
         assertEquals(usersBeforeTest + 1, userDao.getAll().size());
     }

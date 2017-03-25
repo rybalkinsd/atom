@@ -48,8 +48,9 @@ public class ChatResource {
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
+        User user = userDao.getByName(name);
 
-        //TODO send message "[user]: joined"
+        messageDao.insert(new Message().setUser(user).setValue("[" + user.getLogin() + "]: joined"));
 
         return Response.ok().build();
     }
@@ -69,6 +70,7 @@ public class ChatResource {
         if (name == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Name not provided").build();
         }
+
         if (msg == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
         }
