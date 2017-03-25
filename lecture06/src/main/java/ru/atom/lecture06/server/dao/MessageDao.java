@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.Message;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,6 +26,15 @@ public class MessageDao implements Dao<Message> {
                     "from chat.message as m " +
                     "join chat.user as u" +
                     "  on m.user = u.id " +
+                    "order by m.time";
+
+    @Language("sql")
+    private static final String SELECT_ALL_MESSAGES_WHERE =
+            "select m.time, m.value, u.*" +
+                    "from chat.message as m " +
+                    "join chat.user as u" +
+                    "  on m.user = u.id " +
+                    "where %s " +
                     "order by m.time";
 
     @Language("sql")
@@ -54,7 +62,22 @@ public class MessageDao implements Dao<Message> {
 
     @Override
     public List<Message> getAllWhere(String... conditions) {
-        throw new NotImplementedException();
+        List<Message> messages = new ArrayList<>();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+
+            String condition = String.join(" and ", conditions);
+            ResultSet rs = stm.executeQuery(String.format(SELECT_ALL_MESSAGES_WHERE, condition));
+            while (rs.next()) {
+                messages.add(mapToMessage(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getAll where.", e);
+            return Collections.emptyList();
+        }
+
+        return messages;
     }
 
     @Override
