@@ -47,10 +47,13 @@ public class ChatResource {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        newUser.setId(userDao.getByName(name).getId());
+        Message message = new Message()
+                .setUser(newUser)
+                .setValue("logined");
+
+        messageDao.insert(message);
         log.info("[" + name + "] logined");
-
-        //TODO send message "[user]: joined"
-
         return Response.ok().build();
     }
 
