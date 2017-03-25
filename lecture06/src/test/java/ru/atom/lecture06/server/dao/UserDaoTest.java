@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * Created by sergey on 3/25/17.
  */
 public class UserDaoTest {
-    private UserDao userDao = new UserDao();
+    private UserDao userDao;
     private String login;
     private User user;
     private int usersBeforeTest;
@@ -23,7 +23,7 @@ public class UserDaoTest {
     @Before
     public void setUp() throws Exception {
         userDao = new UserDao();
-        login = "Lolita" + new Random().nextInt(999999);
+        login = "Lolita " + new Random().nextInt(999999);
         user = new User().setLogin(login);
         usersBeforeTest = userDao.getAll().size();
 
@@ -46,7 +46,7 @@ public class UserDaoTest {
         assertTrue(
                 lol.stream()
                         .map(User::getLogin)
-                        .anyMatch(s -> s.startsWith("Lolita"))
+                        .anyMatch(s -> s.startsWith(login))
         );
     }
 

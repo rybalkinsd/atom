@@ -64,7 +64,7 @@ public class UserDao implements Dao<User> {
                 persons.add(mapToUser(rs));
             }
         } catch (SQLException e) {
-            log.error("Failed to getAll.", e);
+            log.error("Failed to getAll where.", e);
             return Collections.emptyList();
         }
 

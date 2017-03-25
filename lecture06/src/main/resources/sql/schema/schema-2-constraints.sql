@@ -1,5 +1,3 @@
-begin;
-
 drop schema if exists chat cascade;
 create schema chat;
 
@@ -20,6 +18,3 @@ create table chat.message (
 
   primary key (id)
 );
-
-commit;
-

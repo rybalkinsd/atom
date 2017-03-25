@@ -6,26 +6,16 @@ import java.util.Date;
  * Created by sergey on 3/25/17.
  */
 public class Message {
-    private long user;
-    private long userId;
+    private User user;
     private Date timestamp;
     private String value;
 
-    public long getUser() {
+    public User getUser() {
         return user;
     }
 
-    public Message setUser(long id) {
-        this.user = id;
-        return this;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public Message setUserId(long userId) {
-        this.userId = userId;
+    public Message setUser(User user) {
+        this.user = user;
         return this;
     }
 
@@ -45,5 +35,14 @@ public class Message {
     public Message setValue(String value) {
         this.value = value;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "user=" + user +
+                ", timestamp=" + timestamp +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
