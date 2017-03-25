@@ -49,7 +49,7 @@ public class ChatResource {
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        say(name, "{}: joined".format(name));
 
         return Response.ok().build();
     }
@@ -59,7 +59,9 @@ public class ChatResource {
     @Path("/online")
     public Response online() {
         List<User> all = userDao.getAll();
-        return Response.ok(String.join("\n", all.stream().map(User::getLogin).collect(Collectors.toList()))).build();
+        return Response.ok(String.join("\n", all.stream()
+                .map(User::getLogin)
+                .collect(Collectors.toList()))).build();
     }
 
     @POST
