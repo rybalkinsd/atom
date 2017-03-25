@@ -82,7 +82,10 @@ public class ChatResource {
         }
         User author = authors.get(0);
 
-        Message message = new Message().setUser(author.getId()).setValue(msg);
+        Message message = new Message()
+                .setUser(author)
+                .setValue(msg);
+
         messageDao.insert(message);
         log.info("[" + name + "]: " + msg);
 
