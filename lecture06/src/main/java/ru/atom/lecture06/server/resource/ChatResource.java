@@ -45,11 +45,14 @@ public class ChatResource {
         if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
+
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        messageDao.insert(new Message()
+                .setUser(userDao.getByName(name))
+                .setValue("joined"));
 
         return Response.ok().build();
     }
@@ -113,7 +116,7 @@ public class ChatResource {
         List<Message> chatHistory = messageDao.getAll();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
 }
