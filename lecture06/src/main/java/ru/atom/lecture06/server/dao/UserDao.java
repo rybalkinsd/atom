@@ -37,19 +37,19 @@ public class UserDao implements Dao<User> {
 
     @Override
     public List<User> getAll() {
-        List<User> persons = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()) {
             ResultSet rs = stm.executeQuery(SELECT_ALL_USERS);
             while (rs.next()) {
-                persons.add(mapToUser(rs));
+                users.add(mapToUser(rs));
             }
         } catch (SQLException e) {
             log.error("Failed to getAll.", e);
             return Collections.emptyList();
         }
 
-        return persons;
+        return users;
     }
 
     @Override
