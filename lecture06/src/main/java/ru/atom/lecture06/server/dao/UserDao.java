@@ -87,7 +87,19 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        User user = new User();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+
+            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + "login= '" + name + "'");
+            rs.next();
+            user = mapToUser(rs);
+
+        } catch (SQLException e) {
+            log.error("Failed to getByName.", e);
+        }
+        return user;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
