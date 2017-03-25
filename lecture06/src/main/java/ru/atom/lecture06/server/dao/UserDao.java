@@ -63,6 +63,7 @@ public class UserDao implements Dao<User> {
         ) {
 
             String condition = String.join(" and ", conditions);
+
             ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition);
             while (rs.next()) {
                 persons.add(mapToUser(rs));
@@ -87,7 +88,11 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        List<User> users = getAllWhere(("login = \'" + name + "\'"));
+        if (users.size() == 1) {
+            return users.get(0);
+        }
+        return null;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
