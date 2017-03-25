@@ -32,7 +32,7 @@ public class MessageDao implements Dao<Message> {
     @Language("sql")
     private static final String INSERT_MESSAGE_TEMPLATE =
             "insert into chat.message (\"user\", time, value)" +
-                    "values (%d, now(), '%s')";
+                    "values ('%d', now(), '%s')";
 
     @Override
     public List<Message> getAll() {
