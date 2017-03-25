@@ -15,14 +15,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageDaoTest {
     private MessageDao messageDao;
-    private String msg = "Hello World";
+    private String msg ;
     private Message message;
     private int messagesBeforeTest;
 
     @Before
     public void setUp() throws Exception {
         messageDao = new MessageDao();
-        msg = "Lolita" + new Random().nextInt(999999);
+        msg = "Hello World " + new Random().nextInt(999999);
         messagesBeforeTest = messageDao.getAll().size();
         message = new Message()
                 .setUser(new User().setId(7))

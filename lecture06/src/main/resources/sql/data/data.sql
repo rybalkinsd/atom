@@ -4,7 +4,7 @@ values ('admin');
 
 
 insert into chat.message ("user", time, value)
-values (currval('user_id_seq'), now(), 'my super user message');
+values (currval('chat.user_id_seq'), now(), 'my super user message');
 
 delete from chat.user where login = 'admin';
 

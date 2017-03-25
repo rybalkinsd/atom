@@ -38,10 +38,10 @@ public class ChatResource {
         if (name.length() > 20) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
         }
-        if (name.toLowerCase().contains("gitler")) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Gitler not allowed, sorry :(").build();
+        if (name.toLowerCase().contains("hitler")) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
-        List<User> alreadyLogined = userDao.getAllWhere("user.login = " + name);
+        List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
         if (alreadyLogined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
@@ -76,7 +76,7 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
 
-        List<User> authors = userDao.getAllWhere("user.login = " + name);
+        List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
         if (authors.isEmpty()) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
         }
