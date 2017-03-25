@@ -20,7 +20,7 @@ class DbConnector {
     private static final int PORT = 5432;
     private static final String DB_NAME = "testdb";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "atompass";
+    private static final String PASSWORD = "";
 
     static {
         try {
