@@ -113,7 +113,7 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
         }
 
-        List<Message> chatHistory = messageDao.getAll();
+        List<Message> chatHistory = messageDao.getAllWhere("login = '" + name + "'");
         return Response.ok(String.join("\n", chatHistory
                 .stream()
                 .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())

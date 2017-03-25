@@ -54,7 +54,27 @@ public class MessageDao implements Dao<Message> {
 
     @Override
     public List<Message> getAllWhere(String... conditions) {
-        throw new NotImplementedException();
+        List<Message> messages = new ArrayList<>();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            String condition = String.join(" and ", conditions);
+            ResultSet rs = stm.executeQuery(
+                    "select m.time, m.value, u.*" +
+                            "from chat.message as m " +
+                            "join chat.user as u" +
+                            "  on m.user = u.id " +
+                            "where " + condition +
+                            "order by m.time");
+            while (rs.next()) {
+                messages.add(mapToMessage(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getAll.", e);
+            return Collections.emptyList();
+        }
+
+        return messages;
     }
 
     @Override

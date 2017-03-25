@@ -40,5 +40,4 @@ public class MessageDaoTest {
     public void insertTest() throws Exception {
         assertEquals(messagesBeforeTest + 1, messageDao.getAll().size());
     }
-
 }
