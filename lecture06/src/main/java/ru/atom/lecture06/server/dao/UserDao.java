@@ -6,6 +6,7 @@ import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.swing.plaf.nimbus.State;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -36,6 +37,10 @@ public class UserDao implements Dao<User> {
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";
+
+    @Language("sql")
+    private static final String GET_BY_NAME =
+            "select *" + "from chat.user" + "where login='";
 
     @Override
     public List<User> getAll() {
@@ -87,7 +92,15 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            List<User> users = this.getAllWhere("chat.user.login='" + name + "'");
+            return users.get(0);
+        } catch (SQLException e) {
+            log.error("Failed to getByName where.", e);
+            return null;
+        }
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
