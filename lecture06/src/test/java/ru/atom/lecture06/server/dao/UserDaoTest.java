@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.atom.lecture06.server.model.User;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.List;
 import java.util.Random;
 
@@ -48,6 +49,12 @@ public class UserDaoTest {
                         .map(User::getLogin)
                         .anyMatch(s -> s.startsWith(login))
         );
+    }
+
+    @Test
+    public void getByNameTest() throws Exception {
+        User userByName = userDao.getByName(login);
+        assertEquals(userByName.getLogin(), user.getLogin());
     }
 
 }
