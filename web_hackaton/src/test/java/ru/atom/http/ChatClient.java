@@ -1,12 +1,7 @@
 package ru.atom.http;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import sun.util.resources.cldr.ms.CalendarData_ms_MY;
 
 import java.io.IOException;
 
@@ -14,7 +9,7 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "wtfis.ru";
+    private static final String HOST = "localhost";
     private static final String PORT = ":8080";
 
     //GET host:port/chat/online
