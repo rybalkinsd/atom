@@ -6,6 +6,6 @@ rootProject.name = 'atom'
 //include 'lecture05'
 include 'lecture06'
 
-include 'homeworks/HW1'
+//include 'homeworks/HW1'
 
 
