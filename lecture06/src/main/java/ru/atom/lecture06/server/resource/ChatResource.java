@@ -47,9 +47,12 @@ public class ChatResource {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        User user = userDao.getByName(name);
+        Message message = new Message()
+                .setUser(user)
+                .setValue("joined");
+        messageDao.insert(message);
         log.info("[" + name + "] logined");
-
-        //TODO send message "[user]: joined"
 
         return Response.ok().build();
     }
@@ -74,6 +77,9 @@ public class ChatResource {
         }
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
+        }
+        if (msg.length() == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too small message").build();
         }
 
         List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
@@ -113,7 +119,7 @@ public class ChatResource {
         List<Message> chatHistory = messageDao.getAll();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
 }
