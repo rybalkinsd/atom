@@ -22,7 +22,7 @@ public class User {
     private String generatePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-256");
         crypt.reset();
-        crypt.update(password.getBytes("UTF-8"));
+        crypt.update((name + password).getBytes("UTF-8"));
 
         return new BigInteger(1, crypt.digest()).toString(16);
     }
@@ -33,14 +33,14 @@ public class User {
 
     public boolean changePassword(String old_password, String new_password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        if(this.validPassword(old_password)) {
+        if (this.validPassword(old_password)) {
             this.password = generatePassword(new_password);
             return true;
         }
         return false;
     }
 
-    public boolean validPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+    public boolean validPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         return this.password.equals(generatePassword(password));
     }
 
