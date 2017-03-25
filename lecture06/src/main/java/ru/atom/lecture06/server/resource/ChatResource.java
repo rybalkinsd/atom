@@ -49,7 +49,9 @@ public class ChatResource {
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        messageDao.insert(new Message()
+                .setUser(userDao.getAllWhere("chat.user.login = '" + name + "'").get(0))
+                .setValue("logined"));
 
         return Response.ok().build();
     }

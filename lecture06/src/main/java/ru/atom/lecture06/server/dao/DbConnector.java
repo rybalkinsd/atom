@@ -18,9 +18,9 @@ class DbConnector {
     private static final String URL;
     private static final String HOST = "wtfis.ru";
     private static final int PORT = 5432;
-    private static final String DB_NAME = "chatdb_sasha";
-    private static final String USER = "sasha";
-    private static final String PASSWORD = "int21h";
+    private static final String DB_NAME = "chatdb_atom20";
+    private static final String USER = "atom20";
+    private static final String PASSWORD = "atom20";
 
     static {
         try {
