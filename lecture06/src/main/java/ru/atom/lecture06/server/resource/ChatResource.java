@@ -45,8 +45,7 @@ public class ChatResource {
         if (alreadyLogined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        User newUser = new User();
-        newUser.setLogin(name);
+        User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
@@ -83,9 +82,7 @@ public class ChatResource {
         }
         User author = authors.get(0);
 
-        Message message = new Message();
-        message.setUser(author.getId());
-        message.setValue(msg);
+        Message message = new Message().setUser(author.getId()).setValue(msg);
         messageDao.insert(message);
         log.info("[" + name + "]: " + msg);
 
