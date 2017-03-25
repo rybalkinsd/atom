@@ -45,10 +45,13 @@ public class ChatResource {
         if (alreadyLogined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        log.info("[" + name + "] logined");
         User newUser = new User();
         newUser.setLogin(name);
         userDao.insert(newUser);
+        log.info("[" + name + "] logined");
+
+        //TODO send message "[user]: joined"
+
         return Response.ok().build();
     }
 
@@ -67,23 +70,25 @@ public class ChatResource {
         if (name == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Name not provided").build();
         }
-
-        List<User> alreadyLogined = userDao.getAllWhere("user.login = " + name);
-        if (alreadyLogined.isEmpty()) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
-        }
         if (msg == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("No message provided").build();
         }
         if (msg.length() > 140) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
-        User author = alreadyLogined.get(0);
-        log.info("[" + name + "]: " + msg);
+
+        List<User> authors = userDao.getAllWhere("user.login = " + name);
+        if (authors.isEmpty()) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
+        }
+        User author = authors.get(0);
+
         Message message = new Message();
         message.setUser(author.getId());
         message.setValue(msg);
         messageDao.insert(message);
+        log.info("[" + name + "]: " + msg);
+
         return Response.ok().build();
     }
 
