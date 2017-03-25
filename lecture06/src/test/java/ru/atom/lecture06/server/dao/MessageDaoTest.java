@@ -41,4 +41,5 @@ public class MessageDaoTest {
         assertEquals(messagesBeforeTest + 1, messageDao.getAll().size());
     }
 
+    
 }
