@@ -286,18 +286,18 @@ ResultSet rs = stm.executeQuery("select * from chat.user");
 - model
 - dbConnection
 
-#HSLIDE
-### DAO
-
-
-
 
 #HSLIDE
 ### Types mapping
+<img src="lecture06/presentation/assets/img/dataType.png" alt="process" style="width: 750px;"/>
+
 
 #HSLIDE
 ### Summary
-1. Не нужно делать лекции ночью
+1. JDBC is simple
+1. JDBC leads to tones of boiler plate code
+1. Mapper mapper mapper mapper mapper
+1. Use transactions for atomic operations
 
 
 #HSLIDE
