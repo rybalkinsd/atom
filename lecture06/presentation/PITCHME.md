@@ -293,6 +293,17 @@ ResultSet rs = stm.executeQuery("select * from chat.user");
 ### Types mapping
 <img src="lecture06/presentation/assets/img/dataType.png" alt="process" style="width: 750px;"/>
 
+#HSLIDE
+### Practice
+0) Check that DbConnector uses right **login**, **password** and **database**
+
+1) **ChatResource.login()** does not prompt message that user is logined
+Implement it using **MessageDao**
+
+2) Now we want to see messages only by logined users
+**ChatResource.chat()** now requires name to show chat messages
+**Implement UserDao.getByName(String name)**
+
 
 #HSLIDE
 ### Summary

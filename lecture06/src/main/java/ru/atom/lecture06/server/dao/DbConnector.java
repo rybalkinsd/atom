@@ -20,7 +20,6 @@ class DbConnector {
     private static final int PORT = 5432;
     private static final String DB_NAME = "chatdb_atom35";
     private static final String USER = "atom35";
-    private static final String PASSWORD = "atom35";
 
     static {
         try {
