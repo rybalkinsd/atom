@@ -50,4 +50,8 @@ public class UserDaoTest {
         );
     }
 
+    @Test
+    public void getByNameTest() throws Exception {
+        assertEquals(userDao.getByName(login).getLogin(), login);
+    }
 }
