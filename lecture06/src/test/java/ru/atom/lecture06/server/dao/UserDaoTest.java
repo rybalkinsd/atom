@@ -50,4 +50,13 @@ public class UserDaoTest {
         );
     }
 
+    @Test
+    public void findByName() throws Exception {
+        String tempLogin = "Lolita " + new Random().nextInt(999999);
+        User tempUser = new User().setLogin(tempLogin);
+        userDao.insert(tempUser);
+        assertEquals(userDao.getByName(tempLogin).getLogin(),
+                tempUser.getLogin());
+    }
+
 }

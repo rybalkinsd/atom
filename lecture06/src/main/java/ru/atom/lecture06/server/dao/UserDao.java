@@ -87,7 +87,7 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        return getAllWhere(String.format("chat.user.login = '%s'",name)).get(0);
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
