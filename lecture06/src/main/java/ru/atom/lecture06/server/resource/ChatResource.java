@@ -42,7 +42,7 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
         List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
-        if (alreadyLogined.contains(name)) {
+        if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
         User newUser = new User().setLogin(name);
@@ -96,8 +96,12 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/chat")
     public Response chat(@QueryParam("name") String name) {
-        if (name == null) {
-            return Response.status(Response.Status.NO_CONTENT).entity("Login to see messages").build();
+        if (name == null || name.isEmpty()) {
+            List<Message> chatHistory = messageDao.getAll();
+            return Response.ok(String.join("\n", chatHistory
+                    .stream()
+                    .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                    .collect(Collectors.toList()))).build();
         }
 
         User user = userDao.getByName(name);
