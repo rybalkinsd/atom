@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,10 +47,13 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
         User newUser = new User().setLogin(name);
-        userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
         //TODO send message "[user]: joined"
+        userDao.insert(newUser);
+        User user = userDao.getByName(name);
+        Message newMessage = new Message().setUser(user).setValue("joined").setTimestamp(new Date());
+        messageDao.insert(newMessage);
 
         return Response.ok().build();
     }

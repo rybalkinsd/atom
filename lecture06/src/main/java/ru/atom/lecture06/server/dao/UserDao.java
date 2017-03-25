@@ -4,9 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +29,13 @@ public class UserDao implements Dao<User> {
             "select * " +
                     "from chat.user " +
                     "where ";
+
+    @Language("sql")
+    private static final String SELECT_USER_BY_NAME =
+            "select * " +
+                    "from chat.user " +
+                    "where login='%s' LIMIT 1";
+
 
     @Language("sql")
     private static final String INSERT_USER_TEMPLATE =
@@ -87,7 +92,17 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        User user = null;
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            ResultSet rs = stm.executeQuery(String.format(SELECT_USER_BY_NAME, name));
+            rs.next();
+            user = mapToUser(rs);
+        } catch (SQLException e) {
+            log.error("Failed to create user {}", name, e);
+        }
+        return user;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
