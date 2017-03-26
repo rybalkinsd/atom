@@ -3,9 +3,7 @@ package ru.atom.resource;
 
 import jersey.repackaged.com.google.common.base.Joiner;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,13 +33,13 @@ public abstract class AbstractStorage<K, V> {
     }
 
     public String toString() {
-        return "[{" + Joiner.on("}, {").join(memory.keySet()) + "}]";
+        return "[" + Joiner.on(", ").join(memory.values()) + "]";
     }
 
-    public ArrayList<K> getAll() {
-        ArrayList<K> result = new ArrayList<>();
-        for (K key : memory.keySet()) {
-            result.add(key);
+    public LinkedList<V> getAll() {
+        LinkedList<V> result = new LinkedList<>();
+        for (V value : memory.values()) {
+            result.add(value);
         }
         return result;
     }

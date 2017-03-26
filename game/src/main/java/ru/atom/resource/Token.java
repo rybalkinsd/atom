@@ -21,5 +21,10 @@ public class Token {
         return user;
     }
 
+    @Override
+    public String toString() {
+        return getToken().toString();
+    }
+
 
 }

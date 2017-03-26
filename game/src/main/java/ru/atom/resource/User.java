@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class User {
     private String name;
-    private String password;
+    private transient String password;
 
     public User(String name, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         this.name = name;
@@ -31,10 +31,10 @@ public class User {
         return name;
     }
 
-    public boolean changePassword(String old_password, String new_password)
+    public boolean changePassword(String oldPassword, String newPassword)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        if (this.validPassword(old_password)) {
-            this.password = generatePassword(new_password);
+        if (this.validPassword(oldPassword)) {
+            this.password = generatePassword(newPassword);
             return true;
         }
         return false;
@@ -63,4 +63,6 @@ public class User {
     public String toString() {
         return getName();
     }
+
+
 }

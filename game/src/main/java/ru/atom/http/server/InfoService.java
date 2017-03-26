@@ -10,7 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by zarina on 23.03.17.
@@ -22,8 +23,22 @@ public class InfoService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/users")
-    public Response list() {
-        log.info("List request");
-        return Response.ok("{\"users\" : " + AuthService.getAllUsers() + "}").build();
+    public Response users() {
+        log.info("Users request");
+        Gson gson = new Gson();
+        HashMap<String, LinkedList<User>> response = new HashMap<>();
+        response.put("users",  AuthService.getAllUsers());
+        return Response.ok(gson.toJson(response)).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/online")
+    public Response online() {
+        log.info("Online request");
+        Gson gson = new Gson();
+        HashMap<String, LinkedList<User>> response = new HashMap<>();
+        response.put("users",  AuthService.getOnlineUsers());
+        return Response.ok(gson.toJson(response)).build();
     }
 }

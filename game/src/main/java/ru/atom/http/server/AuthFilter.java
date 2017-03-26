@@ -38,7 +38,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
     private void validateToken(String token) throws Exception {
         if (!AuthService.validToken(token)) {
-            throw new Exception();
+            throw new NotAuthorizedException("Invalid token");
         }
     }
 }
