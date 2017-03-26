@@ -24,21 +24,22 @@ public class MessageDao implements Dao<Message> {
     @Language("sql")
     private static final String SELECT_ALL_MESSAGES =
             "select m.time, m.value, u.*" +
-            "from chat.message as m " +
-            "join chat.user as u" +
-            "  on m.user = u.id " +
-            "order by m.time";
+                    "from chat.message as m " +
+                    "join chat.user as u" +
+                    "  on m.user = u.id " +
+                    "order by m.time";
 
     @Language("sql")
     private static final String INSERT_MESSAGE_TEMPLATE =
             "insert into chat.message (\"user\", time, value)" +
-            "values (%d, now(), '%s')";
+                    "values (%d, now(), '%s')";
 
     @Override
     public List<Message> getAll() {
         List<Message> messages = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
+             Statement stm = con.createStatement()
+        ) {
             ResultSet rs = stm.executeQuery(SELECT_ALL_MESSAGES);
             while (rs.next()) {
                 messages.add(mapToMessage(rs));
@@ -59,7 +60,8 @@ public class MessageDao implements Dao<Message> {
     @Override
     public void insert(Message message) {
         try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
+             Statement stm = con.createStatement()
+        ) {
             stm.execute(String.format(INSERT_MESSAGE_TEMPLATE, message.getUser().getId(), message.getValue()));
         } catch (SQLException e) {
             log.error("Failed to create message {}", message, e);
@@ -72,8 +74,8 @@ public class MessageDao implements Dao<Message> {
                 .setValue(rs.getString("value"))
                 .setUser(
                         new User()
-                            .setId(rs.getInt("id"))
-                            .setLogin(rs.getString("login"))
+                                .setId(rs.getInt("id"))
+                                .setLogin(rs.getString("login"))
                 );
     }
 }

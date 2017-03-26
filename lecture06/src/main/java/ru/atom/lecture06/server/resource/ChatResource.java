@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/")
-public class ChatResource {
+public class ChatResource extends MessageDao {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
     private static final UserDao userDao = new UserDao();
@@ -42,14 +42,19 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
         List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
-        if (alreadyLogined.contains(name)) {
+        if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
+
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        User author = userDao.getByName(name);
+        Message message = new Message()
+                .setUser(author)
+                .setValue("[" + name + "] logined");
+        messageDao.insert(message);
 
         return Response.ok().build();
     }
@@ -59,10 +64,7 @@ public class ChatResource {
     @Path("/online")
     public Response online() {
         List<User> all = userDao.getAll();
-        return Response.ok(String.join("\n", all.stream()
-                .map(User::getLogin)
-                .collect(Collectors.toList())))
-                .build();
+        return Response.ok(String.join("\n", all.stream().map(User::getLogin).collect(Collectors.toList()))).build();
     }
 
     @POST
@@ -90,6 +92,7 @@ public class ChatResource {
                 .setValue(msg);
 
         messageDao.insert(message);
+
         log.info("[" + name + "]: " + msg);
 
         return Response.ok().build();
@@ -98,11 +101,25 @@ public class ChatResource {
     @GET
     @Produces("text/plain")
     @Path("/chat")
-    public Response chat() {
+    public Response chat(@QueryParam("name") String name) {
+        if (name == null || name.isEmpty()) {
+            List<Message> chatHistory = messageDao.getAll();
+            return Response.ok(String.join("\n", chatHistory
+                    .stream()
+                    .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                    .collect(Collectors.toList()))).build();
+        }
+
+        User user = userDao.getByName(name);
+
+        if (user == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
+        }
+
         List<Message> chatHistory = messageDao.getAll();
-        return Response.ok(String.join("\n", chatHistory.stream()
-                .map(Message::getValue)
-                .collect(Collectors.toList())))
-                .build();
+        return Response.ok(String.join("\n", chatHistory
+                .stream()
+                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .collect(Collectors.toList()))).build();
     }
 }

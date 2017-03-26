@@ -4,7 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.ws.rs.core.Response;
+import java.rmi.NotBoundException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,26 +25,32 @@ public class UserDao implements Dao<User> {
     @Language("sql")
     private static final String SELECT_ALL_USERS =
             "select * " +
-            "from chat.user";
+                    "from chat.user";
 
     @Language("sql")
     private static final String SELECT_ALL_USERS_WHERE =
             "select * " +
-            "from chat.user " +
-            "where ";
-    @Language("sql")
-    private static final String SELECT_MSG = " select * " + " from chat.message " + "WHERE USER = ('%s')"
+                    "from chat.user " +
+                    "where ";
 
     @Language("sql")
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
-            "values ('%s');";
+                    "values ('%s');";
+
+    @Language("sql")
+    private static final String SELECT_ID_BY_LOGIN =
+            "SELECT * " +
+                    "FROM chat.user" +
+                    " WHERE login  = " +
+                    "VALUES ('%s')";
 
     @Override
     public List<User> getAll() {
         List<User> persons = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
+             Statement stm = con.createStatement()
+        ) {
             ResultSet rs = stm.executeQuery(SELECT_ALL_USERS);
             while (rs.next()) {
                 persons.add(mapToUser(rs));
@@ -54,14 +63,12 @@ public class UserDao implements Dao<User> {
         return persons;
     }
 
-  //
-
-
     @Override
     public List<User> getAllWhere(String... conditions) {
         List<User> persons = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
+             Statement stm = con.createStatement()
+        ) {
 
             String condition = String.join(" and ", conditions);
             ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition);
@@ -79,11 +86,22 @@ public class UserDao implements Dao<User> {
     @Override
     public void insert(User user) {
         try (Connection con = DbConnector.getConnection();
-             Statement stm = con.createStatement()) {
+             Statement stm = con.createStatement()
+        ) {
             stm.execute(String.format(INSERT_USER_TEMPLATE, user.getLogin()));
         } catch (SQLException e) {
             log.error("Failed to create user {}", user.getLogin(), e);
         }
+    }
+
+    public User getByName(String name) {
+        try  {
+            return  getAllWhere("chat.user.login = '" + name + "'").get(0);
+        } catch (IndexOutOfBoundsException e) {
+            log.error("User failed", e);
+
+        }
+        return null;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

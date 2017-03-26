@@ -1,7 +1,6 @@
 package ru.atom.lecture06.server.dao;
 
-import ru.atom.lecture06.server.model.User;
-
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,26 +10,21 @@ import java.util.Optional;
 public interface Dao<T> {
     /**
      * SELECT * from ...
-     * @return
      */
     List<T> getAll();
 
     /**
      * SELECT * ... WHERE cond0 AND ... AND condN
-     * @param conditions
-     * @return
      */
     List<T> getAllWhere(String ... conditions);
 
     /**
      * INSERT INTO ...
-     * @param t
      */
     void insert(T t);
 
     /**
      * SELECT * from ... WHERE id=
-     * @param id
      * @return Optional.empty() if nothing found
      */
     default Optional<T> findById(int id) {
@@ -38,5 +32,4 @@ public interface Dao<T> {
                 getAllWhere("id=" + id).get(0)
         );
     }
-
 }
