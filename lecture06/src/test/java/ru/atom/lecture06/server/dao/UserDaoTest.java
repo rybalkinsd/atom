@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -48,6 +49,15 @@ public class UserDaoTest {
                         .map(User::getLogin)
                         .anyMatch(s -> s.startsWith(login))
         );
+    }
+
+    @Test
+    public void findByName() throws Exception {
+        String tempLogin = "Lolita " + new Random().nextInt(999999);
+        User tempUser = new User().setLogin(tempLogin);
+        userDao.insert(tempUser);
+        assertEquals(tempUser.getLogin(), userDao.getByName(tempLogin).getLogin());
+        assertNull(userDao.getByName("nothing"));
     }
 
 }
