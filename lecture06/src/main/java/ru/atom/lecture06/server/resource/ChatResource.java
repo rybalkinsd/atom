@@ -50,6 +50,10 @@ public class ChatResource {
         log.info("[" + name + "] logined");
 
         //TODO send message "[user]: joined"
+        Message message = new Message()
+                .setUser(userDao.getByName(name))
+                .setValue("[" + name + "] joined");
+        messageDao.insert(message);
 
         return Response.ok().build();
     }
