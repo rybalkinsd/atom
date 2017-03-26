@@ -6,6 +6,7 @@ dependencies {
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
 }
 
 
