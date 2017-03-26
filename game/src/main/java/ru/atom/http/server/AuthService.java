@@ -1,6 +1,5 @@
 package ru.atom.http.server;
 
-import jersey.repackaged.com.google.common.base.Joiner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.resource.Token;
@@ -14,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -25,12 +25,12 @@ import java.util.LinkedList;
 @Path("/auth/")
 public class AuthService {
     private static final Logger log = LogManager.getLogger(AuthService.class);
-    private static final UsersStorage users = new UsersStorage();
-    private static final TokenStorage tokens = new TokenStorage();
+    protected static final UsersStorage users = new UsersStorage();
+    protected static final TokenStorage tokens = new TokenStorage();
 
     @POST
     @Path("/register")
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
@@ -51,7 +51,7 @@ public class AuthService {
 
     @POST
     @Path("/login")
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
@@ -80,7 +80,7 @@ public class AuthService {
 
     @POST
     @Path("/changePassword")
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response changePassword(@FormParam("user") String name, @FormParam("password") String oldPassword,
                                    @FormParam("new_password") String newPassword)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {

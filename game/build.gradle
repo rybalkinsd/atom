@@ -1,5 +1,6 @@
 dependencies {
     testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.jersey_test
     compile rootProject.libraries.log4j
     compile rootProject.libraries.okhttp
     compile rootProject.libraries.jetty_server
@@ -15,9 +16,9 @@ sourceSets {
             srcDirs = ['src/main/java']
         }
     }
-/*    test {
+    test {
         java {
             srcDirs = ['src/test/java']
         }
-    }*/
+    }
 }

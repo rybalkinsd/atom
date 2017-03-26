@@ -62,6 +62,8 @@ ext.libraries = [
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        jersey_test:
+                "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
         gson: "com.google.code.gson:gson:$gsonjVersion"
 ]
 
