@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("/")
-public class ChatResource {
+public class ChatResource extends MessageDao {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
     private static final UserDao userDao = new UserDao();
@@ -45,11 +45,16 @@ public class ChatResource {
         if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
+
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
         log.info("[" + name + "] logined");
 
-        //TODO send message "[user]: joined"
+        User author = userDao.getByName(name);
+        Message message = new Message()
+                .setUser(author)
+                .setValue("[" + name + "] logined");
+        messageDao.insert(message);
 
         return Response.ok().build();
     }
@@ -87,6 +92,7 @@ public class ChatResource {
                 .setValue(msg);
 
         messageDao.insert(message);
+
         log.info("[" + name + "]: " + msg);
 
         return Response.ok().build();

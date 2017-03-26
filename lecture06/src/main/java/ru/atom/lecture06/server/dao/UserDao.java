@@ -7,6 +7,7 @@ import ru.atom.lecture06.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ws.rs.core.Response;
+import java.rmi.NotBoundException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +37,13 @@ public class UserDao implements Dao<User> {
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";
+
+    @Language("sql")
+    private static final String SELECT_ID_BY_LOGIN =
+            "SELECT * " +
+                    "FROM chat.user" +
+                    " WHERE login  = " +
+                    "VALUES ('%s')";
 
     @Override
     public List<User> getAll() {
@@ -87,7 +95,13 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        try  {
+            return  getAllWhere("chat.user.login = '" + name + "'").get(0);
+        } catch (IndexOutOfBoundsException e) {
+            log.error("User failed", e);
+
+        }
+        return null;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

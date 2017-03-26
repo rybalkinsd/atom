@@ -14,7 +14,7 @@ create table chat.user (
 drop table if exists chat.message;
 create table chat.message (
   id     serial       not null,
-  "user" integer      not null references chat.user on delete cascade,
+  user integer      not null references chat.user on delete cascade,
   time   timestamp    not null,
   value  varchar(140) not null,
 
