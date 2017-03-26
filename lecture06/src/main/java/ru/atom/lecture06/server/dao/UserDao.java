@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
@@ -87,7 +86,12 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        return getAllWhere(String.format("chat.user.login = '%s'",name)).get(0);
+        List<User> temp = getAllWhere(String.format("chat.user.login = '%s'",name));
+        if (temp.size() == 0) {
+            log.info("User" + name + " is not existed");
+            return null;
+        }
+        return temp.get(0);
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
