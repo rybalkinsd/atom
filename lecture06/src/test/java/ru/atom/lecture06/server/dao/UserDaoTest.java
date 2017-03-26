@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -50,4 +51,10 @@ public class UserDaoTest {
         );
     }
 
+    @Test
+    public void getByNameTest() throws Exception {
+        User user = userDao.getByName(login);
+        assertNotNull(user);
+        assertEquals(user.getLogin(), login);
+    }
 }
