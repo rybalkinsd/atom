@@ -1,4 +1,4 @@
-package tokenClasses;
+package tokens;
 
 /**
  * Created by kinetik on 26.03.17.

@@ -3,7 +3,7 @@ package http;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import tokenClasses.TokenManager;
+import tokens.TokenManager;
 
 /**
  * Created by kinetik on 26.03.17.

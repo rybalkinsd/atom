@@ -1,11 +1,11 @@
-package ru.atom.Tests;
+package ru.atom.tests;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import serviceClasses.User;
-import tokenClasses.Token;
-import tokenClasses.TokenManager;
+import services.User;
+import tokens.Token;
+import tokens.TokenManager;
 
 /**
  * Created by kinetik on 27.03.17.
@@ -13,13 +13,14 @@ import tokenClasses.TokenManager;
 public class TokenManagerTests {
 
     private TokenManager tokenManager;
+
     @Before
-    public void initializer () {
+    public void initializer() {
         this.tokenManager = new TokenManager();
     }
 
     @Test
-    public void putUsers () {
+    public void putUsers() {
         User testUserOne = new User("testUserOne","pwd");
         User testUserTwo = new User("testUserOne","pwd");
         User testUserThree = new User("testUserThree", "pwd");
@@ -37,7 +38,7 @@ public class TokenManagerTests {
     }
 
     @Test
-    public void validateTokenTest () {
+    public void validateTokenTest() {
         String tokenOne = "65793939";
         String tokenTwo = "Name";
         User testFive = new User("testValidate","");
@@ -48,7 +49,7 @@ public class TokenManagerTests {
     }
 
     @Test
-    public void logoutTest () {
+    public void logoutTest() {
         User testSix = new User("testSix","");
         Token token = this.tokenManager.getNewToken(testSix);
         Assert.assertTrue(this.tokenManager.getUserByToken((Long) token.getValue()).equals(testSix));

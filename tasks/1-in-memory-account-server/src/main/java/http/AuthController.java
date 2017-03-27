@@ -2,12 +2,18 @@ package http;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import serviceClasses.User;
-import tokenClasses.Authorized;
-import tokenClasses.Token;
-import tokenClasses.TokenManager;
+import services.User;
+import tokens.Authorized;
+import tokens.Token;
+import tokens.TokenManager;
 
-import javax.ws.rs.*;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,7 +55,7 @@ public class AuthController {
     @Produces("text/plain")
     @Path("/login")
     public Response login(@FormParam("login") String name, @FormParam("password") String password) {
-        if (name == null ) {
+        if (name == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Bad username").build();
         }
         if (!registared.containsKey(name.trim())) {
@@ -75,7 +81,7 @@ public class AuthController {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     @Path("/logout")
-    public Response logout (@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenIn) {
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenIn) {
         Long token = Long.parseLong(tokenIn.substring("Bearer".length()).trim());
         User user = registared.get(tokenManager.logout(token));
         log.info("[" + user.getName() + "] logout");
@@ -87,7 +93,7 @@ public class AuthController {
     @GET
     @Produces("application/json")
     @Path("/getUsers")
-    public Response getUsers (@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenIn) {
+    public Response getUsers(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenIn) {
         try {
             Long token = Long.parseLong(tokenIn.substring("Bearer".length()).trim());
             log.info("[" + registared.get(tokenManager.getUserByToken(token)).getName() + "] gets users");

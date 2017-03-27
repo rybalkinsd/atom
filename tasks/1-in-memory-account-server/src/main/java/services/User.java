@@ -1,7 +1,7 @@
-package serviceClasses;
+package services;
 
 
-import tokenClasses.Token;
+import tokens.Token;
 
 /**
  * Created by kinetik on 26.03.17.

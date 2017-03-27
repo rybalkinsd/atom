@@ -1,6 +1,10 @@
-package ru.atom.RestClient;
+package ru.atom.client;
 
-import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.Request;
+import okhttp3.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +24,9 @@ public class ClientImpl implements Client {
     private static final OkHttpClient client = new OkHttpClient();
     private Long token;
 
+    public Long getToken() {
+        return this.token;
+    }
 
     public Response register(String user, String password) {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -59,7 +66,11 @@ public class ClientImpl implements Client {
 
         try {
             Response response = client.newCall(request).execute();
-            this.token = Long.parseLong(response.body().string());
+            try {
+                this.token = Long.parseLong(response.body().string());
+            } catch (NumberFormatException ex) {
+                //nothing
+            }
             return response;
         } catch (IOException e) {
             log.warn("Something went wrong in login.", e);

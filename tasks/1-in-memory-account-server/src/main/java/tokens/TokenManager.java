@@ -1,8 +1,8 @@
-package tokenClasses;
+package tokens;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import serviceClasses.User;
+import services.User;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -28,7 +28,7 @@ public class TokenManager implements ContainerRequestFilter {
     public TokenManager() {
     }
 
-    public Token getNewToken (User user) {
+    public Token getNewToken(User user) {
         Long tokenValue;
         while (tokenInserted.containsKey(tokenValue = ThreadLocalRandom.current().nextLong())){ }
         tokenInserted.put(tokenValue, user);
@@ -36,7 +36,7 @@ public class TokenManager implements ContainerRequestFilter {
         return new Token(tokenValue);
     }
 
-    public boolean validateToken (String tokenIn) {
+    public boolean validateToken(String tokenIn) {
         try {
             Long token = Long.parseLong(tokenIn);
             if (tokenInserted.get(token) != null) {
@@ -49,7 +49,7 @@ public class TokenManager implements ContainerRequestFilter {
         }
     }
 
-    public String logout (Long token) {
+    public String logout(Long token) {
         User user = tokenInserted.get(token);
         tokenInserted.remove(token);
         return user.getName();
@@ -59,7 +59,7 @@ public class TokenManager implements ContainerRequestFilter {
         return tokenInserted.get(token);
     }
 
-    public String getLoginUsers () throws JsonProcessingException {
+    public String getLoginUsers() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ArrayList<String> userLogins = new ArrayList<>();
         for (User user: tokenInserted.values()) {

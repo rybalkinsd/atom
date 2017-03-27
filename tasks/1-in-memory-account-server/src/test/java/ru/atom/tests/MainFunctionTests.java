@@ -1,40 +1,49 @@
-package ru.atom.Tests;
+package ru.atom.tests;
 
 import okhttp3.Response;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
-import ru.atom.RestClient.ClientImpl;
+import org.junit.After;
+import ru.atom.client.ClientImpl;
+import tokens.TokenManager;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
  * Created by kinetik on 26.03.17.
  */
 public class MainFunctionTests {
-    /*
-    @Test
-    public void getUsersTests () throws IOException {
-        ClientImpl client = new ClientImpl();
-        ArrayList<String> arrOfUser = new ArrayList<>();
-        String[] names = {"User1", "User2", "User3"};
-        for (String name: names) {
-            client.register(name, name);
-            client.login(name, name);
-            arrOfUser.add(name);
-        }
-        Response registrate = client.register("getUserTest", "");
-        Response getUsersOut = client.getUsers("getUserTest");
-        Response login = client.login("getUserTest", "");
-        Response getUserOne = client.getUsers("getUserTest");
-        String users = getUserOne.body().string();
-        HashMap<String, ArrayList<String>> forJson = new HashMap<>();
-        forJson.put("Users", userLogins);
-        String jsonString = mapper.writeValueAsString(forJson);
 
-    } */
+    Server jettyServer;
+
+    @Before
+    public void serverInitializer() throws Exception {
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/");
+
+        jettyServer = new Server(8080);
+        jettyServer.setHandler(context);
+
+        ServletHolder jerseyServlet = context.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
+
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                "http"
+        );
+
+        jerseyServlet.setInitParameter(
+                "com.sun.jersey.spi.container.ContainerRequestFilters",
+                TokenManager.class.getCanonicalName()
+        );
+        jettyServer.start();
+    }
 
     @Test
     public void registreOneTest() throws IOException {
@@ -89,9 +98,9 @@ public class MainFunctionTests {
         ClientImpl client = new ClientImpl();
         Response registrate = client.register("userManyTimes", "pwd");
         Response loginOne = client.login("userManyTimes", "pwd");
-        Long token = Long.parseLong(loginOne.body().string());
+        Long token = client.getToken();
         Response loginTwo = client.login("userManyTimes", "pwd");
-        Long tokenTwo = Long.parseLong(loginTwo.body().string());
+        Long tokenTwo = client.getToken();
         Assert.assertEquals(200, registrate.code());
         Assert.assertEquals(200, loginOne.code());
         Assert.assertEquals(200, loginTwo.code());
@@ -113,5 +122,10 @@ public class MainFunctionTests {
         Assert.assertEquals(200, logoutGood.code());
         Assert.assertEquals(500, logoutOneMore.code());
         Assert.assertEquals(500, logoutEmpty.code());
+    }
+
+    @After
+    public void stopServer() throws Exception {
+        this.jettyServer.stop();
     }
 }

@@ -1,9 +1,9 @@
-package ru.atom.Tests;
+package ru.atom.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
-import serviceClasses.User;
-import tokenClasses.Token;
+import services.User;
+import tokens.Token;
 
 /**
  * Created by kinetik on 27.03.17.
@@ -11,7 +11,7 @@ import tokenClasses.Token;
 public class OrdinaryClassTests {
 
     @Test
-    public void userTest () {
+    public void userTest() {
         User user = new User("user","pwd");
         Token token = new Token(10L);
         user.setToken(token);
@@ -26,7 +26,7 @@ public class OrdinaryClassTests {
     }
 
     @Test
-    public void tokenTest () {
+    public void tokenTest() {
         Token token = new Token("token");
         Token tokenTwo = new Token(10L);
         Token tokenThree = new Token(new Token(new Integer(10)));
