@@ -7,6 +7,7 @@ import org.junit.Test;
 import ru.atom.resource.Token;
 import ru.atom.resource.User;
 
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
@@ -21,12 +22,15 @@ import static org.junit.Assert.assertEquals;
 public class AuthServiceTest extends JerseyTest {
     private String name1 = "initUser1";
     private String password1 = "initPass1";
-    private String token1;
+
     private String name2 = "initUser2";
     private String password2 = "initPass2";
     private String newPassword2 = "initNewPass2";
     private String token2;
 
+    private String name3 = "initUser3";
+    private String password3 = "initPass3";
+    private String token3;
 
     private String pathRegister = "auth/register";
     private String pathLogin = "auth/login";
@@ -43,17 +47,21 @@ public class AuthServiceTest extends JerseyTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
         User user1 = new User(name1, password1);
-        Token token1 = new Token(user1);
         AuthService.users.put(user1.getName(), user1);
-        AuthService.tokens.put(token1.getToken(), token1);
-        this.token1 = token1.toString();
 
         User user2 = new User(name2, password2);
         Token token2 = new Token(user2);
         AuthService.users.put(user2.getName(), user2);
         AuthService.tokens.put(token2.getToken(), token2);
-        this.token2 = token2.toString();
+        this.token2 = AuthService.tokens.getToken(user2).toString();
+
+        User user3 = new User(name3, password3);
+        Token token3 = new Token(user3);
+        AuthService.users.put(user3.getName(), user3);
+        AuthService.tokens.put(token3.getToken(), token3);
+        this.token3 = AuthService.tokens.getToken(user3).toString();
     }
 
     @Test
@@ -73,7 +81,6 @@ public class AuthServiceTest extends JerseyTest {
         output = target(pathRegister).request()
                 .post(Entity.entity("user=regUser2&password=regPass2", MediaType.APPLICATION_FORM_URLENCODED));
         assertEquals("New second user", output.getStatus(), Response.Status.OK.getStatusCode());
-
     }
 
     @Test
@@ -92,8 +99,12 @@ public class AuthServiceTest extends JerseyTest {
 
         output = target(pathLogin).request()
                 .post(Entity.entity("user=" + name1 + "&password=" + password1, MediaType.APPLICATION_FORM_URLENCODED));
-        assertEquals("Login user", output.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals("Login user with new token", output.getStatus(), Response.Status.OK.getStatusCode());
 
+        output = target(pathLogin).request()
+                .post(Entity.entity("user=" + name3 + "&password=" + password3, MediaType.APPLICATION_FORM_URLENCODED));
+        assertEquals("Login user with old token", output.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals("Check old token", output.readEntity(String.class), token3);
     }
 
 
@@ -137,14 +148,11 @@ public class AuthServiceTest extends JerseyTest {
         output = target(pathLogout).request().header(HttpHeaders.AUTHORIZATION, "Bearer 123").post(null);
         assertEquals("Invalid token", output.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
 
-        output = target(pathLogout).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token1).post(null);
-        assertEquals("Logout user1", output.getStatus(), Response.Status.OK.getStatusCode());
-
-        output = target(pathLogout).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token1).post(null);
-        assertEquals("Double logout", output.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
-
         output = target(pathLogout).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token2).post(null);
         assertEquals("Logout user2", output.getStatus(), Response.Status.OK.getStatusCode());
+
+        output = target(pathLogout).request().header(HttpHeaders.AUTHORIZATION, "Bearer " + token2).post(null);
+        assertEquals("Double logout", output.getStatus(), Response.Status.UNAUTHORIZED.getStatusCode());
     }
 
 }

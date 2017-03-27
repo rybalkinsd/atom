@@ -71,6 +71,7 @@ public class AuthService {
         }
         Long tokenNum = tokens.getToken(user);
         if (tokenNum == null) {
+            log.info("Generate token");
             Token token = new Token(user);
             tokenNum = token.getToken();
             tokens.put(tokenNum, token);
