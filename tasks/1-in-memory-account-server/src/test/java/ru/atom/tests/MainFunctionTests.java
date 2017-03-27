@@ -1,5 +1,6 @@
 package ru.atom.tests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Response;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -12,6 +13,8 @@ import ru.atom.client.ClientImpl;
 import tokens.TokenManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -122,6 +125,32 @@ public class MainFunctionTests {
         Assert.assertEquals(200, logoutGood.code());
         Assert.assertEquals(500, logoutOneMore.code());
         Assert.assertEquals(500, logoutEmpty.code());
+    }
+
+    @Test
+    public void getUsersTest() throws IOException {
+        ClientImpl client = new ClientImpl();
+        client.register("getUserTest1","pwd1");
+        client.register("getUserTest2","pwd2");
+        client.register("getUserTest3","pwd3");
+        client.login("getUserTest1","pwd1");
+        client.login("getUserTest2","pwd2");
+        client.login("getUserTest3","pwd3");
+        Response onlinesResp = client.getUsers("getUserTest3");
+        String onlines = onlinesResp.body().string();
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, ArrayList<String>> users = objectMapper.readValue(onlines, HashMap.class);
+        Assert.assertTrue(users.get("Users").contains("getUserTest1"));
+        Assert.assertTrue(users.get("Users").contains("getUserTest2"));
+        Assert.assertTrue(users.get("Users").contains("getUserTest3"));
+        client.logout("getUserTest3");
+        client.login("getUserTest2","pwd2");
+        Response onlinesRespTwo = client.getUsers("getUserTest3");
+        String onlinesTwo = onlinesRespTwo.body().string();
+        HashMap<String, ArrayList<String>> usersTwo = objectMapper.readValue(onlinesTwo, HashMap.class);
+        Assert.assertTrue(usersTwo.get("Users").contains("getUserTest1"));
+        Assert.assertTrue(usersTwo.get("Users").contains("getUserTest2"));
+        Assert.assertFalse(usersTwo.get("Users").contains("getUserTest3"));
     }
 
     @After

@@ -90,13 +90,14 @@ public class AuthController {
     }
 
     @Authorized
-    @GET
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @Path("/getUsers")
     public Response getUsers(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenIn) {
         try {
             Long token = Long.parseLong(tokenIn.substring("Bearer".length()).trim());
-            log.info("[" + registared.get(tokenManager.getUserByToken(token)).getName() + "] gets users");
+            log.info("[" + tokenManager.getUserByToken(token).getName() + "] gets users");
             return Response.ok(tokenManager.getLoginUsers()).build();
         } catch (Exception e) {
             log.error(e.getCause() + " " + e.getStackTrace());

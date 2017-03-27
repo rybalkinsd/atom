@@ -39,7 +39,7 @@ public class TokenManager implements ContainerRequestFilter {
     public boolean validateToken(String tokenIn) {
         try {
             Long token = Long.parseLong(tokenIn);
-            if (tokenInserted.get(token) != null) {
+            if (tokenInserted.containsKey(token)) {
                 return true;
             } else {
                 return false;
