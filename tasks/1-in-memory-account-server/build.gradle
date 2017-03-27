@@ -1,4 +1,14 @@
 dependencies {
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.jackson_core
+    compile rootProject.libraries.jackson_databind
+    compile rootProject.libraries.okhttp
     testCompile rootProject.libraries.junit
 }
 
