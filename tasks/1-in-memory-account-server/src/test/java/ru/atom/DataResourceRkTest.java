@@ -1,7 +1,6 @@
 package ru.atom;
 
 
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -15,11 +14,6 @@ import java.io.IOException;
  */
 @Ignore
 public class DataResourceRkTest {
-    private static final OkHttpClient client = new OkHttpClient();
-    private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
-    private static final String PORT = ":8080";
-
 
     @Test
     public void usersTest() throws IOException {

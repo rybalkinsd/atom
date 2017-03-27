@@ -1,8 +1,6 @@
 package ru.atom;
 
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -15,11 +13,6 @@ import java.io.IOException;
  */
 @Ignore
 public class AuthResourceRkTest {
-    private static final OkHttpClient client = new OkHttpClient();
-    private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
-    private static final String PORT = ":8080";
-    private static final MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
     @Test
     public void registerTest() throws IOException {
