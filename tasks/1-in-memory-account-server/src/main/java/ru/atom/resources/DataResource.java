@@ -1,5 +1,7 @@
 package ru.atom.resources;
 
+import com.google.gson.Gson;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +20,7 @@ public class DataResource {
     @Path("/users")
     @Produces("application/json")
     public Response users() {
+        Gson gson = new Gson();
         return Response.ok().build();
     }
 }

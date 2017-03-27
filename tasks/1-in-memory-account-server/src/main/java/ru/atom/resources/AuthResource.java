@@ -2,16 +2,11 @@ package ru.atom.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.util.ConcurrentArrayQueue;
+import ru.atom.base.User;
 import ru.atom.storages.AccountStorage;
 import ru.atom.storages.TokenStorage;
-import ru.atom.base.User;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 /**
@@ -27,7 +22,7 @@ public class AuthResource {
 
     private static TokenStorage tokenStorage = new TokenStorage();
     private static AccountStorage accountStorage = new AccountStorage();
-    private static ConcurrentArrayQueue<User> onlineUsers = new ConcurrentArrayQueue();
+    //private static ConcurrentArrayQueue<User> onlineUsers = new ConcurrentArrayQueue();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -35,7 +30,8 @@ public class AuthResource {
     @Produces("text/plain")
     public Response register(@QueryParam("user") String userName, @QueryParam("password") String password) {
         if (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN) {
-            Response response = Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат имени пользователя!").build();
+            Response response = Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Неверный формат имени пользователя!").build();
             return response;
         }
         if (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN) {
@@ -56,7 +52,8 @@ public class AuthResource {
     @Produces("text/plain")
     public Response login(@QueryParam("user") String userName, @QueryParam("password") String password) {
         if (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN) {
-            Response response = Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат имени пользователя!").build();
+            Response response = Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Неверный формат имени пользователя!").build();
             return response;
         }
         if (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN) {
@@ -67,14 +64,14 @@ public class AuthResource {
         }
         User user = accountStorage.getUser(userName);
         if (user.checkPassword(password)) {
-            if (onlineUsers.contains(user)) {
+            if (tokenStorage.containsUser(user)) {
                 Response response = Response.ok(user.getToken().getValueToken()).build();
                 return response;
             } else {
                 user.setToken(tokenStorage.generateToken());
-                user.setStatus(User.Status.ONLINE);
+                //user.setStatus(User.Status.ONLINE);
                 tokenStorage.addToken(user.getToken(), user);
-                onlineUsers.add(user);
+                //onlineUsers.add(user);
                 logger.info("[" + userName + "] успешно залогинился");
                 return Response.ok(user.getToken()).build();
             }

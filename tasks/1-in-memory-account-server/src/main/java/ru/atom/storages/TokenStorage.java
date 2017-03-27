@@ -47,4 +47,8 @@ public class TokenStorage {
 
         return newToken;
     }
+
+    public boolean containsUser(User user) {
+        return tokens.containsValue(user);
+    }
 }
