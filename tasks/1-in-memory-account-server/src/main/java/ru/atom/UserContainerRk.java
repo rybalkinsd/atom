@@ -64,8 +64,7 @@ public class UserContainerRk {
      * Register user in AuthService
      *
      * @param user - adding user
-     * @return {@code true} if successful, {@code false} if user exist
-     * in container.
+     * @return {@code true} if successful, {@code false} if user exist in container.
      */
     public static boolean registerUser(UserRk user) {
         if (user != null) {
