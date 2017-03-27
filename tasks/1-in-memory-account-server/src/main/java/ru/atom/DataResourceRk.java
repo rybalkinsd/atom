@@ -13,24 +13,24 @@ import java.util.Collection;
  * Created by pavel on 25.03.17.
  */
 @Path("/data")
-public class DataResource {
-    private final Logger logger = LogManager.getLogger(DataResource.class);
+public class DataResourceRk {
+    private final Logger logger = LogManager.getLogger(DataResourceRk.class);
 
     @GET
     @Produces("application/json")
     @Path("/users")
     public Response users() {
-        Collection<User> logginedUsers = UserContainer.getLogginedUsers();
+        Collection<UserRk> logginedUsers = UserContainerRk.getLogginedUsers();
 
         if (logginedUsers.isEmpty()) {
-            logger.info("User list is showned");
+            logger.info("UserRk list is showned");
             return Response.ok("{\"users\" : []}").build();
         }
 
         StringBuilder builder = new StringBuilder(
                 "{\"users\" : [");
 
-        for (User user: logginedUsers) {
+        for (UserRk user: logginedUsers) {
             builder.append("{")
                     .append(user.getName())
                     .append("}, ");
@@ -38,7 +38,7 @@ public class DataResource {
 
         builder.delete(builder.length() - 2, builder.length());
         builder.append("]}");
-        logger.info("User list is showned");
+        logger.info("UserRk list is showned");
         return Response.ok(builder.toString()).build();
     }
 }

@@ -8,15 +8,15 @@ import javax.ws.rs.core.Response;
  * Created by pavel on 24.03.17.
  */
 @Path("/auth")
-public class AuthResource {
+public class AuthResourceRk {
 
     @POST
     @Path("/register")
     @Consumes("application/x-www-form-urlencoded")
     public Response register(@FormParam("user") String userName, @FormParam("password") String password) {
-        User newUser = new User(userName, password);
+        UserRk newUser = new UserRk(userName, password);
 
-        if (UserContainer.registerUser(newUser)) {
+        if (UserContainerRk.registerUser(newUser)) {
             return Response.ok("Registration success!").build();
         }
 
@@ -27,8 +27,8 @@ public class AuthResource {
     @Path("/login")
     @Consumes("application/x-www-form-urlencoded")
     public Response login(@FormParam("user") String userName, @FormParam("password") String password) {
-        User loginUser = new User(userName, password);
-        Long userTocken = UserContainer.login(loginUser);
+        UserRk loginUser = new UserRk(userName, password);
+        Long userTocken = UserContainerRk.login(loginUser);
 
         if (userTocken.equals(-1L)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Problems with login").build();
@@ -40,9 +40,9 @@ public class AuthResource {
     @POST
     @Path("/logout")
     @Consumes("application/x-www-form-urlencoded")
-    @Authorized
+    @AuthorizedRk
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tocken) {
-        if (UserContainer.logout(Long.parseLong(tocken.trim()))) {
+        if (UserContainerRk.logout(Long.parseLong(tocken.trim()))) {
             return Response.ok().build();
         }
 

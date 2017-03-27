@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by pavel on 27.03.17.
  */
-public class DataResourceTest {
+public class DataResourceRkTest {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
@@ -19,7 +19,7 @@ public class DataResourceTest {
 
     @Test
     public void usersTest() throws IOException {
-        Response response = HttpClient.users();
+        Response response = HttpClientRk.users();
         Assert.assertTrue(response.code() == 200);
     }
 }

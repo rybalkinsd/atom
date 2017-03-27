@@ -1,6 +1,5 @@
 package ru.atom;
 
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -8,7 +7,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 /**
  * Created by pavel on 23.03.17.
  */
-public class HttpServer {
+public class HttpServerRk {
     public static void main(String[] args) throws Exception {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
@@ -16,13 +15,18 @@ public class HttpServer {
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(context);
 
-        ServletHolder jersyServlet = context.addServlet(
+        ServletHolder jerseyServlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*"
         );
 
-        jersyServlet.setInitParameter(
+        jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
                 "ru.atom"
+        );
+
+        jerseyServlet.setInitParameter(
+                "com.sun.jersey.spi.container.ContainerRequestFilters",
+                AuthFilterRk.class.getCanonicalName()
         );
 
         jettyServer.start();

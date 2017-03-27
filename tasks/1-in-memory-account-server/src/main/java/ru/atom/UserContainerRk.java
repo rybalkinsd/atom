@@ -11,10 +11,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Created by pavel on 23.03.17.
  */
-public class UserContainer {
-    private static ConcurrentLinkedQueue<User> registeredUsers = new ConcurrentLinkedQueue<>();
-    private static ConcurrentHashMap<Long, User> logginedUsers = new ConcurrentHashMap<>();
-    private static Logger logger = LogManager.getLogger(UserContainer.class);
+public class UserContainerRk {
+    private static ConcurrentLinkedQueue<UserRk> registeredUsers = new ConcurrentLinkedQueue<>();
+    private static ConcurrentHashMap<Long, UserRk> logginedUsers = new ConcurrentHashMap<>();
+    private static Logger logger = LogManager.getLogger(UserContainerRk.class);
 
 
     /**
@@ -22,8 +22,8 @@ public class UserContainer {
      *
      * @param user - user in container
      */
-    public static Long getTockenByUser(User user) {
-        for (Map.Entry<Long, User> entry : logginedUsers.entrySet()) {
+    public static Long getTockenByUser(UserRk user) {
+        for (Map.Entry<Long, UserRk> entry : logginedUsers.entrySet()) {
             if (user.equals(entry.getValue())) {
                 return entry.getKey();
             }
@@ -38,7 +38,7 @@ public class UserContainer {
      *
      * @param tocken - tocken of user
      */
-    public static User getUserByTocken(Long tocken) {
+    public static UserRk getUserByTocken(Long tocken) {
         if (tocken != null) {
             return logginedUsers.get(tocken);
         }
@@ -48,14 +48,14 @@ public class UserContainer {
     /**
      * Return the collection of loggined users
      */
-    public static Collection<User> getLogginedUsers() {
+    public static Collection<UserRk> getLogginedUsers() {
         return logginedUsers.values();
     }
 
     /**
      * Return the collection of registered users
      */
-    public static Collection<User> getRegisteredUsers() {
+    public static Collection<UserRk> getRegisteredUsers() {
         return registeredUsers;
     }
 
@@ -67,14 +67,14 @@ public class UserContainer {
      * @return {@code true} if successful, {@code false} if user exist
      * in container.
      */
-    public static boolean registerUser(User user) {
+    public static boolean registerUser(UserRk user) {
         if (user != null) {
             if (registeredUsers.contains(user)) {
-                logger.info("User with name {} already exist", user.getName());
+                logger.info("UserRk with name {} already exist", user.getName());
                 return false;
             }
             registeredUsers.add(user);
-            logger.info("User {} is registered successful", user);
+            logger.info("UserRk {} is registered successful", user);
             return true;
         }
 
@@ -88,21 +88,21 @@ public class UserContainer {
      * @param user - user for login
      * @return tocken of user if login is successful or -1 if login is failed
      */
-    public static Long login(User user) {
+    public static Long login(UserRk user) {
         if (user != null) {
             if (registeredUsers.contains(user)) {
                 if (logginedUsers.containsValue(user)) {
-                    logger.info("User {} is loggined", user.getName());
+                    logger.info("UserRk {} is loggined", user.getName());
                     return getTockenByUser(user);
                 }
 
-                Long newTocken = Tocken.generateTocken();
+                Long newTocken = TockenRk.generateTocken();
                 logginedUsers.put(newTocken, user);
-                logger.info("User {} is loggined", user.getName());
+                logger.info("UserRk {} is loggined", user.getName());
                 return newTocken;
             }
 
-            logger.info("User {} is not registered", user.getName());
+            logger.info("UserRk {} is not registered", user.getName());
             return -1L;
         }
 
@@ -119,11 +119,11 @@ public class UserContainer {
     public static boolean logout(Long tocken) {
         if (tocken != null) {
             if (logginedUsers.containsKey(tocken)) {
-                User deleted = logginedUsers.remove(tocken);
-                logger.info("User {} is loggined out", deleted.getName());
+                UserRk deleted = logginedUsers.remove(tocken);
+                logger.info("UserRk {} is loggined out", deleted.getName());
                 return true;
             }
-            logger.info("Tocken {} is not authorized", tocken);
+            logger.info("TockenRk {} is not authorized", tocken);
             return false;
         }
 

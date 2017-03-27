@@ -3,11 +3,11 @@ package ru.atom;
 /**
  * Created by pavel on 23.03.17.
  */
-public class User {
+public class UserRk {
     private String name;
     private String password;
 
-    public User(String name, String password) {
+    public UserRk(String name, String password) {
         this.name = name;
         this.password = password;
     }
@@ -25,7 +25,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        UserRk user = (UserRk) o;
 
         return name != null ? name.equals(user.name) : user.name == null;
     }

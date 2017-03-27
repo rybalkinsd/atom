@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by pavel on 27.03.17.
  */
-public class HttpClient {
+public class HttpClientRk {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";

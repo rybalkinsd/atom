@@ -15,10 +15,10 @@ import java.io.IOException;
  * Created by pavel on 25.03.17.
  */
 
-@Authorized
+@AuthorizedRk
 @Provider
-public class AuthFilter implements ContainerRequestFilter {
-    private static Logger logger = LogManager.getLogger(AuthFilter.class);
+public class AuthFilterRk implements ContainerRequestFilter {
+    private static Logger logger = LogManager.getLogger(AuthFilterRk.class);
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
@@ -40,10 +40,10 @@ public class AuthFilter implements ContainerRequestFilter {
     }
 
     private void validateTocken(Long tocken) {
-        User user = UserContainer.getUserByTocken(tocken);
+        UserRk user = UserContainerRk.getUserByTocken(tocken);
         if (user == null) {
-            logger.info("User with tocken {} is not authorized", tocken);
-            throw new NotAuthorizedException("Tocken is incorrect");
+            logger.info("UserRk with tocken {} is not authorized", tocken);
+            throw new NotAuthorizedException("TockenRk is incorrect");
         }
     }
 }
