@@ -17,7 +17,7 @@ public class UserManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        userManager = new UserManager();
+        userManager = UserManager.getInstance();
         testUser = new User("test", "test");
         badTestUser = new User("test", "test1");
         userManager.register(testUser);

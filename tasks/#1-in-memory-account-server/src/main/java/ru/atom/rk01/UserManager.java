@@ -10,8 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by dmbragin on 3/28/17.
  */
 public class UserManager {
+    private static UserManager instance = null;
     private static Map<Token, User> tokenUserMap = new ConcurrentHashMap<>();
     private static List<User> users = Collections.synchronizedList(new ArrayList<User>());
+
 
     public List<User> getAll() {
         return users;
@@ -62,4 +64,13 @@ public class UserManager {
     public User getUserByToken(Token token) {
         return tokenUserMap.get(token);
     }
+
+    public static UserManager getInstance() {
+        if (instance == null) {
+            instance = new UserManager();
+        }
+        return instance;
+    }
+
+    private UserManager() {}
 }

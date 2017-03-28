@@ -45,7 +45,7 @@ public class AuthFilter implements ContainerRequestFilter {
         // no exception in case of valid token
         Token token = new AuthToken();
         token.setTokenString(tokenStr);
-        User user = AuthServerResource.getUserManager().getUserByToken(token);
+        User user = UserManager.getInstance().getUserByToken(token);
         if (user == null) {
             throw new NotAuthorizedException("Invalid token");
         }

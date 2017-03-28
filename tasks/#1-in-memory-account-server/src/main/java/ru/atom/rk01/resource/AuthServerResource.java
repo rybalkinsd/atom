@@ -1,6 +1,5 @@
 package ru.atom.rk01.resource;
 
-import jdk.nashorn.internal.objects.annotations.Function;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -25,11 +24,7 @@ import ru.atom.rk01.Authorized;
 @Path("/auth/")
 public class AuthServerResource {
     private static final Logger log = LogManager.getLogger(AuthServerResource.class);
-    private static final UserManager userManager = new UserManager();
-
-    public static UserManager getUserManager() {
-        return userManager;
-    }
+    private static final UserManager userManager = UserManager.getInstance();
 
     @POST
     @Path("register/")
