@@ -1,3 +1,2 @@
 rootProject.name = 'atom'
 include 'tasks/1-in-memory-account-server'
-
