@@ -2,17 +2,20 @@ package ru.atom;
 
 
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.IOException;
 
 /**
  * Created by pavel on 27.03.17.
  */
-@Ignore
+
 public class AuthResourceRkTest {
+
+    @Before
+    public void setUp() throws Exception {
+        HttpServerRk.startServer();
+    }
 
     @Test
     public void registerTest() throws IOException {
@@ -41,5 +44,10 @@ public class AuthResourceRkTest {
         String tocken = response1.body().string();
         Response response2 = HttpClientRk.logout(tocken);
         Assert.assertTrue(response2.code() == 200);
+    }
+
+    @After
+    public void setDown() throws Exception {
+        HttpServerRk.stopServer();
     }
 }

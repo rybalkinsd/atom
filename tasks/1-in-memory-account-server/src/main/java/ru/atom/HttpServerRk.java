@@ -8,11 +8,14 @@ import org.eclipse.jetty.servlet.ServletHolder;
  * Created by pavel on 23.03.17.
  */
 public class HttpServerRk {
-    public static void main(String[] args) throws Exception {
+
+    private static Server jettyServer;
+
+    public static void startServer() throws Exception {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -30,5 +33,13 @@ public class HttpServerRk {
         );
 
         jettyServer.start();
+    }
+
+    public static void stopServer() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        startServer();
     }
 }
