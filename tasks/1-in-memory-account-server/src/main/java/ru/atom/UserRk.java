@@ -25,9 +25,10 @@ public class UserRk {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserRk user = (UserRk) o;
+        UserRk userRk = (UserRk) o;
 
-        return name != null ? name.equals(user.name) : user.name == null;
+        if (name != null ? !name.equals(userRk.name) : userRk.name != null) return false;
+        return password != null ? password.equals(userRk.password) : userRk.password == null;
     }
 
     @Override
