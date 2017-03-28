@@ -1,4 +1,4 @@
-package ru.atom;
+package ru.atom.resources;
 
 
 import javax.ws.rs.NameBinding;

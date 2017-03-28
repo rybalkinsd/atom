@@ -6,15 +6,13 @@ import ru.atom.base.User;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by mkai on 3/26/17.
- */
+
 public class AccountStorage {
     private static final Logger logger = LogManager.getLogger(AccountStorage.class);
 
-    private ConcurrentHashMap<String, User> accounts = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, User> accounts = new ConcurrentHashMap<>();
 
-    public boolean addAccount(String userName, String password) {
+    public static boolean addAccount(String userName, String password) {
         if (isUserExist(userName)) {
             logger.info("Регистрация невозможна: пользователь уже зарегистрирован.");
             return false;
@@ -30,11 +28,11 @@ public class AccountStorage {
         return true;
     }
 
-    public boolean isUserExist(String userName) {
+    public static boolean isUserExist(String userName) {
         return accounts.containsKey(userName);
     }
 
-    public User getUser(String name) {
+    public static User getUser(String name) {
         return accounts.get(name);
     }
 

@@ -9,14 +9,17 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-/**
- * Created by mkai on 3/26/17.
- */
+
 public class AuthClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
     private static final String PORT = ":8080";
+
+    public static String getToken() {
+        return token;
+    }
+
     private static String token;
 
     public static void setToken(String tokenValue) {
@@ -45,15 +48,23 @@ public class AuthClient {
     }
 
     //POST host:port/auth/logout
-    public static Response logout() throws IOException {
-
-        return null;
+    public static Response logout(String token) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, ""))
+                .url(PROTOCOL + HOST + PORT + "/auth/logout")
+                .addHeader("Authorization", token)
+                .build();
+        return client.newCall(request).execute();
     }
 
     //GET host:port/data/users
     public static Response getData() throws IOException {
-
-        return null;
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .get().url(PROTOCOL + HOST + PORT + "/data/users")
+                .build();
+        return client.newCall(request).execute();
     }
 
 }

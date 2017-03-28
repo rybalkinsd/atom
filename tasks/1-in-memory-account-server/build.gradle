@@ -9,6 +9,11 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.AuthServer' }
+}
+
 
 sourceSets {
     main {

@@ -4,40 +4,55 @@ package ru.atom.storages;
 import ru.atom.base.Token;
 import ru.atom.base.User;
 
+import javax.jws.soap.SOAPBinding;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-/**
- * Created by mkai on 3/26/17.
- */
 public class TokenStorage {
-    private ConcurrentHashMap<Token, User> tokens;
+    private static ConcurrentHashMap<Token, User> tokensMap = new ConcurrentHashMap<>();
 
-    public TokenStorage() {
-        tokens = new ConcurrentHashMap<>();
-    }
-
-    public boolean addToken(Token token, User user) {
+    public static boolean addToken(Token token, User user) {
         if (checkToken(token)) {
             return false;
         }
-        tokens.put(token, user);
+        tokensMap.put(token, user);
         return true;
     }
 
-    public User getUser(Token token) {
+    public static boolean removeToken(Token token) {
         if (checkToken(token)) {
-            return tokens.get(token);
+            return false;
+        }
+        getUser(token).setToken(null);
+        tokensMap.remove(token);
+        return true;
+    }
+
+    public static User getUser(Token token) {
+        if (checkToken(token)) {
+            return tokensMap.get(token);
         }
         return null;
     }
 
-    public boolean checkToken(Token token) {
-        return tokens.containsKey(token);
+    public static User getUser(String tokenValue) {
+        if (tokensMap.contains(tokenValue)) {
+            for (Token token : tokensMap.keySet()) {
+                if (token.equals(tokenValue)) {
+                    return tokensMap.get(token);
+                }
+            }
+        }
+        return null;
     }
 
-    public Token generateToken() {
+    public static boolean checkToken(Token token) {
+        return tokensMap.containsKey(token);
+    }
+
+    public static Token generateToken() {
         final SecureRandom random = new SecureRandom();
         final long newValueToken = random.nextLong();
         final Token newToken = new Token(newValueToken);
@@ -48,7 +63,15 @@ public class TokenStorage {
         return newToken;
     }
 
-    public boolean containsUser(User user) {
-        return tokens.containsValue(user);
+    public static boolean containsUser(User user) {
+        return tokensMap.containsValue(user);
+    }
+
+    public static ArrayList<String> getOnlineUsers() {
+        ArrayList<String> names = new ArrayList<>();
+        for (User user : tokensMap.values()) {
+            names.add(user.getName());
+        }
+        return names;
     }
 }

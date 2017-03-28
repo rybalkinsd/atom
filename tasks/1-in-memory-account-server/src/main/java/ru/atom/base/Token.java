@@ -1,14 +1,17 @@
 package ru.atom.base;
 
-/**
- * Created by mkai on 3/26/17.
- */
+
 public class Token {
     private String valueToken;
 
     public Token(long valueToken) {
         this.valueToken = Long.toString(valueToken);
     }
+
+    public Token(String valueToken) {
+        this.valueToken = valueToken;
+    }
+
 
     public String getValueToken() {
         return valueToken;
@@ -17,11 +20,19 @@ public class Token {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || (getClass() != obj.getClass() && String.class != obj.getClass())) return false;
 
-        Token token1 = (Token) obj;
 
-        return valueToken == token1.valueToken;
+        if (getClass() == obj.getClass()) {
+            Token token = (Token) obj;
+            return valueToken.equals(token.valueToken);
+        }
+        if (String.class == obj.getClass()) {
+            String valueToken1 = (String) obj;
+            return valueToken.equals(valueToken1);
+        }
+
+        return false;
     }
 
     @Override

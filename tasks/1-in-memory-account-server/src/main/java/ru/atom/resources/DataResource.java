@@ -1,16 +1,17 @@
 package ru.atom.resources;
 
 import com.google.gson.Gson;
+import ru.atom.base.User;
+import ru.atom.storages.TokenStorage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * Created by mkai on 3/26/17.
- */
 
 @Path("/data")
 public class DataResource {
@@ -21,6 +22,8 @@ public class DataResource {
     @Produces("application/json")
     public Response users() {
         Gson gson = new Gson();
-        return Response.ok().build();
+        HashMap<String, ArrayList<String>> users = new HashMap<>();
+        users.put("users", TokenStorage.getOnlineUsers());
+        return Response.ok(gson.toJson(users)).build();
     }
 }
