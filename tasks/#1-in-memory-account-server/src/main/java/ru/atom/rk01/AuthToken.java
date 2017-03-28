@@ -21,12 +21,22 @@ public class AuthToken implements Token {
         return value != null ? value.hashCode() : 0;
     }
 
+    public AuthToken() {
+        this.value = null;
+    }
+
     public AuthToken(String username) {
         //todo generate token
         this.value = String.valueOf(username.hashCode());
     }
 
-    public String getValue() {
+    @Override
+    public void setTokenString(String tokenString) {
+        this.value = tokenString.split("Bearer ")[1];
+    }
+
+    @Override
+    public String getTokenString() {
         return value;
     }
 }

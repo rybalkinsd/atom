@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by dmbragin on 3/28/17.
  */
-public class User implements Serializable{
+public class User implements Serializable {
     private static final Logger log = LogManager.getLogger();
     private String login;
     private String passwd;

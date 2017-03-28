@@ -3,7 +3,9 @@ package ru.atom.rk01;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by dmbragin on 3/28/17.
@@ -12,6 +14,7 @@ public class UserManagerTest {
     private UserManager userManager;
     private User testUser;
     private User badTestUser;
+
     @Before
     public void setUp() throws Exception {
         userManager = new UserManager();
@@ -50,16 +53,16 @@ public class UserManagerTest {
     @Test
     public void logout() throws Exception {
         Token token1 = userManager.login(testUser);
-        assertTrue(userManager.logout(testUser));
-        assertFalse(userManager.logout(testUser));
+        assertTrue(userManager.logout(token1));
+        assertFalse(userManager.logout(token1));
 
     }
 
     @Test
-    public void getLogined() throws Exception {
-        assertEquals(userManager.getLogined().size(), 0);
-        Token token1 = userManager.login(testUser);
-        assertEquals(userManager.getLogined().size(), 1);
+    public void getLoginedUsers() throws Exception {
+        int size = userManager.getLoginedUsers().size();
+        Token token1 = userManager.login(new User("Lolita", "LooL"));
+        assertEquals(userManager.getLoginedUsers().size(), size);
     }
 
     @Test

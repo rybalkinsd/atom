@@ -44,18 +44,17 @@ public class UserManager {
         return null;
     }
 
-    public boolean logout(User user) {
+    public boolean logout(Token token) {
 
-        for (Map.Entry<Token, User> entry : tokenUserMap.entrySet()) {
-            if (entry.getValue().equals(user)) {
-                tokenUserMap.remove(entry.getKey());
-                return true;
-            }
+        if (tokenUserMap.containsKey(token)) {
+            tokenUserMap.remove(token);
+            return true;
         }
         return false;
     }
 
-    public List<User> getLogined() {
+
+    public List<User> getLoginedUsers() {
         List tmp = new ArrayList<User>(tokenUserMap.values());
         return tmp;
     }
@@ -63,6 +62,4 @@ public class UserManager {
     public User getUserByToken(Token token) {
         return tokenUserMap.get(token);
     }
-
-
 }
