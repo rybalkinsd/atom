@@ -60,7 +60,9 @@ ext.libraries = [
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        jackson_core: "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+        jackson_databind: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 ]
 
 // code coverage settings
