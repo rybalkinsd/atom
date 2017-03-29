@@ -96,7 +96,7 @@ public class AuthOps {
             }
             Long token = issueToken(user);
             log.info("User '{}' logged in", user);
-            return Response.ok("Bearer: " + token).build();
+            return Response.ok(token).build();
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }

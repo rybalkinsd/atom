@@ -6,6 +6,7 @@ package ru.atom;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Before;
@@ -39,6 +40,11 @@ public class AuthServletTest {
         }
     }
 
+    @AfterClass
+    public static void destroy() {
+        ApiServlet.finish();
+    }
+
 
     @Test
     public void testCorrectRegistration() throws Exception {
@@ -70,7 +76,7 @@ public class AuthServletTest {
         Long newAdminToken = Long.parseLong(client.login(adminLogin, adminPass)
                 .body()
                 .string()
-                .substring("Bearer ".length()).trim());
+                .trim());
         assertEquals(adminToken, java.util.Optional.ofNullable(newAdminToken).get());
     }
 
@@ -87,8 +93,7 @@ public class AuthServletTest {
         List<String> beforeList = client.getOnline();
         Long token = Long.parseLong(loginResponse
                 .body()
-                .string()
-                .substring("Bearer ".length()).trim());
+                .string().trim());
         client.logout(token);
         List<String> afterList = client.getOnline();
         beforeList.remove("ImHereForTestLogout");
@@ -108,6 +113,7 @@ public class AuthServletTest {
         usersBefore.sort(String.CASE_INSENSITIVE_ORDER);
         assertArrayEquals(usersAfter.toArray(), usersBefore.toArray());
     }
+
 
 
 
