@@ -11,6 +11,7 @@ import java.io.IOException;
 /**
  * Created by Robin on 29.03.2017.
  */
+
 public class HttpClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
