@@ -18,13 +18,10 @@ public class SoHard {
     public void HashTest() {
         String user = "name1";
         String password = new String("password1");
-        byte[] a = HashCalculator.calcHash(password.getBytes());
-        byte[] b = HashCalculator.calcHash(user.getBytes());
-        byte[] c = HashCalculator.calcHash(new String("password1").getBytes());
-        Assert.assertFalse(Arrays.equals(HashCalculator.calcHash(password.getBytes())
-                , (HashCalculator.calcHash(user.getBytes()))));
-        Assert.assertTrue(Arrays.equals(HashCalculator.calcHash(password.getBytes())
-                , (HashCalculator.calcHash(new String("password1").getBytes()))));
+        Assert.assertFalse(Arrays.equals(HashCalculator.calcHash(password.getBytes()),
+                (HashCalculator.calcHash(user.getBytes()))));
+        Assert.assertTrue(Arrays.equals(HashCalculator.calcHash(password.getBytes()),
+                (HashCalculator.calcHash(new String("password1").getBytes()))));
     }
 
 
