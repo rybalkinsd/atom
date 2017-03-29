@@ -38,6 +38,6 @@ public class AuthFilter implements ContainerRequestFilter {
     private void validateToken(String token) throws Exception {
         if (!TokensStorage.validateToken(token)) {
             throw new NotAuthorizedException("Invalid token");
-            }
+        }
     }
 }

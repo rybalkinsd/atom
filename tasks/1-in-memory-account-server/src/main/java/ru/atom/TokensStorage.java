@@ -37,7 +37,7 @@ public class TokensStorage {
         return null;
     }
 
-    public static String toJson(){
+    public static String toJson() {
         if (tokens.isEmpty()) {
             return "{\"users\" : []}";
         }

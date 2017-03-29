@@ -41,7 +41,7 @@ public class AuthServer {
         jettyServer.start();
     }
 
-    public static void stopServer() throws Exception{
+    public static void stopServer() throws Exception {
         jettyServer.stop();
     }
 

@@ -26,8 +26,6 @@ public class AuthServerResources {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/register")
     public Response register(@FormParam("user") String user, @FormParam("password") String password) {
-        User tmp = new User(user, password);
-
         if (user == null || password == null) {
             log.info("Empty name or password");
             return Response.status(Response.Status.BAD_REQUEST).entity("Empty name or password").build();
@@ -45,8 +43,11 @@ public class AuthServerResources {
 
         if (password.length() < 8) {
             log.info("User's password too short");
-            return Response.status(Response.Status.BAD_REQUEST).entity("Too short password (less than 8 symbols)").build();
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Too short password (less than 8 symbols)").build();
         }
+
+        User tmp = new User(user, password);
 
         if (users.contains(tmp)) {
             log.info("User exist " + tmp.getName());
