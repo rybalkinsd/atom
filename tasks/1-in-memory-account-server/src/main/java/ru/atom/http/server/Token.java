@@ -8,12 +8,12 @@ import java.util.Random;
 public class Token {
     private Long token;
 
-    public Token(){
+    public Token() {
         Random rand = new Random();
         token = new Long(rand.nextLong());
     }
 
-    public Token(String s){
+    public Token(String s) {
         token = Long.parseLong(s);
     }
 

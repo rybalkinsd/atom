@@ -5,7 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.util.ConcurrentArrayQueue;
 import sun.rmi.runtime.Log;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,8 +68,8 @@ public class Service {
         if (tokenHolder.isValid(token)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect token :(").build();
         }
-        log.info("[" + token + "] logged out");
-        tokenHolder.removeToken(token);
+        String login = tokenHolder.removeToken(token);
+        log.info("[" + login + "] logged out");
         return Response.ok().build();
     }
 
@@ -71,7 +78,7 @@ public class Service {
     @Path("/data/users")
     public Response userList() {
         ArrayList<String> users = tokenHolder.loginedUsers();
-        String s = "{Users: [" + String.join("}{", users) + "}]}";
-        return Response.ok(s).build();
+        String response = "{Users: [" + String.join("}{", users) + "}]}";
+        return Response.ok(response).build();
     }
 }

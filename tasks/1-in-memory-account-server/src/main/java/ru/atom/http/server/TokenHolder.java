@@ -32,9 +32,9 @@ public class TokenHolder {
     }
 
     public String removeToken(Token token) {
-        String s = tokenToLogin.remove(token);
-        loginToToken.remove(s);
-        return s;
+        String login = tokenToLogin.remove(token);
+        loginToToken.remove(login);
+        return login;
     }
 
     public ArrayList<String> loginedUsers() {
