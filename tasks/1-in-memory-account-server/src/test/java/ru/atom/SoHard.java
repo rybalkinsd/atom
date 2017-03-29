@@ -15,7 +15,7 @@ public class SoHard {
 
     @Test
 
-    public void HashTest() {
+    public void hashTest() {
         String user = "name1";
         String password = new String("password1");
         Assert.assertFalse(Arrays.equals(HashCalculator.calcHash(password.getBytes()),
