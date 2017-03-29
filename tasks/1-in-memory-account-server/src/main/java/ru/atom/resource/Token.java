@@ -11,11 +11,9 @@ public class Token {
 
 
     public Token() {
-        java.util.Random r = new java.util.Random();
-        token = new Long(r.nextLong());
+        java.util.Random random = new java.util.Random();
+        token = new Long(random.nextLong());
     }
-
-
 
 
     @Override
@@ -27,13 +25,12 @@ public class Token {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return token.hashCode();
     }
 
-    public Token(String newToken){
-        token = Long.parseLong (newToken.substring(7));
-
+    public Token(String newToken) {
+        token = Long.parseLong(newToken.substring(7));
     }
 
     public Long getToken() {
@@ -41,10 +38,9 @@ public class Token {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return token.toString();
     }
-
 
 
 }
