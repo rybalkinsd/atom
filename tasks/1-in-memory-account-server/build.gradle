@@ -1,5 +1,12 @@
 dependencies {
     testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.okhttp
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.gson
 }
 
 
@@ -9,9 +16,21 @@ sourceSets {
             srcDirs = ['src/main/java']
         }
     }
+
     test {
         java {
             srcDirs = ['src/test/java']
         }
+    }
+}
+
+jar {
+    from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes("Main-Class": "ru.atom.AuthServer" )
     }
 }
