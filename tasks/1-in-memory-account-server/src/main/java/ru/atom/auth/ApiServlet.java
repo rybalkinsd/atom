@@ -1,5 +1,7 @@
 package ru.atom.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -11,6 +13,7 @@ import ru.atom.auth.AuthFilter;
 
 public class ApiServlet {
     private static Server jettyServer;
+    private static final Logger log = LogManager.getLogger(ApiServlet.class);
 
     public static void start(boolean isTest) throws Exception {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -49,7 +52,7 @@ public class ApiServlet {
         try {
             jettyServer.destroy();
         } catch (Exception e) {
-
+            log.info("Server already destroyed");
         }
     }
 
