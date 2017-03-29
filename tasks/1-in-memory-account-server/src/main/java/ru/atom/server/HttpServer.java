@@ -31,10 +31,6 @@ public class HttpServer {
                 "com.sun.jersey.spi.container.ContainerRequestFilters",
                 LogoutBrowserFilter.class.getCanonicalName()
         );
-        jerseyServlet.setInitParameter(
-                "com.sun.jersey.spi.container.ContainerResponseFilters",
-                ResponseFilter.class.getCanonicalName()
-        );
         jettyServer.start();
     }
 
