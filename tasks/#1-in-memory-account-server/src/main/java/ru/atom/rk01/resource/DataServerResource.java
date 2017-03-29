@@ -3,14 +3,13 @@ package ru.atom.rk01.resource;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import ru.atom.rk01.Token;
 import ru.atom.rk01.UserManager;
 import ru.atom.rk01.User;
-import ru.atom.rk01.AuthToken;
 import ru.atom.rk01.Authorized;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class DataServerResource {
         }
 
         json.append("]}");
-
+        log.info("Url users/ status {}",  String.valueOf(200));
         return Response.ok(json.toString()).build();
     }
 }

@@ -70,10 +70,10 @@ public class AuthServerResource {
         User user = new User(login, passwd);
         Token token = userManager.login(user);
         if (token != null) {
-            log.info("Url register/ login {}; password {}; status {}", login, passwd, String.valueOf(200));
+            log.info("Url login/ login {}; password {}; status {}", login, passwd, String.valueOf(200));
             return Response.ok(token.getTokenString()).build();
         } else {
-            log.info("Url register/ login {}; password {}; status {}", login, passwd, String.valueOf(400));
+            log.info("Url login/ login {}; password {}; status {}", login, passwd, String.valueOf(400));
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("User with this name can not be login")
                     .build();
@@ -88,7 +88,7 @@ public class AuthServerResource {
         Token token = new AuthToken();
         token.setTokenString(tokenString);
         userManager.logout(token); // == True, because of @Authorized
-        log.info("Url register/ token {}; status {}",token.getTokenString(), String.valueOf(400));
+        log.info("Url logout/ token {}; status {}",token.getTokenString(), String.valueOf(200));
         return Response.ok("Logout").build();
     }
 

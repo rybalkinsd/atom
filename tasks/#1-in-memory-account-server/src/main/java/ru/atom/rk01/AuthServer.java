@@ -11,16 +11,28 @@ import org.eclipse.jetty.servlet.ServletHolder;
  */
 public class AuthServer {
     public static void main(String[] args) throws Exception {
+        AuthServer.start();
+    }
+
+    private static Server jettyServer;
+
+    public static void start() throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createAuthServerContext(),
         });
 
-        Server jettyServer = new Server(8080);
+
+        jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
     }
+
+    public static void stop() throws Exception {
+        jettyServer.stop();
+    }
+
 
     private static ServletContextHandler createAuthServerContext() {
         ServletContextHandler context = new ServletContextHandler();

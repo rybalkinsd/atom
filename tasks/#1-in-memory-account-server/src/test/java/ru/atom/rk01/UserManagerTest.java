@@ -1,5 +1,6 @@
 package ru.atom.rk01;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,10 +18,16 @@ public class UserManagerTest {
 
     @Before
     public void setUp() throws Exception {
+        UserManager.clear();
         userManager = UserManager.getInstance();
         testUser = new User("test", "test");
         badTestUser = new User("test", "test1");
         userManager.register(testUser);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        UserManager.clear();
     }
 
     @Test

@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UserManager {
     private static UserManager instance = null;
-    private static Map<Token, User> tokenUserMap = new ConcurrentHashMap<>();
-    private static List<User> users = Collections.synchronizedList(new ArrayList<User>());
+    private Map<Token, User> tokenUserMap = new ConcurrentHashMap<>();
+    private List<User> users = Collections.synchronizedList(new ArrayList<User>());
 
 
     public List<User> getAll() {
@@ -70,6 +70,10 @@ public class UserManager {
             instance = new UserManager();
         }
         return instance;
+    }
+
+    public static void clear() {
+        instance = new UserManager();
     }
 
     private UserManager() {}
