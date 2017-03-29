@@ -14,13 +14,13 @@ public class HttpServerTest {
         assertEquals("{\"users\" : []}", initiallyLogined.body().string());
 
         Response loginedNonExistingUser1 = HttpClient.login("user1", "password1");
-        assertEquals(400, loginedNonExistingUser1.code());
+        assertEquals(403, loginedNonExistingUser1.code());
 
         Response registeredUser1 = HttpClient.register("user1", "password1");
         assertEquals(200, registeredUser1.code());
 
         Response registeredAgainUser1 = HttpClient.register("user1", "password1");
-        assertEquals(400, registeredAgainUser1.code());
+        assertEquals(403, registeredAgainUser1.code());
 
         Response registerUserWithInvalidName = HttpClient.register("invalid \"user\"", "password1");
         assertEquals(400, registerUserWithInvalidName.code());
@@ -34,7 +34,7 @@ public class HttpServerTest {
         assertEquals(user1Token, loginedAgainUser1.body().string());
 
         Response invalidLogin = HttpClient.login("user1", "1drowssap");
-        assertEquals(400, invalidLogin.code());
+        assertEquals(403, invalidLogin.code());
 
         Response loginedUsersAfterUser1 = HttpClient.loginedUsers();
         assertEquals(200, loginedUsersAfterUser1.code());

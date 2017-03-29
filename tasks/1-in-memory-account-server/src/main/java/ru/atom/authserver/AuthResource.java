@@ -32,7 +32,7 @@ public class AuthResource {
                     .entity("Invalid name.\n").build();
         }
         if (registered.containsKey(name)) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.FORBIDDEN)
                     .entity("Already registered.\n").build();
         }
         final String msg = "Registered new user " + name + ".\n";
@@ -49,13 +49,13 @@ public class AuthResource {
 
         if (user == null) {
             log.info("User " + name + " does not exist!");
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.FORBIDDEN)
                     .entity("Incorrect user name or password.\n").build();
         }
 
         if (!password.equals(user.password)) {
             log.info("Incorrect password " + password + " for user " + name + "!");
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.FORBIDDEN)
                     .entity("Incorrect user name or password.\n").build();
         }
 
