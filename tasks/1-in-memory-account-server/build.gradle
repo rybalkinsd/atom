@@ -1,5 +1,17 @@
 dependencies {
+
     testCompile rootProject.libraries.junit
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    apply plugin: 'jetty'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
+
 }
 
 
@@ -11,7 +23,7 @@ sourceSets {
     }
     test {
         java {
-            srcDirs = ['src/test/java']
+            srcDirs = ['src/main/java']
         }
     }
 }
