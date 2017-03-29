@@ -13,6 +13,7 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
+    gsonVersion = "1.7.2"
 }
 
 allprojects {
@@ -60,7 +61,8 @@ ext.libraries = [
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        gson: "com.google.code.gson:gson:$gsonVersion"
 ]
 
 // code coverage settings
@@ -87,3 +89,4 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
+
