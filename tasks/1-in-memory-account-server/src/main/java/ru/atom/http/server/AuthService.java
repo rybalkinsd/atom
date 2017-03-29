@@ -1,17 +1,16 @@
-﻿package ru.atom.http.server;
+package ru.atom.http.server;
+
+/**
+ * Created by Юля on 29.03.2017.
+ */
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.resource.AllTokensHere;
-import ru.atom.resource.User;
-import ru.atom.resource.Token;
-import ru.atom.resource.Authorized;
-import ru.atom.resource.HashCalculator;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
+import ru.atom.resource.*;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
@@ -19,10 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 
 /**
  * Created by Юля on 27.03.2017.
