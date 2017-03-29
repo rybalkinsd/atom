@@ -159,9 +159,8 @@ public class AuthResource {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
         } catch (Exception e) {
-            Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
         }
-        throw new NotImplementedException();
     }
 
 }

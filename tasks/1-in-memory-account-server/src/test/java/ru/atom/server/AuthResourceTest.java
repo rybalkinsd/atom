@@ -58,8 +58,8 @@ public class AuthResourceTest {
         Response response = AuthResource.logout(Long.toString(AuthResource.getTokenStore().getToken(0).getToken() + 1));
         Assert.assertTrue(response.getStatus() == 400);
 
-        //response = AuthResource.logout(null);
-        //Assert.assertTrue(response.getStatus() == 400);
+        response = AuthResource.logout(null);
+        Assert.assertTrue(response.getStatus() == 400);
 
         response = AuthResource.logout(AuthResource.getTokenStore().getToken(0).getToken().toString());
         String body = response.getEntity().toString();
