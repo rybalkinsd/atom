@@ -21,8 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Service {
     private static final Logger log = LogManager.getLogger(Service.class);
 
-    private ConcurrentHashMap<String, User> loginToUser = new ConcurrentHashMap<>();
-    private TokenHolder tokenHolder = new TokenHolder();
+    private static ConcurrentHashMap<String, User> loginToUser = new ConcurrentHashMap<>();
+    private static TokenHolder tokenHolder = new TokenHolder();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -32,7 +32,7 @@ public class Service {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
         }
         if (loginToUser.containsKey(name)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Duplicate login : (").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Duplicated login : (").build();
         }
         User user = new User(name, password);
         loginToUser.put(name, user);
@@ -43,7 +43,7 @@ public class Service {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/auth/login")
-    public Response login(@QueryParam("name") String name, @QueryParam("password") String password) {
+    public Response login(@FormParam("name") String name, @FormParam("password") String password) {
         User user = new User(name, password);
         if (!loginToUser.containsValue(user)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
