@@ -51,6 +51,7 @@ subprojects {
 // common libraries declaration
 ext.libraries = [
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
+        gson : "com.google.code.gson:gson:2.7",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
         junit: "junit:junit:$junitVersion",
         log4j: [
