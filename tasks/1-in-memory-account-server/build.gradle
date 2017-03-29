@@ -16,9 +16,21 @@ sourceSets {
             srcDirs = ['src/main/java']
         }
     }
+
     test {
         java {
             srcDirs = ['src/test/java']
         }
+    }
+}
+
+jar {
+    from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes("Main-Class": "ru.atom.AuthServer" )
     }
 }

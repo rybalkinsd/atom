@@ -1,17 +1,18 @@
 package ru.atom;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Random;
 
 /**
  * Created by serega on 26.03.17.
  */
 public class Token {
-    private static AtomicLong counter = new AtomicLong(0);
+    private static Random random = new Random();
 
     private Token() {
     }
 
     public static Long createToken() {
-        return counter.getAndIncrement();
+        long counter = random.nextLong();
+        return ((Long) counter);
     }
 }
