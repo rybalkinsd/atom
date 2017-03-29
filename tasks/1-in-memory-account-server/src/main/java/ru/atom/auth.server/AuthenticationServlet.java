@@ -6,16 +6,22 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-@Path("/auth")
+import ru.atom.model.Token;
+import ru.atom.model.TokenMap;
+import ru.atom.model.User;
+import ru.atom.model.UserMap;
+
+@Path("/")
 public class AuthenticationServlet {
     private static final Logger log = LogManager.getLogger(AuthenticationServlet.class);
-    private static ConcurrentHashMap<User, String> credentials = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<User, Token> tokens = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<Token, User> tokensReversed = new ConcurrentHashMap<>();
+    private static UserMap userMap = new UserMap();
+    private static TokenMap tokenMap = new TokenMap();
 
     @POST
-    @Path("register")
+    @Path("auth/register")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     public Response register(@FormParam("name") String name,
@@ -26,7 +32,7 @@ public class AuthenticationServlet {
 
         User user = new User(name);
 
-        if (credentials.putIfAbsent(user, password) != null) {
+        if (!userMap.putUser(user, password)) {
             log.info("Attempt for registering dublicate user: " + user.getName());
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
@@ -36,7 +42,7 @@ public class AuthenticationServlet {
     }
 
     @POST
-    @Path("login")
+    @Path("auth/login")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     public Response login(@FormParam("name") String name,
@@ -49,10 +55,11 @@ public class AuthenticationServlet {
         User user = new User(name);
 
         try {
-            if (!authenticate(user, password)) {
+            if (!userMap.authenticate(user, password)) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
-            Token token = issueToken(user);
+
+            Token token = tokenMap.issueToken(user, tokenMap);
 
             return Response.ok(Long.toString(token.getId())).build();
 
@@ -63,46 +70,30 @@ public class AuthenticationServlet {
 
     @Authorized
     @POST
-    @Path("logout")
+    @Path("auth/logout")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     public Response logout() {
         Token token = AuthenticationFilter.getToken();
 
         try {
-            log.info("User " + tokensReversed.get(token).getName() + " logout" );
-            tokens.remove(tokensReversed.get(token));
-            tokensReversed.remove(token);
+            log.info("User " + tokenMap.getUser(token).getName() + " logout" );
+            tokenMap.removeToken(token);
             return Response.ok("You have logout").build();
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
 
-    private boolean authenticate(User user, String password) throws Exception {
-        return password.equals(credentials.get(user));
-    }
-
-    private Token issueToken(User user) {
-        Token token = tokens.get(user);
-        if (token != null) {
-            log.info("User " + user.getName() + " logged already");
-            return token;
-        }
-
-        token = new Token(ThreadLocalRandom.current().nextLong());
-        tokens.put(user, token);
-        tokensReversed.put(token, user);
-        log.info("User " + user.getName() + " logged in");
-        return token;
-    }
-
-    public static boolean validateToken(Token inputToken) {
-        if (!tokensReversed.containsKey(inputToken)) {
-            log.info("Unregistered user is trying to connect server with wrong token: " + inputToken.getId());
-            return false;
-        }
-        log.info("Request from user " + tokensReversed.get(inputToken).getName() +  " with token: " + inputToken.getId());
-        return true;
+    @Authorized
+    @Path("data/users")
+    @GET
+    public Response users() {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        String json = gson.toJson(tokenMap.loginedUsers());
+        json = "{users:" + json + "}";
+        log.info("GSON :" + json);
+        return Response.ok(json).build();
     }
 }

@@ -8,6 +8,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
+import ru.atom.model.Token;
+import ru.atom.model.TokenMap;
+
 @Authorized
 @Provider
 public class AuthenticationFilter implements ContainerRequestFilter {
@@ -23,7 +26,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             throw new NotAuthorizedException("Check your request, please");
         }
 
-//        Token token = new Token(Long.parseLong(authorizationHeader.substring("Bearer".length()).trim()));
         token = new Token(Long.parseLong(authorizationHeader.substring("Bearer".length()).trim()));
 
         if (!validateToken(token)) {
@@ -37,6 +39,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private boolean validateToken(Token token) {
-        return AuthenticationServlet.validateToken(token);
+        return TokenMap.validateToken(token);
     }
 }
