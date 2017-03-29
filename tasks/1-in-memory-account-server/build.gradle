@@ -22,3 +22,15 @@ sourceSets {
         }
     }
 }
+
+task fatJar(type:Jar) {
+    manifest {
+        attributes 'Main-Class': 'ru.atom.auth.server.AuthServer'
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
