@@ -1,53 +1,42 @@
 package ru.atom;
 
-import org.eclipse.jetty.util.ConcurrentArrayQueue;
-
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Vlad on 26.03.2017.
  */
 public class TokensStorage {
-    private static final ConcurrentArrayQueue<Token> tokens = new ConcurrentArrayQueue<>();
+    private static final ConcurrentHashMap<Long, User> tokens = new ConcurrentHashMap<>();
 
     public static void addToken(Token token) {
-        tokens.add(token);
+        tokens.put(token.getToken(), token.getUser());
     }
 
     public static void removeToken(Long token) {
-        tokens.remove(findByLong(token));
+        tokens.remove(token);
     }
 
     public static boolean validateToken(String token) {
-        return tokens.contains(findByLong(Long.parseLong(token)));
+        return tokens.containsKey(Long.parseLong(token));
     }
 
     public static boolean validateToken(Token token) {
-        return tokens.contains(token);
-    }
-
-    private static Token findByLong(Long token) {
-        Iterator<Token> it = tokens.iterator();
-        Token tmp;
-        while (it.hasNext()) {
-            tmp = it.next();
-            if (tmp != null && token == tmp.getToken())
-                return tmp;
-        }
-        return null;
+        return tokens.containsValue(token.getUser());
     }
 
     public static String toJson() {
         if (tokens.isEmpty()) {
             return "{\"users\" : []}";
         }
+
         String json = "{\"users\" : [";
-        Iterator<Token> it = tokens.iterator();
-        Token tmp;
+        Iterator<User> it = tokens.values().iterator();
+        User tmp;
         while (it.hasNext()) {
             tmp = it.next();
             if (tmp != null)
-                json = json + "{" + tmp.getUser().toString() + "}, ";
+                json = json + "{" + tmp.getName() + "}, ";
         }
         json = json.substring(0, json.length() - 2) + "]}";
         return json;
