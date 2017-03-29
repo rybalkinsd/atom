@@ -43,13 +43,12 @@ public class ServerClient {
     }
 
     public static Response logout(String token) throws IOException {
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, ""))
+        //MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse(""),""))
+                //.post(RequestBody.create(mediaType, ""))
                 .addHeader("Authorization", "Bearer " + token)
                 .url(PROTOCOL + HOST + PORT + "/auth/logout")
                 .build();
-        System.out.println(request.toString());
         return client.newCall(request).execute();
     }
 

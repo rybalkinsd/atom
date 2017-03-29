@@ -64,13 +64,14 @@ public class ServerResources {
     @POST
     @LogoutSecured
     @Produces("text/plain")
-    @Consumes("application/x-www-form-urlencoded")
+    //@Consumes("application/x-www-form-urlencoded")
     @Path("auth/logout")
     public Response logout(@HeaderParam("Authorization") String token) {
         try {
             Token inputToken = new Token(token.substring(7));
+            log.info("{} with token = {} leaved",
+                    TokenStorage.findByToken(inputToken), inputToken);
             TokenStorage.removeToken(inputToken);
-            log.info("{} with token = {} leaved",TokenStorage.findByToken(inputToken), inputToken);
         } catch (NullPointerException n) {
             log.info("Illegal statement in field : Authorization. {}", n.getMessage());
             return Response.status(Response.Status.BAD_REQUEST)
@@ -88,7 +89,6 @@ public class ServerResources {
         HashMap<String, List<User>> jsonResp = new HashMap<>();
         jsonResp.put("users",  TokenStorage.getOnlineUsers());
         return Response.ok(gson.toJson(jsonResp)).build();
-        //return Response.status(Response.Status.OK).entity("who knows").build();
     }
 
 }

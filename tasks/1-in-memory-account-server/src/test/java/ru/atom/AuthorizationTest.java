@@ -48,7 +48,10 @@ public class AuthorizationTest {
         Response response = ServerClient.login(myUser);
         Assert.assertEquals(200, response.code());
 
-        response = ServerClient.login(new User("MeWithTheSamePass", "very11Complicated11Pass"));
+        response = ServerClient.login(myUser);
+        Assert.assertEquals(200, response.code());
+
+        response = ServerClient.login(new User("MeWithXaTheSamePass", "very11Complicated11Pass"));
         Assert.assertEquals(400, response.code());
 
         Response response1 = ServerClient.login(new User("Vladislav", "notmyPass"));
@@ -61,7 +64,7 @@ public class AuthorizationTest {
     public void logoutTest() throws Exception {
         String token = ServerClient.login(myUser).body().string();
         ServerClient.login(myFriend);
-
+        System.out.println(token);
         Response resp = ServerClient.logout(token);
         Assert.assertEquals(200, resp.code());
         Assert.assertFalse(TokenStorage.hasToken(new Token(token.substring(7))));
@@ -74,8 +77,8 @@ public class AuthorizationTest {
     public void onlineJsonTest() throws Exception {
         ServerClient.login(myUser);
         String json = ServerClient.viewOnline().body().string();
-        Assert.assertEquals("{\"users\":[{\"userName\":\"Vladislav\"," +
-                "\"password\":\"very11Complicated11Pass\"}]}", json);
+        System.out.println(json);
+        Assert.assertEquals("{\"users\":[{\"userName\":\"Vladislav\"}]}", json);
     }
 
     @After

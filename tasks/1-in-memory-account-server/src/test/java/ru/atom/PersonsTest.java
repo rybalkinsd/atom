@@ -21,7 +21,8 @@ public class PersonsTest {
     @Test
     public void userTest() {
         Assert.assertEquals("Vladislav", myUser.getUserName());
-        Assert.assertEquals("very11Complicated11Pass", myUser.getPassword());
+        Assert.assertEquals(new User("Vladislav", "very11Complicated11Pass"), myUser);
+        //Assert.assertEquals("very11Complicated11Pass", myUser.getPassword());
         Assert.assertFalse(myUser.equals(myFriend));
         Assert.assertTrue(myUser.equals(new User("Vladislav", "very11Complicated11Pass")));
     }
@@ -72,6 +73,12 @@ public class PersonsTest {
         TokenStorage.removeToken(friendToken);
         Assert.assertFalse(TokenStorage.hasToken(friendToken));
         Assert.assertEquals(1, TokenStorage.getOnlineUsers().size());
+    }
+
+    @Test
+    public void findByToken() throws Exception {
+        Token myToken = TokenStorage.getToken(myUser);
+        Assert.assertEquals(myUser.getUserName(), TokenStorage.findByToken(myToken).getUserName());
     }
 
     @After

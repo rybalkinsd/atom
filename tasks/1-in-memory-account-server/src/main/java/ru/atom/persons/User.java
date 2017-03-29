@@ -5,7 +5,7 @@ package ru.atom.persons;
  */
 public class User {
     private String userName;
-    private String password;
+    private transient String password;
 
     public User(String userName, String password) {
         this.userName = userName;

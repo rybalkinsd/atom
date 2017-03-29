@@ -9,7 +9,6 @@ public class HttpServer {
 
     public static void main(String[] args) throws Exception {
         startup();
-        shutdown();
     }
 
     public static void startup() throws Exception {
