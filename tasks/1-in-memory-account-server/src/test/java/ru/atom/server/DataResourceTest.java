@@ -13,8 +13,8 @@ public class DataResourceTest {
     public void users() throws Exception {
 
         Response response = DataResource.users();
-        Assert.assertTrue(response.getStatus() == 200 ||
-                response.getEntity().equals("{ \"users\" : []}"));
+        Assert.assertTrue(response.getStatus() == 200
+                || response.getEntity().equals("{ \"users\" : []}"));
 
         AuthResource.register("Sara", "OPX");
         AuthResource.login("Sara", "OPX");
