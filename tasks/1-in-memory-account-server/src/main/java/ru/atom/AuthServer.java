@@ -43,6 +43,7 @@ public class AuthServer {
         if (jettyServer.isStarted()) {
             jettyServer.stop();
             logger.info("Сервер остановлен");
+            return;
         }
         logger.info("Что-то пошло не так, сервер не был остановлен");
     }

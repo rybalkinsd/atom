@@ -51,7 +51,7 @@ public class AuthClient {
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
                 .url(PROTOCOL + HOST + PORT + "/auth/logout")
-                .addHeader("Authorization", token)
+                .addHeader("Authorization", "Bearer " + token)
                 .build();
         logger.info(request.toString());
 

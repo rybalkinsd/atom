@@ -18,7 +18,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 
-
 @Path("/auth")
 public class AuthResource {
     private static final Logger logger = LogManager.getLogger(AuthResource.class);
@@ -31,7 +30,7 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/register")
     @Produces("text/plain")
-    public Response register(@QueryParam("user") String userName, @QueryParam("password") String password) {
+    public Response register(@FormParam("user") String userName, @FormParam("password") String password) {
         if (checkNameLength(userName)) {
             Response response = Response.status(Response.Status.LENGTH_REQUIRED)
                     .entity("Неверный формат имени пользователя!").build();
@@ -46,7 +45,7 @@ public class AuthResource {
         }
         AccountStorage.addAccount(userName, password);
         logger.info("[" + userName + "] успешно зарегистрирован");
-        return Response.ok().build();
+        return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
 
     @POST
@@ -95,11 +94,11 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String valueToken) {
-        Token token = TokenStorage.getToken(valueToken);
+        Token token = TokenStorage.getToken(valueToken.split(" ")[1]);
         String userName = TokenStorage.getUser(token).getName();
         if (TokenStorage.removeToken(token)) {
             logger.info("Пользователь {} вышел из системы", userName);
-            return Response.ok().build();
+            return Response.ok().entity("До свидания, " + userName).build();
         }
 
         return Response.status(Response.Status.BAD_REQUEST).entity("Что-то пошло не так: неактуальный токен").build();
