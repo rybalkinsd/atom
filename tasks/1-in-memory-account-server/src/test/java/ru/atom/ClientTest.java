@@ -34,6 +34,16 @@ public class ClientTest {
     }
 
     @Test
+    public void incorrectPassword() throws IOException {
+        String user = "123";
+        String password = "123";
+        Client.register(user, password);
+        Response response = Client.login(user, password + "1");
+        String resp = response.body().string();
+        Assert.assertEquals(resp.substring(0,resp.length() - 2), "Incorrect password");
+    }
+
+    @Test
     public void trueLoginTest() throws IOException, ComparisonFailure {
         String user = "123";
         String password = "123";
@@ -42,6 +52,18 @@ public class ClientTest {
         String resp = response.body().string();
         Assert.assertEquals(resp.substring(0, resp.length() - 2),
                 new String("You are logined" + tokens.getTokenByName("123").toString()));
+    }
+
+    @Test
+    public void alreadyLoginedTest() throws IOException, ComparisonFailure {
+        String user = "123";
+        String password = "123";
+        Client.register(user, password);
+        Client.login(user, password);
+        Response response = Client.login(user, password);
+        String resp = response.body().string();
+        Assert.assertEquals(resp.substring(0, resp.length() - 2),
+                "You are already logined" + tokens.getTokenByName("123").toString());
     }
 
     @Test
