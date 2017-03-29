@@ -62,7 +62,8 @@ public class TokenMap {
             log.info("Unregistered user is trying to connect server with wrong token: " + validatedToken.getId());
             return false;
         }
-        log.info("Request from user " + tokensReversed.get(validatedToken).getName() +  " with token: " + validatedToken.getId());
+        log.info("Request from user " + tokensReversed.get(validatedToken).getName() + " with token: " +
+                validatedToken.getId());
         return true;
     }
 

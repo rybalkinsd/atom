@@ -7,15 +7,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AuthServer {
-    private final static int port = 8095;
-    private final static Logger log = LogManager.getLogger(AuthServer.class);
+    private static final int port = 8095;
+    private static final Logger log = LogManager.getLogger(AuthServer.class);
 
-    public static void main(String[] args) throws Exception {
+    private static Server jettyServer = new Server(port);
+
+    public static void serverRun() throws Exception {
 
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
-        Server jettyServer = new Server(port);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -27,6 +28,14 @@ public class AuthServer {
                 "ru.atom.auth.server"
         );
         jettyServer.start();
-		log.info("Server successfully started on port " + port);
+        log.info("Server successfully started on port " + port);
+    }
+
+    public static void main(String[] args) throws Exception {
+        serverRun();
+    }
+
+    public static void serverStop() throws Exception {
+        jettyServer.stop();
     }
 }

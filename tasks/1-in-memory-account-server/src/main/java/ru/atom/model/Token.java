@@ -17,7 +17,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return (int)id;
+        return (int) id;
     }
 
     @Override
