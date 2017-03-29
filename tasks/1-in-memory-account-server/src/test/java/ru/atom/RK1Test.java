@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 //@Ignore
-public class ChatClientTest {
+public class RK1Test {
     private static String MY_NAME_IN_CHAT = "serge";
     private static String MY_PASSWORD = "blabla";
     private static String MY_PASSWORD_FALSE = "blabla1";
@@ -31,7 +31,7 @@ public class ChatClientTest {
         jettyServer.start();
         System.out.println("server started");
 
-        Response response = ChatClient.login(MY_NAME_IN_CHAT, MY_PASSWORD);
+        Response response = RK1Client.login(MY_NAME_IN_CHAT, MY_PASSWORD);
         System.out.println("[" + response + "]");
         System.out.println();
         Assert.assertTrue(response.code() == 400);
@@ -47,7 +47,7 @@ public class ChatClientTest {
         jettyServer.start();
         System.out.println("server started");
 
-        Response response = ChatClient.register(MY_NAME_IN_CHAT, MY_PASSWORD, MY_PASSWORD_FALSE);
+        Response response = RK1Client.register(MY_NAME_IN_CHAT, MY_PASSWORD, MY_PASSWORD_FALSE);
         System.out.println("[" + response + "]");
         System.out.println();
         Assert.assertTrue(response.code() == 400);
@@ -63,7 +63,7 @@ public class ChatClientTest {
         jettyServer.start();
         System.out.println("server started");
 
-        Response response = ChatClient.viewChat();
+        Response response = RK1Client.viewChat();
         System.out.println("[" + response + "]");
         System.out.println();
         Assert.assertTrue(response.code() == 401);
@@ -79,7 +79,7 @@ public class ChatClientTest {
         jettyServer.start();
         System.out.println("server started");
 
-        Response response = ChatClient.viewChat();
+        Response response = RK1Client.viewChat();
         System.out.println("[" + response + "]");
         System.out.println();
         Assert.assertTrue(response.code() == 401);

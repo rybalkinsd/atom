@@ -10,7 +10,7 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-public class ChatClient {
+public class RK1Client {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
