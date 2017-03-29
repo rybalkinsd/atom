@@ -9,20 +9,25 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 public class HttpServer {
-    public static void main(String[] args) throws Exception {
+
+    public static Server newServer() {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] { createChatContext(), createResourceContext() });
 
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
+        return jettyServer;
+    }
 
-        jettyServer.start();
+    public static void main(String[] args) throws Exception {
+
+        newServer().start();
     }
 
     private static ServletContextHandler createChatContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/chat/*");
-        //context.setContextPath("/*");
+        // context.setContextPath("/*");
         ServletHolder jerseyServlet = context
             .addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);

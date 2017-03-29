@@ -1,0 +1,68 @@
+<script>
+  var host = "localhost";
+  var port = 8080;
+</script>
+
+<html>
+<style>
+    :root {
+        background: #336666;
+    }
+
+
+    label {
+    	font-family: sans-serif;
+	color: white;
+    }
+    #msg {
+    	font-family: sans-serif;
+	color:orangered;
+	text-align: center;
+	min-height:100px;
+    }
+
+    #name, #pass1, #pass2 {
+    	width: 200px;
+    }
+    .form {
+        height: 85%;
+    }
+
+    #header {
+        background: #336666;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+
+</style>
+
+<body>
+<h2 id="msg"></h2>
+<div id="header" style="align: center;">
+    <form method="POST" id="registerform" name="registerform" action="/chat/register">
+    <table cellpaddng="0" cellspacing="6" border="0" align="center">
+    <tr><td align="right">
+    	<label for="name">Login ID</label></td><td><input name="name" id="name" type="text"></td></tr>
+    <tr><td align="right">
+    	<label for="pass1">Password</label></td><td><input name="pass1" id="pass1" type="text"></td></tr>
+    <tr><td align="right">
+    	<label for="pass2">Reenter Password</label></td><td><input name="pass2" id="pass2" type="text"></td></tr>
+    <tr><td align="right" colspan="2">
+    	<input value="Register" style="font-size:large" type="submit"></td></tr>
+    </table>
+        
+    </form>
+</div>
+
+
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(function(){
+	$("#msg").html(location.search.substring(1).replace(/\+/g,' '));
+})
+
+</script>

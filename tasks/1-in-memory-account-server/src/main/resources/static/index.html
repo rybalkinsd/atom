@@ -49,20 +49,30 @@
         height: 30px; /* Height of the footer */
         background: #336666;
     }
+    
+    span {
+    	color: white;
+    	font-family: sans-serif;
+    }
+    
+    a {
+    	color: white;
+    	font-family: sans-serif;
+    	font-size: smaller;
+    }
 </style>
 
 <body>
 <div id="header">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input id="name" name="name" value="" style="font-size:medium; margin-bottom:5px" type="text"> 
+        <span> Nickname </span><br>
+        <input id="pass" name="pass" value="" style="font-size:medium; margin-bottom:5px" type="text">
+        <span> Password </span><br>
         <input value="Login" style="font-size:large" type="submit">
+        &nbsp; <a href="/register.html"> Register </a>
     </form>
-</div>
-<div id="header">
-    <form method="POST" id="passform" action="javascript:void(null);" onsubmit="login()">
-        <input id="pass" pass="pass" value="" style="font-size:medium" type="text">
-        <input value="Password" style="font-size:large" type="submit">
-    </form>
+    <button onclick="logout()" style="font-size:large; margin-bottom:10px">Logout</button>
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
@@ -92,8 +102,8 @@ function loadHistory() {
            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
     });
 }
-setInterval(loadHistory, 1000);
-
+//setInterval(loadHistory, 1000);
+setTimeout(loadHistory, 1000);
 </script>
 <script>
 function say() {
@@ -120,30 +130,11 @@ function say() {
 <script>
 function login() {
    var name = $('#nameform').serialize();
-   var pass = $('#passform').serialize();
-
-   var settings1 = {
-        "method": "POST",
-        "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/login?"+name+pass,
-    }
-
-   $.ajax(settings1).done(function(response) {
-        loadHistory();
-   }).fail(function (jqXHR, textStatus) {
-       alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-       console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-   });
-}
-</script>
-<script>
-function logout() {
-   var name = $('#nameform').serialize();
-
+   
    var settings = {
         "method": "POST",
         "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/logout?"+name,
+        "url": "http://" + host + ":" + port + "/chat/login?" + name,
     }
 
    $.ajax(settings).done(function(response) {
@@ -153,5 +144,11 @@ function logout() {
        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
    });
 }
+
+function logout() {
+   window.location="/chat/logout";
+}
 </script>
+
+
 

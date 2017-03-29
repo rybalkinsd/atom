@@ -4,22 +4,39 @@ import java.util.Random;
 import ru.atom.ChatResource;
 
 public class Token {
-	
-	protected long token;
-	String name;
-	
-	public Token(String name) {
-		this.name = name;
-		generateToken();
-	}
-	
-	public void generateToken() {
-		Random rand = new Random();
-		token = rand.nextLong();
-	}
-	
-	public User getUser() {
-		return ChatResource.getUser(name);
-	}
 
+    protected long token;
+    private String username;
+    private String tokenName;
+
+    public Token(String name) {
+        username = name;
+        generateToken();
+        tokenToString(token);
+    }
+
+    public String getTokenName() {
+        return tokenName;
+    }
+
+    public String getUserName() {
+        return username;
+    }
+
+    public long getToken() {
+        return token;
+    }
+
+    public void generateToken() {
+        Random rand = new Random();
+        token = rand.nextLong();
+    }
+
+    public User getUser() {
+        return ChatResource.getUser(username);
+    }
+
+    public void tokenToString(Long val) {
+        tokenName = val.toString();
+    }
 }
