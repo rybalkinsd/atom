@@ -36,7 +36,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
     private void validate(String tokenString) throws Exception {
         Long token = Long.valueOf(tokenString);
-        if(!TokenContainer.validate(token)) {
+        if (!TokenContainer.validate(token)) {
             throw new Exception();
         }
     }
