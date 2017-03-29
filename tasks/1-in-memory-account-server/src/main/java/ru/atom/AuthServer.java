@@ -8,6 +8,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 import ru.atom.resources.AuthFilter;
 
+import java.net.BindException;
+
 
 public class AuthServer {
     private static final Logger logger = LogManager.getLogger(AuthServer.class);
@@ -50,8 +52,12 @@ public class AuthServer {
             jettyServer.stop();
             jettyServer.start();
             logger.info("Сервер перезапущен");
+            return;
+        } else {
+            jettyServer.start();
+            return;
         }
-        logger.info("Что-то пошло не так, сервер не был перезапущен");
+        //logger.info("Что-то пошло не так, сервер не был перезапущен");
     }
 
     public static void main(String[] args) throws Exception {

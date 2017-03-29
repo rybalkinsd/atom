@@ -4,7 +4,6 @@ package ru.atom.storages;
 import ru.atom.base.Token;
 import ru.atom.base.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,9 +21,9 @@ public class TokenStorage {
     }
 
     public static boolean removeToken(Token token) {
-        if (checkToken(token)) {
-            return false;
-        }
+        //if (checkToken(token)) {
+        //    return false;
+        //}
         getUser(token).setToken(null);
         tokensMap.remove(token);
         return true;
@@ -38,13 +37,12 @@ public class TokenStorage {
     }
 
     public static User getUser(String tokenValue) {
-        if (tokensMap.contains(tokenValue)) {
-            for (Token token : tokensMap.keySet()) {
-                if (token.equals(tokenValue)) {
-                    return tokensMap.get(token);
-                }
+        for (Token token : tokensMap.keySet()) {
+            if (token.equals(tokenValue)) {
+                return tokensMap.get(token);
             }
         }
+
         return null;
     }
 
@@ -73,5 +71,14 @@ public class TokenStorage {
             names.add(user.getName());
         }
         return names;
+    }
+
+    public static Token getToken(String valueToken) {
+        for (Token token : tokensMap.keySet()) {
+            if (token.equals(valueToken)) {
+                return token;
+            }
+        }
+        return null;
     }
 }

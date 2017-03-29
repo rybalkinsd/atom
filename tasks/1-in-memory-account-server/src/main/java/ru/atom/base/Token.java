@@ -8,11 +8,6 @@ public class Token {
         this.valueToken = Long.toString(valueToken);
     }
 
-    public Token(String valueToken) {
-        this.valueToken = valueToken;
-    }
-
-
     public String getValueToken() {
         return valueToken;
     }

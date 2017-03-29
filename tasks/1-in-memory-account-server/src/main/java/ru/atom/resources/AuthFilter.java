@@ -1,7 +1,6 @@
 package ru.atom.resources;
 
 import org.apache.logging.log4j.LogManager;
-import ru.atom.base.Token;
 import ru.atom.base.User;
 import ru.atom.storages.TokenStorage;
 
@@ -37,7 +36,7 @@ public class AuthFilter implements ContainerRequestFilter {
     private void checkToken(String valueToken) {
         User user = TokenStorage.getUser(valueToken);
         if (user == null) {
-            logger.info("привет");
+            logger.info("Token = {} не актуален", valueToken);
             throw new NotAuthorizedException("");
         }
     }

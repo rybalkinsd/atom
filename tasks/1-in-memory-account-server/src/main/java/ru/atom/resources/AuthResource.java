@@ -8,6 +8,7 @@ import ru.atom.storages.AccountStorage;
 import ru.atom.storages.TokenStorage;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+
 
 
 @Path("/auth")
@@ -51,7 +53,7 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")
     @Produces("text/plain")
-    public Response login(@QueryParam("user") String userName, @QueryParam("password") String password) {
+    public Response login(@FormParam("user") String userName, @FormParam("password") String password) {
         if (checkNameLength(userName)) {
             Response response = Response.status(Response.Status.LENGTH_REQUIRED)
                     .entity("Неверный формат имени пользователя!").build();
@@ -72,7 +74,8 @@ public class AuthResource {
                 user.setToken(TokenStorage.generateToken());
                 TokenStorage.addToken(user.getToken(), user);
                 logger.info("[" + userName + "] успешно залогинился");
-                return Response.ok(user.getToken()).build();
+                Response response = Response.ok(user.getToken().getValueToken()).build();
+                return response;
             }
         }
 
@@ -92,11 +95,14 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String valueToken) {
-        if (TokenStorage.removeToken(new Token(valueToken))) {
+        Token token = TokenStorage.getToken(valueToken);
+        String userName = TokenStorage.getUser(token).getName();
+        if (TokenStorage.removeToken(token)) {
+            logger.info("Пользователь {} вышел из системы", userName);
             return Response.ok().build();
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity("Что-то пошло не так").build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Что-то пошло не так: неактуальный токен").build();
     }
 
 }
