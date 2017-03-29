@@ -23,26 +23,21 @@ public class Client {
     public static Response newUserRegister(String login, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(
-
-                        mediaType,String.format("login=%s&password=%s", login, password)
-
-
-
-                ))
-                .url(PROTOCOL + HOST + PORT + "/auth/register")
+                .post(RequestBody.create(mediaType,""))
+                .url(PROTOCOL + HOST + PORT + "/auth/register?user=" + login + "&password=" + password)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
         /*?user=" + login +"&password=" + password*/
         return client.newCall(request).execute();
+        /*mediaType,String.format("login=%s&password=%s", login, password)*/
     }
 
     //POST host:port/auth/login
     public static Response userLogin(String login, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .url(PROTOCOL + HOST + PORT + "/auth/login")
-                .post(RequestBody.create(mediaType,String.format("login=%s&password=%s", login, password)))
+                .url(PROTOCOL + HOST + PORT + "/auth/login?user=" + login + "&password=" + password)
+                .post(RequestBody.create(mediaType,""))
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 

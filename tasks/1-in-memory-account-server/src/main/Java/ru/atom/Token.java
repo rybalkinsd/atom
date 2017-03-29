@@ -1,6 +1,7 @@
 package ru.atom;
 
 
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Token {
 
-    private long token;
+    private final long token;
     private static ConcurrentHashMap<String , Token> stupidMap = new ConcurrentHashMap<>();
 
     public static Token getTokenfromString(String token) {
@@ -18,8 +19,8 @@ public class Token {
 
     }
 
-    public static Token createToken(User user) {
-        Token toc = new Token(user);
+    public static Token createToken() {
+        Token toc = new Token();
         stupidMap.put(toc.toString(), toc) ;
         return toc;
     }
@@ -33,8 +34,10 @@ public class Token {
 
 
 
-    protected Token(User user) {
-        this.token = 4L * user.hashCode();
+    protected Token() {
+
+        Random rnd = new Random();
+        this.token = rnd.nextLong();
     }
 
     public long getToken() {

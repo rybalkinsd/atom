@@ -12,17 +12,17 @@ import static org.junit.Assert.assertTrue;
  */
 public class StorageTokenTest {
 
-    User vasya = new User("vasya" , "h345kdll");
-    User lena = new User("lena" , "h345kdlsdrdy4l");
-    User marat = new User("marat" , "h334545kdll");
-    Token tv = new Token(vasya);
-    Token rl = new Token(lena);
-    Token tm = new Token(marat);
+    private User vasya = new User("vasya" , "h345kdll");
+    private User lena = new User("lena" , "h345kdlsdrdy4l");
+    private User marat = new User("marat" , "h334545kdll");
+    private Token tv = new Token();
+    private Token tl = new Token();
+    private Token tm = new Token();
 
     @Before
     public void setUp() throws Exception {
         StorageToken.add(tv, vasya);
-        StorageToken.add(rl, lena);
+        StorageToken.add(tl, lena);
     }
 
     @Test
@@ -51,9 +51,8 @@ public class StorageTokenTest {
 
     @Test
     public void getTockenByUser() throws Exception {
-        assertEquals(StorageToken.getTokenSt(lena), rl);
+        assertEquals(StorageToken.getTokenSt(lena), tl);
     }
-
 
 
 

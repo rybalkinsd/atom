@@ -69,14 +69,13 @@ public class RegisterJersey {
         Token yourToken;
         if (StorageToken.isContainsUser(romashka)) {
             yourToken = StorageToken.getTokenSt(romashka);
-            log.info("User login again. User's Token =" + yourToken);
         } else {
-            yourToken = Token.createToken(romashka);
+            yourToken = Token.createToken();
             StorageToken.add(yourToken,romashka);
-            log.info("User login. User's Token =" + yourToken);
         }
 
-        return Response.ok("You are login. Your Token = " + yourToken.toString()).build();
+        log.info(yourToken.toString());
+        return Response.ok(yourToken.toString()).build();
 
     }
 
@@ -86,15 +85,15 @@ public class RegisterJersey {
     @Path("logout")
     @Produces("text/plain")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) throws Exception {
-        log.info("token_param =" + tokenParam);
+        Response response;
         try {
             User user = StorageToken.getUserSt(Token.getTokenfromString(tokenParam));
             Token.getTokenfromString(tokenParam).deleteToken();
-            return Response.ok("User{" + user.getLogin().toString() + "} logout.").build();
+            response = Response.ok("User{" + user.getLogin().toString() + "} logout.").build();
         }  catch (Exception e) {
-            Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
+            response = Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
         }
-        throw new IllegalArgumentException();
+        return response;
     }
 }
 
