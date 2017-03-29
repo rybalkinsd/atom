@@ -23,12 +23,10 @@ public class AuthFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (!authorizationHeader.contains("Bearer ")) {
-//            throw new BadRequestException("Неверный формат данных");
             Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат данных").build();
         }
 
         if (authorizationHeader == null) {
-//            throw new BadRequestException("Неверный формат данных");
             Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат данных").build();
         }
 
@@ -37,7 +35,8 @@ public class AuthFilter implements ContainerRequestFilter {
             checkToken(valueToken);
         } catch (NotAuthorizedException e) {
             requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED).entity("Пользователь с таким токеном не найден").build());
+                    Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("Пользователь с таким токеном не найден").build());
         }
     }
 
