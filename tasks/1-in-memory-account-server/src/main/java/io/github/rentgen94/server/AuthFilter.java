@@ -46,7 +46,7 @@ public class AuthFilter implements ContainerRequestFilter {
     private void validateToken(String token) throws Exception {
         token = token.substring("Bearer ".length());
         Token validateToken = new Token(token);
-        if (!authUsers.containsKey(validateToken)) {
+        if (!authUsers.containsKey(validateToken) || validateToken.getToken() == -1L) {
             // no exception in case of invalid token
             throw new NotAuthorizedException(getStrBundle().getString("invalid.token"));
         }

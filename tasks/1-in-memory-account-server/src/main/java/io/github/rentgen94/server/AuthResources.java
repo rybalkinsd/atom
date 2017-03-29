@@ -9,6 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.NotAllowedException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.HttpHeaders;
@@ -70,16 +71,20 @@ public class AuthResources {
                 getLog().warn(logError);
                 return Response.status(Status.BAD_REQUEST).entity(logError).build();
             } else {
-                Token token = new Token(loginUser);
+                Token toShow;
                 String responseBody;
-                if (authUsers.containsKey(token) && authUsers.getUser(token).equals(loginUser)) {
+                Token toFind = authUsers.getToken(loginUser);
+                if (toFind != null) {
                     getLog().warn(getStrBundle().getString("already.logged"));
-                    responseBody = "Bearer " + token.toString();
+                    responseBody = "Bearer " + toFind.toString();
+                    toShow = toFind;
                 } else {
+                    Token token = new Token();
                     authUsers.put(token, loginUser);
                     responseBody = "Bearer " + token.toString();
+                    toShow = token;
                 }
-                getLog().info(String.format(getStrBundle().getString("login.token"), name, token.getToken()));
+                getLog().info(String.format(getStrBundle().getString("login.token"), name, toShow.getToken()));
                 return Response.ok(responseBody).build();
             }
         }
@@ -94,6 +99,9 @@ public class AuthResources {
         if (token != null) {
             token = token.substring("Bearer ".length());
             Token tokenLogout = new Token(token);
+            if (tokenLogout.getToken() == -1L) {
+                throw new NotAllowedException(getStrBundle().getString("invalid.token"));
+            }
             if (authUsers.containsKey(tokenLogout)) {
                 String name = authUsers.getUser(tokenLogout).getName();
                 authUsers.remove(tokenLogout);

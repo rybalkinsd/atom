@@ -20,6 +20,15 @@ public class TokenList {
         return null;
     }
 
+    public Token getToken(User user) {
+        for (Map.Entry<Token, User> userTokenEntry: tokens.entrySet()) {
+            if (userTokenEntry.getValue().equals(user)) {
+                return userTokenEntry.getKey();
+            }
+        }
+        return null;
+    }
+
     public boolean containsKey(Token token) {
         return tokens.containsKey(token);
     }

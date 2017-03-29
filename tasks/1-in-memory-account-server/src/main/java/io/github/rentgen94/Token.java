@@ -1,13 +1,18 @@
 package io.github.rentgen94;
 
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Created by Western-Co on 26.03.2017.
  */
 public class Token {
     private Long token;
+    private static AtomicLong next = new AtomicLong();
 
-    public Token(User user) {
-        this.token = 4L * user.getName().hashCode() + user.getPassword();
+    public Token() {
+        this.token = next.getAndAdd((new Date().getTime()));
     }
 
     public Token(String strToken) {
@@ -16,6 +21,10 @@ public class Token {
         } else {
             this.token = -1L;
         }
+    }
+
+    public static void setNext(AtomicLong next) {
+        Token.next = next;
     }
 
     public long getToken() {
