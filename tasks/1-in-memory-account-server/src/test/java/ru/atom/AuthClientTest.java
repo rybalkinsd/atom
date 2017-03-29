@@ -17,11 +17,11 @@ public class AuthClientTest {
 
     @Before
     public void init() throws IOException {
-        //try {
-        //    AuthServer.start();
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //}
+        try {
+            AuthServer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -157,8 +157,7 @@ public class AuthClientTest {
 
     @After
     public void stopServer() throws Exception {
-        //AuthServer.stop();
+        AuthServer.stop();
     }
-
 
 }
