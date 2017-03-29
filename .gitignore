@@ -5,3 +5,7 @@ build/
 
 .idea/
 /*/build/
+
+tasks/1-in-memory-account-server/logs
+tasks/1-in-memory-account-server/src
+tasks/1-in-memory-account-server/classes
