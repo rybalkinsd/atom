@@ -49,8 +49,8 @@ public class UsersCache {
         return result;
     }
 
-    public static boolean registerUser(User user) {
-        if (user != null) {
+    public static boolean registerUser(User user) throws NullPointerException {
+        if (user.getName() != null && user.getPassword() != null) {
             if (registeredUsers.contains(user)) {
                 logger.info("User with name {} already exist", user.getName());
                 return false;
@@ -59,13 +59,11 @@ public class UsersCache {
             logger.info("User {} is registered successful", user);
             return true;
         }
-
-        logger.info("Field user is null");
-        return false;
+        throw new NullPointerException();
     }
 
-    public static Long login(User user) {
-        if (user != null) {
+    public static Long login(User user) throws NullPointerException {
+        if (user.getName() != null && user.getPassword() != null) {
             if (registeredUsers.contains(user)) {
                 if (loginedUsers.containsValue(user)) {
                     logger.info("User {} is already logined", user.getName());
@@ -81,12 +79,10 @@ public class UsersCache {
             logger.info("User {} is not registered", user.getName());
             return -1L;
         }
-
-        logger.info("Field user is null");
-        return -1L;
+        throw new NullPointerException();
     }
 
-    public static boolean logout(Long token) {
+    public static boolean logout(Long token) throws NullPointerException {
         if (token != null) {
             if (loginedUsers.containsKey(token)) {
                 User user = loginedUsers.remove(token);
@@ -96,8 +92,6 @@ public class UsersCache {
             logger.info("Token {} is not authorized", token);
             return false;
         }
-
-        logger.info("Field token is null");
-        return false;
+        throw new NullPointerException();
     }
 }
