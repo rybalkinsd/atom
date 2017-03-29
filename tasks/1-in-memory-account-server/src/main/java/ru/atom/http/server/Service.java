@@ -21,21 +21,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Service {
     private static final Logger log = LogManager.getLogger(Service.class);
 
+    private static ConcurrentHashMap<String, User> registerToUser = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, User> loginToUser = new ConcurrentHashMap<>();
     private static TokenHolder tokenHolder = new TokenHolder();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/auth/register")
-    public Response register(@FormParam("user") String name, @FormParam("password") String password) {
+    public Response register(@FormParam("name") String name, @FormParam("password") String password) {
         if (name == null || password == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
         }
-        if (loginToUser.containsKey(name)) {
+        if (registerToUser.containsKey(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Duplicated login : (").build();
         }
         User user = new User(name, password);
-        loginToUser.put(name, user);
+        registerToUser.put(name, user);
         log.info("[" + name + "] registered");
         return Response.ok().build();
     }
@@ -45,8 +46,11 @@ public class Service {
     @Path("/auth/login")
     public Response login(@FormParam("name") String name, @FormParam("password") String password) {
         User user = new User(name, password);
-        if (!loginToUser.containsValue(user)) {
+        if (!registerToUser.containsValue(user)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
+        }
+        if (loginToUser.containsValue(user)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already logged in:(").build();
         }
         if (!tokenHolder.isValid(name)) {
             return Response.ok(tokenHolder.getToken(name).toString()).build();
@@ -55,6 +59,7 @@ public class Service {
         while (!tokenHolder.isValid(token)) {
             token = new Token();
         }
+        loginToUser.put(name, user);
         log.info("[" + name + "] logged in");
         tokenHolder.put(token, name);
         return Response.ok(tokenHolder.getToken(name).toString()).build();
