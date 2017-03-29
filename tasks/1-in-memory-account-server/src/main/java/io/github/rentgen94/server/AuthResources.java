@@ -74,10 +74,10 @@ public class AuthResources {
                 String responseBody;
                 if (authUsers.containsKey(token) && authUsers.getUser(token).equals(loginUser)) {
                     getLog().warn(getStrBundle().getString("already.logged"));
-                    responseBody = token.toString();
+                    responseBody = "Bearer " + token.toString();
                 } else {
                     authUsers.put(token, loginUser);
-                    responseBody = token.toString();
+                    responseBody = "Bearer " + token.toString();
                 }
                 getLog().info(String.format(getStrBundle().getString("login.token"), name, token.getToken()));
                 return Response.ok(responseBody).build();
@@ -92,6 +92,7 @@ public class AuthResources {
     @Authorized
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
         if (token != null) {
+            token = token.substring("Bearer ".length());
             Token tokenLogout = new Token(token);
             if (authUsers.containsKey(tokenLogout)) {
                 String name = authUsers.getUser(tokenLogout).getName();

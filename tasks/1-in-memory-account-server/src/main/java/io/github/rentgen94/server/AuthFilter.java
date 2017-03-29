@@ -25,7 +25,8 @@ public class AuthFilter implements ContainerRequestFilter {
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         // Check if the HTTP Authorization header is present and formatted correctly
-        if (authorizationHeader == null) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            getLog().error(getStrBundle().getString("wrong.header"));
             throw new NotAuthorizedException(getStrBundle().getString("auth.header.must.be"));
         }
 
@@ -43,6 +44,7 @@ public class AuthFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
+        token = token.substring("Bearer ".length());
         Token validateToken = new Token(token);
         if (!authUsers.containsKey(validateToken)) {
             // no exception in case of invalid token
