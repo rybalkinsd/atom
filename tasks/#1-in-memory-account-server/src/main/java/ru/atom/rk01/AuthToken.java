@@ -1,10 +1,13 @@
 package ru.atom.rk01;
 
+import java.util.Random;
+
 /**
  * Created by dmbragin on 3/28/17.
  */
 public class AuthToken implements Token {
     private String value;
+    private static final Random random = new Random(System.currentTimeMillis());
 
     @Override
     public boolean equals(Object o) {
@@ -26,8 +29,7 @@ public class AuthToken implements Token {
     }
 
     public AuthToken(String username) {
-        //todo generate token
-        this.value = String.valueOf(username.hashCode());
+        this.value = String.valueOf(random.nextLong());
     }
 
     @Override

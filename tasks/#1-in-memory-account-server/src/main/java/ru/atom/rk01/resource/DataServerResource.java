@@ -1,5 +1,7 @@
 package ru.atom.rk01.resource;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -29,20 +31,15 @@ public class DataServerResource {
     @Path("users/")
     @Produces("application/json")
     public Response getLoginedUsers() {
-        List<User> loginedUsers = userManager.getLoginedUsers();
-        //TODO use some libs
-        int loginedUssersCount = loginedUsers.size();
-        StringBuilder json = new StringBuilder("{ \"users\": [");
-        if (loginedUssersCount > 0) {
-            json.append(loginedUsers.get(0).getLogin());
-        }
+        List<String> loginedUsers = userManager.getLoginedUsersNames();
+        //TODO use some libs FIX
 
-        for (int i = 1; i < loginedUssersCount; i++) {
-            json.append(", ").append(loginedUsers.get(i).getLogin());;
-        }
+        String json = new Gson().toJson(loginedUsers);
+        JsonObject object = new JsonObject();
+        object.addProperty("users", json);
 
-        json.append("]}");
+
         log.info("Url users/ status {}",  String.valueOf(200));
-        return Response.ok(json.toString()).build();
+        return Response.ok(object.toString()).build();
     }
 }

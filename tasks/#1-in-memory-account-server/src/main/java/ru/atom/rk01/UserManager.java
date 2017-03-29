@@ -61,6 +61,13 @@ public class UserManager {
         return tmp;
     }
 
+    public List<String> getLoginedUsersNames() {
+        List<User> tmp = new ArrayList<User>(tokenUserMap.values());
+        List result = new ArrayList<String>();
+        tmp.forEach(u -> result.add(u.getLogin()));
+        return result;
+    }
+
     public User getUserByToken(Token token) {
         return tokenUserMap.get(token);
     }

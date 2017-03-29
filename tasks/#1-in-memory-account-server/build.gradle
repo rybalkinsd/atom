@@ -6,6 +6,7 @@ dependencies {
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.gson
 }
 
 sourceSets {
@@ -19,4 +20,9 @@ sourceSets {
             srcDirs = ['src/test/java']
         }
     }
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.rk01.AuthServer' }
 }

@@ -42,6 +42,7 @@ public class TestClientTest {
         String body = response.body().string();
         Response responseUsers = TestClient.viewOnline(body);
         assertEquals(responseUsers.code(), 200);
+        System.out.println(responseUsers.body().string());
         Response responseUsersError = TestClient.viewOnline("");
         assertEquals(responseUsersError.code(), 401);
 
