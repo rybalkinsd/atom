@@ -20,7 +20,7 @@ public class Service {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/auth/register")
-    public Response register(@QueryParam("user") String name, @QueryParam("password") String password) {
+    public Response register(@FormParam("user") String name, @FormParam("password") String password) {
         if (name == null || password == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
         }
