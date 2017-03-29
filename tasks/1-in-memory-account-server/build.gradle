@@ -1,6 +1,16 @@
 dependencies {
     testCompile rootProject.libraries.junit
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 }
+
 
 
 sourceSets {
