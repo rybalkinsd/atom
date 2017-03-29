@@ -1,5 +1,7 @@
 package ru.atom;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,26 +21,10 @@ public class DataResourceRk {
     @GET
     @Produces("application/json")
     @Path("/users")
-    public Response users() {
+    public Response users() throws JsonProcessingException {
         Collection<UserRk> logginedUsers = UserContainerRk.getLogginedUsers();
-
-        if (logginedUsers.isEmpty()) {
-            logger.info("UserRk list is showned");
-            return Response.ok("{\"users\" : []}").build();
-        }
-
-        StringBuilder builder = new StringBuilder(
-                "{\"users\" : [");
-
-        for (UserRk user: logginedUsers) {
-            builder.append("{")
-                    .append(user.getName())
-                    .append("}, ");
-        }
-
-        builder.delete(builder.length() - 2, builder.length());
-        builder.append("]}");
-        logger.info("UserRk list is showned");
-        return Response.ok(builder.toString()).build();
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(logginedUsers);
+        return Response.ok("{\"users\" : " + json + "}").build();
     }
 }
