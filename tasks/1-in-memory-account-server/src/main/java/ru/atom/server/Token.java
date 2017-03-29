@@ -5,23 +5,28 @@ package ru.atom.server;
  */
 
 public class Token {
-    private Integer id;
     private Long token;
 
-    public Token(Integer id, Long token) {
-        this.id = id;
+    public Token(Long token) {
         this.token = token;
     }
 
-    public Integer getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        return token.hashCode();
     }
 
     public Long getToken() {
         return token;
     }
 
-    public void setToken(Long token) {
-        this.token = token;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        Token other = (Token) o;
+        if (!token.equals(other.getToken())) return false;
+        return true;
     }
 }

@@ -21,12 +21,12 @@ public class DataResource {
     //          Сontent-Type: application/json
     //          Body: json вида {"users" : [{User1}, {User2}, ... ]}
 
-    @Path("/users")
-    @GET
-    @Produces("application/json")
-    public static Response users() {
-
-        return Response.ok(AuthResource.getLogined().toJson())
-                .build();
-    }
+//    @Path("/users")
+//    @GET
+//    @Produces("application/json")
+//    public static Response users() {
+//
+//        return Response.ok(AuthResource.getLogined().toJson())
+//                .build();
+//    }
 }

@@ -55,15 +55,15 @@ public class AuthResourceTest {
     public void logout() throws Exception {
         AuthResource.register("Sara", "OPX");
         AuthResource.login("Sara", "OPX");
-        Response response = AuthResource.logout(Long.toString(AuthResource.getTokenStore().getToken(0).getToken() + 1));
+        Response response = AuthResource.logout(Long.toString(AuthResource.getLogined().get("Sara").getToken() + 1));
         Assert.assertTrue(response.getStatus() == 400);
 
         response = AuthResource.logout(null);
         Assert.assertTrue(response.getStatus() == 400);
 
-        response = AuthResource.logout(AuthResource.getTokenStore().getToken(0).getToken().toString());
+        response = AuthResource.logout(Long.toString(AuthResource.getLogined().get("Sara").getToken()));
         String body = response.getEntity().toString();
-        Assert.assertTrue(response.getStatus() == 200 || body.equals("User Peter is logouted"));
+        Assert.assertTrue(response.getStatus() == 200 || body.equals("User Sara is logouted"));
 
     }
 
