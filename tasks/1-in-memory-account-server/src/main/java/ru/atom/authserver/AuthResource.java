@@ -27,9 +27,13 @@ public class AuthResource {
     @Path("/auth/register")
     public Response register(@FormParam("user") String name, @FormParam("password") String password) {
         log.info("Registering {} with password {}...", name, password);
-        if (name.length() > 30 || name.contains("\"") || name.contains("\n")) {
+        if (name == null || name.length() > 30 || name.contains("\"") || name.contains("\n")) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid name.\n").build();
+        }
+        if (password == null || name.length() < 4) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Password is too short. Minimal allowed length of password: 4.\n").build();
         }
         if (registered.containsKey(name)) {
             return Response.status(Response.Status.FORBIDDEN)
@@ -45,10 +49,9 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/auth/login")
     public Response login(@FormParam("user") String name, @FormParam("password") String password) {
-        final User user = registered.get(name);
-
+        final User user = (name == null || password == null) ? null : registered.get(name);
         if (user == null) {
-            log.info("User " + name + " does not exist!");
+            if (password != null) log.info("User " + name + " does not exist!");
             return Response.status(Response.Status.FORBIDDEN)
                     .entity("Incorrect user name or password.\n").build();
         }

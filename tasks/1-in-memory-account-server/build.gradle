@@ -10,7 +10,7 @@ dependencies {
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.HttpServer' }
+    manifest { attributes 'Main-Class': 'ru.atom.authserver.HttpServer' }
 }
 
 
