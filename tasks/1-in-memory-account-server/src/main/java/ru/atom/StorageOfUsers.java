@@ -41,10 +41,10 @@ public class StorageOfUsers {
         return result;
     }
 
-    public static LinkedList<User> getRegisteredUsers() {
-        LinkedList<User> result = new LinkedList<>();
+    public static LinkedList<String> getRegisteredUsers() {
+        LinkedList<String> result = new LinkedList<>();
         for (User user : registeredUsers) {
-            result.add(user);
+            result.add(user.getLogin());
         }
         return result;
     }

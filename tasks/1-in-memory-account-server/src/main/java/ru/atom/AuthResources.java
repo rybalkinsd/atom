@@ -27,11 +27,12 @@ public class AuthResources {
         try {
             if (StorageOfUsers.registerUser(user))
                 return Response.ok("Registration success!").build();
-            else return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with registration").build();
+            else return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("User with this name already exist").build();
         } catch (NullPointerException e) {
             log.info("Field is {}", e.getMessage());
         }
-        return Response.status(Response.Status.BAD_REQUEST).entity("Null").build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Field is Null").build();
 
     }
 
@@ -52,7 +53,7 @@ public class AuthResources {
     @Authorized
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
         if (StorageOfUsers.logout(Long.parseLong(token.trim()))) {
-            return Response.ok("Removal success").build();
+            return Response.ok("Logout successful").build();
         }
         return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with logout").build();
     }

@@ -25,7 +25,7 @@ public class JsonInfo {
     public Response users() {
         log.info("Users request");
         Gson gson = new Gson();
-        HashMap<String, LinkedList<User>> response = new HashMap<>();
+        HashMap<String, LinkedList<String>> response = new HashMap<>();
         response.put("users", StorageOfUsers.getRegisteredUsers());
         return Response.ok(gson.toJson(response)).build();
     }

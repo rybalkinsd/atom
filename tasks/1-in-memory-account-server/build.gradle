@@ -22,3 +22,30 @@ sourceSets {
         }
     }
 }
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'ru.atom.HttpServer'
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
+
+
+/*
+jar {
+    from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes("Main-Class": "HttpServer" )
+    }
+}
+*/
