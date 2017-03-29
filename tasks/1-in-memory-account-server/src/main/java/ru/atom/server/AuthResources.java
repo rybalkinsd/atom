@@ -3,8 +3,8 @@ package ru.atom.server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,7 +31,7 @@ public class AuthResources {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     @Path("/register")
-    public static Response register(@QueryParam("user") String user, @QueryParam("password") String password) {
+    public static Response register(@FormParam("user") String user, @FormParam("password") String password) {
         if (registered.containsKey(user)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
@@ -44,7 +44,7 @@ public class AuthResources {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     @Path("/login")
-    public static Response login(@QueryParam("user") String user, @QueryParam("password") String password) {
+    public static Response login(@FormParam("user") String user, @FormParam("password") String password) {
         if (!registered.containsKey(user)) {
             log.info(user + " isn't registered");
             return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();

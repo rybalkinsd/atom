@@ -23,3 +23,12 @@ sourceSets {
         }
     }
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ru.atom.server.HttpServer'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

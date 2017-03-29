@@ -6,9 +6,9 @@ import java.util.Date;
  * Created by dmitriy on 26.03.17.
  */
 public class User {
-    String name;
-    String password;
-    Date timestamp;
+    private String name;
+    private transient String password;
+    private Date timestamp;
 
     public User(String name, String password) {
         this.name = name;
