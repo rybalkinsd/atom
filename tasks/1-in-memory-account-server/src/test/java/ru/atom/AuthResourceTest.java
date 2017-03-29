@@ -58,6 +58,6 @@ public class AuthResourceTest {
     public void logoutLoggedIn() throws Exception {
         AuthResource.register(username, password);
         AuthResource.login(username, password);
-        assertTrue(AuthResource.logout(correctToken).getStatus() == 200);
+        assertTrue(AuthResource.logout("Bearer " + correctToken).getStatus() == 200);
     }
 }

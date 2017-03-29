@@ -21,3 +21,13 @@ sourceSets {
         }
     }
 }
+
+jar {
+    manifest {
+        attributes "Main-Class": "ru.atom.authserver.AuthServer"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

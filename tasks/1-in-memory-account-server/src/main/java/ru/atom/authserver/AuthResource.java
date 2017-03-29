@@ -69,7 +69,7 @@ public class AuthResource {
     @Produces("text/plain")
     @Path("/logout")
     public static Response logout(@HeaderParam("Authorization") String tokenString) {
-        Long tokenValue = Long.valueOf(tokenString);
+        Long tokenValue = Long.valueOf(tokenString.trim().substring(7));
         if (!TokenContainer.validate(tokenValue)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token").build();
         }
