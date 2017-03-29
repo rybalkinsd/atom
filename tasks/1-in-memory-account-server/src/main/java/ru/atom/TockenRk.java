@@ -1,13 +1,14 @@
 package ru.atom;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Random;
+
 
 /**
  * Created by pavel on 23.03.17.
  */
 public class TockenRk {
 
-    private static AtomicLong counter = new AtomicLong(0);
+    private static Random random = new Random();
 
     private TockenRk() {
     }
@@ -18,6 +19,14 @@ public class TockenRk {
      * @return unique tocken
      */
     public static Long generateTocken() {
-        return counter.getAndIncrement();
+        Long token = null;
+        boolean tokenExist = true;
+        while (tokenExist) {
+            token = Math.abs(random.nextLong());
+            if (UserContainerRk.getUserByTocken(token) == null) {
+                tokenExist = false;
+            }
+        }
+        return token;
     }
 }
