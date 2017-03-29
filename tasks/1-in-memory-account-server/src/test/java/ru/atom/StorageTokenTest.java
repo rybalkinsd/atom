@@ -3,6 +3,8 @@ package ru.atom;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.User;
+import ru.atom.Token;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
