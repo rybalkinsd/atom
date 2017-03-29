@@ -15,12 +15,12 @@ import java.io.IOException;
 public class ServerTest {
 
     @Before
-    public void startServer() throws Exception{
+    public void startServer() throws Exception {
         AuthServer.startServer();
     }
 
     @Test
-    public void registerTest() throws IOException{
+    public void registerTest() throws IOException {
         Response response;
         String body;
         response = AuthClient.register("user_john", "123");
@@ -40,15 +40,15 @@ public class ServerTest {
     }
 
     @Test
-    public void loginTest() throws IOException{
+    public void loginTest() throws IOException {
         String name = "user_steve";
         String password = "123456789";
         Response response;
-        String body;
         AuthClient.register(name, password);
         response = AuthClient.login(name, password);
         Assert.assertTrue(response.code() == 200);
 
+        String body;
         response = AuthClient.login(name + "123", password);
         body = response.body().string();
         Assert.assertTrue(response.code() != 200 && body.equals("User not registered"));
@@ -59,7 +59,7 @@ public class ServerTest {
     }
 
     @Test
-    public void logoutTest() throws IOException{
+    public void logoutTest() throws IOException {
         String name = "user_brown";
         String password = "123456789";
         Response response;
@@ -75,7 +75,7 @@ public class ServerTest {
     }
 
     @Test
-    public void usersTest() throws IOException{
+    public void usersTest() throws IOException {
         Response response;
 
         response = AuthClient.users();
@@ -83,7 +83,7 @@ public class ServerTest {
     }
 
     @After
-    public void stopServer() throws Exception{
+    public void stopServer() throws Exception {
         AuthServer.stopServer();
     }
 
