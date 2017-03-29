@@ -1,4 +1,4 @@
-package ru.atom.cache;
+package ru.atom.model;
 
 /**
  * Created by Sergey Rybalkin on 11/03/17.

@@ -3,6 +3,7 @@ plugins {
 }
 
 // constants declaration
+
 ext {
     jdkVersion = 1.8
 
@@ -13,6 +14,8 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
+    jwtVersion = "0.7.0"
+    gsonVersion = "2.2.4"
 }
 
 allprojects {
@@ -29,6 +32,7 @@ allprojects {
 
     sourceCompatibility = jdkVersion
     targetCompatibility = jdkVersion
+
 }
 
 subprojects {
@@ -52,6 +56,7 @@ subprojects {
 ext.libraries = [
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
+        jwt_token: "io.jsonwebtoken:jjwt:$jwtVersion",
         junit: "junit:junit:$junitVersion",
         log4j: [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
@@ -60,7 +65,8 @@ ext.libraries = [
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        gson: "com.google.code.gson:gson:$gsonVersion"
 ]
 
 // code coverage settings
