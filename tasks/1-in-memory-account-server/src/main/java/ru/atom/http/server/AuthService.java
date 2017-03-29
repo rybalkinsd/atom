@@ -3,14 +3,22 @@ package ru.atom.http.server;
 /**
  * Created by Юля on 29.03.2017.
  */
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.resource.*;
+import ru.atom.resource.AllTokensHere;
+import ru.atom.resource.Authorized;
+import ru.atom.resource.HashCalculator;
+import ru.atom.resource.Token;
+import ru.atom.resource.User;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
@@ -19,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by Юля on 27.03.2017.
- */
 @Path("/")
 public class AuthService {
 
