@@ -1,9 +1,10 @@
 package ru.atom;
 
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.junit.*;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
@@ -18,6 +19,27 @@ public class AuthServerTest {
     private static String user_2 = "user";
     private static String password_2 = "qwe111";
     private static String wrongToken = "123123";
+    private Server jettyServer;
+
+    @Before
+    public void serverInit() throws Exception {
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/");
+
+        jettyServer = new Server(8080);
+        jettyServer.setHandler(context);
+
+        ServletHolder jerseyServlet = context.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
+
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                "ru.atom"
+        );
+
+        jettyServer.start();
+    }
 
     @Test
     public void viewOnlineWhenEmpty() throws IOException {
@@ -155,5 +177,10 @@ public class AuthServerTest {
         String body = response.body().string();
         System.out.println();
         Assert.assertTrue(response.code() == 200 && body.equals("{\"users\":[]}"));
+    }
+
+    @After
+    public void stopServer() throws Exception {
+        jettyServer.stop();
     }
 }
