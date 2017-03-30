@@ -1,5 +1,6 @@
 package ru.atom.annotation;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.GET;
@@ -9,6 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+@Ignore
 public class AnnotationDemoTest {
 
     @Test
