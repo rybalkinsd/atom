@@ -1,5 +1,6 @@
 package ru.atom.thread.mm;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by sergey on 3/14/17.
  */
+@Ignore
 public class MatchMakerTest {
 
     @Test

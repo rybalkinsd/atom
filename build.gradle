@@ -15,6 +15,7 @@ ext {
     jerseyVersion = "2.25.1"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
+    hibernateVersion = "5.2.3.Final"
 }
 
 allprojects {
@@ -64,7 +65,7 @@ ext.libraries = [
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
-        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
+        hibernate: "org.hibernate:hibernate-core:$hibernateVersion"
 ]
 
 // code coverage settings
