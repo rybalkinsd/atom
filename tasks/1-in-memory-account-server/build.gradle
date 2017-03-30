@@ -8,6 +8,10 @@ dependencies {
     compile rootProject.libraries.jersey_containers
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.rk1.server.AuthServer' }
+}
 
 sourceSets {
     main {

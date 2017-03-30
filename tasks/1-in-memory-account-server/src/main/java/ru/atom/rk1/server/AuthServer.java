@@ -7,11 +7,13 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 
 public class AuthServer {
-    public static void main(String[] args) throws Exception {
+    private static Server jettyServer;
+
+    static void start() throws Exception {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/*");
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -29,5 +31,20 @@ public class AuthServer {
         );
 
         jettyServer.start();
+
+        // всех зарегистрированых пользователей забываем
+        AuthResource.registered.clear();
+
+        // всех авторизоавнных пользователей разлогиниваем
+        TokenStorage.clear();
+        TokenStorage.init();
+    }
+
+    static void stop() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        start();
     }
 }

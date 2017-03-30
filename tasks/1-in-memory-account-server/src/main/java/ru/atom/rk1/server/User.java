@@ -23,7 +23,7 @@ public class User {
         return name;
     }
 
-    public void setToken(Token token) {
+    void setToken(Token token) {
         this.token = token;
     }
 
@@ -35,7 +35,7 @@ public class User {
         return this.password.equals(password);
     }
 
-    public String toJson() {
+    String toJson() {
         return "{\"name\" : \"" + name + "\"}";
     }
 }

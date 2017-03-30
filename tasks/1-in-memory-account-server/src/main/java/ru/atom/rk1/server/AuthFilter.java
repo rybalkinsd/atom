@@ -4,7 +4,6 @@ package ru.atom.rk1.server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
@@ -24,18 +23,22 @@ public class AuthFilter implements ContainerRequestFilter {
         String authorizationHeader =
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-        // Check if the HTTP Authorization header is present and formatted correctly
-        if (authorizationHeader == null) {
-            throw new NotAuthorizedException("Authorization header must be provided");
-        }
+        try {
+            // Extract the token from the HTTP Authorization header
+            String token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION).trim();
 
-        // Extract the token from the HTTP Authorization header
-        String token = authorizationHeader.trim();
-
-        if (!TokenStorage.validate(token)) {
-            log.warn("unauthorized token " + token);
+            validateToken(token);
+        } catch (Exception e) {
+            log.warn("unauthorized token " + authorizationHeader);
             requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED).build());
+                    Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("First you need to login")
+                            .build());
         }
+    }
+
+    private void validateToken(String token) throws Exception {
+        if (!TokenStorage.validate(token))
+            throw new Exception();
     }
 }

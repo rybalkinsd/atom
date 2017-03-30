@@ -13,21 +13,29 @@ class TokenStorage {
     private static final Logger log = LogManager.getLogger(TokenStorage.class);
 
     private static final ConcurrentHashMap<Token, User> tokenStorage = new ConcurrentHashMap<>();
-    private static final long key;
+    private static long key;
 
-    static {
-        long newKey = new SecureRandom().nextLong();
-        key = newKey >= 0 ? newKey : newKey * (-1);
+    static void init() {
+        key = Math.abs(new SecureRandom().nextLong());
         log.info("new key = " + key);
     }
 
     private TokenStorage() {}
 
-    static void put(User user) {
+    static boolean put(User user) {
         Token token = new Token(key, user.getName());
+
+        // коллизия с одинаковыми токенами для разных пользователей
+        if (tokenStorage.containsKey(token) && tokenStorage.get(token) != user) {
+            log.warn(String.format("[%s] and [%s] have the same token %s",
+                    user.getName(), tokenStorage.get(token).getName(), token.string()));
+            return false;
+        }
+
         user.setToken(token);
         tokenStorage.put(token, user);
         log.info(String.format("[%s] added", user.getName()));
+        return true;
     }
 
     static boolean validate(String token) {
@@ -44,12 +52,17 @@ class TokenStorage {
         return tokenStorage.get(new Token(token));
     }
 
-    static User remove(User user) {
+    static void remove(User user) {
         Token token = user.getToken();
-        return tokenStorage.remove(token);
+        tokenStorage.remove(token);
+        user.setToken(null);
     }
 
-    public static Collection<User> getAllLoginedUsers() {
+    static Collection<User> getAllLoginedUsers() {
         return tokenStorage.values();
+    }
+
+    static void clear() {
+        tokenStorage.clear();
     }
 }

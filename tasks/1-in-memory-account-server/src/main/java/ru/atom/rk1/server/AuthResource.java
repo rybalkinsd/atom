@@ -18,10 +18,13 @@ import java.util.stream.Collectors;
 
 
 @Path("/")
-public class AuthResource {
+public class AuthResource implements Resource {
     private static final Logger log = LogManager.getLogger(AuthResource.class);
 
-    private static final ConcurrentHashMap<String, User> registed = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<String, User> registered = new ConcurrentHashMap<>();
+
+    private static String resp500 = "Sorry, something went wrong ...";
+    private static String resp403 = "Bad name and/or password";
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -29,6 +32,9 @@ public class AuthResource {
     @Path("auth/register")
     public Response register(@FormParam("name") String name,
                              @FormParam("password") String password) {
+        if (name == null || password == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         if (name.length() < 3) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Too short name, sorry :(").build();
@@ -53,9 +59,9 @@ public class AuthResource {
                     .entity("Gitler not allowed, sorry :(").build();
         }
 
-        if (registed.containsKey(name)) {
+        if (registered.containsKey(name)) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Already registed").build();
+                    .entity("Already registered").build();
         }
 
         if (password.length() < 8) {
@@ -76,9 +82,9 @@ public class AuthResource {
         }
 
         User user = new User(name, password);
-        log.info("[" + name + "] registed");
-        registed.put(name, user);
-        return Response.ok("You've successfully registed").build();
+        log.info("[" + name + "] registered");
+        registered.put(name, user);
+        return Response.ok("You've successfully registered").build();
     }
 
     @POST
@@ -87,25 +93,30 @@ public class AuthResource {
     @Path("auth/login")
     public Response login(@FormParam("name") String name,
                           @FormParam("password") String password) {
-        String badResp = "Bad name and/or password";
+        if (name == null || password == null)
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
-        if (!registed.containsKey(name)) {
-            log.info(String.format("[%s] tried to login\n", name));
+        if (!registered.containsKey(name)) {
+            log.info(String.format("[%s] no such registered user\n", name));
             return Response.status(Response.Status.FORBIDDEN)
-                    .entity(badResp).build();
+                    .entity(resp403).build();
         }
 
-        User user = registed.get(name);
+        User user = registered.get(name);
 
         if (!user.checkPassword(password)) {
             log.info(String.format("[%s] tried to login with bad password\n", user.getName()));
             return Response.status(Response.Status.FORBIDDEN)
-                    .entity(badResp).build();
+                    .entity(resp403).build();
         }
 
         log.info("[" + name + "] logged in");
 
-        TokenStorage.put(user);
+        if (!TokenStorage.put(user)) {
+            log.warn("token collision");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(resp500).build();
+        }
 
         return Response.ok(user.getToken().string()).build();
     }
@@ -117,18 +128,7 @@ public class AuthResource {
     @Path("auth/logout")
     public Response logout(@HeaderParam("Authorization") String token) {
         User user = TokenStorage.getUser(token);
-        if (user == null) {
-            log.warn("null user");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Something went wrong ...").build();
-        }
-
-        if (TokenStorage.remove(user) == null) {
-            log.warn("could not remove user");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Something went wrong ...").build();
-        }
-
+        TokenStorage.remove(user);
         log.info("[" + user.getName() + "] logged out");
         return Response.ok("You've successfully logged out").build();
     }
