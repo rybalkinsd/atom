@@ -1,4 +1,4 @@
-package ru.atom.lecture06.server.dao;
+package ru.atom.lecture07.server.dao;
 
 import org.junit.Before;
 import org.junit.Ignore;
