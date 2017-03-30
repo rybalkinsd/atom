@@ -49,9 +49,6 @@ public class Service {
         if (!registerToUser.containsValue(user)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect name or password :(").build();
         }
-        if (loginToUser.containsValue(user)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logged in:(").build();
-        }
         if (!tokenHolder.isValid(name)) {
             return Response.ok(tokenHolder.getToken(name).toString()).build();
         }
