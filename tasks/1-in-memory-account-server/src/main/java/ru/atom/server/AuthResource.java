@@ -23,17 +23,6 @@ import javax.ws.rs.core.Response;
 public class AuthResource {
 
     private static final Logger log = LogManager.getLogger(AuthResource.class);
-    //private static final RegistratedUserStorage registered = new RegistratedUserStorage();
-    private static final TokenStorage tokenStore = new TokenStorage();
-    private static final LoginedUserStorage logined = new LoginedUserStorage();
-
-    public static TokenStorage getTokenStore() {
-        return tokenStore;
-    }
-
-    public static LoginedUserStorage getLogined() {
-        return logined;
-    }
 
     @GET
     @Produces("text/plain")
@@ -61,8 +50,8 @@ public class AuthResource {
     @Path("/register")
     @Produces("text/plain")
     public static Response
-    register(@FormParam("user") String user, @FormParam("password") String password) {
-        if (logined.isRegistered(user)) {
+        register(@FormParam("user") String user, @FormParam("password") String password) {
+        if (UserStorage.isRegistered(user)) {
             log.info("User {} already registered", user);
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
@@ -71,7 +60,7 @@ public class AuthResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too short password").build();
         }
         User newUser = new User(user, password);
-        logined.offer(newUser);
+        UserStorage.offer(newUser);
         log.info("New user {} is registrated with id {}", newUser.getName(), newUser.getId());
         return Response.ok("New user " + newUser.getName() + " is registrated")
                 .build();
@@ -95,17 +84,17 @@ public class AuthResource {
     @Path("/login")
     @Produces("text/plain")
     public static Response login(@FormParam("user") String user, @FormParam("password") String password) {
-        if (logined.isRegistered(user)) {
-            User currUser = logined.get(user);
-            if (logined.isLogined(user)) {
+        if (UserStorage.isRegistered(user)) {
+            User currUser = UserStorage.get(user);
+            if (UserStorage.isLogined(user)) {
                 log.info("User {} already logined with token {}", user, currUser.getToken());
                 return Response.ok("User " + currUser.getName() + " already logined with token "
                         + currUser.getToken()).build();
             } else {
                 if (password.equals(currUser.getPassword())) {
                     Long newToken = TokenStorage.generateUniqueToken();
-                    logined.get(user).setToken(newToken);
-                    tokenStore.put(new Token(newToken), user);
+                    UserStorage.get(user).setToken(newToken);
+                    TokenStorage.put(new Token(newToken), user);
                     log.info("User {} logined with new token {}", currUser.getName(), currUser.getToken());
                     return Response.ok("User " + currUser.getName() + " logined with new token "
                             + currUser.getToken()).build();
@@ -140,10 +129,10 @@ public class AuthResource {
         try {
             Long token = Long.parseLong(tokenStr.trim());
             Token currT = new Token(token);
-            if (AuthResource.getTokenStore().contains(currT)) {
-                String name = AuthResource.getTokenStore().get(currT);
-                logined.get(tokenStore.get(currT)).setToken(null);
-                tokenStore.remove(currT);
+            if (TokenStorage.contains(currT)) {
+                String name = TokenStorage.get(currT);
+                UserStorage.get(TokenStorage.get(currT)).setToken(null);
+                TokenStorage.remove(currT);
                 log.info("User {} is logouted", name);
                 return Response.ok("User " + name + " is logouted").build();
             }

@@ -41,6 +41,6 @@ public class AuthFilter implements ContainerRequestFilter {
 
         if (tokenStr == null) throw new NotValideToken();
         Long token = Long.parseLong(tokenStr);
-        if (!AuthResource.getTokenStore().contains(new Token(token))) throw new NotValideToken();
+        if (!TokenStorage.contains(new Token(token))) throw new NotValideToken();
     }
 }

@@ -22,7 +22,7 @@ public class TokenStorage {
     }
 
     public static boolean contains(Token token) {
-       return map.containsKey(token);
+        return map.containsKey(token);
     }
 
     public static Long generateUniqueToken() {
