@@ -1,4 +1,4 @@
-package ru.atom.lecture06.server.dao;
+package ru.atom.lecture07.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

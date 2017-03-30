@@ -1,11 +1,11 @@
-package ru.atom.lecture06.server.resource;
+package ru.atom.lecture07.server.resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.lecture07.server.dao.MessageDao;
-import ru.atom.lecture07.server.dao.UserDao;
-import ru.atom.lecture06.server.model.Message;
-import ru.atom.lecture06.server.model.User;
+import ru.atom.lecture07.server.model.Message;
+import ru.atom.lecture07.server.model.User;
+import ru.atom.lecture07.server.service.ChatException;
+import ru.atom.lecture07.server.service.ChatService;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -21,9 +21,7 @@ import java.util.stream.Collectors;
 @Path("/")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
-
-    private static final UserDao userDao = new UserDao();
-    private static final MessageDao messageDao = new MessageDao();
+    private static final ChatService chatService = new ChatService();
 
 
     @POST
@@ -39,16 +37,11 @@ public class ChatResource {
         if (name.toLowerCase().contains("hitler")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
-        List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
-        if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
+        try {
+            chatService.login(name);
+        } catch (ChatException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        User newUser = new User().setLogin(name);
-        userDao.insert(newUser);
-        log.info("[" + name + "] logined");
-
-        //TODO send message "[user]: joined"
-
         return Response.ok().build();
     }
 
@@ -56,7 +49,7 @@ public class ChatResource {
     @Produces("text/plain")
     @Path("/online")
     public Response online() {
-        List<User> all = userDao.getAll();
+        List<User> all = chatService.getOnline();
         return Response.ok(String.join("\n", all.stream().map(User::getLogin).collect(Collectors.toList()))).build();
     }
 
@@ -74,17 +67,11 @@ public class ChatResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long message").build();
         }
 
-        List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
-        if (authors.isEmpty()) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("Not logined").build();
+        try {
+            chatService.say(name, msg);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        User author = authors.get(0);
-
-        Message message = new Message()
-                .setUser(author)
-                .setValue(msg);
-
-        messageDao.insert(message);
         log.info("[" + name + "]: " + msg);
 
         return Response.ok().build();
@@ -93,25 +80,13 @@ public class ChatResource {
     @GET
     @Produces("text/plain")
     @Path("/chat")
-    public Response chat(@QueryParam("name") String name) {
-        if (name == null || name.isEmpty()) {
-            List<Message> chatHistory = messageDao.getAll();
-            return Response.ok(String.join("\n", chatHistory
-                    .stream()
-                    .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
-                    .collect(Collectors.toList()))).build();
-        }
-
-        User user = userDao.getByName(name);
-
-        if (user == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("No such logined user " + name).build();
-        }
-
-        List<Message> chatHistory = messageDao.getAll();
+    public Response chat() {
+        List<Message> chatHistory = chatService.viewChat();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser() + "]: " + m.getValue())
+                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
+
+    //TODO implement logout here from scratch
 }
