@@ -1,7 +1,20 @@
 dependencies {
     testCompile rootProject.libraries.junit
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.7'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    //compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.25.1'
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.AuthServer' }
+}
 
 sourceSets {
     main {
