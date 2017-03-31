@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-@Ignore
+
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_NAME_IN_CHAT = "Arif ";
+    private static String MY_MESSAGE_TO_CHAT = "Hello Http";
 
     @Test
     public void viewOnline() throws IOException {

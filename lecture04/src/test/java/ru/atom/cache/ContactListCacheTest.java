@@ -1,7 +1,6 @@
 package ru.atom.cache;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -16,10 +15,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Created by Sergey Rybalkin on 11/03/17.
- */
-@Ignore
+
 public class ContactListCacheTest {
     private ContactListCache cache1;
     private ContactListCache cache1000;
