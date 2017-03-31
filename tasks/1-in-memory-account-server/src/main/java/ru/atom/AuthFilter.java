@@ -112,7 +112,7 @@ public class AuthFilter {
         logined.remove(token);
         log.info("[" + userToLogoutString + "] logout");
 
-        return Response.ok().build();
+        return Response.ok("Succeed logout.").build();
     }
 
     @GET
@@ -130,6 +130,6 @@ public class AuthFilter {
         ObjectNode jsonNode = mapper.createObjectNode();
         jsonNode.putPOJO("users", usersArray);
 
-        return Response.ok(jsonNode).build();
+        return Response.ok().entity(jsonNode.toString()).build();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class Token {
     private static final String CHARS =
-            "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ1234567890";
+            "1234567890";
     private static final Random random = new Random();
     private static final int length = 7;
 

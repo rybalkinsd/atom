@@ -152,7 +152,7 @@ public class AuthServerTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200);
+        Assert.assertTrue(response.code() == 200 && body.equals("Succeed logout."));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class AuthServerTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200 & body.equals("{\"users\":[\"" + user_2 + "\"]}"));
+        Assert.assertTrue(response.code() == 200 && body.equals("{\"users\":[\"" + user_2 + "\"]}"));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class AuthServerTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200);
+        Assert.assertTrue(response.code() == 200 && body.equals("Succeed logout."));
     }
 
     @Test
