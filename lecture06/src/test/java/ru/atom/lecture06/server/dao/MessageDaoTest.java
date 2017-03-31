@@ -1,6 +1,7 @@
 package ru.atom.lecture06.server.dao;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.atom.lecture06.server.model.Message;
 import ru.atom.lecture06.server.model.User;
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sergey on 3/25/17.
  */
+@Ignore
 public class MessageDaoTest {
     private MessageDao messageDao;
     private String msg ;
