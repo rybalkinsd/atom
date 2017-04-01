@@ -10,6 +10,8 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
+import javax.ws.rs.core.HttpHeaders;
+
 public class RK1Client {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
@@ -18,46 +20,34 @@ public class RK1Client {
 
     // GET host:port/chat/online
     public static Response viewOnline() throws IOException {
-        Request request = new Request.Builder().get().url(PROTOCOL + HOST + PORT + "/chat/online")
+        Request request = new Request.Builder().get().url(PROTOCOL + HOST + PORT + "/data/users")
             .build();
 
         return client.newCall(request).execute();
     }
 
     // POST host:port/chat/login?name=my_name
-    public static Response login(String name, String pass) throws IOException {
+    public static Response login(String user, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder().post(RequestBody.create(mediaType, ""))
-            .url(PROTOCOL + HOST + PORT + "/chat/login?name=" + name + "&pass=" + pass).build();
-
-        return client.newCall(request).execute();
-    }
-
-    public static Response register(String name, String pass1, String pass2) throws IOException {
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        Request request = new Request.Builder().post(RequestBody.create(mediaType, "")).url(PROTOCOL
-            + HOST + PORT + "/chat/register?name=" + name + "&pass1=" + pass1 + "&pass2=" + pass2)
+            .url(PROTOCOL + HOST + PORT + "/auth/login?user=" + user + "&password=" + password)
             .build();
 
         return client.newCall(request).execute();
     }
 
-    // POST host:port/chat/say?name=my_name
-    // Body: "msg='my_message'"
     /*
-     * public static Response say(String name, String msg) throws IOException {
-     * MediaType mediaType =
-     * MediaType.parse("application/x-www-form-urlencoded"); Request request =
-     * new Request.Builder() .post(RequestBody.create(mediaType, ""))
-     * .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name + "&msg=" + msg)
-     * .build();
+     * public static Response logout() throws IOException { Request request =
+     * new Request.Builder() .get() .addHeader(HttpHeaders.AUTHORIZATION,
+     * "12345678910") .url(PROTOCOL + HOST + PORT + "/auth/logout") .build();
      * 
      * return client.newCall(request).execute(); }
      */
 
-    // GET host:port/chat/chat
-    public static Response viewChat() throws IOException {
-        Request request = new Request.Builder().get().url(PROTOCOL + HOST + PORT + "/chat/chat")
+    public static Response register(String user, String password) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder().post(RequestBody.create(mediaType, ""))
+            .url(PROTOCOL + HOST + PORT + "/auth/register?user=" + user + "&password=" + password)
             .build();
 
         return client.newCall(request).execute();

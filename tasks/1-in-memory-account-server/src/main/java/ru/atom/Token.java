@@ -1,7 +1,7 @@
 package ru.atom;
 
 import java.util.Random;
-import ru.atom.ChatResource;
+import ru.atom.AuthService;
 
 public class Token {
 
@@ -33,7 +33,7 @@ public class Token {
     }
 
     public User getUser() {
-        return ChatResource.getUser(username);
+        return AuthService.getUser(username);
     }
 
     public void tokenToString(Long val) {

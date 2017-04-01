@@ -1,55 +1,35 @@
 package ru.atom;
 
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-public class HttpServer {
+//import ru.atom.AuthFilter;
 
+public class HttpServer {
     public static Server newServer() {
-        ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] { createChatContext(), createResourceContext() });
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/");
 
         Server jettyServer = new Server(8080);
-        jettyServer.setHandler(contexts);
-        return jettyServer;
-    }
+        jettyServer.setHandler(context);
 
-    public static void main(String[] args) throws Exception {
-
-        newServer().start();
-    }
-
-    private static ServletContextHandler createChatContext() {
-        ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/chat/*");
-        // context.setContextPath("/*");
         ServletHolder jerseyServlet = context
             .addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
 
         jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "ru.atom");
 
-        jerseyServlet.setInitParameter("com.sun.jersey.spi.container.ContainerResponseFilters",
-            CrossBrowserFilter.class.getCanonicalName());
+        /*
+         * jerseyServlet.setInitParameter(
+         * "com.sun.jersey.spi.container.ContainerRequestFilters",
+         * AuthService.class.getCanonicalName() );
+         */
 
-        return context;
+        return jettyServer;
     }
 
-    private static ContextHandler createResourceContext() {
-        ContextHandler context = new ContextHandler();
-        context.setContextPath("/");
-        ResourceHandler handler = new ResourceHandler();
-        handler.setWelcomeFiles(new String[] { "index.html" });
-
-        String serverRoot = HttpServer.class.getResource("/static").toString();
-        handler.setResourceBase(serverRoot);
-        context.setHandler(handler);
-        return context;
+    public static void main(String[] args) throws Exception {
+        newServer().start();
     }
-
 }

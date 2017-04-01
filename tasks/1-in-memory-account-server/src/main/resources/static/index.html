@@ -91,7 +91,7 @@
 function loadHistory() {
     var settings = {
       "crossDomain": true,
-      "url": "http://" + host + ":" + port + "/chat/chat",
+      "url": "http://" + host + ":" + port + "/chat/auth/chat",
       "method": "GET",
     }
 
@@ -113,7 +113,7 @@ function say() {
    var settings = {
         "method": "POST",
         "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/say?"+name,
+        "url": "http://" + host + ":" + port + "/chat/auth/say?"+name,
         "data": msg
     }
 
@@ -146,7 +146,7 @@ function login() {
 }
 
 function logout() {
-   window.location="/chat/logout";
+   window.location="/chat/auth/logout";
 }
 </script>
 
