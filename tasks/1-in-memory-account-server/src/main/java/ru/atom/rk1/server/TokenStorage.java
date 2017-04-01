@@ -12,7 +12,7 @@ import java.util.Collection;
 class TokenStorage {
     private static final Logger log = LogManager.getLogger(TokenStorage.class);
 
-    private static final ConcurrentHashMap<Token, User> tokenStorage = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Token, User> tokenStorage = new ConcurrentHashMap<>();
     private static long key;
 
     static void init() {

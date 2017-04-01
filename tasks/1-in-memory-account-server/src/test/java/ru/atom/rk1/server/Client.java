@@ -56,10 +56,20 @@ public class Client {
         return client.newCall(request).execute();
     }
 
-    public static Response badLogin(String name, String password) throws IOException {
+    public static Response badLogin1(String name, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, "user=" + name + "&password=" + password))
+                .url(PROTOCOL + HOST + PORT + "/auth/login")
+                .build();
+
+        return client.newCall(request).execute();
+    }
+
+    public static Response badLogin2(String name, String password) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, "name=" + name + "&pass=" + password))
                 .url(PROTOCOL + HOST + PORT + "/auth/login")
                 .build();
 
