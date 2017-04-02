@@ -13,6 +13,8 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
+    postgresVersion = "9.4-1200-jdbc41"
+    jetbrainsAnnotationVersion = "15.0"
 }
 
 allprojects {
@@ -60,7 +62,9 @@ ext.libraries = [
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        postgres: "org.postgresql:postgresql:$postgresVersion",
+        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
 ]
 
 // code coverage settings
