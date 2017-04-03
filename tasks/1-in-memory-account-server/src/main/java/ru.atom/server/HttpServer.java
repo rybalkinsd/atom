@@ -11,7 +11,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class HttpServer {
     private static Server jettyServer = new Server(8080);
 
-    public static void ServStart() throws Exception {
+    public static void servStart() throws Exception {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
 
@@ -34,12 +34,12 @@ public class HttpServer {
         jettyServer.start();
     }
 
-    public static void ServStop() throws Exception {
+    public static void servStop() throws Exception {
         jettyServer.stop();
     }
 
     public static void main(String[] args) throws Exception {
-        ServStart();
+        servStart();
     }
 
 }

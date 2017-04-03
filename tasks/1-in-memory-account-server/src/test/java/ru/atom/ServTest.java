@@ -19,7 +19,7 @@ public class ServTest {
 
     @Before
     public void serverInitializer() throws Exception {
-        ru.atom.server.HttpServer.ServStart();
+        ru.atom.server.HttpServer.servStart();
     }
 
     @Test
@@ -83,6 +83,6 @@ public class ServTest {
 
     @After
     public void stopServer() throws Exception {
-        ru.atom.server.HttpServer.ServStop();
+        ru.atom.server.HttpServer.servStop();
     }
 }

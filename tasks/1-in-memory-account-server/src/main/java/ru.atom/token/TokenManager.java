@@ -27,10 +27,10 @@ public class TokenManager {
     }
 
     public ArrayList<String> returnAllUsers() {
-                ArrayList<String> names = new ArrayList<>();
-                for (User user : tokens.values()) {
-                        names.add(user.getName());
-                    }
-                return names;
-            }
+        ArrayList<String> names = new ArrayList<>();
+        for (User user : tokens.values()) {
+            names.add(user.getName());
+        }
+        return names;
+    }
 }
