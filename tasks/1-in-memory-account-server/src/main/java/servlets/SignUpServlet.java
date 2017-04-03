@@ -15,23 +15,30 @@ import java.io.IOException;
 
 public class SignUpServlet extends HttpServlet {
     private final AccountService accountService;
-
     public SignUpServlet(AccountService accountService) {
         this.accountService = accountService;
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        UserProfile userProfile = new UserProfile(request.getParameter("login"),request.getParameter("password"));
-        if((accountService.getUserByLogin(userProfile.getLogin())==(accountService.getUserByLogin("sdavhadjgvahevd"))) && (
-                !request.getParameter("login").equals("{user}"))) {
+
+        UserProfile userProfile = new UserProfile(request.getParameter("login"),
+                request.getParameter("password"));
+
+        if ((!userProfile.getLogin().equals("{user}")
+                && accountService.getUserByLogin(userProfile.getLogin()) == null)) {
             accountService.addNewUser(userProfile);
+
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println("Пользователь под логином    " + userProfile.getLogin()+"   зарегестрирован");
+            response.getWriter().println("Пользователь под логином ///" + userProfile.getLogin() +
+                    " /// зарегестрирован");
             response.setStatus(HttpServletResponse.SC_OK);
+            log("Пользователь под логином ///" + userProfile.getLogin() +
+                    " /// зарегестрирован");
+
         } else {
-            response.setContentType("text/plain;x-www-form-urlencoded");
-            response.getWriter().println("User     " + userProfile.getLogin()+"    already exist");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().println("Пользователь ..." + userProfile.getLogin() + " ...уже существует");
             response.setStatus(HttpServletResponse.SC_EXPECTATION_FAILED);
         }
     }

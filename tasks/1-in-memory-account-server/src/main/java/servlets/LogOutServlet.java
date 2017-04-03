@@ -1,7 +1,9 @@
 package servlets;
-import accounts.AccountService;
-import accounts.UserProfile;
 
+
+import accounts.AccountService;
+
+import accounts.UserProfile;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,23 +15,26 @@ import java.io.IOException;
  */
 
 public class LogOutServlet extends HttpServlet{
-
     private final AccountService accountService;
 
     public LogOutServlet(AccountService accountService) { this.accountService = accountService; }
 
     public void doPost(HttpServletRequest request,HttpServletResponse response)
             throws ServletException, IOException {
+
         UserProfile thisUP = accountService.getUserByLogin(request.getParameter("login"));
-        if(thisUP!=null&&thisUP.getPass().toString().equals(request.getParameter("password"))){
-            String st = request.getSession().getId();
-            accountService.deleteSession(request.getSession().getId());
+
+        if (thisUP != null && thisUP.getPass().equals(request.getParameter("password"))
+                && accountService.isActive(thisUP)) {
+            accountService.deleteSession(thisUP.getUtoken());
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println (" Authorization: Bearer: " + st);
+            response.getWriter().println(" Досвидания, " + thisUP.getLogin() + "\n");
             response.setStatus(HttpServletResponse.SC_OK);
+            log("Пользователь " + thisUP.getLogin() + " вышел из сайта");
+
         } else {
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().println(" Authorization: not Bearer");
+            response.getWriter().println(" Вам не удалось выйти отсюда");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
 

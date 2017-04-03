@@ -28,11 +28,11 @@ public class Main {
         context.addServlet(new ServletHolder(new GetUsers(accountService)), "/data/users");
 
 
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setResourceBase("public_html");
+        ResourceHandler resourcehandler = new ResourceHandler();
+        resourcehandler.setResourceBase("public_html");
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, context});
+        handlers.setHandlers(new Handler[]{resourcehandler, context});
 
         Server server = new Server(8080);
         server.setHandler(handlers);
