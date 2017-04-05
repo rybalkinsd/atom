@@ -70,7 +70,7 @@ public class ChatResource {
         try {
             chatService.say(name, msg);
         } catch (ChatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logined.").build();
         }
         log.info("[" + name + "]: " + msg);
 
@@ -88,5 +88,15 @@ public class ChatResource {
                 .collect(Collectors.toList()))).build();
     }
 
-    //TODO implement logout here from scratch
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@QueryParam("name") String name) {
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Isn't logined").build();
+        }
+        return Response.ok().build();
+    }
 }

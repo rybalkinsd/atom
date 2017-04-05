@@ -20,10 +20,10 @@ public class MessageDao {
     private MessageDao(){}
 
     public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+        return session.createCriteria(Message.class).list();
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
     }
 }
