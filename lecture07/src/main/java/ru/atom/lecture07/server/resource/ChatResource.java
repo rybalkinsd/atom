@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,10 +38,37 @@ public class ChatResource {
         if (name.toLowerCase().contains("hitler")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
+        if (name == "") {
+            return Response.status(Response.Status.BAD_REQUEST).entity("nothing to login").build();
+        }
         try {
             chatService.login(name);
         } catch (ChatException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+        }
+        return Response.ok().build();
+    }
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@QueryParam("name") String name) {
+        if (name == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("nothing entered").build();
+        }
+        if (name.length() < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too short name, sorry :(").build();
+        }
+        if (name.length() > 20) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
+        }
+        if (name == "") {
+            return Response.status(Response.Status.BAD_REQUEST).entity("nothing to logout").build();
+        }
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("User is not existed").build();
         }
         return Response.ok().build();
     }
@@ -70,7 +98,7 @@ public class ChatResource {
         try {
             chatService.say(name, msg);
         } catch (ChatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("not logined").build();
         }
         log.info("[" + name + "]: " + msg);
 
@@ -84,7 +112,13 @@ public class ChatResource {
         List<Message> chatHistory = chatService.viewChat();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                .sorted(new Comparator<Message>() {
+                    @Override
+                    public int compare(Message o1, Message o2) {
+                        return o1.getTime().compareTo(o2.getTime());
+                    }
+                })
+                .map(m -> "(" + m.getTime() + ")[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
 

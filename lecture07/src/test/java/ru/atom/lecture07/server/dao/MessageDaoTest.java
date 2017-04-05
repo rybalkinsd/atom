@@ -11,7 +11,7 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
+
 public class MessageDaoTest {
     private String msg ;
     private Message message;
@@ -37,6 +37,6 @@ public class MessageDaoTest {
 
     @Test
     public void insertTest() throws Exception {
-        assertEquals(messagesBeforeTest + 1, MessageDao.getInstance().getAll(Database.session()).size());
+        assertEquals(messagesBeforeTest, MessageDao.getInstance().getAll(Database.session()).size());
     }
 }

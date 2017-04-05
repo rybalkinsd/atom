@@ -7,6 +7,7 @@ drop table if exists chat.user;
 create table chat.user (
   id    serial             not null,
   login varchar(20) unique not null,
+  logined boolean,
 
   primary key (id)
 );

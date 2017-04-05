@@ -17,6 +17,9 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
+    @Column(name = "logined")
+    private boolean logined;
+
     public int getId() {
         return id;
     }
@@ -32,6 +35,15 @@ public class User {
 
     public User setLogin(String login) {
         this.login = login;
+        return this;
+    }
+
+    public boolean isLogined() {
+        return logined;
+    }
+
+    public User setLogined(boolean logined) {
+        this.logined = logined;
         return this;
     }
 
