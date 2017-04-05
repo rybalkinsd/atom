@@ -29,9 +29,25 @@ public class ChatService {
             txn = session.beginTransaction();
 
             if (UserDao.getInstance().getByName(session, login) != null) {
-                throw new ChatException("Already logined");
+                if (UserDao.getInstance().getByName(session, login).isLogined()) {
+                    throw new ChatException("Already logined");
+                } else {
+                    User notNewUser = UserDao.getInstance()
+                            .getByName(session, login)
+                            .setLogined(true);
+
+                    UserDao.getInstance().insert(session, notNewUser);
+
+                    Message loginMessage = new Message()
+                            .setUser(notNewUser)
+                            .setValue("joined");
+                    MessageDao.getInstance().insert(session, loginMessage);
+                    txn.commit();
+                    return;
+                }
+
             }
-            User newUser = new User().setLogin(login);
+            User newUser = new User().setLogin(login).setLogined(true);
             UserDao.getInstance().insert(session, newUser);
 
             Message loginMessage = new Message()
@@ -68,10 +84,74 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("User is not existed");
+            }
+            if (!UserDao.getInstance().getByName(session, login).isLogined()) {
+                throw new ChatException("User is not logined");
+            }
+            User newUser = UserDao.getInstance().getByName(session, login);
+            Message userMessage = new Message()
+                    .setUser(newUser)
+                    .setValue(msg);
+            MessageDao.getInstance().insert(session, userMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> messageHistory;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            messageHistory = MessageDao.getInstance().getAll(session);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            messageHistory = Collections.emptyList();
+        }
+        return messageHistory;
+    }
+
+    public void logout(String login) throws ChatException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Such user is not existed");
+            }
+            if (!UserDao.getInstance().getByName(session, login).isLogined()) {
+                throw new ChatException("User is not logined");
+            }
+            User leaver = UserDao.getInstance().getByName(session, login).setLogined(false);
+
+            Message logoutMessage = new Message()
+                    .setUser(leaver)
+                    .setValue("leaved");
+            MessageDao.getInstance().insert(session, logoutMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 }
