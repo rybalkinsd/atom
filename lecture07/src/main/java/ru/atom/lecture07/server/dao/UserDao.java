@@ -26,6 +26,10 @@ public class UserDao {
         session.saveOrUpdate(user);
     }
 
+    public void remove(Session session, User user) {
+        session.delete(user);
+    }
+
     public User getByName(Session session, String name) {
         return (User) session
                 .createQuery("from User where login = :name")
