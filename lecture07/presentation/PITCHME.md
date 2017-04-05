@@ -174,10 +174,10 @@ https://developer.jboss.org/wiki/SessionsAndTransactions
 
 #HSLIDE
 ### Session is a scope
-**Session** is a scope where hibernate provide guaranties:
+**Session** is a scope where hibernate provides guaranties:
 1. automatic management
-2. **equals** and **hashcode** for same object
-3. **transaction** is valid within one session
+1. **equals** and **hashcode** for same object
+1. **transaction** is valid within one session  
 Objects from different sessions must be handled manually (**see Session.merge()**)  
 
 #HSLIDE
@@ -205,8 +205,9 @@ We will use **session-per-thread** strategy (configurable by hibernate)
 
 #HSLIDE
 ## Hibernate theory summary
-- Hibernate provide Session object to manage Entities and to make queries.  
-- Session object is configurable  
+- Hibernate provide **Session** object to manage Entities and to make queries. 
+- Entity mapping is described by **annotations**
+- **Session** object is configurable in **hibernate.cfg.xml**  
 - All hibernate guaranties are valid within single session
 Let's look how it works...
 
@@ -221,7 +222,7 @@ Let's look how it works...
 
 #HSLIDE
 ### Good old chat
-We now rewrite chat persistence from **JDBC** to **Hibernate**
+We now rewrite chat persistence from **JDBC** to **Hibernate**  
 @see ru/atom/lecture07/server
 
 #HSLIDE
@@ -290,7 +291,7 @@ or use **Transaction **interface available from **Session**
 
 #HSLIDE
 ### References
-[http://hibernate.org/orm/](https://habrahabr.ru/post/265061/)  
+[https://habrahabr.ru/post/265061/](https://habrahabr.ru/post/265061/)  
 [http://hibernate.org/orm/](http://hibernate.org/orm/)  
 
 #HSLIDE
@@ -321,7 +322,7 @@ Enable it if you wand by uncommenting
 ```js
 //setInterval(loadHistory, 1000);
 ```
-in index.html
+in **index.html**
 
 #HSLIDE
 ### Practice hints
