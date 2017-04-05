@@ -10,17 +10,34 @@ https://atom.mail.ru/
 
 
 #HSLIDE
-### get ready #1
+### get ready
 ```bash
 > git fetch upstream
 > git checkout -b lecture07 upstream/lecture07
 ```
 Refresh gradle project
 
+#HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. Hibernate theory
+1. Hibernate session
+1. Hibernate example
+1. Hibernate practice
+
+#HSLIDE
+## Agenda
+1. **[Intro]**
+1. What is ORM?
+1. Hibernate theory
+1. Hibernate session
+1. Hibernate example
+1. Hibernate practice
 
 #HSLIDE
 ### JDBC
-
+JDBC - is low level API for communicating with databases  
 | +++                               | ---                          |
 |-----------------------------------|------------------------------|
 | Pure SQL                          | DBMS-specific                |
@@ -59,6 +76,15 @@ Based on JDBC ‘under the hood’
 <img src="lecture07/presentation/assets/img/hero.jpg" alt="process" style="width: 500px;"/>
 
 #HSLIDE
+## Agenda
+1. Intro
+1. **[What is ORM?]**
+1. Hibernate theory
+1. Hibernate session
+1. Hibernate example
+1. Hibernate practice
+
+#HSLIDE
 ### ORM
 **ORM** - Object/Relational Mapping  
   
@@ -87,6 +113,19 @@ There are many ORM frameworks across different languages
 ...
 
 #HSLIDE
+### Why hibernate?
+Hibernate is very popular. It is required to apply 70% of Java positions
+
+#HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. **[Hibernate theory]**
+1. Hibernate session
+1. Hibernate example
+1. Hibernate practice
+
+#HSLIDE
 ### Hibernate
 [[Home page]](http://hibernate.org/orm/)  
 [[github]](https://github.com/hibernate/hibernate-orm)  
@@ -109,7 +148,17 @@ Once entity becomes managed by **Hibernate**, it is automatically synchronized w
 How to make object managed by hibernate? - via **Session**
 
 #HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. Hibernate theory
+1. **[Hibernate session]**
+1. Hibernate example
+1. Hibernate practice
+
+#HSLIDE
 ### Hibernate session
+**Session** is a class, provided by Hibernate API. It extends **EntityManager** (analog from JPA)  
 https://developer.jboss.org/wiki/SessionsAndTransactions  
 **Session** provide interface for communication with Hibernate:
 1. **persist** (make manageable), update, delete ... (next slide)
@@ -125,7 +174,7 @@ https://developer.jboss.org/wiki/SessionsAndTransactions
 1. automatic management
 2. **equals** and **hashcode** for same object
 3. **transaction** is valid within one session
-Objects from different sessions must be handled manually (**see Session.merge()**)
+Objects from different sessions must be handled manually (**see Session.merge()**)  
 
 #HSLIDE
 ### Session is not thread safe
@@ -142,6 +191,45 @@ We **must if** we:
 How to implement it? - **business key** (whatever we think define entity by business logic)
 
 #HSLIDE
+### Session lifespan is configurable
+https://developer.jboss.org/wiki/SessionsAndTransactions  
+There are a number of popular strategies:
+- session-per-transaction
+- session-per-request
+This strategies are implemented by application or by framework  
+We will use **session-per-thread** strategy (configurable by hibernate)
+
+#HSLIDE
+## Hibernate theory summary
+- Hibernate provide Session object to manage Entities and to make queries.  
+- Session object is configurable  
+- All hibernate guaranties are valid within single session
+Let's look how it works...
+
+#HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. Hibernate theory
+1. Hibernate session
+1. **[Hibernate example]**
+1. Hibernate practice
+
+#HSLIDE
+### Good old chat
+We now rewrite chat persistence from **JDBC** to **Hibernate**
+@see ru/atom/lecture07/server
+
+#HSLIDE
+### Service layer
+We introduce **service layer** (ChatService.java) in order to encapsulate business logic.  
+Service layer implements business logic using DAO and providing guaranties, that resource level expect.  
+This is simple and popular web services architecture  
+  
+#### Overall scheme now looks like this:  
+**Resource <--> Service <--> DAO <--> db**
+
+#HSLIDE
 ### Plug in hibernate
 We plug in hibernate as library within **build.gradle** (as usual)
 
@@ -152,9 +240,17 @@ Persistence configuration contain two main parts:
 1. Hibernate config (hibernate settings)
 
 #HSLIDE
+### hibernate.cfg.xml
+hibernate.cfg.xml must be placed in **CLASS_PATH** of project (for example in **resources** directory).
+It describes settings required for hibernate (and mapping references)  
+  
+Those options, provided in **resources/hibernate.cfg.xml** are essential to understand  
+@see resources/hibernate.cfg.xml
+
+#HSLIDE
 ### Mapping definition (via annotations)
 **JPA** suggests mapping via xml files, which is very verbose  
-In **hibernate** we can describe mapping with Java Annotations, which is pretty  
+In **hibernate** we can describe mapping with Java annotations, which is pretty  
   
 Let's look at basic mapping **annotations**:  
 @see ru/atom/lecture07/server/model/User.java  
@@ -165,28 +261,6 @@ Let's look at basic mapping **annotations**:
 Hibernate allow entity classes to inherit plain java classes in any combination. There are different mapping strategies for inheritance  
   
 For details see [docs about inheritance](http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#entity-inheritance)
-
-#HSLIDE
-### hibernate.cfg.xml
-hibernate.cfg.xml must be placed in CLASS_PATH og project (for example in **resources** directory).
-It describes settings required for hibernate (and mapping references)  
-  
-Those options, provided in **resources/hibernate.cfg.xml** are essential to understand  
-@see resources/hibernate.cfg.xml
-
-#HSLIDE
-### Practice. What we get
-Lets look at our **chat** architecture with **hibernate**  
-@see ru/atom/lecture07/server
-
-#HSLIDE
-### Service layer
-We introduce **service layer** (ChatService.java) in order to encapsulate there business logic.  
-Service layer implements business logic using DAO and providing guaranties, that resource level expect.  
-This is simple and popular web services architecture  
-  
-#### Overall scheme now looks like this:  
-**Resource <--> Service <--> DAO <--> db**
 
 #HSLIDE
 ### Hibernate query
@@ -212,8 +286,17 @@ or use **Transaction **interface available from **Session**
 
 #HSLIDE
 ### References
-[http://hibernate.org/orm/](https://habrahabr.ru/post/265061/)
+[http://hibernate.org/orm/](https://habrahabr.ru/post/265061/)  
 [http://hibernate.org/orm/](http://hibernate.org/orm/)  
+
+#HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. Hibernate theory
+1. Hibernate session
+1. Hibernate example
+1. **[Hibernate practice]**
 
 #HSLIDE
 ### Practice task
