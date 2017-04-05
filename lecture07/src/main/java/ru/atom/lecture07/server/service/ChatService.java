@@ -11,7 +11,9 @@ import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,10 +70,38 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            User sayUser = UserDao.getInstance().getByName(session, login);
+            if (sayUser == null) {
+                throw new ChatException("Not logined!");
+            }
+
+            Message userMessage = new Message()
+                    .setUser(sayUser)
+                    .setTime(new Date())
+                    .setValue(msg);
+            MessageDao.getInstance().insert(session, userMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> messages = new ArrayList<>();
+        messages = MessageDao.getAll(Database.session());
+        return messages;
+    }
+
+    public void logout(String login) {
+
     }
 }

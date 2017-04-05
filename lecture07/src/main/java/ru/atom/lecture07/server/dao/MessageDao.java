@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import ru.atom.lecture07.server.model.Message;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageDao {
@@ -19,11 +20,18 @@ public class MessageDao {
 
     private MessageDao(){}
 
-    public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+    public static List<Message> getAll(Session session) {
+        return session
+                .createQuery("from Message ORDER BY time DESC")
+                .list();
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
+    }
+
+    public List<Message> getByUser(Session session, UserDao user) {
+        List<Message> messages = (List<Message>) session.createCriteria(user.getClass());
+        return messages;
     }
 }
