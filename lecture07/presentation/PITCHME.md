@@ -41,6 +41,7 @@ Refresh gradle project
 #HSLIDE
 ### JDBC
 JDBC - is low level API for communicating with databases  
+
 | +++                               | ---                          |
 |-----------------------------------|------------------------------|
 | Pure SQL                          | DBMS-specific                |
