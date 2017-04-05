@@ -20,10 +20,11 @@ public class MessageDao {
     private MessageDao(){}
 
     public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+        return session
+                .createQuery("from Message ORDER BY time").list();
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
     }
 }

@@ -12,6 +12,7 @@ import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,10 +69,43 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logined");
+            }
+            Message newMessage = new Message()
+                    .setUser(UserDao.getInstance().getByName(session,login))
+                    .setValue(msg);
+            MessageDao.getInstance().insert(session, newMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> history;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            history = MessageDao.getInstance().getAll(session);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            history = Collections.emptyList();
+        }
+        return history;
     }
 }
