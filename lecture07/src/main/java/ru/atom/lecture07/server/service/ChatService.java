@@ -12,6 +12,7 @@ import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class ChatService {
     private static final Logger log = LogManager.getLogger(ChatService.class);
+
 
     public void login(String login) throws ChatException {
         Transaction txn = null;
@@ -68,10 +70,47 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            User author = UserDao.getInstance().getByName(session, login);
+            if (author == null) {
+                throw new ChatException("Not logged in");
+            }
+
+            Message message = new Message()
+                    .setUser(author)
+                    .setTime(new Date())
+                    .setValue(msg);
+
+            MessageDao.getInstance().insert(session, message);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> messages;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            messages = MessageDao.getInstance().getAll(session);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            messages = Collections.emptyList();
+        }
+        return messages;
     }
 }
