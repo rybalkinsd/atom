@@ -11,23 +11,23 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class MessageDaoTest {
     private String msg ;
     private Message message;
     private int messagesBeforeTest;
 
-    //TODO check if this test works
     @Before
     public void setUp() throws Exception {
         Database.setUp();
+        User user = new User().setLogin("test user");
+        Database.execTransactionalConsumer(s -> UserDao.getInstance().insert(s, user));
         msg = "Hello World " + new Random().nextInt(999999);
         messagesBeforeTest = MessageDao.getInstance().getAll(Database.session()).size();
         message = new Message()
-                .setUser(new User().setLogin("test user"))
+                .setUser(UserDao.getInstance().getByName(Database.session(), "test user"))
                 .setValue(msg);
 
-        Database.execTransactionalConsumer(s -> MessageDao.getInstance().insert(Database.session(), message));
+        Database.execTransactionalConsumer(s -> MessageDao.getInstance().insert(s, message));
     }
 
     @Test
