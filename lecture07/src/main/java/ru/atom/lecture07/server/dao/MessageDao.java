@@ -20,7 +20,9 @@ public class MessageDao {
     private MessageDao(){}
 
     public List<Message> getAll(Session session) {
-        return session.createCriteria(Message.class).list();
+        return session
+                .createQuery("from Message order by time desc")
+                .list();
     }
 
     public void insert(Session session, Message message) {
