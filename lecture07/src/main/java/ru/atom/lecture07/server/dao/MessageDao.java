@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.atom.lecture07.server.model.Message;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -17,13 +16,14 @@ public class MessageDao {
         return instance;
     }
 
-    private MessageDao(){}
+    private MessageDao() {
+    }
 
     public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+        return session.createQuery("from Message ORDER BY time").list();
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
     }
 }

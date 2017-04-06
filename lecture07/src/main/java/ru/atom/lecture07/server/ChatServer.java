@@ -15,7 +15,7 @@ public class ChatServer {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
+        contexts.setHandlers(new Handler[]{
                 createChatContext(),
                 createResourceContext()
         });

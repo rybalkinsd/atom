@@ -1,7 +1,6 @@
 package ru.atom.lecture07.server.dao;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.atom.lecture07.server.model.User;
 
@@ -10,7 +9,7 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
+//@Ignore
 public class UserDaoTest {
     private UserDao userDao;
     private String login;
