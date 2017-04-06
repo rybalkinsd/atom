@@ -10,7 +10,6 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class UserDaoTest {
     private UserDao userDao;
     private String login;

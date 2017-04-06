@@ -7,6 +7,7 @@ import ru.atom.lecture07.server.model.User;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class UserDao {
     private static final Logger log = LogManager.getLogger(UserDao.class);
 
@@ -18,7 +19,7 @@ public class UserDao {
 
     private UserDao(){}
 
-    public List<User> getAll(Session session) {
+    public List getAll(Session session) {
         return session.createCriteria(User.class).list();
     }
 
@@ -31,6 +32,10 @@ public class UserDao {
                 .createQuery("from User where login = :name")
                 .setParameter("name", name)
                 .uniqueResult();
+    }
+
+    public void remove(Session session, User user) {
+        session.delete(user);
     }
 
     /*
