@@ -26,12 +26,18 @@ public class UserDao {
         session.saveOrUpdate(user);
     }
 
-    public User getByName(Session session, String name) {
+    public static User getByName(Session session, String name) {
         return (User) session
                 .createQuery("from User where login = :name")
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public void dropUser(Session session, User userToDelete) {
+        session.delete(userToDelete);
+    }
+
+
 
     /*
     NO MORE MANUAL MAPPING!
