@@ -9,10 +9,16 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private int size = 0;
+    private ListNode<E> first;
+    private ListNode<E> last;
+
+    CustomLinkedList() {
+    }
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        return size;
     }
 
     @Override
@@ -22,22 +28,38 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        return indexOf(o) != -1;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        return new CustomLinkedListIterator<>();
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        linkLast(e);
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (x.item == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -57,13 +79,113 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        int index = 0;
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (x.item == null)
+                    return index;
+                index++;
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        Object[] all = c.toArray();
+        int numNew = all.length;
+        if (numNew == 0)
+            return false;
+
+        ListNode<E> pred;
+        ListNode<E> succ;
+        succ = null;
+        pred = last;
+
+        for (Object o : all) {
+            ListNode<E> newNode = new ListNode<>(pred, (E) o, null);
+            if (pred == null)
+                first = newNode;
+            else
+                pred.next = newNode;
+            pred = newNode;
+        }
+
+        last = pred;
+
+        size += numNew;
+        return true;
     }
+
+    private void linkLast(E e) {
+        final ListNode<E> l = last;
+        final ListNode<E> newNode = new ListNode<>(l, e, null);
+        last = newNode;
+        if (l == null)
+            first = newNode;
+        else
+            l.next = newNode;
+        size++;
+    }
+
+    E unlink(ListNode<E> x) {
+        final E element = x.item;
+        final ListNode<E> next = x.next;
+        final ListNode<E> prev = x.prev;
+
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
+            x.next = null;
+        }
+
+        x.item = null;
+        size--;
+        return element;
+    }
+
+    class CustomLinkedListIterator<E> implements Iterator<E> {
+        ListNode<E> lastReturned;
+        ListNode<E> next;
+        int nextIndex;
+
+        CustomLinkedListIterator() {
+            next = (ListNode<E>) first;
+            nextIndex = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex < size;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext())
+                throw new RuntimeException("No such element exception");
+
+            lastReturned = next;
+            next = next.next;
+            nextIndex++;
+            return lastReturned.item;
+        }
+    }
+
+
 
 
 
