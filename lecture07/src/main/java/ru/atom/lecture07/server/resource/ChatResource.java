@@ -89,4 +89,15 @@ public class ChatResource {
     }
 
     //TODO implement logout here from scratch
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@FormParam("name") String name) {
+        try {
+            chatService.logout(name);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logged in").build();
+        }
+        return Response.ok().build();
+    }
 }

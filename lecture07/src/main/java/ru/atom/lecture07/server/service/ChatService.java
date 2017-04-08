@@ -68,10 +68,67 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logged in");
+            }
+            Message newMessage = new Message()
+                    .setUser(UserDao.getInstance().getByName(session, login))
+                    .setValue(msg);
+            MessageDao.getInstance().insert(session, newMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> msgs;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            msgs = MessageDao.getInstance().getAll(session);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            msgs = Collections.emptyList();
+        }
+        return msgs;
+    }
+
+    public void logout(String login) throws ChatException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            User deletedUser = UserDao.getInstance().getByName(session, login);
+            if (deletedUser == null) {
+                throw new ChatException("Not logged in");
+            }
+            Message logoutMessage = new Message()
+                    .setUser(deletedUser)
+                    .setValue("logged out");
+            MessageDao.getInstance().insert(session, logoutMessage);
+            UserDao.remove(session, deletedUser);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 }
