@@ -88,5 +88,21 @@ public class ChatResource {
                 .collect(Collectors.toList()))).build();
     }
 
-    //TODO implement logout here from scratch
+    @POST
+    @Produces("text/plain")
+    @Path("/logout")
+    public static Response logout(@QueryParam("name") String name) {
+        if (name.length() < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too short name, sorry :(").build();
+        }
+        if (name.length() > 20) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
+        }
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
+        }
+        return Response.ok().build();
+    }
 }

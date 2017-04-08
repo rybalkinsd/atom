@@ -20,10 +20,13 @@ public class MessageDao {
     private MessageDao(){}
 
     public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+        @SuppressWarnings(value = "unchecked")
+                List<Message> messages = session
+                .createQuery("from Message order by time").list();
+        return messages;
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
     }
 }

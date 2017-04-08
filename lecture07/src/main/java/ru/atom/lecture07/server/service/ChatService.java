@@ -12,6 +12,7 @@ import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,10 +69,61 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logined");
+            }
+            User user = UserDao.getInstance().getByName(session, login);
+            Message message = new Message()
+                    .setUser(user)
+                    .setValue(msg)
+                    .setTime(new Date(System.currentTimeMillis()));
+            MessageDao.getInstance().insert(session, message);
+            txn.commit();
+
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> messages;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            messages = MessageDao.getInstance().getAll(session);
+            txn.commit();
+
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            messages = Collections.emptyList();
+        }
+        return messages;
+    }
+
+    public void logout(String login) throws ChatException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            if (UserDao.getInstance().getByName(session, login) != null) {
+                throw new ChatException("Not logined");
+            }
+            User user = UserDao.getInstance().getByName(session, login);
+            UserDao.getInstance().remove(session, user);
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 }
