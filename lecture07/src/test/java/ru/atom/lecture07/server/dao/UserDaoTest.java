@@ -10,7 +10,6 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class UserDaoTest {
     private UserDao userDao;
     private String login;
@@ -37,5 +36,11 @@ public class UserDaoTest {
     @Test
     public void insertTest() throws Exception {
         assertEquals(usersBeforeTest + 1, userDao.getAll(Database.session()).size());
+    }
+
+    @Test
+    public void removeTest() throws Exception {
+        Database.execTransactionalConsumer(s -> userDao.remove(s, user));
+        assertEquals(usersBeforeTest, userDao.getAll(Database.session()).size());
     }
 }
