@@ -2,7 +2,9 @@ package ru.atom.lecture07.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import ru.atom.lecture07.server.model.User;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class UserDao {
     }
 
     public void insert(Session session, User user) {
-        session.saveOrUpdate(user);
+        session.persist(user);
     }
 
     public User getByName(Session session, String name) {
@@ -32,6 +34,13 @@ public class UserDao {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public void deleteByName(Session session, String name) {
+        session.createQuery("delete User where login = :login")
+                .setParameter("login", name)
+                .executeUpdate();
+    }
+
 
     /*
     NO MORE MANUAL MAPPING!
