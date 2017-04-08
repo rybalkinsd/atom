@@ -33,6 +33,10 @@ public class UserDao {
                 .uniqueResult();
     }
 
+    public static void remove(Session session, User user) {
+        session.delete(user);
+    }
+
     /*
     NO MORE MANUAL MAPPING!
 

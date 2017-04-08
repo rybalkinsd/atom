@@ -13,30 +13,33 @@ import static org.junit.Assert.assertTrue;
 
 @Ignore
 public class MessageDaoTest {
+    private MessageDao messageDao;
     private String msg ;
     private Message message;
     private int messagesBeforeTest;
 
-    //TODO check if this test works
     @Before
     public void setUp() throws Exception {
         Database.setUp();
+        Database.execTransactionalConsumer(s -> UserDao.getInstance()
+                .insert(s, new User().setLogin("test user")));
+        messageDao = MessageDao.getInstance();
         msg = "Hello World " + new Random().nextInt(999999);
-        messagesBeforeTest = MessageDao.getInstance().getAll(Database.session()).size();
+        messagesBeforeTest = messageDao.getAll(Database.session()).size();
         message = new Message()
-                .setUser(new User().setLogin("test user"))
+                .setUser(UserDao.getInstance().getByName(Database.session(), "test user"))
                 .setValue(msg);
 
-        Database.execTransactionalConsumer(s -> MessageDao.getInstance().insert(Database.session(), message));
+        Database.execTransactionalConsumer(s -> messageDao.insert(s, message));
     }
 
     @Test
     public void getAllTest() throws Exception {
-        assertTrue(MessageDao.getInstance().getAll(Database.session()).size() > 0);
+        assertTrue(messageDao.getAll(Database.session()).size() > 0);
     }
 
     @Test
     public void insertTest() throws Exception {
-        assertEquals(messagesBeforeTest + 1, MessageDao.getInstance().getAll(Database.session()).size());
+        assertEquals(messagesBeforeTest + 1, messageDao.getAll(Database.session()).size());
     }
 }
