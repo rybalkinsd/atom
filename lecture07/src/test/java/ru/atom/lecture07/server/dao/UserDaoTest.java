@@ -10,7 +10,6 @@ import java.util.Random;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class UserDaoTest {
     private UserDao userDao;
     private String login;
@@ -22,7 +21,7 @@ public class UserDaoTest {
     public void setUp() throws Exception {
         Database.setUp();
         userDao = UserDao.getInstance();
-        login = "Lolita " + new Random().nextInt(999999);
+        login = "Kolobok " + new Random().nextInt(999999);
         user = new User().setLogin(login);
         usersBeforeTest = userDao.getAll(Database.session()).size();
 
