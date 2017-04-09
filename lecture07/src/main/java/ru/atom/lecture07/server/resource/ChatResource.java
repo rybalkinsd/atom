@@ -84,9 +84,23 @@ public class ChatResource {
         List<Message> chatHistory = chatService.viewChat();
         return Response.ok(String.join("\n", chatHistory
                 .stream()
-                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                .map(m -> "[" + m.getTime() + "  " + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.toList()))).build();
     }
 
-    //TODO implement logout here from scratch
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@QueryParam("name") String name) {
+        if (name.length() == 0) {
+            return Response.status(Response.Status.LENGTH_REQUIRED).entity("Name for login must be not null").build();
+        }
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("This user unauthorized!").build();
+        }
+        return Response.ok().build();
+
+    }
 }

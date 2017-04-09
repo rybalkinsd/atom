@@ -16,7 +16,8 @@ public class UserDao {
         return instance;
     }
 
-    private UserDao(){}
+    private UserDao() {
+    }
 
     public List<User> getAll(Session session) {
         return session.createCriteria(User.class).list();

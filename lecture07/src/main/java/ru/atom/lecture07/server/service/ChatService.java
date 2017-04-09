@@ -12,6 +12,8 @@ import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,10 +70,64 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            User user = UserDao.getInstance().getByName(session, login);
+            if (user == null) {
+                throw new ChatException("not logined");
+            }
+
+            Message message = new Message()
+                    .setUser(user)
+                    .setValue(msg)
+                    .setTime(new Date());
+            MessageDao.getInstance().insert(session, message);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public List<Message> viewChat() {
-        throw new NotImplementedException();
+        List<Message> chat;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            chat = MessageDao.getInstance().getAll(session);
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            chat = Collections.emptyList();
+        }
+        return chat;
+    }
+
+    public void logout(String login) throws ChatException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            User user = UserDao.getInstance().getByName(session, login);
+            if (user == null) {
+                throw new ChatException("This user not found");
+            }
+            session.delete(user);
+
+            log.info("{} was logout", login);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 }
