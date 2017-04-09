@@ -1,13 +1,3 @@
 rootProject.name = 'atom'
-<<<<<<< HEAD
-include 'lecture01'
-include 'lecture02'
-include 'lecture03'
-include 'lecture04'
-include 'lecture05'
-include 'lecture06'
-include 'game'
+include 'db_hackaton'
 
-//include 'homeworks/HW1'
-
-include 'web_hackaton'
