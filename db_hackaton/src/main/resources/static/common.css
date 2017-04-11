@@ -32,3 +32,9 @@ button:hover {
 .container {
     padding: 16px;
 }
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
