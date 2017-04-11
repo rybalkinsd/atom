@@ -1,11 +1,11 @@
-package ru.atom.http.server;
+package ru.atom.dbhackaton.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.resource.Token;
-import ru.atom.resource.TokenStorage;
-import ru.atom.resource.User;
-import ru.atom.resource.UsersStorage;
+import ru.atom.dbhackaton.resource.Token;
+import ru.atom.dbhackaton.resource.TokenStorage;
+import ru.atom.dbhackaton.resource.User;
+import ru.atom.dbhackaton.resource.UsersStorage;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
@@ -22,7 +22,7 @@ import java.util.LinkedList;
 /**
  * Created by zarina on 23.03.17.
  */
-@Path("/auth/")
+@Path("/")
 public class AuthService {
     private static final Logger log = LogManager.getLogger(AuthService.class);
     protected static final UsersStorage users = new UsersStorage();

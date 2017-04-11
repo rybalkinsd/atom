@@ -4,6 +4,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
+import ru.atom.dbhackaton.server.InfoService;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;

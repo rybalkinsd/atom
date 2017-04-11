@@ -1,4 +1,4 @@
-package ru.atom.resource;
+package ru.atom.dbhackaton.resource;
 
 /**
  * Created by zarina on 24.03.17.

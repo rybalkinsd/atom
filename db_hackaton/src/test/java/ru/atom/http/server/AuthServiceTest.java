@@ -4,8 +4,10 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
-import ru.atom.resource.Token;
-import ru.atom.resource.User;
+import ru.atom.dbhackaton.server.AuthFilter;
+import ru.atom.dbhackaton.server.AuthService;
+import ru.atom.dbhackaton.resource.Token;
+import ru.atom.dbhackaton.resource.User;
 
 
 import javax.ws.rs.client.Entity;

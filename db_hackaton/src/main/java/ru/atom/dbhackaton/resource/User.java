@@ -1,6 +1,4 @@
-package ru.atom.resource;
-
-import jersey.repackaged.com.google.common.hash.Hashing;
+package ru.atom.dbhackaton.resource;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
