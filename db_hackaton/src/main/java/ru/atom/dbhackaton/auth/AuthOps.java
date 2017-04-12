@@ -116,6 +116,7 @@ public class AuthOps {
         LoginEntity newLogin = new LoginEntity();
         newLogin.setToken(Long.toString(tokenLong));
         newLogin.setUser(getByName(user));
+        newLogin.setId(getByName(user).getUserId());
         saveLogin(newLogin);
         log.info("Set token " + tokenLong + " to " + user);
         return tokenLong;

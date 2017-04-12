@@ -12,10 +12,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class LoginEntity {
     private String token;
     private Integer id;
-    private String login;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
     private RegistredEntity user;
 
     public RegistredEntity getUser() {
@@ -26,19 +24,8 @@ public class LoginEntity {
         this.user = user;
     }
 
-    @Basic
-    @Column(name = "login")
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name="id")
+    @Column(name="userId")
     public Integer getId() {
         return this.id;
     }

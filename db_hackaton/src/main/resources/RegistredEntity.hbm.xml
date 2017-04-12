@@ -5,10 +5,14 @@
 <hibernate-mapping>
 
     <class name="ru.atom.dbhackaton.hibernate.RegistredEntity" table="registred" schema="chat" catalog="chatdb_atom1">
-        <id name="login">
-            <column name="login" sql-type="varchar(100)" length="100"/>
+        <id name="userId">
+            <column name="userId" sql-type="serial"/>
+            <generator class="identity"/>
         </id>
-        <one-to-one name="token" class="ru.atom.dbhackaton.hibernate.RegistredEntity" constrained="true"/>
+        <property name="login">
+            <column name="login" sql-type="varchar(100)" length="100"/>
+        </property>
+        <one-to-one name="token" class="ru.atom.dbhackaton.hibernate.LoginEntity" constrained="true"/>
         <property name="password">
             <column name="password" sql-type="varchar(100)" length="100" not-null="true"/>
         </property>
