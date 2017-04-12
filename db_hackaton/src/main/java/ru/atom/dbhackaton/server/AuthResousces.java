@@ -3,10 +3,8 @@ package ru.atom.dbhackaton.server;
 import ru.atom.dbhackaton.server.service.UserService;
 import ru.atom.dbhackaton.server.service.UserException;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 /**
@@ -54,5 +52,17 @@ public class AuthResousces {
             return Response.status(Response.Status.BAD_REQUEST).entity("Bad name or password").build();
         }
         return Response.ok(token).build();
+    }
+
+    @POST
+    @Path("/logout")
+    @Consumes("application/x-www-form-urlencoded")
+    @Authorized
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) long tocken) {
+        if (USER_SERVICE.logout(tocken)) {
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with logout").build();
     }
 }
