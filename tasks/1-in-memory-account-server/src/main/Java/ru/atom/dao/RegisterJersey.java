@@ -2,13 +2,20 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.server.Authorized;
+import ru.atom.authfilter.Authorized;
 import ru.atom.StorageToken;
-import ru.atom.object.Token;
-import ru.atom.object.User;
+import ru.atom.Token;
+import ru.atom.User;
 import ru.atom.Users;
 
-import javax.ws.rs.*;
+import ru.atom.dao.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
@@ -16,12 +23,12 @@ import javax.ws.rs.core.Response;
 /**
  * Created by Fella on 28.03.2017.
  */
-@Path("*")
+@Path("auth")
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey .class);
 
 
-    @GET
+    @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("register")
     @Produces("text/plain")
@@ -37,8 +44,19 @@ public class RegisterJersey {
             log.info("this login is busy.");
             return Response.status(Response.Status.UNAUTHORIZED).entity("Sorry, this login is busy").build();
         }
-        log.info("New user login = " + login  + ", password = " + password);
+
+        final String findByNameCondition = "name=\'" + login + "\'";
+
+        if (DatabaseClass.checkByCondition(findByNameCondition)) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE)
+                    .build();
+        }
+
         Users.put(new User(login, password));
+        DatabaseClass.insertUser(Users.getUser(login));
+
+        log.info("New user login = " + login  + ", password = " + password);
+        //Users.put(new User(login, password));
         log.info("Useres " + Users.getUser(login).getLogin().toString());
         return Response.ok("Congratulations, you are registered").build();
     }

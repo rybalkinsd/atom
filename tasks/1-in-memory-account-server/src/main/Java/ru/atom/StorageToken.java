@@ -1,9 +1,9 @@
 package ru.atom;
 
-import org.eclipse.jetty.server.Authentication;
+import ru.atom.object.Token;
+import ru.atom.object.User;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
 
 /**
  * Created by Fella on 29.03.2017.

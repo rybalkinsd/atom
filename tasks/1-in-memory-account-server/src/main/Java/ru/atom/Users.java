@@ -1,6 +1,6 @@
 package ru.atom;
 
-import ru.atom.User;
+import ru.atom.object.User;
 
 import java.util.concurrent.ConcurrentHashMap;
 
