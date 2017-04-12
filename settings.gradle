@@ -2,4 +2,3 @@ rootProject.name = 'atom'
 include 'db_hackaton'
 include 'tasks/1-in-memory-account-server'
 
-

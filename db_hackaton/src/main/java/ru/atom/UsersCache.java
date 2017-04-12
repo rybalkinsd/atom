@@ -50,16 +50,7 @@ public class UsersCache {
     }
 
     public static boolean registerUser(User user) throws NullPointerException {
-        if (user.getName() != null && user.getPassword() != null) {
-            if (registeredUsers.contains(user)) {
-                logger.info("User with name {} already exist", user.getName());
-                return false;
-            }
-            registeredUsers.add(user);
-            logger.info("User {} is registered successful", user);
-            return true;
-        }
-        throw new NullPointerException();
+
     }
 
     public static Long login(User user) throws NullPointerException {

@@ -1,42 +1,48 @@
 package ru.atom;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by serega on 26.03.17.
  */
+@Entity
+@Table(name = "reguser", schema = "auth")
 public class User {
-    private String name;
-    private transient String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
+    @Column(name = "login", unique = true, nullable = false, length = 20)
+    private String login;
+
+    public User setId(int id) {
+        this.id = id;
+        return this;
     }
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public String getPassword() {
-        return password;
+    public User setLogin(String login) {
+        this.login = login;
+        return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof User)) return false;
-        User user = (User) o;
-        return this.getName().equals(user.getName()) && this.getPassword().equals(user.getPassword());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        return result;
+    public int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return "{" + "name=" + name + ", password=" + password + "}";
+        return "User{" +
+            "id=" + id +
+                    ", login='" + login + '\'' +
+                    '}';
     }
 }

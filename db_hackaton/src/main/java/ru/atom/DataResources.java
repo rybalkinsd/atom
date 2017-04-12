@@ -1,4 +1,4 @@
-package ru.atom;
+/*package ru.atom;
 
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,7 @@ import java.util.LinkedList;
 /**
  * Created by serega on 26.03.17.
  */
-@Path("/data")
+/*@Path("/data")
 public class DataResources {
     private static final Logger log = LogManager.getLogger(DataResources.class);
 
@@ -39,4 +39,4 @@ public class DataResources {
         response.put("users",  UsersCache.getLoginedUsers());
         return Response.ok(gson.toJson(response)).build();
     }
-}
+}*/
