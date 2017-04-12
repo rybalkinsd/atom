@@ -11,6 +11,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import ru.atom.dbhackaton.dao.Database;
+import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.User;
@@ -35,6 +39,25 @@ public class AuthResources {
         if (registered.containsKey(user)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
+        Transaction txn = null;
+        try( Session session = Database.session()){
+            txn = session.beginTransaction();
+            if (UserDao.getInstance().getByName(session, user) != null) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
+            }
+            User newUser = new User(user, password);
+
+            UserDao.getInstance().insert(session, newUser);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
+        }
         registered.put(user, new User(user, password));
         log.info(user + " : registered");
         return Response.ok().build();
@@ -50,6 +73,7 @@ public class AuthResources {
             return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();
         }
         User userObj = registered.get(user);
+        Transaction txn = null;
         if (userObj.getPassword().equals(password)) {
             Token token = new Token(userObj);
             if (!(logined.containsKey(user))) {
