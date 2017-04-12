@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.http.server.dao.Database;
+import ru.atom.http.server.dao.TokenDao;
 import ru.atom.http.server.dao.UserDao;
 import ru.atom.http.server.model.Token;
 import ru.atom.http.server.model.TokenStorage;
@@ -26,7 +27,7 @@ import java.util.LinkedList;
 /**
  * Created by zarina on 23.03.17.
  */
-@Path("/auth/")
+@Path("/")
 public class AuthService {
     private static final Logger log = LogManager.getLogger(AuthService.class);
     protected static final UsersStorage users = new UsersStorage();
@@ -74,29 +75,43 @@ public class AuthService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(@FormParam("user") String name, @FormParam("password") String password)
             throws Exception {
+        Response response;
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
             log.info("Params empty");
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            response = Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         log.info("Login user " + name);
-        User user = users.get(name);
-        if (user == null) {
-            log.info("User " + name + " not found");
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            User user = UserDao.getInstance().getByName(session, name);
+            if (user == null) {
+                log.info("User " + name + " not found");
+                response = Response.status(Response.Status.BAD_REQUEST).build();
+            } else if (!user.validPassword(password)) {
+                log.info("Invalid password for user " + name);
+                response = Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                Token token = TokenDao.getInstance().getByUserName(session, name);
+                if (token == null) {
+                    log.info("Generate token");
+                    token = new Token().setUser(user);
+                    TokenDao.getInstance().insert(session, token);
+                }
+                response = Response.ok(token.toString()).build();
+            }
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            response = Response.status(Response.Status.BAD_GATEWAY).build();
         }
-        if (!user.validPassword(password)) {
-            log.info("Invalid password for user " + name);
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        Long tokenNum = tokens.getToken(user);
-        if (tokenNum == null) {
-            log.info("Generate token");
-            Token token = new Token(user);
-            tokenNum = token.getToken();
-            tokens.put(tokenNum, token);
-        }
-        return  Response.ok(tokenNum.toString()).build();
+        return response;
     }
 
     @POST

@@ -27,7 +27,7 @@ public class AuthServer {
 
     private static ServletContextHandler createChatContext() {
         ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/*");
+        context.setContextPath("/auth/*");
         ServletHolder jerseyServlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);

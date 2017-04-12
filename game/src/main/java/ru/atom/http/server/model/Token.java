@@ -19,7 +19,7 @@ public class Token {
 
     @Column
     @CreationTimestamp
-    private Date time;
+    private Date create_at;
 
     @Column(name = "value", nullable = false)
     private Long token;
@@ -38,31 +38,13 @@ public class Token {
 
     public Token setUser(User user) {
         this.user = user;
-        return this;
-    }
-
-    public Token setToken(Long token) {
-        this.token = token;
-        return this;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public Token setTime(Date timestamp) {
-        this.time = timestamp;
+        this.token = System.currentTimeMillis() * 100000L + (long) user.hashCode();
         return this;
     }
 
     @Override
     public String toString() {
-            return "Token{" +
-                    "id=" + id +
-                    "userId=" + user.getName() +
-                    ", timestamp=" + time +
-                    ", value='" + token + '\'' +
-                    '}';
+            return getToken().toString();
     }
 
 
