@@ -1,13 +1,31 @@
 package ru.atom.dbhackaton.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by dmitriy on 26.03.17.
  */
+
+@Entity
+@Table(name = "user", schema = "game")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "login", unique = true, nullable = false, length = 20)
     private String name;
+
+    @Column(name = "password", unique = true, nullable = false, length = 256)
     private transient String password;
+
+    @Column(name = "regdate", nullable = false)
     private Date timestamp;
 
     public User(String name, String password) {
