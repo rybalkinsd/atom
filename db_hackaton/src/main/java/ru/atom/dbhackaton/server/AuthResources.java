@@ -44,12 +44,11 @@ public class AuthResources {
                     return Response.status(Status.FORBIDDEN).entity(getStrBundle().getString("already.registered")).build();
                 } else {
                     regiterUser(name, password);
-                    return Response.ok(getStrBundle().getString("registered")).build();
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return Response.ok(getStrBundle().getString("registered")).build();
     }
 }
-
