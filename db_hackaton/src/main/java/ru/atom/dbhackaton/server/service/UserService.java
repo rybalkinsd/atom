@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.dbhackaton.server.Dao.Database;
+import ru.atom.dbhackaton.server.Dao.UserDao;
 import ru.atom.dbhackaton.server.model.User;
 
 /**
@@ -26,7 +27,7 @@ public class UserService {
             newUser.setName(login);
             newUser.setPasswordHash(password.hashCode());
 
-            UserDao.getInstance.register(session, newUser);
+            UserDao.getInstance().register(session, newUser);
 
             tnx.commit();
         } catch (RuntimeException e) {
