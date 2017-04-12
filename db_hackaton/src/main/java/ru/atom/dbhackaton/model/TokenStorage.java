@@ -19,12 +19,19 @@ public class TokenStorage {
         session.save(loginUser);
         session.close();
     }
-    public static void getByName(String name){
+    public static LoginEntity getByName(String name){
         Session session = HibernateUtil.getSession();
         LoginEntity user = (LoginEntity) session
-                .createQuery("from LoginEntity where  = :user")
+                .createQuery("from LoginEntity where login = :user")
                 .setParameter("user", name)
                 .uniqueResult();
+        session.close();
+        return user;
+    }
+    public static void logout(String name){
+        Session session = HibernateUtil.getSession();
+        LoginEntity login = getByName(name);
+        session.delete(login);
         session.close();
     }
 }
