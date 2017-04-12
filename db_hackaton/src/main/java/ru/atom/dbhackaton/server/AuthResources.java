@@ -1,7 +1,4 @@
-package io.github.rentgen94.server;
-
-import io.github.rentgen94.Token;
-import io.github.rentgen94.User;
+package ru.atom.dbhackaton.server;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.HeaderParam;
@@ -13,11 +10,14 @@ import javax.ws.rs.NotAllowedException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.HttpHeaders;
+import org.hibernate.Session;
+import ru.atom.dbhackaton.Token;
+import ru.atom.dbhackaton.User;
 
-import static io.github.rentgen94.MyLogger.getLog;
-import static io.github.rentgen94.WorkWithProperties.getStrBundle;
-import static io.github.rentgen94.server.ServerResources.authUsers;
-import static io.github.rentgen94.server.ServerResources.regUsers;
+
+import static ru.atom.dbhackaton.MyLogger.getLog;
+import static ru.atom.dbhackaton.WorkWithProperties.getStrBundle;
+
 
 /**
  * Class provides auth operations.

@@ -1,4 +1,4 @@
-package io.github.rentgen94;
+package ru.atom.dbhackaton;
 
 import java.util.Date;
 import java.util.Random;
@@ -7,8 +7,23 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by Western-Co on 26.03.2017.
  */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "", schema = "game") !!!
 public class Token {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "token", unique = true, nullable = false)
     private Long token;
+
     private static AtomicLong next = new AtomicLong();
 
     public Token() {

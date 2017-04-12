@@ -1,4 +1,4 @@
-package io.github.rentgen94;
+package ru.atom.dbhackaton;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

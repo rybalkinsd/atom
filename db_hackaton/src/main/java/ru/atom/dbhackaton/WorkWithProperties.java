@@ -1,11 +1,10 @@
-package io.github.rentgen94;
+package ru.atom.dbhackaton;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import static io.github.rentgen94.MyLogger.getLog;
+import static ru.atom.dbhackaton.MyLogger.getLog;
 
 /**
  * Created by Western-Co on 27.03.2017.
