@@ -26,8 +26,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static ru.atom.dbhackaton.model.TokenStorage.getLoginByName;
-import static ru.atom.dbhackaton.model.TokenStorage.logoutToken;
+import static ru.atom.dbhackaton.model.TokenStorage.*;
 import static ru.atom.dbhackaton.model.UserStorage.getByName;
 import static ru.atom.dbhackaton.model.UserStorage.insert;
 
@@ -69,8 +68,7 @@ public class AuthOps {
     @Produces("text/plain")
     @Authorized
     public Response logout(ContainerRequestContext requestContext) {
-        Token token = tokenStorage.getToken(getTokenFromContext(requestContext));
-        String logoutName = token.getUser().getName();
+        String logoutName = getByToken(getTokenFromContext(requestContext)).getLogin();
         logoutToken(logoutName);
         log.info("Logout: " + logoutName);
         return Response.ok("Logout: " + logoutName).build();
@@ -112,20 +110,23 @@ public class AuthOps {
         }
         RegistredEntity userObject = getByName(user);
         Long tokenLong = ThreadLocalRandom.current().nextLong();
-        while () {
+        while (getByToken(tokenLong)!=null) {
             tokenLong = ThreadLocalRandom.current().nextLong();
         }
-        Token token = new Token(userObject, tokenLong);
-        tokenStorage.addToken(token);
-        log.info("Set token " + token + " to " + user);
+        LoginEntity newLogin = new LoginEntity();
+        newLogin.setToken(Long.toString(tokenLong));
+        newLogin.setLogin(user);
+        saveLogin(newLogin);
+        log.info("Set token " + tokenLong + " to " + user);
         return tokenLong;
     }
 
     static void validateToken(Long token) throws Exception {
-        if (!tokenStorage.validateToken(token)) {
+        LoginEntity login = getByToken(token);
+        if (login == null) {
             throw new Exception("Token validation exception");
         }
-        log.info("Correct token from '{}'", tokenStorage.getToken(token).getUser().getName());
+        log.info("Correct token from '{}'", login.getLogin());
     }
 
     private static Long getTokenFromContext(ContainerRequestContext requestContext) {
