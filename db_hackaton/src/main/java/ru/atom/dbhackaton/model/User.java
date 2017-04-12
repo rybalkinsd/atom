@@ -23,7 +23,7 @@ public class User {
     private String name;
 
     @Column(name = "password", unique = true, nullable = false, length = 256)
-    private transient String password;
+    private String password;
 
     @Column(name = "regdate", nullable = false)
     private Date timestamp;

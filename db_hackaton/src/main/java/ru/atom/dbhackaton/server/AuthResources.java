@@ -19,6 +19,7 @@ import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.User;
 
+import java.sql.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -40,7 +41,7 @@ public class AuthResources {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
         Transaction txn = null;
-        try( Session session = Database.session()){
+        try(Session session = Database.session()){
             txn = session.beginTransaction();
             if (UserDao.getInstance().getByName(session, user) != null) {
                 txn.rollback();

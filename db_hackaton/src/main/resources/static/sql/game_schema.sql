@@ -8,7 +8,7 @@ CREATE TABLE game.user (
   id      serial              NOT NULL,
   login   VARCHAR(20) UNIQUE  NOT NULL,
   password VARCHAR(256) UNIQUE NOT NULL,
-  regdate TIMESTAMP           NOT NULL,
+  regdate TIMESTAMP,
 
   PRIMARY KEY (id)
 );
