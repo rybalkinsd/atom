@@ -11,6 +11,9 @@ public class LoginEntity {
     private String token;
     private Integer id;
 
+    @OneToOne
+    private RegistredEntity user;
+
     @Id
     @Column(name="id")
     public Integer getId() {
