@@ -11,6 +11,10 @@ public class UserDao {
 
     private static final UserDao userDao = new UserDao();
 
+    private UserDao() {
+
+    }
+
     public static UserDao getInstance() {
         return userDao;
     }
