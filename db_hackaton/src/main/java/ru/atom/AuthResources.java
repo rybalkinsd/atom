@@ -2,6 +2,8 @@ package ru.atom;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dbhackaton.server.AuthException;
+import ru.atom.dbhackaton.server.AuthService;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -24,46 +26,41 @@ public class AuthResources {
     public Response register(@FormParam("name") String name, @FormParam("password") String password) {
         User user = new User(name, password);
         try {
-            if (name.length() > 20 || name.contains("\"") || name.contains("\n"))
-                return Response.status(Response.Status.BAD_REQUEST).entity("Invalid name!").build();
-            if (UsersCache.registerUser(user))
-                return Response.ok("Regi3stration success!").build();
-            else return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("User with this name already exist").build();
-        } catch (NullPointerException n) {
-            log.info("Illegal statement in field : {}", n.getMessage());
+            AuthService.register(name);
+        } catch (AuthException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        return Response.status(Response.Status.BAD_REQUEST).entity("Empty fields!").build();
+        return Response.ok().build();
     }
 
-    @POST
-    @Path("/login")
-    @Consumes("application/x-www-form-urlencoded")
-    public Response login(@FormParam("name") String name, @FormParam("password") String password) {
-        User user = new User(name, password);
-        Long userToken = UsersCache.login(user);
-        try {
-            if (userToken.equals(-1L))
-                return Response.status(Response.Status.BAD_REQUEST).entity("You are not registered").build();
-            else return Response.ok(userToken).build();
-        } catch (NullPointerException n) {
-            log.info("Illegal sta3tement in field : {}", n.getMessage());
-        }
-        return Response.status(Response.Status.BAD_REQUEST).entity("Empty field").build();
-    }
-
-    @POST
-    @Path("/logout")
-    @Consumes("application/x-www-form-urlencoded")
-    @Authorized
-    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
-        try {
-            if (UsersCache.logout(Long.parseLong(token.trim())))
-                return Response.ok("Lo3gouting success!").build();
-            else return Response.status(Response.Status.BAD_REQUEST).entity("You are not authorized").build();
-        } catch (NullPointerException n) {
-            log.info("Illegal statement in field : {}", n.getMessage());
-        }
-        return Response.status(Response.Status.BAD_REQUEST).entity("Empty fields").build();
-    }
+//    @POST
+//    @Path("/login")
+//    @Consumes("application/x-www-form-urlencoded")
+//    public Response login(@FormParam("name") String name, @FormParam("password") String password) {
+//        User user = new User(name, password);
+//        Long userToken = UsersCache.login(user);
+//        try {
+//            if (userToken.equals(-1L))
+//                return Response.status(Response.Status.BAD_REQUEST).entity("You are not registered").build();
+//            else return Response.ok(userToken).build();
+//        } catch (NullPointerException n) {
+//            log.info("Illegal sta3tement in field : {}", n.getMessage());
+//        }
+//        return Response.status(Response.Status.BAD_REQUEST).entity("Empty field").build();
+//    }
+//
+//    @POST
+//    @Path("/logout")
+//    @Consumes("application/x-www-form-urlencoded")
+//    @Authorized
+//    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
+//        try {
+//            if (UsersCache.logout(Long.parseLong(token.trim())))
+//                return Response.ok("Lo3gouting success!").build();
+//            else return Response.status(Response.Status.BAD_REQUEST).entity("You are not authorized").build();
+//        } catch (NullPointerException n) {
+//            log.info("Illegal statement in field : {}", n.getMessage());
+//        }
+//        return Response.status(Response.Status.BAD_REQUEST).entity("Empty fields").build();
+//    }
 }

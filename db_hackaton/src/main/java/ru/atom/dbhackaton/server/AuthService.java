@@ -13,12 +13,14 @@ import ru.atom.dbhackaton.server.db.Database;
 public class AuthService {
     private static final Logger log = LogManager.getLogger(AuthService.class);
 
-    public void login(String login) throws AuthException {
+    public void register(String login, String password) throws AuthException {
         Transaction txn = null;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
 
-            User newUser = new User().setLogin(login);
+            User newUser = new User()
+                    .setLogin(login)
+                    .setPassword(password);
 
             txn.commit();
         } catch (RuntimeException e) {

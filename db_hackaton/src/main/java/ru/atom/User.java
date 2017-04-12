@@ -23,6 +23,8 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
+    public User() {}
+
     public User setId(int id) {
         this.id = id;
         return this;
