@@ -17,7 +17,7 @@ drop table if exists game.token;
 create table game.token (
   id     serial       not null,
   user_id integer      not null references game.user on delete cascade,
-  time   timestamp    not null,
+  create_at   timestamp    not null,
   value  varchar(140) not null,
 
   primary key (id)

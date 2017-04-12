@@ -36,7 +36,7 @@ public class AuthService {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(@FormParam("user") String name, @FormParam("password") String password)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+            throws Exception {
         Response response;
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
             log.info("Params empty");
@@ -73,7 +73,7 @@ public class AuthService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response login(@FormParam("user") String name, @FormParam("password") String password)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+            throws Exception {
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
             log.info("Params empty");
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -104,7 +104,7 @@ public class AuthService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response changePassword(@FormParam("user") String name, @FormParam("password") String oldPassword,
                                    @FormParam("new_password") String newPassword)
-            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+            throws Exception {
         if (name == null || name.isEmpty() || oldPassword == null || oldPassword.isEmpty()
                 || newPassword == null || newPassword.isEmpty()) {
             log.info("Params empty");

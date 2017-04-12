@@ -1,10 +1,13 @@
 package ru.atom.http.server.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 @Entity
 @Table(name = "user", schema = "game")
@@ -17,7 +20,11 @@ public class User {
     private String name;
 
     @Column(name = "password", nullable = false, length = 255)
-    private transient String password;
+    private String password;
+
+    @Column
+    @CreationTimestamp
+    private Date create_at;
 
 
     private String generatePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
