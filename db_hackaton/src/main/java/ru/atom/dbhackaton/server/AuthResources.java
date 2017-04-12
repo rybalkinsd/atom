@@ -77,14 +77,14 @@ public class AuthResources {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();
             }
-            if (loggingin.getPassword() != password) {
+            if (!loggingin.getPassword().equals(password)) {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Wrong password").build();
             }
             Token token = new Token(user).setUser(loggingin);
             tokenValue = token.getToken();
-            User checked = TokenDao.getInstance().getByStrToken(session, token.getToken()).getUser();
-            if (checked.equals(loggingin)) {
+            Token checked = TokenDao.getInstance().getByStrToken(session, token.getToken());
+            if (checked == null) {
                 txn.rollback();
                 return Response.ok().entity(token.getToken()).build();
             }
