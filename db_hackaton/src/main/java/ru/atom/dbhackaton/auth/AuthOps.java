@@ -4,10 +4,13 @@ package ru.atom.dbhackaton.auth;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ru.atom.dbhackaton.hibernate.RegistredEntity;
 import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.User;
 import ru.atom.dbhackaton.model.UserStorage;
+
+import java.sql.Timestamp;
 import java.util.UUID;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,6 +23,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static ru.atom.dbhackaton.model.UserStorage.getByName;
+import static ru.atom.dbhackaton.model.UserStorage.insert;
 
 /**
  * Created by vladfedorenko on 26.03.17.
@@ -51,12 +57,13 @@ public class AuthOps {
         if (user == null || password == null || user.equals("") || password.equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        if (userStorage.getUser(user) != null) {
+        if (getByName(user) != null) {
             log.warn(user + " trying to get protected name");
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         } else {
-            User newUser = new User(user, password);
-            userStorage.addUser(user, newUser);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            RegistredEntity newUser = new RegistredEntity(user, password, timestamp);
+            insert(newUser);
             log.info("New user '{}' registered", user);
             return Response.ok("User " + user + " registered.").build();
         }
@@ -102,7 +109,7 @@ public class AuthOps {
     }
 
     private boolean authenticate(String user, String password) throws Exception {
-        User userProfile = userStorage.getUser(user);
+        RegistredEntity userProfile = getByName(user);
         return userProfile != null && userProfile.checkPass(password);
     }
 
@@ -110,7 +117,7 @@ public class AuthOps {
         if (tokenStorage.getTokenForUser(user) != null) {
             return tokenStorage.getTokenForUser(user).getToken();
         }
-        User userObject = userStorage.getUser(user);
+        RegistredEntity userObject = getByName(user);
         Long tokenLong = ThreadLocalRandom.current().nextLong();
         while (tokenStorage.validateToken(tokenLong)) {
             tokenLong = ThreadLocalRandom.current().nextLong();

@@ -13,6 +13,15 @@ public class RegistredEntity {
     private String password;
     private Timestamp regdate;
 
+    public RegistredEntity(String login, String password, Timestamp regdate) {
+        this.login = login;
+        this.password = password;
+        this.regdate = regdate;
+    }
+
+    public RegistredEntity() {
+    }
+
     @Id
     @Column(name = "login", nullable = false, length = 100)
     public String getLogin() {
