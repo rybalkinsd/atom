@@ -1,7 +1,6 @@
-package ru.atom.resource;
+package ru.atom.http.server.model;
 
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by zarina on 25.03.17.

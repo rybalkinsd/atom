@@ -4,8 +4,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
-import ru.atom.resource.Token;
-import ru.atom.resource.User;
+import ru.atom.http.server.model.Token;
+import ru.atom.http.server.model.User;
 
 
 import javax.ws.rs.client.Entity;

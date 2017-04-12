@@ -3,7 +3,7 @@ package ru.atom.http.server;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.resource.User;
+import ru.atom.http.server.model.User;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

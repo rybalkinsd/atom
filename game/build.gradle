@@ -8,6 +8,9 @@ dependencies {
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
     compile rootProject.libraries.gson
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.hibernate
 }
 
 jar {

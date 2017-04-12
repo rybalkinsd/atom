@@ -1,4 +1,4 @@
-package ru.atom.resource;
+package ru.atom.http.server.model;
 
 
 import jersey.repackaged.com.google.common.base.Joiner;

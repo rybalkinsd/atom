@@ -2,10 +2,10 @@ package ru.atom.http.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.resource.Token;
-import ru.atom.resource.TokenStorage;
-import ru.atom.resource.User;
-import ru.atom.resource.UsersStorage;
+import ru.atom.http.server.model.Token;
+import ru.atom.http.server.model.TokenStorage;
+import ru.atom.http.server.model.User;
+import ru.atom.http.server.model.UsersStorage;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
