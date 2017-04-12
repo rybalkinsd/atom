@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import ru.atom.model.Token;
-import ru.atom.model.User;
-import ru.atom.server.AuthResources;
+import ru.atom.dbhackaton.model.Token;
+import ru.atom.dbhackaton.model.User;
+import ru.atom.dbhackaton.server.AuthResources;
 
 import javax.ws.rs.core.Response;
 import java.util.concurrent.atomic.AtomicInteger;
