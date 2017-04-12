@@ -2,6 +2,7 @@ package ru.atom.dbhackaton.model;
 
 import org.hibernate.Session;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
+import ru.atom.dbhackaton.hibernateutil.HibernateUtil;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,26 +10,34 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by vladfedorenko on 26.03.17.
  */
 public class UserStorage {
-    private static ConcurrentHashMap<String, RegistredEntity> storage = new ConcurrentHashMap();
-
-    public void insert(Session session, RegistredEntity user) {
+    public void insert(RegistredEntity user) {
+        Session session = HibernateUtil.getSession();
         session.saveOrUpdate(user);
+        session.close();
     }
 
-    public static User getByName(Session session, RegistredEntity user) {
-        return (User) session
+    public static RegistredEntity getByName(String user) {
+        Session session = HibernateUtil.getSession();
+        RegistredEntity newUser = (RegistredEntity) session
                 .createQuery("from RegistredEntity where login = :user")
-                .setParameter("name", user)
+                .setParameter("user", user)
                 .uniqueResult();
+        session.close();
+        return newUser;
     }
 
-    public boolean userExists(Session session, RegistredEntity user) {
-        org.hibernate.Query query = session.createQuery("from users where username = :user");
-        query.setParameter("username", user);
-        return query.uniqueResult() != null;
+    public boolean userExists(RegistredEntity user) {
+        Session session = HibernateUtil.getSession();
+        org.hibernate.Query query = session.createQuery("from RegistredEntity where login = :user");
+        query.setParameter("user", user);
+        boolean result = (query.uniqueResult() != null);
+        session.close();
+        return result;
     }
 
-    public void dropUser(Session session, RegistredEntity userToDelete) {
+    public void dropUser(RegistredEntity userToDelete) {
+        Session session = HibernateUtil.getSession();
         session.delete(userToDelete);
+        session.close();
     }
 }
