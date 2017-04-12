@@ -16,7 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TokenStorage {
     public static void saveLogin(LoginEntity loginUser){
         Session session = HibernateUtil.getSession();
+        session.beginTransaction();
         session.save(loginUser);
+        session.getTransaction().commit();
         session.close();
     }
     public static LoginEntity getLoginByName(String name){

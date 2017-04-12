@@ -12,14 +12,15 @@ public class RegistredEntity {
     private String login;
     private String password;
     private Timestamp regdate;
+    private LoginEntity token;
+
+    public RegistredEntity() {
+    }
 
     public RegistredEntity(String login, String password, Timestamp regdate) {
         this.login = login;
         this.password = password;
         this.regdate = regdate;
-    }
-
-    public RegistredEntity() {
     }
 
     @Id
@@ -30,6 +31,15 @@ public class RegistredEntity {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public LoginEntity getToken() {
+        return token;
+    }
+
+    public void setToken(LoginEntity token) {
+        this.token = token;
     }
 
     @Basic

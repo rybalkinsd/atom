@@ -34,7 +34,7 @@ import static ru.atom.dbhackaton.model.UserStorage.insert;
  * Created by vladfedorenko on 26.03.17.
  */
 
-@Path("/auth")
+@Path("/")
 public class AuthOps {
     private static final Logger log = LogManager.getLogger(AuthOps.class);
 
@@ -68,7 +68,7 @@ public class AuthOps {
     @Produces("text/plain")
     @Authorized
     public Response logout(ContainerRequestContext requestContext) {
-        String logoutName = getByToken(getTokenFromContext(requestContext)).getLogin();
+        String logoutName = getByToken(getTokenFromContext(requestContext)).getUser().getLogin();
         logoutToken(logoutName);
         log.info("Logout: " + logoutName);
         return Response.ok("Logout: " + logoutName).build();
@@ -115,7 +115,7 @@ public class AuthOps {
         }
         LoginEntity newLogin = new LoginEntity();
         newLogin.setToken(Long.toString(tokenLong));
-        newLogin.setLogin(user);
+        newLogin.setUser(getByName(user));
         saveLogin(newLogin);
         log.info("Set token " + tokenLong + " to " + user);
         return tokenLong;
@@ -126,7 +126,7 @@ public class AuthOps {
         if (login == null) {
             throw new Exception("Token validation exception");
         }
-        log.info("Correct token from '{}'", login.getLogin());
+        log.info("Correct token from '{}'", login.getUser().getLogin());
     }
 
     private static Long getTokenFromContext(ContainerRequestContext requestContext) {

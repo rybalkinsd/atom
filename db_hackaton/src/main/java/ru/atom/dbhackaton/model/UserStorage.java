@@ -12,7 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserStorage {
     public static void insert(RegistredEntity user) {
         Session session = HibernateUtil.getSession();
+        session.beginTransaction();
         session.saveOrUpdate(user);
+        session.getTransaction().commit();
         session.close();
     }
 

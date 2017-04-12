@@ -7,12 +7,11 @@
     <class name="ru.atom.dbhackaton.hibernate.LoginEntity" table="login" schema="chat" catalog="chatdb_atom1">
         <id name="id">
             <column name="id" sql-type="serial"/>
+            <generator class="identity"/>
         </id>
-        <property name="login">
-            <column name="login" sql-type="varchar(100)"/>
-        </property>
         <property name="token">
             <column name="token" sql-type="varchar(100)" length="100"/>
         </property>
+        <one-to-one name="user" class="ru.atom.dbhackaton.hibernate.RegistredEntity" cascade="save-update"/>
     </class>
 </hibernate-mapping>

@@ -8,6 +8,7 @@
         <id name="login">
             <column name="login" sql-type="varchar(100)" length="100"/>
         </id>
+        <one-to-one name="token" class="ru.atom.dbhackaton.hibernate.RegistredEntity" constrained="true"/>
         <property name="password">
             <column name="password" sql-type="varchar(100)" length="100" not-null="true"/>
         </property>
