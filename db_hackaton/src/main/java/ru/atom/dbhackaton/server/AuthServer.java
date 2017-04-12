@@ -7,10 +7,13 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.atom.dbhackaton.server.Dao.Database;
 
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
+        Database.setUp();
+
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createChatContext(),
@@ -19,7 +22,7 @@ public class AuthServer {
 
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
-        System.out.println("hehe");
+
         jettyServer.start();
     }
 
