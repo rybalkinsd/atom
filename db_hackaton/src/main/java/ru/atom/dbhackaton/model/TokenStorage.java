@@ -19,7 +19,7 @@ public class TokenStorage {
         session.save(loginUser);
         session.close();
     }
-    public static LoginEntity getByName(String name){
+    public static LoginEntity getLoginByName(String name){
         Session session = HibernateUtil.getSession();
         LoginEntity user = (LoginEntity) session
                 .createQuery("from LoginEntity where login = :user")
@@ -30,7 +30,7 @@ public class TokenStorage {
     }
     public static void logout(String name){
         Session session = HibernateUtil.getSession();
-        LoginEntity login = getByName(name);
+        LoginEntity login = getLoginByName(name);
         session.delete(login);
         session.close();
     }
