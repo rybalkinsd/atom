@@ -65,28 +65,7 @@ public class AuthResources {
         } else if (name.length() > 20) {
             return Response.status(Status.BAD_REQUEST).entity(getStrBundle().getString("name.too.long")).build();
         } else {
-            User loginUser = new User(name, password);
-            if (!regUsers.contains(loginUser)) {
-                String logError = getStrBundle().getString("login.error");
-                getLog().warn(logError);
-                return Response.status(Status.BAD_REQUEST).entity(logError).build();
-            } else {
-                Token toShow;
-                String responseBody;
-                Token toFind = authUsers.getToken(loginUser);
-                if (toFind != null) {
-                    getLog().warn(getStrBundle().getString("already.logged"));
-                    responseBody = "Bearer " + toFind.toString();
-                    toShow = toFind;
-                } else {
-                    Token token = new Token();
-                    authUsers.put(token, loginUser);
-                    responseBody = "Bearer " + token.toString();
-                    toShow = token;
-                }
-                getLog().info(String.format(getStrBundle().getString("login.token"), name, toShow.getToken()));
-                return Response.ok(responseBody).build();
-            }
+           regiterUser(name, password);
         }
     }
 
