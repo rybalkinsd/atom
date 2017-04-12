@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "token", schema = "game")
@@ -22,7 +23,7 @@ public class Token {
     private Date create_at;
 
     @Column(name = "value", nullable = false)
-    private Long token;
+    private String token;
 
     public Integer getId() {
         return id;
@@ -32,19 +33,24 @@ public class Token {
         return user;
     }
 
-    public Long getToken() {
+    public String getToken() {
         return token;
     }
 
     public Token setUser(User user) {
         this.user = user;
-        this.token = System.currentTimeMillis() * 100000L + (long) user.hashCode();
+        this.token = UUID.randomUUID().toString();
+        return this;
+    }
+
+    public Token setToken(String token) {
+        this.token = token;
         return this;
     }
 
     @Override
     public String toString() {
-            return getToken().toString();
+            return getToken();
     }
 
 

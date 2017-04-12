@@ -148,28 +148,34 @@ public class AuthService {
     @POST
     @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) {
-        Long token = Long.parseLong(tokenParam.substring("Bearer".length()).trim());
+        Response response;
+        String token = tokenParam.substring("Bearer".length()).trim();
         log.info("Logout with token " + token);
-        tokens.remove(token);
-        return  Response.ok("ok").build();
-    }
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
 
-    public static LinkedList<User> getAllUsers() {
-        log.info("All users " + users);
-        return users.getAll();
-    }
+            if (TokenDao.getInstance().delete(session, token)) {
+                log.info("Delete");
+                response = Response.ok("ok").build();
+            } else {
+                response = Response.status(Response.Status.BAD_GATEWAY).build();
+            }
 
-    public static LinkedList<User> getOnlineUsers() {
-        LinkedList<User> users = new LinkedList<>();
-        for (Token token : tokens.getAll()) {
-            users.add(token.getUser());
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            response = Response.status(Response.Status.BAD_GATEWAY).build();
         }
-        log.info("Online users " + users);
-        return users;
+        return response;
     }
 
     public static boolean validToken(String token) {
         log.info("Valid token " + token);
-        return tokens.validToken(token);
+        Session session = Database.session();
+        return TokenDao.getInstance().validToken(session, token);
     }
 }
