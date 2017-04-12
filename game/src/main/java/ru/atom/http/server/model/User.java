@@ -1,21 +1,23 @@
 package ru.atom.http.server.model;
 
+import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by zarina on 23.03.17.
- */
+@Entity
+@Table(name = "user", schema = "game")
 public class User {
-    private String name;
-    private transient String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    public User(String name, String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        this.name = name;
-        this.password = generatePassword(password);
-    }
+    @Column(name = "login", nullable = false, length = 20, unique = true)
+    private String name;
+
+    @Column(name = "password", nullable = false, length = 255)
+    private transient String password;
 
     private String generatePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-256");
@@ -23,6 +25,14 @@ public class User {
         crypt.update((name + password).getBytes("UTF-8"));
 
         return new BigInteger(1, crypt.digest()).toString(16);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException  {
+        this.password = generatePassword(password);
     }
 
     public String getName() {
