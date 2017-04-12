@@ -17,11 +17,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "password", nullable = false, length = 20)
+    private String password;
+
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
     public User setId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
         return this;
     }
 

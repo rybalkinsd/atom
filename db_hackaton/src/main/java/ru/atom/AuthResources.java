@@ -27,7 +27,7 @@ public class AuthResources {
             if (name.length() > 20 || name.contains("\"") || name.contains("\n"))
                 return Response.status(Response.Status.BAD_REQUEST).entity("Invalid name!").build();
             if (UsersCache.registerUser(user))
-                return Response.ok("Registration success!").build();
+                return Response.ok("Regi3stration success!").build();
             else return Response.status(Response.Status.BAD_REQUEST)
                     .entity("User with this name already exist").build();
         } catch (NullPointerException n) {
@@ -47,7 +47,7 @@ public class AuthResources {
                 return Response.status(Response.Status.BAD_REQUEST).entity("You are not registered").build();
             else return Response.ok(userToken).build();
         } catch (NullPointerException n) {
-            log.info("Illegal statement in field : {}", n.getMessage());
+            log.info("Illegal sta3tement in field : {}", n.getMessage());
         }
         return Response.status(Response.Status.BAD_REQUEST).entity("Empty field").build();
     }
@@ -59,7 +59,7 @@ public class AuthResources {
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
         try {
             if (UsersCache.logout(Long.parseLong(token.trim())))
-                return Response.ok("Logouting success!").build();
+                return Response.ok("Lo3gouting success!").build();
             else return Response.status(Response.Status.BAD_REQUEST).entity("You are not authorized").build();
         } catch (NullPointerException n) {
             log.info("Illegal statement in field : {}", n.getMessage());
