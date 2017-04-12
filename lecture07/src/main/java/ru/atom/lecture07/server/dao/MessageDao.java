@@ -20,10 +20,17 @@ public class MessageDao {
     private MessageDao(){}
 
     public List<Message> getAll(Session session) {
-        throw new NotImplementedException();
+        return session.createCriteria(Message.class).list();
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
+    }
+
+    public List<Message> getById(Session session, Integer user_id) {
+        return (List<Message>) session
+                .createQuery("from Message where user_id = :user_id")
+                .setParameter("user_id", user_id)
+                .list();
     }
 }
