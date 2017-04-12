@@ -20,4 +20,11 @@ create table auth.token (
   primary key (id)
 );
 
+drop table if exists auth.token;
+create table mm.sessions (
+  id    serial      not null,
+  users integer[][] not null,
+  primary key (id);
+);
+
 commit;
