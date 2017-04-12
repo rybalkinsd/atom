@@ -40,8 +40,4 @@ public class UserStorage {
         session.delete(userToDelete);
         session.close();
     }
-
-    public UserStorage getInstance() {
-        return this;
-    }
 }
