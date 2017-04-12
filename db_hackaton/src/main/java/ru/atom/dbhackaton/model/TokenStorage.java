@@ -5,8 +5,6 @@ import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.util.ConcurrentHashSet;
-import ru.atom.dbhackaton.server.AuthResources;
-
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
