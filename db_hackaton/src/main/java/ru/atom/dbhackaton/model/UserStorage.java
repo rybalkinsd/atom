@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by vladfedorenko on 26.03.17.
  */
 public class UserStorage {
-    public void insert(RegistredEntity user) {
+    public static void insert(RegistredEntity user) {
         Session session = HibernateUtil.getSession();
         session.saveOrUpdate(user);
         session.close();
@@ -26,7 +26,7 @@ public class UserStorage {
         return newUser;
     }
 
-    public boolean userExists(RegistredEntity user) {
+    public static boolean userExists(RegistredEntity user) {
         Session session = HibernateUtil.getSession();
         org.hibernate.Query query = session.createQuery("from RegistredEntity where login = :user");
         query.setParameter("user", user);
@@ -35,7 +35,7 @@ public class UserStorage {
         return result;
     }
 
-    public void dropUser(RegistredEntity userToDelete) {
+    public static void dropUser(RegistredEntity userToDelete) {
         Session session = HibernateUtil.getSession();
         session.delete(userToDelete);
         session.close();
