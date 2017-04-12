@@ -5,6 +5,9 @@
 <hibernate-mapping>
 
     <class name="ru.atom.dbhackaton.hibernate.LoginEntity" table="login" schema="chat" catalog="chatdb_atom1">
+        <id name="id">
+            <column name="id" sql-type="serial"/>
+        </id>
         <property name="token">
             <column name="token" sql-type="varchar(100)" length="100"/>
         </property>

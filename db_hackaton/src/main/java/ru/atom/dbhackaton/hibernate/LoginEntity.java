@@ -1,9 +1,6 @@
 package ru.atom.dbhackaton.hibernate;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by kinetik on 12.04.17.
@@ -12,6 +9,16 @@ import javax.persistence.Table;
 @Table(name = "login", schema = "chat", catalog = "chatdb_atom1")
 public class LoginEntity {
     private String token;
+    private Integer id;
+
+    @Id
+    @Column(name="id")
+    public Integer getId() {
+        return this.id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Basic
     @Column(name = "token", nullable = false, length = 100)
