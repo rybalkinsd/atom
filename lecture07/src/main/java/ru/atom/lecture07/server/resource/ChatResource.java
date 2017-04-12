@@ -23,7 +23,6 @@ public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
     private static final ChatService chatService = new ChatService();
 
-
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")

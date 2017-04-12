@@ -19,14 +19,14 @@ import javax.ws.rs.HeaderParam;
 @Path("/auth")
 public class AuthResources {
     private static final Logger log = LogManager.getLogger(AuthResources.class);
+    private static final AuthService authService = new AuthService();
 
     @POST
     @Path("/register")
     @Consumes("application/x-www-form-urlencoded")
     public Response register(@FormParam("name") String name, @FormParam("password") String password) {
-        User user = new User(name, password);
         try {
-            AuthService.register(name);
+            AuthService.register(name, password);
         } catch (AuthException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
