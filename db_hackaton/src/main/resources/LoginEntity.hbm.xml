@@ -8,6 +8,9 @@
         <id name="id">
             <column name="id" sql-type="serial"/>
         </id>
+        <property name="login">
+            <column name="login" sql-type="varchar(100)"/>
+        </property>
         <property name="token">
             <column name="token" sql-type="varchar(100)" length="100"/>
         </property>
