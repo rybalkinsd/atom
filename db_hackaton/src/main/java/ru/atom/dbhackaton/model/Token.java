@@ -7,14 +7,27 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.ws.rs.Encoded;
 import java.security.Key;
 
 /**
  * Created by dmitriy on 26.03.17.
  */
+@Entity
+@Table(name = "token", schema = "game")
 public class Token {
     private static final Logger log = LogManager.getLogger(Token.class);
-    private static String token;
+
+    @Id
+    private String token;
+
+    @OneToOne
+    private User user;
+
     public static final Key key = MacProvider.generateKey();
 
     public Token(User user) {
@@ -29,6 +42,21 @@ public class Token {
 
     public Token(String token) {
         this.token = token;
+    }
+
+    public String getToken() { return token; }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Token setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
