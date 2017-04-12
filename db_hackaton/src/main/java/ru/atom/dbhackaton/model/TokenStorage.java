@@ -34,4 +34,15 @@ public class TokenStorage {
         session.delete(login);
         session.close();
     }
+    public static LoginEntity getByToken(Long token){
+        Session session = HibernateUtil.getSession();
+        String tokenStr = Long.toString(token);
+        LoginEntity user = (LoginEntity) session
+                .createQuery("from LoginEntity where token = :token")
+                .setParameter("token", tokenStr)
+                .uniqueResult();
+        session.close();
+        return user;
+
+    }
 }
