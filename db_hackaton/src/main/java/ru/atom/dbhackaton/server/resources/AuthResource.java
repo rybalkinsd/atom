@@ -65,24 +65,13 @@ public class AuthResource {
         if (checkPasswordLength(password)) {
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Неверный формат пароля!").build();
         }
-        if (!AccountDao.isUserExist(userName)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Неверный логин или пароль!").build();
+        String result = "";
+        try {
+            result= authService.login(userName, password);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        User user = AccountDao.getUser(userName);
-        if (user.checkPassword(password)) {
-//            if (TokenStorage.containsUser(user)) {
-//                Response response = Response.ok(user.getToken().getValueToken()).build();
-//                return response;
-//            } else {
-//                user.setToken(TokenStorage.generateToken());
-//                TokenStorage.addToken(user.getToken(), user);
-//                logger.info("[" + userName + "] успешно залогинился");
-//                Response response = Response.ok(user.getToken().getValueToken()).build();
-//                return response;
-//            }
-        }
-
-        return Response.status(Response.Status.BAD_REQUEST).entity("Неверный логин или пароль!").build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
     }
 
     private boolean checkNameLength(String userName) {

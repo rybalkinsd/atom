@@ -2,6 +2,9 @@ package ru.atom.dbhackaton.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import ru.atom.dbhackaton.server.base.Token;
+import ru.atom.dbhackaton.server.base.User;
 
 /**
  * Created by mkai on 4/12/17.
@@ -16,5 +19,9 @@ public class TokenDao {
     }
 
     private TokenDao() {
+    }
+
+    public void insert(Session session, Token token) {
+        session.saveOrUpdate(token);
     }
 }
