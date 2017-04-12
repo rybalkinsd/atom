@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.server;
+package ru.atom.dbhackaton.server;
 
 /**
  * Created by dmitriy on 28.03.17.
@@ -7,7 +7,7 @@ package ru.atom.dbhackaton.server.server;
 import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.Token;
+import ru.atom.dbhackaton.model.Token;
 
 import java.io.IOException;
 import javax.ws.rs.NotAuthorizedException;

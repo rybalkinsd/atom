@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.model;
+package ru.atom.dbhackaton.model;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.server.AuthResources;
 
 import java.security.Key;
 

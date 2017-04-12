@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.model;
+package ru.atom.dbhackaton.model;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -1,5 +1,8 @@
 package ru.atom.dbhackaton.server;
 
+/**
+ * Created by dmitriy on 28.03.17.
+ */
 
 import javax.ws.rs.NameBinding;
 
