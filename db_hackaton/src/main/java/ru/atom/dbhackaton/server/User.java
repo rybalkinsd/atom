@@ -24,7 +24,7 @@ public class User {
     public final String name; //unique identifier of user
 
     @Column(name = "passwordHash", nullable = false)
-    public final long passwordHash;
+    public final Long passwordHash;
 
     @Column(name = "registrationDate", nullable = false)
     public final Date registrationDate = new Date();
@@ -43,7 +43,7 @@ public class User {
     public boolean validatePassword(String password) {
         long hash = password.substring(password.length()/2, password.length()).hashCode();
         hash |= (long)password.substring(password.length()/2).hashCode() << 32;
-        return hash == this.passwordHash;
+        return hash == this.passwordHash.longValue();
     }
 
 

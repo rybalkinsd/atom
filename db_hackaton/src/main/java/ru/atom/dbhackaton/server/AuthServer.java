@@ -11,6 +11,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
+        Database.setUp();
+
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createChatContext(),
