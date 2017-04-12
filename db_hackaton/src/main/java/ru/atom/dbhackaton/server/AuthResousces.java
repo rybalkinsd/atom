@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class AuthResousces {
     private static final UserService USER_SERVICE = new UserService();
+
     @POST
     @Path("/register")
     @Consumes("application/x-www-form-urlencoded")
@@ -59,10 +60,12 @@ public class AuthResousces {
     @Consumes("application/x-www-form-urlencoded")
     @Authorized
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) long tocken) {
-        if (USER_SERVICE.logout(tocken)) {
-            return Response.ok().build();
+        try {
+            USER_SERVICE.logout(tocken);
+        } catch (UserException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with logout").build();
         }
+        return Response.ok().build();
 
-        return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with logout").build();
     }
 }

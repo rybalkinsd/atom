@@ -38,6 +38,7 @@ public class UserService {
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
+                throw new UserException("Transaction failed");
             }
         }
     }
@@ -71,6 +72,20 @@ public class UserService {
                 tnx.rollback();
             }
             throw new RuntimeException("Transaction failed");
+        }
+    }
+
+    public void logout(long token) throws UserException {
+        Transaction tnx = null;
+        try (Session session = Database.session()) {
+            tnx = session.beginTransaction();
+            TokenDao.getInstance().logout(session,token);
+            tnx.commit();
+        } catch (RuntimeException e) {
+            if (tnx != null && tnx.isActive()) {
+                tnx.rollback();
+                throw new UserException("Transaction failed");
+            }
         }
     }
 }
