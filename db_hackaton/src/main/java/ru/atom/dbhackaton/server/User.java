@@ -21,16 +21,26 @@ public class User {
     private Integer id;
 
     @Column(name = "login", unique = true, nullable = false, length = 20)
-    public final String name; //unique identifier of user
+    private String name; //unique identifier of user
 
     @Column(name = "passwordHash", nullable = false)
-    public final Long passwordHash;
+    private Long passwordHash;
 
     @Column(name = "registrationDate", nullable = false)
-    public final Date registrationDate = new Date();
+    private Date registrationDate = new Date();
 
     @Column(name = "token")
     private Long token;
+
+    public String name() {
+        return name;
+    }
+
+    public Long passwordHash() {
+        return passwordHash;
+    }
+
+    public User() {}
 
     public User(String name, String password) {
         this.name = name;

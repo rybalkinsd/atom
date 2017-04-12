@@ -31,18 +31,22 @@ public class AuthResource {
 
             log.info("Registering {} with password {}...", name, password);
             if (name == null || name.length() > 30 || name.contains("\"") || name.contains("\n")) {
+                txn.commit();
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Invalid name.\n").build();
             }
             if (password == null) {
+                txn.commit();
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Password is not specified!\n").build();
             }
             if (password == null || password.length() < 4) {
+                txn.commit();
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Password is too short. Minimal allowed length of password: 4.\n").build();
             }
             if (UserDao.getInstance().getByName(session, name) != null) {
+                txn.commit();
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("Already registered.\n").build();
             }
@@ -51,7 +55,6 @@ public class AuthResource {
             log.info(msg);
 
             txn.commit();
-
             return Response.ok(msg).build();
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);
@@ -74,19 +77,21 @@ public class AuthResource {
                     UserDao.getInstance().getByName(session, name);
             if (user == null) {
                 if (password != null) log.info("User " + name + " does not exist!");
+                txn.commit();
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("Incorrect user name or password.\n").build();
             }
 
             if (!user.validatePassword(password)) {
                 log.info("Incorrect password " + password + " for user " + name + "!");
+                txn.commit();
                 return Response.status(Response.Status.FORBIDDEN)
                         .entity("Incorrect user name or password.\n").build();
             }
 
             if (user.isLogined()) log.info("User {} is already logined!", name);
             else log.info("User {} logined!", name);
-            final Token token = TokenStore.getTokenForUser(user);
+            final Token token = new Token(user.name(), user.passwordHash());
 
             txn.commit();
 
@@ -110,10 +115,9 @@ public class AuthResource {
             txn = session.beginTransaction();
 
             Long token = AuthFilter.extractTokenFromAuthHeader(authHeader);
-            User user = TokenStore.getUserByToken(new Token(token));
-            TokenStore.removeToken(user.getToken());
-             user.resetToken();
-             final String msg = "User " + user.name + " logged out!";
+            User user = UserDao.getInstance().getByToken(session, token);
+            user.resetToken();
+            final String msg = "User " + user.name() + " logged out!";
             log.info(msg);
 
             txn.commit();
@@ -128,12 +132,12 @@ public class AuthResource {
         }
     }
 
-    @GET
+    /*@GET
     @Produces("application/json")
     @Path("/data/users")
     public Response users() {
         String usersJson = TokenStore.getAllLoginedUsers().stream().map(User::toJson)
                 .collect(Collectors.joining(", ", "{\"users\" : [", "]}"));
         return Response.ok(usersJson).build();
-    }
+    }*/
 }

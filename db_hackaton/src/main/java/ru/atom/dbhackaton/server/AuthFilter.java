@@ -45,7 +45,7 @@ public class AuthFilter implements ContainerRequestFilter {
     }
 
     private void validateToken(String token) throws Exception {
-        if (!TokenStore.isTokenValid(new Token(Long.parseLong(token)))) {
+        if (UserDao.getInstance().getByToken(Database.session(), Long.parseLong(token)) == null) {
             throw new Exception("Invalid token " + token);
         }
     }
