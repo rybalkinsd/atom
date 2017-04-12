@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="ru.atom.dbhackaton.hibernate.RegistredEntity" table="registred" schema="chat" catalog="chatdb_atom1">
+        <id name="login">
+            <column name="login" sql-type="varchar(100)" length="100"/>
+        </id>
+        <property name="password">
+            <column name="password" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="regdate">
+            <column name="regdate" sql-type="timestamp" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
