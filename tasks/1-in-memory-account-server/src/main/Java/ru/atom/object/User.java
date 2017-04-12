@@ -1,27 +1,62 @@
-package ru.atom;
+package ru.atom.object;
+
+import java.util.Date;
 
 /**
  * Created by Fella on 26.03.2017.
  */
 public class User {
+
     private String login;
     private String password;
+    private Date registrationDate;
 
-    private int id;
+    private int idUser;
+    private int idMatch;
+   /* private float lifeTime;*/
 
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
+
 
     public User() {
         this.login = login;
         this.password = password;
+        this.registrationDate = registrationDate;
     }
+
+
+
+
+
+    public User setLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+
+
 
     public String getLogin() {
         return login;
     }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -34,41 +69,28 @@ public class User {
         return login != null ? login.equals(user.login) : user.login == null;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public User setId(int id) {
-        this.id = id;
-        return this;
-    }
+
+
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "idUser=" + idUser +
                 ", login='" + login + '\'' +
+                ", password='" + password +'\'' +
+                ", registrationDate='" + registrationDate +'\'' +
                 '}';
     }
+
 
     @Override
     public int hashCode() {
         int result = getLogin() != null ? getLogin().hashCode() : 0;
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (registrationDate != null ? registrationDate.hashCode() : 0);
+        result = 31 * result + getIdUser();
+        result = 31 * result + idMatch;
         return result;
-    }
-
-    public User setLogin(String login) {
-        this.login = login;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
     }
 }

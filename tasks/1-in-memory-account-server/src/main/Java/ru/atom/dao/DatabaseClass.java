@@ -1,6 +1,6 @@
 package ru.atom.dao;
 
-import ru.atom.User;
+import ru.atom.object.User;
 import ru.atom.dao.*;
 
 /**

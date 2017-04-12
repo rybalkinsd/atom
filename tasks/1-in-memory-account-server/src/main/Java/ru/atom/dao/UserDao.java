@@ -2,8 +2,8 @@ package ru.atom.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.intellij.lang.annotations.Language;
-import ru.atom.User;
+/*import org.intellij.lang.annotations.Language;*/
+import ru.atom.object.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
@@ -17,18 +17,18 @@ import java.util.List;
 public class UserDao implements Dao<User> {
     private static final Logger log = LogManager.getLogger(UserDao.class);
 
-    @Language("sql")
+    /*@Language("sql")*/
     private static final String SELECT_ALL_USERS =
             "select * " +
                     "from chat.user";
 
-    @Language("sql")
+   /* @Language("sql")*/
     private static final String SELECT_ALL_USERS_WHERE =
             "select * " +
                     "from chat.user " +
                     "where ";
 
-    @Language("sql")
+    /*@Language("sql")*/
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";

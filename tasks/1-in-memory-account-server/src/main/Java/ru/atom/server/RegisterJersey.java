@@ -2,6 +2,7 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dao.UserDao;
 import ru.atom.server.Authorized;
 import ru.atom.StorageToken;
 import ru.atom.object.Token;
@@ -11,36 +12,61 @@ import ru.atom.Users;
 import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 
 /**
  * Created by Fella on 28.03.2017.
  */
-@Path("*")
+@Path("/*/")
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey .class);
+    private static final UserDao userDao = new UserDao();
 
 
-    @GET
+    @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("register")
     @Produces("text/plain")
     public Response register(@FormParam("user") String login,
                              @FormParam("password") String password) {
 
-        if (login.length() > 30) {
+        if (login.length() > 20) {
             log.info("This login too long.");
             return Response.status(Response.Status.BAD_REQUEST).entity("Sorry, your login too long )= ").build();
         }
 
-        if (Users.isContainsName(login)) {
+        if (password.length() > 20) {
+            log.info("This password too long.");
+            return Response.status(Response.Status.BAD_REQUEST).entity("Sorry, your password too long )= ").build();
+        }
+
+        /*if (Users.isContainsName(login)) {
             log.info("this login is busy.");
             return Response.status(Response.Status.UNAUTHORIZED).entity("Sorry, this login is busy").build();
-        }
-        log.info("New user login = " + login  + ", password = " + password);
-        Users.put(new User(login, password));
-        log.info("Useres " + Users.getUser(login).getLogin().toString());
+        }*/
+
+
+
+        User newUser = new User( login, password, new Date(System.currentTimeMillis()));
+       /* log.info("New user login " + Users.getUser(login).getLogin().toString());*/
+        userDao.insert(newUser);
+        log.info("[" + login + "] logined");
         return Response.ok("Congratulations, you are registered").build();
+
+
+
+
+
+           /* List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
+            if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(name))) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            }
+            */
+
+
+
+
     }
 
     @POST
