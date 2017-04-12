@@ -22,8 +22,9 @@ public class TokenDao {
         session.persist(token);
     }
 
-    public void logout(Session session, Token token) {
-        session.delete(token);
+    public void logout(Session session, long token) {
+        session.createQuery("delete Token where token = :token")
+                .setParameter("token", token).executeUpdate();
     }
 
     public Token getTokenByUserName(Session session, String name){

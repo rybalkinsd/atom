@@ -21,7 +21,7 @@ public class UserService {
 
     public void register(String login, String password) throws UserException {
         Transaction tnx = null;
-        try (Session session = Database.session()){
+        try (Session session = Database.session()) {
             tnx = session.beginTransaction();
 
             if (UserDao.getInstance().getByName(session, login) != null) {
@@ -36,7 +36,7 @@ public class UserService {
 
             tnx.commit();
         } catch (RuntimeException e) {
-            if(tnx != null && tnx.isActive()) {
+            if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
             }
         }
@@ -44,7 +44,7 @@ public class UserService {
 
     public long login(String login, String password) throws UserException {
         Transaction tnx = null;
-        try (Session session = Database.session()){
+        try (Session session = Database.session()) {
             tnx = session.beginTransaction();
 
             User registeredUser = UserDao.getInstance().getByName(session, login);
@@ -53,7 +53,10 @@ public class UserService {
             } else if (!registeredUser.getPasswordHash().equals(password.hashCode())) {
                 throw new UserException("Wrong password");
             }
-
+            Token exist = TokenDao.getInstance().getTokenByUserName(session, login);
+            if (exist != null) {
+                return exist.getToken();
+            }
             long numToken = new Random().nextLong();
             Token token = new Token();
             token.setUser(registeredUser);
@@ -64,7 +67,7 @@ public class UserService {
             return numToken;
 
         } catch (RuntimeException e) {
-            if(tnx != null && tnx.isActive()) {
+            if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
             }
             throw new RuntimeException("Transaction failed");
