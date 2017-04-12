@@ -14,9 +14,9 @@ public class Token {
         this.value = value;
     }
 
-    public Token(String name, String password) {
+    public Token(String name, Long passwordHash) {
         long value = ((long)name.hashCode()) << 32;
-        value |= password.hashCode();
+        value |= passwordHash.hashCode();
         value ^= random.nextLong();
         this.value = value;
     }

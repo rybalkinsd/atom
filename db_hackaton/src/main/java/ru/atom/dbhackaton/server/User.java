@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 
 /**
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "user", schema = "chat")
+@Table(name = "user", schema = "auth")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,25 +23,37 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     public final String name; //unique identifier of user
 
-    @Column(name = "password", nullable = false, length = 20)
-    public final String password;
+    @Column(name = "passwordHash", nullable = false)
+    public final long passwordHash;
 
-    private Token token;
+    @Column(name = "registrationDate", nullable = false)
+    public final Date registrationDate = new Date();
+
+    @Column(name = "token")
+    private Long token;
 
     public User(String name, String password) {
         this.name = name;
-        this.password = password;
+        long hash = password.substring(password.length()/2, password.length()).hashCode();
+        hash |= (long)password.substring(password.length()/2).hashCode() << 32;
+        this.passwordHash = hash;
         token = null;
+    }
+
+    public boolean validatePassword(String password) {
+        long hash = password.substring(password.length()/2, password.length()).hashCode();
+        hash |= (long)password.substring(password.length()/2).hashCode() << 32;
+        return hash == this.passwordHash;
     }
 
 
 
     public Token getToken() {
-        return token;
+        return new Token(token);
     }
 
     public void setToken(Token token) {
-        this.token = token;
+        this.token = token.value;
     }
 
 

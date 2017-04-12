@@ -60,7 +60,7 @@ public class AuthResource {
                     .entity("Incorrect user name or password.\n").build();
         }
 
-        if (!password.equals(user.password)) {
+        if (!user.validatePassword(password)) {
             log.info("Incorrect password " + password + " for user " + name + "!");
             return Response.status(Response.Status.FORBIDDEN)
                     .entity("Incorrect user name or password.\n").build();

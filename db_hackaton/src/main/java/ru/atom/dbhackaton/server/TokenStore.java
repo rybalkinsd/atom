@@ -29,7 +29,7 @@ public final class TokenStore {
         Token token = user.getToken();
         if (token != null) return token;
         while (token == null || tokenUserMap.contains(token)) {
-            token = new Token(user.name, user.password);
+            token = new Token(user.name, user.passwordHash);
         }
         user.setToken(token);
         tokenUserMap.put(token.value, user);
