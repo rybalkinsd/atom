@@ -47,7 +47,7 @@ public class AuthResource {
         try {
             authService.register(userName, password);
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }

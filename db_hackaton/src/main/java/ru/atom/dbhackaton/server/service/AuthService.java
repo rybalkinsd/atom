@@ -18,12 +18,12 @@ public class AuthService {
         Transaction txn = null;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-//
-//            if (UserDao.getInstance().getByName(session, login) != null) {
-//                throw new Exception("Already logined");
-//            }
-//            User newUser = new User(login, passwd);
-//            UserDao.getInstance().insert(session, newUser);
+
+            if (UserDao.getInstance().getByName(session, login) != null) {
+                throw new Exception("Already logined");
+            }
+            User newUser = new User(login, passwd);
+            UserDao.getInstance().insert(session, newUser);
 
             txn.commit();
         } catch (RuntimeException e) {

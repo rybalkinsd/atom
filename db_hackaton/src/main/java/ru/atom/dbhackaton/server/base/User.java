@@ -29,10 +29,11 @@ public class User {
 
 
     public User() {
-
+        registrationDate = new Date();
     }
 
     public User(String name, String password) {
+        this();
         this.name = name;
         this.password = password;
     }
