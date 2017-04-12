@@ -1,8 +1,17 @@
 package ru.atom;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by serega on 26.03.17.
  */
+@Entity
+@Table(name = "user", schema = "chat")
 public class User {
     private String name;
     private transient String password;
