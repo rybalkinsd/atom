@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.dao;
+package ru.atom.dbhackaton.server.dao;
 
 /**
  * Created by Ксения on 12.04.2017.

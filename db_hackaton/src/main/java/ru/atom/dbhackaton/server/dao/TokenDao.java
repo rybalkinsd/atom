@@ -1,5 +1,5 @@
 /*
-package ru.atom.dbhackaton.dao;
+package ru.atom.dbhackaton.server.dao;
 
 */
 /**

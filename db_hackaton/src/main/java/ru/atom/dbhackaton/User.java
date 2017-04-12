@@ -22,11 +22,11 @@ public class User {
     private String name;
 
     @Column(name = "password", nullable = false, length = 60)
-    private int password;
+    private String password;
 
     public User(String name, String password) {
         this.name = name;
-        this.password = password.hashCode();
+        this.password = password;
     }
 
     public String getName() {
@@ -37,12 +37,12 @@ public class User {
         this.name = name;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password.hashCode();
+    public void setPassword(String password){
+        this.password = String.valueOf(password.hashCode());
     }
 
     @Override
@@ -52,13 +52,13 @@ public class User {
         if (getClass() != o.getClass()) return false;
         User other = (User) o;
         if (!name.equals(other.getName())) return false;
-        if (password != (other.getPassword())) return false;
+        if (password.equals(other.getPassword())) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        return getName().hashCode() + getPassword();
+        return Integer.parseInt(getName().hashCode() + getPassword());
     }
 
     public String getInJson() {
