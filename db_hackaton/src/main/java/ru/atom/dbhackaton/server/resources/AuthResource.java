@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.dbhackaton.server.base.Token;
 import ru.atom.dbhackaton.server.base.User;
-import ru.atom.dbhackaton.server.storages.AccountStorage;
+import ru.atom.dbhackaton.server.storages.AccountDao;
 import ru.atom.dbhackaton.server.storages.TokenStorage;
 
 import javax.ws.rs.Consumes;
@@ -17,19 +17,22 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 
-@Path("/auth")
+@Path("/")
 public class AuthResource {
     private static final Logger logger = LogManager.getLogger(AuthResource.class);
-    private static final int MIN_USER_NAME_LEN = 6;
-    private static final int MAX_USER_NAME_LEN = 30;
-    private static final int MIN_PASSWORD_LEN = 8;
-    private static final int MAX_PASSWORD_LEN = 30;
+    private static final int MIN_USER_NAME_LEN = 0;
+    private static final int MAX_USER_NAME_LEN = 21;
+    private static final int MIN_PASSWORD_LEN = 0;
+    private static final int MAX_PASSWORD_LEN = 21;
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/register")
     @Produces("text/plain")
     public Response register(@FormParam("user") String userName, @FormParam("password") String password) {
+        if (userName == null || password == null)
+            return Response.status(Response.Status.LENGTH_REQUIRED).entity("Invalid request").build();
+
         if (checkNameLength(userName)) {
             Response response = Response.status(Response.Status.LENGTH_REQUIRED)
                     .entity("Неверный формат имени пользователя!").build();
@@ -38,11 +41,11 @@ public class AuthResource {
         if (checkPasswordLength(password)) {
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Неверный формат пароля!").build();
         }
-        if (AccountStorage.isUserExist(userName)) {
+        if (AccountDao.isUserExist(userName)) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Пользователь с таким именем уже зарегистрирован").build();
         }
-        AccountStorage.addAccount(userName, password);
+        AccountDao.addAccount(userName, password);
         logger.info("[" + userName + "] успешно зарегистрирован");
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
@@ -60,10 +63,10 @@ public class AuthResource {
         if (checkPasswordLength(password)) {
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Неверный формат пароля!").build();
         }
-        if (!AccountStorage.isUserExist(userName)) {
+        if (!AccountDao.isUserExist(userName)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Неверный логин или пароль!").build();
         }
-        User user = AccountStorage.getUser(userName);
+        User user = AccountDao.getUser(userName);
         if (user.checkPassword(password)) {
             if (TokenStorage.containsUser(user)) {
                 Response response = Response.ok(user.getToken().getValueToken()).build();
@@ -81,6 +84,8 @@ public class AuthResource {
     }
 
     private boolean checkNameLength(String userName) {
+        if (userName == null)
+            return false;
         return (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN);
     }
 

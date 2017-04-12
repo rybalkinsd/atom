@@ -7,8 +7,8 @@ import ru.atom.dbhackaton.server.base.User;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-public class AccountStorage {
-    private static final Logger logger = LogManager.getLogger(AccountStorage.class);
+public class AccountDao {
+    private static final Logger logger = LogManager.getLogger(AccountDao.class);
 
     private static ConcurrentHashMap<String, User> accounts = new ConcurrentHashMap<>();
 
