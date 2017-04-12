@@ -19,6 +19,7 @@ public class User {
     @Column(name = "password", nullable = false, length = 255)
     private transient String password;
 
+
     private String generatePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-256");
         crypt.reset();
@@ -27,12 +28,14 @@ public class User {
         return new BigInteger(1, crypt.digest()).toString(16);
     }
 
-    public void setName(String name) {
+    public User setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException  {
+    public User setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException  {
         this.password = generatePassword(password);
+        return this;
     }
 
     public String getName() {
@@ -45,7 +48,7 @@ public class User {
             this.password = generatePassword(newPassword);
             return true;
         }
-        return false;
+        return false; //сложно
     }
 
     public boolean validPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {

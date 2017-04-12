@@ -8,6 +8,7 @@ create table game.user (
   id    serial             not null,
   login varchar(20) unique not null,
   password varchar(255) not null,
+  create_at   timestamp    not null,
 
   primary key (id)
 );

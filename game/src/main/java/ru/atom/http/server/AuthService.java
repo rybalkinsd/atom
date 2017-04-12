@@ -2,6 +2,10 @@ package ru.atom.http.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import ru.atom.http.server.dao.Database;
+import ru.atom.http.server.dao.UserDao;
 import ru.atom.http.server.model.Token;
 import ru.atom.http.server.model.TokenStorage;
 import ru.atom.http.server.model.User;
@@ -33,20 +37,36 @@ public class AuthService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response register(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        Response response;
         if (name == null || name.isEmpty() || password == null || password.isEmpty()) {
             log.info("Params empty");
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            response =  Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         log.info("Register user " + name);
-        if (users.get(name) == null) {
-            log.info("New user " + name);
-            User user = new User(name, password);
-            users.put(name, user);
-            return  Response.ok("ok").build();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, name) != null) {
+                log.info("User exist " + name);
+                response = Response.status(Response.Status.FORBIDDEN).build();
+            } else {
+                log.info("New user " + name);
+                User newUser = new User().setName(name).setPassword(password);
+                UserDao.getInstance().insert(session, newUser);
+                response = Response.ok("ok").build();
+            }
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            response = Response.status(Response.Status.BAD_GATEWAY).build();
         }
-        log.info("User exist " + name);
-        return Response.status(Response.Status.FORBIDDEN).build();
+        return response;
     }
 
     @POST
