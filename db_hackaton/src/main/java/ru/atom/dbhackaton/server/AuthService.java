@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.boot.model.relational.Database;
 import ru.atom.User;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by konstantin on 12.04.17.
@@ -13,7 +14,7 @@ import ru.atom.User;
 public class AuthService {
     private static final Logger log = LogManager.getLogger(AuthService.class);
 
-    public void login(String login) throws ChatException {
+    public void login(String login) throws AuthException {
         Transaction txn = null;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();

@@ -1,20 +1,16 @@
-/*package ru.atom;
+import ru.atom;
 
-import com.google.gson.Gson;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-/**
- * Created by serega on 26.03.17.
- */
-/*@Path("/data")
+import java.util.List;
+import java.util.stream.Collectors;
+@Path("/data")
 public class DataResources {
     private static final Logger log = LogManager.getLogger(DataResources.class);
 
@@ -25,7 +21,7 @@ public class DataResources {
         log.info("Users request");
         Gson gson = new Gson();
         HashMap<String, LinkedList<User>> response = new HashMap<>();
-        response.put("users",  UsersCache.getRegisteredUsers());
+        response.put("users", UsersCache.getRegisteredUsers());
         return Response.ok(gson.toJson(response)).build();
     }
 
@@ -36,7 +32,7 @@ public class DataResources {
         log.info("Online request");
         Gson gson = new Gson();
         HashMap<String, LinkedList<User>> response = new HashMap<>();
-        response.put("users",  UsersCache.getLoginedUsers());
+        response.put("users", UsersCache.getLoginedUsers());
         return Response.ok(gson.toJson(response)).build();
     }
-}*/
+}
