@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.dbhackaton.server.base.Token;
 import ru.atom.dbhackaton.server.base.User;
+import ru.atom.dbhackaton.server.dao.UserDao;
+import ru.atom.dbhackaton.server.service.AuthService;
 import ru.atom.dbhackaton.server.storages.AccountDao;
 import ru.atom.dbhackaton.server.storages.TokenStorage;
 
@@ -24,6 +26,7 @@ public class AuthResource {
     private static final int MAX_USER_NAME_LEN = 21;
     private static final int MIN_PASSWORD_LEN = 0;
     private static final int MAX_PASSWORD_LEN = 21;
+    private static AuthService authService = new AuthService();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -41,12 +44,11 @@ public class AuthResource {
         if (checkPasswordLength(password)) {
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Неверный формат пароля!").build();
         }
-        if (AccountDao.isUserExist(userName)) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Пользователь с таким именем уже зарегистрирован").build();
+        try {
+            authService.register(userName, password);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
-        AccountDao.addAccount(userName, password);
-        logger.info("[" + userName + "] успешно зарегистрирован");
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
 
@@ -84,12 +86,16 @@ public class AuthResource {
     }
 
     private boolean checkNameLength(String userName) {
-        if (userName == null)
+        if (userName == null) {
             return false;
+        }
         return (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN);
     }
 
     private boolean checkPasswordLength(String password) {
+        if (password == null) {
+            return false;
+        }
         return (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN);
     }
 
