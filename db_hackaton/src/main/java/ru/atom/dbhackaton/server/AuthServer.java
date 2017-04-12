@@ -19,7 +19,7 @@ public class AuthServer {
 
         Server jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
-
+        System.out.println("hehe");
         jettyServer.start();
     }
 
