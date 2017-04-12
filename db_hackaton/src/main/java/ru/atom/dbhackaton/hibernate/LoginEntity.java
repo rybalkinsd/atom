@@ -10,6 +10,18 @@ import javax.persistence.*;
 public class LoginEntity {
     private String token;
     private Integer id;
+    private String login;
+
+
+    @Basic
+    @Column(name="login")
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     @OneToOne
     private RegistredEntity user;
