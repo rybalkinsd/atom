@@ -3,6 +3,7 @@ plugins {
 }
 
 // constants declaration
+
 ext {
     jdkVersion = 1.8
 
@@ -13,10 +14,12 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
-    gsonjVersion = "2.7"
+    //gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
+    jwtVersion = "0.7.0"
+    gsonVersion = "2.2.4"
 }
 
 allprojects {
@@ -33,6 +36,7 @@ allprojects {
 
     sourceCompatibility = jdkVersion
     targetCompatibility = jdkVersion
+
 }
 
 subprojects {
@@ -56,6 +60,7 @@ subprojects {
 ext.libraries = [
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
+        jwt_token: "io.jsonwebtoken:jjwt:$jwtVersion",
         junit: "junit:junit:$junitVersion",
         log4j: [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
@@ -67,10 +72,11 @@ ext.libraries = [
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         jersey_test:
                 "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
-        gson: "com.google.code.gson:gson:$gsonjVersion",
+        //gson: "com.google.code.gson:gson:$gsonjVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
-        hibernate: "org.hibernate:hibernate-core:$hibernateVersion"
+        hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
+        gson: "com.google.code.gson:gson:$gsonVersion"
 ]
 
 // code coverage settings

@@ -1,4 +1,4 @@
-package ru.atom.cache;
+package ru.atom.model;
 
 import org.junit.Before;
 import org.junit.Ignore;

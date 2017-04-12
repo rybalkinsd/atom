@@ -1,4 +1,4 @@
-package ru.atom.http.server;
+package ru.atom.server.server;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;

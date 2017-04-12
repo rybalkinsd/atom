@@ -1,4 +1,4 @@
-package ru.atom.http.server;
+package ru.atom.server.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
