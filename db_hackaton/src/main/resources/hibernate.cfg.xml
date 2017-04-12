@@ -33,6 +33,7 @@
 
         <!--mapping-->
         <mapping class="ru.atom.dbhackaton.server.model.User"/>
-        <!--<mapping class="ru.atom.lecture07.server.model.Message"/>-->
+        <mapping class="ru.atom.dbhackaton.server.model.Token"/>
+
     </session-factory>
 </hibernate-configuration>
