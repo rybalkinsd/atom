@@ -5,7 +5,6 @@ plugins {
 // constants declaration
 ext {
     jdkVersion = 1.8
-
     jettyVersion = "9.3.12.v20160915"
     junitVersion = "4.12"
     jacksonVersion = "2.5.3"
@@ -13,7 +12,6 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
-    gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
@@ -61,13 +59,12 @@ ext.libraries = [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
             "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        jackson_core: "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+        jackson_databind: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
-        jersey_test:
-                "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
-        gson: "com.google.code.gson:gson:$gsonjVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion"

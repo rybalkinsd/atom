@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://wtfis.ru:5432/chatdb_atom1</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <mapping resource="LoginEntity.hbm.xml"/>
+        <mapping class="ru.atom.dbhackaton.hibernate.LoginEntity"/>
+        <mapping resource="RegistredEntity.hbm.xml"/>
+        <mapping class="ru.atom.dbhackaton.hibernate.RegistredEntity"/>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>
