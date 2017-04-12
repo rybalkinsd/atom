@@ -24,14 +24,18 @@ public class AuthResource {
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
-    @Path("/auth/register")
+    @Path("/register")
     public Response register(@FormParam("user") String name, @FormParam("password") String password) {
         log.info("Registering {} with password {}...", name, password);
         if (name == null || name.length() > 30 || name.contains("\"") || name.contains("\n")) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Invalid name.\n").build();
         }
-        if (password == null || name.length() < 4) {
+        if (password == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Password is not specified!\n").build();
+        }
+        if (password == null || password.length() < 4) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Password is too short. Minimal allowed length of password: 4.\n").build();
         }
@@ -47,7 +51,7 @@ public class AuthResource {
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
-    @Path("/auth/login")
+    @Path("/login")
     public Response login(@FormParam("user") String name, @FormParam("password") String password) {
         final User user = (name == null || password == null) ? null : registered.get(name);
         if (user == null) {
@@ -71,7 +75,7 @@ public class AuthResource {
     @Authorized
     @POST
     @Consumes("application/x-www-form-urlencoded")
-    @Path("/auth/logout")
+    @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String authHeader) {
         Long token = AuthFilter.extractTokenFromAuthHeader(authHeader);
         User user = TokenStore.getUserByToken(new Token(token));
