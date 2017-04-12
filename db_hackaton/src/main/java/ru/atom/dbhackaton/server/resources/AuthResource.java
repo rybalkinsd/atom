@@ -70,16 +70,16 @@ public class AuthResource {
         }
         User user = AccountDao.getUser(userName);
         if (user.checkPassword(password)) {
-            if (TokenStorage.containsUser(user)) {
-                Response response = Response.ok(user.getToken().getValueToken()).build();
-                return response;
-            } else {
-                user.setToken(TokenStorage.generateToken());
-                TokenStorage.addToken(user.getToken(), user);
-                logger.info("[" + userName + "] успешно залогинился");
-                Response response = Response.ok(user.getToken().getValueToken()).build();
-                return response;
-            }
+//            if (TokenStorage.containsUser(user)) {
+//                Response response = Response.ok(user.getToken().getValueToken()).build();
+//                return response;
+//            } else {
+//                user.setToken(TokenStorage.generateToken());
+//                TokenStorage.addToken(user.getToken(), user);
+//                logger.info("[" + userName + "] успешно залогинился");
+//                Response response = Response.ok(user.getToken().getValueToken()).build();
+//                return response;
+//            }
         }
 
         return Response.status(Response.Status.BAD_REQUEST).entity("Неверный логин или пароль!").build();

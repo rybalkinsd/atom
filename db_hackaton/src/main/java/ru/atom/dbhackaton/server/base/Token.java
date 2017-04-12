@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user", schema = "auth")
+@Table(name = "token", schema = "auth")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +21,10 @@ public class Token {
 
     @OneToOne(cascade = CascadeType.PERSIST, targetEntity = User.class)
     private User user;
+
+    public Token() {
+
+    }
 
     public Token(long token) {
         this.token = Long.toString(token);

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "token", schema = "auth")
+@Table(name = "user", schema = "auth")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +26,6 @@ public class User {
 
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
-
-    private Token token;
 
 
     public User() {
@@ -56,7 +54,7 @@ public class User {
     }
 
     public Token getToken() {
-        return token;
+        return new Token();
     }
 
     public void setId(Integer id) {
@@ -76,7 +74,7 @@ public class User {
     }
 
     public void setToken(Token token) {
-        this.token = token;
+        ;
     }
 
     public boolean checkPassword(String password) {
