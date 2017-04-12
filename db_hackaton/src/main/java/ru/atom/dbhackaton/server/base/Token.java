@@ -1,15 +1,33 @@
 package ru.atom.dbhackaton.server.base;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "user", schema = "auth")
 public class Token {
-    private String valueToken;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    public Token(long valueToken) {
-        this.valueToken = Long.toString(valueToken);
+    @Column(name = "token", unique = true, nullable = false, length = 20)
+    private String token;
+
+    @OneToOne(cascade = CascadeType.PERSIST, targetEntity = User.class)
+    private User user;
+
+    public Token(long token) {
+        this.token = Long.toString(token);
     }
 
-    public String getValueToken() {
-        return valueToken;
+    public String getToken() {
+        return token;
     }
 
     @Override
@@ -20,11 +38,11 @@ public class Token {
 
         if (getClass() == obj.getClass()) {
             Token token = (Token) obj;
-            return valueToken.equals(token.valueToken);
+            return this.token.equals(token.token);
         }
         if (String.class == obj.getClass()) {
             String valueToken1 = (String) obj;
-            return valueToken.equals(valueToken1);
+            return token.equals(valueToken1);
         }
 
         return false;
@@ -32,6 +50,26 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return valueToken.hashCode();
+        return token.hashCode();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
