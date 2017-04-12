@@ -1,5 +1,6 @@
 package ru.atom.dbhackaton.server;
 
+import com.google.common.collect.RangeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.dbhackaton.dao.Database;
+import ru.atom.dbhackaton.dao.TokenDao;
 import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
@@ -37,9 +39,6 @@ public class AuthResources {
     @Produces("text/plain")
     @Path("/register")
     public static Response register(@FormParam("user") String user, @FormParam("password") String password) {
-        if (registered.containsKey(user)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
-        }
         Transaction txn = null;
         try(Session session = Database.session()){
             txn = session.beginTransaction();
@@ -69,13 +68,38 @@ public class AuthResources {
     @Produces("text/plain")
     @Path("/login")
     public static Response login(@FormParam("user") String user, @FormParam("password") String password) {
-        if (!registered.containsKey(user)) {
-            log.info(user + " isn't registered");
-            return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();
-        }
-        User userObj = registered.get(user);
+        String tokenValue;
         Transaction txn = null;
-        if (userObj.getPassword().equals(password)) {
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            User loggingin = UserDao.getInstance().getByName(session, user);
+            if (loggingin == null) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();
+            }
+            if (loggingin.getPassword() != password) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Wrong password").build();
+            }
+            Token token = new Token(user).setUser(loggingin);
+            tokenValue = token.getToken();
+            User checked = TokenDao.getInstance().getByStrToken(session, token.getToken()).getUser();
+            if (checked.equals(loggingin)) {
+                txn.rollback();
+                return Response.ok().entity(token.getToken()).build();
+            }
+            TokenDao.getInstance().insert(session, token);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
+        }
+
+        /*if (userObj.getPassword().equals(password)) {
             Token token = new Token(userObj);
             if (!(logined.containsKey(user))) {
                 logined.put(user, userObj);
@@ -85,7 +109,8 @@ public class AuthResources {
             return Response.ok(token.toString()).build();
         }
         log.info(user + " has another password");
-        return Response.status(Response.Status.BAD_REQUEST).entity("Not valid data").build();
+        return Response.status(Response.Status.BAD_REQUEST).entity("Not valid data").build();*/
+        return Response.ok().entity(tokenValue).build();
     }
 
     @Authorized

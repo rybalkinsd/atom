@@ -33,4 +33,8 @@ public class TokenDao {
                 .setParameter("strToken", strToken)
                 .uniqueResult();
     }
+
+    public void insert(Session session, Token token) {
+        session.saveOrUpdate(token);
+    }
 }
