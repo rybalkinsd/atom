@@ -2,7 +2,6 @@ package ru.atom;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.User;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;

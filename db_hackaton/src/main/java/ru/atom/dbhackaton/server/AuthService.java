@@ -4,9 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.boot.model.relational.Database;
 import ru.atom.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ru.atom.dbhackaton.server.db.Database;
 
 /**
  * Created by konstantin on 12.04.17.
