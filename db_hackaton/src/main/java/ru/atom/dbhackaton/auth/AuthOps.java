@@ -1,9 +1,11 @@
 package ru.atom.dbhackaton.auth;
 
 
+import com.sun.jna.platform.win32.WinDef;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
@@ -24,6 +26,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static ru.atom.dbhackaton.model.TokenStorage.getLoginByName;
+import static ru.atom.dbhackaton.model.TokenStorage.logoutToken;
 import static ru.atom.dbhackaton.model.UserStorage.getByName;
 import static ru.atom.dbhackaton.model.UserStorage.insert;
 
@@ -33,19 +37,7 @@ import static ru.atom.dbhackaton.model.UserStorage.insert;
 
 @Path("/auth")
 public class AuthOps {
-    private static TokenStorage tokenStorage = new TokenStorage();
-    private static UserStorage userStorage = new UserStorage();
     private static final Logger log = LogManager.getLogger(AuthOps.class);
-
-    static {
-        User admin = new User("admin", "admin");
-        userStorage.addUser("admin", admin);
-        log.info("Admin registered");
-        Token adminToken = new Token(admin, 0);
-        tokenStorage.addToken(adminToken);
-        log.info("Admin authorized");
-
-    }
 
     @POST
     @Path("/register")
@@ -79,7 +71,7 @@ public class AuthOps {
     public Response logout(ContainerRequestContext requestContext) {
         Token token = tokenStorage.getToken(getTokenFromContext(requestContext));
         String logoutName = token.getUser().getName();
-        tokenStorage.removeToken(token);
+        logoutToken(logoutName);
         log.info("Logout: " + logoutName);
         return Response.ok("Logout: " + logoutName).build();
     }
@@ -110,16 +102,17 @@ public class AuthOps {
 
     private boolean authenticate(String user, String password) throws Exception {
         RegistredEntity userProfile = getByName(user);
-        return userProfile != null && userProfile.checkPass(password);
+        return userProfile != null && userProfile.getPassword().equals(password);
     }
 
     private long issueToken(String user) {
-        if (tokenStorage.getTokenForUser(user) != null) {
-            return tokenStorage.getTokenForUser(user).getToken();
+        LoginEntity login = getLoginByName(user);
+        if (login != null) {
+            return Long.parseLong(login.getToken());
         }
         RegistredEntity userObject = getByName(user);
         Long tokenLong = ThreadLocalRandom.current().nextLong();
-        while (tokenStorage.validateToken(tokenLong)) {
+        while () {
             tokenLong = ThreadLocalRandom.current().nextLong();
         }
         Token token = new Token(userObject, tokenLong);
