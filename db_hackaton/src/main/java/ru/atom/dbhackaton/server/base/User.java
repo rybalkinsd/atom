@@ -29,25 +29,17 @@ public class User {
 
 
     public User() {
-        registrationDate = new Date();
+
     }
 
     public User(String name, String password) {
-        this();
         this.name = name;
         this.password = password;
+        this.registrationDate = new Date(System.currentTimeMillis());
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
     }
 
     public String getName() {
@@ -56,30 +48,6 @@ public class User {
 
     public Token getToken() {
         return new Token();
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public void setToken(Token token) {
-        ;
-    }
-
-    public boolean checkPassword(String password) {
-        return this.password.equals(password);
     }
 
     @Override

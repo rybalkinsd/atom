@@ -33,4 +33,12 @@ public class UserDao {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public User getUser(Session session, String name, String password) {
+        return (User) session
+                .createQuery("from User where login = :name and passwd = :passwd")
+                .setParameter("name", name)
+                .setParameter("passwd", password)
+                .uniqueResult();
+    }
 }

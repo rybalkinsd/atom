@@ -22,9 +22,10 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class AuthResource {
     private static final Logger logger = LogManager.getLogger(AuthResource.class);
-    private static final int MIN_USER_NAME_LEN = 0;
+
+    private static final int MIN_USER_NAME_LEN = 1;
     private static final int MAX_USER_NAME_LEN = 21;
-    private static final int MIN_PASSWORD_LEN = 0;
+    private static final int MIN_PASSWORD_LEN = 1;
     private static final int MAX_PASSWORD_LEN = 21;
     private static AuthService authService = new AuthService();
 
@@ -46,9 +47,10 @@ public class AuthResource {
         }
         try {
             authService.register(userName, password);
-        } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Возникла ошибка, попробуйте еще раз").build();
         }
+        logger.info("Пользователь {} успешно зарегистрирован", userName);
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
 
@@ -69,9 +71,9 @@ public class AuthResource {
         try {
             result= authService.login(userName, password);
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Неудачная попытка входа").build();
         }
-        return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
+        return Response.status(Response.Status.OK).entity(result).build();
     }
 
     private boolean checkNameLength(String userName) {
@@ -93,14 +95,8 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String valueToken) {
-        Token token = TokenStorage.getToken(valueToken.split(" ")[1]);
-        String userName = TokenStorage.getUser(token).getName();
-        if (TokenStorage.removeToken(token)) {
-            logger.info("Пользователь {} вышел из системы", userName);
-            return Response.ok().entity("До свидания, " + userName).build();
-        }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity("Что-то пошло не так: неактуальный токен").build();
+        return Response.status(Response.Status.OK).build();
     }
 
 }

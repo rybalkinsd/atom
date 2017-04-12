@@ -20,15 +20,6 @@ public class TokenStorage {
         return true;
     }
 
-    public static boolean removeToken(Token token) {
-        //if (checkToken(token)) {
-        //    return false;
-        //}
-        getUser(token).setToken(null);
-        tokensMap.remove(token);
-        return true;
-    }
-
     public static User getUser(Token token) {
         if (checkToken(token)) {
             return tokensMap.get(token);
@@ -50,16 +41,16 @@ public class TokenStorage {
         return tokensMap.containsKey(token);
     }
 
-    public static Token generateToken() {
-        final SecureRandom random = new SecureRandom();
-        final long newValueToken = random.nextLong();
-        final Token newToken = new Token(newValueToken);
-        if (checkToken(newToken)) {
-            generateToken();
-        }
-
-        return newToken;
-    }
+//    public static Token generateToken() {
+//        final SecureRandom random = new SecureRandom();
+//        final long newValueToken = random.nextLong();
+//        final Token newToken = new Token();
+//        if (checkToken(newToken)) {
+//            generateToken();
+//        }
+//
+//        return newToken;
+//    }
 
     public static boolean containsUser(User user) {
         return tokensMap.containsValue(user);

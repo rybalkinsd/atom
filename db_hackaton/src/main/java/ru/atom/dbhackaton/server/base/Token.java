@@ -26,8 +26,9 @@ public class Token {
 
     }
 
-    public Token(long token) {
-        this.token = Long.toString(token);
+    public Token(String token, User user) {
+        this.token = token;
+        this.user = user;
     }
 
     public String getToken() {
@@ -57,16 +58,8 @@ public class Token {
         return token.hashCode();
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public User getUser() {
         return user;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setToken(String token) {

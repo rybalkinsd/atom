@@ -2,6 +2,7 @@ package ru.atom.dbhackaton.server.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Authentication;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.dbhackaton.server.base.Token;
@@ -10,28 +11,32 @@ import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.storages.Database;
 
+import javax.naming.AuthenticationException;
+import javax.persistence.RollbackException;
 import java.security.SecureRandom;
 
 /**
  * Created by dmbragin on 4/12/17.
  */
 public class AuthService {
-    private static final Logger log = LogManager.getLogger(AuthService.class);
+    private static final Logger logger = LogManager.getLogger(AuthService.class);
 
-    public void register(String login, String passwd) throws Exception {
+    public void register(String login, String password) throws Exception {
         Transaction txn = null;
+
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
 
             if (UserDao.getInstance().getByName(session, login) != null) {
-                throw new Exception("Already logined");
+                throw new AuthenticationException("Пользователь " + login + " уже зарегистрирован");
             }
-            User newUser = new User(login, passwd);
+
+            User newUser = new User(login, password);
             UserDao.getInstance().insert(session, newUser);
 
             txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
+        } catch (Exception ex) {
+            logger.error("Registration error! {}", login);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }
@@ -44,33 +49,32 @@ public class AuthService {
         return String.valueOf(newValueToken);
     }
 
-    public String login(String login, String passwd) throws Exception {
-        String tokenStr;
+    public String login(String login, String password) throws Exception {
         Transaction txn = null;
+        Token token;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-            Token token = new Token();
-            token.setToken(generateToken());
-            tokenStr = token.getToken();
-            User user = UserDao.getInstance().getByName(session, login);
-            if ( user == null) {
-                throw new Exception("Bom");
+            User user = UserDao.getInstance().getUser(session, login, password);
+            if (user == null) {
+                throw new Authentication.Failed("");
             }
-            if (user.checkPassword(passwd)) {
-                token.setUser(user);
+            token = TokenDao.getInstance().getTokenByUser(session, user);
+            if (token == null) {
+                String newValueToken = generateToken();
+//                boolean isChecked = TokenDao.getInstance().checkUnoqueToken(session, newValueToken);
+                token = new Token(newValueToken, user);
                 TokenDao.getInstance().insert(session, token);
-            } else {
-                throw new Exception();
             }
             txn.commit();
-            return tokenStr;
         } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
+            logger.error("Transaction failed.", e);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }
             return "";
         }
+        return token.getToken();
+
     }
 
 }
