@@ -1,6 +1,6 @@
 package ru.atom.dbhackaton.auth;
 
-import ru.atom.model.Token;
+import ru.atom.dbhackaton.model.Token;
 
 import java.io.IOException;
 import java.util.LongSummaryStatistics;

@@ -17,8 +17,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.Token;
-import ru.atom.model.User;
+import ru.atom.dbhackaton.model.Token;
+import ru.atom.dbhackaton.model.User;
 
 
 /**

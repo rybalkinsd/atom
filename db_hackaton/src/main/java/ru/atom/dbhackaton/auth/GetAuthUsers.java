@@ -30,7 +30,7 @@ public class GetAuthUsers {
     @Path("users")
     public Response getPersonsBatch(ContainerRequestContext requestContext) throws Exception {
         log.info("Batch of authorised users requested.");
-        return Response.ok(AuthOps.getUsers()).build();
+        return Response.ok("").build();
     }
 
 }

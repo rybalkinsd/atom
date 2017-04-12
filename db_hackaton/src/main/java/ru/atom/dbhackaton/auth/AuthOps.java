@@ -1,7 +1,6 @@
 package ru.atom.dbhackaton.auth;
 
-//import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -134,10 +133,11 @@ public class AuthOps {
                 .substring("Bearer: ".length()).trim());
     }
 
-    public static String getUsers() throws JsonProcessingException {
-        HashMap tmp = new HashMap<String, List<String>>();
-        tmp.put("users", tokenStorage.getUsers());
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(tmp);
-    }
+//
+//    public static String getUsers() throws JsonProcessingException {
+//        HashMap tmp = new HashMap<String, List<String>>();
+//        tmp.put("users", tokenStorage.getUsers());
+//        ObjectMapper mapper = new ObjectMapper();
+//        return mapper.writeValueAsString(tmp);
+//    }
 }

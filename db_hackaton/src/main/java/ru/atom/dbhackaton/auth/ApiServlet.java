@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import ru.atom.auth.AuthFilter;
+import ru.atom.dbhackaton.auth.AuthFilter;
 
 /**
  * Created by vladfedorenko on 24.10.16.
