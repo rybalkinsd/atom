@@ -2,6 +2,8 @@ package ru.atom.dbhackaton.hibernate;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 /**
  * Created by kinetik on 12.04.17.
  */
@@ -10,24 +12,20 @@ import javax.persistence.*;
 public class LoginEntity {
     private String token;
     private Integer id;
-    private String login;
 
-
-    @Basic
-    @Column(name="login")
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private RegistredEntity user;
 
+    public RegistredEntity getUser() {
+        return user;
+    }
+
+    public void setUser(RegistredEntity user) {
+        this.user = user;
+    }
+
     @Id
-    @Column(name="id")
+    @Column(name="userId")
     public Integer getId() {
         return this.id;
     }

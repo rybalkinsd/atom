@@ -1,5 +1,7 @@
 package ru.atom.dbhackaton.hibernate;
 
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -9,9 +11,14 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "registred", schema = "chat", catalog = "chatdb_atom1")
 public class RegistredEntity {
+
     private String login;
     private String password;
     private Timestamp regdate;
+    private LoginEntity token;
+
+    public RegistredEntity() {
+    }
 
     public RegistredEntity(String login, String password, Timestamp regdate) {
         this.login = login;
@@ -19,10 +26,20 @@ public class RegistredEntity {
         this.regdate = regdate;
     }
 
-    public RegistredEntity() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    @Id
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    @Basic
     @Column(name = "login", nullable = false, length = 100)
     public String getLogin() {
         return login;
@@ -50,6 +67,15 @@ public class RegistredEntity {
 
     public void setRegdate(Timestamp regdate) {
         this.regdate = regdate;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    public LoginEntity getToken() {
+        return token;
+    }
+
+    public void setToken(LoginEntity token) {
+        this.token = token;
     }
 
     @Override

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static ru.atom.dbhackaton.model.UserStorage.getByName;
+
 /**
  * Created by vladfedorenko on 26.03.17.
  */
@@ -16,14 +18,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TokenStorage {
     public static void saveLogin(LoginEntity loginUser){
         Session session = HibernateUtil.getSession();
+        session.beginTransaction();
         session.save(loginUser);
+        session.getTransaction().commit();
         session.close();
     }
     public static LoginEntity getLoginByName(String name){
         Session session = HibernateUtil.getSession();
         LoginEntity user = (LoginEntity) session
-                .createQuery("from LoginEntity where login = :user")
-                .setParameter("user", name)
+                .createQuery("from LoginEntity where id = :user")
+                .setParameter("user", getByName(name).getUserId())
                 .uniqueResult();
         session.close();
         return user;
