@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by pavel on 12.04.17.
  */
 @Entity
-@Table(name = "userTokens", schema = "hackaton")
+@Table(name = "userTockens", schema = "hackaton")
 public class Token {
 
     @Id
@@ -18,7 +18,7 @@ public class Token {
     @Column(name = "token", unique = true, nullable = false)
     private long token;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
 
 

@@ -34,12 +34,11 @@ public class UserService {
             newUser.setRegisterDate(new Date());
             UserDao.getInstance().register(session, newUser);
 
-            log.info("User {} registered!", login);
             tnx.commit();
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
-                log.error("Transaction failed!");
+                throw new UserException("Transaction failed");
             }
         }
     }
@@ -55,12 +54,10 @@ public class UserService {
             } else if (!registeredUser.getPasswordHash().equals(password.hashCode())) {
                 throw new UserException("Wrong password");
             }
-
-            Token existToken = TokenDao.getInstance().getTokenByUserName(session, login);
-            if (existToken != null) {
-                return existToken.getToken();
+            Token exist = TokenDao.getInstance().getTokenByUserName(session, login);
+            if (exist != null) {
+                return exist.getToken();
             }
-
             long numToken = new Random().nextLong();
             Token token = new Token();
             token.setUser(registeredUser);
@@ -68,13 +65,13 @@ public class UserService {
 
             TokenDao.getInstance().login(session, token);
             tnx.commit();
-            log.info("User {} loggined!", login);
             return numToken;
+
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
             }
-            throw new UserException("Transaction failed");
+            throw new RuntimeException("Transaction failed");
         }
     }
 
@@ -82,13 +79,12 @@ public class UserService {
         Transaction tnx = null;
         try (Session session = Database.session()) {
             tnx = session.beginTransaction();
-            TokenDao.getInstance().logout(session, token);
-            log.info("User with token {} is loggined out", token);
+            TokenDao.getInstance().logout(session,token);
             tnx.commit();
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
-                log.error("Transaction failed!");
+                throw new UserException("Transaction failed");
             }
         }
     }
