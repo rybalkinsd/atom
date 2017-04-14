@@ -33,7 +33,7 @@ create schema mm;
 drop table if exists mm.match;
 create table mm.match (
   id            serial          not null,
-  registration_date TIMESTAMP   not null,
+  match_date    TIMESTAMP       not null,
   primary key (id)
 );
 
