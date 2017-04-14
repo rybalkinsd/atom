@@ -48,11 +48,14 @@
                 'Authorization': 'Bearer ' + Cookies.get('token')
             }
         };
+//        Cookies.remove('user');
+//        Cookies.remove('token');
 
         $.ajax(settings).done(function(response) {
             Cookies.remove('user');
-            Cookies.remove('token');
+            Cookies.remove('token'); //почему то не работает((
         }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR);
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
