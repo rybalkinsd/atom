@@ -59,8 +59,9 @@ public class AuthResousces {
     @Path("/logout")
     @Consumes("application/x-www-form-urlencoded")
     @Authorized
-    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) long token) {
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String bearer) {
         try {
+            long token = Long.parseLong(bearer.split("Bearer ")[1]);
             USER_SERVICE.logout(token);
         } catch (UserException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Some problems with logout").build();

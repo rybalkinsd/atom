@@ -17,7 +17,7 @@ import java.util.Random;
  * Created by pavel on 12.04.17.
  */
 public class UserService {
-    private static final Logger log = LogManager.getLogger(UserService.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
 
     public void register(String login, String password) throws UserException {
         Transaction tnx = null;
@@ -35,10 +35,11 @@ public class UserService {
             UserDao.getInstance().register(session, newUser);
 
             tnx.commit();
+            LOGGER.info("User {} registered!", newUser.getName());
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
-                throw new UserException("Transaction failed");
+                LOGGER.error("Transaction failed");
             }
         }
     }
@@ -65,13 +66,14 @@ public class UserService {
 
             TokenDao.getInstance().login(session, token);
             tnx.commit();
+            LOGGER.info("User {} is loggined!", registeredUser.getName());
             return numToken;
-
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
             }
-            throw new RuntimeException("Transaction failed");
+            LOGGER.error("Transaction failed!");
+            throw new RuntimeException();
         }
     }
 
@@ -81,10 +83,11 @@ public class UserService {
             tnx = session.beginTransaction();
             TokenDao.getInstance().logout(session,token);
             tnx.commit();
+            LOGGER.info("User with token {} is loggined out", token);
         } catch (RuntimeException e) {
             if (tnx != null && tnx.isActive()) {
                 tnx.rollback();
-                throw new UserException("Transaction failed");
+                LOGGER.error("Transaction failed!");
             }
         }
     }

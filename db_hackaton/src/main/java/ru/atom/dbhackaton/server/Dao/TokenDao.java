@@ -3,7 +3,9 @@ package ru.atom.dbhackaton.server.Dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import ru.atom.dbhackaton.server.model.Token;
+import ru.atom.dbhackaton.server.model.User;
 
 public class TokenDao {
     private static final Logger log = LogManager.getLogger(TokenDao.class);
@@ -32,4 +34,12 @@ public class TokenDao {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public Token getToken(Session session, long token) {
+        return (Token) session.createQuery("from Token where token = :token")
+                .setParameter("token", token)
+                .uniqueResult();
+    }
+
+
 }

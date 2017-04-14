@@ -18,7 +18,7 @@ public class Token {
     @Column(name = "token", unique = true, nullable = false)
     private long token;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private User user;
 
 

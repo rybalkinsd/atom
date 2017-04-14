@@ -20,7 +20,7 @@
         <property name="use_sql_comments">true</property>
 
         <!--what to do with schema in database if it conflicts with mapping-->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!--handle transactions manually-->
         <property name="hibernate.connection.autocommit">false</property>
