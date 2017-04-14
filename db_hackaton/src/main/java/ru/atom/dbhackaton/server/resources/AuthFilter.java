@@ -38,6 +38,7 @@ public class AuthFilter implements ContainerRequestFilter {
         }
     }
 
+    //TODO переделать
     private void checkToken(String valueToken) {
         User user = TokenStorage.getUser(valueToken);
         if (user == null) {

@@ -2,12 +2,7 @@ package ru.atom.dbhackaton.server.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dbhackaton.server.base.Token;
-import ru.atom.dbhackaton.server.base.User;
-import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.service.AuthService;
-import ru.atom.dbhackaton.server.storages.AccountDao;
-import ru.atom.dbhackaton.server.storages.TokenStorage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -90,6 +85,7 @@ public class AuthResource {
         return (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN);
     }
 
+    // TODO: 4/14/17  запилить логаут
     @Authorized
     @POST
     @Consumes("application/x-www-form-urlencoded")

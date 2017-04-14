@@ -1,8 +1,5 @@
 package ru.atom.dbhackaton.server.base;
 
-
-import sun.rmi.server.UnicastServerRef;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,10 +41,6 @@ public class User {
 
     public String getName() {
         return name;
-    }
-
-    public Token getToken() {
-        return new Token();
     }
 
     @Override

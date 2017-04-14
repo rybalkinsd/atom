@@ -3,13 +3,9 @@ package ru.atom.dbhackaton.server.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import ru.atom.dbhackaton.server.base.Token;
 import ru.atom.dbhackaton.server.base.User;
 
-/**
- * Created by mkai on 4/12/17.
- */
 public class TokenDao {
     private static final Logger log = LogManager.getLogger(TokenDao.class);
 
@@ -35,7 +31,7 @@ public class TokenDao {
         Token token = (Token) session.createQuery("from Token where user_id = :userId")
                 .setParameter("userId", userId)
                 .uniqueResult();
-        ;
+
         System.out.println("");
         return token;
     }

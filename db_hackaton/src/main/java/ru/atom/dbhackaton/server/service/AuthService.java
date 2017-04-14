@@ -31,7 +31,7 @@ public class AuthService {
                 throw new AuthenticationException("Пользователь " + login + " уже зарегистрирован");
             }
 
-            User newUser = new User(login, password);
+            User newUser = new User(login, getHash(password));
             UserDao.getInstance().insert(session, newUser);
 
             txn.commit();
@@ -54,13 +54,14 @@ public class AuthService {
         Token token;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-            User user = UserDao.getInstance().getUser(session, login, password);
+            User user = UserDao.getInstance().getUser(session, login, getHash(password));
             if (user == null) {
                 throw new Authentication.Failed("");
             }
             token = TokenDao.getInstance().getTokenByUser(session, user);
             if (token == null) {
                 String newValueToken = generateToken();
+                // TODO: 4/14/17 проверить уникальность сгенерированного токена
 //                boolean isChecked = TokenDao.getInstance().checkUnoqueToken(session, newValueToken);
                 token = new Token(newValueToken, user);
                 TokenDao.getInstance().insert(session, token);
@@ -76,5 +77,10 @@ public class AuthService {
         return token.getToken();
 
     }
+    // TODO: 4/14/17  сделать метод для хеширования пароля
+    public String getHash(String password) {
+        return new String("123");
+    }
+
 
 }
