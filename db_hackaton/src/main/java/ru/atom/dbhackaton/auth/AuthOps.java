@@ -34,7 +34,7 @@ import static ru.atom.dbhackaton.model.UserStorage.insert;
  * Created by vladfedorenko on 26.03.17.
  */
 
-@Path("/auth")
+@Path("/")
 public class AuthOps {
     private static final Logger log = LogManager.getLogger(AuthOps.class);
 
