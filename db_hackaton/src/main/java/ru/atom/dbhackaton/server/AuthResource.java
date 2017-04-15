@@ -3,8 +3,6 @@ package ru.atom.dbhackaton.server;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dbhackaton.dao.Database;
-import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.resource.Token;
 import ru.atom.dbhackaton.resource.TokenStorage;
 import ru.atom.dbhackaton.resource.User;
@@ -49,12 +47,17 @@ public class AuthResource {
             log.info("Password is empty");
             return Response.status(Response.Status.BAD_REQUEST).entity("Enter Password, pls").build();
         }
+        if (password.length() < 5) {
+            log.info("Password is too short");
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Password is too short. Minimal length is 5").build();
+        }
 
         log.info("Registration of user: " + name);
         User user = new User().setLogin(name).setPassword(password);
 
         try {
-            authService.register(name,password);
+            authService.register(user);
             log.info("New user \"" + name + "\" created");
             users.put(name, user);
         } catch (AuthException e) {
@@ -76,7 +79,6 @@ public class AuthResource {
             log.info("Password is empty");
             return Response.status(Response.Status.BAD_REQUEST).entity("Enter Password, pls").build();
         }
-
         log.info("Login user " + name);
         User user = users.get(name);
         if (user == null) {
@@ -91,7 +93,8 @@ public class AuthResource {
         if (tokenNum == null) {
             Token token = new Token().setUser(user).setToken(0L);
             tokenNum = token.getToken();
-            log.info("Generate token: " + tokenNum);
+            authService.login(token);
+            log.info("User \"" + name + "\" login with generated token: " + tokenNum);
             tokens.put(tokenNum, token);
         }
         return  Response.ok(tokenNum.toString()).build();
@@ -104,6 +107,7 @@ public class AuthResource {
         Long token = Long.parseLong(tokenParam.substring("Bearer".length()).trim());
         log.info("Logout with token " + token);
         try {
+            authService.logout(tokens.get(token));
             tokens.remove(token);
         } catch(NullPointerException e) {
             log.info("User with token " + token + " is not logined");

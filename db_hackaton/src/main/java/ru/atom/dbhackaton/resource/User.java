@@ -3,12 +3,15 @@ package ru.atom.dbhackaton.resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 /**
  * Created by BBPax on 24.03.17.
@@ -28,6 +31,31 @@ public class User {
 
     @Column(name = "password", nullable = false, length = 40)
     private String password;
+
+    @Column(name = "registration_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date regDate = new Date();
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinTable(inverseJoinColumns = @JoinColumn(name="token"))
+//    Token token;
+//
+//    public Token getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(Token token) {
+//        this.token = token;
+//    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public User setRegDate(Date regDate) {
+        this.regDate = regDate;
+        return this;
+    }
 
     public int getId() {
         return id;
