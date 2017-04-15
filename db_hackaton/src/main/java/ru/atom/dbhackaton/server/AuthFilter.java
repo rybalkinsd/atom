@@ -2,8 +2,6 @@ package ru.atom.dbhackaton.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import ru.atom.dbhackaton.server.Dao.Database;
 import ru.atom.dbhackaton.server.Dao.TokenDao;
 import ru.atom.dbhackaton.server.model.Token;
