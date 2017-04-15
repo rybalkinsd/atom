@@ -29,12 +29,16 @@ public class TokenDao {
 
     public Token getByStrToken(Session session, String strToken) {
         return (Token) session
-                .createQuery("from Token where token = :strToken")
+                .createQuery("from Token where value = :strToken")
                 .setParameter("strToken", strToken)
                 .uniqueResult();
     }
 
     public void insert(Session session, Token token) {
         session.saveOrUpdate(token);
+    }
+
+    public void remove(Session session, Token token) {
+        session.delete(token);
     }
 }

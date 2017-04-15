@@ -49,6 +49,7 @@ public class AuthResources {
             User newUser = new User(user, password);
 
             UserDao.getInstance().insert(session, newUser);
+            log.info(user + " : registered");
 
             txn.commit();
         } catch (RuntimeException e) {
@@ -58,8 +59,6 @@ public class AuthResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        registered.put(user, new User(user, password));
-        log.info(user + " : registered");
         return Response.ok().build();
     }
 
@@ -81,11 +80,12 @@ public class AuthResources {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Wrong password").build();
             }
-            Token token = new Token(user).setUser(loggingin);
+            Token token = new Token(loggingin).setUser(loggingin);
             tokenValue = token.getToken();
             Token checked = TokenDao.getInstance().getByStrToken(session, token.getToken());
-            if (checked == null) {
+            if (checked != null) {
                 txn.rollback();
+                //log.info("Token was already given");
                 return Response.ok().entity(token.getToken()).build();
             }
             TokenDao.getInstance().insert(session, token);
@@ -110,6 +110,7 @@ public class AuthResources {
         }
         log.info(user + " has another password");
         return Response.status(Response.Status.BAD_REQUEST).entity("Not valid data").build();*/
+        log.info(user + " received token");
         return Response.ok().entity(tokenValue).build();
     }
 
@@ -119,13 +120,24 @@ public class AuthResources {
     @Path("/logout")
     public static Response logout(@HeaderParam("Authorization") String strToken) {
         strToken = strToken.replaceFirst("Bearer ", "");
-        Token token = new Token(strToken);
-        if (!TokenStorage.getInstance().containsKey(token)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Such user is not registered").build();
+        Token token;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            token = TokenDao.getInstance().getByStrToken(session, strToken);
+            if (token == null) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
+            }
+            TokenDao.getInstance().remove(session, token);
+            log.info("[" + token.getUser().getName() + "]: logged out");
+            return Response.ok().build();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        log.info("[" + TokenStorage.getByToken(token) + "]: logged out");
-        logined.remove(TokenStorage.getByToken(token).getName());
-        TokenStorage.remove(token);
-        return Response.ok().build();
     }
 }

@@ -34,7 +34,7 @@ public class User {
         timestamp = new Date(System.currentTimeMillis());
     }
 
-    public User() { }
+    public User() {}
 
     public Integer getId() { return id; }
 

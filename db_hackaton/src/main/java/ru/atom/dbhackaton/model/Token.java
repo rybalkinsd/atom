@@ -7,10 +7,7 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.ws.rs.Encoded;
 import java.security.Key;
 
@@ -23,10 +20,12 @@ public class Token {
     private static final Logger log = LogManager.getLogger(Token.class);
 
     @Id
-    private String token;
+    private String value;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private User user;
+
+    public Token() {}
 
     public static final Key key = MacProvider.generateKey();
 
@@ -34,20 +33,20 @@ public class Token {
         Claims claims = Jwts.claims();
         claims.put("user", user.getName());
         claims.put("password", user.getPassword());
-        this.token = Jwts.builder()
+        this.value = Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
     public Token(String token) {
-        this.token = token;
+        this.value = token;
     }
 
-    public String getToken() { return token; }
+    public String getToken() { return value; }
 
     public void setToken(String token) {
-        this.token = token;
+        this.value = token;
     }
 
     public Token setUser(User user) {
@@ -61,12 +60,12 @@ public class Token {
 
     @Override
     public String toString() {
-        return token;
+        return value;
     }
 
     @Override
     public int hashCode() {
-        return token.hashCode();
+        return value.hashCode();
     }
 
     @Override
