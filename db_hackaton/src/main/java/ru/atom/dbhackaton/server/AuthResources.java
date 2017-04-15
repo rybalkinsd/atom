@@ -1,6 +1,5 @@
 package ru.atom.dbhackaton.server;
 
-import com.google.common.collect.RangeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +17,8 @@ import ru.atom.dbhackaton.dao.Database;
 import ru.atom.dbhackaton.dao.TokenDao;
 import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.model.Token;
-import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.User;
 
-import java.sql.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -85,7 +82,7 @@ public class AuthResources {
             Token checked = TokenDao.getInstance().getByStrToken(session, token.getToken());
             if (checked != null) {
                 txn.rollback();
-                //log.info("Token was already given");
+                log.info("Token was already given");
                 return Response.ok().entity(token.getToken()).build();
             }
             TokenDao.getInstance().insert(session, token);
@@ -98,18 +95,6 @@ public class AuthResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-
-        /*if (userObj.getPassword().equals(password)) {
-            Token token = new Token(userObj);
-            if (!(logined.containsKey(user))) {
-                logined.put(user, userObj);
-                TokenStorage.insert(token, userObj);
-            }
-            log.info(user + " : signed in");
-            return Response.ok(token.toString()).build();
-        }
-        log.info(user + " has another password");
-        return Response.status(Response.Status.BAD_REQUEST).entity("Not valid data").build();*/
         log.info(user + " received token");
         return Response.ok().entity(tokenValue).build();
     }

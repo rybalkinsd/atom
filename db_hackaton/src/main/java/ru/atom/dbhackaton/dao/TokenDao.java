@@ -40,5 +40,6 @@ public class TokenDao {
 
     public void remove(Session session, Token token) {
         session.delete(token);
+        session.flush();
     }
 }

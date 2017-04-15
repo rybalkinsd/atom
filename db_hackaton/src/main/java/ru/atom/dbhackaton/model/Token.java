@@ -22,7 +22,7 @@ public class Token {
     @Id
     private String value;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private User user;
 
     public Token() {}
