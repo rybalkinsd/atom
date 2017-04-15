@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
 import ru.atom.dbhackaton.dao.Database;
 import ru.atom.dbhackaton.dao.TokenDao;
 import ru.atom.dbhackaton.dao.UserDao;
@@ -28,8 +29,27 @@ import java.util.concurrent.ConcurrentHashMap;
 @Path("/")
 public class AuthResources {
     private static final Logger log = LogManager.getLogger(AuthResources.class);
-    private static ConcurrentHashMap<String, User> logined = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, User> registered = new ConcurrentHashMap<>();
+
+    // Define the BCrypt workload to use when generating password hashes. 10-31 is a valid value.
+    private static int workload = 12;
+
+    public static String hashPassword(String passwordPlaintext) {
+        String salt = BCrypt.gensalt(workload);
+        String hashedPassword = BCrypt.hashpw(passwordPlaintext, salt);
+
+        return hashedPassword;
+    }
+
+    public static boolean checkPassword(String passwordPlaintext, String storedHash) {
+        boolean passwordVerified = false;
+
+        if (null == storedHash || !storedHash.startsWith("$2a$"))
+            throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
+
+        passwordVerified = BCrypt.checkpw(passwordPlaintext, storedHash);
+
+        return passwordVerified;
+    }
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -37,13 +57,13 @@ public class AuthResources {
     @Path("/register")
     public static Response register(@FormParam("user") String user, @FormParam("password") String password) {
         Transaction txn = null;
-        try(Session session = Database.session()){
+        try (Session session = Database.session()) {
             txn = session.beginTransaction();
             if (UserDao.getInstance().getByName(session, user) != null) {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
             }
-            User newUser = new User(user, password);
+            User newUser = new User(user, hashPassword(password));
 
             UserDao.getInstance().insert(session, newUser);
             log.info(user + " : registered");
@@ -73,7 +93,7 @@ public class AuthResources {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Not registered").build();
             }
-            if (!loggingin.getPassword().equals(password)) {
+            if (!checkPassword(password, loggingin.getPassword())) {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Wrong password").build();
             }

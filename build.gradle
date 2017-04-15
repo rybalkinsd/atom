@@ -20,6 +20,7 @@ ext {
     hibernateVersion = "5.2.3.Final"
     jwtVersion = "0.7.0"
     gsonVersion = "2.2.4"
+    jbcryptVersion = "0.4"
 }
 
 allprojects {
@@ -70,11 +71,11 @@ ext.libraries = [
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
         jersey_test: "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
-        //gson: "com.google.code.gson:gson:$gsonjVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
-        gson: "com.google.code.gson:gson:$gsonVersion"
+        gson: "com.google.code.gson:gson:$gsonVersion",
+        jbcrypt: "de.svenkubiak:jBCrypt:$jbcryptVersion"
 ]
 
 // code coverage settings

@@ -7,7 +7,12 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 import javax.ws.rs.Encoded;
 import java.security.Key;
 
@@ -43,7 +48,9 @@ public class Token {
         this.value = token;
     }
 
-    public String getToken() { return value; }
+    public String getToken() {
+        return value;
+    }
 
     public void setToken(String token) {
         this.value = token;

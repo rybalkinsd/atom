@@ -9,6 +9,7 @@ dependencies {
     compile rootProject.libraries.gson
     compile rootProject.libraries.hibernate
     compile rootProject.libraries.postgres
+    compile rootProject.libraries.jbcrypt
 
 }
 
