@@ -37,25 +37,25 @@
         if (Cookies.get('user') === undefined
             || Cookies.get('token') === undefined) {
 
-            window.location = "/login.html";
+            window.location = "/";
+        } else {
+            var settings = {
+                "method": "POST",
+                "crossDomain": true,
+                "url": "/auth/logout",
+                headers: {
+                    'Authorization': 'Bearer: ' + Cookies.get('token')
+                }
+            };
+
+            $.ajax(settings).(function () {
+                Cookies.remove('user');
+                Cookies.remove('token');
+                window.location = "/";
+            }).fail(function (jqXHR, textStatus) {
+                alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            });
+            window.location = "/";
         }
-
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "/auth/logout",
-            headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token')
-            }
-        };
-
-        $.ajax(settings).done(function(response) {
-            Cookies.remove('user');
-            Cookies.remove('token');
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-        window.location = "/";
     }
 </script>

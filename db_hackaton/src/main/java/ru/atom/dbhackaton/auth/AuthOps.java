@@ -29,6 +29,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import static ru.atom.dbhackaton.model.TokenStorage.*;
 import static ru.atom.dbhackaton.model.UserStorage.getByName;
 import static ru.atom.dbhackaton.model.UserStorage.insert;
+import static ru.atom.dbhackaton.services.PasswordHasher.checkPassword;
+import static ru.atom.dbhackaton.services.PasswordHasher.hashPassword;
 
 /**
  * Created by vladfedorenko on 26.03.17.
@@ -45,7 +47,7 @@ public class AuthOps {
     public Response register(@FormParam("user") String user,
                              @FormParam("password") String password) {
 
-        if (user == null || password == null || user.equals("") || password.equals("")) {
+        if (user == null || password == null || user.trim().equals("") || password.trim().equals("")) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         if (getByName(user) != null) {
@@ -53,7 +55,7 @@ public class AuthOps {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         } else {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            RegistredEntity newUser = new RegistredEntity(user, password, timestamp);
+            RegistredEntity newUser = new RegistredEntity(user, hashPassword(password), timestamp);
             insert(newUser);
             log.info("New user '{}' registered", user);
             return Response.ok("User " + user + " registered.").build();
@@ -63,7 +65,7 @@ public class AuthOps {
 
 
     @POST
-    @Path("logout")
+    @Path("/logout")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("text/plain")
     @Authorized
@@ -100,7 +102,7 @@ public class AuthOps {
 
     private boolean authenticate(String user, String password) throws Exception {
         RegistredEntity userProfile = getByName(user);
-        return userProfile != null && userProfile.getPassword().equals(password);
+        return userProfile != null && checkPassword(password, userProfile.getPassword());
     }
 
     private long issueToken(String user) {

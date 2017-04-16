@@ -35,7 +35,9 @@ public class TokenStorage {
     public static void logoutToken(String name){
         Session session = HibernateUtil.getSession();
         LoginEntity login = getLoginByName(name);
+        session.beginTransaction();
         session.delete(login);
+        session.getTransaction().commit();
         session.close();
     }
     public static LoginEntity getByToken(Long token){
