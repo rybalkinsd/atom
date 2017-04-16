@@ -7,7 +7,7 @@ import ru.atom.dbhackaton.server.base.Token;
 import ru.atom.dbhackaton.server.base.User;
 
 public class TokenDao {
-    private static final Logger log = LogManager.getLogger(TokenDao.class);
+    private static final Logger loger = LogManager.getLogger(TokenDao.class);
 
     private static TokenDao instance = new TokenDao();
 
@@ -23,7 +23,10 @@ public class TokenDao {
     }
 
     public void delete(Session session, Token token) {
-        session.delete(token);
+//        session.delete(token);
+        loger.info("start delete token {}", token.getToken());
+        session.createQuery("delete Token where token = :tokenStr")
+                .setParameter("tokenStr", token.getToken()).executeUpdate();
     }
 
     public Token getTokenByUser(Session session, User user) {
@@ -32,11 +35,10 @@ public class TokenDao {
                 .setParameter("userId", userId)
                 .uniqueResult();
 
-        System.out.println("");
         return token;
     }
 
-    public boolean checkUniqueToken(Session session, String valueToken) {
+    public boolean isValidToken(Session session, String valueToken) {
         Token token = (Token) session.createQuery("from Token where token = :value")
                 .setParameter("value", valueToken)
                 .uniqueResult();

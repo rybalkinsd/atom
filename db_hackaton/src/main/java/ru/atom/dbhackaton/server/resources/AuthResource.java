@@ -2,6 +2,8 @@ package ru.atom.dbhackaton.server.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Contract;
+import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.service.AuthService;
 
 import javax.ws.rs.Consumes;
@@ -23,6 +25,7 @@ public class AuthResource {
     private static final int MIN_PASSWORD_LEN = 1;
     private static final int MAX_PASSWORD_LEN = 21;
     private static AuthService authService = new AuthService();
+
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -49,6 +52,7 @@ public class AuthResource {
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
 
+
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/login")
@@ -62,28 +66,18 @@ public class AuthResource {
         if (checkPasswordLength(password)) {
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Неверный формат пароля!").build();
         }
-        String result = "";
+        String result;
         try {
             result= authService.login(userName, password);
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Неудачная попытка входа").build();
         }
-        return Response.status(Response.Status.OK).entity(result).build();
+        if (result != null) {
+            return Response.status(Response.Status.OK).entity(result).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).entity("Неудачная попытка входа").build();
     }
 
-    private boolean checkNameLength(String userName) {
-        if (userName == null) {
-            return false;
-        }
-        return (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN);
-    }
-
-    private boolean checkPasswordLength(String password) {
-        if (password == null) {
-            return false;
-        }
-        return (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN);
-    }
 
     // TODO: 4/14/17  запилить логаут
     @Authorized
@@ -92,7 +86,28 @@ public class AuthResource {
     @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String valueToken) {
 
+        authService.logout(valueToken.split(" ")[1]);
         return Response.status(Response.Status.OK).build();
     }
+
+
+    @Contract("null -> false")
+    private boolean checkNameLength(String userName) {
+        if (userName == null) {
+            return false;
+        }
+        return (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN);
+    }
+
+
+    @Contract("null -> false")
+    private boolean checkPasswordLength(String password) {
+        if (password == null) {
+            return false;
+        }
+        return (password.length() < MIN_PASSWORD_LEN || password.length() > MAX_PASSWORD_LEN);
+    }
+
+
 
 }

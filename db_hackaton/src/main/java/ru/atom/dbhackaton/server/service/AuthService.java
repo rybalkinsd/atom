@@ -21,21 +21,21 @@ import java.security.SecureRandom;
 public class AuthService {
     private static final Logger logger = LogManager.getLogger(AuthService.class);
 
-    public void register(String login, String password) throws Exception {
+    public void register(String login, String password) throws AuthException {
         Transaction txn = null;
 
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
 
             if (UserDao.getInstance().getByName(session, login) != null) {
-                throw new AuthenticationException("Пользователь " + login + " уже зарегистрирован");
+                throw new AuthException("User \"" + login + "\" already registered");
             }
 
             User newUser = new User(login, getHash(password));
             UserDao.getInstance().insert(session, newUser);
 
             txn.commit();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             logger.error("Registration error! {}", login);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
@@ -43,21 +43,23 @@ public class AuthService {
         }
     }
 
+    // TODO move to Token class
     public String generateToken() {
         final SecureRandom random = new SecureRandom();
         final long newValueToken = random.nextLong();
         return String.valueOf(newValueToken);
     }
 
-    public String login(String login, String password) throws Exception {
+    public String login(String login, String password) throws AuthException {
         Transaction txn = null;
         Token token;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
             User user = UserDao.getInstance().getUser(session, login, getHash(password));
             if (user == null) {
-                throw new Authentication.Failed("");
+                throw new AuthException("Can not find user with this login and password");
             }
+
             token = TokenDao.getInstance().getTokenByUser(session, user);
             if (token == null) {
                 String newValueToken = generateToken();
@@ -72,14 +74,56 @@ public class AuthService {
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }
-            return "";
+            return null;
         }
+        logger.info("Generate new token");
         return token.getToken();
 
     }
+
+    public void logout(String tokenStr) {
+        Transaction txn = null;
+
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            Token token = new Token();
+            token.setToken(tokenStr);
+            TokenDao.getInstance().delete(session, token);
+
+            txn.commit();
+        } catch (RuntimeException ex) {
+            logger.error("Invalid token \"{}\", can not logout", tokenStr);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    public boolean isAuth(String tokenStr) {
+        Transaction txn = null;
+        logger.info("Start check token \"{}\"", tokenStr);
+
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (!TokenDao.getInstance().isValidToken(session, tokenStr)) {
+                return false;
+            }
+
+            txn.commit();
+        } catch (RuntimeException ex) {
+            logger.error("Invalid token \"{}\"", tokenStr);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return false;
+        }
+        return true;
+    }
+
     // TODO: 4/14/17  сделать метод для хеширования пароля
     public String getHash(String password) {
-        return new String("123");
+        return password;
     }
 
 
