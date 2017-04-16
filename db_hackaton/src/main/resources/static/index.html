@@ -49,12 +49,17 @@
             }
         };
 
-        $.ajax(settings).done(function(response) {
+//        $.ajax(settings).done(function(response) {
+//            Cookies.remove('user');
+//            Cookies.remove('token');
+//        }).fail(function (jqXHR, textStatus) {
+//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+//        });
+
+        $.ajax(settings).always(function(response) {
             Cookies.remove('user');
             Cookies.remove('token');
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
         window.location = "/";
     }
