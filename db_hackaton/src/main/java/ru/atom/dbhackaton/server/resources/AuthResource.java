@@ -2,7 +2,6 @@ package ru.atom.dbhackaton.server.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Contract;
 import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.service.AuthService;
 
@@ -52,6 +51,28 @@ public class AuthResource {
         return Response.ok().entity("[" + userName + "] успешно зарегистрирован").build();
     }
 
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/register/check")
+    @Produces("text/plain")
+    public Response registerCheck(@FormParam("user") String userName) {
+        System.out.println(userName);
+        if (userName == null)
+            return Response.status(Response.Status.LENGTH_REQUIRED).entity("Invalid request").build();
+
+        if (checkNameLength(userName)) {
+            Response response = Response.status(Response.Status.LENGTH_REQUIRED)
+                    .entity("Неверный формат имени пользователя!").build();
+            return response;
+        }
+        try {
+            String resp = authService.registerCheck(userName);
+            System.out.print(resp+"111");
+            return Response.ok().entity(resp).build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Возникла ошибка, попробуйте еще раз").build();
+        }
+    }
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -90,8 +111,6 @@ public class AuthResource {
         return Response.status(Response.Status.OK).build();
     }
 
-
-    @Contract("null -> false")
     private boolean checkNameLength(String userName) {
         if (userName == null) {
             return false;
@@ -99,8 +118,6 @@ public class AuthResource {
         return (userName.length() > MAX_USER_NAME_LEN || userName.length() < MIN_USER_NAME_LEN);
     }
 
-
-    @Contract("null -> false")
     private boolean checkPasswordLength(String password) {
         if (password == null) {
             return false;
