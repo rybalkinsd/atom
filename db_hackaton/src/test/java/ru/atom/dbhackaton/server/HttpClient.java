@@ -1,4 +1,4 @@
-package ru.atom.authserver;
+package ru.atom.dbhackaton.server;
 
 /**
  * Created by gammaker on 29.03.2017.

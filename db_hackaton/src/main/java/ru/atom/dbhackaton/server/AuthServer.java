@@ -10,7 +10,9 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 
 public class AuthServer {
-    public static void main(String[] args) throws Exception {
+    private static Server jettyServer;
+
+    public static void serverRun() throws Exception {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -19,10 +21,18 @@ public class AuthServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
+    }
+
+    public static void serverStop() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        serverRun();
     }
 
     private static ServletContextHandler createChatContext() {

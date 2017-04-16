@@ -40,22 +40,22 @@ public class User {
         return passwordHash;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String password) {
         this.name = name;
-        long hash = password.substring(password.length()/2, password.length()).hashCode();
-        hash |= (long)password.substring(password.length()/2).hashCode() << 32;
+        long hash = password.substring(password.length() / 2, password.length()).hashCode();
+        hash |= (long) password.substring(password.length() / 2).hashCode() << 32;
         this.passwordHash = hash;
         token = null;
     }
 
     public boolean validatePassword(String password) {
-        long hash = password.substring(password.length()/2, password.length()).hashCode();
-        hash |= (long)password.substring(password.length()/2).hashCode() << 32;
+        long hash = password.substring(password.length() / 2, password.length()).hashCode();
+        hash |= (long) password.substring(password.length() / 2).hashCode() << 32;
         return hash == this.passwordHash.longValue();
     }
-
 
 
     public Token getToken() {

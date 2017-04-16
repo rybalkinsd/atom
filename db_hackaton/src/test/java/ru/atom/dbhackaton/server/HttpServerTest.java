@@ -1,14 +1,16 @@
-package ru.atom.authserver;
+package ru.atom.dbhackaton.server;
 
 import okhttp3.Response;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+@Ignore
 public class HttpServerTest {
     @Test public void testServer() throws Exception {
-        HttpServer.serverRun();
+        AuthServer.serverRun();
 
         Response initiallyLogined = HttpClient.loginedUsers();
         assertEquals("{\"users\" : []}", initiallyLogined.body().string());
@@ -49,6 +51,6 @@ public class HttpServerTest {
         Response loggedOutAgainUser1 = HttpClient.logout(user1Token);
         assertNotEquals(200, loggedOutAgainUser1.code());
 
-        HttpServer.serverStop();
+        AuthServer.serverStop();
     }
 }
