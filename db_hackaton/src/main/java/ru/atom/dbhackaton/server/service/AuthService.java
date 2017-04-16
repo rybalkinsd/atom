@@ -49,8 +49,6 @@ public class AuthService {
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
 
-            System.out.print(UserDao.getInstance().getByName(session, login));
-
             if (UserDao.getInstance().getByName(session, login) == null) {
                 isTrue = "True";
             }

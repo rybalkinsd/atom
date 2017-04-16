@@ -65,7 +65,6 @@
                 "data": user
             }
             $.ajax(settings).done(function(response) {
-                alert(response)
                 if(response =='False'){
                     var popup = document.getElementById("myPopup").className = "show";
                     $(':input[type="submit"]').prop('disabled', true);
@@ -75,10 +74,5 @@
                 }
             });
         });
-    }
-
-    function popupHide() {
-        alert("111");
-        document.getElementById('myPopup').style.visibility = 'hidden';
     }
 </script>

@@ -56,7 +56,6 @@ public class AuthResource {
     @Path("/register/check")
     @Produces("text/plain")
     public Response registerCheck(@FormParam("user") String userName) {
-        System.out.println(userName);
         if (userName == null)
             return Response.status(Response.Status.LENGTH_REQUIRED).entity("Invalid request").build();
 
@@ -67,7 +66,6 @@ public class AuthResource {
         }
         try {
             String resp = authService.registerCheck(userName);
-            System.out.print(resp+"111");
             return Response.ok().entity(resp).build();
         } catch (Exception ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Возникла ошибка, попробуйте еще раз").build();
