@@ -39,7 +39,9 @@ public class UserStorage {
 
     public static void dropUser(RegistredEntity userToDelete) {
         Session session = HibernateUtil.getSession();
+        session.beginTransaction();
         session.delete(userToDelete);
+        session.getTransaction().commit();
         session.close();
     }
 }
