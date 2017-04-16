@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dbhackaton.auth.Authorized;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.UserStorage;
@@ -48,7 +49,7 @@ public class MatchMaker {
 
             ObjectMapper mapper = new ObjectMapper();
 
-            Map<String, Object> gameResultMapHead = new HashMap<String, Object>();
+            Map<String, Object> gameResultMapHead;
 
             // convert JSON string to Map
             gameResultMapHead = mapper.readValue(gameResult, new TypeReference<Map<String, String>>(){});
@@ -56,7 +57,7 @@ public class MatchMaker {
             long gameID = (long) gameResultMapHead.get("id");
             String resultsString = (String) gameResultMapHead.get("results");
 
-            Map<String, Object> gameResultMapBody = new HashMap<String, Object>();
+            Map<String, Object> gameResultMapBody;
 
             // convert JSON string to Map
             gameResultMapBody = mapper.readValue(resultsString, new TypeReference<Map<String, String>>(){});

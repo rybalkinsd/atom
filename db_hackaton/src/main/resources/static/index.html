@@ -8,7 +8,7 @@
 
         <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
         <br>
-        <button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button>
+        <button type="button" class="logoutButton" style="font-size:large" onclick=logout() >Logout</button>
     <!--</div>-->
 </body>
 </html>
@@ -27,8 +27,16 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
-    }
+        $.ajax({
+            method: "POST",
+            crossDomain: true,
+            url: "localhost:8282/mm/join",
+            contentType: "application/x-www-form-urlencoded",
+            body: {
+                'name': Cookies.get('user'),
+                'token': Cookies.get('token')
+            }
+    });
 </script>
 
 
@@ -40,15 +48,15 @@
             window.location = "/";
         } else {
             var settings = {
-                "method": "POST",
-                "crossDomain": true,
-                "url": "/auth/logout",
+                method: "POST",
+                crossDomain: true,
+                url: "/auth/logout",
                 headers: {
                     'Authorization': 'Bearer: ' + Cookies.get('token')
                 }
             };
 
-            $.ajax(settings).(function () {
+            $.ajax(settings).(function (response) {
                 Cookies.remove('user');
                 Cookies.remove('token');
                 window.location = "/";
