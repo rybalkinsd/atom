@@ -1,12 +1,13 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import ru.atom.User;
-import ru.atom.UserDao;
-import ru.atom.dbhackaton.server.db.Database;
+
+import ru.atom.dbhackaton.server.dao.Database;
+import ru.atom.dbhackaton.server.dao.UserDao;
+import ru.atom.dbhackaton.server.model.User;
 
 /**
  * Created by konstantin on 12.04.17.

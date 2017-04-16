@@ -1,4 +1,4 @@
-package ru.atom;
+package ru.atom.dbhackaton.server.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

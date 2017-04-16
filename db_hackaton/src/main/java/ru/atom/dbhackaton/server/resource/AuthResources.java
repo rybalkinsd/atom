@@ -1,9 +1,9 @@
-package ru.atom;
+package ru.atom.dbhackaton.server.resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dbhackaton.server.AuthException;
-import ru.atom.dbhackaton.server.AuthService;
+import ru.atom.dbhackaton.server.service.AuthException;
+import ru.atom.dbhackaton.server.service.AuthService;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;

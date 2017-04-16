@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.service;
 
 /**
  * Created by konstantin on 12.04.17.
