@@ -2,8 +2,7 @@ package ru.atom.dbhackaton.server.resources;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Contract;
-import ru.atom.dbhackaton.server.dao.TokenDao;
+
 import ru.atom.dbhackaton.server.service.AuthService;
 
 import javax.ws.rs.Consumes;
@@ -91,7 +90,6 @@ public class AuthResource {
     }
 
 
-    @Contract("null -> false")
     private boolean checkNameLength(String userName) {
         if (userName == null) {
             return false;
@@ -100,7 +98,6 @@ public class AuthResource {
     }
 
 
-    @Contract("null -> false")
     private boolean checkPasswordLength(String password) {
         if (password == null) {
             return false;
