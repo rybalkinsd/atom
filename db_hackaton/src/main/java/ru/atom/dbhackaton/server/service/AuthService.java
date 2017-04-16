@@ -43,6 +43,26 @@ public class AuthService {
         }
     }
 
+    public String registerCheck(String login) throws AuthException {
+        Transaction txn = null;
+        String isTrue = "False";
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            System.out.print(UserDao.getInstance().getByName(session, login));
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                isTrue = "True";
+            }
+        } catch (RuntimeException ex) {
+            logger.error("Registration error! {}", login);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+        return isTrue;
+    }
+
     // TODO move to Token class
     public String generateToken() {
         final SecureRandom random = new SecureRandom();

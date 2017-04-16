@@ -10,14 +10,21 @@
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="register()">
         <div class="container">
             <label><b>user</b></label>
-            <input id="user" name="user"
-                   value="" style="font-size:medium" type="text" placeholder="Enter Username" required>
-
-            <label><b>password</b></label>
+            <br>
+            <div width="80%">
+                <input id="user" name="user" onblur="loginCheck()"
+                       value="" style="font-size:medium" type="text" placeholder="Enter Username" required>
+                <br>
+                <div class="popup">
+                    <span class="popuptext" id="myPopup" display="hide">User is already signed up</span>
+                </div>
+            </div>
+            <br>
+            <label><b>password</b></label><br>
             <input id="password" name="password"
                    value="" style="font-size:medium" type="password" placeholder="Enter Password" required>
 
-            <button style="font-size:large" type="submit">register</button>
+            <button style="font-size:large" type="submit" disabled>register</button>
         </div>
     </form>
 </div>
@@ -46,5 +53,32 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+    }
+
+    function loginCheck() {
+        $(document).ready(function(){
+            var user=$('#user').serialize();
+            var settings = {
+                "method": "POST",
+                "crossDomain": true,
+                "url": "/auth/register/check",
+                "data": user
+            }
+            $.ajax(settings).done(function(response) {
+                alert(response)
+                if(response =='False'){
+                    var popup = document.getElementById("myPopup").className = "show";
+                    $(':input[type="submit"]').prop('disabled', true);
+                } else {
+                    var popup = document.getElementById("myPopup").className = "hide";
+                    $(':input[type="submit"]').prop('disabled', false);
+                }
+            });
+        });
+    }
+
+    function popupHide() {
+        alert("111");
+        document.getElementById('myPopup').style.visibility = 'hidden';
     }
 </script>
