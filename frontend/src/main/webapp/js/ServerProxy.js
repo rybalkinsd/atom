@@ -22,7 +22,7 @@ ServerProxy = Class.extend({
     },
 
     initSocket: function() {
-        var self = this
+        var self = this;
         this.socket = new WebSocket("ws://" + this.host + "/events");
 
         this.socket.onopen = function() {
@@ -71,7 +71,7 @@ ServerProxy = Class.extend({
                        new Player({x: obj.position.x, y: obj.position.y})
                    );
             }
-        };
+        }
 
         console.log(replicatedObjects);
     }
