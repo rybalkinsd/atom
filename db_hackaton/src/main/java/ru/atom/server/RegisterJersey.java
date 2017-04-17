@@ -1,24 +1,19 @@
 package ru.atom.server;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.StorageToken;
-import ru.atom.Users;
-import ru.atom.dao.TokenDao;
-import ru.atom.dao.UserDao;
-import ru.atom.object.Token;
 import ru.atom.object.User;
 
-import javax.swing.text.html.HTMLDocument;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.Date;
-import java.util.Iterator;
+
 import java.util.List;
 
-/*import ru.atom.server.Authorized;*/
+
 
 
 /**
@@ -28,9 +23,9 @@ import java.util.List;
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey.class);
 
-    UserDao userDao = new UserDao();
+   /* UserDao userDao = new UserDao();
     TokenDao tokenDaoDao = new TokenDao();
-
+*/
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("register")
@@ -38,7 +33,7 @@ public class RegisterJersey {
     public Response register(@FormParam("user") String login,
                              @FormParam("password") String password) {
 
-        if (login == null || password == null) {
+       /* if (login == null || password == null) {
             log.info("Не заполненые поля");
             return Response.status(Response.Status.BAD_REQUEST).entity("You must write in login and password").build();
         }
@@ -65,7 +60,7 @@ public class RegisterJersey {
                 .setPassword(password)
                 .setRegistrationDate(new Date(System.currentTimeMillis()));
         userDao.insert(newUser);
-        log.info("New user registr [" + login + "]");
+        log.info("New user registr [" + login + "]");*/
         return Response.ok().build();
     }
 
@@ -76,7 +71,7 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response login(@FormParam("user") String login,
                           @FormParam("password") String password) {
-        List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
+       /* List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
 
 
         log.info("user=" + login + ", password=" + password);
@@ -90,7 +85,7 @@ public class RegisterJersey {
         }//Посмотреть будет ли совпадать пароль
 
 
-        /*Token yourToken = DatabaseClass.issueToken(login);
+        *//*Token yourToken = DatabaseClass.issueToken(login);
         log.info("New user login [" + login + "]");
         log.info(yourToken.toString());
         return Response.ok(yourToken.toString()).build();*/
