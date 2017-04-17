@@ -1,4 +1,4 @@
-package ru.atom;
+package ru.atom.dbhackaton.server.model;
 
 import java.util.Random;
 

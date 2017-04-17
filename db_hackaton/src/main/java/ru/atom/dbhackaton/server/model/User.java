@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * Created by serega on 26.03.17.
@@ -23,7 +24,15 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
+    @Column(name = "time", nullable = false)
+    private Date time;
+
     public User() {}
+
+    public User setTime(Date time) {
+        this.time = time;
+        return this;
+    }
 
     public User setId(int id) {
         this.id = id;

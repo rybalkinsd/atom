@@ -15,8 +15,9 @@ create table auth.reguser (
 drop table if exists auth.loguser;
 create table auth.loguser (
   id     serial       not null,
-  reg_user_id integer      not null references auth.reguser on delete cascade,
-  token  integer not null,
+  reguser_id integer not null references auth.reguser on delete cascade,
+  token  varchar(100) not null,
+  time   timestamp    not null,
   primary key (id)
 );
 
