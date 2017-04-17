@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 @Table(name = "registered_users", schema = "game")
@@ -21,8 +23,11 @@ public class User {
     @Column(name = "name", unique = true, nullable = false, length = 20)
     private String name;
 
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
+
+    @Column(name = "token")
+    private Long token = null;
 
     public User(String name, String password) {
         this.name = name;
@@ -45,6 +50,18 @@ public class User {
         this.password = String.valueOf(password.hashCode());
     }
 
+    public Long getToken() {
+        return token;
+    }
+
+    public void setToken(Long token){
+        this.token = token;
+    }
+
+    public void setNewToken() {this.token = next.getAndAdd((new Date().getTime()));}
+
+    private static AtomicLong next = new AtomicLong();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,7 +69,7 @@ public class User {
         if (getClass() != o.getClass()) return false;
         User other = (User) o;
         if (!name.equals(other.getName())) return false;
-        if (password.equals(other.getPassword())) return false;
+        if (!password.equals(other.getPassword())) return false;
         return true;
     }
 

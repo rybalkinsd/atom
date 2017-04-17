@@ -36,5 +36,12 @@ public class UserDao {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public User getByToken(Session session, Long token) {
+        return (User) session
+                .createQuery("from registered_users where token = :token")
+                .setParameter("token", token)
+                .uniqueResult();
+    }
 }
 
