@@ -10,7 +10,7 @@
             <generator class="identity"/>
         </id>
         <property name="login">
-            <column name="login" sql-type="varchar(100)" length="100"/>
+            <column name="login" sql-type="varchar(100)" length="100" unique="true"/>
         </property>
         <one-to-one name="token" class="ru.atom.dbhackaton.hibernate.LoginEntity" constrained="true"/>
         <property name="password">

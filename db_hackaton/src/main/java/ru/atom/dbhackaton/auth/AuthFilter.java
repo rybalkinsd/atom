@@ -25,7 +25,7 @@ public class AuthFilter implements ContainerRequestFilter {
             throw new NotAuthorizedException("Authorization header must be provided");
         }
         try {
-            Long token = Long.parseLong(authorizationHeader.substring("Bearer: ".length()).trim());
+            Long token = Long.parseLong(authorizationHeader.substring("Bearer ".length()).trim());
             AuthOps.validateToken(token);
         } catch (Exception e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());

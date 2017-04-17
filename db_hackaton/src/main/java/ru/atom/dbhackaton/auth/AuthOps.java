@@ -1,19 +1,13 @@
 package ru.atom.dbhackaton.auth;
 
 
-import com.sun.jna.platform.win32.WinDef;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
-import ru.atom.dbhackaton.model.Token;
-import ru.atom.dbhackaton.model.TokenStorage;
-import ru.atom.dbhackaton.model.User;
-import ru.atom.dbhackaton.model.UserStorage;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
@@ -21,9 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.List;
-import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static ru.atom.dbhackaton.model.TokenStorage.*;
