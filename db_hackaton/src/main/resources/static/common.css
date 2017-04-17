@@ -28,6 +28,10 @@ button:hover {
     opacity: 0.8;
 }
 
+.initial-hide{
+    display: none;
+}
+
 /* Add padding to containers */
 .container {
     padding: 16px;

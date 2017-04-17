@@ -2,8 +2,8 @@
 
 <link rel="stylesheet" href="common.css">
 
-<body>
-    <!--<div id="authorizeUser"  style="display: none;">-->
+<body id="body">
+    <div id="authorizeUser" class="initial-hide">
         <h2>Welcome back, <p id="username"></p></h2>
 
         <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
@@ -12,7 +12,7 @@
             <div><button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button></div>
             <div class="popup"><span class="popuptext" id="myPopup" display="hide"></span></div>
         </div>
-    <!--</div>-->
+    </div>
 </body>
 </html>
 
@@ -23,7 +23,8 @@
     if (Cookies.get('user') === undefined) {
         window.location = "/login.html";
     } else {
-        $('#authorizeUser').show();
+        document.getElementById("authorizeUser").className =
+            document.getElementById("authorizeUser").className.replace(/\binitial-hide\b/,'');
         $('#username').text(Cookies.get('user'));
     }
 </script>
@@ -58,8 +59,14 @@
             window.location = "/";
         }).fail(function (jqXHR, textStatus, errorOptions) {
             console.log(jqXHR.status + " " + jqXHR.statusText);
-            document.getElementById("myPopup").className = "show";
-            $('#myPopup').html(errorOptions + '...<br> Try again');
+            if(errorOptions == 'Unauthorized') {
+                Cookies.remove('user');
+                Cookies.remove('token');
+                window.location = "/";
+            } else {
+                document.getElementById("myPopup").className = "show";
+                $('#myPopup').html(errorOptions + '...<br> Try again');
+            }
         })
 
     }
