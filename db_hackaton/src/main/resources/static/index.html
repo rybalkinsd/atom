@@ -8,7 +8,10 @@
 
         <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
         <br>
-        <button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button>
+        <div class="containerPopup" style="width: 40rem">
+            <div><button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button></div>
+            <div class="popup"><span class="popuptext" id="myPopup" display="hide"></span></div>
+        </div>
     <!--</div>-->
 </body>
 </html>
@@ -49,13 +52,15 @@
             }
         };
 
-        $.ajax(settings).done(function(response) {
+        $.ajax(settings).done(function() {
             Cookies.remove('user');
             Cookies.remove('token');
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-        window.location = "/";
+            window.location = "/";
+        }).fail(function (jqXHR, textStatus, errorOptions) {
+            console.log(jqXHR.status + " " + jqXHR.statusText);
+            document.getElementById("myPopup").className = "show";
+            $('#myPopup').html(errorOptions + '...<br> Try again');
+        })
+
     }
 </script>

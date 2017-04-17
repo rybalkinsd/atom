@@ -31,34 +31,34 @@ button:hover {
 /* Add padding to containers */
 .container {
     padding: 16px;
+    overflow: auto;
 }
 
 .logoutButton {
-    width: auto;
+    display: inline;
+    width: 20%;
     padding: 10px 18px;
     background-color: #f44336;
+    float: left;
 }
 
-/* Popup container */
-.popup {
+.logout {
     display: inline-block;
+    background-color: black;
     width: 20%;
-    position: absolute;
-    right: 0px;
-    align: center;
+    float: left;
 }
 
 /* The actual popup (appears on top) */
-.popup .popuptext {
+.popuptext {
     visibility: hidden;
     width: 160px;
     background-color: #555;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
     padding: 8px 0;
-    position: absolute;
-    z-index: 1;
+    position: relative;
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
@@ -69,45 +69,57 @@ button:hover {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
-    display: inline-block;
-    width: 20%;
-    position: absolute;
+    position: relative;
     right: 0px;
-    align: center;
     width: 160px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
-    position: absolute;
     z-index: 1;
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
+    float: left;
+}
+
+.logoutPopup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    display: inline;
 }
 
 .popup .hide {
     visibility: hidden;
     -webkit-animation: fadeOut 1s;
     animation: fadeOut 1s;
-    display: inline-block;
     width: 20%;
-    position: absolute;
     right: 0px;
-    align: center;
     width: 160px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
     padding: 8px 0;
-    position: absolute;
     z-index: 1;
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
 }
+
+.containerPopup{overflow:hidden;width:100%}
+.box{white-space:nowrap}
+.box div{display:inline-block;}
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
