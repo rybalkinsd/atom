@@ -92,6 +92,7 @@ public class AuthResource {
             if (user.isLogined()) log.info("User {} is already logined!", name);
             else log.info("User {} logined!", name);
             final Token token = new Token(user.name(), user.passwordHash());
+            user.setToken(token);
 
             txn.commit();
 
