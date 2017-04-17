@@ -34,5 +34,6 @@
         <!--mapping-->
         <mapping class="ru.atom.dbhackaton.model.User"/>
         <mapping class="ru.atom.dbhackaton.model.Token"/>
+        <mapping class="ru.atom.dbhackaton.model.Result"/>
     </session-factory>
 </hibernate-configuration>
