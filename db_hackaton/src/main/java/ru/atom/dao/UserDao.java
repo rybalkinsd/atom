@@ -59,7 +59,7 @@ public class UserDao implements Dao<User> {
         ) {
 
             String condition = String.join(" and ", conditions);
-            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition + ";");
+            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition );
             while (rs.next()) {
                 persons.add(mapToUser(rs));
             }

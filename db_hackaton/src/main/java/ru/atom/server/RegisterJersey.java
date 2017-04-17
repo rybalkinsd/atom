@@ -3,8 +3,8 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dao.TokenDao;
-import ru.atom.dao.UserDao;
+import ru.atom.dao.DatabaseClass;
+import ru.atom.object.Token;
 import ru.atom.object.User;
 
 
@@ -13,7 +13,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 
-import java.util.List;
+
 
 
 
@@ -25,8 +25,7 @@ import java.util.List;
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey.class);
 
-    UserDao userDao = new UserDao();
-    TokenDao tokenDaoDao = new TokenDao();
+    DatabaseClass dbclass =new DatabaseClass();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -34,6 +33,7 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response register(@FormParam("user") String login,
                              @FormParam("password") String password) {
+
 
        if (login == null || password == null) {
             log.info("Не заполненые поля");
@@ -51,8 +51,8 @@ public class RegisterJersey {
             return Response.status(Response.Status.BAD_REQUEST).entity("Sorry, your password too long )= ").build();
         }
 
-        List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
-        if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))) {
+
+        if (dbclass.checkByConditionUser("login = \'" + login + "\'")) {
             log.info("Already registered!");
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
@@ -60,7 +60,7 @@ public class RegisterJersey {
                 .setLogin(login)
                 .setPassword(password)
                 .setRegistrationDate(new Date(System.currentTimeMillis()));
-        userDao.insert(newUser);
+        dbclass.insertUser(newUser);
         log.info("New user registr [" + login + "]");
         return Response.ok().build();
     }
@@ -72,26 +72,22 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response login(@FormParam("user") String login,
                           @FormParam("password") String password) {
-       /* List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
-
 
         log.info("user=" + login + ", password=" + password);
-        if (!alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))) {
+        if (!dbclass.checkByConditionUser("login = \'" + login + "\'")) {
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();
         }
-        if (!alreadyLogined.stream().anyMatch(l -> l.getPassword().equals(password))) {
+        if (!dbclass.checkByConditionUser("login = \'" + login + "\'","password = \'" + password + "\'")) {
             log.info("wrong password");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong password").build();
-        }//Посмотреть будет ли совпадать пароль
+        }
 
 
-        *//*Token yourToken = DatabaseClass.issueToken(login);
+        Token yourToken = dbclass.issueToken(login);
         log.info("New user login [" + login + "]");
         log.info(yourToken.toString());
-        return Response.ok(yourToken.toString()).build();*/
-        return Response.ok().build();
-
+        return Response.ok(yourToken.toString()).build();
     }
 
 
