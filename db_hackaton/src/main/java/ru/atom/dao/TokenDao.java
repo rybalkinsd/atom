@@ -94,7 +94,7 @@ public class TokenDao implements Dao<Token> {
              Statement stm = con.createStatement()
         ) {
             String condition = String.join("and", conditions);
-            ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition + ";");
+            ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition );
             while (rs.next()) {
                 tokens.add(mapToToken(rs));
             }

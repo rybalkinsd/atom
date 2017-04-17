@@ -3,6 +3,7 @@ package ru.atom.dao;
 import ru.atom.object.Token;
 import ru.atom.object.User;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -22,7 +23,14 @@ public class DatabaseClass
             .stream()
             .findFirst()
             .isPresent();
-}
+    }
+
+    public  Boolean checkByConditionToken(String... conditions) {
+        return tokenDao.getAllWhere(conditions)
+                .stream()
+                .findFirst()
+                .isPresent();
+    }
 
     public  void insertUser(User user) {
         userDao.insert(user);
@@ -32,7 +40,18 @@ public class DatabaseClass
        return null;
     }
 
-    public Token issueToken(String name) {
-        return null;
+    public Token issueToken(String login) {
+        List<User> alreadylogined = userDao.getAllWhere("login = \'" + login + "\'");
+        User userForToken = alreadylogined.stream().findFirst().get();
+        final String findByIdUserCondition = "iduser = \'" + userForToken.getIdUser() + "\'";
+        Token yourToken;
+        if(checkByConditionToken(findByIdUserCondition)){
+            List<Token> alreadyWithToken = tokenDao.getAllWhere(findByIdUserCondition);
+            yourToken = alreadyWithToken.stream().findFirst().get();
+        }else {
+            yourToken = new Token().setUser(userForToken);
+            tokenDao.insert(yourToken);
+        }
+        return yourToken;
     }
 }
