@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by pavel on 17.04.17.
  */
-@Path("/mm")
+@Path("/")
 public class MMResources {
 
     private static final GameSessionService GAME_SESSION_SERVICE = new GameSessionService();

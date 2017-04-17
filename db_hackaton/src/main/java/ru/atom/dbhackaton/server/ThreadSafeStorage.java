@@ -1,8 +1,6 @@
 package ru.atom.dbhackaton.server;
 
 import ru.atom.dbhackaton.server.model.GameSession;
-
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
