@@ -47,7 +47,7 @@ public class MMResources {
     @Path("/finish")
     @Consumes("application/x-www-form-urlencoded")
     public Response finish(String jsonBody) {
-        String gameId = jsonBody.split("\\{id='")[1].split("',")[0];
+        String gameId = jsonBody.split("id='")[1].split("',")[0];
         String jsonResults = jsonBody.split("'result':")[1];
 
         GameSession finishGameSession = ThreadSafeStorage

@@ -25,6 +25,10 @@ public class MMServer {
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
+
+        Thread matchMaker = new Thread(new MatchMaker());
+        matchMaker.setName("matchMaker");
+        matchMaker.start();
     }
 
     private static ServletContextHandler createMMContext() {
@@ -53,7 +57,7 @@ public class MMServer {
         ResourceHandler handler = new ResourceHandler();
         handler.setWelcomeFiles(new String[]{"index.html"});
 
-        String serverRoot = AuthServer.class.getResource("/static").toString();
+        String serverRoot = MatchMaker.class.getResource("/static").toString();
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
