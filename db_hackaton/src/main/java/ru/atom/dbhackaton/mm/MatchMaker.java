@@ -14,6 +14,7 @@ import ru.atom.dbhackaton.model.UserStorage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -43,30 +44,30 @@ public class MatchMaker {
     @POST
     @Path("/finish")
     @Consumes("application/x-www-form-urlencoded")
-    public static Response finish(@FormParam("gameResult") String gameResult) {
+    public static Response finish(@FormParam("gameresult") String gameResult) throws IOException {
         try {
-
             ObjectMapper mapper = new ObjectMapper();
 
-            Map<String, Object> gameResultMapHead = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<String, Object>();
 
             // convert JSON string to Map
-            gameResultMapHead = mapper.readValue(gameResult, new TypeReference<Map<String, String>>(){});
+            map = mapper.readValue(gameResult, new TypeReference<Map<String, Object>>(){});
 
-            long gameID = (long) gameResultMapHead.get("id");
-            String resultsString = (String) gameResultMapHead.get("results");
+            long gameID = new Long(map.get("id").toString());
 
             Map<String, Object> gameResultMapBody = new HashMap<String, Object>();
+            gameResultMapBody = (Map<String, Object>) map.get("result");
 
-            // convert JSON string to Map
-            gameResultMapBody = mapper.readValue(resultsString, new TypeReference<Map<String, String>>(){});
-
-            Iterator it = gameResultMapBody.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                RegistredEntity user = UserStorage.getByName((String) pair.getKey());
-                UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
-                UserGameResultDao.saveGameResults(userGameResult);
+            for (Object o : gameResultMapBody.entrySet()) {
+                Map.Entry pair = (Map.Entry) o;
+                String userString = (String) pair.getKey();
+                if (userString != null) {
+                    RegistredEntity user = UserStorage.getByName(userString);
+                    UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
+                    UserGameResultDao.saveGameResults(userGameResult);
+                } else {
+                    log.info("no such user in db");
+                }
             }
 
         } catch (JsonGenerationException e) {

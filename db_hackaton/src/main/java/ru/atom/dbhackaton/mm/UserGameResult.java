@@ -14,21 +14,25 @@ public class UserGameResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
+
+    public Integer getId() {
+        return this.id;
+    }
 
     @Column(name = "gameID", nullable = false)
     private long gameID;
 
-    @Column(name = "user", nullable = false)
+    @Column(name = "login", nullable = false)
     @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = RegistredEntity.class)
-    private RegistredEntity user;
+    private RegistredEntity login;
 
     @Column(name = "userpoints", nullable = false)
-    private int userGamePoints;
+    private Integer userGamePoints;
 
-    public UserGameResult(long gameID, RegistredEntity user, int userGamePoints) {
+    public UserGameResult(long gameID, RegistredEntity login, int userGamePoints) {
         this.gameID = gameID;
-        this.user = user;
+        this.login = login;
         this.userGamePoints = userGamePoints;
     }
 
@@ -36,8 +40,8 @@ public class UserGameResult {
         return gameID;
     }
 
-    public RegistredEntity getUser() {
-        return user;
+    public RegistredEntity getLogin() {
+        return login;
     }
 
     public int getUserGamePoints() {

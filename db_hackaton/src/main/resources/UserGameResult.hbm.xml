@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="ru.atom.dbhackaton.mm.UserGameResult" table="userresults" schema="chat" catalog="chatdb_atom1">
+        <id name="id">
+            <column name="id" sql-type="serial"/>
+        </id>
+        <property name="gameID">
+            <column name="gameid" sql-type="int4" not-null="true"/>
+        </property>
+        <one-to-one name="login" class="ru.atom.dbhackaton.hibernate.RegistredEntity" cascade="save-update"/>
+        <property name="userGamePoints">
+            <column name="userpoints" sql-type="int4" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

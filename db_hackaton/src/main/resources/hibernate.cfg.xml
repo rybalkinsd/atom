@@ -30,6 +30,8 @@
     <mapping resource="LoginEntity.hbm.xml"/>
     <mapping class="ru.atom.dbhackaton.hibernate.RegistredEntity"/>
     <mapping resource="RegistredEntity.hbm.xml"/>
+    <mapping class="ru.atom.dbhackaton.mm.UserGameResult"/>
+    <mapping resource="UserGameResult.hbm.xml"/>
 
     <!--mapping-->
       <!-- <property name="connection.username"/> -->
