@@ -17,7 +17,7 @@ public class Experiment {
 
     public static void main(String[] args) {
         RegisterJersey rj = new RegisterJersey();
-        rj.logout("Behaviour 8452333647438674299");
+        rj.logout("Bearer 7782818890251232693");
     }
 
 }

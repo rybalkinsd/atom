@@ -1,4 +1,4 @@
-package ru.atom.server;
+package ru.atom.authfilter;
 
 
 import javax.ws.rs.NameBinding;

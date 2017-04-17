@@ -1,10 +1,10 @@
 package ru.atom.server;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.StorageToken;
 import ru.atom.Users;
-import ru.atom.dao.DatabaseClass;
 import ru.atom.dao.TokenDao;
 import ru.atom.dao.UserDao;
 import ru.atom.object.Token;
@@ -27,9 +27,9 @@ import java.util.List;
 @Path("/")
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey.class);
-    private static final UserDao userDao = new UserDao();
-    private static final TokenDao tokenDao = new TokenDao();
 
+    UserDao userDao = new UserDao();
+    TokenDao tokenDaoDao = new TokenDao();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -42,6 +42,7 @@ public class RegisterJersey {
             log.info("Не заполненые поля");
             return Response.status(Response.Status.BAD_REQUEST).entity("You must write in login and password").build();
         }
+
 
         if (login.length() > 20) {
             log.info("This login too long.");
@@ -58,6 +59,7 @@ public class RegisterJersey {
             log.info("Already registered!");
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
+        log.info("Преступаем к регистрации");
         User newUser = new User()
                 .setLogin(login)
                 .setPassword(password)
@@ -68,22 +70,17 @@ public class RegisterJersey {
     }
 
 
-
-
-
-
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("login")
     @Produces("text/plain")
     public Response login(@FormParam("user") String login,
-                           @FormParam("password") String password) {
+                          @FormParam("password") String password) {
         List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
 
 
-
         log.info("user=" + login + ", password=" + password);
-        if (!alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))){
+        if (!alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))) {
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();
         }
@@ -93,13 +90,13 @@ public class RegisterJersey {
         }//Посмотреть будет ли совпадать пароль
 
 
-       Token yourToken = DatabaseClass.issueToken(login);
+        /*Token yourToken = DatabaseClass.issueToken(login);
         log.info("New user login [" + login + "]");
         log.info(yourToken.toString());
-        return Response.ok(yourToken.toString()).build();
+        return Response.ok(yourToken.toString()).build();*/
+        return Response.ok().build();
 
     }
-
 
 
     @Authorized
@@ -107,15 +104,16 @@ public class RegisterJersey {
     @Path("logout")
     @Produces("text/plain")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) {
-        System.out.println(tokenParam.substring(9));
+        System.out.println(tokenParam.substring(7));
 
-       if (DatabaseClass.deleteToken(tokenParam.substring(9))){
-           log.info("User logout");
-           return Response.ok("User logout.").build();
-       } else {
-           log.info("User logout");
-           return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
-       }
+       /* if (DatabaseClass.deleteToken(tokenParam.substring(7))) {
+            log.info("User logout");
+            return Response.ok("User logout.").build();
+        } else {
+            log.info("User logout");
+            return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
+        }*/
+        return Response.ok().build();
     }
 }
 

@@ -6,6 +6,7 @@ import ru.atom.object.Token;
 import ru.atom.object.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +35,7 @@ public class TokenDao implements Dao<Token> {
                     "order by u.registrationDate;";
 
     /* @Language("sql")*/
-    private static final String SELECT_ALL_TOKENS_WHERE=
+    private static final String SELECT_ALL_TOKENS_WHERE =
             "select * " +
                     "from bombergirl.token as t " +
                     "join bombergirl.user as u " +
@@ -47,11 +48,8 @@ public class TokenDao implements Dao<Token> {
                     "values ( '%d','%d');";
 
     /*@Language("sql")*/
-    private static final String DELETE_TOKEN_WHERE=
+    private static final String DELETE_TOKEN_WHERE =
             "delete from bombergirl.token where ";
-
-
-
 
 
     @Override
@@ -76,17 +74,18 @@ public class TokenDao implements Dao<Token> {
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()
         ) {
-            log.info("3");
             final String findByIdTokeCondition = " idToken=\'" + token.getIdToken() + "\'";
             String condition = String.join("and", findByIdTokeCondition);
-            log.info("4");
-             stm.executeQuery(DELETE_TOKEN_WHERE + condition);
-            log.info("5");
+            try {
+                stm.executeQuery(DELETE_TOKEN_WHERE + condition);
+            } catch (SQLException exception) {
+
+            }
             return true;
-    } catch (SQLException e) {
-        log.error("Failed to Delete Tokens.", e);
-        return false;
-    }
+        } catch (SQLException e) {
+            log.error("Failed to Delete Tokens.", e);
+            return false;
+        }
 
     }
 
@@ -96,8 +95,9 @@ public class TokenDao implements Dao<Token> {
         List<Token> tokens = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()
-        ) {  String condition = String.join("and", conditions);
-            ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition);
+        ) {
+            String condition = String.join("and", conditions);
+            ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition + ";");
             while (rs.next()) {
                 tokens.add(mapToToken(rs));
             }
@@ -135,7 +135,5 @@ public class TokenDao implements Dao<Token> {
                                 .setRegistrationDate(rs.getTimestamp("registrationDate"))
                 );
     }
-
-
 
 }

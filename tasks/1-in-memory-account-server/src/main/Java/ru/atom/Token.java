@@ -1,11 +1,9 @@
-package ru.atom.object;
+package ru.atom;
 
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -14,19 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Token {
 
     private final long token;
-
+    private static ConcurrentHashMap<String , Token> stupidMap = new ConcurrentHashMap<>();
 
     public static Token getTokenfromString(String token) {
-        throw new NotImplementedException();
+        return stupidMap.get(token);
+
     }
 
     public static Token createToken() {
-        throw new NotImplementedException();
+        Token toc = new Token();
+        stupidMap.put(toc.toString(), toc) ;
+        return toc;
     }
 
     public boolean deleteToken() {
-       throw new NotImplementedException();
-
+        boolean answer = stupidMap.remove(this.toString(), this) && StorageToken.remove(this);
+        return answer;
     }
 
 

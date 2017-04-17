@@ -22,15 +22,5 @@ create table bombergirl.token (
   foreign key (idUser) references bombergirl.user(id) on delete cascade
 );
 
-///апасная таблица
-drop table if exists bombergirl.token;
-create table bombergirl.token (
-  idToken          serial                  not null,
-  value            bigint      unique        not null,
-  "user"           integer                 not null references chat.user on delete cascade,
-  primary key (idToken)
-);
-
-
 
 commit;
