@@ -98,14 +98,14 @@ public class RegisterJersey {
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) {
         System.out.println(tokenParam.substring(7));
 
-       /* if (DatabaseClass.deleteToken(tokenParam.substring(7))) {
+       /* if (dbclass.deleteToken(tokenParam.substring(7))) {
             log.info("User logout");
             return Response.ok("User logout.").build();
         } else {
             log.info("User logout");
             return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
         }*/
-        return Response.ok().build();
+        return Response.ok("User logout.").build();
     }
 }
 
