@@ -32,7 +32,7 @@ InputEngine = Class.extend({
         document.addEventListener('keyup', this.onKeyUp);
     },
 
-    onKeyDown: function(event) {
+    onKeyUp: function(event) {
         var action = gInputEngine.bindings[event.keyCode];
         if (action) {
             gInputEngine.actions[action] = true;
@@ -41,12 +41,12 @@ InputEngine = Class.extend({
         return false;
     },
 
-    onKeyUp: function(event) {
+    onKeyDown: function(event) {
         var action = gInputEngine.bindings[event.keyCode];
         if (action) {
             gInputEngine.actions[action] = false;
 
-            var subscribers = gInputEngine.subscribers[action]
+            var subscribers = gInputEngine.subscribers[action];
             if (subscribers) {
                 for (var i = 0; i <subscribers.length; i++ ) {
                     subscribers[i]()
@@ -66,7 +66,7 @@ InputEngine = Class.extend({
     },
 
     subscribe: function (action, callback) {
-        this.subscribers[action] = this.subscribers[action] || []
+        this.subscribers[action] = this.subscribers[action] || [];
         this.subscribers[action].push(callback)
     }
 });

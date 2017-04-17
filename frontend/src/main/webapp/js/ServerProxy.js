@@ -1,6 +1,6 @@
 ServerProxy = Class.extend({
 
-    host: "localhost:8090",
+    host: "192.168.0.103:8090",
 
     socket: null,
 
@@ -18,6 +18,9 @@ ServerProxy = Class.extend({
         });
         gInputEngine.subscribe('right', function() {
             self.socket.send(gMessages.move('right'))
+        });
+        gInputEngine.subscribe('bomb', function() {
+            self.socket.send(gMessages.plantBomb())
         });
     },
 
@@ -40,7 +43,7 @@ ServerProxy = Class.extend({
 
         this.socket.onmessage = function(event) {
             console.log("D@ta received");
-            self.onReplicaReceived(JSON.parse(event.data));
+            self.onReplicaReceived(event.data);
         };
 
         this.socket.onerror = function(error) {
@@ -49,32 +52,26 @@ ServerProxy = Class.extend({
     },
 
     onReplicaReceived: function (msg) {
-        var gameObjects = JSON.parse(msg.data).objects;
+        var parsedMsg = JSON.parse(msg);
+        var gameObjects = JSON.parse(parsedMsg.data).objects;
         var replicatedObjects = [];
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
             console.log(i);
-            if (!obj.hasOwnProperty("type")) {
-                console.log(obj);
+            if (!obj.hasOwnProperty('type')) {
+                console.log('хуй');
             }
-            if (obj.type === "Wood") {
-                   replicatedObjects.push(
-                           new Tile('wood', { x: obj.position.x, y: obj.position.y })
-                   );
-            } else if (obj.type === "Wall") {
-                   replicatedObjects.push(
-                       new Tile('wall', { x: obj.position.x, y: obj.position.y })
-                   );
-            } else if (obj.type === "Pawn") {
-                   replicatedObjects.push(
-                       new Player({x: obj.position.x, y: obj.position.y})
-                   );
-            }
+            console.log(obj.type);
+            console.log(obj.id);
+            console.log(obj.position);
+
         }
 
         console.log(replicatedObjects);
     }
+
+
 });
 
 gServerProxy = new ServerProxy();
