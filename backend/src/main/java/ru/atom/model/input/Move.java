@@ -15,7 +15,7 @@ public class Move implements InputAction {
     public Move(@JsonProperty("direction") Direction direction) {
         this.direction = direction;
     }
-
+    
     public static Move from(String json) {
         return JsonHelper.fromJson(json, Move.class);
     }

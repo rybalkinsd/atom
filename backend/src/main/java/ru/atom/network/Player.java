@@ -5,8 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.atom.model.object.actor.Pawn;
 import ru.atom.model.input.InputAction;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import ru.atom.util.IdGenerator;
 
 /**
  * Created by sergei-r on 12.01.17.
@@ -26,13 +25,6 @@ public class Player {
         this.id = idGenerator.next();
         this.name = name;
         this.session = session;
-    }
-
-    private static class IdGenerator {
-        private final AtomicInteger current = new AtomicInteger(0);
-        int next() {
-            return current.getAndIncrement();
-        }
     }
 
     @Override

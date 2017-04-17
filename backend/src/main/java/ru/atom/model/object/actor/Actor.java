@@ -22,6 +22,7 @@ public class Actor extends GameObject implements Tickable {
 
     private void move(long time) {
         position = position.move(velocity.times(time));
+        velocity = V.ZERO;
     }
 
     public Actor setVelocity(V velocity) {

@@ -1,8 +1,11 @@
 package ru.atom.model.object;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.model.World;
 import ru.atom.model.collision.Collider;
+import ru.atom.network.Player;
+import ru.atom.util.IdGenerator;
 import ru.atom.util.V;
 
 import java.util.ArrayList;
@@ -13,8 +16,12 @@ import java.util.function.Consumer;
  * Created by sergey on 2/8/17.
  */
 public abstract class GameObject implements Collider {
+    private static final IdGenerator idGenerator = new IdGenerator();
+
+    @JsonIgnore
     private Collection<Consumer<? super GameObject>> destroySubscriptions = new ArrayList<>();
     protected V position;
+    private int id = idGenerator.next();
 
     public V getPosition() {
         return position;
@@ -22,6 +29,14 @@ public abstract class GameObject implements Collider {
 
     public void setPosition(V position) {
         this.position = position;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     protected void postConstruct() {

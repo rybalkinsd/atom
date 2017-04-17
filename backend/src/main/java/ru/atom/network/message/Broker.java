@@ -1,7 +1,10 @@
 package ru.atom.network.message;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.controller.GameSession;
 import ru.atom.model.input.InputAction;
 import ru.atom.model.input.Move;
 import ru.atom.model.input.PlantBomb;
@@ -12,6 +15,7 @@ import ru.atom.util.JsonHelper;
  * Created by sergey on 2/2/17.
  */
 public class Broker {
+    private final static Logger log = LogManager.getLogger(GameSession.class);
     private static final Broker instance = new Broker();
     private ConnectionPool connectionPool;
 
@@ -24,6 +28,7 @@ public class Broker {
     }
 
     public void receive(@NotNull Session session, @NotNull String msg) {
+        log.info("RECEIVED: " + msg);
         Message message = JsonHelper.fromJson(msg, Message.class);
 
         // todo remove redundant casts
@@ -34,7 +39,7 @@ public class Broker {
                 break;
             case PLANT_BOMB:
                 InputAction plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
-                connectionPool.get(session).consumeInput(plant);;
+                connectionPool.get(session).consumeInput(plant);
                 break;
         }
     }
