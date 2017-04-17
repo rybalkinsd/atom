@@ -42,8 +42,10 @@ public class User {
         return this;
     }
 
-
-
+    public User setIdUser(int idUser) {
+        this.idUser = idUser;
+        return this;
+    }
 
     public String getLogin() {
         return login;
@@ -57,7 +59,9 @@ public class User {
         return password;
     }
 
-
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
 
     @Override
     public boolean equals(Object o) {

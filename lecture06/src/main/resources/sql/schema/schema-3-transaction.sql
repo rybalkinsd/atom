@@ -22,3 +22,13 @@ create table chat.message (
 );
 
 commit;
+
+
+
+drop table if exists bombergirl.token;
+create table bombergirl.token (
+  idToken                serial                not null,
+  idUser                                       not null,
+  primary key (idToken),
+  foreign key (idUser) references bombergirl.user(id)
+);

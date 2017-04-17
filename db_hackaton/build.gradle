@@ -5,6 +5,9 @@ dependencies {
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.hibernate
 }
 
 jar {

@@ -2,7 +2,6 @@ package ru.atom.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-/*import org.intellij.lang.annotations.Language;*/
 import ru.atom.object.User;
 
 import java.sql.Connection;
@@ -12,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+/*import org.intellij.lang.annotations.Language;*/
 
 public class UserDao implements Dao<User> {
     private static final Logger log = LogManager.getLogger(UserDao.class);
@@ -24,13 +25,13 @@ public class UserDao implements Dao<User> {
    /* @Language("sql")*/
     private static final String SELECT_ALL_USERS_WHERE =
             "select * " +
-                    "from bombergirlt.user " +
+                    "from bombergirl.user " +
                     "where ";
 
     /*@Language("sql")*/
     private static final String INSERT_USER_TEMPLATE =
-            "insert into bombergirl.user (login, password, data) " +
-                    "values ('%s', '%s', '%s');";
+            "insert into bombergirl.user (login, password, registrationDate) " +
+                    "values ('%s', '%s', now());";
 
     @Override
     public List<User> getAll() {
@@ -75,7 +76,8 @@ public class UserDao implements Dao<User> {
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()
         ) {
-            stm.execute(String.format(INSERT_USER_TEMPLATE, user.getLogin()));
+            stm.execute(String.format(INSERT_USER_TEMPLATE, user.getLogin(), user.getPassword()
+                   /* , user.getRegistrationDate()*/));
         } catch (SQLException e) {
             log.error("Failed to create user {}", user.getLogin(), e);
         }
@@ -90,7 +92,9 @@ public class UserDao implements Dao<User> {
 
     private static User mapToUser(ResultSet rs) throws SQLException {
         return new User()
+                .setIdUser(rs.getInt("id"))
                 .setLogin(rs.getString("login"))
-                .setPassword(rs.getString("password"));
+                .setPassword(rs.getString("password"))
+                .setRegistrationDate(rs.getTimestamp("registrationDate"));
     }
 }

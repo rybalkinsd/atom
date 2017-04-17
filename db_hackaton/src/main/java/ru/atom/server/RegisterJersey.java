@@ -2,23 +2,23 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dao.UserDao;
-/*import ru.atom.server.Authorized;*/
 import ru.atom.StorageToken;
+import ru.atom.Users;
+import ru.atom.dao.DatabaseClass;
+import ru.atom.dao.TokenDao;
+import ru.atom.dao.UserDao;
 import ru.atom.object.Token;
 import ru.atom.object.User;
-import ru.atom.Users;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.swing.text.html.HTMLDocument;
+import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+
+/*import ru.atom.server.Authorized;*/
 
 
 /**
@@ -26,8 +26,9 @@ import java.util.List;
  */
 @Path("/")
 public class RegisterJersey {
-    private static final Logger log = LogManager.getLogger(RegisterJersey .class);
+    private static final Logger log = LogManager.getLogger(RegisterJersey.class);
     private static final UserDao userDao = new UserDao();
+    private static final TokenDao tokenDao = new TokenDao();
 
 
     @POST
@@ -36,6 +37,11 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response register(@FormParam("user") String login,
                              @FormParam("password") String password) {
+
+        if (login == null || password == null) {
+            log.info("Не заполненые поля");
+            return Response.status(Response.Status.BAD_REQUEST).entity("You must write in login and password").build();
+        }
 
         if (login.length() > 20) {
             log.info("This login too long.");
@@ -47,15 +53,15 @@ public class RegisterJersey {
             return Response.status(Response.Status.BAD_REQUEST).entity("Sorry, your password too long )= ").build();
         }
 
-        List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + login + "'");
+        List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
         if (alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))) {
+            log.info("Already registered!");
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
-
         User newUser = new User()
                 .setLogin(login)
                 .setPassword(password)
-                .setRegistrationDate( new Date(System.currentTimeMillis()));
+                .setRegistrationDate(new Date(System.currentTimeMillis()));
         userDao.insert(newUser);
         log.info("New user registr [" + login + "]");
         return Response.ok().build();
@@ -72,46 +78,44 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response login(@FormParam("user") String login,
                            @FormParam("password") String password) {
+        List<User> alreadyLogined = userDao.getAllWhere("bombergirl.user.login = '" + login + "'");
 
-        log.info("user= " + login + ", password" + password);
-        if (!Users.isContainsName(login)) {
+
+
+        log.info("user=" + login + ", password=" + password);
+        if (!alreadyLogined.stream().anyMatch(l -> l.getLogin().equals(login))){
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();
         }
-        if (!Users.getUserPsword(login).equals(password)) {
+        if (!alreadyLogined.stream().anyMatch(l -> l.getPassword().equals(password))) {
             log.info("wrong password");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong password").build();
-        }
+        }//Посмотреть будет ли совпадать пароль
 
-        User romashka = Users.getUser(login);
-        Token yourToken;
-        if (StorageToken.isContainsUser(romashka)) {
-            yourToken = StorageToken.getTokenSt(romashka);
-        } else {
-            yourToken = Token.createToken();
-            StorageToken.add(yourToken,romashka);
-        }
 
+       Token yourToken = DatabaseClass.issueToken(login);
+        log.info("New user login [" + login + "]");
         log.info(yourToken.toString());
         return Response.ok(yourToken.toString()).build();
 
     }
 
 
+
     @Authorized
     @POST
     @Path("logout")
     @Produces("text/plain")
-    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) throws Exception {
-        Response response;
-        try {
-            User user = StorageToken.getUserSt(Token.getTokenfromString(tokenParam));
-            Token.getTokenfromString(tokenParam).deleteToken();
-            response = Response.ok("User{" + user.getLogin().toString() + "} logout.").build();
-        }  catch (Exception e) {
-            response = Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
-        }
-        return response;
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String tokenParam) {
+        System.out.println(tokenParam.substring(9));
+
+       if (DatabaseClass.deleteToken(tokenParam.substring(9))){
+           log.info("User logout");
+           return Response.ok("User logout.").build();
+       } else {
+           log.info("User logout");
+           return Response.status(Response.Status.BAD_REQUEST).entity("User isn't logouted").build();
+       }
     }
 }
 
