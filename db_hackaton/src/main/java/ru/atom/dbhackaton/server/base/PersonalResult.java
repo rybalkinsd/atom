@@ -1,15 +1,7 @@
 package ru.atom.dbhackaton.server.base;
 
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "personal_result", schema = "mm")
@@ -21,7 +13,7 @@ public class PersonalResult {
     @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = Match.class)
     private Match match;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, targetEntity = User.class)
+    @OneToOne(cascade = CascadeType.PERSIST, targetEntity = User.class)
     private User user;
 
     @Column(name = "score", nullable = false)

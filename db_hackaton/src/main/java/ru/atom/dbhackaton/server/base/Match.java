@@ -22,4 +22,8 @@ public class Match {
     public Match() {
         this.date = new Date(System.currentTimeMillis());
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

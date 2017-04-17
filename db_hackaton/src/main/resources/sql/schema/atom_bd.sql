@@ -1,6 +1,6 @@
---накатить схему:
---psql -h wtfis.ru -U atom41 -d chatdb_atom41
 --подключиться к базе:
+--psql -h wtfis.ru -U atom41 -d chatdb_atom41
+--накатить схему:
 --psql -h wtfis.ru -U atom41 -a -d chatdb_atom41 -f ./db_hackaton/src/main/resources/sql/schema/atom_bd.sql
 --psql -h wtfis.ru -U atom41 -a -d chatdb_atom41 -f /home/mkai/IdeaProjects/atom/db_hackaton/src/main/resources/sql/schema/atom_bd.sql
 --вывести список таблиц и полей:

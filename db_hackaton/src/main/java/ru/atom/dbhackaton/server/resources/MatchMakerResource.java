@@ -1,8 +1,16 @@
 package ru.atom.dbhackaton.server.resources;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.JsonAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.server.JSONP;
+import org.hibernate.annotations.SourceType;
 import ru.atom.dbhackaton.server.mm.Connection;
+import ru.atom.dbhackaton.server.mm.GameSession;
 import ru.atom.dbhackaton.server.mm.ThreadSafeQueue;
 import ru.atom.dbhackaton.server.service.MatchMakerService;
 
@@ -13,7 +21,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Path("/")
 public class MatchMakerResource {
@@ -37,6 +49,20 @@ public class MatchMakerResource {
 
 
         return Response.status(Response.Status.OK).entity(url + gameSessionId).build();
+    }
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/finish")
+    @Produces("text/plain")
+    public Response finish(@FormParam("json") String jsonString) {
+        try {
+            matchMakerService.finish(jsonString);
+        } catch (RuntimeException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат данных! " +
+                    "Сохранение результатов невозможно!").build();
+        }
+        return Response.status(Response.Status.OK).entity("Игра успешно завершена!").build();
     }
 
 }

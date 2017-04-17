@@ -29,7 +29,7 @@ public class MatchMaker implements Runnable {
 //                logger.info(session);
                 try {
                     ThreadSafeStorage.put(session);
-                    session.sendIdToConnections();
+//                    session.sendIdToConnections();
                     logger.info("create new session! {}", session);
                 } catch (NullPointerException e) {
                     System.out.println();
