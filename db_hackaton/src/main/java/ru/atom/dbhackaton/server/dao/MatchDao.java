@@ -22,5 +22,13 @@ public class MatchDao {
         session.saveOrUpdate(match);
     }
 
+    public Match getMatchById(Session session, String id) {
+        Match match = (Match) session
+                .createQuery("from Match where id = :value")
+                .setParameter("value", Integer.valueOf(id))
+                .uniqueResult();
+        return match;
+    }
+
 
 }
