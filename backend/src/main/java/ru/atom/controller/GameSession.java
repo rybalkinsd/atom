@@ -19,7 +19,7 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class GameSession implements Runnable {
     private final static Logger log = LogManager.getLogger(GameSession.class);
-    private final static long SLEEP_TIME = 1_000;
+    private final static long SLEEP_TIME = 20;
     private final Broker broker;
     private final World world;
     private long tickNumber = 0;
