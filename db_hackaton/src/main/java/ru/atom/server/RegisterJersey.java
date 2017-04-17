@@ -3,6 +3,8 @@ package ru.atom.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dao.TokenDao;
+import ru.atom.dao.UserDao;
 import ru.atom.object.User;
 
 
@@ -23,9 +25,9 @@ import java.util.List;
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey.class);
 
-   /* UserDao userDao = new UserDao();
+    UserDao userDao = new UserDao();
     TokenDao tokenDaoDao = new TokenDao();
-*/
+
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("register")
@@ -33,7 +35,7 @@ public class RegisterJersey {
     public Response register(@FormParam("user") String login,
                              @FormParam("password") String password) {
 
-       /* if (login == null || password == null) {
+       if (login == null || password == null) {
             log.info("Не заполненые поля");
             return Response.status(Response.Status.BAD_REQUEST).entity("You must write in login and password").build();
         }
@@ -54,13 +56,12 @@ public class RegisterJersey {
             log.info("Already registered!");
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
-        log.info("Преступаем к регистрации");
         User newUser = new User()
                 .setLogin(login)
                 .setPassword(password)
                 .setRegistrationDate(new Date(System.currentTimeMillis()));
         userDao.insert(newUser);
-        log.info("New user registr [" + login + "]");*/
+        log.info("New user registr [" + login + "]");
         return Response.ok().build();
     }
 
