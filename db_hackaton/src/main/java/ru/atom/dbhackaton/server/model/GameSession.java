@@ -1,6 +1,7 @@
 package ru.atom.dbhackaton.server.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,31 +9,30 @@ import java.util.List;
  */
 @Entity
 @Table(name = "game_sessions", schema = "hackaton")
-public class GameSession {
+public class GameSession implements Serializable{
 
     public final static int PLAYERS_IN_GAME = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<User> players;
+    @Column(name = "userScores", nullable = false)
+    private String userScoresJson;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public List<User> getPlayers() {
-        return players;
-    }
-
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setPlayers(List<User> players) {
-        this.players = players;
+    public String getUserScoresJson() {
+        return userScoresJson;
+    }
+
+    public void setUserScoresJson(String userScoresJson) {
+        this.userScoresJson = userScoresJson;
     }
 }

@@ -3,17 +3,18 @@ package ru.atom.dbhackaton.server.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by pavel on 12.04.17.
  */
 @Entity
 @Table(name = "userTockens", schema = "hackaton")
-public class Token {
+public class Token implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "token", unique = true, nullable = false)
     private long token;

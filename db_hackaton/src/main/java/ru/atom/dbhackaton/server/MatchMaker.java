@@ -31,9 +31,8 @@ public class MatchMaker implements Runnable {
 
             if (usersInMatch.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession gameSession = new GameSession();
-                gameSession.setPlayers(usersInMatch);
                 log.info("Game started!");
-                //TODO add in database
+                ThreadSafeStorage.put(gameSession);
                 usersInMatch.clear();
             }
         }
