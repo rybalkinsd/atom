@@ -10,7 +10,7 @@ public class UserGameResultDao {
     public static void saveGameResults(UserGameResult userGameResult) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        session.saveOrUpdate(userGameResult);
+        session.save(userGameResult);
         session.getTransaction().commit();
         session.close();
     }

@@ -3,6 +3,7 @@ package ru.atom.dbhackaton.mm;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  * Created by ilysk on 16.04.17.
@@ -12,12 +13,16 @@ import javax.persistence.*;
 public class UserGameResult {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
     public Integer getId() {
         return this.id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Column(name = "gameID", nullable = false)
@@ -40,11 +45,23 @@ public class UserGameResult {
         return gameID;
     }
 
+    public void setGameID(long gameID) {
+        this.gameID = gameID;
+    }
+
     public RegistredEntity getLogin() {
         return login;
     }
 
+    public void setLogin(RegistredEntity login) {
+        this.login = login;
+    }
+
     public int getUserGamePoints() {
         return userGamePoints;
+    }
+
+    public void setUserGamePoints(Integer userGamePoints) {
+        this.userGamePoints = userGamePoints;
     }
 }
