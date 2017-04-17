@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
  */
 
 @Path("/")
-public class AuthResousces {
+public class AuthResources {
     private static final UserService USER_SERVICE = new UserService();
 
     @POST

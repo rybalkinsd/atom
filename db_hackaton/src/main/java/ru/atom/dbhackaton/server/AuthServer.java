@@ -15,7 +15,7 @@ public class AuthServer {
         Database.setUp();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
-                createChatContext(),
+                createAuthContext(),
                 createResourceContext()
         });
 
@@ -25,7 +25,7 @@ public class AuthServer {
         jettyServer.start();
     }
 
-    private static ServletContextHandler createChatContext() {
+    private static ServletContextHandler createAuthContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/auth/*");
         ServletHolder jerseyServlet = context.addServlet(
