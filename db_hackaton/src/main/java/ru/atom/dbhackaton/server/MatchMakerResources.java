@@ -3,17 +3,19 @@ package ru.atom.dbhackaton.server;
 import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ru.atom.dbhackaton.server.Dao.Database;
-import ru.atom.dbhackaton.server.Dao.TokenDao;
-import ru.atom.dbhackaton.server.Dao.UserDao;
+import ru.atom.dbhackaton.server.dao.Database;
+import ru.atom.dbhackaton.server.dao.TokenDao;
+import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.model.GameResults;
-import ru.atom.dbhackaton.server.model.GameSession;
 import ru.atom.dbhackaton.server.model.Token;
 import ru.atom.dbhackaton.server.model.User;
 import ru.atom.dbhackaton.server.service.GameSessionService;
 
-
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by pavel on 17.04.17.
  */
 @Path("/")
-public class MMResources {
+public class MatchMakerResources {
 
     private static final GameSessionService GAME_SESSION_SERVICE = new GameSessionService();
 
@@ -43,9 +45,9 @@ public class MMResources {
         User loginedUser = UserDao.getInstance().getByName(session, userName);
         ThreadSafeQueue.getInstance().add(loginedUser);
 
-        String GameURL = "wtfis.ru:8090/gs/"
+        String gameUrl = "wtfis.ru:8090/gs/"
                 + ThreadSafeStorage.getCurrentGameId();
-        return Response.ok(GameURL).build();
+        return Response.ok(gameUrl).build();
     }
 
     @POST

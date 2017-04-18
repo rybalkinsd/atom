@@ -4,12 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.json.JSONArray;
-import ru.atom.dbhackaton.server.Dao.Database;
-import ru.atom.dbhackaton.server.Dao.GameSessionDao;
-import ru.atom.dbhackaton.server.Dao.UserDao;
+import ru.atom.dbhackaton.server.dao.Database;
+import ru.atom.dbhackaton.server.dao.GameSessionDao;
+import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.model.GameResults;
-import ru.atom.dbhackaton.server.model.GameSession;
 import ru.atom.dbhackaton.server.model.User;
 
 import java.util.List;

@@ -3,7 +3,12 @@ package ru.atom.dbhackaton.server;
 import ru.atom.dbhackaton.server.service.UserService;
 import ru.atom.dbhackaton.server.service.UserException;
 
-import javax.ws.rs.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 

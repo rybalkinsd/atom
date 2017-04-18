@@ -2,8 +2,8 @@ package ru.atom.dbhackaton.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.dbhackaton.server.Dao.Database;
-import ru.atom.dbhackaton.server.Dao.TokenDao;
+import ru.atom.dbhackaton.server.dao.Database;
+import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.model.Token;
 
 import javax.ws.rs.NotAuthorizedException;

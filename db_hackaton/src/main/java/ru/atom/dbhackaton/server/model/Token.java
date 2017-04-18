@@ -1,8 +1,13 @@
 package ru.atom.dbhackaton.server.model;
 
-
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import java.io.Serializable;
 
 /**
@@ -10,7 +15,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "userTockens", schema = "hackaton")
-public class Token implements Serializable{
+public class Token implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
