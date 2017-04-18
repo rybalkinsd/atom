@@ -7,12 +7,19 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import ru.atom.dbhackaton.dao.Database;
+import ru.atom.dbhackaton.dao.TokenDao;
 
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
         Database.setUp();
+        Session session = Database.session();
+        Transaction transaction = session.beginTransaction();
+        TokenDao.getInstance().clean(session);
+        transaction.commit();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {

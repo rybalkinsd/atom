@@ -34,6 +34,12 @@ public class TokenDao {
                 .uniqueResult();
     }
 
+    public void clean(Session session) {
+        List<Token> results = getAll(session);
+        results.forEach(s -> session.delete(s));
+        session.flush();
+    }
+
     public void insert(Session session, Token token) {
         session.saveOrUpdate(token);
     }
