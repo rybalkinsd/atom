@@ -97,12 +97,12 @@
   ```
   Protocol: HTTP
   Path: mm/join
-  Method: GET
+  Method: POST
   Host: {IP}:{PORT} (IP = localhost при локальном тестрировании сервера)
   Headers:
       Content-Type: application/x-www-form-urlencoded
   Body:
-      name={}token={}
+      token={}
 
   Response: 
       Code: 200
@@ -122,7 +122,7 @@
   Headers:
       Content-Type: application/x-www-form-urlencoded
   Body:
-      {id='12345', 'result':{'user1'=10, 'user2'=15}}
+      {"id":12345, "result":{"user1":10, "user2":15}}
 
   Response: 
       Code: 200
