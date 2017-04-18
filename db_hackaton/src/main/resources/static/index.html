@@ -42,7 +42,7 @@
             }
         };
         $.ajax(settings).done(function(response) {
-
+            alert(response.responseText);
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
