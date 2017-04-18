@@ -35,6 +35,15 @@ public class AuthClient {
         return client.newCall(request).execute();
     }
 
+    public static Response registerCheck(String name) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, ""))
+                .url(PROTOCOL + HOST + PORT + "/auth/register/check?user=" + name)
+                .build();
+        return client.newCall(request).execute();
+    }
+
     public static Response logout(String token) throws IOException {
         Request request = new Request.Builder()
                 .post(RequestBody.create(null, ""))
