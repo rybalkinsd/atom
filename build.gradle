@@ -17,6 +17,7 @@ ext {
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
+    websocketVersion = "9.4.3.v20170317"
 }
 
 allprojects {
@@ -68,9 +69,12 @@ ext.libraries = [
         jersey_test:
                 "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
         gson: "com.google.code.gson:gson:$gsonjVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
-        hibernate: "org.hibernate:hibernate-core:$hibernateVersion"
+        hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
+        websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
+        websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
+        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 ]
 
 // code coverage settings
