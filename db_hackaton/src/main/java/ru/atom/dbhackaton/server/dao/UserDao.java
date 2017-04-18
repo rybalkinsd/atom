@@ -34,8 +34,8 @@ public class UserDao {
 
     public User getByName(Session session, String name) {
         return (User) session
-                .createQuery("from user where login = :name")
-                .setParameter("login", name)
+                .createQuery("from User where login = :name")
+                .setParameter("name", name)
                 .uniqueResult();
     }
 
