@@ -72,7 +72,7 @@ public class TokenDao implements Dao<Token> {
              Statement stm = con.createStatement()
         ) {
             final String findByIdTokeCondition = " idToken=\'" + token.getIdToken() + "\'";
-            String condition = String.join("and", findByIdTokeCondition);
+            String condition = String.join(" and ", findByIdTokeCondition);
             try {
                 stm.executeQuery(DELETE_TOKEN_WHERE + condition);
             } catch (SQLException exception) {
@@ -93,13 +93,14 @@ public class TokenDao implements Dao<Token> {
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()
         ) {
-            String condition = String.join("and", conditions);
+            String condition = String.join(" and ", conditions);
+            System.out.println(SELECT_ALL_TOKENS_WHERE + condition );
             ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition );
             while (rs.next()) {
                 tokens.add(mapToToken(rs));
             }
         } catch (SQLException e) {
-            log.error("Failed to getAllWhere Tokens.", e);
+            log.error("Failed to getAllWhere Tokens222.", e);
             return Collections.emptyList();
         }
 
