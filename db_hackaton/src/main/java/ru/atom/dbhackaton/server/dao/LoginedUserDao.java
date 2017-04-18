@@ -35,4 +35,15 @@ public class LoginedUserDao {
                 .setParameter("name", user)
                 .uniqueResult();
     }
+
+    public LoginedUser getByToken(Session session, Long token) {
+        return (LoginedUser) session
+                .createQuery("from LoginedUser where token = :token")
+                .setParameter("token", token)
+                .uniqueResult();
+    }
+
+    public void removeUser(Session session, LoginedUser user) {
+        session.delete(user);
+    }
 }

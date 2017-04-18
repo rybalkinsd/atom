@@ -2,6 +2,7 @@ package ru.atom.dbhackaton.server.resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dbhackaton.server.Authorized;
 import ru.atom.dbhackaton.server.service.AuthException;
 import ru.atom.dbhackaton.server.service.AuthService;
 
@@ -29,7 +30,7 @@ public class AuthResources {
         } catch (AuthException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        return Response.ok("Susses").build();
+        return Response.ok("Success").build();
     }
 
     @POST
@@ -41,21 +42,19 @@ public class AuthResources {
         } catch (AuthException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        return Response.ok("Susses").build();
+        return Response.ok("Success").build();
     }
 
-//    @POST
-//    @Path("/logout")
-//    @Consumes("application/x-www-form-urlencoded")
-//    @Authorized
-//    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String token) {
-//        try {
-//            if (UsersCache.logout(Long.parseLong(token.trim())))
-//                return Response.ok("Lo3gouting success!").build();
-//            else return Response.status(Response.Status.BAD_REQUEST).entity("You are not authorized").build();
-//        } catch (NullPointerException n) {
-//            log.info("Illegal statement in field : {}", n.getMessage());
-//        }
-//        return Response.status(Response.Status.BAD_REQUEST).entity("Empty fields").build();
-//    }
+    @POST
+    @Path("/logout")
+    @Consumes("application/x-www-form-urlencoded")
+    @Authorized
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) Long token) {
+        try {
+            AuthService.logout(token);
+        } catch (AuthException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
+        return Response.ok("logout success").build();
+    }
 }

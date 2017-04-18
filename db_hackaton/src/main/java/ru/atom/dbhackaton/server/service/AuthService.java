@@ -68,4 +68,25 @@ public class AuthService {
             }
         }
     }
+
+    public static void logout(Long token) throws AuthException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            LoginedUser removeUser = LoginedUserDao.getInstance().getByToken(session, token);
+            if (removeUser.getToken() == null) {
+                throw new AuthException("Not logined");
+            }
+
+            LoginedUserDao.getInstance().removeUser(session, removeUser);
+            log.info("[" + removeUser.getUser() + "]: logged out");
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
 }

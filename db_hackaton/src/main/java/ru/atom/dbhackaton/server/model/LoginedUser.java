@@ -47,6 +47,14 @@ public class LoginedUser {
         return this;
     }
 
+    public LoginedUser setToken(Long token) {
+        this.token = token;
+        return this;
+    }
+    public Long getToken() {
+        return token;
+    }
+
     public Integer getId() {
         return id;
     }
