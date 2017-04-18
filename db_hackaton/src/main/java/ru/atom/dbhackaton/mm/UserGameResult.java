@@ -30,13 +30,13 @@ public class UserGameResult {
 
     @Basic
     @Column(name = "gameID", nullable = false)
-    private long gameID;
+    private Integer gameID;
 
     @Basic
     @Column(name = "userpoints", nullable = false)
     private Integer userGamePoints;
 
-    public UserGameResult(long gameID, RegistredEntity user, int userGamePoints) {
+    public UserGameResult(Integer gameID, RegistredEntity user, int userGamePoints) {
         this.gameID = gameID;
         this.user = user;
         this.userGamePoints = userGamePoints;
@@ -46,11 +46,11 @@ public class UserGameResult {
     @JoinColumn(name = "login")
     private RegistredEntity user;
 
-    public long getGameID() {
+    public Integer getGameID() {
         return gameID;
     }
 
-    public void setGameID(long gameID) {
+    public void setGameID(Integer gameID) {
         this.gameID = gameID;
     }
 

@@ -6,16 +6,18 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
+import ru.atom.dbhackaton.mm.UserGameResult;
 
 import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import static ru.atom.dbhackaton.mm.UserGameResultDao.getByGameId;
+import static ru.atom.dbhackaton.mm.UserGameResultDao.saveGameResults;
 import static ru.atom.dbhackaton.model.TokenStorage.*;
-import static ru.atom.dbhackaton.model.UserStorage.dropUser;
-import static ru.atom.dbhackaton.model.UserStorage.getByName;
-import static ru.atom.dbhackaton.model.UserStorage.insert;
+import static ru.atom.dbhackaton.model.UserStorage.*;
 
 /**
  * Created by kinetik on 17.04.17.
@@ -81,7 +83,7 @@ public class DatabaseTests {
         try {
             insert(userTwo);
         } catch (Exception ex) {
-            Assert.assertTrue(Class.forName("org.hibernate.exception.ConstraintViolationException").equals(ex.getClass()));
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
         Assert.assertNotEquals(timestampTwo, getByName(login).getRegdate());
@@ -117,7 +119,7 @@ public class DatabaseTests {
         logoutToken(login);
 
         Assert.assertEquals(null, getLoginByName(login));
-        Assert.assertEquals(null, getByToken(10L));
+        Assert.assertEquals(null, getByToken(token));
     }
 
     @Test
@@ -173,4 +175,31 @@ public class DatabaseTests {
         dropUser(userTwo);
     }
 
+    @Test
+    public void mmDbTest() throws ClassNotFoundException {
+        String login = "dbTester_" + Long.toString(ThreadLocalRandom.current().nextLong());
+        Integer userId = ThreadLocalRandom.current().nextInt();
+        Integer gameId = ThreadLocalRandom.current().nextInt();
+
+        Assert.assertEquals(null, getByName(login));
+        Assert.assertEquals(null, getById(userId));
+        Assert.assertEquals(null, getByGameId(gameId));
+
+        RegistredEntity user = new RegistredEntity(login, "pwd", new Timestamp(System.currentTimeMillis()));
+        UserGameResult result = new UserGameResult(gameId, user, 2);
+        try {
+            saveGameResults(result);
+        } catch (Exception e) {
+            Assert.assertTrue(Class.forName("java.lang.IllegalStateException").equals(e.getClass()));
+        }
+        insert(user);
+        saveGameResults(result);
+        List<UserGameResult> gameResults = getByGameId(gameId);
+
+        Assert.assertEquals(login, gameResults.get(0).getUser().getLogin());
+        Assert.assertEquals(gameId, gameResults.get(0).getGameID());
+
+        dropUser(getByName(user.getLogin()));
+
+    }
 }
