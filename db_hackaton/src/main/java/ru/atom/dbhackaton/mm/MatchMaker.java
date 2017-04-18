@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
+import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.UserStorage;
 
@@ -34,7 +36,9 @@ public class MatchMaker {
                          @FormParam ("token") String token) {
 
         Long longToken = Long.parseLong(token);
-        if (TokenStorage.getByToken(longToken) != null) {
+        LoginEntity user = TokenStorage.getByToken(longToken);
+        if (user != null) {
+            log.info("user " + user.toString() + " join game");
             return Response.ok("wtfis.ru:8090/gs/12345").build();
         } else {
             return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -61,12 +65,14 @@ public class MatchMaker {
             for (Object o : gameResultMapBody.entrySet()) {
                 Map.Entry pair = (Map.Entry) o;
                 String userString = (String) pair.getKey();
-                if (userString != null) {
+                if (TokenStorage.getLoginByName(userString) != null) {
                     RegistredEntity user = UserStorage.getByName(userString);
                     UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
                     UserGameResultDao.saveGameResults(userGameResult);
+                    log.info("user " + userString + " finished game id#" + gameID
+                            + " with score " + pair.getValue().toString());
                 } else {
-                    log.info("no such user in db");
+                    log.info("No logined user: " + userString);
                 }
             }
 
