@@ -11,7 +11,10 @@ import ru.atom.dbhackaton.server.Dao.Database;
 
 
 public class AuthServer {
-    public static void main(String[] args) throws Exception {
+
+    private static Server jettyServer;
+
+    public static void startServer() throws Exception {
         Database.setUp();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
@@ -19,7 +22,7 @@ public class AuthServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
@@ -57,4 +60,11 @@ public class AuthServer {
         return context;
     }
 
+    public static void stopServer() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        startServer();
+    }
 }
