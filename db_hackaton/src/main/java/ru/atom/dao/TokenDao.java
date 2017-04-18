@@ -76,7 +76,7 @@ public class TokenDao implements Dao<Token> {
             try {
                 stm.executeQuery(DELETE_TOKEN_WHERE + condition);
             } catch (SQLException exception) {
-                log.info("SQLException when delete");
+                log.info("SQLException when delete: executeQuery(DELETE) is empty");
             }
             return true;
         } catch (SQLException e) {
@@ -94,7 +94,6 @@ public class TokenDao implements Dao<Token> {
              Statement stm = con.createStatement()
         ) {
             String condition = String.join(" and ", conditions);
-            System.out.println(SELECT_ALL_TOKENS_WHERE + condition);
             ResultSet rs = stm.executeQuery(SELECT_ALL_TOKENS_WHERE + condition);
             while (rs.next()) {
                 tokens.add(mapToToken(rs));
@@ -121,7 +120,6 @@ public class TokenDao implements Dao<Token> {
     }
 
     private static Token mapToToken(ResultSet rs) throws SQLException {
-        log.info("mapToToken");
         return new Token()
                 .setIdToken(rs.getInt("idToken"))
                 .setValueToken(rs.getLong("value"))
