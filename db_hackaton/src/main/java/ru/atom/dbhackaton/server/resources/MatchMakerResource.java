@@ -1,17 +1,7 @@
 package ru.atom.dbhackaton.server.resources;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.JsonAdapter;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.server.JSONP;
-import org.hibernate.annotations.SourceType;
-import ru.atom.dbhackaton.server.mm.Connection;
-import ru.atom.dbhackaton.server.mm.GameSession;
-import ru.atom.dbhackaton.server.mm.ThreadSafeQueue;
+import org.apache.logging.log4j.Logger;;
 import ru.atom.dbhackaton.server.service.MatchMakerService;
 
 import javax.ws.rs.Consumes;
@@ -21,11 +11,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
 
 @Path("/")
 public class MatchMakerResource {
@@ -52,10 +40,10 @@ public class MatchMakerResource {
     }
 
     @POST
-    @Consumes("application/x-www-form-urlencoded")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/finish")
     @Produces("text/plain")
-    public Response finish(@FormParam("json") String jsonString) {
+    public Response finish(String jsonString) {
         try {
             matchMakerService.finish(jsonString);
         } catch (RuntimeException ex) {

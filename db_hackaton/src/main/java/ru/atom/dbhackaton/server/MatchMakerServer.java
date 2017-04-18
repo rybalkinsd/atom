@@ -13,7 +13,9 @@ import ru.atom.dbhackaton.server.storages.Database;
 
 
 public class MatchMakerServer {
-    public static void main(String[] args) throws Exception {
+    private static Server jettyServer = new Server(8090);
+
+    public static void start() throws Exception {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -22,7 +24,7 @@ public class MatchMakerServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8090);
+        jettyServer = new Server(8090);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
@@ -30,6 +32,14 @@ public class MatchMakerServer {
         Thread matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("match-maker");
         matchMaker.start();
+    }
+
+    public static void stop() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        start();
     }
 
     private static ServletContextHandler createChatContext() {

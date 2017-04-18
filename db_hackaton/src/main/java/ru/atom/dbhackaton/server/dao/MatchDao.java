@@ -20,6 +20,7 @@ public class MatchDao {
 
     public void insert(Session session, Match match) {
         session.saveOrUpdate(match);
+        log.info("New Match : {}", match);
     }
 
     public Match getMatchById(Session session, String id) {

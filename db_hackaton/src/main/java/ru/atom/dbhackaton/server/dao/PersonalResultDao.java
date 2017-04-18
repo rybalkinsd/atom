@@ -20,6 +20,7 @@ public class PersonalResultDao {
 
     public void insert(Session session, PersonalResult result) {
         session.saveOrUpdate(result);
+        log.info("New Personal Result : {}", result);
     }
 
 

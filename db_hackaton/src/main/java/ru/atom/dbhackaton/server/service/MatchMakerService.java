@@ -19,9 +19,7 @@ import ru.atom.dbhackaton.server.mm.GameSession;
 import ru.atom.dbhackaton.server.mm.ThreadSafeQueue;
 import ru.atom.dbhackaton.server.storages.Database;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +41,6 @@ public class MatchMakerService {
         if (connection.idNull()) {
             return -1;
         }
-        joins.remove(name);
         return connection.getSessionIdValue();
     }
 

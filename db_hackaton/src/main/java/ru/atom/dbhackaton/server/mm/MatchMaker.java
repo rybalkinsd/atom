@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class MatchMaker implements Runnable {
@@ -25,11 +24,9 @@ public class MatchMaker implements Runnable {
 
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
-//                GameSession session = new GameSession((Connection[]) candidates.toArray());
-//                logger.info(session);
+
                 try {
                     ThreadSafeStorage.put(session);
-//                    session.sendIdToConnections();
                     logger.info("create new session! {}", session);
                 } catch (NullPointerException e) {
                     System.out.println();
