@@ -28,9 +28,9 @@ public class User {
     }
 
 
-    public boolean isThatPassword(String password) {
+    /*public boolean isThatPassword(String password) {
         return password.equals(md5Custom(this.password));
-    }
+    }*/
 
 
     public User setLogin(String login) {
@@ -38,7 +38,7 @@ public class User {
         return this;
     }
 
-    private static String md5Custom(String st) {
+    /*private static String md5Custom(String st) {
         MessageDigest messageDigest = null;
         byte[] digest = new byte[0];
 
@@ -59,7 +59,7 @@ public class User {
         }
 
         return md5Hex;
-    }
+    }*/
 
     public User setPassword(String password) {
         this.password = password;
@@ -85,7 +85,7 @@ public class User {
     }
 
     public String getPassword() {
-        return md5Custom(password);
+        return password;
     }
 
     public Date getRegistrationDate() {

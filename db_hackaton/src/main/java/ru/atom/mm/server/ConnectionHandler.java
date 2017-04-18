@@ -5,15 +5,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ru.atom.dao.DatabaseClass;
+import ru.atom.mm.InfoGame.Match;
 import ru.atom.mm.server.matchmaker.Connection;
 import ru.atom.mm.server.matchmaker.ThreadSafeQueue;
 import ru.atom.object.User;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 
-/*import com.google.gson.Gson;*/
+import com.google.gson.Gson;
 
 @Path("")
 public class ConnectionHandler {
@@ -24,27 +29,29 @@ public class ConnectionHandler {
     @Path("/join")
     @GET
     @Consumes("application/x-www-form-urlencoded")
-    public Response join(@QueryParam("name") String name,
-                         @QueryParam("token") String token) {
-        log.info("Тут");
+    public Response join(@QueryParam("token") String token) {
+
         User user = dbclass.getUserByToken(token);
-        log.info("New user ={" + user.getLogin() + "} join match with name{" + name
-                + "}");
-        ThreadSafeQueue.getInstance().offer(new Connection(user.getIdUser(), name));
+        log.info("New user ={" + user.getLogin() + "} join match ");
+
+        ThreadSafeQueue.getInstance().offer(new Connection(user.getIdUser(), user.getLogin()));
         String URL = "wtfis.ru:8090/gs/12345";
+
+
         log.info(URL);
-        /*  new URI().resolve(*/ //
         return Response.ok(URL).type("text/plain").build();
     }
 
 
-    /* @Authorized*/
-    @Path("/finish")
-    @POST
-    @Consumes("application/json")
-    public Response connect(@FormParam("id") long id,
-                            @FormParam("name") String name) {
 
+    @Path("/result")
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    public Response result(@FormParam("json") String json) {
+        log.info("New result");
+        final Gson gson = new Gson();
+        Match match = gson.fromJson(json, Match.class);
+        log.info("Result Game{" + match.getGameId() + "}");
 
         return Response.ok().build();
     }

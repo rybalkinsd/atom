@@ -7,8 +7,10 @@ dependencies {
     compile rootProject.libraries.jersey_containers
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
+    compile 'commons-codec:commons-codec:1.10'
     compile rootProject.libraries.hibernate
-    compile rootProject.libraries.Gson
+    compile 'com.google.code.gson:gson:2.2.4'
+    
 
 }
 
