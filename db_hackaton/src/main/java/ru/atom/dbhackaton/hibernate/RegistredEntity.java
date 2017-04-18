@@ -72,7 +72,7 @@ public class RegistredEntity {
         this.regdate = regdate;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private LoginEntity token;
 
     public LoginEntity getToken() {
