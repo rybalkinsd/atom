@@ -1,5 +1,8 @@
 package ru.atom.object;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 /**
@@ -10,6 +13,8 @@ public class User {
     private String login;
     private String password;
     private Date registrationDate;
+
+
 
     private int idUser;
     /*  private int idMatch;*/
@@ -23,9 +28,37 @@ public class User {
     }
 
 
+    public boolean isThatPassword(String password) {
+        return password.equals(md5Custom(this.password));
+    }
+
+
     public User setLogin(String login) {
         this.login = login;
         return this;
+    }
+
+    private static String md5Custom(String st) {
+        MessageDigest messageDigest = null;
+        byte[] digest = new byte[0];
+
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(st.getBytes());
+            digest = messageDigest.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        BigInteger bigInt = new BigInteger(1, digest);
+        String md5Hex = bigInt.toString(16);
+
+        while( md5Hex.length() < 32 ){
+            md5Hex = "0" + md5Hex;
+        }
+
+        return md5Hex;
     }
 
     public User setPassword(String password) {
@@ -52,7 +85,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return md5Custom(password);
     }
 
     public Date getRegistrationDate() {

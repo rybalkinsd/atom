@@ -8,6 +8,8 @@ dependencies {
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate
+    compile rootProject.libraries.Gson
+
 }
 
 jar {
