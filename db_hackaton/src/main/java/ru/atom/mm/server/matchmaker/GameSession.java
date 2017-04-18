@@ -1,4 +1,4 @@
-package ru.atom.thread.mm;
+package ru.atom.mm.server.matchmaker;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

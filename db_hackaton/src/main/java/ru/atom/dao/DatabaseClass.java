@@ -47,6 +47,11 @@ public class DatabaseClass {
         return tokenDao.delete(getToken(tokenValue));
     }
 
+
+    public User getUserByToken(String token){
+       return getToken(token).getUser();
+    }
+
     public Token issueToken(String login) {
         List<User> alreadylogined = userDao.getAllWhere("login = \'" + login + "\'");
         User userForToken = alreadylogined.stream().findFirst().get();

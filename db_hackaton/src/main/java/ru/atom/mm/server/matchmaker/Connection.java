@@ -1,4 +1,4 @@
-package ru.atom.thread.mm;
+package ru.atom.mm.server.matchmaker;
 
 /**
  * Created by sergey on 3/14/17.
