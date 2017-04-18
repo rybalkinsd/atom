@@ -28,8 +28,9 @@ public class AuthService {
             }
             User newUser = new User()
                     .setLogin(login)
-                    .setPassword(password)
-                    .setTime(new Date());
+//                    .setPassword(password)
+                    .setTime(new Date())
+                    .setHashCode(password);
             UserDao.getInstance().insert(session, newUser);
 
             txn.commit();
@@ -46,18 +47,21 @@ public class AuthService {
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
 
-            User user = UserDao.getInstance().getByName(session, login);
-            //TODO check password
+            User newUser = new User()
+                    .setLogin(login)
+                    .setHashCode(password);
+            User user = UserDao.getInstance().getByHashCode(session, newUser.getHashCode());
             if (user == null) {
                 throw new AuthException("Not registered");
             } else if (LoginedUserDao.getInstance().getUser(session, user) != null)
                 throw new AuthException("Already logined");
             else {
 
-                LoginedUser newUser = new LoginedUser()
+                LoginedUser newLoginedUser = new LoginedUser()
                         .setUser(user)
                         .setTime(new Date());
-                LoginedUserDao.getInstance().insert(session, newUser);
+
+                LoginedUserDao.getInstance().insert(session, newLoginedUser);
 
                 txn.commit();
             }
@@ -80,7 +84,7 @@ public class AuthService {
             }
 
             LoginedUserDao.getInstance().removeUser(session, removeUser);
-            log.info("[" + removeUser.getUser() + "]: logged out");
+            log.info("[" + removeUser.getUser().toString() + "]: logged out");
             txn.commit();
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);

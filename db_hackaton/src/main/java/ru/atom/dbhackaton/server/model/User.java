@@ -18,14 +18,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "password", nullable = false, length = 20)
-    private String password;
-
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
     @Column(name = "time", nullable = false)
     private Date time;
+
+    @Column(name = "hashcode", unique = true)
+    private Integer hashcode;
+
+    //private String password;
 
     public User() {}
 
@@ -39,19 +41,14 @@ public class User {
         return this;
     }
 
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public User setPassword(String password) {
+//        this.password = password;
+//        return this;
+//    }
 
     public String getLogin() {
         return login;
@@ -64,6 +61,22 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public Date getTimestamp() {
+        return time;
+    }
+
+    public int getHashCode() {
+        return hashcode;
+    }
+
+
+    public User setHashCode(String password) {
+        int hashcode = getLogin() != null ? getLogin().hashCode() : 0;
+        hashcode = 42 * hashcode + (password != null ? password.hashCode() : 0);
+        this.hashcode = hashcode;
+        return this;
     }
 
     @Override

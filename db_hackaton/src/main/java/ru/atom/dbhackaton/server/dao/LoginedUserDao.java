@@ -44,6 +44,6 @@ public class LoginedUserDao {
     }
 
     public void removeUser(Session session, LoginedUser user) {
-        session.delete(user);
+        session.delete("loguser", user);
     }
 }

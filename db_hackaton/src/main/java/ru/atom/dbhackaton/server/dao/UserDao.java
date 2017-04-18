@@ -35,4 +35,12 @@ public class UserDao {
                 .setParameter("name", name)
                 .uniqueResult();
     }
+
+    public User getByHashCode(Session session, Integer hashcode) {
+        return (User) session
+                .createQuery("from User where hashcode = :hashcode")
+                .setParameter("hashcode", hashcode)
+                .uniqueResult();
+    }
+
 }

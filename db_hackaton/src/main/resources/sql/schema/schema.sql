@@ -7,7 +7,7 @@ drop table if exists auth.reguser;
 create table auth.reguser (
   id    serial             not null,
   login varchar(20) unique not null,
-  password  varchar(20) not null,
+  hashcode integer not null,
   time   timestamp    not null,
   primary key (id)
 );
