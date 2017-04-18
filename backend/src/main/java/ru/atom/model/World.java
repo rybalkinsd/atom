@@ -25,7 +25,8 @@ public class World implements Tickable {
 
     @Override
     public void tick(long time) {
-        objects.stream()
+        new ArrayList<>(objects)
+                .stream()
                 .filter(x -> x instanceof Actor)
                 .map(x -> (Actor) x)
                 .forEach(x -> x.tick(time));

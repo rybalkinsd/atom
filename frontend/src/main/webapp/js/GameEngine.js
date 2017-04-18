@@ -4,14 +4,12 @@ GameEngine = Class.extend({
     tilesY: 13,
     size: {},
     fps: 50,
-    botsCount: 2, /* 0 - 3 */
     playersCount: 2, /* 1 - 2 */
     bonusesPercent: 16,
 
     stage: null,
     menu: null,
     players: [],
-    bots: [],
     tiles: [],
     bombs: [],
     bonuses: [],
@@ -29,6 +27,8 @@ GameEngine = Class.extend({
     soundtrackLoaded: false,
     soundtrackPlaying: false,
     soundtrack: null,
+
+    serverProxy: null,
 
     init: function() {
         this.size = {
@@ -72,7 +72,7 @@ GameEngine = Class.extend({
         createjs.Sound.addEventListener("fileload", this.onSoundLoaded);
         createjs.Sound.alternateExtensions = ["mp3"];
         createjs.Sound.registerSound("sound/bomb.ogg", "bomb");
-        createjs.Sound.registerSound("sound/game.ogg", "game");
+        // createjs.Sound.registerSound("sound/game.ogg", "game");
 
         // Create menu
         this.menu = new Menu();
@@ -91,8 +91,7 @@ GameEngine = Class.extend({
         this.drawTiles();
         this.drawBonuses();
 
-        this.spawnBots();
-        this.spawnPlayers();
+        // this.spawnPlayers();
 
         // Toggle sound
         gInputEngine.subscribe('mute', this.toggleSound);
@@ -156,12 +155,6 @@ GameEngine = Class.extend({
         for (var i = 0; i < gGameEngine.players.length; i++) {
             var player = gGameEngine.players[i];
             player.update();
-        }
-
-        // Bots
-        for (var i = 0; i < gGameEngine.bots.length; i++) {
-            var bot = gGameEngine.bots[i];
-            bot.update();
         }
 
         // Bombs
@@ -249,106 +242,26 @@ GameEngine = Class.extend({
         }
     },
 
-    spawnBots: function() {
-        this.bots = [];
-
-        // if (this.botsCount >= 1) {
-        //     var bot2 = new Bot({ x: 1, y: this.tilesY - 2 });
-        //     this.bots.push(bot2);
-        // }
-        //
-        // if (this.botsCount >= 2) {
-        //     var bot3 = new Bot({ x: this.tilesX - 2, y: 1 });
-        //     this.bots.push(bot3);
-        // }
-        //
-        // if (this.botsCount >= 3) {
-        //     var bot = new Bot({ x: this.tilesX - 2, y: this.tilesY - 2 });
-        //     this.bots.push(bot);
-        // }
-        //
-        // if (this.botsCount >= 4) {
-        //     var bot = new Bot({ x: 1, y: 1 });
-        //     this.bots.push(bot);
-        // }
-    },
-
-    spawnPlayers: function() {
-        this.players = [];
-
-        if (this.playersCount >= 1) {
-            var player = new Player({ x: 1, y: 1 });
-            this.players.push(player);
-        }
-
-        if (this.playersCount >= 2) {
-            var controls = {
-                'up': 'up2',
-                'left': 'left2',
-                'down': 'down2',
-                'right': 'right2',
-                'bomb': 'bomb2'
-            };
-            var player2 = new Player({ x: this.tilesX - 2, y: this.tilesY - 2 }, controls, 1);
-            this.players.push(player2);
-        }
-    },
-
-    /**
-     * Checks whether two rectangles intersect.
-     */
-    intersectRect: function(a, b) {
-        return (a.left <= b.right && b.left <= a.right && a.top <= b.bottom && b.top <= a.bottom);
-    },
-
-    /**
-     * Returns tile at given position.
-     */
-    getTile: function(position) {
-        for (var i = 0; i < this.tiles.length; i++) {
-            var tile = this.tiles[i];
-            if (tile.position.x == position.x && tile.position.y == position.y) {
-                return tile;
-            }
-        }
-    },
-
-    /**
-     * Returns tile material at given position.
-     */
-    getTileMaterial: function(position) {
-        var tile = this.getTile(position);
-        return (tile) ? tile.material : 'grass' ;
-    },
-
-    gameOver: function(status) {
-        if (gGameEngine.menu.visible) { return; }
-
-        if (status == 'win') {
-            var winText = "You won!";
-            if (gGameEngine.playersCount > 1) {
-                var winner = gGameEngine.getWinner();
-                winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
-            }
-            this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
-        } else {
-            this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
-        }
-    },
-
-    getWinner: function() {
-        for (var i = 0; i < gGameEngine.players.length; i++) {
-            var player = gGameEngine.players[i];
-            if (player.alive) {
-                return i;
-            }
-        }
-    },
+    // gameOver: function(status) {
+    //     if (gGameEngine.menu.visible) { return; }
+    //
+    //     if (status == 'win') {
+    //         var winText = "You won!";
+    //         if (gGameEngine.playersCount > 1) {
+    //             var winner = gGameEngine.getWinner();
+    //             winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
+    //         }
+    //         this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
+    //     } else {
+    //         this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
+    //     }
+    // },
 
     restart: function() {
         // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
+        this.serverProxy = new ServerProxy();
     },
 
     /**
@@ -367,31 +280,8 @@ GameEngine = Class.extend({
             gGameEngine.mute = true;
             gGameEngine.soundtrack.pause();
         }
-    },
-
-    countPlayersAlive: function() {
-        var playersAlive = 0;
-        for (var i = 0; i < gGameEngine.players.length; i++) {
-            if (gGameEngine.players[i].alive) {
-                playersAlive++;
-            }
-        }
-        return playersAlive;
-    },
-
-    getPlayersAndBots: function() {
-        var players = [];
-
-        for (var i = 0; i < gGameEngine.players.length; i++) {
-            players.push(gGameEngine.players[i]);
-        }
-
-        for (var i = 0; i < gGameEngine.bots.length; i++) {
-            players.push(gGameEngine.bots[i]);
-        }
-
-        return players;
     }
+
 });
 
 gGameEngine = new GameEngine();

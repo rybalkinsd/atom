@@ -10,14 +10,13 @@ import ru.atom.util.V;
  */
 public class Actor extends GameObject implements Tickable {
     private final static Logger log = LogManager.getLogger(Actor.class);
-    private V velocity;
+    private V velocity = V.ZERO;
 
     @Override
     public void tick(long time) {
         V before = position;
         move(time);
-        log.info("Moved: {} -> {}.", before, position);
-
+//        log.info("Moved: {} -> {}.", before, position);
     }
 
     private void move(long time) {

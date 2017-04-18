@@ -1,6 +1,6 @@
 ServerProxy = Class.extend({
 
-    host: "192.168.0.103:8090",
+    host: "localhost:8090",
 
     socket: null,
 
@@ -42,7 +42,6 @@ ServerProxy = Class.extend({
         };
 
         this.socket.onmessage = function(event) {
-            console.log("D@ta received");
             self.onReplicaReceived(event.data);
         };
 
@@ -54,24 +53,37 @@ ServerProxy = Class.extend({
     onReplicaReceived: function (msg) {
         var parsedMsg = JSON.parse(msg);
         var gameObjects = JSON.parse(parsedMsg.data).objects;
-        var replicatedObjects = [];
+
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
-            console.log(i);
             if (!obj.hasOwnProperty('type')) {
-                console.log('хуй');
+                // console.log('хуй');
             }
-            console.log(obj.type);
-            console.log(obj.id);
-            console.log(obj.position);
+            if (obj.type === 'Pawn') {
+                var position = Utils.getEntityPosition(obj.position);
 
+                var player = gGameEngine.players.find(function (el) {
+                    return el.id === obj.id;
+                });
+
+                if (player) {
+                    player.bmp.x = position.x;
+                    player.bmp.y = position.y;
+                } else {
+                    player = new Player(position);
+                    player.id = obj.id;
+                    gGameEngine.players.push(player);
+                }
+
+            } else if (obj.type === 'Bomb') {
+                var position = Utils.getEntityPosition(obj.position);
+
+                var bomb = new Bomb(2, position, 2);
+                gGameEngine.bombs.push(bomb);
+                gGameEngine.stage.addChild(bomb.bmp);
+            }
         }
-
-        console.log(replicatedObjects);
     }
 
-
 });
-
-gServerProxy = new ServerProxy();

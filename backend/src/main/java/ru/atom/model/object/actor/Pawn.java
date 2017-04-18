@@ -23,6 +23,7 @@ public class Pawn extends Actor {
     private int bombPower = 1;
     private double speedModifier = 1;
 
+
     public static Pawn create(V position) {
         Pawn instance = new Pawn(position);
         instance.postConstruct();
@@ -46,7 +47,7 @@ public class Pawn extends Actor {
         if (!wantPlantBomb) {
             return;
         }
-
+        Bomb.create(this.getPosition());
         // action
         wantPlantBomb = false;
     }

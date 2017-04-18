@@ -40,5 +40,6 @@ public class BrokerTest {
         pawn.tick(10);
         assertThat(pawn.getPosition()).isNotEqualTo(startPosition);
     }
-
+//    {"topic": "replica", "data" : [ { "id" : 0, "type": "хуй", "position": { "x": 1, "y":2}}]}
+//    "{\"topic\": \"replica\", \"data\" : [ { \"id\" : 0, \"type\": \"хуй\", \"position\": { \"x\": 1, \"y\":2}}]}"
 }

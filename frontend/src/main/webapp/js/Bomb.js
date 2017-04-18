@@ -1,4 +1,5 @@
 Bomb = Entity.extend({
+    id: null,
     /**
      * Entity position on map grid
      */
@@ -38,7 +39,8 @@ Bomb = Entity.extend({
 
     explodeListener: null,
 
-    init: function(position, strength) {
+    init: function(id, position, strength) {
+        this.id = id;
         this.strength = strength;
 
         var spriteSheet = new createjs.SpriteSheet({
@@ -57,34 +59,13 @@ Bomb = Entity.extend({
         this.bmp.gotoAndPlay('idle');
 
         this.position = position;
-
-        var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x + this.size.w / 4;
-        this.bmp.y = pixels.y + this.size.h / 4;
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
 
         this.fires = [];
-
-        // Allow players and bots that are already on this position to escape
-        var players = gGameEngine.getPlayersAndBots();
-        for (var i = 0; i < players.length; i++) {
-            var player = players[i];
-            if (Utils.comparePositions(player.position, this.position)) {
-                player.escapeBomb = this;
-            }
-        }
-    },
-
-
-    fire: function(position) {
-        var fire = new Fire(position, this);
-        this.fires.push(fire);
     },
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
-    },
-
-    setExplodeListener: function(listener) {
-        this.explodeListener = listener;
     }
 });

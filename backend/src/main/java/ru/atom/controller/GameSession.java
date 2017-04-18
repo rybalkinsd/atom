@@ -21,21 +21,27 @@ public class GameSession implements Runnable {
     private final static Logger log = LogManager.getLogger(GameSession.class);
     private final static long SLEEP_TIME = 20;
     private final Broker broker;
-    private final World world;
+    private final Level level;
+    private final List<Player> players;
+    private World world;
     private long tickNumber = 0;
 
 
     GameSession(@NotNull List<Player> players, Level level) {
-        broker = Broker.getInstance();
-        world = new World(level);
-        for (int i = 0; i < players.size(); i++) {
-            Pawn pawn = Pawn.create(level.getSpawnPlaces().get(i));
-            players.get(i).setPawn(pawn);
-        }
+        this.players = players;
+        this.level = level;
+        this.broker = Broker.getInstance();
     }
 
     @Override
     public void run() {
+        world = new World(level);
+
+        for (int i = 0; i < players.size(); i++) {
+            Pawn pawn = Pawn.create(level.getSpawnPlaces().get(i));
+            players.get(i).setPawn(pawn);
+        }
+
         while (!Thread.currentThread().isInterrupted()) {
             long started = System.currentTimeMillis();
             act(SLEEP_TIME);

@@ -17,11 +17,6 @@ Player = Entity.extend({
     bombStrength: 1,
 
     /**
-     * Entity position on map grid
-     */
-    position: {},
-
-    /**
      * Bitmap dimensions
      */
     size: {
@@ -64,14 +59,8 @@ Player = Entity.extend({
             this.controls = controls;
         }
 
-        var img = gGameEngine.playerBoyImg;
-        if (!(this instanceof Bot)) {
-            if (this.id == 0) {
-                img = gGameEngine.playerGirlImg;
-            } else {
-                img = gGameEngine.playerGirl2Img;
-            }
-        }
+
+        var img = gGameEngine.playerGirlImg;
 
         var spriteSheet = new createjs.SpriteSheet({
             images: [img],
@@ -87,10 +76,8 @@ Player = Entity.extend({
         });
         this.bmp = new createjs.Sprite(spriteSheet);
 
-        this.position = position;
-        var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x;
-        this.bmp.y = pixels.y;
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
 
         gGameEngine.stage.addChild(this.bmp);
 
@@ -117,13 +104,7 @@ Player = Entity.extend({
         } else {
             this.animate('idle');
         }
-    },
 
-    /**
-     * Calculates and updates entity position according to its actual bitmap position
-     */
-    updatePosition: function() {
-        this.position = Utils.convertToEntityPosition(this.bmp);
     },
 
     /**
