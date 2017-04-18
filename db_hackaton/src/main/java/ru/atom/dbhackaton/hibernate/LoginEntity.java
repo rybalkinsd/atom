@@ -10,10 +10,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "login", schema = "chat", catalog = "chatdb_atom1")
 public class LoginEntity {
-    private String token;
-    private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     private RegistredEntity user;
 
     public RegistredEntity getUser() {
@@ -26,6 +24,8 @@ public class LoginEntity {
 
     @Id
     @Column(name="userId")
+    private Integer id;
+
     public Integer getId() {
         return this.id;
     }
@@ -35,6 +35,8 @@ public class LoginEntity {
 
     @Basic
     @Column(name = "token", nullable = false, length = 100)
+    private String token;
+
     public String getToken() {
         return token;
     }

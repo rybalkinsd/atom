@@ -1,9 +1,11 @@
 package ru.atom.dbhackaton.hibernate;
 
 import org.hibernate.annotations.GenerationTime;
+import ru.atom.dbhackaton.mm.UserGameResult;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * Created by kinetik on 12.04.17.
@@ -11,11 +13,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "registred", schema = "chat", catalog = "chatdb_atom1")
 public class RegistredEntity {
-
-    private String login;
-    private String password;
-    private Timestamp regdate;
-    private LoginEntity token;
 
     public RegistredEntity() {
     }
@@ -41,6 +38,8 @@ public class RegistredEntity {
 
     @Basic
     @Column(name = "login", nullable = false, length = 100)
+    private String login;
+
     public String getLogin() {
         return login;
     }
@@ -51,6 +50,8 @@ public class RegistredEntity {
 
     @Basic
     @Column(name = "password", nullable = true, length = 100)
+    private String password;
+
     public String getPassword() {
         return password;
     }
@@ -61,6 +62,8 @@ public class RegistredEntity {
 
     @Basic
     @Column(name = "regdate", nullable = true)
+    private Timestamp regdate;
+
     public Timestamp getRegdate() {
         return regdate;
     }
@@ -69,13 +72,26 @@ public class RegistredEntity {
         this.regdate = regdate;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne
+    private LoginEntity token;
+
     public LoginEntity getToken() {
         return token;
     }
 
     public void setToken(LoginEntity token) {
         this.token = token;
+    }
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserGameResult> gameResults;
+
+    public Set<UserGameResult> getGameResults() {
+        return this.gameResults;
+    }
+
+    public void setGameResults(Set<UserGameResult> gameResults) {
+        this.gameResults = gameResults;
     }
 
     @Override
