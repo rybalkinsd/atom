@@ -5,14 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Authentication;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
 import ru.atom.dbhackaton.server.base.Token;
 import ru.atom.dbhackaton.server.base.User;
 import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.storages.Database;
 
-import javax.naming.AuthenticationException;
-import javax.persistence.RollbackException;
 import java.security.SecureRandom;
 
 /**
@@ -73,8 +72,8 @@ public class AuthService {
         Token token;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-            User user = UserDao.getInstance().getUser(session, login, getHash(password));
-            if (user == null) {
+            User user = UserDao.getInstance().getUser(session, login);
+            if (user == null || !checkHash(user.getPassword(), password)) {
                 throw new AuthException("Can not find user with this login and password");
             }
 
@@ -139,10 +138,13 @@ public class AuthService {
         return true;
     }
 
-    // TODO: 4/14/17  сделать метод для хеширования пароля
-    public String getHash(String password) {
-        return password;
+    public static String getHash(String password) {
+        String salt = BCrypt.gensalt();
+        return BCrypt.hashpw(password, salt);
     }
 
+    public static boolean checkHash(String hashed, String password) {
+        return BCrypt.checkpw(password, hashed);
+    }
 
 }
