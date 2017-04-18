@@ -98,19 +98,21 @@ public class DatabaseTests {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         RegistredEntity user = new RegistredEntity(login, "pwd1", timestamp);
+        Long token = ThreadLocalRandom.current().nextLong();
         insert(user);
 
         LoginEntity loginUser = new LoginEntity();
         loginUser.setId(getByName(login).getUserId());
-        loginUser.setToken("10L");
+        loginUser.setToken(Long.toString(token));
+        loginUser.setUser(getByName(login));
         saveLogin(loginUser);
 
         Assert.assertEquals(getByName(login).getUserId(), getLoginByName(login).getId());
-        Assert.assertEquals("10L", getLoginByName(login).getToken());
-        Assert.assertEquals(getByName(login).getUserId(), getByToken(10L).getId());
-        Assert.assertEquals("10L", getByToken(10L).getToken());
+        Assert.assertEquals(Long.toString(token), getLoginByName(login).getToken());
+        Assert.assertEquals(getByName(login).getUserId(), getByToken(token).getId());
+        Assert.assertEquals(Long.toString(token), getByToken(token).getToken());
         Assert.assertEquals(login, getLoginByName(login).getUser().getLogin());
-        Assert.assertEquals(login, getByToken(10L).getUser().getLogin());
+        Assert.assertEquals(login, getByToken(token).getUser().getLogin());
 
         logoutToken(login);
 
