@@ -11,7 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "login", schema = "chat", catalog = "chatdb_atom1")
 public class LoginEntity {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private RegistredEntity user;
 
     public RegistredEntity getUser() {
