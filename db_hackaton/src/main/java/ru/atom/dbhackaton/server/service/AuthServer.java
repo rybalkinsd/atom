@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.service;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -8,13 +8,9 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import ru.atom.dbhackaton.server.dao.Database;
-
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
-    	Database.setUp();
-    	
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createChatContext(),

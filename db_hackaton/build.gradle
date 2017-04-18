@@ -1,15 +1,20 @@
 dependencies {
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
     compile rootProject.libraries.jetty_server
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.hibernate
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.http.server.HttpServer' }
+    manifest { attributes 'Main-Class': 'ru.atom.dbhackaton.server.AuthServer' }
 }
 
 
