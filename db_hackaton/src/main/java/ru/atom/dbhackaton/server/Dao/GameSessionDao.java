@@ -3,6 +3,7 @@ package ru.atom.dbhackaton.server.Dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import ru.atom.dbhackaton.server.model.GameResults;
 import ru.atom.dbhackaton.server.model.GameSession;
 
 
@@ -19,7 +20,7 @@ public class GameSessionDao {
         return instance;
     }
 
-    public void saveSession(Session session, GameSession gameSession) {
-        session.persist(gameSession);
+    public void saveSession(Session session, GameResults results) {
+        session.persist(results);
     }
 }
