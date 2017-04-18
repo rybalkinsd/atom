@@ -27,7 +27,7 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+        window.location = "http://"+window.location.hostname+":8081/mm/join?token=" + Cookies.get('token');
     }
 </script>
 

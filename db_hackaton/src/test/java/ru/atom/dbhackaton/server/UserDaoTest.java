@@ -1,41 +1,31 @@
 package ru.atom.dbhackaton.server;
 
-import org.junit.Before;
+import org.hibernate.Session;
 import org.junit.Test;
-
-import java.util.Random;
+import ru.atom.dbhackaton.server.auth.Database;
+import ru.atom.dbhackaton.server.auth.User;
+import ru.atom.dbhackaton.server.auth.UserDao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 
 public class UserDaoTest {
-    private UserDao userDao;
-    private String login;
-    private String password;
-    private User user;
-    private int usersBeforeTest;
-
-
-    @Before
-    public void setUp() throws Exception {
-        Database.setUp();
-        userDao = UserDao.getInstance();
-        login = "Lolita " + new Random().nextInt(999999);
-        password = "testPass";
-        user = new User(login, password);
-        usersBeforeTest = userDao.getAll(Database.session()).size();
-
-        Database.execTransactionalConsumer(s -> userDao.insert(s, user));
-    }
-
-    @Test
-    public void getAllTest() throws Exception {
-        assertTrue(userDao.getAll(Database.session()).size() > 0);
-    }
-
     @Test
     public void insertTest() throws Exception {
-        assertEquals(usersBeforeTest + 1, userDao.getAll(Database.session()).size());
+        Database.setUp();
+        Session session = Database.session();
+
+        UserDao userDao = UserDao.getInstance();
+        userDao.deleteByNameTxn(session, "TestUser");
+        int numUsersBeforeTest = userDao.getAll(Database.session()).size();
+
+        User user = new User("TestUser", "tupass");
+        userDao.insertTxn(Database.session(), user);
+        assertEquals(numUsersBeforeTest + 1, userDao.getAll(Database.session()).size());
+
+        User foundUser = userDao.getByName(session, "TestUser");
+        assertNotNull(foundUser);
+        assertEquals("TestUser", foundUser.name());
     }
 }

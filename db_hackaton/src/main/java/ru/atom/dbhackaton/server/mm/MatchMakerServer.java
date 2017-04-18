@@ -1,17 +1,25 @@
-package ru.atom.authserver;
+package ru.atom.dbhackaton.server.mm;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.atom.dbhackaton.server.auth.Database;
 
-public class HttpServer {
+
+public class MatchMakerServer {
     private static Server jettyServer;
 
-    public static void serverRun() throws Exception {
-        ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/");
+    public static void serverStop() throws Exception {
+        if (jettyServer != null) jettyServer.stop();
+    }
 
-        jettyServer = new Server(8080);
+    public static void serverRun() throws Exception {
+        Database.setUp();
+
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/mm/*");
+
+        Server jettyServer = new Server(8081);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -20,19 +28,10 @@ public class HttpServer {
 
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "ru.atom"
-        );
-
-        jerseyServlet.setInitParameter(
-                "com.sun.jersey.spi.container.ContainerRequestFilters",
-                AuthFilter.class.getCanonicalName()
+                "ru.atom.dbhackaton.server.mm"
         );
 
         jettyServer.start();
-    }
-
-    public static void serverStop() throws Exception {
-        jettyServer.stop();
     }
 
     public static void main(String[] args) throws Exception {

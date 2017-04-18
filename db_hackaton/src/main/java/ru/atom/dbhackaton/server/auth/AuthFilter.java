@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.auth;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;

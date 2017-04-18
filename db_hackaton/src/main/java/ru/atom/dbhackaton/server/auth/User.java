@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.auth;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "user", schema = "auth")
+@Table(name = "user", schema = "bomber")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,6 +49,10 @@ public class User {
         hash |= (long) password.substring(password.length() / 2).hashCode() << 32;
         this.passwordHash = hash;
         token = null;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean validatePassword(String password) {

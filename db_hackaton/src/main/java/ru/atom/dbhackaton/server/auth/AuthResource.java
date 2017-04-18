@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.auth;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,12 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import java.util.stream.Collectors;
 
 
 @Path("/")
@@ -89,10 +86,15 @@ public class AuthResource {
                         .entity("Incorrect user name or password.\n").build();
             }
 
-            if (user.isLogined()) log.info("User {} is already logined!", name);
-            else log.info("User {} logined!", name);
-            final Token token = new Token(user.name(), user.passwordHash());
-            user.setToken(token);
+            Token token;
+            if (user.isLogined()) {
+                token = user.getToken();
+                log.info("User {} is already logined!", name);
+            } else {
+                token = new Token(user.name(), user.passwordHash());
+                user.setToken(token);
+                log.info("User {} logined!", name);
+            }
 
             txn.commit();
 
@@ -132,13 +134,4 @@ public class AuthResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Failed!").build();
         }
     }
-
-    /*@GET
-    @Produces("application/json")
-    @Path("/data/users")
-    public Response users() {
-        String usersJson = TokenStore.getAllLoginedUsers().stream().map(User::toJson)
-                .collect(Collectors.joining(", ", "{\"users\" : [", "]}"));
-        return Response.ok(usersJson).build();
-    }*/
 }

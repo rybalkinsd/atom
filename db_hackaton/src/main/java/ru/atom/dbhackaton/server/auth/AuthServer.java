@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.auth;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -44,7 +44,7 @@ public class AuthServer {
 
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "ru.atom.dbhackaton.server"
+                "ru.atom.dbhackaton.server.auth"
         );
 
         jerseyServlet.setInitParameter(

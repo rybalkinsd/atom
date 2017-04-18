@@ -32,6 +32,6 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!--mapping-->
-        <mapping class="ru.atom.dbhackaton.server.User"/>
+        <mapping class="ru.atom.dbhackaton.server.auth.User"/>
     </session-factory>
 </hibernate-configuration>
