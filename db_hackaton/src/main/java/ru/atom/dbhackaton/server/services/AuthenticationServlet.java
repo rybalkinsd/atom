@@ -17,7 +17,9 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.hibernate.annotations.Table;
 import ru.atom.dbhackaton.server.Authorized;
+import ru.atom.dbhackaton.server.Dao.UserDao;
 import ru.atom.dbhackaton.server.Services;
 import ru.atom.dbhackaton.server.model.Token;
 import ru.atom.dbhackaton.server.model.User;
@@ -47,17 +49,16 @@ public class AuthenticationServlet {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long pass, sorry :(").build();
         }
         try {
-            services.register(user);
+            services.register(user, password);
         } catch (LoginException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
         return Response.ok().build();
     }
-/*
+
     @POST
-    @Path("login")
+    @Path("/login")
     @Consumes("application/x-www-form-urlencoded")
-    @Produces("text/plain")
     public Response login(@FormParam("user") String name,
                           @FormParam("password") String password) {
 
@@ -65,23 +66,19 @@ public class AuthenticationServlet {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        User user = new User(name);
 
         try {
-            if (!userMap.authenticate(user, password)) {
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-            }
-
-            Token token = tokenMap.issueToken(user, tokenMap);
-
-            return Response.ok(Long.toString(token.getId())).build();
+            services.login(name, password);
 
         } catch (Exception e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-    }
 
-    @Authorized
+        return Response.ok().build();
+    }
+}
+
+  /*  @Authorized
     @POST
     @Path("auth/logout")
     @Consumes("application/x-www-form-urlencoded")
@@ -109,4 +106,4 @@ public class AuthenticationServlet {
         log.info("GSON :" + json);
         return Response.ok(json).build();*/
 
-}
+

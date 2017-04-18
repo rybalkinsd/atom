@@ -1,34 +1,40 @@
 package ru.atom.dbhackaton.server.model;
 
+
+import java.security.SecureRandom;
+
 /**
  * Created by ilnur on 12.04.17.
  */
 
+
 public class Token {
-    private long id;
+    public final long value;
 
-    public Token(long id) {
-        this.id = id;
+    private static SecureRandom random = new SecureRandom();
+
+    public Token(long value) {
+        this.value = value;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) id;
+    public Token(String name, String password) {
+        long value = ((long) name.hashCode()) << 32;
+        value |= password.hashCode();
+        value ^= random.nextLong();
+        this.value = value;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Token)) return false;
-        Token token = (Token) o;
-        return id == token.id;
+    public String toString() {
+        return String.valueOf(value);
     }
+
+    @Override
+    public boolean equals(Object token) {
+        if (this == token) return true;
+        if (token == null || !(token instanceof Token)) return false;
+
+        return value == ((Token) token).value;
+    }
+
 }

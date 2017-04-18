@@ -1,5 +1,6 @@
 package ru.atom.dbhackaton.server.model;
 
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +14,31 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ua", schema = "auth_server")
+@Table(name = "registered_users", schema = "auth_server")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-   @Column(name = "name", unique = true, nullable = false, length = 20)
+    @Column
     private String login;
+
+    @Column
+    private String password;
+
+    @Column
+    private String token;
+
+
+    public User(String name, String password) {
+        this.setLogin(name);
+        this.setPassword(password);
+    }
+
+    public User() {
+        this.setPassword(null);
+        this.setLogin(null);
+    }
 
     public int getId() {
         return id;
@@ -31,8 +49,24 @@ public class User {
         return this;
     }
 
+    public void setToken() {
+        this.token = new Token(this.login, this.password).toString();
+    }
+
+    public String getToken() {
+        return token;
+    }
+
     public String getLogin() {
         return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public User setLogin(String login) {

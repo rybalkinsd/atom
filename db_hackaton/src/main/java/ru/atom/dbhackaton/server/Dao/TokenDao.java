@@ -1,44 +1,47 @@
 package ru.atom.dbhackaton.server.Dao;
 
-/**
- * Created by ilnur on 12.04.17.
- */
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import ru.atom.dbhackaton.server.model.Token;
 import ru.atom.dbhackaton.server.model.User;
 
 import java.util.List;
 
-public class UserDao {
+/**
+ * Created by ilnur on 17.04.17.
+ */
+public class TokenDao {
     private static final Logger log = LogManager.getLogger(UserDao.class);
 
-    private static UserDao instance = new UserDao();
+    private static TokenDao instance = new TokenDao();
 
-    public static UserDao getInstance() {
+    public static TokenDao getInstance() {
         return instance;
     }
 
-    private UserDao() {
+    private TokenDao() {
     }
 
     public List<User> getAll(Session session) {
-        return session.createCriteria(User.class).list();
+        return session.createCriteria(Token.class).list();
     }
 
-    public void insert(Session session, User user) {
-        session.saveOrUpdate(user);
+    public void insert(Session session, Token token) {
+        session.saveOrUpdate(token);
     }
 
+//    public Token getById(Session session, Integer id) {
+//        return (Token) session
+//                .createQuery("from Token where uid = :id")
+//                .setParameter("uid", id)
+//                .uniqueResult();
+//    }
 
     public User getByName(Session session, String name) {
         return (User) session
                 .createQuery("from User where login = :name")
                 .setParameter("name", name)
                 .uniqueResult();
-
     }
 }
-
