@@ -125,7 +125,7 @@ public class AuthOps {
 
     private static Long getTokenFromContext(ContainerRequestContext requestContext) {
         return Long.parseLong(requestContext.getHeaderString("Authorization")
-                .substring("Bearer: ".length()).trim());
+                .substring("Bearer ".length()).trim());
     }
 
 //

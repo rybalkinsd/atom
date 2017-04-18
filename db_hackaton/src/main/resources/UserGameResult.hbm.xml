@@ -12,11 +12,11 @@
             <column name="gameid" sql-type="int4" not-null="true"/>
         </property>
         <property name="login">
-            <column name="userid" sql-type="int4"/>
+            <column name="login" sql-type="int4"/>
         </property>
-        <many-to-one name="login" class="ru.atom.dbhackaton.hibernate.RegistredEntity" cascade="save-update"/>
         <property name="userGamePoints">
             <column name="userpoints" sql-type="int4" not-null="true"/>
         </property>
+        <many-to-one name="user" class="ru.atom.dbhackaton.hibernate.RegistredEntity" cascade="save-update"/>
     </class>
 </hibernate-mapping>

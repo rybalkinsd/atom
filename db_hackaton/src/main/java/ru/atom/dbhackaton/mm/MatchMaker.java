@@ -63,7 +63,7 @@ public class MatchMaker {
                 String userString = (String) pair.getKey();
                 if (userString != null) {
                     RegistredEntity user = UserStorage.getByName(userString);
-                    UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
+                    UserGameResult userGameResult = new UserGameResult(gameID, user.getUserId(), (int) pair.getValue());
                     UserGameResultDao.saveGameResults(userGameResult);
                 } else {
                     log.info("no such user in db");
