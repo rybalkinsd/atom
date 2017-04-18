@@ -32,14 +32,15 @@ public class UserDao {
 
     public User getByName(Session session, String name) {
         return (User) session
-                .createQuery("from registered_users where name = :name")
+                // Создаем запрос для поиска всех юзеров. Важно, что тут используется имя класса, а не таблицы!!!
+                .createQuery("from User where name = :name")
                 .setParameter("name", name)
                 .uniqueResult();
     }
 
     public User getByToken(Session session, Long token) {
         return (User) session
-                .createQuery("from registered_users where token = :token")
+                .createQuery("from User where token = :token")
                 .setParameter("token", token)
                 .uniqueResult();
     }

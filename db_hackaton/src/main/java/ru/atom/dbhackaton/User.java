@@ -23,15 +23,20 @@ public class User {
     @Column(name = "name", unique = true, nullable = false, length = 20)
     private String name;
 
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Column(name = "token")
-    private Long token = null;
+    private Long token;
 
-    public User(String name, String password) {
+    private static AtomicLong next = new AtomicLong(new Date().getTime());
+
+    public User() {}
+
+    public User(String name, String password, Long token) {
         this.name = name;
-        this.password = password;
+        this.password = String.valueOf(password.hashCode());
+        this.token = token;
     }
 
     public String getName() {
@@ -60,8 +65,6 @@ public class User {
 
     public void setNewToken() {this.token = next.getAndAdd((new Date().getTime()));}
 
-    private static AtomicLong next = new AtomicLong();
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,6 +73,7 @@ public class User {
         User other = (User) o;
         if (!name.equals(other.getName())) return false;
         if (!password.equals(other.getPassword())) return false;
+        if (!token.equals(other.getToken())) return false;
         return true;
     }
 
