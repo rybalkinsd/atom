@@ -11,7 +11,14 @@ import ru.atom.dbhackaton.server.storages.Database;
 
 
 public class AuthServer {
+
+    private static Server jettyServer = new Server(8080);
+
     public static void main(String[] args) throws Exception {
+        authStart();
+    }
+
+    public static void authStart() throws Exception {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -20,10 +27,13 @@ public class AuthServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
+    }
+
+    public static void authStop() throws Exception{
+        jettyServer.stop();
     }
 
     private static ServletContextHandler createChatContext() {

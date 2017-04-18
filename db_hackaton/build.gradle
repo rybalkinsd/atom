@@ -6,6 +6,7 @@ dependencies {
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
     compile rootProject.libraries.gson
+    compile rootProject.libraries.okhttp
     compile rootProject.libraries.hibernate
     compile rootProject.libraries.postgres
 }
