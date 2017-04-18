@@ -9,6 +9,7 @@ import ru.atom.dbhackaton.server.service.AuthException;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by allen on 18.04.2017.
@@ -20,47 +21,47 @@ public class AuthTest {
     Random random = new Random();
 
     @Before
-    public void setup() throws Exception{
+    public void setup() throws Exception {
         AuthServer.authStart();
     }
 
     @After
-    public void stop() throws Exception{
+    public void stop() throws Exception {
         AuthServer.authStop();
     }
 
     @Test
     public void register() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.register(user, pass);
         Assert.assertEquals(200, resp.code());
     }
 
     @Test
     public void registerLengthUser() throws IOException {
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.register("", pass);
         Assert.assertEquals(411, resp.code());
     }
 
     @Test
     public void registerLengthPassword() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.register(user, "");
         Assert.assertEquals(411, resp.code());
     }
 
     @Test
     public void loginLengthPassword() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.login(user, "");
         Assert.assertEquals(411, resp.code());
     }
 
     @Test
     public void loginLengthUser() throws IOException {
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.login("", pass);
         Assert.assertEquals(411, resp.code());
     }
@@ -79,8 +80,8 @@ public class AuthTest {
 
     @Test
     public void alreadyRegistered() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         AuthClient.register(user, pass);
         Response resp = AuthClient.register(user, pass);
         Assert.assertEquals(400, resp.code());
@@ -88,16 +89,16 @@ public class AuthTest {
 
     @Test
     public void notRegisteredLogin() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         Response resp = AuthClient.login(user, pass);
         Assert.assertEquals(400, resp.code());
     }
 
     @Test
     public void login() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         AuthClient.register(user, pass);
         Response resp = AuthClient.login(user, pass);
         Assert.assertEquals(200, resp.code());
@@ -105,8 +106,8 @@ public class AuthTest {
 
     @Test
     public void alreadyLogined() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         String token = AuthClient.login(user, pass).body().string();
         Response resp = AuthClient.login(user, pass);
         Assert.assertEquals(token, resp.body().string());
@@ -114,8 +115,8 @@ public class AuthTest {
 
     @Test
     public void wrongPasswordLogin() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         AuthClient.register(user,pass);
         Response resp = AuthClient.login(user,PASSWORD_1);
         Assert.assertEquals(400, resp.code());
@@ -123,8 +124,8 @@ public class AuthTest {
 
     @Test
     public void logout() throws IOException {
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         AuthClient.register(user, pass);
         String token = AuthClient.login(user,pass).body().string();
         Response resp = AuthClient.logout(token);
@@ -132,12 +133,10 @@ public class AuthTest {
     }
 
     @Test
-    public void registerCheckFalse() throws IOException, AuthException{
-        String user = USER_1 + new Integer(random.nextInt()).toString();
-        String pass = PASSWORD_1 + new Integer(random.nextInt()).toString();
+    public void registerCheckFalse() throws IOException, AuthException {
+        String user = USER_1 + new Integer(random.nextInt(999)).toString();
+        String pass = PASSWORD_1 + new Integer(random.nextInt(999)).toString();
         AuthClient.register(user, pass);
         Assert.assertEquals("False", AuthClient.registerCheck(user).body().string());
     }
-
-
 }

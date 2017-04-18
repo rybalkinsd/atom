@@ -1,11 +1,10 @@
 package ru.atom.dbhackaton.server.resources;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;;
+import org.apache.logging.log4j.Logger;
 import ru.atom.dbhackaton.server.service.MatchMakerService;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -47,10 +46,10 @@ public class MatchMakerResource {
         try {
             matchMakerService.finish(jsonString);
         } catch (RuntimeException ex) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Неверный формат данных! " +
-                    "Сохранение результатов невозможно!").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Incorrect data " +
+                    "Result saving is impossible").build();
         }
-        return Response.status(Response.Status.OK).entity("Игра успешно завершена!").build();
+        return Response.status(Response.Status.OK).entity("Game finish succeed").build();
     }
 
 }

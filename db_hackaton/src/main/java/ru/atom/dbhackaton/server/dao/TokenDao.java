@@ -23,7 +23,6 @@ public class TokenDao {
     }
 
     public void delete(Session session, Token token) {
-//        session.delete(token);
         loger.info("start delete token {}", token.getToken());
         session.createQuery("delete Token where token = :tokenStr")
                 .setParameter("tokenStr", token.getToken()).executeUpdate();

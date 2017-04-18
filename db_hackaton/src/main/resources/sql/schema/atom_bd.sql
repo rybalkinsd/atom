@@ -14,7 +14,7 @@ drop table if exists auth.user;
 create table auth.user (
   id            serial          not null,
   login         varchar(20)     unique not null,
-  passwd        varchar(20)     not null,
+  passwd        varchar(40)     not null,
   registration_date TIMESTAMP   not null    DEFAULT NOW(),
   primary key (id)
 );

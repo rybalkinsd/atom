@@ -87,7 +87,7 @@ public class AuthResource {
         }
         String result;
         try {
-            result= authService.login(userName, password);
+            result = authService.login(userName, password);
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Неудачная попытка входа").build();
         }

@@ -32,7 +32,7 @@ public class AuthServer {
         jettyServer.start();
     }
 
-    public static void authStop() throws Exception{
+    public static void authStop() throws Exception {
         jettyServer.stop();
     }
 

@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 
-public class MMClient {
-    private static final Logger logger = LogManager.getLogger(MMClient.class);
+public class MmClient {
+    private static final Logger logger = LogManager.getLogger(MmClient.class);
 
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
