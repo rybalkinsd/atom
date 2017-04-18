@@ -43,7 +43,7 @@ public class AuthService {
         }
     }
 
-    public String registerCheck(String login) throws AuthException {
+    public static String registerCheck(String login) throws AuthException {
         Transaction txn = null;
         String isTrue = "False";
         try (Session session = Database.session()) {

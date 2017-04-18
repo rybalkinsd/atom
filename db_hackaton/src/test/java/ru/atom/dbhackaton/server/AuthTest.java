@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.atom.dbhackaton.server.dao.UserDao;
+import ru.atom.dbhackaton.server.service.AuthException;
+import ru.atom.dbhackaton.server.service.AuthService;
 
 import java.io.IOException;
 
@@ -85,4 +87,10 @@ public class AuthTest {
         Response resp = AuthClient.logout(token);
         Assert.assertEquals(200, resp.code());
     }*/
+
+    @Test
+    public void registerCheckFalse() throws IOException, AuthException{
+        AuthClient.register(USER_4,PASSWORD_4);
+        Assert.assertEquals("False", AuthService.registerCheck(USER_4));
+    }
 }
