@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernateutil.HibernateUtil;
 
+import javax.validation.ConstraintViolationException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +18,13 @@ import static ru.atom.dbhackaton.model.UserStorage.getByName;
 
 public class TokenStorage {
     public static void saveLogin(LoginEntity loginUser){
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        session.save(loginUser);
-        session.getTransaction().commit();
-        session.close();
+        try (Session session = HibernateUtil.getSession()) {
+            session.beginTransaction();
+            session.save(loginUser);
+            session.getTransaction().commit();
+        } catch (ConstraintViolationException e) {
+            throw new ConstraintViolationException(null);
+        }
     }
     public static LoginEntity getLoginByName(String name){
         Session session = HibernateUtil.getSession();

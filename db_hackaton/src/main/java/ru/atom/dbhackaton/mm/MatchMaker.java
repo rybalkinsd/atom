@@ -67,7 +67,7 @@ public class MatchMaker {
                 String userString = (String) pair.getKey();
                 if (TokenStorage.getLoginByName(userString) != null) {
                     RegistredEntity user = UserStorage.getByName(userString);
-                    UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
+                    UserGameResult userGameResult = new UserGameResult(gameID, user.getUserId(), (int) pair.getValue());
                     UserGameResultDao.saveGameResults(userGameResult);
                     log.info("user " + userString + " finished game id#" + gameID
                             + " with score " + pair.getValue().toString());

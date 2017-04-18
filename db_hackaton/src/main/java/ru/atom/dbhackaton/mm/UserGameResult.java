@@ -12,6 +12,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Table(name = "userresults", schema = "chat", catalog = "chatdb_atom1")
 public class UserGameResult {
 
+    public UserGameResult() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -29,17 +32,19 @@ public class UserGameResult {
     private long gameID;
 
     @Column(name = "login", nullable = false)
-    @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = RegistredEntity.class)
-    private RegistredEntity login;
+    private Integer login;
 
     @Column(name = "userpoints", nullable = false)
     private Integer userGamePoints;
 
-    public UserGameResult(long gameID, RegistredEntity login, int userGamePoints) {
+    public UserGameResult(long gameID, Integer login, int userGamePoints) {
         this.gameID = gameID;
         this.login = login;
         this.userGamePoints = userGamePoints;
     }
+
+    @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = RegistredEntity.class)
+    private RegistredEntity user;
 
     public long getGameID() {
         return gameID;
@@ -49,11 +54,11 @@ public class UserGameResult {
         this.gameID = gameID;
     }
 
-    public RegistredEntity getLogin() {
+    public Integer getLogin() {
         return login;
     }
 
-    public void setLogin(RegistredEntity login) {
+    public void setLogin(Integer login) {
         this.login = login;
     }
 
@@ -63,5 +68,13 @@ public class UserGameResult {
 
     public void setUserGamePoints(Integer userGamePoints) {
         this.userGamePoints = userGamePoints;
+    }
+
+    public RegistredEntity getUser() {
+        return user;
+    }
+
+    public void setUser(RegistredEntity user) {
+        this.user = user;
     }
 }

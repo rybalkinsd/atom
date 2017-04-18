@@ -6,10 +6,10 @@
 
     <class name="ru.atom.dbhackaton.hibernate.LoginEntity" table="login" schema="chat" catalog="chatdb_atom1">
         <id name="id">
-            <column name="userId" sql-type="int4"/>
+            <column name="userId" sql-type="int4" unique="true"/>
         </id>
         <property name="token">
-            <column name="token" sql-type="varchar(100)" length="100"/>
+            <column name="token" sql-type="varchar(100)" length="100" unique="true"/>
         </property>
         <one-to-one name="user" class="ru.atom.dbhackaton.hibernate.RegistredEntity" cascade="save-update"/>
     </class>

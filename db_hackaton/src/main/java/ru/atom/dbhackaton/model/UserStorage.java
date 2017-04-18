@@ -1,9 +1,11 @@
 package ru.atom.dbhackaton.model;
 
 import org.hibernate.Session;
+import org.hibernate.exception.DataException;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 import ru.atom.dbhackaton.hibernateutil.HibernateUtil;
 
+import javax.validation.ConstraintViolationException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -11,11 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UserStorage {
     public static void insert(RegistredEntity user) {
-        Session session = HibernateUtil.getSession();
-        session.beginTransaction();
-        session.saveOrUpdate(user);
-        session.getTransaction().commit();
-        session.close();
+        try (Session session = HibernateUtil.getSession()) {
+            session.beginTransaction();
+            session.saveOrUpdate(user);
+            session.getTransaction().commit();
+        } catch (ConstraintViolationException ex) {
+            throw new ConstraintViolationException("user already registrated", null);
+        }
     }
 
     public static RegistredEntity getByName(String user) {
