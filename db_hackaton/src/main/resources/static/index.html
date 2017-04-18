@@ -32,7 +32,8 @@
             "crossDomain": true,
             "url": "/mm/join",
             'data': {
-                "token": Cookies.get('token')
+                'user': Cookies.get('user'),
+                'token': Cookies.get('token')
             }
         };
         $.ajax(settings).done(function(response) {

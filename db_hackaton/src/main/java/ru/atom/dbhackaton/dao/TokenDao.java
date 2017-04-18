@@ -37,7 +37,9 @@ public class TokenDao {
     public void clean(Session session) {
         List<Token> results = getAll(session);
         results.forEach(s -> session.delete(s));
-        session.flush();
+        if (results.size() > 0) {
+            session.flush();
+        }
     }
 
     public void insert(Session session, Token token) {

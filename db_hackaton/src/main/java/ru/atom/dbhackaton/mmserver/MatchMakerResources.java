@@ -9,8 +9,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.dbhackaton.dao.Database;
 import ru.atom.dbhackaton.dao.ResultDao;
+import ru.atom.dbhackaton.dao.TokenDao;
 import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.model.Result;
+import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.server.Authorized;
 
 import javax.ws.rs.POST;
@@ -41,7 +43,26 @@ public class MatchMakerResources {
     @Path("/join")
     public static Response join(@QueryParam("user") String user, @QueryParam("token") String strToken) {
         log.info("User {} connected", user);
-        ThreadSafeQueue.getInstance().offer(new Connection(user));
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            Token token = TokenDao.getInstance().getByStrToken(session, strToken);
+            if (token == null) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
+            }
+            if (!token.getUser().getName().equals(user)) {
+                txn.rollback();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not ").build();
+            }
+            ThreadSafeQueue.getInstance().offer(new Connection(user));
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
+        }
         return Response.ok("wtfis.ru:8090/gs/" + random.nextInt(42)).build();
     }
 

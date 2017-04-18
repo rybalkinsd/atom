@@ -23,6 +23,10 @@ public class ResultDao {
 
     private ResultDao() { }
 
+    public List<Result> getAll(Session session) {
+        return session.createCriteria(Result.class).list();
+    }
+
     public void insert(Session session, Result result) {
         session.saveOrUpdate(result);
     }
@@ -32,7 +36,9 @@ public class ResultDao {
         for (Result result: results) {
             session.delete(result);
         }
-        session.flush();
+        if (results.size() > 0) {
+            session.flush();
+        }
     }
 
     public List<Result> getByGameId(Session session, Integer gameId) {

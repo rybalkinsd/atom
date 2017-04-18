@@ -22,7 +22,7 @@ public class Result {
     @Column(name = "game_id", unique = true, nullable = false)
     private Integer gameId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     private User user;
 
     @Column(name = "score")

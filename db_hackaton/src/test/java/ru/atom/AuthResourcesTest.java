@@ -120,4 +120,20 @@ public class AuthResourcesTest {
         String body1 = response.hasEntity() ? response.getEntity().toString() : "";
         Assert.assertTrue(body1.equals("Not logined"));
     }
+
+    @Test
+    public void hashPassword() throws Exception {
+        String hashPasswd = AuthResources.hashPassword(typicalPassword);
+        Assert.assertTrue(AuthResources.checkPassword(typicalPassword, hashPasswd));
+    }
+
+    @Test
+    public void checkPassword() throws Exception {
+        String hashPasswd = AuthResources.hashPassword(typicalPassword);
+        String hashPasswd1 = AuthResources.hashPassword(typicalPassword + "1");
+        Assert.assertTrue(AuthResources.checkPassword(typicalPassword + "1", hashPasswd1));
+        Assert.assertTrue(AuthResources.checkPassword(typicalPassword, hashPasswd));
+        Assert.assertFalse(AuthResources.checkPassword(typicalPassword + "1", hashPasswd));
+        Assert.assertFalse(AuthResources.checkPassword(typicalPassword, hashPasswd1));
+    }
 }
