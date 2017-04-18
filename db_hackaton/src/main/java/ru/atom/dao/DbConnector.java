@@ -3,6 +3,7 @@ package ru.atom.dao;
 /**
  * Created by IGIntellectual on 12.04.2017.
  */
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,5 +39,6 @@ class DbConnector {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    private DbConnector() { }
+    private DbConnector() {
+    }
 }

@@ -22,7 +22,7 @@ public class UserDao implements Dao<User> {
             "select * " +
                     "from bombergirl.user";
 
-   /* @Language("sql")*/
+    /* @Language("sql")*/
     private static final String SELECT_ALL_USERS_WHERE =
             "select * " +
                     "from bombergirl.user " +
@@ -59,7 +59,7 @@ public class UserDao implements Dao<User> {
         ) {
 
             String condition = String.join(" and ", conditions);
-            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition );
+            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + condition);
             while (rs.next()) {
                 persons.add(mapToUser(rs));
             }
@@ -83,12 +83,6 @@ public class UserDao implements Dao<User> {
         }
     }
 
-
-
-   /* public User getByName(String name) {
-
-        throw new NotImplementedException();
-    }*/
 
     private static User mapToUser(ResultSet rs) throws SQLException {
         return new User()

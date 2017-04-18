@@ -11,34 +11,31 @@ import java.util.List;
 /**
  * Created by IGIntellectual on 12.04.2017.
  */
-public class DatabaseClass
-{
+public class DatabaseClass {
     private static final Logger log = LogManager.getLogger(DatabaseClass.class);
-    private  UserDao userDao = new UserDao();
-    private  TokenDao tokenDao = new TokenDao();
+    private UserDao userDao = new UserDao();
+    private TokenDao tokenDao = new TokenDao();
 
 
-
-
-    public  Boolean checkByConditionUser(String... conditions) {
-    return userDao.getAllWhere(conditions)
-            .stream()
-            .findFirst()
-            .isPresent();
+    public Boolean checkByConditionUser(String... conditions) {
+        return userDao.getAllWhere(conditions)
+                .stream()
+                .findFirst()
+                .isPresent();
     }
 
-    public  Boolean checkByConditionToken(String... conditions) {
+    public Boolean checkByConditionToken(String... conditions) {
         return tokenDao.getAllWhere(conditions)
                 .stream()
                 .findFirst()
                 .isPresent();
     }
 
-    public  void insertUser(User user) {
+    public void insertUser(User user) {
         userDao.insert(user);
     }
 
-    private  Token getToken(String tokenValue) {
+    private Token getToken(String tokenValue) {
         final String findByValueCondition = "value = \'" + tokenValue + "\'";
         log.info("get token");
         List<Token> alreadyWithToken = tokenDao.getAllWhere(findByValueCondition);
@@ -46,7 +43,7 @@ public class DatabaseClass
         return token;
     }
 
-    public boolean deleteToken(String tokenValue){
+    public boolean deleteToken(String tokenValue) {
         return tokenDao.delete(getToken(tokenValue));
     }
 
@@ -55,10 +52,10 @@ public class DatabaseClass
         User userForToken = alreadylogined.stream().findFirst().get();
         final String findByIdUserCondition = "iduser = \'" + userForToken.getIdUser() + "\'";
         Token yourToken;
-        if(checkByConditionToken(findByIdUserCondition)){
+        if (checkByConditionToken(findByIdUserCondition)) {
             List<Token> alreadyWithToken = tokenDao.getAllWhere(findByIdUserCondition);
             yourToken = alreadyWithToken.stream().findFirst().get();
-        }else {
+        } else {
             yourToken = new Token().setUser(userForToken);
             tokenDao.insert(yourToken);
         }

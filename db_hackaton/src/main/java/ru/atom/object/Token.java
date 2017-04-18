@@ -69,7 +69,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return  Long.toString(valueToken);
+        return Long.toString(valueToken);
 
     }
 }

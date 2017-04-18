@@ -24,6 +24,7 @@ public interface Dao<T> {
 
     /**
      * SELECT * from ... WHERE id=
+     *
      * @return Optional.empty() if nothing found
      */
     default Optional<T> findById(int id) {

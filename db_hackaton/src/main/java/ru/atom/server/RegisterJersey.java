@@ -8,14 +8,15 @@ import ru.atom.object.Token;
 import ru.atom.object.User;
 
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.Date;
-
-
-
-
 
 
 /**
@@ -25,7 +26,7 @@ import java.util.Date;
 public class RegisterJersey {
     private static final Logger log = LogManager.getLogger(RegisterJersey.class);
 
-    DatabaseClass dbclass =new DatabaseClass();
+    DatabaseClass dbclass = new DatabaseClass();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -35,7 +36,7 @@ public class RegisterJersey {
                              @FormParam("password") String password) {
 
 
-       if (login == null || password == null) {
+        if (login == null || password == null) {
             log.info("Не заполненые поля");
             return Response.status(Response.Status.BAD_REQUEST).entity("You must write in login and password").build();
         }
@@ -78,7 +79,7 @@ public class RegisterJersey {
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();
         }
-        if (!dbclass.checkByConditionUser("login = \'" + login + "\'","password = \'" + password + "\'")) {
+        if (!dbclass.checkByConditionUser("login = \'" + login + "\'", "password = \'" + password + "\'")) {
             log.info("wrong password");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong password").build();
         }

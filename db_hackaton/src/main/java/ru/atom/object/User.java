@@ -12,9 +12,8 @@ public class User {
     private Date registrationDate;
 
     private int idUser;
-   /*  private int idMatch;*/
-   /* private float lifeTime;*/
-
+    /*  private int idMatch;*/
+    /* private float lifeTime;*/
 
 
     public User() {
@@ -22,9 +21,6 @@ public class User {
         this.password = password;
         this.registrationDate = registrationDate;
     }
-
-
-
 
 
     public User setLogin(String login) {
@@ -75,16 +71,13 @@ public class User {
     }
 
 
-
-
-
     @Override
     public String toString() {
         return "User{" +
                 "idUser=" + idUser +
                 ", login='" + login + '\'' +
-                ", password='" + password +'\'' +
-                ", registrationDate='" + registrationDate +'\'' +
+                ", password='" + password + '\'' +
+                ", registrationDate='" + registrationDate + '\'' +
                 '}';
     }
 
