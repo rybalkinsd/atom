@@ -59,7 +59,7 @@ public class DatabaseTests {
     }
 
     @Test
-    public void nameEquality() {
+    public void nameEquality() throws ClassNotFoundException {
         String login = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
 
         Assert.assertEquals(null, getByName(login));
@@ -80,12 +80,12 @@ public class DatabaseTests {
         RegistredEntity userTwo = new RegistredEntity(login, "pwd2", timestampTwo);
         try {
             insert(userTwo);
-        } catch (ConstraintViolationException ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+        } catch (Exception ex) {
+            Assert.assertTrue(Class.forName("org.hibernate.exception.ConstraintViolationException").equals(ex.getClass()));
         }
 
-        Assert.assertNotEquals(timestampTwo, getByName(login));
-        Assert.assertEquals(timestamp, getByName(login));
+        Assert.assertNotEquals(timestampTwo, getByName(login).getRegdate());
+        Assert.assertEquals(timestamp, getByName(login).getRegdate());
 
         dropUser(getByName(login));
     }
@@ -121,18 +121,19 @@ public class DatabaseTests {
     }
 
     @Test
-    public void badInData() {
+    public void badInData() throws ClassNotFoundException {
         String login = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
 
         Assert.assertEquals(null, getByName(login));
+        Long token = ThreadLocalRandom.current().nextLong();
 
         try {
             LoginEntity loginUser = new LoginEntity();
             loginUser.setId(999999);
-            loginUser.setToken("10L");
+            loginUser.setToken(Long.toString(token));
             saveLogin(loginUser);
         } catch (Exception ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -141,16 +142,16 @@ public class DatabaseTests {
 
         LoginEntity loginUser = new LoginEntity();
         loginUser.setId(getByName(login).getUserId());
-        loginUser.setToken("10L");
+        loginUser.setToken(Long.toString(token));
         saveLogin(loginUser);
 
         try {
             LoginEntity newLoginUser = new LoginEntity();
             newLoginUser.setId(getByName(login).getUserId());
-            newLoginUser.setToken("11L");
+            newLoginUser.setToken(Long.toString(token+1));
             saveLogin(newLoginUser);
         } catch (Exception ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
         String loginTwo = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
@@ -161,10 +162,10 @@ public class DatabaseTests {
         try {
             LoginEntity anotherLoginUser = new LoginEntity();
             anotherLoginUser.setId(getByName(loginTwo).getUserId());
-            anotherLoginUser.setToken("10L");
+            anotherLoginUser.setToken(Long.toString(token));
             saveLogin(anotherLoginUser);
         } catch (Exception e) {
-            Assert.assertTrue(e instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(e.getClass()));
         }
 
         logoutToken(login);

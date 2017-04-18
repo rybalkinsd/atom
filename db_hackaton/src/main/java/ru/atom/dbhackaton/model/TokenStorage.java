@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernateutil.HibernateUtil;
 
+import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class TokenStorage {
             session.getTransaction().commit();
         } catch (ConstraintViolationException e) {
             throw new ConstraintViolationException(null);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException();
         }
     }
     public static LoginEntity getLoginByName(String name){
