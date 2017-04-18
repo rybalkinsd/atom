@@ -3,7 +3,6 @@ package ru.atom.dbhackaton.mm;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,9 +15,6 @@ import ru.atom.dbhackaton.model.UserStorage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -52,14 +48,14 @@ public class MatchMaker {
         try {
             ObjectMapper mapper = new ObjectMapper();
 
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map;
 
             // convert JSON string to Map
             map = mapper.readValue(gameResult, new TypeReference<Map<String, Object>>(){});
 
             long gameID = new Long(map.get("id").toString());
 
-            Map<String, Object> gameResultMapBody = new HashMap<String, Object>();
+            Map<String, Object> gameResultMapBody;
             gameResultMapBody = (Map<String, Object>) map.get("result");
 
             for (Object o : gameResultMapBody.entrySet()) {
@@ -67,7 +63,7 @@ public class MatchMaker {
                 String userString = (String) pair.getKey();
                 if (TokenStorage.getLoginByName(userString) != null) {
                     RegistredEntity user = UserStorage.getByName(userString);
-                    UserGameResult userGameResult = new UserGameResult(gameID, user.getUserId(), (int) pair.getValue());
+                    UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
                     UserGameResultDao.saveGameResults(userGameResult);
                     log.info("user " + userString + " finished game id#" + gameID
                             + " with score " + pair.getValue().toString());

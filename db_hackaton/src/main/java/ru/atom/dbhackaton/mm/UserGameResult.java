@@ -28,22 +28,22 @@ public class UserGameResult {
         this.id = id;
     }
 
+    @Basic
     @Column(name = "gameID", nullable = false)
     private long gameID;
 
-    @Column(name = "login", nullable = false)
-    private Integer login;
-
+    @Basic
     @Column(name = "userpoints", nullable = false)
     private Integer userGamePoints;
 
-    public UserGameResult(long gameID, Integer login, int userGamePoints) {
+    public UserGameResult(long gameID, RegistredEntity user, int userGamePoints) {
         this.gameID = gameID;
-        this.login = login;
+        this.user = user;
         this.userGamePoints = userGamePoints;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = RegistredEntity.class)
+    @ManyToOne
+    @JoinColumn(name = "login")
     private RegistredEntity user;
 
     public long getGameID() {
@@ -52,14 +52,6 @@ public class UserGameResult {
 
     public void setGameID(long gameID) {
         this.gameID = gameID;
-    }
-
-    public Integer getLogin() {
-        return login;
-    }
-
-    public void setLogin(Integer login) {
-        this.login = login;
     }
 
     public int getUserGamePoints() {
