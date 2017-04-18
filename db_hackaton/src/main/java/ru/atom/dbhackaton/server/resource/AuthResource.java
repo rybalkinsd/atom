@@ -3,10 +3,12 @@ package ru.atom.dbhackaton.server.resource;
 /**
  * Created by Юля on 29.03.2017.
  */
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ru.atom.dbhackaton.server.dao.Database;
+import ru.atom.dbhackaton.server.dao.TokenDao;
 import ru.atom.dbhackaton.server.dao.UserDao;
 import ru.atom.dbhackaton.server.model.Token;
 import ru.atom.dbhackaton.server.model.User;
@@ -51,7 +53,7 @@ public class AuthResource {
     public Response register(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         /*
-    	if (name == null || password == null || name.isEmpty() || password.isEmpty()) {
+        if (name == null || password == null || name.isEmpty() || password.isEmpty()) {
             log.info("Registration is not possible. There are blank fields.");
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Registration is not possible. There are blank fields.").build();
@@ -70,22 +72,22 @@ public class AuthResource {
         log.info("User exist " + name);
         return Response.status(Response.Status.FORBIDDEN).entity("User already exist ").build();
 		*/
-    	Transaction txn = null;
-    	try (Session session = Database.session()) {
-    		txn = session.beginTransaction();
-    		User user = new User(name, password);
-    		UserDao.getInstance().insert(session, user);
-    		txn.commit();
-    	} catch (Exception e) {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            User user = new User(name, password);
+            UserDao.getInstance().insert(session, user);
+            txn.commit();
+            return Response.ok().build();
+        } catch (Exception e) {
             log.error("Transaction failed.", e);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("User already exists.").build();
-    	}
-    	
-        return Response.ok("gotcha").build();
-    	
+        }
+
+
     }
 
 
@@ -119,24 +121,46 @@ public class AuthResource {
         }
 		*/
         //return Response.ok(allTokens.getToken(name).toString()).build();
-    	try (Session session = Database.session()) {
-    		User user = UserDao.getInstance().getByName(session, name);
-    		if (user == null) {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            User user = UserDao.getInstance().getByName(session, name);
+            if (user == null) {
+                txn.rollback();
                 return Response.status(Response.Status.FORBIDDEN).entity("No such user.").build();
-    		}
-    		if (!password.equals(user.getPass())) {
-    			return Response.status(Response.Status.FORBIDDEN).entity("Wrong password.").build();
-    		}
-    		
-    	}
-    	
-        return Response.ok("gotcha").build();
+            }
+            if (!password.equals(user.getPass())) {
+                txn.rollback();
+                return Response.status(Response.Status.FORBIDDEN).entity("Wrong password.").build();
+            }
+            Token token = new Token();
+            String stringToken = token.toString();
+            if (TokenDao.getInstance().getByToken(session, stringToken) != null) {
+                txn.rollback();
+                log.info("Already logined");
+                return Response.ok().entity(token.getToken()).build();
+            }
+            token.random();
+            token.setUsername(name);
+            TokenDao.getInstance().insert(session, token);
+            log.info(name + "logined");
+            txn.commit();
+            return Response.ok().entity(stringToken).build();
+
+        } catch (Exception e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception").build();
+        }
+
     }
 
 
     @Authorized
     @POST
-    @Path("/auth/logout")
+    @Path("/logout")
     public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String text) {
         /*
     	log.info("Logout this user ");
@@ -147,8 +171,8 @@ public class AuthResource {
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
         */
-    	
-    	return Response.ok().build();
+
+        return Response.ok().build();
     }
 
 

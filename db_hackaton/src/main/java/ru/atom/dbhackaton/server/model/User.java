@@ -14,7 +14,7 @@ import ru.atom.dbhackaton.server.resource.HashCalculator;
 
 
 @Entity
-@Table(name = "user", schema = "chat")
+@Table(name = "user", schema = "auth")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

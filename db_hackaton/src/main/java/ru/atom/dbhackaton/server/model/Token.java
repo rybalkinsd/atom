@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "token", schema = "chat")
+@Table(name = "token", schema = "auth")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +24,7 @@ public class Token {
     @Column(name = "token", unique = true, nullable = false, length = 20)
     private Long token;
     
-    @Column(name = "username", unique = false, nullable = false, length = 20)
+    @Column(name = "username", unique = true, nullable = false, length = 20)
     private String username;
 
     public Token() {
@@ -32,6 +32,11 @@ public class Token {
     
     public Token(String newToken) {
         token = Long.parseLong(newToken.substring(7));
+    }
+
+    public Token setUsername(String username){
+        this.username = username;
+        return this;
     }
 
     public static Token random() {
