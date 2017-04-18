@@ -21,10 +21,18 @@ public class UserDao {
         session.saveOrUpdate(user);
     }
 
+    public void update(Session session, User user) {
+        session.saveOrUpdate(user);
+    }
+
     public User getByName(Session session, String name) {
         return (User) session
                 .createQuery("from User where login = :name")
                 .setParameter("name", name)
                 .uniqueResult();
+    }
+
+    public void deleteAll(Session session) {
+        session.createQuery("delete User").executeUpdate();
     }
 }

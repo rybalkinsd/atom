@@ -24,7 +24,7 @@ public class TokenDao {
 
     public boolean delete(Session session, String token) {
         int result = session
-                .createQuery("delete Token where token = :token")
+                .createQuery("delete Token where value = :token")
                 .setParameter("token", token)
                 .executeUpdate();
         return result > 0;
@@ -32,7 +32,7 @@ public class TokenDao {
 
     public Token getByToken(Session session, String token) {
         return (Token) session
-                .createQuery("from Token where token = :token")
+                .createQuery("from Token where value = :token")
                 .setParameter("token", token)
                 .uniqueResult();
     }
@@ -46,5 +46,9 @@ public class TokenDao {
 
     public boolean validToken(Session session, String token) {
         return getByToken(session, token) != null;
+    }
+
+    public void deleteAll(Session session) {
+        session.createQuery("delete Token").executeUpdate();
     }
 }

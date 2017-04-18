@@ -3,7 +3,12 @@ package ru.atom.http.server;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Test;
+import ru.atom.http.server.dao.Database;
+import ru.atom.http.server.dao.TokenDao;
+import ru.atom.http.server.dao.UserDao;
 import ru.atom.http.server.model.Token;
 import ru.atom.http.server.model.User;
 
@@ -19,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by zarina on 26.03.17.
  */
-public class AuthServiceTest extends JerseyTest {
+public class AuthResourceTest extends JerseyTest {
     private String name1 = "initUser1";
     private String password1 = "initPass1";
 
@@ -32,36 +37,67 @@ public class AuthServiceTest extends JerseyTest {
     private String password3 = "initPass3";
     private String token3;
 
-    private String pathRegister = "auth/register";
-    private String pathLogin = "auth/login";
-    private String pathChangePassword = "auth/changePassword";
-    private String pathLogout = "auth/logout";
+    private String pathRegister = "register";
+    private String pathLogin = "login";
+    private String pathChangePassword = "changePassword";
+    private String pathLogout = "logout";
 
     @Override
     public Application configure() {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
-        return new ResourceConfig(AuthService.class).register(AuthFilter.class);
+        return new ResourceConfig(AuthResource.class).register(AuthFilter.class);
     }
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        User user1 = new User().setName(name1).setPassword(password1);
+        User user2 = new User().setName(name2).setPassword(password2);
+        User user3 = new User().setName(name3).setPassword(password3);
 
-        User user1 = new User(name1, password1);
-        AuthService.users.put(user1.getName(), user1);
+        Database.setCfgResourceName("test.hibernate.cfg.xml");
+        Database.setUp();
 
-        User user2 = new User(name2, password2);
-        Token token2 = new Token(user2);
-        AuthService.users.put(user2.getName(), user2);
-        AuthService.tokens.put(token2.getToken(), token2);
-        this.token2 = AuthService.tokens.getToken(user2).toString();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
 
-        User user3 = new User(name3, password3);
-        Token token3 = new Token(user3);
-        AuthService.users.put(user3.getName(), user3);
-        AuthService.tokens.put(token3.getToken(), token3);
-        this.token3 = AuthService.tokens.getToken(user3).toString();
+            UserDao.getInstance().insert(session, user1);
+            UserDao.getInstance().insert(session, user2);
+            UserDao.getInstance().insert(session, user3);
+            session.flush();
+
+            Token token2 = new Token().setUser(user2);
+            Token token3 = new Token().setUser(user3);
+            TokenDao.getInstance().insert(session, token2);
+            TokenDao.getInstance().insert(session, token3);
+
+            this.token2 = token2.getToken();
+            this.token3 = token3.getToken();
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            TokenDao.getInstance().deleteAll(session);
+            UserDao.getInstance().deleteAll(session);
+            txn.commit();
+        } catch (RuntimeException e) {
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+        super.tearDown();
     }
 
     @Test

@@ -2,7 +2,13 @@ package ru.atom.http.server.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -22,9 +28,9 @@ public class User {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column
+    @Column(name = "create_at")
     @CreationTimestamp
-    private Date create_at;
+    private Date createAt;
 
 
     private String generatePassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
@@ -55,7 +61,7 @@ public class User {
             this.password = generatePassword(newPassword);
             return true;
         }
-        return false; //сложно
+        return false;
     }
 
     public boolean validPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {

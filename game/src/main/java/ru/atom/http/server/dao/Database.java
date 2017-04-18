@@ -9,6 +9,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.validation.constraints.Null;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 
 public class Database {
     private static final Logger log = LogManager.getLogger(Database.class);
+    private static String cfgName = null;
     /**
      * SessionFactory abstracts
      */
@@ -33,13 +35,20 @@ public class Database {
     private Database() {
     }
 
+    public static void setCfgResourceName(String name) {
+        cfgName = name;
+    }
+
     /**
      * This is preferred way to initialize SessionFactory
      */
     public static void setUp() throws Exception {
+        if (cfgName == null) {
+            cfgName = StandardServiceRegistryBuilder.DEFAULT_CFG_RESOURCE_NAME;
+        }
         // A SessionFactory is set up once for an application!
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure() // configures settings from hibernate.cfg.xml
+                .configure(cfgName) // configures settings from hibernate.cfg.xml
                 .build();
         try {
             sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();

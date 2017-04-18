@@ -3,7 +3,16 @@ package ru.atom.http.server.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,9 +27,9 @@ public class Token {
     @OneToOne(cascade = CascadeType.PERSIST)
     private User user;
 
-    @Column
+    @Column(name = "create_at")
     @CreationTimestamp
-    private Date create_at;
+    private Date createAt;
 
     @Column(name = "value", nullable = false)
     private String token;
@@ -50,7 +59,7 @@ public class Token {
 
     @Override
     public String toString() {
-            return getToken();
+        return getToken();
     }
 
 
