@@ -32,9 +32,11 @@ public class HttpClient {
 
     public static Response register(String name, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        String url = PROTOCOL + HOST + AUTH_PORT + "/auth/register?user=" + name;
+        if (password != null) url = url + "&password=" + password;
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
-                .url(PROTOCOL + HOST + AUTH_PORT + "/auth/register?user=" + name + "&password=" + password)
+                .url(url)
                 .build();
 
         return client.newCall(request).execute();

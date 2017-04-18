@@ -36,6 +36,12 @@ public class AuthServerTest {
         Response registerUserWithInvalidName = HttpClient.register("invalid \"user\"", "password1");
         assertEquals(400, registerUserWithInvalidName.code());
 
+        Response registerUserWithoutPassword = HttpClient.register("TestInvalidUser", null);
+        assertEquals(400, registerUserWithoutPassword.code());
+
+        Response registerUserWithShortPassword = HttpClient.register("TestInvalidUser", "a");
+        assertEquals(400, registerUserWithShortPassword.code());
+
         Response loginedUser = HttpClient.login("TestUser", "tupass");
         final String userToken = loginedUser.body().string();
         assertEquals(200, loginedUser.code());

@@ -26,10 +26,6 @@ public class Database {
         return sessionFactory.openSession();
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
     private Database() {
     }
 
@@ -51,58 +47,4 @@ public class Database {
         }
     }
 
-    /**
-     * HINT: You can use this method to execute function within transaction
-     */
-    public static void execTransactionalFunction(Function<Session, ?> f) {
-        Transaction txn = null;
-        try (Session session = Database.session()) {
-            txn = session.beginTransaction();
-            f.apply(session);
-            txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
-            if (txn != null && txn.isActive()) {
-                txn.rollback();
-            }
-        }
-    }
-
-
-    /**
-     * HINT: You can use this method to execute consumer within transaction
-     */
-    public static void execTransactionalConsumer(Consumer<Session> c) {
-        Transaction txn = null;
-        try (Session session = Database.session()) {
-            txn = session.beginTransaction();
-            c.accept(session);
-            txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
-            if (txn != null && txn.isActive()) {
-                txn.rollback();
-            }
-        }
-    }
-
-    /**
-     * HINT: You can use this method to make select within transaction
-     */
-    static <T> List<T> selectTransactional(Function<Session, List<T>> selectAction) {
-        Transaction txn = null;
-        List<T> ts = Collections.emptyList();
-        try (Session session = Database.session()) {
-            txn = session.beginTransaction();
-            ts = selectAction.apply(session);
-            txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
-            if (txn != null && txn.isActive()) {
-                txn.rollback();
-            }
-        }
-
-        return ts;
-    }
 }

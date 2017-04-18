@@ -37,7 +37,7 @@ public class AuthResource {
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Password is not specified!\n").build();
             }
-            if (password == null || password.length() < 4) {
+            if (password.length() < 4) {
                 txn.commit();
                 return Response.status(Response.Status.BAD_REQUEST)
                         .entity("Password is too short. Minimal allowed length of password: 4.\n").build();
