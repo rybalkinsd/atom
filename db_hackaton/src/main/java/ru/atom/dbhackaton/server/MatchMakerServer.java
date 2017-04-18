@@ -7,17 +7,17 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import ru.atom.dbhackaton.server.Dao.Database;
+import ru.atom.dbhackaton.server.dao.Database;
 
 /**
  * Created by pavel on 17.04.17.
  */
-public class MMServer {
+public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
         Database.setUp();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
-                createMMContext(),
+        contexts.setHandlers(new Handler[]{
+                createMatchMakerContext(),
                 createResourceContext()
         });
 
@@ -31,7 +31,7 @@ public class MMServer {
         matchMaker.start();
     }
 
-    private static ServletContextHandler createMMContext() {
+    private static ServletContextHandler createMatchMakerContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/mm/*");
         ServletHolder jerseyServlet = context.addServlet(

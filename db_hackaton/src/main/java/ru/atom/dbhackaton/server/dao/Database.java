@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.Dao;
+package ru.atom.dbhackaton.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

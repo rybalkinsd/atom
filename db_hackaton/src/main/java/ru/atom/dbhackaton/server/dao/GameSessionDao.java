@@ -1,9 +1,9 @@
-package ru.atom.dbhackaton.server.Dao;
+package ru.atom.dbhackaton.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import ru.atom.dbhackaton.server.model.GameSession;
+import ru.atom.dbhackaton.server.model.GameResults;
 
 
 /**
@@ -13,13 +13,15 @@ public class GameSessionDao {
     private static final Logger log = LogManager.getLogger(GameSessionDao.class);
 
     private static final GameSessionDao instance = new GameSessionDao();
-    private GameSessionDao() { }
+
+    private GameSessionDao() {
+    }
 
     public static GameSessionDao getInstance() {
         return instance;
     }
 
-    public void saveSession(Session session, GameSession gameSession) {
-        session.persist(gameSession);
+    public void saveSession(Session session, GameResults results) {
+        session.persist(results);
     }
 }

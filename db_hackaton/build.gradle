@@ -9,6 +9,7 @@ dependencies {
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate
+    compile group: 'org.json', name: 'json', version: '20160810'
 }
 
 jar {
