@@ -43,6 +43,10 @@ public class User {
         return name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
