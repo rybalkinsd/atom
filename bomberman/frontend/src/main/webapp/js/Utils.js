@@ -18,6 +18,13 @@ Utils.convertToEntityPosition = function(pixels) {
     return position;
 };
 
+Utils.getEntityPosition = function (pixels) {
+    var position = {};
+    position.x = pixels.x;
+    position.y = -pixels.y + 12 * 32;
+    return position;
+}
+
 /**
  * Convert entity on grid position to bitmap pixels position.
  */
