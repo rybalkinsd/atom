@@ -23,6 +23,12 @@ Refresh gradle project
 
 #HSLIDE
 ## Agenda
+1. **[Game architecture]**
+1. WebSocket
+1. Practice
+
+#HSLIDE
+## Agenda
 1. Game architecture
 1. **[WebSocket]**
 1. Practice
@@ -35,39 +41,59 @@ Refresh gradle project
 - over single TCP connection
 - protocol (**ws://** **wss://**)
 
-Standartized in 2011  
-[https://tools.ietf.org/html/rfc6455](https://tools.ietf.org/html/rfc6455)
+Standartized in 2011 [https://tools.ietf.org/html/rfc6455](https://tools.ietf.org/html/rfc6455)  
 Can be used for any extensive client-server communication  
 Supported by most modern browsers
 
 #HSLIDE
 ## WebSocket
 ### Client-server
-client is session initializer
+client is the one who initializes session
 
 ### Full-duplex
 exchange data in both directions
 
 #HSLIDE
-## WebSocket
+## OSI
+<img src="lecture08/presentation/assets/img/osi2.png" alt="exception" style="width: 600px;"/>  
+
+#HSLIDE
+## WebSocket is application layer
 <img src="lecture08/presentation/assets/img/osi.png" alt="exception" style="width: 600px;"/>  
 
 #HSLIDE
 ## WebSocket
 ### Application layer
-handshake like HTTP
+WebSocket works over TCP/IP (typically).  
+WebSocket is initialized via **HTTP UPGRADE** to websocket
 
 ### Over single TCP connection
-but then no handshakes or headers required. **Only raw data**
+Single TCP connection is used for communication.
+Then no handshakes or headers required. **Only raw data**
 
 #HSLIDE
 ## WebSocket
 <img src="lecture08/presentation/assets/img/websocket.png" alt="exception" style="width: 600px;"/>  
 
 #HSLIDE
-## tcpdump
-[http://www.tcpdump.org/](http://www.tcpdump.org/)
-sniff websocket traffic
+## WebSocket library
+There are a number of **websocket** implementations. We will use jersey **websocket implementation**  
+> **@see** build.gradle
+
+#HSLIDE
+## Websocket library interface
+All communication happen via **Session** interface
+
+#HSLIDE
+## Notes
+- **websocket** allow string data as well as binary data interchange
+- **websocket** declares max message length (configurable)
+- **websocket** session auto-closes when inactive (configurable)
+
+#HSLIDE
+## sniff websocket traffic with tcpdump
+[http://www.tcpdump.org/](http://www.tcpdump.org/)  
+tcpdump - standard unix tool to fo traffic analysis. It can inspect **websocket** too
 ```bash
 > tcpdump -Aq -s0 -i lo0 'tcp port 8090'
 ```
