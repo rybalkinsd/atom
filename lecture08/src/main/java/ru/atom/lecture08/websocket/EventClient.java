@@ -2,6 +2,7 @@ package ru.atom.lecture08.websocket;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.eclipse.jetty.websocket.client.masks.ZeroMasker;
 
 import java.net.URI;
 import java.util.concurrent.Future;
@@ -11,6 +12,7 @@ public class EventClient {
     URI uri = URI.create("ws://localhost:8090/events/");
 
     WebSocketClient client = new WebSocketClient();
+    client.setMasker(new ZeroMasker());
     try {
       try {
         client.start();
