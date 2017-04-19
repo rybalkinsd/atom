@@ -51,7 +51,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = String.valueOf(password.hashCode());
     }
 
@@ -59,11 +59,13 @@ public class User {
         return token;
     }
 
-    public void setToken(Long token){
+    public void setToken(Long token) {
         this.token = token;
     }
 
-    public void setNewToken() {this.token = next.getAndAdd((new Date().getTime()));}
+    public void setNewToken() {
+        this.token = next.getAndAdd((new Date().getTime()));
+    }
 
     @Override
     public boolean equals(Object o) {

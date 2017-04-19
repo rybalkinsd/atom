@@ -71,7 +71,7 @@ public class Services {
             //Проверяем, есть ли такой пользователь в базе данных
             User logoutUser = UserDao.getInstance().getByToken(session, Long.parseLong(token));
             if (logoutUser == null) {
-                // Если нет, то выдаем ошибку. Имя ошибки берется из файла resources/strong.properties
+                // Если нет, то выдаем ошибку. Имя ошибки берется из файла resources/string.properties
                 throw new RegisterExeption(getStrBundle().getString("logout.error"));
             }
             // Set token to null

@@ -1,6 +1,10 @@
 package ru.atom.dbhackaton.server;
 
-import javax.ws.rs.*;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,7 +39,11 @@ public class AuthResources {
                 services.registerUser(name, password);
             } catch (RegisterExeption registerExeption) {
                 getLog().error(registerExeption.getMessage());
-                return Response.status(Status.BAD_REQUEST).entity(getStrBundle().getString("already.registered")).build();
+                return Response
+                        .status(Status.BAD_REQUEST)
+                        .entity(getStrBundle()
+                        .getString("already.registered"))
+                        .build();
             }
         }
         return Response.ok(getStrBundle().getString("registered")).build();
@@ -52,11 +60,13 @@ public class AuthResources {
             return Response.status(Status.BAD_REQUEST).entity(getStrBundle().getString("name.too.short")).build();
         } else if (name.length() > 20) {
             return Response.status(Status.BAD_REQUEST).entity(getStrBundle().getString("name.too.long")).build();
-        } else try {
-            return Response.ok(services.loginUser(name, password)).build();
-        } catch (RegisterExeption registerExeption) {
-            getLog().error(registerExeption.getMessage());
-            return Response.status(Status.BAD_REQUEST).entity(registerExeption.getMessage()).build();
+        } else {
+            try {
+                return Response.ok(services.loginUser(name, password)).build();
+            } catch (RegisterExeption registerExeption) {
+                getLog().error(registerExeption.getMessage());
+                return Response.status(Status.BAD_REQUEST).entity(registerExeption.getMessage()).build();
+            }
         }
     }
 
