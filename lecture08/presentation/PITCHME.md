@@ -28,6 +28,59 @@ Refresh gradle project
 1. Practice
 
 #HSLIDE
+### Game architecture
+1. Logic - java
+1. Render - js Canvas
+1. Input - js onkeydown, onmouse*
+1. Connection - webSocket
+1. Assets - png, mp3, ...
+
+
+#HSLIDE
+### Logic
+<img src="lecture08/presentation/assets/img/gameloop.png" alt="exception" style="width: 600px;"/>
+
+
+#HSLIDE
+### Logic
+1. Many threads - get user input
+1. One thread - Game mechanics
+1. Many threads broadcast replica
+
+
+#HSLIDE
+### Services
+<img src="lecture08/presentation/assets/img/services.png" alt="exception" style="width: 600px;"/>
+
+
+#HSLIDE
+### JS components
+1. bootstrap - common purpose [link](http://getbootstrap.com/)
+1. PreloadJS - assets upload [link](http://www.createjs.com/preloadjs)
+1. EaselJS - canvas operating [link](http://www.createjs.com/easeljs)
+1. SoundJS - sound operation [link](http://www.createjs.com/soundjs)
+
+
+#HSLIDE
+### Canvas
+<img src="lecture08/presentation/assets/img/canvas.png" alt="exception" style="width: 600px;"/> 
+
+ 
+#HSLIDE
+### Front instances
+- Player
+- Bomb
+- Fire
+- Tile
+
+#HSLIDE
+### Front infrastructure
+- core and Entity - an approach to be OOP
+- GameEngine - basic mechanics and render
+- Input engine - input handling 
+
+
+#HSLIDE
 ## Agenda
 1. Game architecture
 1. **[WebSocket]**
