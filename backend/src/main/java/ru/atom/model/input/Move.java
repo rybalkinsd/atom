@@ -41,6 +41,6 @@ public class Move implements InputAction {
 
     @Override
     public void act(Pawn pawn) {
-        pawn.setVelocity(direction.getVector());
+        pawn.setVelocity(direction);
     }
 }

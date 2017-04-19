@@ -9,5 +9,5 @@ public enum Topic {
     REPLICA,
 
     START,
-    END_MATCH, FINISH
+    END_MATCH, POSSESS, FINISH
 }

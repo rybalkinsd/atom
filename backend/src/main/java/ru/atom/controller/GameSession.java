@@ -19,7 +19,8 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class GameSession implements Runnable {
     private final static Logger log = LogManager.getLogger(GameSession.class);
-    private final static long SLEEP_TIME = 20;
+    private static final int FPS = 60;
+    private final static long FRAME_TIME = 1000 / FPS;
     private final Broker broker;
     private final Level level;
     private final List<Player> players;
@@ -38,19 +39,21 @@ public class GameSession implements Runnable {
         world = new World(level);
 
         for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
             Pawn pawn = Pawn.create(level.getSpawnPlaces().get(i));
-            players.get(i).setPawn(pawn);
+            player.setPawn(pawn);
+            broker.send(player, Topic.POSSESS, pawn.getId());
         }
 
         while (!Thread.currentThread().isInterrupted()) {
             long started = System.currentTimeMillis();
-            act(SLEEP_TIME);
+            act(FRAME_TIME);
             long elapsed = System.currentTimeMillis() - started;
-            if (elapsed < SLEEP_TIME) {
+            if (elapsed < FRAME_TIME) {
                 log.info("All tick finish at {} ms", elapsed);
-                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(SLEEP_TIME - elapsed));
+                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
             } else {
-                log.warn("tick lag {} ms", elapsed - SLEEP_TIME);
+                log.warn("tick lag {} ms", elapsed - FRAME_TIME);
             }
             log.info("{}: tick ", tickNumber);
             tickNumber++;

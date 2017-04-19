@@ -3,8 +3,8 @@ GameEngine = Class.extend({
     tilesX: 17,
     tilesY: 13,
     size: {},
-    fps: 50,
-    playersCount: 2, /* 1 - 2 */
+    fps: 60,
+    playersCount: 2,
     bonusesPercent: 16,
 
     stage: null,

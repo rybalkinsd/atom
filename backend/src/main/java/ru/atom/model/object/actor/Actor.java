@@ -14,7 +14,7 @@ public class Actor extends GameObject implements Tickable {
 
     @Override
     public void tick(long time) {
-        V before = position;
+//        V before = position;
         move(time);
 //        log.info("Moved: {} -> {}.", before, position);
     }
@@ -24,7 +24,7 @@ public class Actor extends GameObject implements Tickable {
         velocity = V.ZERO;
     }
 
-    public Actor setVelocity(V velocity) {
+    protected Actor setVelocity(V velocity) {
         this.velocity = velocity;
         return this;
     }

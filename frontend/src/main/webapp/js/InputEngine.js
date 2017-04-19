@@ -15,6 +15,8 @@ InputEngine = Class.extend({
      */
     actions: {},
 
+    possessed: null,
+
     subscribers: [],
 
     init: function() { },

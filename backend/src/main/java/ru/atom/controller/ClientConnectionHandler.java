@@ -32,7 +32,11 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketText(String message) {
         log.info("Received TEXT message: " + message);
 
-        broker.receive(getSession(), message);
+        try {
+            broker.receive(getSession(), message);
+        } catch (Exception e) {
+            log.error("Recieve message failed with", e);
+        }
     }
 
     @Override

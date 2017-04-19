@@ -35,6 +35,10 @@ public class V {
         return V.of(x * m, y * m);
     }
 
+    public V times(double m) {
+        return V.of(x * m, y * m);
+    }
+
     public V times(double mx, double my) {
         return V.of(x * mx, y * my);
     }

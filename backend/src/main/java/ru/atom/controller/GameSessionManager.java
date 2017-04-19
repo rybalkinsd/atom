@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class GameSessionManager implements Runnable {
     private static final Logger log = LogManager.getLogger(GameSessionManager.class);
     private static final GameSessionManager instance = new GameSessionManager();
-    public static final int PLAYERS_IN_GAME = 1;
+    public static final int PLAYERS_IN_GAME = 2;
 
     private final BlockingQueue<Player> queue;
     private final Executor executor;
@@ -32,7 +32,7 @@ public class GameSessionManager implements Runnable {
         this.connectionPool = ConnectionPool.getInstance();
         queue = new LinkedBlockingQueue<>();
         this.gameSessions = new ConcurrentHashMap<>();
-        this.executor = Executors.newFixedThreadPool(1,r ->
+        this.executor = Executors.newFixedThreadPool(3, r ->
             new Thread(r, "Game session")
         );
     }

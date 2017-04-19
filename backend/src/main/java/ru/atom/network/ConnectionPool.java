@@ -6,6 +6,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionPool {
@@ -43,8 +44,16 @@ public class ConnectionPool {
         });
     }
 
-    public Player get(Session session) {
+    public Player getPlayer(Session session) {
         return pool.get(session);
+    }
+
+    public Session getSession(Player player) {
+        return pool.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(player))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseGet(null);
     }
 
     public void add(Session session, Player player) {

@@ -4,8 +4,12 @@ ServerProxy = Class.extend({
 
     socket: null,
 
+    handler: {},
+
     init: function() {
-        this.initSocket();
+        this.handler['REPLICA'] = gMessages.handleReplica;
+        this.handler['POSSESS'] = gMessages.handlePossess;
+
         var self = this;
         gInputEngine.subscribe('up', function() {
             self.socket.send(gMessages.move('up'))
@@ -22,6 +26,8 @@ ServerProxy = Class.extend({
         gInputEngine.subscribe('bomb', function() {
             self.socket.send(gMessages.plantBomb())
         });
+
+        this.initSocket();
     },
 
     initSocket: function() {
@@ -42,48 +48,16 @@ ServerProxy = Class.extend({
         };
 
         this.socket.onmessage = function(event) {
-            self.onReplicaReceived(event.data);
+            var msg = JSON.parse(event.data);
+            if (self.handler[msg.topic] === undefined)
+                return;
+
+            self.handler[msg.topic](msg);
         };
 
         this.socket.onerror = function(error) {
             console.log("Error " + error.message);
         };
-    },
-
-    onReplicaReceived: function (msg) {
-        var parsedMsg = JSON.parse(msg);
-        var gameObjects = JSON.parse(parsedMsg.data).objects;
-
-
-        for (var i = 0; i < gameObjects.length; i++) {
-            var obj = gameObjects[i];
-            if (!obj.hasOwnProperty('type')) {
-                // console.log('хуй');
-            }
-            if (obj.type === 'Pawn') {
-                var position = Utils.getEntityPosition(obj.position);
-
-                var player = gGameEngine.players.find(function (el) {
-                    return el.id === obj.id;
-                });
-
-                if (player) {
-                    player.bmp.x = position.x;
-                    player.bmp.y = position.y;
-                } else {
-                    player = new Player(position);
-                    player.id = obj.id;
-                    gGameEngine.players.push(player);
-                }
-
-            } else if (obj.type === 'Bomb') {
-                var position = Utils.getEntityPosition(obj.position);
-
-                var bomb = new Bomb(2, position, 2);
-                gGameEngine.bombs.push(bomb);
-                gGameEngine.stage.addChild(bomb.bmp);
-            }
-        }
     }
 
 });

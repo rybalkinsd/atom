@@ -3,6 +3,7 @@ package ru.atom.model.object.actor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.NotNull;
 import ru.atom.model.collision.CollisionProfile;
+import ru.atom.model.input.Direction;
 import ru.atom.model.input.InputAction;
 import ru.atom.util.V;
 
@@ -17,6 +18,8 @@ public class Pawn extends Actor {
     private boolean wantPlantBomb = false;
     @JsonIgnore
     private Collection<InputAction> inbox = new ArrayList<>();
+
+    private final double velocity = 0.05;
 
     //skills
     private int maxBombs = 1;
@@ -47,8 +50,8 @@ public class Pawn extends Actor {
         if (!wantPlantBomb) {
             return;
         }
+
         Bomb.create(this.getPosition());
-        // action
         wantPlantBomb = false;
     }
 
@@ -58,6 +61,12 @@ public class Pawn extends Actor {
 
     public void setWantPlantBomb(boolean wantPlantBomb) {
         this.wantPlantBomb = wantPlantBomb;
+    }
+
+    public void setVelocity(Direction direction) {
+        setVelocity(direction.getVector()
+                .times(velocity)
+                .times(speedModifier));
     }
 
     @NotNull

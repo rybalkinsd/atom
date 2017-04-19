@@ -63,6 +63,7 @@ Bomb = Entity.extend({
         this.bmp.y = position.y;
 
         this.fires = [];
+        gGameEngine.stage.addChild(this.bmp);
     },
 
     remove: function() {

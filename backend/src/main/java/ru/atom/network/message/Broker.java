@@ -9,6 +9,7 @@ import ru.atom.model.input.InputAction;
 import ru.atom.model.input.Move;
 import ru.atom.model.input.PlantBomb;
 import ru.atom.network.ConnectionPool;
+import ru.atom.network.Player;
 import ru.atom.util.JsonHelper;
 
 /**
@@ -17,7 +18,7 @@ import ru.atom.util.JsonHelper;
 public class Broker {
     private final static Logger log = LogManager.getLogger(GameSession.class);
     private static final Broker instance = new Broker();
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public static Broker getInstance() {
         return instance;
@@ -35,17 +36,18 @@ public class Broker {
         switch (message.getTopic()) {
             case MOVE:
                 InputAction move = JsonHelper.fromJson(message.getData(), Move.class);
-                connectionPool.get(session).consumeInput(move);
+                connectionPool.getPlayer(session).consumeInput(move);
                 break;
             case PLANT_BOMB:
                 InputAction plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
-                connectionPool.get(session).consumeInput(plant);
+                connectionPool.getPlayer(session).consumeInput(plant);
                 break;
         }
     }
 
-    public void send(@NotNull Session session, @NotNull Topic topic, @NotNull Object object) {
+    public void send(@NotNull Player player, @NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
+        Session session = connectionPool.getSession(player);
         connectionPool.send(session, message);
     }
 

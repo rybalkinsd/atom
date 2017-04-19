@@ -1,20 +1,5 @@
 Player = Entity.extend({
-    id: 0,
-
-    /**
-     * Moving speed
-     */
-    velocity: 2,
-
-    /**
-     * Max number of bombs user can spawn
-     */
-    bombsMax: 1,
-
-    /**
-     * How far the fire reaches when bomb explodes
-     */
-    bombStrength: 1,
+    id: null,
 
     /**
      * Bitmap dimensions
@@ -50,15 +35,8 @@ Player = Entity.extend({
 
 
 
-    init: function(position, controls, id) {
-        if (id) {
-            this.id = id;
-        }
-
-        if (controls) {
-            this.controls = controls;
-        }
-
+    init: function(id, position) {
+        this.id = id;
 
         var img = gGameEngine.playerGirlImg;
 
@@ -89,6 +67,11 @@ Player = Entity.extend({
         if (!this.alive) {
             return;
         }
+
+        if (gInputEngine.possessed !== this.id) {
+            return;
+        }
+
         if (gGameEngine.menu.visible) {
             return;
         }
@@ -104,7 +87,6 @@ Player = Entity.extend({
         } else {
             this.animate('idle');
         }
-
     },
 
     /**
