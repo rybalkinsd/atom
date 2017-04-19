@@ -33,12 +33,16 @@ public class Token {
     }
     
     public Token(String newToken) {
-        token = Long.parseLong(newToken.substring(7));
+        token = Long.parseLong(newToken);
     }
 
     public Token setUsername(String username){
         this.username = username;
         return this;
+    }
+
+    public String getUsername(){
+        return username;
     }
 
 

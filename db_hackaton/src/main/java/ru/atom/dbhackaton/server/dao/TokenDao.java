@@ -34,10 +34,10 @@ public class TokenDao {
         session.delete(token);
     }
 
-    public Token getByToken(Session session, String stringToken) {
+    public Token getByToken(Session session, Long token) {
         return (Token) session
-                .createQuery("from Token where token = :stringToken")
-                .setParameter("stringToken", stringToken)
+                .createQuery("from Token where token = :token")
+                .setParameter("token", token)
                 .uniqueResult();
     }
 

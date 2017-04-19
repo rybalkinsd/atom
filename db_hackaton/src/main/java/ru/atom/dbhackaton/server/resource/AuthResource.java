@@ -98,7 +98,7 @@ public class AuthResource {
     public Response login(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         /*
-    	log.info("Login user " + name);
+        log.info("Login user " + name);
 
         User user = users.get(name);
         if (user == null) {
@@ -127,22 +127,24 @@ public class AuthResource {
             User user = UserDao.getInstance().getByName(session, name);
             if (user == null) {
                 txn.rollback();
+                log.info("no such user:" + name);
                 return Response.status(Response.Status.FORBIDDEN).entity("No such user.").build();
             }
             if (!password.equals(user.getPass())) {
                 txn.rollback();
+                log.info(name + "enter wrong password");
                 return Response.status(Response.Status.FORBIDDEN).entity("Wrong password.").build();
             }
-            Token token = new Token().setUsername(name);
             if (TokenDao.getInstance().getByUsername(session, name) != null) {
                 txn.rollback();
-                log.info("Already logined");
-                return Response.ok().entity(token.getToken()).build();
+                log.info(name + " already logged in");
+                return Response.ok().entity(TokenDao.getInstance().getByUsername(session, name).toString()).build();
             }
+            Token token = new Token().setUsername(name);
             TokenDao.getInstance().insert(session, token);
-            log.info(name + "logined");
+            log.info(name + "logged in");
             txn.commit();
-            return Response.ok().entity(token.getToken()).build();
+            return Response.ok().entity(token.toString()).build();
 
         } catch (Exception e) {
             log.error("Transaction failed.", e);
@@ -158,9 +160,9 @@ public class AuthResource {
     @Authorized
     @POST
     @Path("/logout")
-    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String text) {
+    public Response logout(@HeaderParam(HttpHeaders.AUTHORIZATION) String strToken) {
         /*
-    	log.info("Logout this user ");
+        log.info("Logout this user ");
         Token logoutToken = new Token(text);
         if (allTokens.validateToken(logoutToken)) {
             allTokens.remove(logoutToken);
@@ -168,8 +170,31 @@ public class AuthResource {
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
         */
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            strToken = strToken.substring("Bearer".length()).trim();
+            Token logoutToken = new Token(strToken);
 
-        return Response.ok().build();
+            Token token = TokenDao.getInstance().getByToken(session, logoutToken.getToken());
+            log.info("token:" + token);
+            if (token == null) {
+                txn.rollback();
+                log.info(" not logged in");
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not logged in").build();
+            }
+            TokenDao.getInstance().remove(session, token);
+            log.info(token.getUsername() + "logged out");
+            txn.commit();
+            return Response.ok().build();
+
+        } catch (Exception e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            return Response.status(Response.Status.BAD_REQUEST).entity("Exception").build();
+        }
     }
 
 
