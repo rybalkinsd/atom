@@ -69,31 +69,22 @@ public class AuthService {
     public void say(String login, String msg) throws AuthException {
         Transaction txn = null;
         try (Session session = Database.session()) {
-        	txn = session.beginTransaction();
-        	
+            txn = session.beginTransaction();
+
             //User newUser = new User().setLogin(login);
             User sayUser = UserDao.getInstance().getByName(session, login);
             if (sayUser == null) {
                 throw new AuthException("Must log in first");
             }
-            
+
             LocalDateTime ldt = LocalDateTime.now();
-            
+
             Date date = new Date(ldt.getYear(), ldt.getMonthValue(), ldt.getDayOfMonth());
 
-            /*
-            Message chatMsg = new Message()
-                    .setUser(sayUser)
-                    .setValue(msg)
-            		.setTime(date);
-            MessageDao.getInstance().insert(session, chatMsg);
-            */
-            //messages = MessageDao.getInstance().
-
             txn.commit();
-        	
+
         } catch (RuntimeException e) {
-        	log.error("Transaction failed.", e);
+            log.error("Transaction failed.", e);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }

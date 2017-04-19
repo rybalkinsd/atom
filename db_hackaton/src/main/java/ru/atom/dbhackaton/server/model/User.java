@@ -19,13 +19,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-	
+
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String name;
-    
+
     @Column(name = "password", unique = false, nullable = false, length = 30)
     private String password;
-    
+
     //private byte[] hashPassword;
 
     public User() {
@@ -40,9 +40,9 @@ public class User {
     public String getName() {
         return name;
     }
-    
+
     public String getPass() {
-    	return password;
+        return password;
     }
 
     /*

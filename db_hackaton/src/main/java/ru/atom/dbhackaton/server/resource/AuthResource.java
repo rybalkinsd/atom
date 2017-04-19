@@ -52,26 +52,7 @@ public class AuthResource {
     @Consumes("application/x-www-form-urlencoded")
     public Response register(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        /*
-        if (name == null || password == null || name.isEmpty() || password.isEmpty()) {
-            log.info("Registration is not possible. There are blank fields.");
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Registration is not possible. There are blank fields.").build();
-        }
-        if (name.length() > 15) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(")
-                    .build();
-        }
-        log.info("Register user " + name);
-        if (users.get(name) == null) {
-            log.info("New user " + name);
-            User user = new User(name, password);
-            users.put(name, user);
-            return Response.ok("__,,,^._.^,,,__ CONGRATULATIONS!").build();
-        }
-        log.info("User exist " + name);
-        return Response.status(Response.Status.FORBIDDEN).entity("User already exist ").build();
-		*/
+
         Transaction txn = null;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
@@ -97,30 +78,7 @@ public class AuthResource {
 
     public Response login(@FormParam("user") String name, @FormParam("password") String password)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        /*
-        log.info("Login user " + name);
 
-        User user = users.get(name);
-        if (user == null) {
-            log.info("User " + name + " not found");
-            return Response.status(Response.Status.BAD_REQUEST).entity("User not found").build();
-        }
-
-        if (!Arrays.equals(user.getHash(), HashCalculator.calcHash(password.getBytes()))) {
-            log.info("Invalid password for user " + name);
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid password for user").build();
-        }
-
-        if (!allTokens.validateToken(allTokens.getToken(name))) {
-            Token newToken = new Token();
-            while (TokenHolder.validateToken(newToken)) {
-                newToken = new Token();
-            }
-            allTokens.put(name, newToken);
-            return Response.ok(newToken.toString()).build();
-        }
-		*/
-        //return Response.ok(allTokens.getToken(name).toString()).build();
         Transaction txn = null;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
@@ -184,7 +142,7 @@ public class AuthResource {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Not logged in").build();
             }
             TokenDao.getInstance().remove(session, token);
-            log.info(token.getUsername() + "logged out");
+            log.info(token.getUsername() + " logged out");
             txn.commit();
             return Response.ok().build();
 

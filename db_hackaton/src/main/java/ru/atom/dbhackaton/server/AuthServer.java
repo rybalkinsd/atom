@@ -13,10 +13,10 @@ import ru.atom.dbhackaton.server.dao.Database;
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
-    	Database.setUp();
-    	
+        Database.setUp();
+
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
+        contexts.setHandlers(new Handler[]{
                 createAuthContext(),
                 createResourceContext()
         });

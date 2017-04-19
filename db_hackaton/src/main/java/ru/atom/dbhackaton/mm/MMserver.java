@@ -10,29 +10,29 @@ import ru.atom.dbhackaton.server.CrossBrowserFilter;
 import ru.atom.dbhackaton.server.dao.Database;
 
 public class MMserver {
-	public static void main(String[] args) throws Exception {
-		Database.setUp();
-		
-		ContextHandlerCollection contexts = new ContextHandlerCollection();
-		contexts.setHandlers(new Handler[] { createChatContext() });
+    public static void main(String[] args) throws Exception {
+        Database.setUp();
 
-		Server jettyServer = new Server(8081);
-		jettyServer.setHandler(contexts);
+        ContextHandlerCollection contexts = new ContextHandlerCollection();
+        contexts.setHandlers(new Handler[]{createChatContext()});
 
-		jettyServer.start();
-	}
+        Server jettyServer = new Server(8081);
+        jettyServer.setHandler(contexts);
 
-	private static ServletContextHandler createChatContext() {
-		ServletContextHandler context = new ServletContextHandler();
-		context.setContextPath("/mm/*");
-		ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
-		jerseyServlet.setInitOrder(0);
+        jettyServer.start();
+    }
 
-		jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "ru.atom.dbhackaton.mm");
+    private static ServletContextHandler createChatContext() {
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/mm/*");
+        ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(0);
 
-		jerseyServlet.setInitParameter("com.sun.jersey.spi.container.ContainerResponseFilters",
-				CrossBrowserFilter.class.getCanonicalName());
+        jerseyServlet.setInitParameter("jersey.config.server.provider.packages", "ru.atom.dbhackaton.mm");
 
-		return context;
-	}
+        jerseyServlet.setInitParameter("com.sun.jersey.spi.container.ContainerResponseFilters",
+                CrossBrowserFilter.class.getCanonicalName());
+
+        return context;
+    }
 }

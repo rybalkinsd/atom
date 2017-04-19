@@ -18,7 +18,8 @@ public class UserDao {
         return instance;
     }
 
-    private UserDao(){}
+    private UserDao() {
+    }
 
     public List<User> getAll(Session session) {
         return session.createCriteria(User.class).list();
@@ -27,9 +28,9 @@ public class UserDao {
     public void insert(Session session, User user) {
         session.saveOrUpdate(user);
     }
-    
+
     public void remove(Session session, Token token) {
-    	
+
     }
 
     public User getByName(Session session, String name) {

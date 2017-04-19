@@ -20,10 +20,10 @@ public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    
+
     @Column(name = "token", unique = true, nullable = false, length = 20)
     private Long token;
-    
+
     @Column(name = "username", unique = true, nullable = false, length = 20)
     private String username;
 
@@ -31,17 +31,17 @@ public class Token {
         Random random = new Random();
         token = new Long(random.nextLong());
     }
-    
+
     public Token(String newToken) {
         token = Long.parseLong(newToken);
     }
 
-    public Token setUsername(String username){
+    public Token setUsername(String username) {
         this.username = username;
         return this;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
