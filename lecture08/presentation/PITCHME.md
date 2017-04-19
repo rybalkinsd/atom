@@ -88,8 +88,8 @@ Refresh gradle project
 
 #HSLIDE
 ## Client-server communication
-- Why HTTP is **bad** for client-server communication in real-time games?  
-- WHat alternatives do we have?  
+- Why is HTTP **bad** for client-server communication in real-time games?  
+- What alternatives do we have?  
 
 #HSLIDE
 ## WebSocket
