@@ -12,6 +12,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.dbhackaton.dao.Database;
 
+
 /**
  * Created by sergey on 3/15/17.
  */
@@ -26,19 +27,12 @@ public class MatchMakerServer {
 
     public static void startUp() throws Exception {
         Database.setUp();
+
+        jettyServer = new Server(8081);
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createMatchMakerContext(),
         });
-
-        jettyServer = new Server(8081);
-        jettyServer.setHandler(contexts);
-        try {
-            jettyServer.start();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
-        }
     }
 
     private static ServletContextHandler createMatchMakerContext() {
@@ -46,13 +40,6 @@ public class MatchMakerServer {
         context.setContextPath("/");
         ServletHolder jerseyServlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/mm/*");
-        jerseyServlet.setInitOrder(0);
-
-        jerseyServlet.setInitParameter(
-                "jersey.config.server.provider.packages",
-                "ru.atom.mm.server"
-        );
-
         return context;
     }
 
