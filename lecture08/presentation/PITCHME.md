@@ -108,11 +108,11 @@ exchange data in both directions
 
 #HSLIDE
 ## OSI
-<img src="lecture08/presentation/assets/img/osi2.png" alt="exception" style="width: 600px;"/>  
+<img src="lecture08/presentation/assets/img/osi2.png" alt="exception" style="width: 750px;"/>  
 
 #HSLIDE
 ## WebSocket is application layer
-<img src="lecture08/presentation/assets/img/osi.png" alt="exception" style="width: 600px;"/>  
+<img src="lecture08/presentation/assets/img/osi.png" alt="exception" style="width: 750px;"/>  
 
 #HSLIDE
 ## WebSocket
@@ -126,7 +126,7 @@ Then no handshakes or headers required. **Only raw data**
 
 #HSLIDE
 ## WebSocket
-<img src="lecture08/presentation/assets/img/websocket.png" alt="exception" style="width: 600px;"/>  
+<img src="lecture08/presentation/assets/img/websocket.png" alt="exception" style="width: 750px;"/>  
 
 #HSLIDE
 ## WebSocket library
