@@ -27,7 +27,7 @@ public class MatchMakerResourceTest {
         AuthClient.register(user, password);
         Response response = AuthClient.login(user, password);
         String token = response.body().string();
-        Response response1 = MatchMakerClient.join("name=\\{" + user + "}" + "token={" + token + "}");
+        Response response1 = MatchMakerClient.join("name={" + user + "}" + "token={" + token + "}");
         String bodyResponse = response1.body().string();
         System.out.println(bodyResponse);
 

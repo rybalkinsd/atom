@@ -22,6 +22,7 @@ public class MatchMakerClient {
         Request request = new Request.Builder()
                 .get()
                 .url(PROTOCOL + HOST + PORT + "/mm/join")
+                .put(RequestBody.create(mediaType, body))
                 .build();
 
         return client.newCall(request).execute();

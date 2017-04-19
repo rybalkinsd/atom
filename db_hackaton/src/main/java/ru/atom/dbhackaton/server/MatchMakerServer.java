@@ -27,7 +27,7 @@ public class MatchMakerServer {
 
         jettyServer = new Server(8081);
         jettyServer.setHandler(contexts);
-
+        jettyServer.start();
 
         matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("matchMaker");
