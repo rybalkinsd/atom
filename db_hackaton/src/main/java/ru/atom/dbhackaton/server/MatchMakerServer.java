@@ -13,7 +13,10 @@ import ru.atom.dbhackaton.server.dao.Database;
  * Created by pavel on 17.04.17.
  */
 public class MatchMakerServer {
-    public static void main(String[] args) throws Exception {
+
+    private static Server jettyServer;
+
+    public static void startServer() throws Exception {
         Database.setUp();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{
@@ -21,10 +24,9 @@ public class MatchMakerServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8081);
+        jettyServer = new Server(8081);
         jettyServer.setHandler(contexts);
 
-        jettyServer.start();
 
         Thread matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("matchMaker");
@@ -61,5 +63,13 @@ public class MatchMakerServer {
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
+    }
+
+    public static void stopServer() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        startServer();
     }
 }

@@ -18,7 +18,35 @@ public class AuthResourceTest {
         AuthServer.startServer();
     }
 
+    @Test
+    public void registerTest() throws IOException {
+        String user = "123";
+        String password = "123";
+        Response response = AuthClient.register(user, password);
+        String bodyResponse = response.body().string();
+        Assert.assertTrue(bodyResponse.equals("Already logined"));  // Success registration
+    }
 
+
+    @Test
+    public void loginTest() throws IOException {
+        String user = "1234";
+        String password = "1234";
+        AuthClient.register(user, password);
+        Response response1 = AuthClient.login(user, password);
+        Assert.assertTrue(response1.code() == 200);
+    }
+
+    @Test
+    public void logoutTest() throws IOException {
+        String user = "123";
+        String password = "123";
+        AuthClient.register(user, password);
+        Response response1 = AuthClient.login(user, password);
+        String token = response1.body().string();
+        Response response2 = AuthClient.logout(token);
+        Assert.assertTrue(response2.code() == 200);
+    }
 
     @After
     public void setDown() throws Exception {

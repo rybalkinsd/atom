@@ -53,7 +53,7 @@ public class MatchMakerResources {
     @POST
     @Path("/finish")
     @Consumes("application/x-www-form-urlencoded")
-    public Response finish(String jsonBody) {
+    public Response finish(String jsonBody) throws Exception {
         JSONObject json = new JSONObject(jsonBody);
         long gameId = json.getLong("id");
         JSONArray array = json.getJSONArray("result");
