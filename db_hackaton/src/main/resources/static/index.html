@@ -25,11 +25,11 @@
     }
 </script>
 
-<!--<script>
+<script>
     function newGame() {
         alert("Reguest Match Maker here")
     }
-</script>-->
+</script>
 
 
 <script>
@@ -63,36 +63,3 @@
 
 
 <!--ПОПЫТКА СДЕЛАТЬ NEW GAME-->
-<script>
-    function newGame() {
-        if (Cookies.get('user') === undefined
-            || Cookies.get('token') === undefined) {
-
-            window.location = "localhost:8081/mm/join";
-        }
-         window.location = "localhost:8081/mm/join";
-
-         <!--var settings = {
-            "method": "GET",
-            "crossDomain": true,
-            "url": "/mm/join",
-            headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token')
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            }
-            body: {
-
-            }
-        };-->
-
-       <!-- $.ajax(settings).done(function(response) {
-            Cookies.remove('user');
-            Cookies.remove('token');
-            window.location = "/";
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            window.location = "/";
-        });&ndash;&gt;-->
-    }
-</script>

@@ -76,7 +76,7 @@ public class TokenDao implements Dao<Token> {
             try {
                 stm.executeQuery(DELETE_TOKEN_WHERE + condition);
             } catch (SQLException exception) {
-                log.info("SQLException when delete: executeQuery(DELETE) is empty");
+                log.info("It Normalno SQLException when delete: executeQuery(DELETE) is empty");
             }
             return true;
         } catch (SQLException e) {

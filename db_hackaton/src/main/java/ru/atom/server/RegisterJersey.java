@@ -73,13 +73,16 @@ public class RegisterJersey {
     @Produces("text/plain")
     public Response login(@FormParam("user") String login,
                           @FormParam("password") String password) {
+        User user = new User().setLogin(login).setPassword(password);
 
-        log.info("user=" + login + ", password=" + password);
+
+
         if (!dbclass.checkByConditionUser("login = \'" + login + "\'")) {
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();
         }
-        if (!dbclass.checkByConditionUser("login = \'" + login + "\'", "password = \'" + password + "\'")) {
+        if (!dbclass.checkByConditionUser("login = \'" + login + "\'", "password = \'" +
+                user.getPassword() + "\'")) {
             log.info("wrong password");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong password").build();
         }
