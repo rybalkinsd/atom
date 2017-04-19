@@ -29,14 +29,14 @@ public class MatchMakerService {
     private static final Logger logger = LogManager.getLogger(MatchMakerService.class);
     private static ConcurrentHashMap<String, Connection> joins = new ConcurrentHashMap<>();
 
-    public long join(String name, String token) {
+    public long join(String token) {
         Connection connection;
-        if (!joins.containsKey(name)) {
-            connection = new Connection(token, name);
-            joins.put(name, connection);
+        if (!joins.containsKey(token)) {
+            connection = new Connection(token);
+            joins.put(token, connection);
             ThreadSafeQueue.getInstance().offer(connection);
         } else {
-            connection = joins.get(name);
+            connection = joins.get(token);
         }
         if (connection.idNull()) {
             return -1;

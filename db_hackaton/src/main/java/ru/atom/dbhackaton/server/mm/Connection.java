@@ -5,20 +5,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Connection {
     private final String token;
-    private final String name;
     private AtomicLong sessionId = new AtomicLong(-1);
 
-    public Connection(String token, String name) {
+    public Connection(String token) {
         this.token = token;
-        this.name = name;
     }
 
     public String getToken() {
         return token;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override
@@ -28,15 +22,13 @@ public class Connection {
 
         Connection that = (Connection) o;
 
-        if (!token.equals(that.token)) return false;
-        return name.equals(that.name);
+        return token.equals(that.token);
+
     }
 
     @Override
     public int hashCode() {
-        int result = token.hashCode();
-        result = 31 * result + name.hashCode();
-        return result;
+        return token.hashCode();
     }
 
     public void setSessionId(long sessionId) {
@@ -55,7 +47,6 @@ public class Connection {
     public String toString() {
         return "Connection{" +
                 "token='" + token + '\'' +
-                ", name='" + name + '\'' +
                 ", sessionId=" + sessionId +
                 '}';
     }

@@ -25,11 +25,11 @@ public class MatchMakerResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("/join")
     @Produces("text/plain")
-    public Response join(@QueryParam("name") String name, @QueryParam("token") String token) {
+    public Response join(@QueryParam("token") String token) {
         String url = "wtfis.ru:8090/gs/";
-        logger.info(name + " " + token);
+        logger.info(token);
 
-        long gameSessionId = matchMakerService.join(name, token);
+        long gameSessionId = matchMakerService.join(token);
         if (gameSessionId == -1) {
             return Response.status(Response.Status.OK).entity("Please, wait :)").build();
         }

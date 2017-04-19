@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MatchMakerTest {
     private static final Logger logger = LogManager.getLogger(MatchMakerTest.class);
@@ -30,21 +29,16 @@ public class MatchMakerTest {
 
     @Test
     public void join() throws IOException, InterruptedException {
-        ArrayList<String> users = new ArrayList<>();
-        users.add("12345");
-        users.add("123");
-        users.add("luba");
-        users.add("russiancold");
-        for (String user : users) {
-            Response response = MmClient.join(user, "123");
+        for (int j = 0; j < 4; j++) {
+            Response response = MmClient.join(String.valueOf(j));
             String body = response.body().string();
             Assert.assertTrue(200 == response.code());
             Assert.assertTrue("Please, wait :)".equals(body));
         }
         Thread.sleep(100);
         String url = null;
-        for (int i = 0; i < users.size(); i++) {
-            Response response = MmClient.join(users.get(i), "123");
+        for (int i = 0; i < 4; i++) {
+            Response response = MmClient.join(String.valueOf(i));
             Assert.assertTrue(200 == response.code());
             String body = response.body().string();
             if (url == null) {

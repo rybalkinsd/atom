@@ -19,11 +19,11 @@ public class MmClient {
     private static final String HOST = "localhost";
     private static final String PORT = ":8090";
 
-    public static Response join(String userName, String token) throws IOException {
+    public static Response join(String token) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .get()
-                .url(PROTOCOL + HOST + PORT + "/mm/join?name=" + userName + "&token=" + token)
+                .url(PROTOCOL + HOST + PORT + "/mm/join?token=" + token)
                 .build();
         logger.info(request.toString());
 
