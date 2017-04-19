@@ -33,7 +33,6 @@ public class MatchMakerResource {
             return Response.status(Response.Status.OK).entity("Please, wait :)").build();
         }
 
-
         return Response.status(Response.Status.OK).entity(url + gameSessionId).build();
     }
 

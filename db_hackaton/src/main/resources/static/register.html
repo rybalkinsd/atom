@@ -13,10 +13,10 @@
             <br>
             <div width="80%">
                 <input id="user" name="user" onblur="loginCheck()"
-                       value="" style="font-size:medium" type="text" placeholder="Enter Username" required>
+                       value="" style="font-size:medium" type="text" placeholder="Enter Username" required autofocus>
                 <br>
                 <div class="popup">
-                    <span class="popuptext" id="myPopup" display="hide">User is already signed up</span>
+                    <span class="popuptext" id="myPopup" display="hide"></span>
                 </div>
             </div>
             <br>
@@ -49,8 +49,9 @@
 
         $.ajax(settings).done(function(response) {
             window.location = "/";
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        }).fail(function (jqXHR, textStatus, errorOption) {
+            document.getElementById("myPopup").innerText = errorOption;
+            document.getElementById("myPopup").className = "show";
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
@@ -66,12 +67,20 @@
             }
             $.ajax(settings).done(function(response) {
                 if(response =='False'){
-                    var popup = document.getElementById("myPopup").className = "show";
+                    document.getElementById("myPopup").innerText = "User is already signed up";
+                    document.getElementById("myPopup").className = "show";
                     $(':input[type="submit"]').prop('disabled', true);
-                } else {
-                    var popup = document.getElementById("myPopup").className = "hide";
+                } else if(response =='True'){
+                    document.getElementById("myPopup").className = "hide";
                     $(':input[type="submit"]').prop('disabled', false);
+                } else {
+                    document.getElementById("myPopup").innerText = response;
+                    document.getElementById("myPopup").className = "show";
                 }
+            }).fail(function(jqxhr, textStatus, errorOption) {
+                document.getElementById("myPopup").innerText = errorOption;
+                document.getElementById("myPopup").className = "show";
+                console.log(jqxhr.status + " " + jqxhr.statusText + ". " + jqxhr.responseText);
             });
         });
     }

@@ -31,7 +31,15 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+
+        var token = Cookies.get('token');
+        console.log(token);
+
+        $.getJSON('http://localhost:8090/mm/join?token=' + token, {
+        }, function(data, textStatus, jqxhr){
+            alert(data);
+            console.log(jqxhr.response.toString() + " " + data);
+        });
     }
 </script>
 
