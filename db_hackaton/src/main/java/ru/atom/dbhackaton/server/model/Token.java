@@ -28,6 +28,8 @@ public class Token {
     private String username;
 
     public Token() {
+        Random random = new Random();
+        token = new Long(random.nextLong());
     }
     
     public Token(String newToken) {
@@ -39,12 +41,6 @@ public class Token {
         return this;
     }
 
-    public static Token random() {
-    	Token t1 = new Token();
-        Random random = new Random();
-        t1.token = new Long(random.nextLong());
-        return t1;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -41,5 +41,12 @@ public class TokenDao {
                 .uniqueResult();
     }
 
+    public Token getByUsername(Session session, String name) {
+        return (Token) session
+                .createQuery("from Token where username = :name")
+                .setParameter("name", name)
+                .uniqueResult();
+    }
+
 
 }

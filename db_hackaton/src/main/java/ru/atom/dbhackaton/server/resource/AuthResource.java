@@ -133,19 +133,16 @@ public class AuthResource {
                 txn.rollback();
                 return Response.status(Response.Status.FORBIDDEN).entity("Wrong password.").build();
             }
-            Token token = new Token();
-            String stringToken = token.toString();
-            if (TokenDao.getInstance().getByToken(session, stringToken) != null) {
+            Token token = new Token().setUsername(name);
+            if (TokenDao.getInstance().getByUsername(session, name) != null) {
                 txn.rollback();
                 log.info("Already logined");
                 return Response.ok().entity(token.getToken()).build();
             }
-            token.random();
-            token.setUsername(name);
             TokenDao.getInstance().insert(session, token);
             log.info(name + "logined");
             txn.commit();
-            return Response.ok().entity(stringToken).build();
+            return Response.ok().entity(token.getToken()).build();
 
         } catch (Exception e) {
             log.error("Transaction failed.", e);
