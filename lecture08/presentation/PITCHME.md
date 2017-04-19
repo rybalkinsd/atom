@@ -17,18 +17,15 @@ Refresh gradle project
 
 #HSLIDE
 ## Agenda
-1. Architecture
+1. Game architecture
 1. WebSocket
+1. Practice
 
 #HSLIDE
 ## Agenda
-1. Architecture
+1. Game architecture
 1. **[WebSocket]**
-
-#HSLIDE
-## Agenda
-1. Architecture
-1. **[WebSocket]**
+1. Practice
 
 #HSLIDE
 ## WebSocket
@@ -85,6 +82,12 @@ sniff websocket traffic
 #HSLIDE
 ## WebSocket example
 > **@see** lecture08/ru.atom.lecture08.websocket/
+
+#HSLIDE
+## Agenda
+1. Game architecture
+1. WebSocket
+1. **[Practice]**
 
 #HSLIDE
 **Оставьте обратную связь**
