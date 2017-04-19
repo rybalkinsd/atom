@@ -21,7 +21,7 @@ public class MatchMakerResourceTest {
     }
 
     @Test
-    public void joinTest() throws  Exception {
+    public void joinTest() throws Exception {
         String user = "123";
         String password = "123";
         AuthClient.register(user, password);
@@ -33,9 +33,10 @@ public class MatchMakerResourceTest {
 
         Assert.assertTrue(response1.code() == 200);
     }
+
     @Ignore
     @Test
-    public void finishTest() throws  Exception {
+    public void finishTest() throws Exception {
 
         Response response = MatchMakerClient.finish();
         Assert.assertTrue(response.code() == 200);
