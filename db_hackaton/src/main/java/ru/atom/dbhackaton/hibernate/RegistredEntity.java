@@ -83,7 +83,7 @@ public class RegistredEntity {
         this.token = token;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserGameResult> gameResults;
 
     public Set<UserGameResult> getGameResults() {

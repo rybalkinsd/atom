@@ -57,7 +57,7 @@ public class MatchMaker {
             // convert JSON string to Map
             map = mapper.readValue(gameResult, new TypeReference<Map<String, Object>>(){});
 
-            long gameID = new Long(map.get("id").toString());
+            Integer gameID = new Integer(map.get("id").toString());
 
             Map<String, Object> gameResultMapBody;
             gameResultMapBody = (Map<String, Object>) map.get("result");

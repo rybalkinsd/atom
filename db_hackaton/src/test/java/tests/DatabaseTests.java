@@ -6,16 +6,18 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
+import ru.atom.dbhackaton.mm.UserGameResult;
 
 import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import static ru.atom.dbhackaton.mm.UserGameResultDao.getByGameId;
+import static ru.atom.dbhackaton.mm.UserGameResultDao.saveGameResults;
 import static ru.atom.dbhackaton.model.TokenStorage.*;
-import static ru.atom.dbhackaton.model.UserStorage.dropUser;
-import static ru.atom.dbhackaton.model.UserStorage.getByName;
-import static ru.atom.dbhackaton.model.UserStorage.insert;
+import static ru.atom.dbhackaton.model.UserStorage.*;
 
 /**
  * Created by kinetik on 17.04.17.
@@ -59,7 +61,7 @@ public class DatabaseTests {
     }
 
     @Test
-    public void nameEquality() {
+    public void nameEquality() throws ClassNotFoundException {
         String login = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
 
         Assert.assertEquals(null, getByName(login));
@@ -80,12 +82,12 @@ public class DatabaseTests {
         RegistredEntity userTwo = new RegistredEntity(login, "pwd2", timestampTwo);
         try {
             insert(userTwo);
-        } catch (ConstraintViolationException ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+        } catch (Exception ex) {
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
-        Assert.assertNotEquals(timestampTwo, getByName(login));
-        Assert.assertEquals(timestamp, getByName(login));
+        Assert.assertNotEquals(timestampTwo, getByName(login).getRegdate());
+        Assert.assertEquals(timestamp, getByName(login).getRegdate());
 
         dropUser(getByName(login));
     }
@@ -98,39 +100,42 @@ public class DatabaseTests {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         RegistredEntity user = new RegistredEntity(login, "pwd1", timestamp);
+        Long token = ThreadLocalRandom.current().nextLong();
         insert(user);
 
         LoginEntity loginUser = new LoginEntity();
         loginUser.setId(getByName(login).getUserId());
-        loginUser.setToken("10L");
+        loginUser.setToken(Long.toString(token));
+        loginUser.setUser(getByName(login));
         saveLogin(loginUser);
 
         Assert.assertEquals(getByName(login).getUserId(), getLoginByName(login).getId());
-        Assert.assertEquals("10L", getLoginByName(login).getToken());
-        Assert.assertEquals(getByName(login).getUserId(), getByToken(10L).getId());
-        Assert.assertEquals("10L", getByToken(10L).getToken());
+        Assert.assertEquals(Long.toString(token), getLoginByName(login).getToken());
+        Assert.assertEquals(getByName(login).getUserId(), getByToken(token).getId());
+        Assert.assertEquals(Long.toString(token), getByToken(token).getToken());
         Assert.assertEquals(login, getLoginByName(login).getUser().getLogin());
-        Assert.assertEquals(login, getByToken(10L).getUser().getLogin());
+        Assert.assertEquals(login, getByToken(token).getUser().getLogin());
 
         logoutToken(login);
 
         Assert.assertEquals(null, getLoginByName(login));
-        Assert.assertEquals(null, getByToken(10L));
+        Assert.assertEquals(null, getByToken(token));
     }
 
     @Test
-    public void badInData() {
+    public void badInData() throws ClassNotFoundException {
         String login = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
 
         Assert.assertEquals(null, getByName(login));
+        Long token = ThreadLocalRandom.current().nextLong();
 
         try {
             LoginEntity loginUser = new LoginEntity();
             loginUser.setId(999999);
-            loginUser.setToken("10L");
+            loginUser.setToken(Long.toString(token));
             saveLogin(loginUser);
         } catch (Exception ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -139,16 +144,16 @@ public class DatabaseTests {
 
         LoginEntity loginUser = new LoginEntity();
         loginUser.setId(getByName(login).getUserId());
-        loginUser.setToken("10L");
+        loginUser.setToken(Long.toString(token));
         saveLogin(loginUser);
 
         try {
             LoginEntity newLoginUser = new LoginEntity();
             newLoginUser.setId(getByName(login).getUserId());
-            newLoginUser.setToken("11L");
+            newLoginUser.setToken(Long.toString(token+1));
             saveLogin(newLoginUser);
         } catch (Exception ex) {
-            Assert.assertTrue(ex instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
         }
 
         String loginTwo = "dbTest_" + Long.toString(ThreadLocalRandom.current().nextLong());
@@ -159,10 +164,10 @@ public class DatabaseTests {
         try {
             LoginEntity anotherLoginUser = new LoginEntity();
             anotherLoginUser.setId(getByName(loginTwo).getUserId());
-            anotherLoginUser.setToken("10L");
+            anotherLoginUser.setToken(Long.toString(token));
             saveLogin(anotherLoginUser);
         } catch (Exception e) {
-            Assert.assertTrue(e instanceof ConstraintViolationException);
+            Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(e.getClass()));
         }
 
         logoutToken(login);
@@ -170,4 +175,31 @@ public class DatabaseTests {
         dropUser(userTwo);
     }
 
+    @Test
+    public void mmDbTest() throws ClassNotFoundException {
+        String login = "dbTester_" + Long.toString(ThreadLocalRandom.current().nextLong());
+        Integer userId = ThreadLocalRandom.current().nextInt();
+        Integer gameId = ThreadLocalRandom.current().nextInt();
+
+        Assert.assertEquals(null, getByName(login));
+        Assert.assertEquals(null, getById(userId));
+        Assert.assertEquals(null, getByGameId(gameId));
+
+        RegistredEntity user = new RegistredEntity(login, "pwd", new Timestamp(System.currentTimeMillis()));
+        UserGameResult result = new UserGameResult(gameId, user, 2);
+        try {
+            saveGameResults(result);
+        } catch (Exception e) {
+            Assert.assertTrue(Class.forName("java.lang.IllegalStateException").equals(e.getClass()));
+        }
+        insert(user);
+        saveGameResults(result);
+        List<UserGameResult> gameResults = getByGameId(gameId);
+
+        Assert.assertEquals(login, gameResults.get(0).getUser().getLogin());
+        Assert.assertEquals(gameId, gameResults.get(0).getGameID());
+
+        dropUser(getByName(user.getLogin()));
+
+    }
 }

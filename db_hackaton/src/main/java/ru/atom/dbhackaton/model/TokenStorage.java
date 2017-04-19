@@ -1,14 +1,14 @@
 package ru.atom.dbhackaton.model;
 
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernateutil.HibernateUtil;
 
-import javax.validation.ConstraintViolationException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
+import javax.persistence.PersistenceException;
+
+
+import java.sql.SQLException;
 
 import static ru.atom.dbhackaton.model.UserStorage.getByName;
 
@@ -22,8 +22,8 @@ public class TokenStorage {
             session.beginTransaction();
             session.save(loginUser);
             session.getTransaction().commit();
-        } catch (ConstraintViolationException e) {
-            throw new ConstraintViolationException(null);
+        } catch (PersistenceException ex) {
+            throw new PersistenceException();
         }
     }
     public static LoginEntity getLoginByName(String name){
