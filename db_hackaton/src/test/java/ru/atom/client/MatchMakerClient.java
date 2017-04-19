@@ -23,13 +23,12 @@ public class MatchMakerClient {
     private static final String PORT = ":8081";
 
     //POST host:port/mm/join
-    public static Response join(Token token) throws IOException {
+    public static Response join(String token) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, ""))
-                .url(PROTOCOL + HOST + PORT + "/mm/join?token=" + token.getToken())
+                .post(RequestBody.create(mediaType, "token=" + token))
+                .url(PROTOCOL + HOST + PORT + "/mm/join")
                 .build();
-
         return client.newCall(request).execute();
     }
 

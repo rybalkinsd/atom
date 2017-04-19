@@ -38,7 +38,7 @@ public class MatchMakerResource {
             return  Response.status(Response.Status.BAD_REQUEST).entity("invalid user").build();
         }
         log.info("joining user: " + user.getLogin() + " with token: " + token);
-        return  Response.ok().entity("localhost:8081" + "/gs/" + user.getLogin()).build();
+        return  Response.ok().entity("localhost:8081/gs/" + user.getLogin()).build();
     }
 
     @POST

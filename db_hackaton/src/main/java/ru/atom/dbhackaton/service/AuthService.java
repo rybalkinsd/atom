@@ -33,27 +33,46 @@ public class AuthService {
         }
     }
 
-    // TODO: 14.04.17  не обрабатываются запросы, в которых юзера не существует(это ловится еще в AuthResource)
-    public void login(Token token) {
+    public Token login(String login, String pass) throws AuthException {
         Transaction txn = null;
+        User user;
+        Token token = new Token();
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-            TokenDao.getInstance().insert(session, token);
+            user = UserDao.getInstance().getByName(session, login);
+            if (user == null) {
+                throw new AuthException("Not existed");
+            }
+            if (!user.validPassword(pass)) {
+                return null;
+            }
+            if (TokenDao.getInstance().getByUser(session, user) == null) {
+                token.setUser(user).setToken(0L);
+                TokenDao.getInstance().insert(session, token);
+            } else {
+                token = TokenDao.getInstance().getByUser(session, user);
+            }
             txn.commit();
+
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);
             if (txn != null && txn.isActive()) {
                 txn.rollback();
             }
         }
+        return token;
     }
 
-    // TODO: 14.04.17  возможное отсутствие токенов в БД ловится еще в AuthResource
-    public void logout(Token token) {
+    public void logout(Long token) throws AuthException {
         Transaction txn = null;
+        Token tok;
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
-            TokenDao.getInstance().delete(session, token);
+            tok = TokenDao.getInstance().getToken(session, token);
+            if (tok == null) {
+                throw new AuthException("Not authorized");
+            }
+            TokenDao.getInstance().delete(session, tok);
             txn.commit();
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);

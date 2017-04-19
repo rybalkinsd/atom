@@ -19,7 +19,6 @@ import java.util.Date;
 /**
  * Created by BBPax on 24.03.17.
  */
-// TODO: 14.04.17   нужна еще дата регистрации!
 @Entity
 @Table(name = "user", schema = "game")
 public class User {

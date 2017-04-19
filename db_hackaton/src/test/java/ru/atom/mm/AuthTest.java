@@ -39,6 +39,16 @@ public class AuthTest {
         Assert.assertEquals(400, response.code());
     }
 
+    @Test
+    public void logoutTest() throws Exception {
+        Response response = AuthClient.login(newUser);
+        String token = response.body().string();
+        response = AuthClient.logout(token);
+        Assert.assertEquals(200, response.code());
+        response = AuthClient.logout(token);
+        Assert.assertEquals(401, response.code());
+    }
+
     @After
     public void shutdown() throws Exception {
         AuthServer.shutdown();

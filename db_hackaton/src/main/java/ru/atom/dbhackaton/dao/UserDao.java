@@ -14,7 +14,7 @@ public class UserDao {
 
     private static UserDao instance = new UserDao();
 
-    public UserDao(){}
+    private UserDao(){}
 
     public static UserDao getInstance() {
         return instance;

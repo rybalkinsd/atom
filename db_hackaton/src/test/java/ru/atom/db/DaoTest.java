@@ -30,9 +30,9 @@ public class DaoTest {
     private int usersNumberBefore;
     private int tokensNumberBefore;
     private int resultNumberBefore;
-    private UserDao userDao = new UserDao();
-    private TokenDao tokenDao = new TokenDao();
-    private ResultDao resultDao = new ResultDao();
+    private UserDao userDao = UserDao.getInstance();
+    private TokenDao tokenDao = TokenDao.getInstance();
+    private ResultDao resultDao = ResultDao.getInstance();
 
     @Before
     public void dbSetUp() throws Exception {

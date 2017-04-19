@@ -16,7 +16,7 @@ public class ResultDao {
 
     private static ResultDao instance = new ResultDao();
 
-    public ResultDao(){}
+    private ResultDao(){}
 
     public static ResultDao getInstance() {
         return instance;
