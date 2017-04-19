@@ -5,7 +5,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import javax.ws.rs.core.*;
 import java.io.IOException;
 
 /**
@@ -18,9 +17,9 @@ public class AuthClient {
     private static final String SERVICE_URL = PROTOCOL + "://" + HOST + ":" + PORT;
 
     private static final OkHttpClient client = new OkHttpClient();
-    private static Long token;
+    private static String token;
 
-    public static Long getToken() {
+    public static String getToken() {
         return token;
     }
 
@@ -52,7 +51,7 @@ public class AuthClient {
         try {
             Response response = client.newCall(request).execute();
             try {
-                token = Long.parseLong(response.body().string());
+                token = response.body().string();
             } catch (NumberFormatException ex) {
                 //nothing
             }
