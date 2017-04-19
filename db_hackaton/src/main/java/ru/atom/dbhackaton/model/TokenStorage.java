@@ -27,13 +27,17 @@ public class TokenStorage {
         }
     }
     public static LoginEntity getLoginByName(String name){
-        Session session = HibernateUtil.getSession();
-        LoginEntity user = (LoginEntity) session
-                .createQuery("from LoginEntity where id = :user")
-                .setParameter("user", getByName(name).getUserId())
-                .uniqueResult();
-        session.close();
-        return user;
+        try (Session session = HibernateUtil.getSession();) {
+            LoginEntity user = (LoginEntity) session
+                    .createQuery("from LoginEntity where id = :user")
+                    .setParameter("user", getByName(name).getUserId())
+                    .uniqueResult();
+            session.close();
+            return user;
+        } catch (NullPointerException e) {
+            return null;
+        }
+
     }
     public static void logoutToken(String name){
         Session session = HibernateUtil.getSession();

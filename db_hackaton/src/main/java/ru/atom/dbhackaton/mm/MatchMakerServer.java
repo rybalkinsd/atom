@@ -9,11 +9,13 @@ import ru.atom.dbhackaton.mm.MatchMaker;
  * Created by ilysk on 16.04.17.
  */
 public class MatchMakerServer {
-    public static void main(String[] args) throws Exception {
+    private static Server jettyServer;
+
+    public static void start(boolean isTest) throws Exception {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/mm");
 
-        Server jettyServer = new Server(8282);
+        jettyServer = new Server(8282);
         jettyServer.setHandler(context);
 
         ServletHolder jerseyServlet = context.addServlet(
@@ -25,6 +27,23 @@ public class MatchMakerServer {
                 "ru.atom.dbhackaton.mm"
         );
 
-        jettyServer.start();
+        if (isTest) {
+            jettyServer.start();
+        } else {
+            try {
+                jettyServer.start();
+                jettyServer.join();
+            } finally {
+                jettyServer.destroy();
+            }
+        }
+    }
+
+    public static void finish() {
+        try {
+            jettyServer.destroy();
+        } catch (Exception e) {
+            //nothing
+        }
     }
 }

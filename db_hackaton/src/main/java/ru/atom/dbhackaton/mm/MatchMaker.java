@@ -31,13 +31,17 @@ public class MatchMaker {
     public static Response join(@FormParam("name") String name,
                          @FormParam ("token") String token) {
 
-        Long longToken = Long.parseLong(token);
-        LoginEntity user = TokenStorage.getByToken(longToken);
-        if (user != null) {
+        if (name != null && token == null) {
+            Long longToken = Long.parseLong(token);
+            LoginEntity user = TokenStorage.getByToken(longToken);
             log.info("user " + user.toString() + " join game");
             return Response.ok("wtfis.ru:8090/gs/12345").build();
         } else {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            if (token == null) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
         }
     }
 
@@ -73,11 +77,13 @@ public class MatchMaker {
             }
 
         } catch (JsonGenerationException e) {
-            Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (JsonMappingException e) {
-            Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (IOException e) {
-            Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (NullPointerException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok().build();
