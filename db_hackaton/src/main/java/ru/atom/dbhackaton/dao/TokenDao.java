@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.atom.dbhackaton.resource.Token;
+import ru.atom.dbhackaton.resource.User;
 
 import java.util.List;
 
@@ -12,21 +13,25 @@ import java.util.List;
  */
 // TODO: 14.04.17   пока не сделано вообще никак
 public class TokenDao {
-    private static final Logger log = LogManager.getLogger(UserDao.class);
+    private static final Logger log = LogManager.getLogger(TokenDao.class);
 
     private static TokenDao instance = new TokenDao();
 
-    private TokenDao(){}
+    public TokenDao(){}
 
     public static TokenDao getInstance() {
         return instance;
     }
 
-    public Token getToken(Session session, Token token) {
+    public Token getToken(Session session, long token) {
         return (Token) session
                 .createQuery("from token where token = :token")
-                .setParameter("token", token.getToken())
+                .setParameter("token", token)
                 .uniqueResult();
+    }
+
+    public User getUserByToken(Session session, long token) {
+        return getToken(session, token).getUser();
     }
 
     public List<Token> getAll(Session session) {

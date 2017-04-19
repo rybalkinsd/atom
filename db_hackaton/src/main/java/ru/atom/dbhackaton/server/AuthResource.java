@@ -64,7 +64,7 @@ public class AuthResource {
             log.info("User \"" + name + "\" exists");
             return Response.status(Response.Status.BAD_REQUEST).entity("Already registrated").build();
         }
-            return  Response.ok("ok").build();
+        return Response.ok("ok").build();
     }
 
     @POST
@@ -109,7 +109,7 @@ public class AuthResource {
         try {
             authService.logout(tokens.get(token));
             tokens.remove(token);
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             log.info("User with token " + token + " is not logined");
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("User with token " + token + " is not logined").build();

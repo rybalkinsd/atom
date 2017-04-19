@@ -11,22 +11,28 @@ import ru.atom.dbhackaton.dao.Database;
 
 
 public class AuthServer {
+    private static Server jettyServer;
+
     public static void main(String[] args) throws Exception {
+        startUp();
+    }
+
+    public static void startUp() throws Exception {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
-                createChatContext(),
+                createAuthContext(),
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
     }
 
-    private static ServletContextHandler createChatContext() {
+    private static ServletContextHandler createAuthContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/auth/*");
         ServletHolder jerseyServlet = context.addServlet(
@@ -56,6 +62,10 @@ public class AuthServer {
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
+    }
+
+    public static void shutdown() throws Exception {
+        jettyServer.stop();
     }
 
 }

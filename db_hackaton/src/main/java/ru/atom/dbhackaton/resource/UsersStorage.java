@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class UsersStorage extends AbstractStorage<String, User> {
     private static final Logger log = LogManager.getLogger(UsersStorage.class);
+
     public UsersStorage setUp() {
         Transaction txn = null;
         List<User> db;

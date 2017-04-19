@@ -41,7 +41,6 @@ public class Token {
 
     // TODO: 13.04.17  хрень какая то потому что хочу стандартный конструктор и чтобы делалось все чейнингом
     public Token setToken(Long token) {
-        this.token = token;
         this.token = System.currentTimeMillis() * 100000L + (long) user.hashCode();
         return this;
     }

@@ -2,6 +2,7 @@ package ru.atom.dbhackaton.resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import java.util.Date;
 
 /**
@@ -29,24 +32,12 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
-    @Column(name = "password", nullable = false, length = 40)
+    @Column(name = "password", nullable = false, length = 150)
     private String password;
 
     @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date regDate = new Date();
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinTable(inverseJoinColumns = @JoinColumn(name="token"))
-//    Token token;
-//
-//    public Token getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(Token token) {
-//        this.token = token;
-//    }
 
     public Date getRegDate() {
         return regDate;
@@ -84,13 +75,18 @@ public class User {
         return this;
     }
 
-    // TODO: 13.04.17 нужно потом для хеширования паролей
     private String generatePassword(String password) {
-        return password;
+        String salt = BCrypt.gensalt(12);
+        String hashedPassword = BCrypt.hashpw(password, salt);
+        return hashedPassword;
     }
 
     public boolean validPassword(String password) {
-        return this.password.equals(generatePassword(password));
+        return BCrypt.checkpw(password, this.password);
+    }
+
+    public boolean isValid() {
+        return id != null;
     }
 
     @Override

@@ -11,11 +11,10 @@ import java.util.List;
  * Created by BBPax on 13.04.17.
  */
 public class UserDao {
-    private static final Logger log = LogManager.getLogger(UserDao.class);
 
     private static UserDao instance = new UserDao();
 
-    private UserDao(){}
+    public UserDao(){}
 
     public static UserDao getInstance() {
         return instance;

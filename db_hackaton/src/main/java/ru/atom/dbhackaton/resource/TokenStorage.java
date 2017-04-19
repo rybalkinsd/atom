@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public class TokenStorage extends AbstractStorage<Long, Token> {
     private static final Logger log = LogManager.getLogger(TokenStorage.class);
+
     public Long getToken(User user) {
         for (Map.Entry<Long, Token> entry : memory.entrySet()) {
             if (entry.getValue().getUser().equals(user)) {

@@ -16,6 +16,7 @@ import java.io.IOException;
 @Provider
 public class AuthFilter implements ContainerRequestFilter {
     private static final Logger log = LogManager.getLogger(AuthFilter.class);
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 

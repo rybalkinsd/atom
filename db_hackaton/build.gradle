@@ -1,6 +1,7 @@
 dependencies {
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
     compile rootProject.libraries.jetty_server
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
@@ -9,7 +10,7 @@ dependencies {
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate
-
+    compile rootProject.libraries.jbcrypt
 }
 
 jar {
