@@ -8,7 +8,6 @@ import ru.atom.dbhackaton.hibernate.LoginEntity;
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 import ru.atom.dbhackaton.mm.UserGameResult;
 
-import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,8 +15,14 @@ import java.util.concurrent.TimeUnit;
 
 import static ru.atom.dbhackaton.mm.UserGameResultDao.getByGameId;
 import static ru.atom.dbhackaton.mm.UserGameResultDao.saveGameResults;
-import static ru.atom.dbhackaton.model.TokenStorage.*;
-import static ru.atom.dbhackaton.model.UserStorage.*;
+import static ru.atom.dbhackaton.model.TokenStorage.getByToken;
+import static ru.atom.dbhackaton.model.TokenStorage.getLoginByName;
+import static ru.atom.dbhackaton.model.TokenStorage.saveLogin;
+import static ru.atom.dbhackaton.model.TokenStorage.logoutToken;
+import static ru.atom.dbhackaton.model.UserStorage.getByName;
+import static ru.atom.dbhackaton.model.UserStorage.insert;
+import static ru.atom.dbhackaton.model.UserStorage.dropUser;
+import static ru.atom.dbhackaton.model.UserStorage.getById;
 
 /**
  * Created by kinetik on 17.04.17.
@@ -150,7 +155,7 @@ public class DatabaseTests {
         try {
             LoginEntity newLoginUser = new LoginEntity();
             newLoginUser.setId(getByName(login).getUserId());
-            newLoginUser.setToken(Long.toString(token+1));
+            newLoginUser.setToken(Long.toString(token + 1));
             saveLogin(newLoginUser);
         } catch (Exception ex) {
             Assert.assertTrue(Class.forName("javax.persistence.PersistenceException").equals(ex.getClass()));
@@ -197,7 +202,7 @@ public class DatabaseTests {
         List<UserGameResult> gameResults = getByGameId(gameId);
 
         Assert.assertEquals(login, gameResults.get(0).getUser().getLogin());
-        Assert.assertEquals(gameId, gameResults.get(0).getGameID());
+        Assert.assertEquals(gameId, gameResults.get(0).getGameId());
 
         dropUser(getByName(user.getLogin()));
 

@@ -17,7 +17,10 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static ru.atom.dbhackaton.model.TokenStorage.*;
+import static ru.atom.dbhackaton.model.TokenStorage.getByToken;
+import static ru.atom.dbhackaton.model.TokenStorage.getLoginByName;
+import static ru.atom.dbhackaton.model.TokenStorage.logoutToken;
+import static ru.atom.dbhackaton.model.TokenStorage.saveLogin;
 import static ru.atom.dbhackaton.model.UserStorage.getByName;
 import static ru.atom.dbhackaton.model.UserStorage.insert;
 import static ru.atom.dbhackaton.services.PasswordHasher.checkPassword;
@@ -103,7 +106,7 @@ public class AuthOps {
         }
         RegistredEntity userObject = getByName(user);
         Long tokenLong = ThreadLocalRandom.current().nextLong();
-        while (getByToken(tokenLong)!=null) {
+        while (getByToken(tokenLong) != null) {
             tokenLong = ThreadLocalRandom.current().nextLong();
         }
         LoginEntity newLogin = new LoginEntity();
@@ -127,12 +130,4 @@ public class AuthOps {
         return Long.parseLong(requestContext.getHeaderString("Authorization")
                 .substring("Bearer ".length()).trim());
     }
-
-//
-//    public static String getUsers() throws JsonProcessingException {
-//        HashMap tmp = new HashMap<String, List<String>>();
-//        tmp.put("users", tokenStorage.getUsers());
-//        ObjectMapper mapper = new ObjectMapper();
-//        return mapper.writeValueAsString(tmp);
-//    }
 }

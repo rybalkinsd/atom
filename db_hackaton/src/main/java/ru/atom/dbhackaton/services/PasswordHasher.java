@@ -16,8 +16,8 @@ public class PasswordHasher {
     }
 
     public static boolean checkPassword(String password, String hashPassword) {
-        boolean password_verified = false;
-        if(hashPassword == null || !hashPassword.startsWith("$2a$")) {
+        boolean passwordVerified = false;
+        if (hashPassword == null || !hashPassword.startsWith("$2a$")) {
             throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
         }
         return BCrypt.checkpw(password, hashPassword);

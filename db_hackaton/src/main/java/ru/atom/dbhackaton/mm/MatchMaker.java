@@ -12,7 +12,11 @@ import ru.atom.dbhackaton.model.Token;
 import ru.atom.dbhackaton.model.TokenStorage;
 import ru.atom.dbhackaton.model.UserStorage;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Map;
@@ -57,7 +61,7 @@ public class MatchMaker {
             // convert JSON string to Map
             map = mapper.readValue(gameResult, new TypeReference<Map<String, Object>>(){});
 
-            Integer gameID = new Integer(map.get("id").toString());
+            Integer gameId = new Integer(map.get("id").toString());
 
             Map<String, Object> gameResultMapBody;
             gameResultMapBody = (Map<String, Object>) map.get("result");
@@ -67,9 +71,9 @@ public class MatchMaker {
                 String userString = (String) pair.getKey();
                 if (TokenStorage.getLoginByName(userString) != null) {
                     RegistredEntity user = UserStorage.getByName(userString);
-                    UserGameResult userGameResult = new UserGameResult(gameID, user, (int) pair.getValue());
+                    UserGameResult userGameResult = new UserGameResult(gameId, user, (int) pair.getValue());
                     UserGameResultDao.saveGameResults(userGameResult);
-                    log.info("user " + userString + " finished game id#" + gameID
+                    log.info("user " + userString + " finished game id#" + gameId
                             + " with score " + pair.getValue().toString());
                 } else {
                     log.info("No logined user: " + userString);

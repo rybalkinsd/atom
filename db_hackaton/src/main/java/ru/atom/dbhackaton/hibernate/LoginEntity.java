@@ -1,6 +1,11 @@
 package ru.atom.dbhackaton.hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,12 +28,13 @@ public class LoginEntity {
     }
 
     @Id
-    @Column(name="userId")
+    @Column(name = "userId")
     private Integer id;
 
     public Integer getId() {
         return this.id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }

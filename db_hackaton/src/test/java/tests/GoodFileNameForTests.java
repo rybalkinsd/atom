@@ -1,22 +1,18 @@
 package tests;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.eclipse.jetty.server.Server;
-import org.postgresql.ssl.jdbc4.AbstractJdbc4MakeSSL;
-import ru.atom.dbhackaton.auth.ApiServlet;
 import ru.atom.dbhackaton.client.AuthClient;
 import ru.atom.dbhackaton.client.MatchMakerClient;
-import ru.atom.dbhackaton.hibernate.RegistredEntity;
-import ru.atom.dbhackaton.mm.MatchMaker;
-import ru.atom.dbhackaton.mm.MatchMakerServer;
 import okhttp3.Response;
 import ru.atom.dbhackaton.model.TokenStorage;
-import ru.atom.dbhackaton.model.User;
 import ru.atom.dbhackaton.model.UserStorage;
 
 import java.io.IOException;
@@ -125,14 +121,14 @@ public class GoodFileNameForTests {
                 && TokenStorage.getLoginByName(testUser) != null);
     }
 
-//    @Test
-//    public void join() throws IOException {
-//        Assert.assertTrue(TokenStorage.getLoginByName(testUser) != null);
-//        System.out.println(AuthClient.getToken());
-//        Response response = MatchMakerClient.join(testUser, AuthClient.getToken());
-//        Assert.assertTrue(response.code() == 200
-//                && response.body().string().equals("wtfis.ru:8090/gs/12345"));
-//    }
+    //@Test
+    //public void join() throws IOException {
+    //    Assert.assertTrue(TokenStorage.getLoginByName(testUser) != null);
+    //    System.out.println(AuthClient.getToken());
+    //    Response response = MatchMakerClient.join(testUser, AuthClient.getToken());
+    //    Assert.assertTrue(response.code() == 200
+    //            && response.body().string().equals("wtfis.ru:8090/gs/12345"));
+    //}
 
     @Test
     public void finish() throws IOException {

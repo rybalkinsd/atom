@@ -2,8 +2,15 @@ package ru.atom.dbhackaton.mm;
 
 import ru.atom.dbhackaton.hibernate.RegistredEntity;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Created by ilysk on 16.04.17.
@@ -29,15 +36,15 @@ public class UserGameResult {
     }
 
     @Basic
-    @Column(name = "gameID", nullable = false)
-    private Integer gameID;
+    @Column(name = "gameId", nullable = false)
+    private Integer gameId;
 
     @Basic
     @Column(name = "userpoints", nullable = false)
     private Integer userGamePoints;
 
-    public UserGameResult(Integer gameID, RegistredEntity user, int userGamePoints) {
-        this.gameID = gameID;
+    public UserGameResult(Integer gameId, RegistredEntity user, int userGamePoints) {
+        this.gameId = gameId;
         this.user = user;
         this.userGamePoints = userGamePoints;
     }
@@ -46,12 +53,12 @@ public class UserGameResult {
     @JoinColumn(name = "login")
     private RegistredEntity user;
 
-    public Integer getGameID() {
-        return gameID;
+    public Integer getGameId() {
+        return gameId;
     }
 
-    public void setGameID(Integer gameID) {
-        this.gameID = gameID;
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
     }
 
     public int getUserGamePoints() {

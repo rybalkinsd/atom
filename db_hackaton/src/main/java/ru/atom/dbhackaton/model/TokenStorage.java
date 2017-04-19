@@ -17,7 +17,7 @@ import static ru.atom.dbhackaton.model.UserStorage.getByName;
  */
 
 public class TokenStorage {
-    public static void saveLogin(LoginEntity loginUser){
+    public static void saveLogin(LoginEntity loginUser) {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             session.save(loginUser);
@@ -26,7 +26,8 @@ public class TokenStorage {
             throw new ConstraintViolationException(null);
         }
     }
-    public static LoginEntity getLoginByName(String name){
+
+    public static LoginEntity getLoginByName(String name) {
         try (Session session = HibernateUtil.getSession();) {
             LoginEntity user = (LoginEntity) session
                     .createQuery("from LoginEntity where id = :user")
@@ -39,7 +40,8 @@ public class TokenStorage {
         }
 
     }
-    public static void logoutToken(String name){
+
+    public static void logoutToken(String name) {
         Session session = HibernateUtil.getSession();
         LoginEntity login = getLoginByName(name);
         session.beginTransaction();
@@ -47,7 +49,8 @@ public class TokenStorage {
         session.getTransaction().commit();
         session.close();
     }
-    public static LoginEntity getByToken(Long token){
+
+    public static LoginEntity getByToken(Long token) {
         Session session = HibernateUtil.getSession();
         String tokenStr = Long.toString(token);
         LoginEntity user = (LoginEntity) session
