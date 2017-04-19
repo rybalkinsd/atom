@@ -87,6 +87,11 @@ Refresh gradle project
 1. Practice
 
 #HSLIDE
+## Client-server communication
+- Why HTTP is **bad** for client-server communication in real-time games?  
+- WHat alternatives do we have?  
+
+#HSLIDE
 ## WebSocket
 - client-server
 - full-duplex
