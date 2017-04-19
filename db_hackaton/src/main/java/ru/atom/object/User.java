@@ -37,6 +37,7 @@ public class User {
         return this;
     }
 
+
     private static String md5Custom(String st) {
         MessageDigest messageDigest = null;
         byte[] digest = new byte[0];
@@ -53,7 +54,7 @@ public class User {
         BigInteger bigInt = new BigInteger(1, digest);
         String md5Hex = bigInt.toString(16);
 
-        while( md5Hex.length() < 32 ){
+        while (md5Hex.length() < 32) {
             md5Hex = "0" + md5Hex;
         }
 

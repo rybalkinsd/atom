@@ -32,6 +32,6 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!--mapping-->
-        <mapping class="ru.atom.mm.InfoGame.Match"/>
+        <mapping class="ru.atom.mm.infogame.Match"/>
     </session-factory>
 </hibernate-configuration>

@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ru.atom.dao.DatabaseClass;
-import ru.atom.mm.InfoGame.Match;
+import ru.atom.mm.infogame.Match;
 import ru.atom.mm.server.matchmaker.Connection;
 import ru.atom.mm.server.matchmaker.ThreadSafeQueue;
 import ru.atom.object.User;
@@ -35,13 +35,12 @@ public class ConnectionHandler {
         log.info("New user ={" + user.getLogin() + "} join match ");
 
         ThreadSafeQueue.getInstance().offer(new Connection(user.getIdUser(), user.getLogin()));
-        String URL = "wtfis.ru:8090/gs/12345";
+        String url = "wtfis.ru:8090/gs/12345";
 
 
-        log.info(URL);
-        return Response.ok(URL).type("text/plain").build();
+        log.info(url);
+        return Response.ok(url).type("text/plain").build();
     }
-
 
 
     @Path("/result")

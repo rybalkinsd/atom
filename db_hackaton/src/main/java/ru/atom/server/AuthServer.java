@@ -15,6 +15,7 @@ public class AuthServer {
     public static void main(String[] args) throws Exception {
         serverRun();
     }
+
     public static void serverRun() throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{
@@ -27,8 +28,9 @@ public class AuthServer {
 
         jettyServer.start();
     }
+
     public static void serverStop() throws Exception {
-                jettyServer.stop();
+        jettyServer.stop();
     }
 
     private static ServletContextHandler createChatContext() {

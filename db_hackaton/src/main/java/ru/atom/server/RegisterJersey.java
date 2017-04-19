@@ -76,7 +76,6 @@ public class RegisterJersey {
         User user = new User().setLogin(login).setPassword(password);
 
 
-
         if (!dbclass.checkByConditionUser("login = \'" + login + "\'")) {
             log.info("wrong login");
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong login").build();

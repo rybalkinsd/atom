@@ -1,7 +1,7 @@
 package ru.atom.mm.server;
 
 import com.google.gson.Gson;
-import ru.atom.mm.InfoGame.Match;
+import ru.atom.mm.infogame.Match;
 import ru.atom.object.User;
 
 /**
@@ -24,16 +24,14 @@ public class Experiment {
         User user4 = new User().setLogin("Gasha");
 
 
-
-
-       match.putScore(user1.getLogin() ,10).putScore(user2.getLogin(),30).putScore(user3.getLogin(),1).putScore(user4.getLogin(),74);
+        match.putScore(user1.getLogin(), 10).putScore(user2.getLogin(), 30)
+                .putScore(user3.getLogin(), 1).putScore(user4.getLogin(), 74);
 
         match.setGameId(gameId).setId(id);
 
 
-
         System.out.println(gson.toJson(match));
         String json = gson.toJson(match);
-        System.out.println(gson.fromJson(json,match.getClass()).getGameId());
+        System.out.println(gson.fromJson(json, match.getClass()).getGameId());
     }
 }

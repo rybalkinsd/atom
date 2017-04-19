@@ -1,7 +1,5 @@
-package ru.atom.mm.InfoGame;
+package ru.atom.mm.infogame;
 
-
-import ru.atom.object.User;
 
 import java.util.HashMap;
 
@@ -11,7 +9,8 @@ import java.util.HashMap;
 public class Match {
     Integer id;
     Integer gameId;
-    private HashMap<String ,Integer> result = new HashMap<>(3);;
+    private HashMap<String, Integer> result = new HashMap<>(3);
+
 
     public Match() {
 
@@ -36,12 +35,12 @@ public class Match {
     }
 
 
-    public Match putScore(String user, Integer score){
-        result.put(user,score);
+    public Match putScore(String user, Integer score) {
+        result.put(user, score);
         return this;
     }
 
-    public HashMap<String,Integer> getScore(){
+    public HashMap<String, Integer> getScore() {
         return result;
     }
 

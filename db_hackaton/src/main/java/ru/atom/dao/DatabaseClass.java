@@ -48,8 +48,8 @@ public class DatabaseClass {
     }
 
 
-    public User getUserByToken(String token){
-       return getToken(token).getUser();
+    public User getUserByToken(String token) {
+        return getToken(token).getUser();
     }
 
     public Token issueToken(String login) {
