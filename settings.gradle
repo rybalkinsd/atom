@@ -11,3 +11,5 @@ include 'homeworks/HW1'
 
 include 'web_hackaton'
 include 'db_hackaton'
+
+include 'bomberman/frontend'
