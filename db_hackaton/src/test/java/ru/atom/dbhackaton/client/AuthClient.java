@@ -39,7 +39,7 @@ public class AuthClient {
         return client.newCall(request).execute();
     }
 
-    public static Response login(String user, String password) {
+    public static Response login(String user, String password) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(
                 mediaType,
@@ -52,20 +52,10 @@ public class AuthClient {
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 
-        try {
-            Response response = client.newCall(request).execute();
-            try {
-                token = response.body().string();
-            } catch (NumberFormatException ex) {
-                //nothing
-            }
-            return response;
-        } catch (IOException e) {
-            return null;
-        }
+        return client.newCall(request).execute();
     }
 
-    public static Response logout() {
+    public static Response logout() throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         String requestUrl = SERVICE_URL + "/auth/logout";
         RequestBody body = RequestBody.create(null, new byte[]{});
@@ -75,11 +65,8 @@ public class AuthClient {
                 .addHeader("Authorization", "Bearer " + token)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
-        try {
-            OkHttpClient client = new OkHttpClient();
-            return client.newCall(request).execute();
-        } catch (IOException e) {
-            return null;
-        }
+
+        OkHttpClient client = new OkHttpClient();
+        return client.newCall(request).execute();
     }
 }
