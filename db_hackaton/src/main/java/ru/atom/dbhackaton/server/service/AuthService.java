@@ -83,7 +83,7 @@ public class AuthService {
                 throw new AuthException("Not logined");
             }
 
-            LoginedUserDao.getInstance().removeUser(session, removeUser);
+            LoginedUserDao.getInstance().removeUser(session, removeUser.getToken());
             log.info("[" + removeUser.getUser().toString() + "]: logged out");
             txn.commit();
         } catch (RuntimeException e) {

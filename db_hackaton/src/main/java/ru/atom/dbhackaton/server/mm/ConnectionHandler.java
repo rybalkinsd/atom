@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by konstantin on 19.04.17.
  */
-@Path("/mm")
+@Path("/")
 public class ConnectionHandler {
     private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
 
