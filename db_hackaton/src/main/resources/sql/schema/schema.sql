@@ -21,4 +21,11 @@ create table auth.loguser (
   primary key (id)
 );
 
+drop table if exists game;
+create table game (
+  id     serial        not null,
+  player integer       not null references auth.loguser on delete cascade,
+  time   timestamp     not null,
+  primary key(id)
+);
 commit;
