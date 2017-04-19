@@ -24,7 +24,7 @@ public class AuthResourceTest {
         String password = "123";
         Response response = AuthClient.register(user, password);
         String bodyResponse = response.body().string();
-        Assert.assertTrue(bodyResponse.equals("Already logined"));  // Success registration
+        Assert.assertTrue(bodyResponse.equals("Already registered"));  // Success registration
     }
 
 

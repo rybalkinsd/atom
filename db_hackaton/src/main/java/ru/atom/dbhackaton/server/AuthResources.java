@@ -35,7 +35,7 @@ public class AuthResources {
 
             USER_SERVICE.register(userName, password);
         } catch (UserException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Already registered").build();
         }
         return Response.ok("Success registration!").build();
     }

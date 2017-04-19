@@ -15,6 +15,7 @@ import ru.atom.dbhackaton.server.dao.Database;
 public class MatchMakerServer {
 
     private static Server jettyServer;
+    private static Thread matchMaker;
 
     public static void startServer() throws Exception {
         Database.setUp();
@@ -28,7 +29,7 @@ public class MatchMakerServer {
         jettyServer.setHandler(contexts);
 
 
-        Thread matchMaker = new Thread(new MatchMaker());
+        matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("matchMaker");
         matchMaker.start();
     }
@@ -67,6 +68,8 @@ public class MatchMakerServer {
 
     public static void stopServer() throws Exception {
         jettyServer.stop();
+        matchMaker.interrupt();
+
     }
 
     public static void main(String[] args) throws Exception {

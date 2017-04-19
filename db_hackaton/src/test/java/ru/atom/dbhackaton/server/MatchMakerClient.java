@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by salvador on 19.04.17.
  */
-public class MMClient {
+public class MatchMakerClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
