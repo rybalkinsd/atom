@@ -22,7 +22,7 @@ public class MmClient {
     public static Response join(String token) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .get()
+                .post(RequestBody.create(mediaType, ""))
                 .url(PROTOCOL + HOST + PORT + "/mm/join?token=" + token)
                 .build();
         logger.info(request.toString());

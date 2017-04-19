@@ -5,11 +5,10 @@ import org.apache.logging.log4j.Logger;
 import ru.atom.dbhackaton.server.service.MatchMakerService;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -21,11 +20,11 @@ public class MatchMakerResource {
     public static MatchMakerService matchMakerService = new MatchMakerService();
 
 
-    @GET
+    @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/join")
     @Produces("text/plain")
-    public Response join(@QueryParam("token") String token) {
+    public Response join(@FormParam("token") String token) {
         String url = "wtfis.ru:8090/gs/";
         logger.info(token);
 
