@@ -68,12 +68,23 @@ but then no handshakes or headers required. **Only raw data**
 <img src="lecture08/presentation/assets/img/websocket.png" alt="exception" style="width: 600px;"/>  
 
 #HSLIDE
-## tcpflow
-
+## tcpdump
+[http://www.tcpdump.org/](http://www.tcpdump.org/)
+sniff websocket traffic
+```bash
+> tcpdump -Aq -s0 -i lo0 'tcp port 8090'
+```
 
 #HSLIDE
-## Practice
-//TODO
+## Another nice tools
+**tcpflow**  
+[tcpflow on github](https://github.com/simsong/tcpflow)  
+**wireshark**  
+[home page](https://www.wireshark.org/)
+
+#HSLIDE
+## WebSocket example
+> **@see** lecture08/ru.atom.lecture08.websocket/
 
 #HSLIDE
 **Оставьте обратную связь**

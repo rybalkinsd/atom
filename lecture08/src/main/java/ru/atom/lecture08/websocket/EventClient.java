@@ -12,7 +12,7 @@ public class EventClient {
     URI uri = URI.create("ws://localhost:8090/events/");
 
     WebSocketClient client = new WebSocketClient();
-    client.setMasker(new ZeroMasker());
+    //client.setMasker(new ZeroMasker());
     try {
       try {
         client.start();
