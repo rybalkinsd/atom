@@ -73,7 +73,8 @@ ext.libraries = [
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
         websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
         websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
-        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion"
+        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 ]
 
 // code coverage settings

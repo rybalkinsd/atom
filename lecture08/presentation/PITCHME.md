@@ -162,11 +162,70 @@ tcpdump - standard unix tool to fo traffic analysis. It can inspect **websocket*
 ## WebSocket example
 > **@see** lecture08/ru.atom.lecture08.websocket/
 
+Of course, we can also send structured data (like **JSON**)
+
 #HSLIDE
 ## Agenda
 1. Game architecture
 1. WebSocket
 1. **[Practice]**
+
+#HSLIDE
+## Send simple message to wtfis.ru:8090
+- Our EventClient already can say 'Hello'  
+- In real world (and in game) want to send structured data (like JSON)
+- our game will send all data as JSON. Lets emulate this feature
+
+#HSLIDE
+##Task 1
+Look as Message class. It represents structured data and it can be converted to JSON
+> Implement sending **Message** with topic **Hello** and your name as **data**
+> Server adress: wtfis.ru:8090/events
+
+#HSLIDE
+##What we can do now
+Ok, now we can send structured messages via **websocket** with arbitrary **data** and defined **type**
+
+#HSLIDE
+## Task 2. Implement MOVE and PLANT_BOMB messages processing
+### What we get
+1. Game frontend is able to communicate via websocket with server
+1. Frontend connects to 8090 port
+1. Frontend sends commands **MOVE** and **PLANT_BOMB**
+
+#HSLIDE
+##MOVE
+client -> server
+```json
+{
+  "topic":"MOVE",
+  "data":
+    {
+      "direction":"UP"
+    }
+}
+```
+direction values: UP/DOWN/RIGHT/LEFT
+
+#HSLIDE
+##PLANT_BOMB
+client -> server
+```json
+{
+   "topic": "PLANT_BOMB",
+   "data": {}
+}
+```
+
+#HSLIDE
+## Networking task
+**Broker** is able to send and receive messages.
+1. connect Broker.receive() to **Handler**
+1. Log receiving **MOVE** and **PLANT_BOMB** messages, fail if other message is sent. Here later you will add processing logic
+
+#HSLIDE
+## What is next?
+At home you will merge your code with game model (from HW2) and networking from this lecture and implement logic for movement and bomb planting  
 
 #HSLIDE
 **Оставьте обратную связь**
