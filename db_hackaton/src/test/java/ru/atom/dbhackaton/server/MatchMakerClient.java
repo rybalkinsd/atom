@@ -20,9 +20,8 @@ public class MatchMakerClient {
 
     public static Response join(String body) throws IOException {
         Request request = new Request.Builder()
-                .get()
+                .post(RequestBody.create(mediaType,body))
                 .url(PROTOCOL + HOST + PORT + "/mm/join")
-                .put(RequestBody.create(mediaType, body))
                 .build();
 
         return client.newCall(request).execute();

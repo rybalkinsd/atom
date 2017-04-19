@@ -28,9 +28,9 @@ public class MatchMakerResources {
 
     private static final GameSessionService GAME_SESSION_SERVICE = new GameSessionService();
 
-    @GET
+    @POST
     @Path("/join")
-    @Produces("text/plain")
+    @Consumes("application/x-www-form-urlencoded")
     public Response join(String body) {
         String userName = body.split("name=\\{")[1].split("}token")[0];
         String token = body.split("token=\\{")[1].split("}")[0];
