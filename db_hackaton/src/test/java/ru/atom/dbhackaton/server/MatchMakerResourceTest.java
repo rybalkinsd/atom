@@ -11,7 +11,7 @@ import org.junit.Ignore;
 /**
  * Created by pavel on 17.04.17.
  */
-@Ignore
+
 public class MatchMakerResourceTest {
 
     @Before
@@ -33,7 +33,7 @@ public class MatchMakerResourceTest {
 
         Assert.assertTrue(response1.code() == 200);
     }
-
+    @Ignore
     @Test
     public void finishTest() throws  Exception {
 
