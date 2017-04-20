@@ -8,7 +8,7 @@ import java.util.Random;
 public class Token {
     private static Random random = new Random();
 
-    private Token() {
+    public Token() {
     }
 
     public static Long createToken() {
