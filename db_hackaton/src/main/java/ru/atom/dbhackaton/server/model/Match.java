@@ -37,5 +37,6 @@ public class Match {
                 "id=" + id +
                 ", date=" + date +
                 '}';
+
     }
 }
