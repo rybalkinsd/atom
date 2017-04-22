@@ -25,6 +25,16 @@ public class Broker {
     public void receive(@NotNull Session session, @NotNull String msg) {
         log.info("RECEIVED: " + msg);
         Message message = JsonHelper.fromJson(msg, Message.class);
+        switch (message.getTopic()) {
+            case MOVE:
+                log.info("MOVE");
+                break;
+            case PLANT_BOMB:
+                log.info("PLANT_BOMB");
+                break;
+            default:
+                log.info("Error");
+        }
         //TODO TASK2 implement message processing
     }
 

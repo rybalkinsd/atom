@@ -7,3 +7,5 @@ build/
 /*/build/
 /*/classes
 /classes
+/db_hackaton/logs/
+/logs/
