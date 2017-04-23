@@ -4,6 +4,8 @@ Messages = Class.extend({
     init: function () {
         this.handler['Pawn'] = this.handlePawn;
         this.handler['Bomb'] = this.handleBomb;
+        this.handler['Wood'] = this.handleTile;
+        this.handler['Wall'] = this.handleTile;
     },
 
     move: function (direction) {
@@ -28,14 +30,17 @@ Messages = Class.extend({
 
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data).objects;
+        var survivors = new Set();
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
             if (gMessages.handler[obj.type] === undefined)
                 continue;
 
+            survivors.add(obj.id);
             gMessages.handler[obj.type](obj);
         }
+        gGameEngine.gc(survivors);
     },
 
     handlePossess: function (msg) {
@@ -70,6 +75,20 @@ Messages = Class.extend({
         } else {
             bomb = new Bomb(obj.id, position);
             gGameEngine.bombs.push(bomb);
+        }
+    },
+
+    handleTile: function (obj) {
+        var tile = gGameEngine.tiles.find(function (el) {
+            return el.id === obj.id;
+        });
+
+        var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
+        if (tile) {
+            tile.material = obj.type;
+        } else {
+            tile = new Tile(obj.id, obj.type, position);
+            gGameEngine.tiles.push(tile);
         }
     }
 
