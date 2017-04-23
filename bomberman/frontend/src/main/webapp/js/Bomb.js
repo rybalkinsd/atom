@@ -1,5 +1,4 @@
 Bomb = Entity.extend({
-    id: null,
     /**
      * Entity position on map grid
      */
