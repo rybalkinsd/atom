@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.model;
+package dbhackaton.model;
 
 
 import java.security.SecureRandom;

@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server.services;
+package dbhackaton.services;
 
 /**
  * Created by ilnur on 12.04.17.
@@ -9,30 +9,25 @@ import org.apache.logging.log4j.Logger;
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
-import javax.ws.rs.GET;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.hibernate.annotations.Table;
-import ru.atom.dbhackaton.server.Authorized;
-import ru.atom.dbhackaton.server.Dao.UserDao;
-import ru.atom.dbhackaton.server.Services;
-import ru.atom.dbhackaton.server.model.Token;
-import ru.atom.dbhackaton.server.model.User;
+import dbhackaton.Services;
 
 @Path("/")
 public class AuthenticationServlet {
     private static final Logger log = LogManager.getLogger(AuthenticationServlet.class);
     private static final Services services = new Services();
 
+
+
+
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/register")
     public Response register(@FormParam("user") String user, @FormParam("password") String password) {
+        String hashPassword = services.hashPass(password);
         if (user.length() < 1) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too short name, sorry :(").build();
         }
@@ -42,14 +37,8 @@ public class AuthenticationServlet {
         if (user.toLowerCase().contains("hitler")) {
             return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
         }
-        if (password.length() < 1) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Too short pass, sorry :(").build();
-        }
-        if (password.length() > 20) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Too long pass, sorry :(").build();
-        }
         try {
-            services.register(user, password);
+            services.register(user, hashPassword);
         } catch (LoginException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
         }
@@ -61,18 +50,37 @@ public class AuthenticationServlet {
     @Consumes("application/x-www-form-urlencoded")
     public Response login(@FormParam("user") String name,
                           @FormParam("password") String password) {
-
+        String hashPassword = services.hashPass(password);
         if (name == null || password == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-
         try {
-            services.login(name, password);
-
+            services.login(name, hashPassword);
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        log.info("User logined");
+
+        return Response.ok().build();
+    }
+
+
+    @POST
+    @Path("/logout")
+    @Consumes("application/x-www-form-urlencoded")
+    public Response logout(@FormParam("user") String name) {
+
+        if (name == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        try {
+            services.logout(name);
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        log.info("User logouted");
 
         return Response.ok().build();
     }

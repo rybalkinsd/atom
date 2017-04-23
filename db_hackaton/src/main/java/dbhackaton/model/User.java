@@ -1,6 +1,5 @@
-package ru.atom.dbhackaton.server.model;
+package dbhackaton.model;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,14 +13,14 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "registered_users", schema = "auth_server")
+@Table(name = "usser", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column
-    private String login;
+    private String name;
 
     @Column
     private String password;
@@ -31,13 +30,17 @@ public class User {
 
 
     public User(String name, String password) {
-        this.setLogin(name);
+        this.setName(name);
         this.setPassword(password);
+        this.token = null;
+        this.id = null;
     }
 
     public User() {
         this.setPassword(null);
-        this.setLogin(null);
+        this.setName(null);
+        this.token = null;
+        this.id = null;
     }
 
     public int getId() {
@@ -49,36 +52,46 @@ public class User {
         return this;
     }
 
+
     public void setToken() {
-        this.token = new Token(this.login, this.password).toString();
+        this.token = new Token(this.name, this.password).toString();
     }
 
     public String getToken() {
         return token;
     }
 
-    public String getLogin() {
-        return login;
+    public void getLogout() {
+        this.token = null;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public User setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+
+
 
     public String getPassword() {
         return password;
     }
 
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public User setLogin(String login) {
-        this.login = login;
-        return this;
-    }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", login='" + name + '\'' +
                 '}';
     }
 }

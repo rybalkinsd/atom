@@ -1,14 +1,12 @@
-package ru.atom.dbhackaton.server.Dao;
+package dbhackaton.dao;
 
 /**
  * Created by ilnur on 12.04.17.
  */
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import ru.atom.dbhackaton.server.model.User;
+import dbhackaton.model.User;
 
 import java.util.List;
 
@@ -34,11 +32,14 @@ public class UserDao {
 
 
     public User getByName(Session session, String name) {
-        return (User) session
-                .createQuery("from User where login = :name")
+        User user = (User) session
+                .createQuery("from User where name = :name")
                 .setParameter("name", name)
                 .uniqueResult();
-
+        if (user != null) {
+            return user;
+        }
+        return null;
     }
 }
 

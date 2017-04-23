@@ -27,7 +27,15 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+        var credentials = $('#nameform').serialize();
+        console.log(credentials);
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "/auth/start",
+            "data": credentials
+        }
     }
 </script>
 
@@ -49,13 +57,14 @@
             }
         };
 
-        $.ajax(settings).done(function(response) {
+        $.ajax(settings).done(function (response) {
             Cookies.remove('user');
             Cookies.remove('token');
+            window.location = "/";
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
         });
-        window.location = "/";
     }
 </script>

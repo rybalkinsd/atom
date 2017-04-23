@@ -1,10 +1,10 @@
-package ru.atom.dbhackaton.server.Dao;
+package dbhackaton.dao;
 
+import dbhackaton.model.Token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import ru.atom.dbhackaton.server.model.Token;
-import ru.atom.dbhackaton.server.model.User;
+import dbhackaton.model.User;
 
 import java.util.List;
 
@@ -29,19 +29,5 @@ public class TokenDao {
 
     public void insert(Session session, Token token) {
         session.saveOrUpdate(token);
-    }
-
-//    public Token getById(Session session, Integer id) {
-//        return (Token) session
-//                .createQuery("from Token where uid = :id")
-//                .setParameter("uid", id)
-//                .uniqueResult();
-//    }
-
-    public User getByName(Session session, String name) {
-        return (User) session
-                .createQuery("from User where login = :name")
-                .setParameter("name", name)
-                .uniqueResult();
     }
 }
