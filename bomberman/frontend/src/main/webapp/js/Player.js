@@ -1,6 +1,4 @@
 Player = Entity.extend({
-    id: null,
-
     /**
      * Bitmap dimensions
      */
