@@ -18,8 +18,7 @@ Bonus = Entity.extend({
         gGameEngine.stage.addChild(this.bmp);
     },
 
-    destroy: function() {
+    remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
-        Utils.removeFromArray(gGameEngine.bonuses, this);
     }
 });
