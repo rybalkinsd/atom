@@ -6,6 +6,7 @@ Messages = Class.extend({
         this.handler['Bomb'] = this.handleBomb;
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
+        this.handler['Fire'] = this.handleFire;
     },
 
     move: function (direction) {
@@ -89,6 +90,18 @@ Messages = Class.extend({
         } else {
             tile = new Tile(obj.id, obj.type, position);
             gGameEngine.tiles.push(tile);
+        }
+    },
+
+    handleFire: function (obj) {
+        var fire = gGameEngine.fires.find(function (el) {
+            return el.id === obj.id;
+        });
+
+        var position = Utils.getEntityPosition(obj.position);
+        if (!fire) {
+            fire = new Fire(obj.id, position);
+            gGameEngine.fires.push(fire);
         }
     }
 
