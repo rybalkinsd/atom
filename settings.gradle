@@ -10,6 +10,7 @@ include 'lecture08'
 include 'lecture09'
 
 include 'homeworks/HW1'
+include 'homeworks/HW2'
 
 include 'web_hackaton'
 include 'db_hackaton'
