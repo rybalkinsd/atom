@@ -208,7 +208,7 @@ Some just avoid concurrency
 #HSLIDE
 ## What about Memory Model in Java
 Java Provide low-level powerful **Memory Model**, that allows threads freely communicate via shared mutable state.  
-With JMM one can create highly-concurrent performant system.
+With JMM one can create highly-concurrent high-performance system.
 The power is gained at cost of complexity. **JMM** sacrifices some basic guaranties: **guaranties** that are obvious in single-threaded environment **does not work** in multi-threaded environment.
 
 #HSLIDE
@@ -281,7 +281,7 @@ Reasoning about performance of concurrent programs is tricky
 > @see https://shipilev.net/
 
 #HSLIDE
-## java.util.concurrent
+## WHat to do?
 It is hard to reason low-level JMM categories, but there are a number of high-level constructions in JDK (later)
 
 #HSLIDE
@@ -294,7 +294,8 @@ It is hard to reason low-level JMM categories, but there are a number of high-le
 1. Practice
 
 #HSLIDE
-@see 
+## What to do?
+https://github.com/rybalkinsd/atom/blob/lecture10/lecture10/presentation/concurrency.pdf
 
 #HSLIDE
 ## Agenda
