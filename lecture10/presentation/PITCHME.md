@@ -51,7 +51,7 @@ Why need parallelism?
 
 #HSLIDE
 ### Process vs Thread
-<img src="lecture05/presentation/assets/img/process.png" alt="process" style="width: 450px;"/>
+<img src="lecture10/presentation/assets/img/process.png" alt="process" style="width: 450px;"/>
 
 #HSLIDE
 ## Threads and processes. OS Role
@@ -182,22 +182,6 @@ What is game state in Bomberman?
 Is it **shared mutable state**?
 
 #HSLIDE
-## Concurrency in different languages
-Many languages are have no default concurrency support (does not have **Memory Model**)
-- c (concurrency provided by **p_threads** library)
-- c++ (before C++11)
-Some just avoid concurrency
-- Python (GIL)
-- Ruby (GIL, Introduced Guild Locks)
-
-#HSLIDE
-## Concurrency in Java
-In Java concurrency is supported by language natively. It has Memory Model that is considered successful. C++ Memory Model roots from JMM.
-//TODO reference to JMM
-
-#HSLIDE
-
-#HSLIDE
 ## Agenda
 1. Threads and processes
 1. Multiple threads in game
@@ -207,9 +191,119 @@ In Java concurrency is supported by language natively. It has Memory Model that 
 1. Practice
 
 #HSLIDE
+## What if we just write concurrent program as single-threaded?
+Many things will go wrong. It depends on **Memory Model** of language.  
+First let's look at how MM is implemented in other languages and in Java.
+
+
+#HSLIDE
+## Concurrency in different languages
+Many languages are have no default concurrency support (does not have **Memory Model**)
+- c (concurrency provided by **p_threads** library)
+- c++ (before C++11)
+Some just avoid concurrency
+- Python (GIL)
+- Ruby (GIL, Introduced Guild Locks)
+
+#HSLIDE
+## What about Memory Model in Java
+Java Provide low-level powerful **Memory Model**, that allows threads freely communicate via shared mutable state.  
+With JMM one can create highly-concurrent performant system.
+The power is gained at cost of complexity. **JMM** sacrifices some basic guaranties: **guaranties** that are obvious in single-threaded environment **does not work** in multi-threaded environment.
+
+#HSLIDE
+## Java Memory Model (JMM)
+Formally this is defined by **Java Language Specification**  
+Specifically by **Java Memory Model** (**JMM**)
+Chapter 17. Threads and locks  
+https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html  
+(do not read! first look at https://shipilev.net/#jmm )  
+JMM is tricky to understand and is hard to use directly.
+
+#HSLIDE
+## What JMM states?
+JMM specifies what can be **read** by particular read action in program.  
+More precisely it defines **guarantees** on read/write atomicity, write visibility and instruction ordering.
+
+#HSLIDE
+## JMM. Why so complex?
+JVM is highly optimized. It is possible because of relatively weak guarantees of JMM.  
+JMM was created as a trade-off between performance, complexity of JVM and abilities of hardware.  
+JMM considered to be one of the most successful memory models.  
+Recently Introduced C++ Memory Model is highly based on JMM.  
+
+#HSLIDE
 ## Data race
-When several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**  
-Is **Bomberman** prone to data races?
+**Data race** - when several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**   
+> @see ru.atom.lecture10.dataraces
+
+Is **Bomberman** prone to data races?  
+  
+There are 3 reasons for data races according to JMM. The following guaranties are **weak** in multithreaded environment:
+- Atomicity
+- Visibility
+- Ordering
+
+#HSLIDE
+## Atomicity
+Some operations that are expected to be atomic - are not: ● i++;
+- double/long reads and writes on 32 bit systems
+- check then act actions:
+```java
+￼if (!map.containsKey(key)) {
+   map.put(key, value);
+}
+```
+> @see ru.atom.lecture10.dataraces
+
+#HSLIDE
+## Visibility
+Modern processors have multi-level caches. Thus threads running on different processors may not see changes made by other threads.  
+It actually depends on cache [**coherence protocol**](https://en.wikipedia.org/wiki/Cache_coherence).  
+> @see ru.atom.lecture10.volatileexample
+
+#HSLIDE
+## Visibility
+<img src="lecture10/presentation/assets/img/visibility.png" alt="queue" style="width: 600px;"/>
+
+#HSLIDE
+## Ordering
+In sake of performance **javac**, **jit** and **JVM** may change your code whenever it is accepted by **Java Memory Model**, that is reorder instructions.
+After all, **processor** reorders instructions by himself.  
+JMM restrict some reorderings.
+> @see ru.atom.lecture10.ordering 
+
+#HSLIDE
+## Any other problems?
+- deadlocks
+- **Performance**  
+Reasoning about performance of concurrent programs is tricky
+> @see https://shipilev.net/
+
+#HSLIDE
+## java.util.concurrent
+It is hard to reason low-level JMM categories, but there are a number of high-level constructions in JDK (later)
+
+#HSLIDE
+## Agenda
+1. Threads and processes
+1. Multiple threads in game
+1. Parallelism and Concurrency
+1. What can go wrong with concurrency?
+1. **[What to do?]**
+1. Practice
+
+#HSLIDE
+@see 
+
+#HSLIDE
+## Agenda
+1. Threads and processes
+1. Multiple threads in game
+1. Parallelism and Concurrency
+1. What can go wrong with concurrency?
+1. What to do?
+1. **[Practice]**
 
 #HSLIDE
 ### Queue
@@ -232,9 +326,17 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 }
 ```
 
+
 #HSLIDE
 ### Queue
 <img src="lecture10/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
+
+#HSLIDE
+## Reasoning about concurrent programs
+Bugs in concurrent programs are hard to reproduce Hopefully we have toolchain for analysis of multithreaded programs.  
+**jcstress**
+http://openjdk.java.net/projects/code-tools/jcstress/  
+(requires JDK9)
 
 #HSLIDE
 ### Back to the root
@@ -262,12 +364,34 @@ class java.lang.Object {
 
 #HSLIDE
 ## Summary
-- **InputStream** and **OutputStream** - basic **bytes** io
-- **Reader** and **Writer** - basic **string** io
-- **Serialization** is standard mechanism to store java object (for example to file)
-- With **Reflection** we can use the information about program structure in runtime
-- One must use **reflection** wisely
-- **Collections** and **Exceptions** - are most popular topics on interviews
+- Java provide powerful Memory Model that allows to create high-performance concurrent applications.
+- concurrency is not obvious
+- To make concurrent program correct we **must** use proper synchronization
+- Without proper synchronization we can get hardly-reproducible bugs.
+- The reason for this bugs are weakened guaranties for atomicity, visibility and ordering in multi-threaded environment
+- Avoid concurrency if possible
+- Avoid shared mutable state if possible
+- Use final variables if possible
+- Use ThreadLocal if possible
+- If concurrency is inevitable, use java.util.concurrent
+- To use low-level concurrency you must fully understand it
+
+#HSLIDE
+## References
+Java concurrency in practice (signature book for Java Developer)  
+https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601  
+Shipilev blog (JMM, concurrency, performance, benchmarks for people, JDK contributor)  
+https://shipilev.net/  
+Doug Lea-s home page (java.util.concurrent father and famous spec in concurrency and allocators)  
+http://g.oswego.edu/  
+Java Memory Model Pragmatics (best explanation of JMM - available in russian)  
+https://shipilev.net/#jmm  
+JMM Under the hood (deep explanation of JMM)  
+http://gvsmirnov.ru/blog/tech/2014/02/10/jmm-under-the-hood.html  
+What Every Dev Must Know About Multithreaded Apps (Common knowledge)  
+https://lyle.smu.edu/~coyle/cse8313/handouts.fall06/s04.msdn.multithreading.pdf  
+Most active russian community on java, concurrency and related topics http://razbor-poletov.com/ (podcast)  
+https://gitter.im/razbor-poletov/razbor-poletov.github.com (chat)
 
 #HSLIDE
 **Оставьте обратную связь**
