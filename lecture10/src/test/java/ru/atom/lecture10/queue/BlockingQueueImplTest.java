@@ -36,7 +36,7 @@ public class BlockingQueueImplTest {
             });
         }
         Thread.currentThread().sleep(2000L);
-        
+
     }
 
 }
