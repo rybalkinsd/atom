@@ -222,7 +222,7 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
     /** 
      * Inserts the specified element into this queue ...
      */
-    boolean offer(E e);
+    void put(E e);
     
     /**
     * Retrieves and removes the head of this queue, waiting up to the
@@ -232,10 +232,33 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 }
 ```
 
-
 #HSLIDE
 ### Queue
 <img src="lecture10/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
+
+#HSLIDE
+### Back to the root
+
+```java
+class java.lang.Object {
+    public final native void wait(long timeout) throws InterruptedException;
+    public final native void notify();
+    public final native void notifyAll();
+}
+```
+
+#HSLIDE
+### How-to
+1. notify vs notifyAll
+2. how to wait - while approach
+
+
+
+
+#HSLIDE
+### Monitors
+<img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 400px;"/>
+
 
 #HSLIDE
 ## Summary
