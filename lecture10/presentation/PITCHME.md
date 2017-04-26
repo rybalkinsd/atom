@@ -46,9 +46,8 @@ Why need parallelism?
 
 #HSLIDE
 ### Process vs Thread
-**Process** has dedicated resources (memory)
-
-**Threads** share memory space
+- **Process** has dedicated resources (memory)
+- **Threads** share memory space
 
 #HSLIDE
 ### Process vs Thread
@@ -106,7 +105,7 @@ new Thread( runnable ).start();
 
 #HSLIDE
 ### Start and Run
-<img src="lecture05/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
+<img src="lecture10/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
 ## Multithreaded programs are racy
@@ -119,19 +118,10 @@ Race condition (состояние гони, гонка)
 program behaviour where the output is dependent on the
 sequence or timing of other uncontrollable events
 Parallel programs are racy by nature, some races are erroneous.
-> @see races
+> @see ru.atom.lecture10.races
 
 #HSLIDE
-## What does it mean that threads share memory?
-> @see SharedMutableState TODO example with shared variable
-
-#HSLIDE
-### Concurrency vs parallelism
-**Concurrency** - contention on shared resources  
-**Parallelism** is possible without concurrency  
-
-#HSLIDE
-### jstack
+## jstack
 Util to observe java process stack state.
  
 ```bash
@@ -145,56 +135,81 @@ Util to observe java process stack state.
 #HSLIDE
 ## Agenda
 1. Threads and processes
-1. Multiple threads in game
+1. **[Multiple threads in game]**
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
 1. What to do?
 1. Practice
 
 #HSLIDE
-### Practice #1
-Our Bomberman is a client server game.
-
-As a client server game we have Clients or **Connections**
-
-Clients want to play. So, we have Games or **GameSessions** 
- 
+## Multuple threads in Bomberman
+Our Bomberman is a **client-server** game.  
+Every player establishes **Session** with Server over **WebSocket**.  
+Every connection is processed in **dedicated thread** (Actually thread from some **ThreadPool**).  
+That is players are in different threads.
 
 #HSLIDE
-### Matchmaker
-<img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
-
-
-#HSLIDE
-### Matchmaking algorithm
-<img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
-
+## How different threads communicate?
+As usual - they can communicate via public variables, via mutable objects.
 
 #HSLIDE
-### Matchmaking algorithm
-**Assume we have a queue storing connections**
-
-Matchmaker is an infinity-loop algorithm with steps
-1. **Poll connection** from queue
-1. **Collect** polled connection to game GameSession candidates
-1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
-    - If **no** continue to step #1
-    - If **yes**
-        - Create and save GameSession
-        - Clean GameSession candidates
-        - Continue to step #1
-
+## Agenda
+1. Threads and processes
+1. Multiple threads in game
+1. **[Parallelism and Concurrency]**
+1. What can go wrong with concurrency?
+1. What to do?
+1. Practice
 
 #HSLIDE
-### Connection producer
-We do not have server to get connections for now. 
+## What does it mean that threads share memory?
+They read and write to shared mutable variable (**shared mutable state**)
+> @see ru.atom.lecture10.sharedmutablestate
 
-We need an instance to emulate client.  
+#HSLIDE
+## Concurrency vs parallelism
+**Concurrency** - contention on shared resources (memory, shared state)  
+**Parallelism** - is possible without concurrency  
 
-**Connection producer** will put new requests to our **queue** time-to-time.
+#HSLIDE
+## Examples?
+Any examples of task that can be executed in parallel without concurrency?
 
-It is possible to have many producers.
+#HSLIDE
+## Bomberman server is concurrent
+Different threads change and read game state  
+What is game state in Bomberman?  
+Is it **shared mutable state**?
 
+#HSLIDE
+## Concurrency in different languages
+Many languages are have no default concurrency support (does not have **Memory Model**)
+- c (concurrency provided by **p_threads** library)
+- c++ (before C++11)
+Some just avoid concurrency
+- Python (GIL)
+- Ruby (GIL, Introduced Guild Locks)
+
+#HSLIDE
+## Concurrency in Java
+In Java concurrency is supported by language natively. It has Memory Model that is considered successful. C++ Memory Model roots from JMM.
+//TODO reference to JMM
+
+#HSLIDE
+
+#HSLIDE
+## Agenda
+1. Threads and processes
+1. Multiple threads in game
+1. Parallelism and Concurrency
+1. **[What can go wrong with concurrency?]**
+1. What to do?
+1. Practice
+
+#HSLIDE
+## Data race
+When several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**  
+Is **Bomberman** prone to data races?
 
 #HSLIDE
 ### Queue
@@ -220,227 +235,7 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 
 #HSLIDE
 ### Queue
-<img src="lecture05/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
-
-
-#HSLIDE
-##File operations
-*java.nio.file* contains modern API for file read/write  
-> @see test/ru.atom.lecture09.nio.NioFileApi.java
-
-
-#HSLIDE
-## IO
-API for input and output to
-- files
-- network streams
-- internal memory buffers
-- ...  
-IO API is **blocking**  
-[http://docs.oracle.com/javase/tutorial/essential/io/](http://docs.oracle.com/javase/tutorial/essential/io/)
-
-
-#HSLIDE
-##Byte Streams
-#### InputStream (source -> InputStream)  
-AudioInputStream, ByteArrayInputStream, FileInputStream, FilterInputStream, ObjectInputStream, PipedInputStream, SequenceInputStream, StringBufferInputStream
-#### OutputStream (OutputStream -> target)  
-ByteArrayOutputStream, FileOutputStream, FilterOutputStream, PrintStream, ObjectOutputStream, PipedOutputStream
-  
-IO API is **blocking**
-> @see System.out / System.err (PrintStream)  
-> @see ru.atom.lecture09.io.ByteStreams.java
-
-#HSLIDE
-##Character streams
-#### Reader (source --> Reader)  
-BufferedReader, CharArrayReader, FilterReader, InputStreamReader, PipedReader, StringReader
-#### Writer (Writer --> target)  
-BufferedWriter, CharArrayWriter, FilterWriter, OutputStreamWriter, PipedWriter, PrintWriter, StringWriter
-  
-IO API is **blocking**
-> @see ru.atom.lecture09.io.CharacterStreams.java  
-
-#HSLIDE
-##NIO
-Source -async-> Channel --> Buffer  
-Buffer --> Channel -async-> Target  
-  
-NIO API is **non-blocking**  
-**details:** [http://tutorials.jenkov.com/java-nio/index.html](http://tutorials.jenkov.com/java-nio/index.html)
-
-#HSLIDE
-## IO Summary
-Now we can read from and write to any external data sources.  
-For filesystem operations we use java.io.Path
-
-#HSLIDE
-## Agenda
-1. IO/NIO
-1. **[Serialization]**
-1. Reflection
-1. Collections revisited
-1. Exceptions revisited
-
-#HSLIDE
-## What is serialization
-Way to persist java object (**serialize**) from java program  
-and to load persisted java object (**deserialize**) into java program  
-
-#HSLIDE
-# Why need serialization?
-
-#HSLIDE
-## Default Java serialization
-### What we need for Serialization to work:
-1. implement Serializable (marker interface)
-1. have **default** constructor
-1. add class version
-   ```java
-   private static final long serialVersionUID = ...L;
-   ```
-1. put java object to ObjectOutputStream(OutputStream); that is we can immediately save it into File or send it via network e.t.c.
-1. Deserialize via ObjectInputStream(InputStream);
-@see src/ru.atom.lecture09.serialization.SerializationDeserializationTest.java
-
-#HSLIDE
-## Serializable class example
-```java
-public class ToSerialize implements Serializable {
-    private static final long serialVersionUID = 123123123123L;
-
-    private SomeSerializableClass someField;//this will be serilized
-
-    public ToSerialize() {
-    }
-}
-```
-
-#HSLIDE
-## Serialization is recursive
-Serialization is **recursive**  
-  
-that is, every object, referenced from serialized will be serialized.  
-  
-So **everything** in reference hierarchy (if not transient) must be **Serializable**  
-Almost all common library classes are serializable (Strings, Numbers, Collection and Maps implementations)
-
-#HSLIDE
-## Serialization customization
-1. **transient** - ignore this field during serialization and deserialization
-1. Implement **Externalizable** instead of **Serializable**
-```java
-public interface Externalizable {
-  //custom serialization logic here
-  void writeExternal(ObjectOutput out) throws IOException;
-  //custom serialization logic here
-  void readExternal(ObjectInput in) throws IOException, ClassNotFoundException;
-}
-```
-1. Use something beyond java serialization
-(store to custom json/xml/binary via library)
-
-#HSLIDE
-#Task
-<img src="lecture09/presentation/assets/img/task.png" alt="exception" style="width: 500px;"/>
-
-> @see src/ru.atom.lecture09.serialization
-
-Here we have server that accepts serialized object of type **Packet**  
-Implement ObjectClient and send you name in serialized Packet to **wtfis.ru:12345**  
-Use **Socket** and **OutputStream** to send serialized **Packet**
-
-
-#HSLIDE
-## sniff tcp traffic with tcpdump
-[http://www.tcpdump.org/](http://www.tcpdump.org/)  
-tcpdump - standard unix tool to for traffic analysis
-```bash
-> tcpdump -Aq -s0 -i lo0 'tcp port 8090'
-```
-
-#HSLIDE
-## Another nice tools
-**tcpflow**  
-[tcpflow on github](https://github.com/simsong/tcpflow)  
-**wireshark**  
-[home page](https://www.wireshark.org/)
-
-#HSLIDE
-## Agenda
-1. IO/NIO
-1. Serialization
-1. **[Reflection]**
-1. Collections revisited
-1. Exceptions revisited
-
-#HSLIDE
-##Reflection
-Standard library API for accessing Type information at Runtime
-- **instanceof**  
-- class **Class<T>** (and all the class contents: fields, methods, Constructors ...)
-- class **ClassLoader**
-Official tutorial: [https://docs.oracle.com/javase/tutorial/reflect/](https://docs.oracle.com/javase/tutorial/reflect/)
-
-#HSLIDE
-##Why need reflection
-- Annotation processing (widely used inside frameworks)
-- Class loading at runtime
-- Introspection
-(for example for IDE or code generation toolchain)
-> @see test/ru.atom.lecture09.reflection
-
-#HSLIDE
-##Reflection drawback
-- performance overhead
-reflection is actually fast, but it breaks some optimizations  
-[https://shipilev.net/blog/archive/reflection/](https://shipilev.net/blog/archive/reflection/)
-- security restrictions  
-every reflective call goes through SecurityManager
-[https://docs.oracle.com/javase/tutorial/essential/environment/security.html](https://docs.oracle.com/javase/tutorial/essential/environment/security.html)
-- exposure of internals reflection breaks abstraction  
-**One must use reflection Wisely!**  
-(actually as part of specific design patterns)
-
-#HSLIDE
-##Reflection example
-We can for example **configure application** by choosing interface interface implementation in parameters file
->￼@see test/ru.atom.lecture09.reflection.configuration
-
-Actually any **framework** has it's own harness for configuration  
-(recall for example **hibernate.cfg.xml**)  
-It may actually work via reflection inside
-
-#HSLIDE
-## Agenda
-1. IO/NIO
-1. Serialization
-1. Reflection
-1. **[Collections revisited]**
-1. Exceptions revisited
-
-#HSLIDE
-1. Нарисуйте иерархию классов коллекций
-2. ArrayList - устройство и асимптотика
-3. LinkedList - устройство и асимптотика
-4. HashMap - устройство и асимптотика
-5. какие требования предъявляются к объектам, помещаемым в hashmap
-6. какие требования предъявляются к объектам, помещаемым в treemap
-
-#HSLIDE
-## Agenda
-1. IO/NIO
-1. Serialization
-1. Reflection
-1. Collections revisited
-1. **[Exceptions revisited]**
-
-#HSLIDE
-1. Нарисуйте иерархию исключений
-2. checked и unchecked exceptions
-3. что будет с исключением, выкинутым из блока finally?
-4. что такое try-with-resources?
-5. что будет с исключением, выкинутым при закрытии ресурса?
+<img src="lecture10/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
 
 #HSLIDE
 ## Summary
