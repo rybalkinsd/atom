@@ -14,11 +14,11 @@ public class MyBlockingQueue<T> implements BlockingQueue<T> {
     private final Logger log = LogManager.getLogger(MyBlockingQueue.class);
     private final Object lock = new Object();
     private Queue<T> queue;
-    private final int CAPACITY;
+    private final int capacity;
     private volatile int size;
 
     public MyBlockingQueue(int capacity) {
-        this.CAPACITY = capacity;
+        this.capacity = capacity;
         this.size = 0;
         queue = new LinkedList<T>();
     }
@@ -26,7 +26,7 @@ public class MyBlockingQueue<T> implements BlockingQueue<T> {
     @Override
     public void put(T elem) throws InterruptedException {
         synchronized (lock) {
-            while (size == CAPACITY) {
+            while (size == capacity) {
                 log.info("Queue blocked");
                 lock.wait();
             }
@@ -53,7 +53,7 @@ public class MyBlockingQueue<T> implements BlockingQueue<T> {
 
     @Override
     public int remainingCapacity() {
-        return CAPACITY - size();
+        return capacity - size();
     }
 
     @Override
