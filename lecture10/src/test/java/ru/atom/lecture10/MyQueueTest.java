@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 class MyQueueTest {
     @Test
-    public void testQueue() {
+    public void testQueue() throws Exception {
         AtomicLong val = new AtomicLong();
         final MyQueue<Integer> queue = new MyQueue<>(100);
         ArrayList<Thread> threads = new ArrayList<>(10);

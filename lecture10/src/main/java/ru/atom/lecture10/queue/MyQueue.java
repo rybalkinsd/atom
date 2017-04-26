@@ -23,7 +23,7 @@ public class MyQueue<T> implements BlockingQueue<T> {
     public void put(T elem) throws InterruptedException {
         synchronized (array) {
             while (array.size() == size) array.wait();
-            array.set(first + size++, elem);
+            array.set((first + size++) % array.size(), elem);
             array.notify();
         }
     }
