@@ -3,8 +3,6 @@ package ru.atom.lecture10.queue;
 /**
  * A Queue that supports operations to wait for to become non-empty when retrieving an element,
  * and wait for space to become available in the queue when storing an element.
- *
- * @param <T>
  */
 public interface BlockingQueue<T> {
 
@@ -19,6 +17,7 @@ public interface BlockingQueue<T> {
 
     /**
      * Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
+     *
      * @return the head of this queue if interrupted while waiting
      * @throws InterruptedException if interrupted while waiting
      */
@@ -30,12 +29,12 @@ public interface BlockingQueue<T> {
      * Note that you cannot always tell if an attempt to insert an element will succeed by inspecting remainingCapacity
      * without synchronization
      * because it may be the case that another thread is about to insert or remove an element.
-     * @return
      */
     int remainingCapacity();
 
     /**
      * Returns the number of elements in this collection.
+     *
      * @return the number of elements in this collection
      */
     int size();
