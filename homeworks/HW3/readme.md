@@ -1,4 +1,9 @@
 # Hi!
+## Homework 3
+- Work in **groups**  
+- Deadline: **4 may**
+- Send **single pull request** per group)
+
 ## What we have
 - You already have a **game model**, implemented in **HW2**.  
 - In tecture 8 we discussed how to use websocket for client-server communication.  
@@ -16,11 +21,11 @@ public interface Tickable {
     void tick(long time);
 }
 ```
-All the **game objects** are ticked by **GameSession**. **GameSession** is ticked by **Ticker** (see **lecture10**).
-
-The **Ticker** implementation provided in **lecture10** implement awaiting until FRAME_TIME ends if processing finished earlier. However, if the server experiencing overload, processing time can exceed **FRAME_TIME**.  
+All the **game objects** are ticked by **GameSession**. **GameSession** is ticked by **Ticker** (see **lecture10**).  
   
-Implement ticking on all your tickable game objects
+The **Ticker** implementation provided in **source directory** implement awaiting until **FRAME_TIME** ends if processing finished earlier. However, if the server experiencing overload, processing time can exceed **FRAME_TIME**.  
+  
+Implement ticking on all your Tickable game objects
 
 ### 2. Connect network to you model
 After server establishes **Session** with client, bi-directional network communication begins. Implement processing of **MOVE** and **PLANT_BOMB** messages and sending **POSSESS** and **REPLICA** messages to frontend.

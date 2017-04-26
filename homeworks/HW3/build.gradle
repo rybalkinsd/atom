@@ -1,0 +1,4 @@
+dependencies {
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.jetbrainsAnnotations
+}
