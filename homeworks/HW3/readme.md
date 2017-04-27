@@ -56,12 +56,35 @@ client -> server
 ```
 
 **POSSESS**
-```
+Is a message you need to send to client at the beginning of game (before any Replica).
+Reasoon to have possessed pawn is to play personal animations, sounds and other events.
+```json
+{
+  "topic": "POSSESS",
+  "data": <id of pawn to possess>
+}
 ```
 
 **REPLICA**
 Sends server state to clients in the end of every tick
+
+```json
+{
+  "topic": "REPLICA",
+  "data": [ obj1, obj2, ... ]
+}
 ```
+Objects could be:
+```json
+{
+  "type": "Pawn" or "Bomb" or "Wall" or "Wood" or "Fire"
+  "id" : <id of object>
+  "position" : {
+    "x" : <number>
+    "y" : <number>
+  }
+}
 ```
+By default frontend produce all coordinates transformation.
   
 **Note:** you should work in dedicated branch of your choice. In this branch you will implement the whole game
