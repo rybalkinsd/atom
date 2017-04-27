@@ -6,7 +6,7 @@
 
 ## What we have
 - You already have a **game model**, implemented in **HW2**.  
-- In tecture 8 we discussed how to use websocket for client-server communication.  
+- In lecture 8 we discussed how to use websocket for client-server communication.  
 We use **Broker.java** as API for sending and receiving messages.
 ## Task
 Implement client-server communication protocol and connect it with model.
