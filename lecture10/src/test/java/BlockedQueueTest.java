@@ -24,7 +24,7 @@ public class BlockedQueueTest {
     public void queueTest() throws InterruptedException {
         List<String> result = new ArrayList<>();
         Thread producer = new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 16; i++) {
                 try {
                     queue.put("String" + i);
                 } catch (InterruptedException e) {
@@ -45,8 +45,21 @@ public class BlockedQueueTest {
 
         producer.start();
         consumer.start();
-        producer.join();
         consumer.join();
+        Assert.assertTrue(queue.size() <= 5);
         Assert.assertEquals(10,result.size());
+
+        Thread singleConsumer = new Thread(() -> {
+            try {
+                result.add(queue.take());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        singleConsumer.start();
+        singleConsumer.join();
+        producer.join();
+        Assert.assertEquals(5, queue.size());
+        Assert.assertEquals(11,result.size());
     }
 }
