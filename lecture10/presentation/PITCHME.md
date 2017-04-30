@@ -31,7 +31,7 @@ Refresh gradle project
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
-1. What to do?
+1. Synchronization. Critical section
 1. Practice
 
 #HSLIDE
@@ -138,7 +138,7 @@ Util to observe java process stack state.
 1. **[Multiple threads in game]**
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
-1. What to do?
+1. Synchronization. Critical section
 1. Practice
 
 #HSLIDE
@@ -158,7 +158,7 @@ As usual - they can communicate via public variables, via mutable objects.
 1. Multiple threads in game
 1. **[Parallelism and Concurrency]**
 1. What can go wrong with concurrency?
-1. What to do?
+1. Synchronization. Critical section
 1. Practice
 
 #HSLIDE
@@ -187,7 +187,7 @@ Is it **shared mutable state**?
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. **[What can go wrong with concurrency?]**
-1. What to do?
+1. Synchronization. Critical section
 1. Practice
 
 #HSLIDE
@@ -250,7 +250,7 @@ Some operations that are expected to be atomic - are not: ● i++;
 - double/long reads and writes on 32 bit systems
 - check then act actions:
 ```java
-￼if (!map.containsKey(key)) {
+if (!map.containsKey(key)) {
    map.put(key, value);
 }
 ```
@@ -290,12 +290,70 @@ It is hard to reason low-level JMM categories, but there are a number of high-le
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
-1. **[What to do?]**
+**[1. Synchronization. Critical section]**
 1. Practice
 
 #HSLIDE
 ## What to do?
-https://github.com/rybalkinsd/atom/blob/lecture10/lecture10/presentation/concurrency.pdf
+- Declare critical sections
+- Use java.util.concurrent (next lecture)
+- use low-level concurrency (next lecture)
+
+#HSLIDE
+## Critical section
+In Java we can declare code block as **synchronized** on some **object**.  
+The object will protect the code block and allow only single thread to enter the **code block** simultaneously  
+This is possible because in Java **every object** has **internal monitor**
+
+#HSLIDE
+## synchronized
+synchronization on custom object
+```java
+public void some someMethod(Object someLock) {
+    //...
+    //this code is protected by someLock internal monitor
+    synchronized(someLock){ 
+        //...
+    }
+    //...
+}
+```
+synchronization on **this**
+```java
+public void synchronized otherMethod(){
+    ...
+}
+```
+synchronization on **SomeClass.class** object
+```java
+public class SomeClass{
+    public static void synchronized otherMethod(){
+        //...
+    }   
+}
+```
+
+#HSLIDE
+## Internal monitor
+Every object has **internal monitor**  
+Monitor consists of:
+- mutex
+- with ability to wait (block) for a certain condition to become true
+
+#HSLIDE
+## Internal monitor
+<img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 400px;"/>
+
+#HSLIDE
+## wait()/notify()
+Class **Object** has API for internal monitor:
+```java
+class java.lang.Object {
+    public final native void wait(long timeout) throws InterruptedException;
+    public final native void notify();
+    public final native void notifyAll();
+}
+```
 
 #HSLIDE
 ## Agenda
@@ -356,8 +414,6 @@ class java.lang.Object {
 2. how to wait - while approach
 
 
-
-
 #HSLIDE
 ### Monitors
 <img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 400px;"/>
@@ -391,8 +447,6 @@ JMM Under the hood (deep explanation of JMM)
 http://gvsmirnov.ru/blog/tech/2014/02/10/jmm-under-the-hood.html  
 What Every Dev Must Know About Multithreaded Apps (Common knowledge)  
 https://lyle.smu.edu/~coyle/cse8313/handouts.fall06/s04.msdn.multithreading.pdf  
-Most active russian community on java, concurrency and related topics http://razbor-poletov.com/ (podcast)  
-https://gitter.im/razbor-poletov/razbor-poletov.github.com (chat)
 
 #HSLIDE
 **Оставьте обратную связь**
