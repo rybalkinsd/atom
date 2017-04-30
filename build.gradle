@@ -14,13 +14,14 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
-    //gsonjVersion = "2.7"
+    //gsonjVersion = "2.7"s
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
     jwtVersion = "0.7.0"
     gsonVersion = "2.2.4"
     jbcryptVersion = "0.4"
+    websocketVersion = "9.4.3.v20170317"
 }
 
 allprojects {
@@ -75,7 +76,11 @@ ext.libraries = [
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
         gson: "com.google.code.gson:gson:$gsonVersion",
-        jbcrypt: "de.svenkubiak:jBCrypt:$jbcryptVersion"
+        jbcrypt: "de.svenkubiak:jBCrypt:$jbcryptVersion",
+        websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
+        websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
+        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 ]
 
 // code coverage settings

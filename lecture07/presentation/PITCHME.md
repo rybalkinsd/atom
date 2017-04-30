@@ -353,7 +353,7 @@ in **index.html**
 1. Hibernate - implementation of **JPA**
 1. To make object manageable by hibernate (**entity**) you must annotate class (or describe mapping any other way, like xml)
 1. To manage entity, you must use **Session** object
-1. Hibernate configuration matters - understand what every line mean in **hibernate.xfg.xml**
+1. Hibernate configuration matters - understand what every line mean in **hibernate.cfg.xml**
 1. **Session is not thread safe** - one must use hibernate session from single thread
 1. Session lifespan is configurable (by hibernate)
 1. Hibernate will not work without **transactions**
