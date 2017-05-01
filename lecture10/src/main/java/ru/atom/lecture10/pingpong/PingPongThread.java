@@ -4,7 +4,6 @@ public class PingPongThread implements Runnable {
     private final String word;
     private static final Object lock = new Object();
 
-
     public PingPongThread(String word) {
         this.word = word;
     }
