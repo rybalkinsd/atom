@@ -10,7 +10,7 @@ Messages = Class.extend({
         var template = {
             topic: "MOVE",
             data: {}
-        };
+        }
 
         template.data.direction = direction.toUpperCase();
         return JSON.stringify(template);
