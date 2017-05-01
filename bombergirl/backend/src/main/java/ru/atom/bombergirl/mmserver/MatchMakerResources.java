@@ -63,7 +63,7 @@ public class MatchMakerResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        return Response.ok("wtfis.ru:8090/gs/" + random.nextInt(42))
+        return Response.ok("localhost:8090/gs/" + MatchMaker.getIdGame())
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")

@@ -6,12 +6,18 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by ikozin on 17.04.17.
  */
 public class MatchMaker implements Runnable {
     private static final Logger log = LogManager.getLogger(MatchMaker.class);
+    private static AtomicLong idGame = new AtomicLong();
+
+    public static Long getIdGame() {
+        return idGame.get();
+    }
 
     @Override
     public void run() {
@@ -31,6 +37,7 @@ public class MatchMaker implements Runnable {
                 log.info(session);
                 ThreadSafeStorage.put(session);
                 candidates.clear();
+                idGame.getAndIncrement();
             }
         }
     }

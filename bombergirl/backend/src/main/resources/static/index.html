@@ -27,7 +27,6 @@
 
 <script>
     function newGame() {
-        //location.replace(window.location.origin.slice(0, window.location.origin.length - 2) + '90');
         var settings = {
             "method": "GET",
             "crossDomain": true,
@@ -38,7 +37,6 @@
             },
             'Access-Control-Allow-Origin': '*'
         };
-        //window.location.href = window.location.origin.slice(0, window.location.origin.length - 2) + '90';
         $.ajax(settings).done(function(response) {
             window.location.assign(response.toString())
         }).fail(function (jqXHR, textStatus) {
