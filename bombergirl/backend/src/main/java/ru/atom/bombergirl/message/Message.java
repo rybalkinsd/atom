@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.message;
+package ru.atom.bombergirl.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

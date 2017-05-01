@@ -18,16 +18,27 @@ public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
         Database.setUp();
 
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createMatchMakerContext(),
-                createResourceContext()
+                createResourceContext(),
+                context
         });
+        ServletHolder holderEvents = new ServletHolder("ws-events", EventServlet.class);
+        context.addServlet(holderEvents, "/events/*");
 
         Server jettyServer = new Server(8090);
         jettyServer.setHandler(contexts);
 
-        jettyServer.start();
+        try {
+            jettyServer.start();
+            jettyServer.dump(System.err);
+            jettyServer.join();
+        } catch (Throwable t) {
+            t.printStackTrace(System.err);
+        }
 
         Thread matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("match-maker");

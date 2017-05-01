@@ -53,7 +53,7 @@ public class MatchMakerResources {
             }
             if (!token.getUser().getName().equals(user)) {
                 txn.rollback();
-                return Response.status(Response.Status.BAD_REQUEST).entity("Not ").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Not such user").build();
             }
             ThreadSafeQueue.getInstance().offer(new Connection(user));
         } catch (RuntimeException e) {
@@ -63,7 +63,12 @@ public class MatchMakerResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        return Response.ok("wtfis.ru:8090/gs/" + random.nextInt(42)).build();
+        return Response.ok("wtfis.ru:8090/gs/" + random.nextInt(42))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
     }
 
     @POST

@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.util;
+package ru.atom.bombergirl.util;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

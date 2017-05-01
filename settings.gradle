@@ -1,4 +1,3 @@
 rootProject.name = 'atom'
-include 'lecture08'
 include 'bombergirl/backend'
 include 'bombergirl/frontend'

@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.message;
+package ru.atom.bombergirl.message;
 
 /**
  * Created by sergey on 2/2/17.

@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket;
+package ru.atom.bombergirl.mmserver;
 
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;

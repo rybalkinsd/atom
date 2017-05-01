@@ -1,8 +1,8 @@
-package ru.atom.lecture08.websocket;
+package ru.atom.bombergirl.mmserver;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
-import ru.atom.lecture08.websocket.network.Broker;
+import ru.atom.bombergirl.network.Broker;
 
 public class EventHandler extends WebSocketAdapter {
     @Override

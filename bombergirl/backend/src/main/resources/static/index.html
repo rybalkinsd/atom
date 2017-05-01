@@ -27,21 +27,23 @@
 
 <script>
     function newGame() {
+        //location.replace(window.location.origin.slice(0, window.location.origin.length - 2) + '90');
         var settings = {
             "method": "GET",
             "crossDomain": true,
-            "url": "/mm/join",
+            "url": window.location.origin.slice(0, window.location.origin.length - 2) + "90/mm/join",
             'data': {
                 'user': Cookies.get('user'),
                 'token': Cookies.get('token')
-            }
+            },
+            'Access-Control-Allow-Origin': '*'
         };
+        //window.location.href = window.location.origin.slice(0, window.location.origin.length - 2) + '90';
         $.ajax(settings).done(function(response) {
-            window.location = "/";
+            window.location.assign(response.toString())
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            window.location = "/";
         });
 
     }

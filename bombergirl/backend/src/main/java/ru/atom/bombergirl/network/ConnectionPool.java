@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.network;
+package ru.atom.bombergirl.network;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
