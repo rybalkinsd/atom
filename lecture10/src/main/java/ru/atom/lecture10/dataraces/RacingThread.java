@@ -15,7 +15,9 @@ public final class RacingThread extends Thread {
     }
 
     public void increment() {
-        value++;
+        synchronized (checker) {
+            value++;
+        }
     }
 
     public int getValue() {
