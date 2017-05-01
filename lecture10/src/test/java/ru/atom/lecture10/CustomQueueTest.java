@@ -1,4 +1,4 @@
-package ru.atom.Lecture10;
+package ru.atom.lecture10;
 
 import org.junit.Before;
 import org.junit.Test;
