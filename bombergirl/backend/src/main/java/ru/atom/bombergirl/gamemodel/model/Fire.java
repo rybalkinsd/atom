@@ -5,7 +5,7 @@ import ru.atom.bombergirl.gamemodel.geometry.Point;
 /**
  * Created by dmitriy on 11.03.17.
  */
-public class Fire implements GameObject, Positionable, Temporary {
+public class Fire implements GameObject, Positionable, Temporary, Tickable {
 
     private Point position;
     private final long lifetime = 500;

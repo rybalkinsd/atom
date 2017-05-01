@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.bombergirl.gamemodel.model.Action;
+import ru.atom.bombergirl.gamemodel.model.Move;
+import ru.atom.bombergirl.gamemodel.model.PlantBomb;
 import ru.atom.bombergirl.message.Message;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.util.JsonHelper;
@@ -27,15 +30,16 @@ public class Broker {
         Message message = JsonHelper.fromJson(msg, Message.class);
         switch (message.getTopic()) {
             case MOVE:
-                log.info("MOVE");
+                Action movement = JsonHelper.fromJson(message.getData(), Move.class);
+                connectionPool.getPlayer(session).start(movement);
                 break;
             case PLANT_BOMB:
-                log.info("PLANT_BOMB");
+                Action plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
+                connectionPool.getPlayer(session).start(plant);
                 break;
             default:
                 log.info("Error");
         }
-        //TODO TASK2 implement message processing
     }
 
     public void send(@NotNull String player, @NotNull Topic topic, @NotNull Object object) {

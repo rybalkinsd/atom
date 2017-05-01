@@ -14,7 +14,7 @@ public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 4;
 
-    private final ConcurrentHashMap<Session, String> pool;
+    private final ConcurrentHashMap<Session, Player> pool;
 
     public static ConnectionPool getInstance() {
         return instance;
@@ -45,11 +45,11 @@ public class ConnectionPool {
         });
     }
 
-    public String getPlayer(Session session) {
+    public Player getPlayer(Session session) {
         return pool.get(session);
     }
 
-    public Session getSession(String player) {
+    public Session getSession(Player player) {
         return pool.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(player))
                 .map(Map.Entry::getKey)
@@ -57,7 +57,7 @@ public class ConnectionPool {
                 .orElseGet(null);
     }
 
-    public void add(Session session, String player) {
+    public void add(Session session, Player player) {
         if (pool.putIfAbsent(session, player) == null) {
             log.info("{} joined", player);
         }

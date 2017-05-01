@@ -51,7 +51,7 @@ public class EventServer {
         ResourceHandler handler = new ResourceHandler();
         handler.setWelcomeFiles(new String[]{"index.html"});
 
-        String serverRoot = EventServer.class.getResource("bombergirl/frontend/src/main/webapp/static").toString();
+        String serverRoot = EventServer.class.getResource("frontend/src/main/webapp/static").toString();
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;

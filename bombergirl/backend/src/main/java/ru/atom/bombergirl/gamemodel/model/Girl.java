@@ -2,15 +2,20 @@ package ru.atom.bombergirl.gamemodel.model;
 
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Girl implements GameObject, Positionable, Movable {
+public class Girl implements GameObject, Positionable, Movable, Tickable {
 
     private Point position;
     private int step = 1;
     private Direction direction = Direction.IDLE;
     private final int id;
+    private boolean toPlantBomb = false;
+    private List<Action> actions = new ArrayList<>();
 
     public Girl(int x, int y) {
         this.position = new Point(x, y);
@@ -25,6 +30,18 @@ public class Girl implements GameObject, Positionable, Movable {
     @Override
     public Point getPosition() {
         return position;
+    }
+
+    public void plantBomb() {
+        if (!toPlantBomb) {
+            return;
+        }
+        Bomb.create(this.position);
+        toPlantBomb = false;
+    }
+
+    public void makePlantBomb() {
+        toPlantBomb = true;
     }
 
     @Override
@@ -50,6 +67,11 @@ public class Girl implements GameObject, Positionable, Movable {
 
     @Override
     public void tick(long elapsed) {
-        move(direction);
+        for (Action a : actions) {
+            a.act(this);
+        }
+        actions.clear();
     }
+
+    public void addAction(Action action) { actions.add(action); }
 }
