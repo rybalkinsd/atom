@@ -1,4 +1,4 @@
-package ru.atom.bombergirl.model;
+package ru.atom.bombergirl.dbmodel;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

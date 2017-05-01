@@ -4,7 +4,7 @@ package ru.atom.bombergirl.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import ru.atom.bombergirl.model.Result;
+import ru.atom.bombergirl.dbmodel.Result;
 
 import java.util.List;
 

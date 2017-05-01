@@ -1,4 +1,4 @@
-package ru.atom.bombergirl.mmserver;
+package ru.atom.bombergirl.gameserver;
 
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;

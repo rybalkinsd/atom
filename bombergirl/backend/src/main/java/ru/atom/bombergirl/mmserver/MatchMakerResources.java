@@ -11,8 +11,8 @@ import ru.atom.bombergirl.dao.Database;
 import ru.atom.bombergirl.dao.ResultDao;
 import ru.atom.bombergirl.dao.TokenDao;
 import ru.atom.bombergirl.dao.UserDao;
-import ru.atom.bombergirl.model.Result;
-import ru.atom.bombergirl.model.Token;
+import ru.atom.bombergirl.dbmodel.Result;
+import ru.atom.bombergirl.dbmodel.Token;
 import ru.atom.bombergirl.server.Authorized;
 
 import javax.ws.rs.POST;
@@ -63,7 +63,7 @@ public class MatchMakerResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        return Response.ok("localhost:8090/gs/" + MatchMaker.getIdGame())
+        return Response.ok("localhost:8085/gs/" + MatchMaker.getIdGame())
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")

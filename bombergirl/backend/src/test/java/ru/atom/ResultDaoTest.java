@@ -11,8 +11,8 @@ import ru.atom.bombergirl.dao.Database;
 import ru.atom.bombergirl.dao.ResultDao;
 import ru.atom.bombergirl.dao.UserDao;
 import ru.atom.bombergirl.mmserver.MatchMakerResources;
-import ru.atom.bombergirl.model.Result;
-import ru.atom.bombergirl.model.User;
+import ru.atom.bombergirl.dbmodel.Result;
+import ru.atom.bombergirl.dbmodel.User;
 
 import javax.ws.rs.core.Response;
 import java.util.List;

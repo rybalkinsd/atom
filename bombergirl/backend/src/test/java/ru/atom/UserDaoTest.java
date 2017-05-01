@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.atom.bombergirl.dao.Database;
 import ru.atom.bombergirl.dao.UserDao;
-import ru.atom.bombergirl.model.User;
+import ru.atom.bombergirl.dbmodel.User;
 
 /**
  * Created by dmitriy on 18.04.17.

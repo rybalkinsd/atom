@@ -32,8 +32,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!--mapping-->
-        <mapping class="ru.atom.bombergirl.model.User"/>
-        <mapping class="ru.atom.bombergirl.model.Token"/>
-        <mapping class="ru.atom.bombergirl.model.Result"/>
+        <mapping class="ru.atom.bombergirl.dbmodel.User"/>
+        <mapping class="ru.atom.bombergirl.dbmodel.Token"/>
+        <mapping class="ru.atom.bombergirl.dbmodel.Result"/>
     </session-factory>
 </hibernate-configuration>

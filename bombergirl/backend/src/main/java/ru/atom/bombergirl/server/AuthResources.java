@@ -17,8 +17,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import ru.atom.bombergirl.dao.Database;
 import ru.atom.bombergirl.dao.TokenDao;
 import ru.atom.bombergirl.dao.UserDao;
-import ru.atom.bombergirl.model.Token;
-import ru.atom.bombergirl.model.User;
+import ru.atom.bombergirl.dbmodel.Token;
+import ru.atom.bombergirl.dbmodel.User;
 
 /**
  * Created by dmitriy on 26.03.17.

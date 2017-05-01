@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.atom.bombergirl.dao.Database;
 import ru.atom.bombergirl.dao.TokenDao;
-import ru.atom.bombergirl.model.Token;
-import ru.atom.bombergirl.model.User;
+import ru.atom.bombergirl.dbmodel.Token;
+import ru.atom.bombergirl.dbmodel.User;
 import ru.atom.bombergirl.server.AuthResources;
 
 import javax.ws.rs.core.Response;

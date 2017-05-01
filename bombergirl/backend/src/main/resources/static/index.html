@@ -36,12 +36,16 @@
                 'token': Cookies.get('token')
             },
             'Access-Control-Allow-Origin': '*'
+//            'success' : function(data) {
+//                window.location.assign(data.toString())
+//            }
         };
         $.ajax(settings).done(function(response) {
             window.location.assign(response.toString())
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = '/'
         });
 
     }

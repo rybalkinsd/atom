@@ -7,7 +7,7 @@ package ru.atom.bombergirl.server;
 import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.bombergirl.model.Token;
+import ru.atom.bombergirl.dbmodel.Token;
 
 import java.io.IOException;
 import javax.ws.rs.NotAuthorizedException;

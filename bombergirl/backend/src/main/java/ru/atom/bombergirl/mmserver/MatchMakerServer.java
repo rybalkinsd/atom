@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.bombergirl.dao.Database;
+import ru.atom.bombergirl.gameserver.EventServlet;
 import ru.atom.bombergirl.server.CrossBrowserFilter;
 
 /**
@@ -18,27 +19,16 @@ public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
         Database.setUp();
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createMatchMakerContext(),
-                createResourceContext(),
-                context
+                createResourceContext()
         });
-        ServletHolder holderEvents = new ServletHolder("ws-events", EventServlet.class);
-        context.addServlet(holderEvents, "/events/*");
 
         Server jettyServer = new Server(8090);
         jettyServer.setHandler(contexts);
 
-        try {
-            jettyServer.start();
-            jettyServer.dump(System.err);
-            jettyServer.join();
-        } catch (Throwable t) {
-            t.printStackTrace(System.err);
-        }
+        jettyServer.start();
 
         Thread matchMaker = new Thread(new MatchMaker());
         matchMaker.setName("match-maker");

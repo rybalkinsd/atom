@@ -1,4 +1,4 @@
-package ru.atom.bombergirl.model;
+package ru.atom.bombergirl.dbmodel;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
