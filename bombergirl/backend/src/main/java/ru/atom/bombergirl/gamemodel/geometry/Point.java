@@ -44,4 +44,12 @@ public class Point implements Collider {
         }
         throw new NotImplementedException();
     }
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "    \"x\" : " + getX() + "\n" +
+                "    \"y\" : " + getY() + "\n" +
+                "  }";
+    }
 }

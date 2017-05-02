@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.gamemodel.model.*;
+import ru.atom.bombergirl.message.ObjectMessage;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.network.Broker;
 
@@ -27,7 +28,7 @@ public class GameSession implements Tickable, Runnable {
     private final Connection[] connections;
     private final long id = idGenerator.getAndIncrement();
 
-    private static List<Block> gameField = new ArrayList<>();
+    private static List<GameObject> gameField = new ArrayList<>();
     static {
         for (int i = 0;i < 17;i++) {
             for (int j = 0;j < 12;j++) {
@@ -75,11 +76,6 @@ public class GameSession implements Tickable, Runnable {
         return new ArrayList<>(gameObjects);
     }
 
-    public void addGameObject(GameObject gameObject) {
-        log.info("Created " + gameObject.getClass().getName().substring(17) + " with id: " + gameObject.getId());
-        gameObjects.add(gameObject);
-    }
-
     @Override
     public void tick(long elapsed) {
         log.info("tick");
@@ -96,12 +92,18 @@ public class GameSession implements Tickable, Runnable {
     }
 
     public void run() {
+        gameObjects.addAll(gameField);
         for (int i = 0; i < connections.length; i++) {
             Connection c = connections[i];
             Pawn p = new Pawn(spawnPositions.get(i));
             c.setGirl(p);
             Broker.getInstance().send(c, Topic.POSSESS, p.getId());
+            gameObjects.add(p);
         }
+        List<ObjectMessage> objectMessages = new ArrayList<>();
+        gameObjects.forEach(x ->
+                objectMessages.add(new ObjectMessage(x.getClass().getName(), x.getId(), ((Positionable)x).getPosition())));
+        Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
 
         log.info(Thread.currentThread().getName() + " started");
         Ticker ticker = new Ticker(this);
