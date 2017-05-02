@@ -2,6 +2,7 @@ package ru.atom.bombergirl.gamemodel.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.bombergirl.mmserver.GameSession;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
@@ -14,6 +15,11 @@ public class Ticker {
     private static final int FPS = 60;
     private static final long FRAME_TIME = 1000 / FPS;
     private long tickNumber = 0;
+    private GameSession gameSession;
+
+    public Ticker(GameSession gameSession) {
+        this.gameSession = gameSession;
+    }
 
     public void loop() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -33,6 +39,7 @@ public class Ticker {
 
     private void act(long time) {
         //Your logic here
+        gameSession.tick(time);
     }
 
     public long getTickNumber() {

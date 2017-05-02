@@ -21,7 +21,7 @@ public class MatchMaker implements Runnable {
 
     @Override
     public void run() {
-        log.info("Started");
+        log.info("MM Started");
         List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
         while (!Thread.currentThread().isInterrupted()) {
             try {
@@ -34,6 +34,9 @@ public class MatchMaker implements Runnable {
 
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
+                Thread gameSession = new Thread(new GameSessionThread(session));
+                gameSession.setName("gameSession " + idGame);
+                gameSession.start();
                 log.info(session);
                 ThreadSafeStorage.put(session);
                 candidates.clear();

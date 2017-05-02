@@ -1,6 +1,7 @@
 package ru.atom.bombergirl.gamemodel.model;
 
 import ru.atom.bombergirl.gamemodel.geometry.Point;
+import ru.atom.bombergirl.mmserver.GameSession;
 
 /**
  * Created by dmitriy on 05.03.17.
