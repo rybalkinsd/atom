@@ -2,7 +2,7 @@ package ru.atom.bombergirl.mmserver;
 
 import org.eclipse.jetty.websocket.api.Session;
 import ru.atom.bombergirl.gamemodel.model.Action;
-import ru.atom.bombergirl.gamemodel.model.Girl;
+import ru.atom.bombergirl.gamemodel.model.Pawn;
 
 /**
  * Created by ikozin on 17.04.17.
@@ -10,7 +10,7 @@ import ru.atom.bombergirl.gamemodel.model.Girl;
 public class Connection {
     //private final String name;
     private final Session session;
-    private Girl pawn;
+    private Pawn pawn;
     private static int counter = 0;
     private final int id = counter++;
 
@@ -25,7 +25,7 @@ public class Connection {
         pawn.addAction(action);
     }
 
-    public void setGirl(Girl pawn) {
+    public void setGirl(Pawn pawn) {
         this.pawn = pawn;
     }
 

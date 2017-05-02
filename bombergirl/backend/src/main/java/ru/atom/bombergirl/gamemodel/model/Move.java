@@ -13,7 +13,7 @@ public class Move implements Action {
     }
 
     @Override
-    public void act(Girl pawn) {
+    public void act(Pawn pawn) {
         pawn.move(direction);
     }
 }

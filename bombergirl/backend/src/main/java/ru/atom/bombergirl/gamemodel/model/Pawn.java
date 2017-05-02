@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Girl implements GameObject, Positionable, Movable, Tickable {
+public class Pawn implements GameObject, Positionable, Movable, Tickable {
 
     private Point position;
     private int step = 1;
@@ -18,7 +18,7 @@ public class Girl implements GameObject, Positionable, Movable, Tickable {
     private boolean toPlantBomb = false;
     private List<Action> actions = new ArrayList<>();
 
-    public Girl(int x, int y) {
+    public Pawn(int x, int y) {
         this.position = new Point(x, y);
         id = GameSession.nextValue();
     }
