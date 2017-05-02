@@ -31,7 +31,7 @@ public class GameSession implements Tickable, Runnable {
     private static List<GameObject> gameField = new ArrayList<>();
     static {
         for (int i = 0;i < 17;i++) {
-            for (int j = 0;j < 12;j++) {
+            for (int j = 0;j < 13;j++) {
                 if (i == 1 && j == 1
                         || i == 1 && j == 11
                         || i == 15 && j == 1
@@ -41,7 +41,7 @@ public class GameSession implements Tickable, Runnable {
                         || i == 14 && j == 1
                         || i == 15 && j == 2
                         || i == 1 && j == 10
-                        || i == 2 && j == 1
+                        || i == 2 && j == 11
                         || i == 14 && j == 11
                         || i == 15 && j == 10)
                     continue;
