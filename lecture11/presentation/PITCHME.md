@@ -1,0 +1,122 @@
+#HSLIDE
+# Java
+lecture 11
+## Practical Concurrency 2
+
+#HSLIDE
+## Отметьтесь на портале
+https://atom.mail.ru/
+
+#HSLIDE
+### get ready
+```bash
+> git fetch upstream
+> git checkout -b lecture11 upstream/lecture10
+```
+Refresh gradle project
+
+
+#HSLIDE
+## Agenda
+1. concurrency revisited
+1. volatile
+1. java.util.concurrent
+1. ConcurrentHashMap
+1. Atomics
+1. Docker
+1. Practice
+
+#HSLIDE
+## Agenda
+1. **[concurrency revisited]**
+1. volatile
+1. java.util.concurrent
+1. ConcurrentHashMap
+1. Atomics
+1. Docker
+1. Practice
+
+#HSLIDE
+## Quiz
+1. **concurrency** example from bomberman?  
+1. **shared mutable state** - ?  
+1. How to avoid **concurrency**?  
+1. **race** vs **data race**  
+1. What is thread safety?
+1. What **problems** will we have without proper synchronization?
+1. What is **proper synchronization**?
+1. How to print **thread dump**?
+
+#HSLIDE
+## Proper synchronization
+1. synchronized
+1. reads and writes to volatile variables
+1. java.util.concurrent
+
+#HSLIDE
+## Problems
+- Data races (caused by weak atomicity, visibility and ordering guaranties of JMM)
+- Deadlocks
+- Livelocks
+- Performance problems
+
+#HSLIDE
+## Easiest solution - synchronized
+```java
+public void some someMethod(Object someLock) {
+    //...
+    //this code is protected by someLock internal monitor
+    synchronized(someLock){ 
+        //...
+    }
+    //...
+}
+```
+With **synchronized** we **avoid concurrency** in a block of code (if choose lock properly)
+Concurrency is actually about **data**, not **code**  
+We must protect data from concurrent access, not code blocks  
+That is we must synchronize all accesses to **data**, else we have **data races**
+
+#HSLIDE
+## volatile
+```java
+volatile long money;
+```
+**volatile** provide a number of guaranties:
+1. read/write **atomicity**
+1. guaranteed **visibility** of writes
+1. guaranteed **ordering** of **volatile read/writes** 
+1. + **happens-before** guarantee
+
+#HSLIDE
+## volatile
+Practically **volatile** means (first three points) that there will be **no data races** over given field.  
+i.e. everything will be **OK** with this variable.  
++ specific guaranties of publication of other variables 
+> @see ru.atom.lecture11.volatileexample
+
+#HSLIDE
+## Why not all variables volatile
+In sake of **performance**  
+https://shipilev.net/blog/2014/all-accesses-are-atomic/  
+10x average speedup for Intel x64
+
+#HSLIDE
+## Try fix data races with volatile
+> @see ru.atom.lecture11.dataraces
+
+#HSLIDE
+## References
+[Java concurrency in practice (signature book for Java Developer)](https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601)   
+[Alexey Shipilev blog (JMM, concurrency, performance, benchmarks for people, JDK contributor)](https://shipilev.net/)  
+[Doug Lea-s home page (java.util.concurrent father and famous spec in concurrency and allocators)](http://g.oswego.edu/)  
+[Java Memory Model Pragmatics (best explanation of JMM - available in russian)](https://shipilev.net/#jmm)  
+[JMM Under the hood (deep explanation of JMM)](http://gvsmirnov.ru/blog/tech/2014/02/10/jmm-under-the-hood.html)  
+[What Every Dev Must Know About Multithreaded Apps (Common knowledge)](https://lyle.smu.edu/~coyle/cse8313/handouts.fall06/s04.msdn.multithreading.pdf)  
+  
+
+#HSLIDE
+**Оставьте обратную связь**
+(вам на почту придет анкета)  
+
+**Это важно!**
