@@ -27,13 +27,34 @@ public class GameSession implements Tickable, Runnable {
     private final Connection[] connections;
     private final long id = idGenerator.getAndIncrement();
 
-    private static List<Block> gameField = new ArrayList<>(Arrays.asList(
-            new Wall(0, 0),
-            new Wall(1, 0),
-            new Wall(2, 0),
-            /* and so on */
-            new Wall(16, 12)
-    ));
+    private static List<Block> gameField = new ArrayList<>();
+    static {
+        for (int i = 0;i < 17;i++) {
+            for (int j = 0;j < 12;j++) {
+                if (i == 1 && j == 1
+                        || i == 1 && j == 11
+                        || i == 15 && j == 1
+                        || i == 15 && j == 11
+                        || i == 1 && j == 2
+                        || i == 2 && j == 1
+                        || i == 14 && j == 1
+                        || i == 15 && j == 2
+                        || i == 1 && j == 10
+                        || i == 2 && j == 1
+                        || i == 14 && j == 11
+                        || i == 15 && j == 10)
+                    continue;
+                else if (i % 2 == 0 && j % 2 == 0
+                        || i == 0
+                        || j == 0
+                        || i == 16
+                        || j == 12)
+                    gameField.add(new Wall(i, j));
+                else
+                    gameField.add(new Wood(i, j));
+            }
+        }
+    }
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
             new Point(1, 1),
             new Point(1, 11),
