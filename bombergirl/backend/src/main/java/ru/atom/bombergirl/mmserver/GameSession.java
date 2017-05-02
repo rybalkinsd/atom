@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ru.atom.bombergirl.gamemodel.model.GameObject;
 import ru.atom.bombergirl.gamemodel.model.Temporary;
 import ru.atom.bombergirl.gamemodel.model.Tickable;
+import ru.atom.bombergirl.gamemodel.model.Ticker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by ikozin on 17.04.17.
  */
-public class GameSession implements Tickable {
+public class GameSession implements Tickable, Runnable {
     private static final Logger log = LogManager.getLogger(MatchMaker.class);
     private static AtomicLong idGenerator = new AtomicLong();
     private List<GameObject> gameObjects = new ArrayList<>();
@@ -57,6 +58,15 @@ public class GameSession implements Tickable {
             }
         }
         gameObjects.removeAll(dead);
+    }
+
+    public void run() {
+        for (int i = 0; i < connections.length; i++) {
+            
+        }
+        log.info(Thread.currentThread().getName() + " started");
+        Ticker ticker = new Ticker(this);
+        ticker.loop();
     }
 
     @Override

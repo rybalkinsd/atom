@@ -34,7 +34,7 @@ public class MatchMaker implements Runnable {
 
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
-                Thread gameSession = new Thread(new GameSessionThread(session));
+                Thread gameSession = new Thread(session);
                 gameSession.setName("gameSession " + idGame);
                 gameSession.start();
                 log.info(session);
