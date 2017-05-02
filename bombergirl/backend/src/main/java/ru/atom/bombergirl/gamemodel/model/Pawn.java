@@ -18,8 +18,8 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
     private boolean toPlantBomb = false;
     private List<Action> actions = new ArrayList<>();
 
-    public Pawn(int x, int y) {
-        this.position = new Point(x, y);
+    public Pawn(Point p) {
+        this.position = new Point(p.getX(), p.getY());
         id = GameSession.nextValue();
     }
 
