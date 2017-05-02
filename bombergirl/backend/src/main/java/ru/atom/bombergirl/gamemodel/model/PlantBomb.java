@@ -6,6 +6,6 @@ package ru.atom.bombergirl.gamemodel.model;
 public class PlantBomb implements Action {
     @Override
     public void act(Girl pawn) {
-        pawn.plantBomb();
+        pawn.makePlantBomb();
     }
 }

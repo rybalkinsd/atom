@@ -9,6 +9,7 @@ import ru.atom.bombergirl.gamemodel.model.Move;
 import ru.atom.bombergirl.gamemodel.model.PlantBomb;
 import ru.atom.bombergirl.message.Message;
 import ru.atom.bombergirl.message.Topic;
+import ru.atom.bombergirl.mmserver.Connection;
 import ru.atom.bombergirl.util.JsonHelper;
 
 public class Broker {
@@ -31,18 +32,18 @@ public class Broker {
         switch (message.getTopic()) {
             case MOVE:
                 Action movement = JsonHelper.fromJson(message.getData(), Move.class);
-                connectionPool.getPlayer(session).start(movement);
+                connectionPool.getConnection(session).start(movement);
                 break;
             case PLANT_BOMB:
                 Action plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
-                connectionPool.getPlayer(session).start(plant);
+                connectionPool.getConnection(session).start(plant);
                 break;
             default:
                 log.info("Error");
         }
     }
 
-    public void send(@NotNull Player player, @NotNull Topic topic, @NotNull Object object) {
+    public void send(@NotNull Connection player, @NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
         Session session = connectionPool.getSession(player);
         connectionPool.send(session, message);

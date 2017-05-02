@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import ru.atom.bombergirl.mmserver.Connection;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 4;
 
-    private final ConcurrentHashMap<Session, Player> pool;
+    private final ConcurrentHashMap<Session, Connection> pool;
 
     public static ConnectionPool getInstance() {
         return instance;
@@ -45,11 +46,11 @@ public class ConnectionPool {
         });
     }
 
-    public Player getPlayer(Session session) {
+    public Connection getConnection(Session session) {
         return pool.get(session);
     }
 
-    public Session getSession(Player player) {
+    public Session getSession(Connection player) {
         return pool.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(player))
                 .map(Map.Entry::getKey)
@@ -57,7 +58,7 @@ public class ConnectionPool {
                 .orElseGet(null);
     }
 
-    public void add(Session session, Player player) {
+    public void add(Session session, Connection player) {
         if (pool.putIfAbsent(session, player) == null) {
             log.info("{} joined", player);
         }

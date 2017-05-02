@@ -71,6 +71,7 @@ public class Girl implements GameObject, Positionable, Movable, Tickable {
         for (Action a : actions) {
             a.act(this);
         }
+        plantBomb();
         actions.clear();
     }
 

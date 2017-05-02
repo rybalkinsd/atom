@@ -20,9 +20,7 @@ public class GameSessionThread implements Runnable {
 
     public void run() {
         log.info(Thread.currentThread().getName() + " started");
-        while (!Thread.currentThread().isInterrupted()) {
-            Ticker ticker = new Ticker(session);
-            ticker.loop();
-        }
+        Ticker ticker = new Ticker(session);
+        ticker.loop();
     }
 }
