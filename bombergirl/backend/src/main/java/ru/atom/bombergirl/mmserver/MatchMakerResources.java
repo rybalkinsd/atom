@@ -55,7 +55,7 @@ public class MatchMakerResources {
                 txn.rollback();
                 return Response.status(Response.Status.BAD_REQUEST).entity("Not such user").build();
             }
-            ThreadSafeQueue.getInstance().offer(new Connection(user));
+            //ThreadSafeQueue.getInstance().offer(new Connection(user));
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);
             if (txn != null && txn.isActive()) {

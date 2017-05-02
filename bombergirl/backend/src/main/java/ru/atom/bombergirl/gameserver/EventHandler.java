@@ -2,15 +2,18 @@ package ru.atom.bombergirl.gameserver;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import ru.atom.bombergirl.mmserver.Connection;
+import ru.atom.bombergirl.mmserver.ThreadSafeQueue;
 import ru.atom.bombergirl.network.Broker;
 import ru.atom.bombergirl.network.ConnectionPool;
-import ru.atom.bombergirl.network.Player;
 
 public class EventHandler extends WebSocketAdapter {
     @Override
     public void onWebSocketConnect(Session sess) {
         super.onWebSocketConnect(sess);
-        ConnectionPool.getInstance().add(sess, new Player(sess));
+        Connection player = new Connection(sess);
+        ConnectionPool.getInstance().add(sess, player);
+        ThreadSafeQueue.getInstance().add(player);
         System.out.println("Socket Connected: " + sess);
     }
 
