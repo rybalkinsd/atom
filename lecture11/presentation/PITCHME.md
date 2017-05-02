@@ -18,6 +18,7 @@ Refresh gradle project
 
 #HSLIDE
 ## Agenda
+1. final and ThreadLocal
 1. concurrency revisited
 1. volatile
 1. java.util.concurrent
@@ -28,6 +29,7 @@ Refresh gradle project
 
 #HSLIDE
 ## Agenda
+1. final and ThreadLocal
 1. **[concurrency revisited]**
 1. volatile
 1. java.util.concurrent
@@ -63,7 +65,7 @@ Refresh gradle project
 #HSLIDE
 ## Easiest solution - synchronized
 ```java
-public void some someMethod(Object someLock) {
+public void someMethod(Object someLock) {
     //...
     //this code is protected by someLock internal monitor
     synchronized(someLock){ 
@@ -76,6 +78,40 @@ With **synchronized** we **avoid concurrency** in a block of code (if choose loc
 Concurrency is actually about **data**, not **code**  
 We must protect data from concurrent access, not code blocks  
 That is we must synchronize all accesses to **data**, else we have **data races**
+
+#HSLIDE
+## Synchronize all accesses
+> @see ru.atom.lecture11.volatileexample
+> Fix VolatileExample with **synchronized**
+
+#HSLIDE
+## synchronized guarantees
+Object l1; //Use as lock  
+thread1: [acquire l1> synchronized on l1 <release l1]  
+thread2:                                               [acquire l1> synchronized on lock1 <release l1]  
+[ackquire l1> publishes everything before previous <release l1]  
+<release l1] **synchronizes with** [acquire l1> 
+
+#HSLIDE
+## What does it mean?
+To see changes in shared variable you **must**:
+1. synchronize **both** reads and writes of variable
+1. synchronize on **the same lock** 
+  
+**Once again:**
+- Synchronizing only writes or only reads is **bullshit** (has no effects)
+- Synchronizing on different locks is **bullshit** (has no effects)
+
+#HSLIDE
+## Agenda
+1. final and ThreadLocal
+1. concurrency revisited
+1. **[volatile]**
+1. java.util.concurrent
+1. ConcurrentHashMap
+1. Atomics
+1. Docker
+1. Practice
 
 #HSLIDE
 ## volatile
@@ -94,6 +130,14 @@ Practically **volatile** means (first three points) that there will be **no data
 i.e. everything will be **OK** with this variable.  
 + specific guaranties of publication of other variables 
 > @see ru.atom.lecture11.volatileexample
+> Fix VolatileExample with volatile
+
+#HSLIDE
+## Only reference is volatile
+```java
+//only reference players is volatile. Writing to players from different threads still lead to data races
+private volatile List<Player> players;
+```
 
 #HSLIDE
 ## Why not all variables volatile
@@ -104,6 +148,101 @@ https://shipilev.net/blog/2014/all-accesses-are-atomic/
 #HSLIDE
 ## Try fix data races with volatile
 > @see ru.atom.lecture11.dataraces
+
+#HSLIDE
+## volatile guarantees
+volatile int v1;//shared variable  
+thread1: <write v1 (v1=42)]    
+thread2:                     [read v1 (someVar=v1)>  
+[write v1> publishes everything before previous <read v1]  
+
+#HSLIDE
+## Deep idea: synchronized and volatile are the same
+**write** of volatile variable = **unlock** monitor  
+**read** of volatile variable = **lock** monitor
+
+#HSLIDE
+## Agenda
+1. final and ThreadLocal
+1. concurrency revisited
+1. volatile
+1. **[java.util.concurrent]**
+1. ConcurrentHashMap
+1. Atomics
+1. Docker
+1. Practice
+
+#HSLIDE
+Basic synchronization primitives in Java are **synchronized** and **volatile**.
+It is hard to reason low-level JMM categories, but there are a
+number of high-level constructions in JDK
+
+#HSLIDE
+## Agenda
+1. final and ThreadLocal
+1. concurrency revisited
+1. volatile
+1. **[java.util.concurrent]**
+1. ConcurrentHashMap
+1. Atomics
+1. Docker
+1. Practice
+
+#HSLIDE
+## Agenda
+1. final and ThreadLocal
+1. concurrency revisited
+1. volatile
+1. java.util.concurrent
+1. **[ConcurrentHashMap]**
+1. Atomics
+1. Docker
+1. Practice
+
+#HSLIDE
+## Agenda
+1. final and ThreadLocal
+1. concurrency revisited
+1. volatile
+1. java.util.concurrent
+1. ConcurrentHashMap
+1. **[Atomics]**
+1. Docker
+1. Practice
+
+#HSLIDE
+## Practice
+> @see ru.atom.lecture11.billing
+
+In this example we have billing service that can send money from user to user
+
+#HSLIDE
+## Billing API
+Create user with money
+```bash
+> curl -X POST localhost:8080/billing/addUser -d 'user=sergey&money=100000'
+```
+Show money for all users
+```bash
+> curl localhost:8080/billing/stat
+```
+Send money from one user to another
+```$xslt
+> curl -X POST 'localhost:8080/billing/sendMoney' -d 'from=sasha&to=sergey&money=1'
+```
+One-liner to reset default users
+```bash
+> curl -X POST localhost:8080/billing/addUser -d 'user=sergey&money=100000'; curl -X POST localhost:8080/billing/addUser -d 'user=sasha&money=100000'; curl localhost:8080/billing/stat
+```
+
+#HSLIDE
+## Task
+The implementation is **not thread safe**. Make it correct any way you like  
+When you are done, ask for check and name your IP address  
+I will use JMeter for load-testing your service  
+http://jmeter.apache.org/  
+(you can use it too, testing scenario is located at **lecture11/Test_billing.jmx**)
+
 
 #HSLIDE
 ## References
