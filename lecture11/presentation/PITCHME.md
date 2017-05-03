@@ -150,9 +150,12 @@ Fix VolatileExample with **synchronized**
 
 #HSLIDE
 ## synchronized guarantees
-Object l1; //Use as lock  
-thread1 -> **[acq l1]** sync on l1 **[rel l1]** ----------------------------------------------->  
-thread2 -> ||||||||||||||||||||||||||||||||||||||||**[acq l1]** sync on lock1 **[rel l1]**->  
+```java
+public Object l1; //Use as lock
+```  
+
+thread1 -> **[acq l1]** sync on l1 **[rel l1]** -------------------------------------------->  
+thread2 -> ||||||||||||||||||||||||||||||||||||||||**[acq l1]** sync on l1 **[rel l1]**->  
   
 [acquire l1] **publishes** everything before previous [release l1]  
 they say [release l1] **synchronizes with** [acquire l1] 
@@ -241,8 +244,8 @@ https://gist.github.com/jboner/2841832
 #HSLIDE
 ## volatile guarantees
 volatile int v1;//shared variable  
-thread1 -> **[write v1 (v1=42)]**-------------------------------->    
-thread2 -> |||||||||||||||||||||||||||**[read v1 (someVar=v1)]**->  
+thread1 --> **[write v1 (v1=42)]**-------------------------------->    
+thread2 --> ||||||||||||||||||||||||||||||**[read v1 (someVar=v1)]**->  
 [write v1] **publishes** everything before previous [read v1]  
 they say [write v1] **synchronizes with** [read v1]  
 
