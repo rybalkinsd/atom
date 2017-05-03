@@ -105,8 +105,8 @@ public class SomeClass {
     }
 }
 ```
-As with **final** - ThreadLocal only guarantees, that the reference, that is accessed via **ThreadLocal** variable (‘locals’ in example) is thread local, no in-depth thread locality.
-@see thread_local
+As with **final** - ThreadLocal only guarantees, that the reference, that is accessed via **ThreadLocal** variable (‘locals’ in example) is thread local, no in-depth thread locality.  
+> @see thread_local
 
 #HSLIDE
 ## Avoid concurrency if possible
@@ -137,23 +137,24 @@ public void someMethod(Object someLock) {
     //...
 }
 ```
-With **synchronized** we **avoid concurrency** in a block of code (if choose lock properly)
+With **synchronized** we **avoid concurrency** in a block of code (if choose lock properly  
 Concurrency is actually about **data**, not **code**  
 We must protect data from concurrent access, not code blocks  
 That is we must synchronize all accesses to **data**, else we have **data races**
 
 #HSLIDE
 ## Synchronize all accesses
-> @see ru.atom.lecture11.volatileexample
-> Fix VolatileExample with **synchronized**
+> @see ru.atom.lecture11.volatileexample  
+
+Fix VolatileExample with **synchronized**
 
 #HSLIDE
 ## synchronized guarantees
 Object l1; //Use as lock  
-thread1: [acquire l1> synchronized on l1 <release l1]  
-thread2:                                               [acquire l1> synchronized on lock1 <release l1]  
-[ackquire l1> publishes everything before previous <release l1]  
-<release l1] **synchronizes with** [acquire l1> 
+thread1: (acquire l1> synchronized on l1 <release l1)  
+thread2:                                               (acquire l1> synchronized on lock1 <release l1)  
+(ackquire l1> publishes everything before previous <release l1)  
+<release l1) **synchronizes with** (acquire l1> 
 
 #HSLIDE
 ## What does it mean?
@@ -168,7 +169,7 @@ To see changes in shared variable you **must**:
 #HSLIDE
 ## Deadlock
 a state in which each member of a group of actions, is waiting for some other member to release a lock
-<img src="lecture11/presentation/assets/img/deadlock.jpeg" alt="monitor" style="width: 500px;"/>
+<img src="lecture11/presentation/assets/img/deadlock.jpg" alt="monitor" style="width: 500px;"/>
 
 
 #HSLIDE
@@ -176,7 +177,7 @@ a state in which each member of a group of actions, is waiting for some other me
 **jstack** prints Java stack traces of Java threads for a given Java process or core file or a remote debug server.  
 http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
 ```bash
-jstack <pid>
+> jstack <pid>
 ```
 
 #HSLIDE
@@ -199,15 +200,16 @@ volatile long money;
 1. read/write **atomicity**
 1. guaranteed **visibility** of writes
 1. guaranteed **ordering** of **volatile read/writes** 
-1. + **happens-before** guarantee
+1. **happens-before** guarantee
 
 #HSLIDE
 ## volatile
 Practically **volatile** means (first three points) that there will be **no data races** over given field.  
 i.e. everything will be **OK** with this variable.  
-+ specific guaranties of publication of other variables 
+and specific guaranties of publication of other variables  
 > @see ru.atom.lecture11.volatileexample
-> Fix VolatileExample with volatile
+
+Fix VolatileExample with volatile
 
 #HSLIDE
 ## Only reference is volatile
@@ -223,21 +225,28 @@ https://shipilev.net/blog/2014/all-accesses-are-atomic/
 10x average speedup for Intel x64
 
 #HSLIDE
+## Timings every programmer should know
+//TODO
+
+#HSLIDE
 ## Try fix data races with volatile
 > @see ru.atom.lecture11.dataraces
 
 #HSLIDE
 ## volatile guarantees
 volatile int v1;//shared variable  
-thread1: <write v1 (v1=42)]    
-thread2:                     [read v1 (someVar=v1)>  
+thread1: <write v1 (v1=42))    
+thread2:                     (read v1 (someVar=v1)>  
 [write v1> publishes everything before previous <read v1]  
 write v1 **synchronizes with** read v1
 
 #HSLIDE
-## Volatile r/w is synchronized with concurrency
+## Volatile r/w is like synchronized
 **write** of volatile variable = **unlock** monitor  
-**read** of volatile variable = **lock** monitor
+**read** of volatile variable = **lock** monitor  
+  
+**Deep idea:**  
+In this sense volatile r/w is the same as **synchronized** but **with** concurrency
 
 #HSLIDE
 Basic synchronization primitives in Java are **synchronized** and **volatile**.
@@ -301,7 +310,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 
 #HSLIDE
 ## ConcurrentHashMap
-<img src="lecture11/presentation/assets/img/deadlock.jpeg" alt="monitor" style="width: 500px;"/>  
+<img src="lecture11/presentation/assets/img/concurrenthashmap.png" alt="monitor" style="width: 600px;"/>  
 
 > @see javaConcurrentAnimated.jar  
 (ConcurrentHashMap)
@@ -357,8 +366,8 @@ One-liner to reset default users
 #HSLIDE
 ## Task
 The implementation is **not thread safe**. Make it correct any way you like  
-When you are done, ask for check and name your IP address  
-I will use JMeter for load-testing your service  
+When you are done, ask for check and name your **IP address**  
+I will use **JMeter** for load-testing your service  
 http://jmeter.apache.org/  
 (you can use it too, testing scenario is located at **lecture11/Test_billing.jmx**)
 
