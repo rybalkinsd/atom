@@ -3,7 +3,6 @@ package ru.atom.lecture10.dataraces;
 public final class RacingThread extends Thread {
     private final Stopper checker;
     private static int value;
-
     public RacingThread(Stopper checker) {
         this.checker = checker;
     }
@@ -15,7 +14,10 @@ public final class RacingThread extends Thread {
     }
 
     public void increment() {
-        value++;
+        synchronized (checker) {
+            value++;
+        }
+
     }
 
     public int getValue() {
