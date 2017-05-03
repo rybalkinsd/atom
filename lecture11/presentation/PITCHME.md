@@ -24,7 +24,6 @@ Refresh gradle project
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -35,7 +34,6 @@ Refresh gradle project
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -76,7 +74,6 @@ https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -122,7 +119,6 @@ As with **final** - ThreadLocal only guarantees, that the reference, that is acc
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -197,7 +193,6 @@ http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
 1. **[volatile]**
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -277,7 +272,6 @@ JDK provide high-level API for concurrency
 1. volatile
 1. **[java.util.concurrent]**
 1. ConcurrentHashMap
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -311,7 +305,6 @@ Atomics provide **non-blocking** operations on common objects. Also provides met
 1. volatile
 1. java.util.concurrent
 1. **[ConcurrentHashMap]**
-1. Docker
 1. Practice
 
 #HSLIDE
@@ -337,7 +330,6 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
-1. **[Docker]**
 1. Practice
 
 #HSLIDE
@@ -349,7 +341,6 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 1. java.util.concurrent
 1. ConcurrentHashMap
 1. Atomics
-1. Docker
 1. **[Practice]**
 
 #HSLIDE
