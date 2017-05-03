@@ -151,11 +151,11 @@ Fix VolatileExample with **synchronized**
 #HSLIDE
 ## synchronized guarantees
 Object l1; //Use as lock  
-thread1: -> **[acq l1]** synchronized on l1 **[rel l1]** ----------------------------------------------->  
-thread2: -> ||||||||||||||||||||||||||||||||||||||||||||**[acq l1]** synchronized on lock1 **[rel l1]**->  
+thread1 -> **[acq l1]** sync on l1 **[rel l1]** ----------------------------------------------->  
+thread2 -> ||||||||||||||||||||||||||||||||||||||||**[acq l1]** sync on lock1 **[rel l1]**->  
   
 [acquire l1] **publishes** everything before previous [release l1]  
-[release l1] **synchronizes with** [acquire l1] 
+they say [release l1] **synchronizes with** [acquire l1] 
 
 #HSLIDE
 ## What does it mean?
@@ -241,10 +241,10 @@ https://gist.github.com/jboner/2841832
 #HSLIDE
 ## volatile guarantees
 volatile int v1;//shared variable  
-thread1: **[write v1 (v1=42)]**    
-thread2:                     **[read v1 (someVar=v1)]**  
+thread1 -> **[write v1 (v1=42)]**-------------------------------->    
+thread2 -> |||||||||||||||||||||||||||**[read v1 (someVar=v1)]**->  
 [write v1] **publishes** everything before previous [read v1]  
-[write v1] **synchronizes with** [read v1]  
+they say [write v1] **synchronizes with** [read v1]  
 
 #HSLIDE
 ## Volatile r/w is like synchronized
@@ -255,6 +255,11 @@ thread2:                     **[read v1 (someVar=v1)]**
 In this sense volatile r/w is the same as **synchronized** but **with** concurrency
 
 #HSLIDE
+## JMM is about [acquire] and [release] synchronization
+Mostly
+
+#HSLIDE
+## High-level synchronization
 Basic synchronization primitives in Java are **synchronized** and **volatile**.
 JDK provide high-level API for concurrency
 - Concurrent collections
