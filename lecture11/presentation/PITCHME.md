@@ -151,10 +151,11 @@ Fix VolatileExample with **synchronized**
 #HSLIDE
 ## synchronized guarantees
 Object l1; //Use as lock  
-thread1: (acquire l1> synchronized on l1 <release l1)  
-thread2:                                               (acquire l1> synchronized on lock1 <release l1)  
-(ackquire l1> publishes everything before previous <release l1)  
-<release l1) **synchronizes with** (acquire l1> 
+thread1: **[acquire l1]** synchronized on l1 **[release l1]**  
+thread2:                                               **[acquire l1]** synchronized on lock1 **[release l1]**  
+  
+[acquire l1] **publishes** everything before previous [release l1]  
+[release l1] **synchronizes with** [acquire l1] 
 
 #HSLIDE
 ## What does it mean?
@@ -235,10 +236,10 @@ https://shipilev.net/blog/2014/all-accesses-are-atomic/
 #HSLIDE
 ## volatile guarantees
 volatile int v1;//shared variable  
-thread1: <write v1 (v1=42))    
-thread2:                     (read v1 (someVar=v1)>  
-[write v1> publishes everything before previous <read v1]  
-write v1 **synchronizes with** read v1
+thread1: **[write v1 (v1=42)]**    
+thread2:                     **[read v1 (someVar=v1)]**  
+[write v1] **publishes** everything before previous [read v1]  
+[write v1] **synchronizes with** [read v1]
 
 #HSLIDE
 ## Volatile r/w is like synchronized
