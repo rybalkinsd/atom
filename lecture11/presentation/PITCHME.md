@@ -151,8 +151,8 @@ Fix VolatileExample with **synchronized**
 #HSLIDE
 ## synchronized guarantees
 Object l1; //Use as lock  
-thread1: **[acquire l1]** synchronized on l1 **[release l1]**  
-thread2:                                               **[acquire l1]** synchronized on lock1 **[release l1]**  
+thread1: -> **[acq l1]** synchronized on l1 **[rel l1]** ----------------------------------------------->  
+thread2: -> ||||||||||||||||||||||||||||||||||||||||||||**[acq l1]** synchronized on lock1 **[rel l1]**->  
   
 [acquire l1] **publishes** everything before previous [release l1]  
 [release l1] **synchronizes with** [acquire l1] 
@@ -167,11 +167,16 @@ To see changes in shared variable you **must**:
 - Synchronizing only writes or only reads is **bullshit** (has no effects)
 - Synchronizing on different locks is **bullshit** (has no effects)
 
+**Other myths that are not true**:  
+https://shipilev.net/blog/2016/close-encounters-of-jmm-kind/#_wishful_thinking_hold_my_beer_while_i_am
+
 #HSLIDE
 ## Deadlock
-a state in which each member of a group of actions, is waiting for some other member to release a lock
 <img src="lecture11/presentation/assets/img/deadlock.jpg" alt="monitor" style="width: 500px;"/>
 
+**Deadlock** - a state in which each member of a group of actions, is waiting for some other member to release a lock
+
+> @see ru.atom.lecture11.deadlock
 
 #HSLIDE
 ## Detect deadlock with jstack
@@ -226,8 +231,8 @@ https://shipilev.net/blog/2014/all-accesses-are-atomic/
 10x average speedup for Intel x64
 
 #HSLIDE
-## Timings every programmer should know
-//TODO
+## Latency numbers every programmer should know
+https://gist.github.com/jboner/2841832
 
 #HSLIDE
 ## Try fix data races with volatile
@@ -239,7 +244,7 @@ volatile int v1;//shared variable
 thread1: **[write v1 (v1=42)]**    
 thread2:                     **[read v1 (someVar=v1)]**  
 [write v1] **publishes** everything before previous [read v1]  
-[write v1] **synchronizes with** [read v1]
+[write v1] **synchronizes with** [read v1]  
 
 #HSLIDE
 ## Volatile r/w is like synchronized
