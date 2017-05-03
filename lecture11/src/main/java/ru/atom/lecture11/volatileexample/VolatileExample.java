@@ -1,7 +1,7 @@
 package ru.atom.lecture11.volatileexample;
 
 public class VolatileExample {
-    boolean running = true;
+    volatile boolean running = true;
 
     public void test() {
         new Thread(new Runnable() {

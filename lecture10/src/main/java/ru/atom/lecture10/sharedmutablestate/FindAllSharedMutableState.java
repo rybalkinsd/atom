@@ -8,10 +8,10 @@ import java.util.List;
  * @since 22.11.16
  */
 public class FindAllSharedMutableState {
-    private static int privateStaticField = 1;
-    public static int publicStaticField = 2;
-    public int publicField = 3;
-    private int privateField = 4;
+    private static int privateStaticField = 1; //не шарит
+    public static int publicStaticField = 2; // шарит
+    public int publicField = 3; //  шарит
+    private int privateField = 4; // не шарит
     private NestedClass ref = new NestedClass();
     private List<NestedClass> list = new ArrayList<>();
 

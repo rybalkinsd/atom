@@ -1,20 +1,14 @@
 package ru.atom.lecture11.billing;
 
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Path("billing")
 public class BillingResource {
-    private static Map<String, Integer> userToMoney = new HashMap<>();
-
+    private static ConcurrentHashMap<String, Integer> userToMoney = new ConcurrentHashMap<>();
+    private static Object lock = new Object();
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/addUser")
@@ -43,8 +37,10 @@ public class BillingResource {
         if (userToMoney.get(fromUser) < money) {
             return Response.status(401).entity("Not enough money to send\n").build();
         }
-        userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
-        userToMoney.put(toUser, userToMoney.get(toUser) + money);
+        synchronized (lock) {
+            userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
+            userToMoney.put(toUser, userToMoney.get(toUser) + money);
+        }
         return Response.ok("Send success\n").build();
     }
 
