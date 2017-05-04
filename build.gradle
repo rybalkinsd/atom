@@ -14,7 +14,6 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
     jerseyVersion = "2.25.1"
-    //gsonjVersion = "2.7"s
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
