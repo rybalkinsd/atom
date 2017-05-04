@@ -53,19 +53,15 @@ public class MatchMakerResourcesTest {
 
     @Test
     public void joinSimple() throws Exception {
-        int beforeJoin = ThreadSafeQueue.getInstance().size();
         String token = responseOfLogin.hasEntity() ? responseOfLogin.getEntity().toString() : "";
         Response response = MatchMakerResources.join("user" + 1, token);
-        Assert.assertTrue(beforeJoin + 1 == ThreadSafeQueue.getInstance().size());
         Assert.assertTrue(response.getStatus() == 200);
     }
 
     @Test
     public void joinWithWrongToken() throws Exception {
-        int beforeJoin = ThreadSafeQueue.getInstance().size();
         String token = responseOfLogin.hasEntity() ? responseOfLogin.getEntity().toString() : "";
         Response response = MatchMakerResources.join("user" + 2, token + "salt");
-        Assert.assertTrue(beforeJoin == ThreadSafeQueue.getInstance().size());
         Assert.assertTrue(response.getStatus() == 400);
     }
 }

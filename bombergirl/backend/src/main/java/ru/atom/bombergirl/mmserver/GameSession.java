@@ -3,7 +3,14 @@ package ru.atom.bombergirl.mmserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
-import ru.atom.bombergirl.gamemodel.model.*;
+import ru.atom.bombergirl.gamemodel.model.GameObject;
+import ru.atom.bombergirl.gamemodel.model.Pawn;
+import ru.atom.bombergirl.gamemodel.model.Wall;
+import ru.atom.bombergirl.gamemodel.model.Wood;
+import ru.atom.bombergirl.gamemodel.model.Ticker;
+import ru.atom.bombergirl.gamemodel.model.Tickable;
+import ru.atom.bombergirl.gamemodel.model.Temporary;
+import ru.atom.bombergirl.gamemodel.model.Positionable;
 import ru.atom.bombergirl.message.ObjectMessage;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.network.Broker;
@@ -29,6 +36,7 @@ public class GameSession implements Tickable, Runnable {
     private final long id = idGenerator.getAndIncrement();
 
     private static List<GameObject> gameField = new ArrayList<>();
+
     static {
         for (int i = 0;i < 17;i++) {
             for (int j = 0;j < 13;j++) {
@@ -56,6 +64,7 @@ public class GameSession implements Tickable, Runnable {
             }
         }
     }
+
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
             new Point(1, 1),
             new Point(1, 11),
@@ -94,15 +103,15 @@ public class GameSession implements Tickable, Runnable {
     public void run() {
         gameObjects.addAll(gameField);
         for (int i = 0; i < connections.length; i++) {
-            Connection c = connections[i];
-            Pawn p = new Pawn(spawnPositions.get(i));
-            c.setGirl(p);
-            Broker.getInstance().send(c, Topic.POSSESS, p.getId());
-            gameObjects.add(p);
+            Connection connection = connections[i];
+            Pawn pawn = new Pawn(spawnPositions.get(i));
+            connection.setGirl(pawn);
+            Broker.getInstance().send(connection, Topic.POSSESS, pawn.getId());
+            gameObjects.add(pawn);
         }
         List<ObjectMessage> objectMessages = new ArrayList<>();
-        gameObjects.forEach(x ->
-                objectMessages.add(new ObjectMessage(x.getClass().getName(), x.getId(), ((Positionable)x).getPosition())));
+        gameObjects.forEach(x -> objectMessages.add(
+                new ObjectMessage(x.getClass().getName(), x.getId(), ((Positionable)x).getPosition())));
         Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
 
         log.info(Thread.currentThread().getName() + " started");

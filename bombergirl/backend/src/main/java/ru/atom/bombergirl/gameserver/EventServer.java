@@ -22,14 +22,14 @@ public class EventServer {
 
         // Setup the basic application "context" for this application at "/"
         // This is also known as the handler tree (in jetty speak)
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
-                //createGsContext(),
-                createResourceContext(),
-                context
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
+        contexts.setHandlers(new Handler[]{
+            //createGsContext(),
+            createResourceContext(),
+            context
         });
         server.setHandler(contexts);
 

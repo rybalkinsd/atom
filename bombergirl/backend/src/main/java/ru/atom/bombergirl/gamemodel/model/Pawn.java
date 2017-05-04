@@ -75,5 +75,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
         actions.clear();
     }
 
-    public void addAction(Action action) { actions.add(action); }
+    public void addAction(Action action) {
+        actions.add(action);
+    }
 }

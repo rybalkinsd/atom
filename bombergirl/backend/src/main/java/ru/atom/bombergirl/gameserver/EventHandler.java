@@ -11,6 +11,7 @@ import ru.atom.bombergirl.network.ConnectionPool;
 
 public class EventHandler extends WebSocketAdapter {
     private static final Logger log = LogManager.getLogger(EventServer.class);
+
     @Override
     public void onWebSocketConnect(Session sess) {
         super.onWebSocketConnect(sess);

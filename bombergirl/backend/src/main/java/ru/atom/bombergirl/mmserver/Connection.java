@@ -15,9 +15,7 @@ public class Connection {
     private final int id = counter++;
 
     public Connection(/*String name, */Session session) {
-/*
-        this.name = name;
-*/
+        //this.name = name;
         this.session = session;
     }
 

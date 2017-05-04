@@ -21,7 +21,8 @@ public class ObjectMessage {
     }
 
     @JsonCreator
-    public ObjectMessage(@JsonProperty("type") String type, @JsonProperty("id") int id, @JsonProperty("position") Point point) {
+    public ObjectMessage(@JsonProperty("type") String type,
+                         @JsonProperty("id") int id, @JsonProperty("position") Point point) {
         this.type = type;
         this.id = id;
         this.point = point.toString();
