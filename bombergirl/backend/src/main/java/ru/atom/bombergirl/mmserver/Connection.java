@@ -29,7 +29,15 @@ public class Connection {
         this.pawn = pawn;
     }
 
-/*
+    public Pawn getPawn() {
+        return pawn;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    /*
     public String getName() {
         return name;
     }

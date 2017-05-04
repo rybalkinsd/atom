@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Created by ikozin on 17.04.17.
  */
 public class MatchMaker implements Runnable {
-    private static final Logger log = LogManager.getLogger(MatchMaker.class);
+    private static final Logger log = LogManager.getLogger(MatchMakerServer.class);
     private static AtomicLong idGame = new AtomicLong();
 
     public static Long getIdGame() {
@@ -28,6 +28,7 @@ public class MatchMaker implements Runnable {
                 candidates.add(
                         ThreadSafeQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
                 );
+                log.info("candidates size is " + candidates.size());
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
             }
@@ -41,6 +42,7 @@ public class MatchMaker implements Runnable {
                 ThreadSafeStorage.put(session);
                 candidates.clear();
                 idGame.getAndIncrement();
+                log.info("idGame : " + idGame);
             }
         }
     }

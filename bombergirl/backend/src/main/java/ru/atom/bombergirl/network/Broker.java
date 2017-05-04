@@ -29,17 +29,19 @@ public class Broker {
     public void receive(@NotNull Session session, @NotNull String msg) {
         log.info("RECEIVED: " + msg);
         Message message = JsonHelper.fromJson(msg, Message.class);
-        switch (message.getTopic()) {
-            case MOVE:
-                Action movement = JsonHelper.fromJson(message.getData(), Move.class);
-                connectionPool.getConnection(session).start(movement);
-                break;
-            case PLANT_BOMB:
-                Action plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
-                connectionPool.getConnection(session).start(plant);
-                break;
-            default:
-                log.info("Error");
+        if (connectionPool.getConnection(session).getPawn() != null) {
+            switch (message.getTopic()) {
+                case MOVE:
+                    Action movement = JsonHelper.fromJson(message.getData(), Move.class);
+                    connectionPool.getConnection(session).start(movement);
+                    break;
+                case PLANT_BOMB:
+                    Action plant = JsonHelper.fromJson(message.getData(), PlantBomb.class);
+                    connectionPool.getConnection(session).start(plant);
+                    break;
+                default:
+                    log.info("Error");
+            }
         }
     }
 
