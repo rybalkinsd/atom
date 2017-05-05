@@ -1,4 +1,4 @@
-package ru.atom.message.example1;
+package ru.atom.websocket.message.example1;
 
 import org.junit.Test;
 

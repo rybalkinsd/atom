@@ -1,4 +1,4 @@
-package ru.atom.message.example1;
+package ru.atom.websocket.message.example1;
 
 /**
  * Created by sergey on 2/27/17.

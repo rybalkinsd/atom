@@ -1,4 +1,4 @@
-package ru.atom.message.example2;
+package ru.atom.websocket.message.example2;
 
 import java.io.File;
 
