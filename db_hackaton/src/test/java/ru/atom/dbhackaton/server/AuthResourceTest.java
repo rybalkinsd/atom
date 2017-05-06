@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.atom.dbhackaton.server.authservice.AuthServer;
 
 
 import java.io.IOException;

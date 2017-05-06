@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.matchmaker;
 
 import org.hibernate.Session;
 import org.json.JSONArray;
@@ -12,10 +12,8 @@ import ru.atom.dbhackaton.server.model.User;
 import ru.atom.dbhackaton.server.service.GameSessionService;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class MatchMakerResources {
         User loginedUser = UserDao.getInstance().getByName(session, userName);
         ThreadSafeQueue.getInstance().add(loginedUser);
 
-        String gameUrl = "wtfis.ru:8090/gs/"
+        String gameUrl = "wtfis.ru:8090/gs/0"
                 + ThreadSafeStorage.getCurrentGameId();
         return Response.ok(gameUrl).build();
     }

@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
+import ru.atom.dbhackaton.server.authservice.AuthServer;
+import ru.atom.dbhackaton.server.matchmaker.MatchMakerServer;
 
 
 /**

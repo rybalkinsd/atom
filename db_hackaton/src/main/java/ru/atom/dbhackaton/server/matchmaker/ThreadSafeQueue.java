@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.matchmaker;
 
 import ru.atom.dbhackaton.server.model.User;
 

@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.authservice;
 
 import ru.atom.dbhackaton.server.service.UserService;
 import ru.atom.dbhackaton.server.service.UserException;

@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.authservice;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
