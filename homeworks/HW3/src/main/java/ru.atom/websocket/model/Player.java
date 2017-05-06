@@ -45,7 +45,7 @@ public class Player extends AbstractGameObject implements Movable {
 
     public Player(int id, Point position) {
         super(id, position.getX(),position.getY());
-        type = "Player";
+        type = "Pawn";
         bagSize = 1;
         powerBomb = 1;
         velocity = 1;

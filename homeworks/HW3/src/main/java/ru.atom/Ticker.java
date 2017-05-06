@@ -92,7 +92,10 @@ public class Ticker extends Thread {
      */
     private static final int PARALLELISM_LEVEL = 4;
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>();//связь session<->login
-    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(4);//связь idPawn<->login
+    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL);//связь idPawn<->login
+
+    private static final Point[] startPoint = {new Point(481,352), new Point(32, 352),
+            new Point(481, 32), new Point(32, 32)};
 
     /**
      * initial method, which chould be used before game is started
@@ -100,15 +103,16 @@ public class Ticker extends Thread {
      * @param login
      * @return pawnId, connected with session, or -1 if Thread is running
      */
-    public void addPawn (Session session, String login, Point position) {
+    public void addPawn (Session session, String login) {
         log.info("localPool.size() before add: {}", localPool.size());
         localPool.putIfAbsent(session, login);
         log.info("localPool.size() after add: {}", localPool.size());
         int playerId = gameSession.getCurrentId();
         log.info("player with login {} has new pawn with id {}", login, playerId);
         playerPawn.put(login, playerId);
-        gameSession.addGameObject(new Player(playerId, position));
+        gameSession.addGameObject(new Player(playerId, startPoint[playerId%4])); // TODO: 06.05.17   MAX_PLAYERS
 
+        Broker.getInstance().send(login, Topic.POSSESS, playerId);
         Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
     }
 

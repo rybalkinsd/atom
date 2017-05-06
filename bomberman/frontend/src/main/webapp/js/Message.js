@@ -27,7 +27,10 @@ Messages = Class.extend({
 
 
     handleReplica: function (msg) {
-        var gameObjects = JSON.parse(msg.data).objects;
+        // alert("msg.data.length: " + msg.data.length);
+        // alert("msg.data[0]: " + msg.data[0]);
+        // alert("msg.stringify: " + JSON.stringify(msg));
+        var gameObjects = msg.data;
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];

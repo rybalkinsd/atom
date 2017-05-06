@@ -17,9 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GameManager {
     private static final Logger log = LogManager.getLogger(GameManager.class);
     private static final GameManager instance = new GameManager();
-    private static final int PARALLELISM_LEVEL = 4;
-    private static final Point[] startPoint = {new Point(1, 1), new Point(1, 14),
-            new Point(14, 14), new Point(14, 1)};
+    private static final int PARALLELISM_LEVEL = 4;  // TODO: 06.05.17   MAX_PLAYERS
 
     private final ConcurrentLinkedQueue<Ticker> games;
     private Ticker currentGame;
@@ -36,7 +34,7 @@ public class GameManager {
 
     public void addPlayer(Session session, String login) {
         log.info("number of players in currentGame before add: {}", currentGame.numberOfPlayers());
-        currentGame.addPawn(session, login, startPoint[currentGame.numberOfPlayers()]);
+        currentGame.addPawn(session, login);
         log.info("number of players in currentGame after add: {}", currentGame.numberOfPlayers());
         if (currentGame.numberOfPlayers() == PARALLELISM_LEVEL) {
             startGame();
