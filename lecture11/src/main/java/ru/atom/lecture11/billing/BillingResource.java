@@ -14,8 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Path("billing")
 public class BillingResource {
-    private static Map<String, Integer> userToMoney = new HashMap<>();
-    
+    //ConcurrentHashMap will prevent data races, but not race conditions
+    //Read ConcurrentHashMap docs for details
+    private static Map<String, Integer> userToMoney = new ConcurrentHashMap<>();
+    private static Object lock = new Object();
+
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Path("/addUser")
@@ -41,11 +44,16 @@ public class BillingResource {
         if (!userToMoney.containsKey(fromUser) || !userToMoney.containsKey(toUser)) {
             return Response.status(401).entity("No such user\n").build();
         }
-        if (userToMoney.get(fromUser) < money) {
-            return Response.status(401).entity("Not enough money to send\n").build();
+        //making this operations atomic we induce invariant "sum of money are preserved",
+        //thus preventing erroneous race conditions
+        //http://blog.regehr.org/archives/490
+        synchronized (lock) {
+            if (userToMoney.get(fromUser) < money) {
+                return Response.status(401).entity("Not enough money to send\n").build();
+            }
+            userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
+            userToMoney.put(toUser, userToMoney.get(toUser) + money);
         }
-        userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
-        userToMoney.put(toUser, userToMoney.get(toUser) + money);
         return Response.ok("Send success\n").build();
     }
 
