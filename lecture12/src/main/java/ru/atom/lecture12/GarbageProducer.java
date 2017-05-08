@@ -1,4 +1,7 @@
-package ru.atom.lecture12.garbager;
+package ru.atom.lecture12;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GarbageProducer {
     static List<Object> l;
