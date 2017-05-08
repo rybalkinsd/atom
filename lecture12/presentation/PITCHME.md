@@ -26,7 +26,7 @@ Refresh gradle project
 
 #HSLIDE
 ## GCs in Hotspot
-<img src="lecture12/presentation/assets/img/concurrenthashmap.png" alt="monitor" style="width: 700px;"/>  
+<img src="lecture12/presentation/assets/img/gcs.png" alt="monitor" style="width: 700px;"/>  
 
 #HSLIDE
 **Оставьте обратную связь**
