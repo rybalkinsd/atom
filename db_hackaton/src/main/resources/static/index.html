@@ -31,15 +31,27 @@
 
 <script>
     function newGame() {
+        if (Cookies.get('user') === undefined
+            || Cookies.get('token') === undefined) {
 
-        var token = Cookies.get('token');
-        console.log(token);
+            window.location = "/login.html";
+        }
 
-        $.getJSON('http://localhost:8090/mm/join?token=' + token, {
-        }, function(data, textStatus, jqxhr){
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://localhost:8090/mm/join",
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            },
+            "data": {
+                "token": Cookies.get('token')
+            }
+        };
+
+        $.ajax(settings).done(function(data, textStatus, jqXHR) {
             alert(data);
-            console.log(jqxhr.response.toString() + " " + data);
-        });
+        })
     }
 </script>
 
