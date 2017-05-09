@@ -552,6 +552,31 @@ master
 **--rebase** заставляет **git** переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
 (возможны конфликты)
 
+#HSLIDE
+## Git practice
+We not practice to make changes in our fork and **pull-request** them to **course repository**  
+
+
+#HSLIDE
+## Github workflow
+1. **Fork** project
+2. **clone** forked project
+```bash
+> git clone https://github.com/MY-GITHUB-NAME/atom
+```
+3. **checkout** branch which you want to contribute
+```bash
+> git fetch upstream
+> git checkout homework-branch 
+```
+4. make changes and **push** them to **your fork**
+```bash
+> git pull upstream master --rebase
+> git add MyFixedFile1.java MyFixedFile2.java
+> git commit -m 'Fixed all bugs and added new'
+> git push
+```
+5. make **pull-request**
 
 #HSLIDE 
 # 5. Gradle 
