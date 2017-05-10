@@ -18,6 +18,7 @@ ext {
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.2.3.Final"
     websocketVersion = "9.4.3.v20170317"
+    jbcryptVersion = "0.4"
 }
 
 allprojects {
@@ -74,7 +75,8 @@ ext.libraries = [
         websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
         websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
         websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
-        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+        jbcrypt: "de.svenkubiak:jBCrypt:$jbcryptVersion"
 ]
 
 // code coverage settings

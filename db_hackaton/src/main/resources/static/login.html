@@ -44,12 +44,12 @@
         }
 
         $.ajax(settings).done(function(response) {
-            var in5Minutes = 1 / (24 * 12);
+            var in10Minutes = 1 / (24 * 6); // было 12(5 minutes)
             Cookies.set('user', $("#nameform #user").val(), {
-                expires: in5Minutes
+                expires: in10Minutes
             });
             Cookies.set('token', response, {
-                expires: in5Minutes
+                expires: in10Minutes
             });
             window.location = "/";
         }).fail(function (jqXHR, textStatus) {
