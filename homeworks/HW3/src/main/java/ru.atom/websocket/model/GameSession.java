@@ -2,14 +2,20 @@ package ru.atom.websocket.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
-    private List<GameObject> gameObjects = new ArrayList<>();
+    private List<GameObject> gameObjects;
     private int id = 0;
+
+    public GameSession() {
+        gameObjects = new ArrayList<>();
+        generateStandartMap(545, 416);
+    }
 
     public int getCurrentId() {
         return id;
@@ -24,22 +30,26 @@ public class GameSession implements Tickable {
         id++;
     }
 
+    private Player findPawn(int pawnId) {
+        return (Player)gameObjects.stream().filter(gameObject -> gameObject.getId() == pawnId).findAny().get();
+    }
+
     /**
      * can be used only before game starts
      * @param pawnId
      */
     public void killPawn(int pawnId) {
-        gameObjects.remove(gameObjects.stream().filter(gameObject -> gameObject.getId() == pawnId).findAny().get());
+        gameObjects.remove(findPawn(pawnId));
     }
 
     public void plantBomb(int pawnId) {
-        ((Player)gameObjects.get(pawnId)).plant();
+        findPawn(pawnId).plant();
     }
 
     public void movePawn(int pawnId, Movable.Direction direction) {
-        Player pawn = (Player)gameObjects.get(pawnId);
+        Player pawn = findPawn(pawnId);
         if (pawn.getDirection() == Movable.Direction.IDLE) {
-            ((Player) gameObjects.get(pawnId)).setDirection(direction);
+            pawn.setDirection(direction);
         } else {log.info("player has instruction to move already");}
     }
 
@@ -66,5 +76,10 @@ public class GameSession implements Tickable {
         }
         gameObjects.removeAll(dead);
         gameObjects.addAll(born);
+    }
+
+    private void generateStandartMap(int width, int height) {
+        gameObjects.add(new UnbreakableWall(id, new Point(300, 125)));
+        id++;
     }
 }

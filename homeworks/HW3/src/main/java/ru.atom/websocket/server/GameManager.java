@@ -33,9 +33,9 @@ public class GameManager {
     }
 
     public void addPlayer(Session session, String login) {
-        log.info("number of players in currentGame before add: {}", currentGame.numberOfPlayers());
+//        log.info("number of players in currentGame before add: {}", currentGame.numberOfPlayers());
         currentGame.addPawn(session, login);
-        log.info("number of players in currentGame after add: {}", currentGame.numberOfPlayers());
+//        log.info("number of players in currentGame after add: {}", currentGame.numberOfPlayers());
         if (currentGame.numberOfPlayers() == PARALLELISM_LEVEL) {
             startGame();
             games.offer(currentGame);
@@ -48,7 +48,7 @@ public class GameManager {
     public void plantBomb(Session session) {
         Ticker ticker = findBySession(session);
         if (ticker != null) {
-            log.info("plant bomb after game is ready to start");
+//            log.info("plant bomb after game is ready to start");
             ticker.plantBomb(session);
         } else {
             log.info("ignore plant bomb before game is ready to start");
@@ -58,7 +58,7 @@ public class GameManager {
     public void move(Session session, Movable.Direction direction) {
         Ticker ticker = findBySession(session);
         if (ticker != null) {
-            log.info("move after game is ready to start");
+//            log.info("move after game is ready to start");
             ticker.move(session, direction);
         } else {
             log.info("ignore move before game is ready to start");
@@ -68,22 +68,22 @@ public class GameManager {
     public void removePlayer(Session session) {
         Ticker ticker = findBySession(session);
         if(ticker == null) {
-            log.info("number of players in currentGame before remove: {}", currentGame.numberOfPlayers());
+//            log.info("number of players in currentGame before remove: {}", currentGame.numberOfPlayers());
             log.info("{} pawn was killed", currentGame.killPawn(session));
-            log.info("number of players in currentGame after remove: {}", currentGame.numberOfPlayers());
+//            log.info("number of players in currentGame after remove: {}", currentGame.numberOfPlayers());
         } else {
-            log.info("{} pawn was killed in game", ticker.killPawn(session));
+            log.info("{} pawn will be killed in game", ticker.killPawn(session));
         }
         if(ticker.numberOfPlayers() == 0) {
             ticker.interrupt();
-            log.info("games size before interrupting: {}", games.size());
+//            log.info("games size before interrupting: {}", games.size());
             try {
                 ticker.join();
             } catch (InterruptedException e) {
                 log.info("some bitches falled me down");
             }
             games.remove(ticker);
-            log.info("games size after interrupting: {}",games.size());
+//            log.info("games size after interrupting: {}",games.size());
         }
     }
 

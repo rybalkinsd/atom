@@ -48,11 +48,7 @@ public class Ticker extends Thread {
             if(Thread.currentThread().isInterrupted()) {
                 break;
             }
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//
-//            }
+            // TODO: 06.05.17   проверка на необходимость чутка почистить пул.
             Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
         }
     }
@@ -93,7 +89,6 @@ public class Ticker extends Thread {
     private static final int PARALLELISM_LEVEL = 4;
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>();//связь session<->login
     private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL);//связь idPawn<->login
-
     private static final Point[] startPoint = {new Point(481,352), new Point(32, 352),
             new Point(481, 32), new Point(32, 32)};
 
@@ -110,19 +105,24 @@ public class Ticker extends Thread {
         int playerId = gameSession.getCurrentId();
         log.info("player with login {} has new pawn with id {}", login, playerId);
         playerPawn.put(login, playerId);
+        // TODO: 06.05.17   неправильно расставляются игроки в случае лива)
         gameSession.addGameObject(new Player(playerId, startPoint[playerId%4])); // TODO: 06.05.17   MAX_PLAYERS
-
         Broker.getInstance().send(login, Topic.POSSESS, playerId);
-        Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
+        synchronized (lock) {
+            Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
+        }
     }
 
+    /**
+     * Not ThreadSafe.
+     * @param session
+     * @return
+     */
     public int killPawn(Session session) {
         log.info("localPool.size() before killPawn: {}", localPool.size());
         int pawnId;
-        synchronized (lock) {
-            pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
-            gameSession.killPawn(pawnId);
-        }
+        pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
+        gameSession.killPawn(pawnId);
         log.info("localPool.size() after killPawn: {}", localPool.size());
         return pawnId;
     }

@@ -3,6 +3,7 @@ package ru.atom.websocket.network;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
 import ru.atom.websocket.server.GameManager;
 
@@ -41,18 +42,24 @@ public class ConnectionPool {
         if (session.isOpen()) {
             try {
                 session.getRemote().sendString(msg);
+            } catch (WebSocketException wse) {
+                log.warn(wse.getMessage());
             } catch (IOException ignored) {
             }
         }
     }
 
     public void broadcast(@NotNull String msg) {
-        // TODO: 04.05.17 wrong!!
         pool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
     }
 
+    // TODO: 08.05.17   need to be threadSafe
     public void localBroadcast(@NotNull ConcurrentHashMap<Session, String> localPool, @NotNull String msg) {
-        localPool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
+        localPool.forEachKey(PARALLELISM_LEVEL, session -> {
+            if (pool.get(session) == localPool.get(session)) {
+                send(session,msg);
+            }
+        });
     }
 
     public void shutdown() {

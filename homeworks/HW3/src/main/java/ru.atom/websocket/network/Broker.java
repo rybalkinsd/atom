@@ -41,8 +41,10 @@ public class Broker {
             synchronized (lock) {
                 connectionPool.add(session, login);
             }
-//            log.info(login);
-            // TODO: 02.05.17   should be sent POSSESS
+        } else if (message.getTopic() == Topic.FINISH) {
+            synchronized (lock) {
+                connectionPool.remove(session);
+            }
         } else {
             log.info("RECEIVED: " + msg);
         }

@@ -33,9 +33,9 @@ public class EventHandler extends WebSocketAdapter {
     public void onWebSocketClose(int statusCode, String reason) {
         Session session = super.getSession();
         super.onWebSocketClose(statusCode, reason);
-//        System.out.println("Socket Closed: [" + statusCode + "] " + reason);
-//        System.out.println("Socket is: " + super.getSession());
-        ConnectionPool.getInstance().remove(session);
+        System.out.println("Socket Closed: [" + statusCode + "] " + reason);
+        Broker.getInstance().receive(session,
+                JsonHelper.toJson(new Message(Topic.FINISH, "onWebSocketClose")));
     }
 
     @Override
@@ -43,6 +43,7 @@ public class EventHandler extends WebSocketAdapter {
         Session session = super.getSession();
         super.onWebSocketError(cause);
         cause.printStackTrace(System.err);
-        ConnectionPool.getInstance().remove(session);
+        Broker.getInstance().receive(session,
+                JsonHelper.toJson(new Message(Topic.FINISH, "onWebSocketError")));
     }
 }

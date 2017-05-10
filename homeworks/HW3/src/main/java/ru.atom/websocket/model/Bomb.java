@@ -21,7 +21,7 @@ public class Bomb extends AbstractGameObject implements Temporary {
     public Bomb(int id, Point position, int power) {
         super(id, position.getX(), position.getY());
         type = "Bomb";
-        this.lifeTime = 1000L;
+        this.lifeTime = 2000L;
         this.isDead = false;
         this.power = power;
         log.info("Bomb(id = {}) was created in ( {} ; {} ) with lifeTime: {} and power {}", id,

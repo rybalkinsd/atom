@@ -62,13 +62,15 @@ public class Player extends AbstractGameObject implements Movable {
 
     @Override
     public void tick(long elapsed) {
-        if (elapsedTime == 0L) {
+        if (elapsedTime <= 0L) {
+            elapsedTime =0L;
             if(bagSize == 0) {
                 bagSize++;
             }
         } else {
             elapsedTime -= elapsed;
         }
+        log.info("time before bomb will appeared in my bag is {}", elapsedTime);
         position = move(direction);
         direction = Direction.IDLE;
     }
@@ -113,7 +115,7 @@ public class Player extends AbstractGameObject implements Movable {
                 return null;
             } else {
                 bagSize--;
-                elapsedTime = 2L;
+                elapsedTime = 2000L;
                 return new Bomb(0, position, powerBomb);
             }
         } else {
