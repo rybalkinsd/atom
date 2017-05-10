@@ -28,13 +28,6 @@ public class AuthResourcesTest {
     }
 
     @Test
-    public void singleRegister() throws Exception {
-        Response response = services.register(username, typicalPassword);
-        log.info("[" + response + "]");
-        Assert.assertTrue(response.getStatus() == 200);
-    }
-
-    @Test
     public void checkIncorrectLength() throws Exception {
         String smallIncorrectName = "";
         String longIncorrectName = "odinnadtsatiklassnitsa";
