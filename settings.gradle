@@ -1,6 +1,2 @@
 rootProject.name = 'atom'
-<<<<<<< HEAD
 include 'db_hackaton'
-=======
-include 'tasks/1-in-memory-account-server'
->>>>>>> rk1
