@@ -46,6 +46,10 @@ public class Bomb extends AbstractGameObject implements Temporary {
         return this.lifeTime;
     }
 
+    public int getPower() {
+        return power;
+    }
+
     @Override
     public boolean isDead() {
         return this.isDead;

@@ -46,6 +46,25 @@ public class GameSession implements Tickable {
         findPawn(pawnId).plant();
     }
 
+    private List<Fire> explosionBomb(Bomb bomb) {
+        List<Fire> explosion = new ArrayList<>();
+        Point bombPosition = bomb.getPosition();
+        explosion.add(new Fire(id, bombPosition));
+        id++;
+        // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками
+        for (int i = 0; i < bomb.getPower(); i++) {
+            explosion.add(new Fire(id, new Point(bombPosition.getX() + 38 * (i + 1), bombPosition.getY())));
+            id++;
+            explosion.add(new Fire(id, new Point(bombPosition.getX() - 38 * (i + 1), bombPosition.getY())));
+            id++;
+            explosion.add(new Fire(id, new Point(bombPosition.getX(), bombPosition.getY() + 38 * (i + 1))));
+            id++;
+            explosion.add(new Fire(id, new Point(bombPosition.getX(), bombPosition.getY() - 38 * (i + 1))));
+            id++;
+        }
+        return explosion;
+    }
+
     public void movePawn(int pawnId, Movable.Direction direction) {
         Player pawn = findPawn(pawnId);
         if (pawn.getDirection() == Movable.Direction.IDLE) {
@@ -72,6 +91,9 @@ public class GameSession implements Tickable {
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
                 dead.add((Temporary)gameObject);
+                if(gameObject instanceof Bomb) {
+                    born.addAll(explosionBomb((Bomb)gameObject));
+                }
             }
         }
         gameObjects.removeAll(dead);
