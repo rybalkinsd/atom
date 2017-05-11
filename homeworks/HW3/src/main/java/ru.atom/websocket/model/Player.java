@@ -70,7 +70,7 @@ public class Player extends AbstractGameObject implements Movable {
         } else {
             elapsedTime -= elapsed;
         }
-        log.info("time before bomb will appeared in my bag is {}", elapsedTime);
+        //log.info("time before bomb will appeared in my bag is {}", elapsedTime);
         position = move(direction);
         direction = Direction.IDLE;
     }
@@ -86,7 +86,7 @@ public class Player extends AbstractGameObject implements Movable {
             log.error("direction shouldn't be null");
             throw new NullPointerException();
         }
-        log.info("I'll move in direction {}", direction);
+        //log.info("I'll move in direction {}", direction);
         switch (direction) {
             case UP:
                 return new Point(this.getPosition().getX(), this.getPosition().getY() + velocity);

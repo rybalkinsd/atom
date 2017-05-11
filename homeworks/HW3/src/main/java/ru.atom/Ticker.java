@@ -49,12 +49,16 @@ public class Ticker extends Thread {
                 break;
             }
             // TODO: 06.05.17   проверка на необходимость чутка почистить пул.
-            Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
+            synchronized (lock) {
+                Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
+            }
         }
     }
 
     private void act(long time) {
-        gameSession.tick(time);//Your logic here
+        synchronized (lock) {
+            gameSession.tick(time);//Your logic here
+        }
     }
 
     public long getTickNumber() {
@@ -142,7 +146,9 @@ public class Ticker extends Thread {
         synchronized (lock) {
             if (Thread.currentThread().isAlive()) {
                 log.info("{} will move in direction {}", localPool.get(session), direction);
-                gameSession.movePawn(playerPawn.get(localPool.get(session)), direction);
+                synchronized (lock) {
+                    gameSession.movePawn(playerPawn.get(localPool.get(session)), direction);
+                }
             } else {
                 log.info("{} will not move in direction {}", localPool.get(session), direction);
             }
