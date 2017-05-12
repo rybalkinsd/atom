@@ -2,6 +2,8 @@ dependencies {
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.jol
+    compile rootProject.libraries.jol_samples
 }
 
 jar {
