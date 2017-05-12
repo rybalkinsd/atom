@@ -3,6 +3,7 @@ package ru.atom.websocket.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 
 /**
@@ -21,8 +22,9 @@ public class Fire extends AbstractGameObject implements Temporary  {
         type = "Fire";
         this.lifeTime = 1000L;
         this.isDead = false;
-        log.info("Fire(id = {}) was created in ( {} ; {} ) with lifeTime: {}", id,
-                position.getX(), position.getY(), this.lifeTime);
+        bar = new Bar(new Point( position.getX() + 7, position.getY() + 7), 18);
+        log.info("Fire(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bar {}", id,
+                position.getX(), position.getY(), this.lifeTime, bar.toString());
     }
 
     /**

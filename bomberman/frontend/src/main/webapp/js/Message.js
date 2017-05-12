@@ -73,7 +73,8 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-
+        position.x = position.x + 8;
+        position.y = position.y + 8;
         if (bomb) {
             bomb.bmp.x = position.x;
             bomb.bmp.y = position.y;

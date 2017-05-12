@@ -36,7 +36,7 @@ Player = Entity.extend({
     init: function(id, position) {
         this.id = id;
 
-        var img = gGameEngine.playerGirlImg;
+        var img = gGameEngine.playerBoyImg;
 
         var spriteSheet = new createjs.SpriteSheet({
             images: [img],
