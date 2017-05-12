@@ -207,12 +207,13 @@ GameEngine = Class.extend({
 
     gc: function(survivors) {
         [this.players, this.tiles, this.bombs, this.bonuses].forEach(function (it) {
-            it.forEach(function(item, index, arr) {
-                if (!survivors.has(item.id)) {
-                    item.remove();
-                    arr.splice(index, 1);
+            var i = it.length;
+            while (i--) {
+                if (!survivors.has(it[i].id)) {
+                    it[i].remove();
+                    it.splice(i, 1);
                 }
-            });
+            }
         });
 
     }
