@@ -1,4 +1,4 @@
-package ru.atom.mm.server;
+package ru.atom.dbhackaton.services.mm;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

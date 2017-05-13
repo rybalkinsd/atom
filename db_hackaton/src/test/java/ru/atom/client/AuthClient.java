@@ -12,14 +12,16 @@ import ru.atom.dbhackaton.resource.User;
 
 import java.io.IOException;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 /**
  * Created by BBPax on 24.03.17.
  */
 public class AuthClient {
     private static final OkHttpClient client = new OkHttpClient();
-    private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
-    private static final String PORT = ":8080";
+    private static final String PROTOCOL = getProperties().getProperty("protocol");
+    private static final String HOST = getProperties().getProperty("host");
+    private static final String PORT = ":" + getProperties().getProperty("port");
 
     //POST host:port/auth/register?user=userName&password=userPass
     public static Response registration(User user) throws IOException {

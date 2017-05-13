@@ -1,6 +1,5 @@
 package ru.atom.dbhackaton.resource;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;

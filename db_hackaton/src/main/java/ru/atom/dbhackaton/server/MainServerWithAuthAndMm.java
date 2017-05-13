@@ -9,8 +9,10 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.dbhackaton.dao.Database;
 
+import static ru.atom.WorkWithProperties.getProperties;
 
-public class AuthServer {
+
+public class MainServerWithAuthAndMm {
     private static Server jettyServer;
 
     public static void main(String[] args) throws Exception {
@@ -23,10 +25,11 @@ public class AuthServer {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[] {
                 createAuthContext(),
-                createResourceContext()
+                createResourceContext(),
+                createMatchMakerContext()
         });
 
-        jettyServer = new Server(8080);
+        jettyServer = new Server(Integer.valueOf(getProperties().getProperty("port")));
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
@@ -41,7 +44,7 @@ public class AuthServer {
 
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "ru.atom.dbhackaton.server"
+                "ru.atom.dbhackaton.services.auth"
         );
 
         jerseyServlet.setInitParameter(
@@ -58,14 +61,27 @@ public class AuthServer {
         ResourceHandler handler = new ResourceHandler();
         handler.setWelcomeFiles(new String[]{"index.html"});
 
-        String serverRoot = AuthServer.class.getResource("/static").toString();
+        String serverRoot = MainServerWithAuthAndMm.class.getResource("/static").toString();
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
+        return context;
+    }
+
+    private static ServletContextHandler createMatchMakerContext() {
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/mm/*");
+        ServletHolder jerseyServlet = context.addServlet(
+                org.glassfish.jersey.servlet.ServletContainer.class, "/*");
+        jerseyServlet.setInitOrder(1);
+
+        jerseyServlet.setInitParameter(
+                "jersey.config.server.provider.packages",
+                "ru.atom.dbhackaton.services.mm"
+        );
         return context;
     }
 
     public static void shutdown() throws Exception {
         jettyServer.stop();
     }
-
 }

@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.After;
 import ru.atom.client.AuthClient;
 import ru.atom.dbhackaton.resource.User;
-import ru.atom.dbhackaton.server.AuthServer;
+import ru.atom.dbhackaton.server.MainServerWithAuthAndMm;
 
 import java.util.Random;
 
@@ -21,7 +21,7 @@ public class AuthTest {
 
     @Before
     public void setUp() throws Exception {
-        AuthServer.startUp();
+        MainServerWithAuthAndMm.startUp();
         AuthClient.registration(newUser);
     }
     
@@ -51,6 +51,6 @@ public class AuthTest {
 
     @After
     public void shutdown() throws Exception {
-        AuthServer.shutdown();
+        MainServerWithAuthAndMm.shutdown();
     }
 }

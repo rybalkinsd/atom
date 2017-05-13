@@ -1,5 +1,4 @@
-package ru.atom.dbhackaton.server;
-
+package ru.atom.dbhackaton.services.auth;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,10 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.atom.dbhackaton.dao.Database;
 import ru.atom.dbhackaton.dao.TokenDao;
-import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.resource.Token;
 import ru.atom.dbhackaton.resource.User;
-import ru.atom.dbhackaton.service.AuthException;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;

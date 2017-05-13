@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.services.auth;
 
 
 import javax.ws.rs.NameBinding;

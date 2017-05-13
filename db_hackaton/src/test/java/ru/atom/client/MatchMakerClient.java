@@ -8,19 +8,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.RequestBody;
-import ru.atom.dbhackaton.resource.Token;
 import ru.atom.dbhackaton.resource.User;
 
 import java.io.IOException;
+
+import static ru.atom.WorkWithProperties.getProperties;
 
 /**
  * Created by BBPax on 24.03.17.
  */
 public class MatchMakerClient {
     private static final OkHttpClient client = new OkHttpClient();
-    private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
-    private static final String PORT = ":8081";
+    private static final String PROTOCOL = getProperties().getProperty("protocol");
+    private static final String HOST = getProperties().getProperty("host");
+    private static final String PORT = ":" + getProperties().getProperty("port");
 
     //POST host:port/mm/join
     public static Response join(String token) throws IOException {

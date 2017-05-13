@@ -9,9 +9,7 @@ import org.junit.After;
 import ru.atom.client.AuthClient;
 import ru.atom.client.MatchMakerClient;
 import ru.atom.dbhackaton.resource.User;
-import ru.atom.dbhackaton.server.AuthResource;
-import ru.atom.dbhackaton.server.AuthServer;
-import ru.atom.mm.server.MatchMakerServer;
+import ru.atom.dbhackaton.server.MainServerWithAuthAndMm;
 
 import java.util.Random;
 
@@ -26,8 +24,7 @@ public class MatchMakerTest {
 
     @Before
     public void startUp() throws Exception {
-        MatchMakerServer.startUp();
-        AuthServer.startUp();
+        MainServerWithAuthAndMm.startUp();
     }
 
     @Test
@@ -54,8 +51,7 @@ public class MatchMakerTest {
 
     @After
     public void shutDown() throws Exception {
-        MatchMakerServer.shutdown();
-        AuthServer.shutdown();
+        MainServerWithAuthAndMm.shutdown();
     }
 
 }

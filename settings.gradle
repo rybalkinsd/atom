@@ -1,5 +1,5 @@
 rootProject.name = 'atom'
 
 include 'homeworks/HW3'
-
+include 'db_hackaton'
 include 'bomberman/frontend'

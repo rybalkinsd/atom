@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.service;
+package ru.atom.dbhackaton.services.auth;
 
 /**
  * Created by BBPax on 13.04.17.
