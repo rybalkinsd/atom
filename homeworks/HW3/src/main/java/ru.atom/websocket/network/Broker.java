@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Broker {
     private static final Logger log = LogManager.getLogger(Broker.class);
-    private static final Object lock = new Object();
     private static final Broker instance = new Broker();
     private final ConnectionPool connectionPool;
     private final GameManager gameManager;
@@ -38,13 +37,9 @@ public class Broker {
             gameManager.move(session, Movable.Direction.forValue(message.getData()));
         } else if (message.getTopic() == Topic.HELLO) {
             String login = message.getData();
-            synchronized (lock) {
-                connectionPool.add(session, login);
-            }
+            connectionPool.add(session, login);
         } else if (message.getTopic() == Topic.FINISH) {
-            synchronized (lock) {
-                connectionPool.remove(session);
-            }
+            connectionPool.remove(session);
         } else {
             log.info("RECEIVED: " + msg);
         }
@@ -61,17 +56,13 @@ public class Broker {
     public void broadcast(@NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.getJsonNode(JsonHelper.toJson(object))));
         log.info("broadcast: {}", message);
-        synchronized (lock) {
-            connectionPool.broadcast(message);
-        }
+        connectionPool.broadcast(message);
     }
 
     public void broadcast(@NotNull ConcurrentHashMap<Session, String> localPool, @NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.getJsonNode(JsonHelper.toJson(object))));
         log.info("localBroadcast: {}", message);
-        synchronized (lock) {
-            connectionPool.localBroadcast(localPool, message);
-        }
+        connectionPool.localBroadcast(localPool, message);
     }
 
 }

@@ -3,6 +3,7 @@ package ru.atom.websocket.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 
 /**
@@ -35,6 +36,10 @@ public class Player extends AbstractGameObject implements Movable {
         this.velocity = velocity;
     }
 
+    public int getVelocity() {
+        return velocity;
+    }
+
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -52,7 +57,9 @@ public class Player extends AbstractGameObject implements Movable {
         elapsedTime = 0L;
         direction = Direction.IDLE;
         plantBomb = false;
-        log.info("Player(id = {}) is created in ( {} ; {} )", id, position.getX(), position.getY());
+        bar = new Bar(new Point(position.getX() + 7, position.getY() + 7), 18);
+        log.info("Player(id = {}) is created in ( {} ; {} ) and bar {}",
+                id, position.getX(), position.getY(), bar.toString());
     }
 
     @Override
@@ -63,15 +70,16 @@ public class Player extends AbstractGameObject implements Movable {
     @Override
     public void tick(long elapsed) {
         if (elapsedTime <= 0L) {
-            elapsedTime =0L;
+            elapsedTime = 0L;
             if(bagSize == 0) {
                 bagSize++;
             }
         } else {
             elapsedTime -= elapsed;
         }
-        log.info("time before bomb will appeared in my bag is {}", elapsedTime);
+        //log.info("time before bomb will appeared in my bag is {}", elapsedTime);
         position = move(direction);
+        bar.setBarPosition(new Point(position.getX() + 7, position.getY() + 7));
         direction = Direction.IDLE;
     }
 
@@ -86,21 +94,8 @@ public class Player extends AbstractGameObject implements Movable {
             log.error("direction shouldn't be null");
             throw new NullPointerException();
         }
-        log.info("I'll move in direction {}", direction);
-        switch (direction) {
-            case UP:
-                return new Point(this.getPosition().getX(), this.getPosition().getY() + velocity);
-            case DOWN:
-                return new Point(this.getPosition().getX(), this.getPosition().getY() - velocity);
-            case IDLE:
-                return getPosition();
-            case LEFT:
-                return new Point(this.getPosition().getX() - velocity, this.getPosition().getY());
-            case RIGHT:
-                return new Point(this.getPosition().getX() + velocity, this.getPosition().getY());
-            default:
-                return getPosition();
-        }
+        log.info("I'll move in direction {} from ({};{})", direction, position.getX(), position.getY());
+        return direction.move(position, velocity);
     }
 
     public void plant() {
@@ -114,9 +109,13 @@ public class Player extends AbstractGameObject implements Movable {
                 log.info(" I don't have bombs in bag");
                 return null;
             } else {
+                Point centralPosition = new Point((position.getX() % 32 < 32 / 2) ? position.getX() - position.getX() % 32
+                        : position.getX() + 32 - position.getX() % 32 ,
+                        (position.getY() % 32 < 32 / 2) ? position.getY() - position.getY() % 32
+                                : position.getY() + 32 - position.getY() % 32);
                 bagSize--;
                 elapsedTime = 2000L;
-                return new Bomb(0, position, powerBomb);
+                return new Bomb(0, centralPosition, powerBomb);
             }
         } else {
             return null;

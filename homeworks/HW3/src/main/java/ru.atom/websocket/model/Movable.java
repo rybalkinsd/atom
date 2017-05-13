@@ -15,7 +15,38 @@ public interface Movable extends Positionable, Tickable {
     Point move(Direction direction);
     
     enum Direction {
-        UP, DOWN, RIGHT, LEFT, IDLE;
+        UP {
+            @Override
+            public Point move(Point point, int velocity) {
+                return new Point(point.getX(), (point.getY() + velocity));
+            }
+        },
+        DOWN {
+            @Override
+            public Point move(Point point, int velocity) {
+                return new Point(point.getX(), (point.getY() - velocity));
+            }
+        },
+        RIGHT {
+            @Override
+            public Point move(Point point, int velocity) {
+                return new Point((point.getX() + velocity), point.getY());
+            }
+        },
+        LEFT {
+            @Override
+            public Point move(Point point, int velocity) {
+                return new Point((point.getX() - velocity), point.getY());
+            }
+        },
+        IDLE {
+            @Override
+            public Point move(Point point, int velocity) {
+                return new Point(point.getX(), point.getY());
+            }
+        };
+
+        public abstract Point move(Point point, int velocity);
 
         @JsonCreator
         public static Direction forValue(String value) {
