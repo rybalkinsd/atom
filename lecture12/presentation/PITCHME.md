@@ -248,12 +248,6 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 
 
 #HSLIDE
-## GCs in OpenJDK
-//TODO svg does not work
-<img src="lecture12/presentation/assets/img/gcs.svg" alt="gcs" style="width: 700px;"/>  
-
-
-#HSLIDE
 ## Agenda
 1. Heap
 1. Object layout
