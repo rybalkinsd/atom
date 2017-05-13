@@ -14,6 +14,7 @@ import ru.atom.bombergirl.gamemodel.model.Positionable;
 import ru.atom.bombergirl.message.ObjectMessage;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.network.Broker;
+import ru.atom.bombergirl.util.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +67,7 @@ public class GameSession implements Tickable, Runnable {
     }
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
-            new Point(1, 1),
+            new Point(2, 2),
             new Point(1, 11),
             new Point(15, 1),
             new Point(15, 11)
@@ -86,7 +87,7 @@ public class GameSession implements Tickable, Runnable {
 
     @Override
     public void tick(long elapsed) {
-        log.info("tick");
+        //log.info("tick");
         ArrayList<Temporary> dead = new ArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
@@ -110,7 +111,8 @@ public class GameSession implements Tickable, Runnable {
         }
         List<ObjectMessage> objectMessages = new ArrayList<>();
         gameObjects.forEach(x -> objectMessages.add(
-                new ObjectMessage(x.getClass().getName(), x.getId(), ((Positionable)x).getPosition())));
+                new ObjectMessage(x.getClass().getSimpleName(), x.getId(), ((Positionable)x).getPosition())));
+        log.info(JsonHelper.toJson(objectMessages));
         Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
 
         log.info(Thread.currentThread().getName() + " started");
