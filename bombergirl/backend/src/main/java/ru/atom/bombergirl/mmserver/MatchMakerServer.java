@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.bombergirl.dao.Database;
+import ru.atom.bombergirl.gameserver.EventServer;
 import ru.atom.bombergirl.gameserver.EventServlet;
 import ru.atom.bombergirl.server.CrossBrowserFilter;
 
@@ -17,6 +18,12 @@ import ru.atom.bombergirl.server.CrossBrowserFilter;
 
 public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EventServer.main(args);
+            }
+        }).start();
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
