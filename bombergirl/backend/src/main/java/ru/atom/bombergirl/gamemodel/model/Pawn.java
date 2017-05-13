@@ -4,6 +4,7 @@ import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,8 +69,9 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
 
     @Override
     public void tick(long elapsed) {
-        for (Action a : actions) {
-            a.act(this);
+        Iterator<Action> it = actions.iterator();
+        while (it.hasNext()) {
+            it.next().act(this);
         }
         plantBomb();
         actions.clear();
@@ -77,5 +79,9 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
 
     public void addAction(Action action) {
         actions.add(action);
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
     }
 }

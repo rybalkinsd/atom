@@ -30,6 +30,7 @@ public class GameSession implements Tickable, Runnable {
     private static AtomicLong idGenerator = new AtomicLong();
     private List<GameObject> gameObjects = new ArrayList<>();
     private static AtomicInteger counter = new AtomicInteger(0);
+    private List<ObjectMessage> objectMessages = new ArrayList<>();
 
     public static final int PLAYERS_IN_GAME = 4;
 
@@ -67,10 +68,10 @@ public class GameSession implements Tickable, Runnable {
     }
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
-            new Point(2, 2),
-            new Point(1, 11),
-            new Point(15, 1),
-            new Point(15, 11)
+            new Point(32, 32),
+            new Point(32, 315),
+            new Point(425, 32),
+            new Point(425, 315)
     ));
 
     public GameSession(Connection[] connections) {
@@ -88,6 +89,11 @@ public class GameSession implements Tickable, Runnable {
     @Override
     public void tick(long elapsed) {
         //log.info("tick");
+        objectMessages.clear();
+        gameObjects.forEach(x -> objectMessages.add(
+                new ObjectMessage(x.getClass().getSimpleName(), x.getId(),
+                        ((Positionable)x).getPosition())));
+        Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
         ArrayList<Temporary> dead = new ArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
@@ -109,7 +115,6 @@ public class GameSession implements Tickable, Runnable {
             Broker.getInstance().send(connections[i], Topic.POSSESS, pawn.getId());
             gameObjects.add(pawn);
         }
-        List<ObjectMessage> objectMessages = new ArrayList<>();
         gameObjects.forEach(x -> objectMessages.add(
                 new ObjectMessage(x.getClass().getSimpleName(), x.getId(), ((Positionable)x).getPosition())));
         log.info(JsonHelper.toJson(objectMessages));

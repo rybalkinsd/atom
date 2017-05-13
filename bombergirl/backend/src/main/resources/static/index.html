@@ -42,7 +42,7 @@
         $.ajax(settings).done(function(response) {
             //setTimeout(window.location.href = response.toString(), 1000);
             //window.location.reload(true);
-            window.location = response.toString();
+            window.location.href = response.toString();
             return false
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
