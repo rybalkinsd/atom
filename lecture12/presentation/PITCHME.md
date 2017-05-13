@@ -1,6 +1,6 @@
 #HSLIDE
 # Java
-lecture 11
+lecture 12
 ## Garbage Collection
 
 #HSLIDE
@@ -176,7 +176,7 @@ Latency-Throughput-Footprint
 1. Troubleshooting
 
 
-##HSLIDE
+#HSLIDE
 # Java GC Basics
 Q: Why we need Garbage Collector  
 A: To remove garbage, obviously  
