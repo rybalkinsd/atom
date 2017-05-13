@@ -38,9 +38,6 @@ public class GuessSize {
 
         PrintWriter pw = new PrintWriter(out);
         pw.println("====================================================================");
-        pw.println(">> new String(\"Hello, World!\")");
-        pw.println(GraphLayout.parseInstance("Hello, World!").toPrintable());
-        pw.println("====================================================================");
         pw.println(">> new Integer(10)");
         pw.println(GraphLayout.parseInstance(new Integer(10)).toPrintable());
         pw.println("====================================================================");
@@ -70,6 +67,9 @@ public class GuessSize {
         pw.println("====================================================================");
         pw.println(">> new ArrayList<Integer>(1000).stream()");
         pw.println(GraphLayout.parseInstance(arrayList.stream()).toFootprint());
+        pw.println("====================================================================");
+        pw.println(">> new String(\"Hello, World!\")");
+        pw.println(GraphLayout.parseInstance("Hello, World!").toPrintable());
         pw.println("====================================================================");
         pw.close();
     }
