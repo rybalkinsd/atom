@@ -88,8 +88,7 @@ https://docs.oracle.com/javase/tutorial/java/javaOO/objectcreation.html
 
 #HSLIDE
 ## Game: guess footprint
-**footprint** - total size of reference + shadow (retained) size (all the referenced objects and primitives recursively)  
-(AKA **retained size** - number of bytes, that will be freed if you remove object)
+**footprint** - total size of reference + shadow (retained) size (all the referenced objects and primitives recursively) 
 What is the footprint of:
 1. int x = 10;
 2. new Integer(10);
@@ -100,6 +99,7 @@ What is the footprint of:
 7. new HashSet<Integer>(1000);
 8. new HashMap<Integer>(1000);
 9. new ConcurrentHashMap<Integer>(1000);
+
 **Warning:** Not an easy game!
 
 #HSLIDE
@@ -148,20 +148,23 @@ http://gchandbook.org/
 
 #HSLIDE
 ## GC is better then refcounter
-//TODO
+1. Looping
+2. Compacting/fragmentation
 
 #HSLIDE
 ## Generations idea
-//TODO
+Live fast die young
+<img src="lecture12/presentation/assets/img/gen.png" alt="gen" style="width: 700px;"/>
+
 
 #HSLIDE
 ## Stop-the-world
-//TODO
+- sometimes we have to wait
 
 #HSLIDE
 ## GC Tradeoff
-Latency-Throughput-Space
-//TODO
+Latency-Throughput-Footprint
+<img src="lecture12/presentation/assets/img/triangle.png" alt="triangle" style="width: 700px;"/>
 
 #HSLIDE
 ## Agenda
@@ -183,7 +186,7 @@ Q: What are GC Roots? A: ... (proceed reading)
 
 #HSLIDE
 ## GC Roots
-<img src="lecture12/presentation/assets/img/gcroots.png" alt="gcroots" style="width: 700px;"/>  
+<img src="lecture12/presentation/assets/img/gcroots.jpg" alt="gcroots" style="width: 700px;"/>  
 
 #HSLIDE
 ## No manual memory management in Java
@@ -253,7 +256,6 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 1. GC Theory
 1. Java Garbage Collection
 1. **[Troubleshooting]**
-//TODO JMC usage, Heap dump
 >see GarbageProducer
 
 #HSLIDE
