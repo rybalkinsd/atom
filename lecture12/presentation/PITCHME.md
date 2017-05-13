@@ -265,11 +265,11 @@ Docker https://www.docker.com/
 #HSLIDE
 ## Docker basics
 **Image** - description of **minimal virtual machine** that will contain **application**, that we want to **deploy**.  
-It is provisioned via **Dockerfile**:
-- what is our application
-- what we need for our application
-
-**Container** - instance of image, able to deploy
+It is provisioned via **Dockerfile**:  
+- what is our application  
+- what we need for our application  
+  
+**Container** - instance of image, able to deploy 
 
 #HSLIDE
 ## Why docker?
@@ -284,17 +284,17 @@ It is provisioned via **Dockerfile**:
 
 #HSLIDE
 ## Deploy service to our docker could
-1. login with your name on
+1. login with your name on  
 > docker login
-
+ 
 1. build image
 > docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
-
+  
 1. push image to repository
 docker push yourname/servicename:version
-
+  
 1. go to http://docker.bmstu.cloud:8080/ in browser
-
+  
 1. Deploy container
 
 #HSLIDE
