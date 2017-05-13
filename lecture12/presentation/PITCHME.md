@@ -257,6 +257,52 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 >see GarbageProducer
 
 #HSLIDE
+## Docker
+Docker https://www.docker.com/
+**Docker** - toolchain for lightweight customizable deployment
+(delivery of you code to production)
+
+#HSLIDE
+## Docker basics
+**Image** - description of **minimal virtual machine** that will contain **application**, that we want to **deploy**.  
+It is provisioned via **Dockerfile**:
+- what is our application
+- what we need for our application
+
+**Container** - instance of image, able to deploy
+
+#HSLIDE
+## Why docker?
+- lightweight
+- solves problems with dependencies collision
+- **development** environment is the same as **production**
+- docker toolchain allows many cool features
+
+#HSLIDE
+##Docker practice
+>see lecture11/ru.atom.lecture11/Dockerfile
+
+#HSLIDE
+## Deploy service to our docker could
+1. login with your name on
+> docker login
+
+1. build image
+> docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
+
+1. push image to repository
+docker push yourname/servicename:version
+
+1. go to http://docker.bmstu.cloud:8080/ in browser
+
+1. Deploy container
+
+#HSLIDE
+## Docker howto
+Docker images - show local images
+Docker ps - show running containers
+
+#HSLIDE
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
