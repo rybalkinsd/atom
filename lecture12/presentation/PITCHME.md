@@ -166,6 +166,7 @@ Live fast die young
 Latency-Throughput-Footprint
 <img src="lecture12/presentation/assets/img/triangle.png" alt="triangle" style="width: 700px;"/>
 
+
 #HSLIDE
 ## Agenda
 1. Heap
@@ -174,8 +175,9 @@ Latency-Throughput-Footprint
 1. **[Java Garbage Collection]**
 1. Troubleshooting
 
+
 ##HSLIDE
-## Java GC Basics
+# Java GC Basics
 Q: Why we need Garbage Collector  
 A: To remove garbage, obviously  
 Q: What is garbage?  
@@ -184,9 +186,11 @@ Q: Does cyclic references stall objects in heap forever
 A: No. Object is garbage if it can not be reached from GC Roots  
 Q: What are GC Roots? A: ... (proceed reading)  
 
+
 #HSLIDE
 ## GC Roots
 <img src="lecture12/presentation/assets/img/gcroots.jpg" alt="gcroots" style="width: 700px;"/>  
+
 
 #HSLIDE
 ## No manual memory management in Java
