@@ -28,7 +28,7 @@ public class GameSession implements Tickable, Runnable {
     private static final Logger log = LogManager.getLogger(MatchMaker.class);
     private static AtomicLong idGenerator = new AtomicLong();
     private List<GameObject> gameObjects = new ArrayList<>();
-    private static AtomicInteger counter;
+    private static AtomicInteger counter = new AtomicInteger(0);
 
     public static final int PLAYERS_IN_GAME = 4;
 
@@ -74,7 +74,6 @@ public class GameSession implements Tickable, Runnable {
 
     public GameSession(Connection[] connections) {
         this.connections = connections;
-        counter = new AtomicInteger();
     }
 
     public static int nextValue() {
@@ -103,10 +102,10 @@ public class GameSession implements Tickable, Runnable {
     public void run() {
         gameObjects.addAll(gameField);
         for (int i = 0; i < connections.length; i++) {
-            Connection connection = connections[i];
             Pawn pawn = new Pawn(spawnPositions.get(i));
-            connection.setGirl(pawn);
-            Broker.getInstance().send(connection, Topic.POSSESS, pawn.getId());
+            connections[i].setGirl(pawn);
+            log.info("set pawn : " + connections[i].getPawn());
+            Broker.getInstance().send(connections[i], Topic.POSSESS, pawn.getId());
             gameObjects.add(pawn);
         }
         List<ObjectMessage> objectMessages = new ArrayList<>();

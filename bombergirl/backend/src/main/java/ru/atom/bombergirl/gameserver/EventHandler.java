@@ -17,7 +17,9 @@ public class EventHandler extends WebSocketAdapter {
         super.onWebSocketConnect(sess);
         Connection player = new Connection(sess);
         ConnectionPool.getInstance().add(sess, player);
-        ThreadSafeQueue.getInstance().add(player);
+        ThreadSafeQueue.getInstance().offer(player);
+        log.info("add element : " + player.getPawn() + " into queue");
+        log.info("ThreadSafeQueue size is " + ThreadSafeQueue.getInstance().size());
         System.out.println("Socket Connected: " + sess);
     }
 
