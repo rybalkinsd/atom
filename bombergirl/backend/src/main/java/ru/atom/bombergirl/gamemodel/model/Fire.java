@@ -13,8 +13,10 @@ public class Fire implements GameObject, Positionable, Temporary, Tickable {
     private long workTime = 0;
     private boolean isDead = false;
     private final int id;
+    private GameSession session;
 
-    public Fire(int x, int y) {
+    public Fire(int x, int y, GameSession session) {
+        this.session = session;
         this.position = new Point(x, y);
         this.id = GameSession.nextValue();
     }

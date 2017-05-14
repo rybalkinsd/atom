@@ -162,6 +162,12 @@ GameEngine = Class.extend({
             var bomb = gGameEngine.bombs[i];
             bomb.update();
         }
+        //
+        // // Tiles
+        // for (var i = 0; i < gGameEngine.tiles.length; i++) {
+        //     var tile = gGameEngine.tiles[i];
+        //     tile.update();
+        // }
 
         // Menu
         gGameEngine.menu.update();

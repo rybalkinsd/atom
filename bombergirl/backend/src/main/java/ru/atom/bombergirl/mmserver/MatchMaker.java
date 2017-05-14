@@ -23,11 +23,9 @@ public class MatchMaker implements Runnable {
     public void run() {
         log.info("MM Started");
         List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
-        log.info("I'm here");
         while (!Thread.currentThread().isInterrupted()) {
-            log.info("Now I'm here");
             try {
-                log.info("And now I'm here");
+                log.info("I'm here");
                 log.info("ThreadSafeQueue size is " + ThreadSafeQueue.getInstance().size());
                 Connection connection;
 //                while ((connection = ThreadSafeQueue.getInstance()
