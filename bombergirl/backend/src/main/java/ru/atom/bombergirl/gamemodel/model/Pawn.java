@@ -1,16 +1,16 @@
 package ru.atom.bombergirl.gamemodel.model;
 
+import ru.atom.bombergirl.gamemodel.geometry.Collider;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Pawn implements GameObject, Positionable, Movable, Tickable {
+public class Pawn implements GameObject, Positionable, Movable, Tickable, Collider {
 
     private Point position;
     private int step = 1;
@@ -18,9 +18,11 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
     private final int id;
     private boolean toPlantBomb = false;
     private List<Action> actions = new ArrayList<>();
+    private GameSession session;
 
-    public Pawn(Point p) {
+    public Pawn(Point p, GameSession s) {
         this.position = new Point(p.getX(), p.getY());
+        session = s;
         id = GameSession.nextValue();
     }
 
@@ -48,6 +50,12 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
 
     @Override
     public Point move(Direction direction) {
+        List<GameObject> objects = session
+                .getGameObjects()
+                .stream()
+                .filter(o -> o instanceof Collider)
+                .collect(Collectors.toList());
+        Point preChangePosition = position;
         switch (direction) {
             case DOWN:
                 position = new Point(position.getX(), position.getY() - step);
@@ -64,12 +72,37 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable {
             default:
                 break;
         }
+        for (GameObject o : objects) {
+            if (this.isColliding((Collider) o)) {
+                return preChangePosition;
+            }
+        }
         return position;
+    }
+
+    public boolean isColliding(Collider c) {
+        if (this.getPosition().getX() - GameField.GRID_SIZE / 2 <= c.getPosition().getY()*32 - GameField.GRID_SIZE / 2
+                && this.getPosition().getX() + GameField.GRID_SIZE / 2 <= c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
+                && this.getPosition().getY() - GameField.GRID_SIZE / 2 >= c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && this.getPosition().getY() + GameField.GRID_SIZE / 2 >= c.getPosition().getX()*32 + GameField.GRID_SIZE / 2
+                ||  c.getPosition().getX() - GameField.GRID_SIZE / 2 <= this.getPosition().getY()*32 - GameField.GRID_SIZE / 2
+                && c.getPosition().getX() + GameField.GRID_SIZE / 2 <= this.getPosition().getY()*32 + GameField.GRID_SIZE / 2
+                && c.getPosition().getY() - GameField.GRID_SIZE / 2 >= this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && c.getPosition().getY() + GameField.GRID_SIZE / 2 >= this.getPosition().getX()*32 + GameField.GRID_SIZE / 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void tick(long elapsed) {
+//        Action a;
         Iterator<Action> it = actions.iterator();
+        /*Map<Direction, Boolean> isDirectionDone = new HashMap<>();
+        for (Direction d: Movable.Direction.values()) {
+            isDirectionDone.put(d, false);
+        }*/
         while (it.hasNext()) {
             it.next().act(this);
         }

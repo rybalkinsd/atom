@@ -109,7 +109,7 @@ public class GameSession implements Tickable, Runnable {
     public void run() {
         gameObjects.addAll(gameField);
         for (int i = 0; i < connections.length; i++) {
-            Pawn pawn = new Pawn(spawnPositions.get(i));
+            Pawn pawn = new Pawn(spawnPositions.get(i), this);
             connections[i].setGirl(pawn);
             log.info("set pawn : " + connections[i].getPawn());
             Broker.getInstance().send(connections[i], Topic.POSSESS, pawn.getId());
