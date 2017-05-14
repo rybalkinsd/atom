@@ -32,7 +32,7 @@ public class GameSession implements Tickable, Runnable {
 
     private static List<GameObject> gameField = new ArrayList<>();
 
-    /*static {
+    static {
         for (int i = 0;i < 17;i++) {
             for (int j = 0;j < 13;j++) {
                 if (i == 1 && j == 1
@@ -53,12 +53,12 @@ public class GameSession implements Tickable, Runnable {
                         || j == 0
                         || i == 16
                         || j == 12)
-                    gameField.add(new Wall(i, j));
+                    gameField.add(new Wall(GameField.GRID_SIZE * i, GameField.GRID_SIZE * j));
                 else
-                    gameField.add(new Wood(i, j));
+                    gameField.add(new Wood(GameField.GRID_SIZE * i, GameField.GRID_SIZE * j));
             }
         }
-    }*/
+    }
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
             new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),

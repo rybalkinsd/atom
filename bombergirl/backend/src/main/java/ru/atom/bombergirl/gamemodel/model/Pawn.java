@@ -74,7 +74,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
                 break;
         }
         for (GameObject o : objects) {
-            if (this.isColliding((Collider) o)) {
+            if (this.isColliding((Collider) o) && this != o) {
                 return preChangePosition;
             }
         }
@@ -82,18 +82,35 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
     }
 
     public boolean isColliding(Collider c) {
-        if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && this.getPosition().getY() + GameField.GRID_SIZE / 2 < c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
-                && this.getPosition().getX() - GameField.GRID_SIZE / 2 > c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && this.getPosition().getY() + GameField.GRID_SIZE / 2 > c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
-                ||  c.getPosition().getX() - GameField.GRID_SIZE / 2 < this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && c.getPosition().getY() + GameField.GRID_SIZE / 2 < this.getPosition().getY()*32 + GameField.GRID_SIZE / 2
-                && c.getPosition().getX() - GameField.GRID_SIZE / 2 > this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && c.getPosition().getY() + GameField.GRID_SIZE / 2 > this.getPosition().getY()*32 + GameField.GRID_SIZE / 2) {
-            return true;
-        } else {
+        /*if (c instanceof Block) {
+            if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX() * 32 - GameField.GRID_SIZE / 2
+                    && this.getPosition().getY() + GameField.GRID_SIZE / 2 < c.getPosition().getY() * 32 + GameField.GRID_SIZE / 2
+                    && this.getPosition().getX() - GameField.GRID_SIZE / 2 > c.getPosition().getX() * 32 - GameField.GRID_SIZE / 2
+                    && this.getPosition().getY() + GameField.GRID_SIZE / 2 > c.getPosition().getY() * 32 + GameField.GRID_SIZE / 2
+                    || c.getPosition().getX() * 32 - GameField.GRID_SIZE / 2 < this.getPosition().getX() - GameField.GRID_SIZE / 2
+                    && c.getPosition().getY() * 32 + GameField.GRID_SIZE / 2 < this.getPosition().getY() + GameField.GRID_SIZE / 2
+                    && c.getPosition().getX() * 32 - GameField.GRID_SIZE / 2 > this.getPosition().getX() - GameField.GRID_SIZE / 2
+                    && c.getPosition().getY() * 32 + GameField.GRID_SIZE / 2 > this.getPosition().getY() + GameField.GRID_SIZE / 2) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (c instanceof Pawn) {*/
+            if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX() + GameField.GRID_SIZE / 2
+                    && this.getPosition().getY() - GameField.GRID_SIZE / 2 < c.getPosition().getY() + GameField.GRID_SIZE / 2
+                    && this.getPosition().getX() + GameField.GRID_SIZE / 2 > c.getPosition().getX() - GameField.GRID_SIZE / 2
+                    && this.getPosition().getY() + GameField.GRID_SIZE / 2 > c.getPosition().getY() - GameField.GRID_SIZE / 2
+                    || c.getPosition().getX() - GameField.GRID_SIZE / 2 < this.getPosition().getX() + GameField.GRID_SIZE / 2
+                    && c.getPosition().getY() - GameField.GRID_SIZE / 2 < this.getPosition().getY() + GameField.GRID_SIZE / 2
+                    && c.getPosition().getX() + GameField.GRID_SIZE / 2 > this.getPosition().getX() - GameField.GRID_SIZE / 2
+                    && c.getPosition().getY() + GameField.GRID_SIZE / 2 > this.getPosition().getY() - GameField.GRID_SIZE / 2) {
+                return true;
+            } else {
+                return false;
+            }
+        /*} else {
             return false;
-        }
+        }*/
     }
 
     @Override
