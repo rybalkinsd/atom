@@ -117,5 +117,11 @@ Player = Entity.extend({
             }
 
         }, 30);
+
+    },
+
+    remove: function() {
+        this.die();
+        gGameEngine.stage.removeChild(this.bmp);
     }
 });

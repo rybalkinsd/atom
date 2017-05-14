@@ -3,22 +3,28 @@ Bonus = Entity.extend({
 
     type: '',
     position: {},
+    size: {
+            w: 32,
+            h: 32
+        },
     bmp: null,
 
-    init: function(position, typePosition) {
+    init: function(id, position, typePosition) {
+        this.id = id;
         this.type = this.types[typePosition];
-
         this.position = position;
-
         this.bmp = new createjs.Bitmap(gGameEngine.bonusesImg);
-        var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x;
-        this.bmp.y = pixels.y;
         this.bmp.sourceRect = new createjs.Rectangle(typePosition * 32, 0, 32, 32);
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
+
         gGameEngine.stage.addChild(this.bmp);
     },
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
+    },
+
+    update: function() {
     }
 });

@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GameManager {
     private static final Logger log = LogManager.getLogger(GameManager.class);
     private static final GameManager instance = new GameManager();
-    private static final int PARALLELISM_LEVEL = 4;  // TODO: 06.05.17   MAX_PLAYERS
+    private static final int PARALLELISM_LEVEL = 1;  // TODO: 06.05.17   MAX_PLAYERS
 
     private final ConcurrentLinkedQueue<Ticker> games;
     private Ticker currentGame;

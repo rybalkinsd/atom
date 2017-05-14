@@ -90,7 +90,7 @@ public class Ticker extends Thread {
      * collection commands to Pawns
      * and reply REPLICA to Broker
      */
-    private static final int PARALLELISM_LEVEL = 4;
+    private static final int PARALLELISM_LEVEL = 1;
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>();//связь session<->login
     private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL);//связь idPawn<->login
     private static final Point[] startPoint = {new Point(481,352), new Point(32, 352),
@@ -141,6 +141,17 @@ public class Ticker extends Thread {
             log.info("{} will not place bomb", localPool.get(session));
         }
     }
+
+//    public void returnBomb(Session session) {
+//        if (Thread.currentThread().isAlive()) {
+//            log.info("Bomb is returned to {} ", localPool.get(session));
+//            synchronized (lock) {
+//                gameSession.returnBomb(playerPawn.get(localPool.get(session)));
+//            }
+//        } else {
+//            log.info("{} will not place bomb", localPool.get(session));
+//        }
+//    }
 
     public void move(Session session, Movable.Direction direction) {
         synchronized (lock) {

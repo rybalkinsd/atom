@@ -5,11 +5,14 @@ import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Random;
+
 /**
  * Created by BBPax on 06.03.17.
  */
 public class Wall extends AbstractGameObject {
     private static final Logger log = LogManager.getLogger(Wall.class);
+    final Random random = new Random();
 
     public Wall(int id, Point position) {
         super(id, position.getX(),position.getY());
@@ -19,8 +22,20 @@ public class Wall extends AbstractGameObject {
                 id, position.getX(), position.getY(), bar.toString());
     }
 
+    public Bonus plantBonus() {
+        if ((random.nextDouble() < 0.3)) {  //Вероятность появления бонуса
+            Bonus.Type type = null;
+            int numType = random.nextInt(3);
+            if (numType == 0) type = Bonus.Type.SPEED;
+            else if (numType == 1) type = Bonus.Type.BOMB;
+            else if (numType == 2)type = Bonus.Type.RANGE;
+            return new Bonus(0, position, type);
+        } else {
+            return null;
+        }
+    }
+
     protected Wall setDead() {
-        // TODO: 12.05.17   here Bonus may be appeared???
         return this;
     }
 }

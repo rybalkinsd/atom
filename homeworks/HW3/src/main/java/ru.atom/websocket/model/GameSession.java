@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
+import ru.atom.websocket.server.GameManager;
 import ru.atom.websocket.util.JsonHelper;
 
 import java.util.ArrayList;
@@ -51,16 +52,26 @@ public class GameSession implements Tickable {
         findPawn(pawnId).plant();
     }
 
+    public void returnBomb(int pawnId) {
+        findPawn(pawnId).returnBomb();
+    }
+
     private List<Fire> explosionBomb(Bomb bomb) {
         List<Fire> explosion = new ArrayList<>();
         Point bombPosition = bomb.getPosition();
         explosion.add(new Fire(id.getAndIncrement(), bombPosition));
         // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками и стенами
-        for (int i = 0; i < bomb.getPower(); i++) {
-            explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
-            explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
-            explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
-            explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
+        if ((bombPosition.getX()/32) % 2 != 0) {
+            for (int i = 0; i < bomb.getPower(); i++) {
+                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
+                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
+            }
+        }
+        if ((bombPosition.getY()/32) % 2 != 0) {
+            for (int i = 0; i < bomb.getPower(); i++) {
+                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
+                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
+            }
         }
         return explosion;
     }
@@ -90,10 +101,22 @@ public class GameSession implements Tickable {
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
                 if (gameObject instanceof Player) {
-                    Bomb bomb = ((Player) gameObject).plantBomb();
+                    Player player = (Player) gameObject;
+                    Bomb bomb = player.plantBomb();
                     if (bomb !=null) {
                         bomb.setId(id.getAndIncrement());
                         born.add(bomb);
+                    }
+                }
+                if (gameObject instanceof Bonus) {
+                    try {
+                        GameObject pawn = gameObjects.stream().filter(gameObject1 ->
+                                ((AbstractGameObject) gameObject1).getBar().isColliding(((Bonus) gameObject).getBar()))
+                                .filter(gameObject1 -> gameObject1 instanceof Player).findFirst().get();
+
+                        ((Player) pawn).getBonus((Bonus) gameObject);
+                        dead.add(gameObject);
+                    } catch (NoSuchElementException e) {
                     }
                 }
                 ((Tickable) gameObject).tick(elapsed);
@@ -102,6 +125,7 @@ public class GameSession implements Tickable {
                 dead.add(gameObject);
                 if(gameObject instanceof Bomb) {
                     born.addAll(explosionBomb((Bomb)gameObject));
+                    returnBomb(((Bomb) gameObject).getPawnId());
                 }
             }
         }
@@ -118,8 +142,19 @@ public class GameSession implements Tickable {
                         log.info("I destroyed Wood {}", JsonHelper.toJson(destruction));
                         dead.add(destruction);
                         //addGameObject(new Grass(getCurrentId(), ((Wall) destruction).getPosition()));
+                        Bonus bonus = ((Wall) destruction).plantBonus();
+                        if (bonus != null) {
+                            bonus.setId(id.getAndIncrement());
+                            addGameObject(bonus);
+                        }
+                    } else if (destruction instanceof Bomb) {
+                        ((Bomb)destruction).setDead();
+                    } else if (destruction instanceof Bonus) {
+                        ((Bonus) destruction).setDead();
                     } else if (destruction instanceof Player) {
                         log.info("I killed you player {}", JsonHelper.toJson(destruction));
+                        //kill Pawn
+                        //killPawn(destruction.getId());
                     }
                 } catch(NoSuchElementException e) {
                     log.warn("here should be Grass, but it is not");
@@ -159,7 +194,7 @@ public class GameSession implements Tickable {
                             || x == width - 3 && y == height - 2
                             || x == 1 && y == height - 2 || x == 1 && y == height - 3 || x == 2 && y == height - 2
                             || x == width - 2 && y == 1 || x == width - 2 && y == 2 || x == width - 3 && y == 1) {
-                        //addGameObject(new Grass(getCurrentId(), new Point(x, y)));
+//                        addGameObject(new Grass(getCurrentId(), new Point(x, y)));
                     } else {
                         addGameObject(new Wall(getCurrentId(), new Point(x, y)));
                     }

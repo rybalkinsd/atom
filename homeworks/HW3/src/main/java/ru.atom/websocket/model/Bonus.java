@@ -1,6 +1,8 @@
 package ru.atom.websocket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,11 +12,11 @@ import org.apache.logging.log4j.Logger;
  */
 public class Bonus extends AbstractGameObject implements Temporary {
     private static final Logger log = LogManager.getLogger(Bonus.class);
-    @JsonProperty
+    @JsonIgnore
     private long lifeTime;
-    @JsonProperty
+    @JsonIgnore
     private boolean isDead;
-    @JsonProperty
+
     private Type bonusType;
 
     public enum Type {
@@ -27,10 +29,11 @@ public class Bonus extends AbstractGameObject implements Temporary {
         super(id, position.getX(),position.getY());
         type = "Bonus";
         isDead = false;
-        lifeTime = 5000;
+        lifeTime = 10000;
         this.bonusType = bonusType;
-        log.info("Bonus(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bonus: {}",
-                id, position.getX(), position.getY(), this.getLifetimeMillis(), this.bonusType);
+        bar = new Bar(new Point(32 * position.getX(), 32 * position.getY()), 30);
+        log.info("Bonus(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bonus: {} with bar {}",
+                id, position.getX(), position.getY(), this.getLifetimeMillis(), this.bonusType, bar.toString());
     }
 
     @Override
@@ -49,5 +52,13 @@ public class Bonus extends AbstractGameObject implements Temporary {
     @Override
     public boolean isDead() {
         return isDead;
+    }
+
+    public Type getBonusType() {
+        return bonusType;
+    }
+
+    public void setDead() {
+        isDead = true;
     }
 }

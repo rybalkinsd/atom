@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionPool {
     private static final Logger log = LogManager.getLogger(ConnectionPool.class);
     private static final ConnectionPool instance = new ConnectionPool();
-    private static final int PARALLELISM_LEVEL = 4;
+    private static final int PARALLELISM_LEVEL = 1;
 
     private final ConcurrentHashMap<Session, String> pool;
 

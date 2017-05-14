@@ -11,11 +11,11 @@ import ru.atom.geometry.Point;
  */
 public class Player extends AbstractGameObject implements Movable {
     private static final Logger log = LogManager.getLogger(Player.class);
-    @JsonIgnore
+
     private int bagSize;
-    @JsonIgnore
+
     private int powerBomb;
-    @JsonIgnore
+
     private int velocity;
     @JsonIgnore
     private long elapsedTime;
@@ -57,7 +57,8 @@ public class Player extends AbstractGameObject implements Movable {
         elapsedTime = 0L;
         direction = Direction.IDLE;
         plantBomb = false;
-        bar = new Bar(new Point(position.getX() + 7, position.getY() + 7), 18);
+
+
         log.info("Player(id = {}) is created in ( {} ; {} ) and bar {}",
                 id, position.getX(), position.getY(), bar.toString());
     }
@@ -69,15 +70,6 @@ public class Player extends AbstractGameObject implements Movable {
 
     @Override
     public void tick(long elapsed) {
-        if (elapsedTime <= 0L) {
-            elapsedTime = 0L;
-            if(bagSize == 0) {
-                bagSize++;
-            }
-        } else {
-            elapsedTime -= elapsed;
-        }
-        //log.info("time before bomb will appeared in my bag is {}", elapsedTime);
         position = move(direction);
         bar.setBarPosition(new Point(position.getX() + 7, position.getY() + 7));
         direction = Direction.IDLE;
@@ -115,10 +107,24 @@ public class Player extends AbstractGameObject implements Movable {
                                 : position.getY() + 32 - position.getY() % 32);
                 bagSize--;
                 elapsedTime = 2000L;
-                return new Bomb(0, centralPosition, powerBomb);
+                return new Bomb(0, centralPosition, powerBomb, this.getId());
             }
         } else {
             return null;
         }
+    }
+
+    public void getBonus(Bonus bonus) {
+        if (bonus.getBonusType() == Bonus.Type.SPEED) {
+            this.setVelocity(++velocity);
+        } else if (bonus.getBonusType() == Bonus.Type.BOMB) {
+            this.setBagSize(++bagSize);
+        } else if (bonus.getBonusType() == Bonus.Type.RANGE) {
+            this.setPowerBomb(++powerBomb);
+        }
+    }
+
+    public void returnBomb() {
+        setBagSize(++bagSize);
     }
 }

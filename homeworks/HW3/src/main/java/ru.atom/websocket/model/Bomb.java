@@ -17,13 +17,17 @@ public class Bomb extends AbstractGameObject implements Temporary {
     private boolean isDead;
     @JsonIgnore
     private int power;
+    @JsonIgnore
+    private int pawnId;
 
-    public Bomb(int id, Point position, int power) {
+
+    public Bomb(int id, Point position, int power, int pawnId) {
         super(id, position.getX(), position.getY());
         type = "Bomb";
         this.lifeTime = 2000L;
         this.isDead = false;
         this.power = power;
+        this.pawnId = pawnId;
         log.info("Bomb(id = {}) was created in ( {} ; {} ) with lifeTime: {} and power {}", id,
                 position.getX(), position.getY(), this.lifeTime, this.power);
     }
@@ -31,6 +35,10 @@ public class Bomb extends AbstractGameObject implements Temporary {
     @Override
     public void setId(int newId) {
         super.setId(newId);
+    }
+
+    public int getPawnId() {
+        return pawnId;
     }
 
     @Override
@@ -53,5 +61,9 @@ public class Bomb extends AbstractGameObject implements Temporary {
     @Override
     public boolean isDead() {
         return this.isDead;
+    }
+
+    public void setDead() {
+        isDead = true;
     }
 }

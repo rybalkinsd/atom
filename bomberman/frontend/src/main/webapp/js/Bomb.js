@@ -67,5 +67,5 @@ Bomb = Entity.extend({
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
-    }
+    },
 });
