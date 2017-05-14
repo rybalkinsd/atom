@@ -34,8 +34,7 @@
             'data': {
                 'user': Cookies.get('user'),
                 'token': Cookies.get('token')
-            },
-            'Access-Control-Allow-Origin': '*'
+            }
 //            'success' : function(data) {
 //                window.location = data.toString()
 //            }
@@ -43,11 +42,12 @@
         $.ajax(settings).done(function(response) {
             //setTimeout(window.location.href = response.toString(), 1000);
             //window.location.reload(true);
-            window.location.href = response.toString()
+            window.location.href = response.toString();
+            return false
         }).fail(function (jqXHR, textStatus) {
-            window.location.href = '/';
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location.href = '/';
         });
 
     }

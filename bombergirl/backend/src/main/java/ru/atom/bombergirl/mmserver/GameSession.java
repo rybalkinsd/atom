@@ -3,17 +3,11 @@ package ru.atom.bombergirl.mmserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
-import ru.atom.bombergirl.gamemodel.model.GameObject;
-import ru.atom.bombergirl.gamemodel.model.Pawn;
-import ru.atom.bombergirl.gamemodel.model.Wall;
-import ru.atom.bombergirl.gamemodel.model.Wood;
-import ru.atom.bombergirl.gamemodel.model.Ticker;
-import ru.atom.bombergirl.gamemodel.model.Tickable;
-import ru.atom.bombergirl.gamemodel.model.Temporary;
-import ru.atom.bombergirl.gamemodel.model.Positionable;
+import ru.atom.bombergirl.gamemodel.model.*;
 import ru.atom.bombergirl.message.ObjectMessage;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.network.Broker;
+import ru.atom.bombergirl.util.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +23,7 @@ public class GameSession implements Tickable, Runnable {
     private static AtomicLong idGenerator = new AtomicLong();
     private List<GameObject> gameObjects = new ArrayList<>();
     private static AtomicInteger counter = new AtomicInteger(0);
+    private List<ObjectMessage> objectMessages = new ArrayList<>();
 
     public static final int PLAYERS_IN_GAME = 4;
 
@@ -58,18 +53,18 @@ public class GameSession implements Tickable, Runnable {
                         || j == 0
                         || i == 16
                         || j == 12)
-                    gameField.add(new Wall(i, j));
+                    gameField.add(new Wall(GameField.GRID_SIZE * i, GameField.GRID_SIZE * j));
                 else
-                    gameField.add(new Wood(i, j));
+                    gameField.add(new Wood(GameField.GRID_SIZE * i, GameField.GRID_SIZE * j));
             }
         }
     }
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
-            new Point(1, 1),
-            new Point(1, 11),
-            new Point(15, 1),
-            new Point(15, 11)
+            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
+            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (11 + 1/2)),
+            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
+            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (11 + 1/2))
     ));
 
     public GameSession(Connection[] connections) {
@@ -86,7 +81,12 @@ public class GameSession implements Tickable, Runnable {
 
     @Override
     public void tick(long elapsed) {
-        log.info("tick");
+        //log.info("tick");
+        objectMessages.clear();
+        gameObjects.forEach(x -> objectMessages.add(
+                new ObjectMessage(x.getClass().getSimpleName(), x.getId(),
+                        ((Positionable)x).getPosition())));
+        Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
         ArrayList<Temporary> dead = new ArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
@@ -102,15 +102,15 @@ public class GameSession implements Tickable, Runnable {
     public void run() {
         gameObjects.addAll(gameField);
         for (int i = 0; i < connections.length; i++) {
-            Pawn pawn = new Pawn(spawnPositions.get(i));
+            Pawn pawn = new Pawn(spawnPositions.get(i), this);
             connections[i].setGirl(pawn);
             log.info("set pawn : " + connections[i].getPawn());
             Broker.getInstance().send(connections[i], Topic.POSSESS, pawn.getId());
             gameObjects.add(pawn);
         }
-        List<ObjectMessage> objectMessages = new ArrayList<>();
         gameObjects.forEach(x -> objectMessages.add(
-                new ObjectMessage(x.getClass().getName(), x.getId(), ((Positionable)x).getPosition())));
+                new ObjectMessage(x.getClass().getSimpleName(), x.getId(), ((Positionable)x).getPosition())));
+        log.info(JsonHelper.toJson(objectMessages));
         Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
 
         log.info(Thread.currentThread().getName() + " started");

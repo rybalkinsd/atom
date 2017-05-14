@@ -14,6 +14,6 @@ public class Move implements Action {
 
     @Override
     public void act(Pawn pawn) {
-        pawn.move(direction);
+        pawn.setPosition(pawn.move(direction));
     }
 }

@@ -1,5 +1,6 @@
 package ru.atom.bombergirl.gamemodel.model;
 
+import ru.atom.bombergirl.gamemodel.geometry.Collider;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
@@ -26,4 +27,8 @@ public class Wall implements Block, GameObject, Positionable {
         return position;
     }
 
+    @Override
+    public boolean isColliding(Collider other) {
+        return false; //DUMMY
+    }
 }

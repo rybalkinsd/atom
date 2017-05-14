@@ -2,7 +2,7 @@ package ru.atom.bombergirl.gamemodel.geometry;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class Point implements Collider {
+public class Point {
     private final int x;
     private final int y;
 
@@ -35,14 +35,6 @@ public class Point implements Collider {
         int result = x;
         result = 31 * result + y;
         return result;
-    }
-
-    @Override
-    public boolean isColliding(Collider other) {
-        if (other instanceof Point) {
-            return this.equals(other);
-        }
-        throw new NotImplementedException();
     }
 
     @Override

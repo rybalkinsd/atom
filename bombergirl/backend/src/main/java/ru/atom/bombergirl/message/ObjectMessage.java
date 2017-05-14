@@ -12,21 +12,21 @@ import ru.atom.bombergirl.gamemodel.model.GameObject;
 public class ObjectMessage {
     private final String type;
     private final int id;
-    private final String point;
+    private final Point position;
 
-    public ObjectMessage(String type, int id, String point) {
-        this.type = type;
-        this.id = id;
-        this.point = point;
-    }
+//    public ObjectMessage(String type, int id, Point position) {
+//        this.type = type;
+//        this.id = id;
+//        this.position = position;
+//    }
 
     @JsonCreator
     public ObjectMessage(@JsonProperty("type") String type,
                          @JsonProperty("id") int id,
-                         @JsonProperty("position") Point point) {
+                         @JsonProperty("position") Point position) {
         this.type = type;
         this.id = id;
-        this.point = point.toString();
+        this.position = position;
     }
 
     public String getType() {
@@ -37,7 +37,16 @@ public class ObjectMessage {
         return id;
     }
 
-    public String getPoint() {
-        return point;
+    public Point getPoint() {
+        return position;
+    }
+
+    @Override
+    public String toString() {
+        return "ObjectMessage{" +
+                "type='" + type + '\'' +
+                ", id=" + id +
+                ", position=" + position +
+                '}';
     }
 }
