@@ -5,6 +5,7 @@ import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -17,7 +18,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
     private Direction direction = Direction.IDLE;
     private final int id;
     private boolean toPlantBomb = false;
-    private List<Action> actions = new ArrayList<>();
+    private List<Action> actions = new CopyOnWriteArrayList<>();
     private GameSession session;
 
     public Pawn(Point p, GameSession s) {
@@ -81,14 +82,14 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
     }
 
     public boolean isColliding(Collider c) {
-        if (this.getPosition().getX() - GameField.GRID_SIZE / 2 <= c.getPosition().getY()*32 - GameField.GRID_SIZE / 2
-                && this.getPosition().getX() + GameField.GRID_SIZE / 2 <= c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
-                && this.getPosition().getY() - GameField.GRID_SIZE / 2 >= c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && this.getPosition().getY() + GameField.GRID_SIZE / 2 >= c.getPosition().getX()*32 + GameField.GRID_SIZE / 2
-                ||  c.getPosition().getX() - GameField.GRID_SIZE / 2 <= this.getPosition().getY()*32 - GameField.GRID_SIZE / 2
-                && c.getPosition().getX() + GameField.GRID_SIZE / 2 <= this.getPosition().getY()*32 + GameField.GRID_SIZE / 2
-                && c.getPosition().getY() - GameField.GRID_SIZE / 2 >= this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
-                && c.getPosition().getY() + GameField.GRID_SIZE / 2 >= this.getPosition().getX()*32 + GameField.GRID_SIZE / 2) {
+        if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && this.getPosition().getY() + GameField.GRID_SIZE / 2 < c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
+                && this.getPosition().getX() - GameField.GRID_SIZE / 2 > c.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && this.getPosition().getY() + GameField.GRID_SIZE / 2 > c.getPosition().getY()*32 + GameField.GRID_SIZE / 2
+                ||  c.getPosition().getX() - GameField.GRID_SIZE / 2 < this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && c.getPosition().getY() + GameField.GRID_SIZE / 2 < this.getPosition().getY()*32 + GameField.GRID_SIZE / 2
+                && c.getPosition().getX() - GameField.GRID_SIZE / 2 > this.getPosition().getX()*32 - GameField.GRID_SIZE / 2
+                && c.getPosition().getY() + GameField.GRID_SIZE / 2 > this.getPosition().getY()*32 + GameField.GRID_SIZE / 2) {
             return true;
         } else {
             return false;

@@ -3,14 +3,7 @@ package ru.atom.bombergirl.mmserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
-import ru.atom.bombergirl.gamemodel.model.GameObject;
-import ru.atom.bombergirl.gamemodel.model.Pawn;
-import ru.atom.bombergirl.gamemodel.model.Wall;
-import ru.atom.bombergirl.gamemodel.model.Wood;
-import ru.atom.bombergirl.gamemodel.model.Ticker;
-import ru.atom.bombergirl.gamemodel.model.Tickable;
-import ru.atom.bombergirl.gamemodel.model.Temporary;
-import ru.atom.bombergirl.gamemodel.model.Positionable;
+import ru.atom.bombergirl.gamemodel.model.*;
 import ru.atom.bombergirl.message.ObjectMessage;
 import ru.atom.bombergirl.message.Topic;
 import ru.atom.bombergirl.network.Broker;
@@ -39,7 +32,7 @@ public class GameSession implements Tickable, Runnable {
 
     private static List<GameObject> gameField = new ArrayList<>();
 
-    static {
+    /*static {
         for (int i = 0;i < 17;i++) {
             for (int j = 0;j < 13;j++) {
                 if (i == 1 && j == 1
@@ -65,13 +58,13 @@ public class GameSession implements Tickable, Runnable {
                     gameField.add(new Wood(i, j));
             }
         }
-    }
+    }*/
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
-            new Point(32, 32),
-            new Point(32, 315),
-            new Point(425, 32),
-            new Point(425, 315)
+            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
+            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (11 + 1/2)),
+            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
+            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (11 + 1/2))
     ));
 
     public GameSession(Connection[] connections) {
