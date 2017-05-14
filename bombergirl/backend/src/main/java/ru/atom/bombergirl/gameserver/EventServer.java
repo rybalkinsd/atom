@@ -68,6 +68,7 @@ public class EventServer {
 
     private static ContextHandler createResourceContext() {
         ContextHandler context = new ContextHandler();
+        context.setCompactPath(true);
         context.setContextPath("/gs/0/*");
         ResourceHandler handler = new ResourceHandler();
         String eventRoot = EventServer.class.getResource("/static").toString();

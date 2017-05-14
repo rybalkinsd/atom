@@ -83,11 +83,10 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
 
     public boolean isColliding(Collider c) {
         if (c instanceof Bomb) {
-            if (Math.abs(this.getPosition().getX() - c.getPosition().getX()) < 5 &&
-            Math.abs(this.getPosition().getY() - c.getPosition().getY()) < 5) {
-                System.out.println("That's all");
+//            if (Math.abs(this.getPosition().getX() - c.getPosition().getX()) < 12 &&
+//            Math.abs(this.getPosition().getY() - c.getPosition().getY()) < 12) {
                 return false;
-            }
+            //}
         }
         if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX() + GameField.GRID_SIZE / 2
                 && this.getPosition().getY() - GameField.GRID_SIZE / 2 < c.getPosition().getY() + GameField.GRID_SIZE / 2
