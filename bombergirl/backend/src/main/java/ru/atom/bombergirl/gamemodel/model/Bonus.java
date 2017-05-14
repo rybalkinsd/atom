@@ -10,9 +10,11 @@ public class Bonus implements GameObject, Positionable {
 
     private Point position;
     private final int id;
+    private GameSession session;
 
-    public Bonus(int x, int y) {
-        this.position = new Point(x, y);
+    public Bonus(Point position, GameSession session) {
+        this.session = session;
+        this.position = position;
         id = GameSession.nextValue();
     }
 

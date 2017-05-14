@@ -12,6 +12,7 @@ import ru.atom.bombergirl.util.JsonHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class GameSession implements Tickable, Runnable {
     private static final Logger log = LogManager.getLogger(MatchMaker.class);
     private static AtomicLong idGenerator = new AtomicLong();
-    private List<GameObject> gameObjects = new ArrayList<>();
+    private List<GameObject> gameObjects = new CopyOnWriteArrayList<>();
     private static AtomicInteger counter = new AtomicInteger(0);
     private List<ObjectMessage> objectMessages = new ArrayList<>();
 
@@ -61,10 +62,10 @@ public class GameSession implements Tickable, Runnable {
     }
 
     private static List<Point> spawnPositions = new ArrayList<>(Arrays.asList(
-            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
-            new Point(GameField.GRID_SIZE * (1 + 1/2), GameField.GRID_SIZE * (11 + 1/2)),
-            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (1 + 1/2)),
-            new Point(GameField.GRID_SIZE * (15 + 1/2), GameField.GRID_SIZE * (11 + 1/2))
+            new Point(GameField.GRID_SIZE, GameField.GRID_SIZE),
+            new Point(GameField.GRID_SIZE, GameField.GRID_SIZE * 11),
+            new Point(GameField.GRID_SIZE * 15, GameField.GRID_SIZE),
+            new Point(GameField.GRID_SIZE * 15, GameField.GRID_SIZE * 11)
     ));
 
     public GameSession(Connection[] connections) {
@@ -87,16 +88,21 @@ public class GameSession implements Tickable, Runnable {
                 new ObjectMessage(x.getClass().getSimpleName(), x.getId(),
                         ((Positionable)x).getPosition())));
         Broker.getInstance().broadcast(Topic.REPLICA,  objectMessages);
-        ArrayList<Temporary> dead = new ArrayList<>();
+        List<Temporary> dead = new CopyOnWriteArrayList<>();
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Tickable) {
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
                 dead.add((Temporary)gameObject);
+                log.info(dead.get(0));
             }
         }
         gameObjects.removeAll(dead);
+    }
+
+    public void addGameObject(GameObject gameObject) {
+        gameObjects.add(gameObject);
     }
 
     public void run() {

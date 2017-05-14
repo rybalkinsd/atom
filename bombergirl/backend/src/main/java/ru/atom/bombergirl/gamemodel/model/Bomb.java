@@ -1,32 +1,35 @@
 package ru.atom.bombergirl.gamemodel.model;
 
+import ru.atom.bombergirl.gamemodel.geometry.Collider;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Bomb implements GameObject, Positionable, Temporary, Tickable {
+public class Bomb implements GameObject, Positionable, Temporary, Tickable, Collider {
 
     private Point position;
     private final long lifetime = 3000;
     private long workTime = 0;
     private boolean isDead = false;
     private final int id;
+    private GameSession session;
 
     /*public Bomb(int x, int y) {
         this.position = new Point(x, y);
         id = GameSession.nextValue();
     }*/
 
-    private Bomb() {
+    private Bomb(GameSession session) {
+        this.session = session;
         id = GameSession.nextValue();
     }
 
-    public static Bomb create(Point position) {
-        Bomb thisBomb = new Bomb();
+    public static void create(Point position, GameSession session) {
+        Bomb thisBomb = new Bomb(session);
         thisBomb.setPosition(position);
-        return thisBomb;
+        session.addGameObject(thisBomb);
     }
 
     @Override
@@ -64,6 +67,11 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable {
 
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    @Override
+    public boolean isColliding(Collider other) {
+        return false; //DUMMY
     }
 
 }
