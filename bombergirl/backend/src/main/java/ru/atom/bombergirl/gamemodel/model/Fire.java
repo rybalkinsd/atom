@@ -48,6 +48,11 @@ public class Fire implements GameObject, Positionable, Temporary, Tickable {
     }
 
     @Override
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    @Override
     public boolean isDead() {
         return isDead;
     }

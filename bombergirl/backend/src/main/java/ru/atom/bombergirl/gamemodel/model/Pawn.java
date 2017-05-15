@@ -20,6 +20,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
     private final int id;
     private boolean toPlantBomb = false;
     private List<Action> actions = new CopyOnWriteArrayList<>();
+    Point preChangePosition = position;
     private GameSession session;
 
     public Pawn(Point p, GameSession s) {
@@ -57,7 +58,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
                 .stream()
                 .filter(o -> o instanceof Collider)
                 .collect(Collectors.toList());
-        Point preChangePosition = position;
+        preChangePosition = position;
         switch (direction) {
             case DOWN:
                 position = new Point(position.getX(), position.getY() - step);
@@ -77,12 +78,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
         for (GameObject o : objects) {
             if (this.isColliding((Collider) o)
                     && this != o
-                    && !(o instanceof Pawn)
-                    && !(o instanceof Bomb)) {
-                return preChangePosition;
-            } else if (this.isColliding((Collider) o)
-                    && o instanceof Bomb
-                    && ((Bomb)o).getPawnId() != this.id) {
+                    && !(o instanceof Pawn)) {
                 return preChangePosition;
             }
         }
@@ -91,10 +87,12 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
 
     public boolean isColliding(Collider c) {
         if (c instanceof Bomb) {
-//            if (Math.abs(this.getPosition().getX() - c.getPosition().getX()) < 12 &&
-//            Math.abs(this.getPosition().getY() - c.getPosition().getY()) < 12) {
+            if (Math.abs(preChangePosition.getX() - c.getPosition().getX()) +
+                    Math.abs(preChangePosition.getY() - c.getPosition().getY()) <
+                    Math.abs(this.getPosition().getX() - c.getPosition().getX()) +
+                            Math.abs(this.getPosition().getY() - c.getPosition().getY())) {
                 return false;
-            //}
+            }
         }
         if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX() + GameField.GRID_SIZE / 2
                 && this.getPosition().getY() - GameField.GRID_SIZE / 2 < c.getPosition().getY() + GameField.GRID_SIZE / 2
