@@ -49,7 +49,6 @@ public class TokenDao {
     }
 
     public void delete(Session session, Token token) {
-        session.saveOrUpdate(token.setUser(null));
         session.delete(token);
     }
 }
