@@ -135,11 +135,13 @@ public class Ticker extends Thread {
     public int killPawn(Session session) {
         log.info("localPool.size() before killPawn: {}", localPool.size());
         int pawnId;
-        pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
         actions.put(playerPawn.get(localPool.get(session)), Action.DIE);
-        // TODO: 15.05.17   потом надо будет разделить на до и после старта игры
-        gameSession.killPawn(pawnId);
+        pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
         log.info("localPool.size() after killPawn: {}", localPool.size());
+        // TODO: 15.05.17   потом надо будет разделить на до и после старта игры a пока что лок:
+        synchronized (lock) {
+            gameSession.killPawn(pawnId);
+        }
         return pawnId;
     }
 

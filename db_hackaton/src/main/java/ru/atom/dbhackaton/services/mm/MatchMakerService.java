@@ -23,6 +23,7 @@ public class MatchMakerService {
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
             user = TokenDao.getInstance().getUserByToken(session, token);
+            log.debug("user: id = {}, login - {}, password - {}", user.getId(), user.getLogin(), user.getPassword());
             txn.commit();
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);
@@ -39,6 +40,7 @@ public class MatchMakerService {
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
             user = UserDao.getInstance().getByName(session, login);
+            log.debug("user: id = {}, login - {}, password - {}", user.getId(), user.getLogin(), user.getPassword());
             txn.commit();
         } catch (RuntimeException e) {
             log.error("Transaction failed.", e);

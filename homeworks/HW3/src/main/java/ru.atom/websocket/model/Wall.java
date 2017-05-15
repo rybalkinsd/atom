@@ -1,5 +1,6 @@
 package ru.atom.websocket.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ import java.util.Random;
  */
 public class Wall extends AbstractGameObject {
     private static final Logger log = LogManager.getLogger(Wall.class);
+    @JsonIgnore
     final Random random = new Random();
 
     public Wall(int id, Point position) {
