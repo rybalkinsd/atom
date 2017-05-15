@@ -75,14 +75,17 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
     public void destroy() {
         List<GameObject> gameObjects = session.getGameObjects();
         for (GameObject o : gameObjects) {
-            if (o instanceof Temporary
-                    && o instanceof Positionable
-                    && !(o instanceof Bomb)
-                    && (abs(((Positionable) o).getPosition().getX() - this.position.getX()) < 64
-                        && ((Positionable) o).getPosition().getY() == this.position.getY())
-                    || (abs(((Positionable) o).getPosition().getY() - this.position.getY()) < 64
-                        && ((Positionable) o).getPosition().getX() == this.position.getX())) {
-                ((Temporary) o).destroy();
+            if (o instanceof Temporary) {
+                if (!(o instanceof Bomb)) {
+                    if (o instanceof Positionable) {
+                        if ((abs(((Positionable) o).getPosition().getX() - this.position.getX()) <= GameField.GRID_SIZE
+                                && Math.abs(((Positionable) o).getPosition().getY() - this.position.getY()) < 10)
+                                || (abs(((Positionable) o).getPosition().getY() - this.position.getY()) <= GameField.GRID_SIZE
+                                && Math.abs(((Positionable) o).getPosition().getX() - this.position.getX()) < 10)) {
+                            ((Temporary) o).destroy();
+                        }
+                    }
+                }
             }
         }
     }
