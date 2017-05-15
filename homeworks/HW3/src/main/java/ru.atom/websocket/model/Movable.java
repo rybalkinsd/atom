@@ -20,11 +20,21 @@ public interface Movable extends Positionable, Tickable {
             public Point move(Point point, int velocity) {
                 return new Point(point.getX(), (point.getY() + velocity));
             }
+
+            @Override
+            public Action makeAction() {
+                return Action.MOVE_UP;
+            }
         },
         DOWN {
             @Override
             public Point move(Point point, int velocity) {
                 return new Point(point.getX(), (point.getY() - velocity));
+            }
+
+            @Override
+            public Action makeAction() {
+                return Action.MOVE_DOWN;
             }
         },
         RIGHT {
@@ -32,11 +42,21 @@ public interface Movable extends Positionable, Tickable {
             public Point move(Point point, int velocity) {
                 return new Point((point.getX() + velocity), point.getY());
             }
+
+            @Override
+            public Action makeAction() {
+                return Action.MOVE_RIGHT;
+            }
         },
         LEFT {
             @Override
             public Point move(Point point, int velocity) {
                 return new Point((point.getX() - velocity), point.getY());
+            }
+
+            @Override
+            public Action makeAction() {
+                return Action.MOVE_LEFT;
             }
         },
         IDLE {
@@ -44,9 +64,15 @@ public interface Movable extends Positionable, Tickable {
             public Point move(Point point, int velocity) {
                 return new Point(point.getX(), point.getY());
             }
+
+            @Override
+            public Action makeAction() {
+                return null;
+            }
         };
 
         public abstract Point move(Point point, int velocity);
+        public abstract Action makeAction();
 
         @JsonCreator
         public static Direction forValue(String value) {

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import ru.atom.geometry.Point;
 import ru.atom.websocket.message.Topic;
+import ru.atom.websocket.model.Action;
 import ru.atom.websocket.model.GameSession;
 import ru.atom.websocket.model.Movable;
 import ru.atom.websocket.model.Player;
@@ -57,6 +58,14 @@ public class Ticker extends Thread {
 
     private void act(long time) {
         synchronized (lock) {
+            // TODO: 14.05.17 надо что то сделать
+            actions.forEach(PARALLELISM_LEVEL, (pawnId, action) -> action.applyAction(gameSession, pawnId));
+            log.info("===================== Actions ======================");
+            actions.forEach(PARALLELISM_LEVEL,
+                    (pawnId, action) -> log.info("Action of player {} is {}", pawnId,
+                            action));
+            log.info("====================================================");
+            actions.clear();
             gameSession.tick(time);//Your logic here
         }
     }
@@ -93,6 +102,7 @@ public class Ticker extends Thread {
     private static final int PARALLELISM_LEVEL = 1;
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>();//связь session<->login
     private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL);//связь idPawn<->login
+    private ConcurrentHashMap<Integer, Action> actions = new ConcurrentHashMap<>();
     private static final Point[] startPoint = {new Point(481,352), new Point(32, 352),
             new Point(481, 32), new Point(32, 32)};
 
@@ -126,6 +136,8 @@ public class Ticker extends Thread {
         log.info("localPool.size() before killPawn: {}", localPool.size());
         int pawnId;
         pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
+        actions.put(playerPawn.get(localPool.get(session)), Action.DIE);
+        // TODO: 15.05.17   потом надо будет разделить на до и после старта игры
         gameSession.killPawn(pawnId);
         log.info("localPool.size() after killPawn: {}", localPool.size());
         return pawnId;
@@ -134,9 +146,7 @@ public class Ticker extends Thread {
     public void plantBomb(Session session) {
         if (Thread.currentThread().isAlive()) {
             log.info("{} will place bomb", localPool.get(session));
-            synchronized (lock) {
-                gameSession.plantBomb(playerPawn.get(localPool.get(session)));
-            }
+            actions.put(playerPawn.get(localPool.get(session)), Action.BOMB_PLANT);
         } else {
             log.info("{} will not place bomb", localPool.get(session));
         }
@@ -154,15 +164,11 @@ public class Ticker extends Thread {
 //    }
 
     public void move(Session session, Movable.Direction direction) {
-        synchronized (lock) {
-            if (Thread.currentThread().isAlive()) {
-                log.info("{} will move in direction {}", localPool.get(session), direction);
-                synchronized (lock) {
-                    gameSession.movePawn(playerPawn.get(localPool.get(session)), direction);
-                }
-            } else {
-                log.info("{} will not move in direction {}", localPool.get(session), direction);
-            }
+        if (Thread.currentThread().isAlive()) {
+            log.info("{} will move in direction {}", localPool.get(session), direction);
+            actions.put(playerPawn.get(localPool.get(session)), direction.makeAction());
+        } else {
+            log.info("{} will not move in direction {}", localPool.get(session), direction);
         }
     }
 

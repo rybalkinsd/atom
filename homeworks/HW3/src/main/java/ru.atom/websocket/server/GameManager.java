@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GameManager {
     private static final Logger log = LogManager.getLogger(GameManager.class);
     private static final GameManager instance = new GameManager();
-    private static final int PARALLELISM_LEVEL = 1;  // TODO: 06.05.17   MAX_PLAYERS
+    private static final int PARALLELISM_LEVEL = 2;  // TODO: 06.05.17   MAX_PLAYERS
 
     private final ConcurrentLinkedQueue<Ticker> games;
     private Ticker currentGame;
@@ -68,9 +68,9 @@ public class GameManager {
     public void removePlayer(Session session) {
         Ticker ticker = findBySession(session);
         if(ticker == null) {
-//            log.info("number of players in currentGame before remove: {}", currentGame.numberOfPlayers());
+            log.warn("number of players in currentGame before remove: {}", currentGame.numberOfPlayers());
             log.info("{} pawn was killed", currentGame.killPawn(session));
-//            log.info("number of players in currentGame after remove: {}", currentGame.numberOfPlayers());
+            log.warn("number of players in currentGame after remove: {}", currentGame.numberOfPlayers());
         } else {
             log.info("{} pawn will be killed in game", ticker.killPawn(session));
         }
@@ -80,7 +80,7 @@ public class GameManager {
             try {
                 ticker.join();
             } catch (InterruptedException e) {
-                log.info("some bitches falled me down");
+                log.warn("some bitches falled me down");
             }
             games.remove(ticker);
 //            log.info("games size after interrupting: {}",games.size());
