@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Pawn implements GameObject, Positionable, Movable, Tickable, Collider {
+public class Pawn implements GameObject, Positionable, Movable, Tickable, Collider, Temporary {
 
+    private boolean isDead = false;
     private Point position;
     private int step = 1;
     //private Direction direction = Direction.IDLE;
@@ -41,7 +42,7 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
         if (!toPlantBomb) {
             return;
         }
-        Bomb.create(this.position, session);
+        Bomb.create(this.position, session, id);
         toPlantBomb = false;
     }
 
@@ -74,7 +75,14 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
                 break;
         }
         for (GameObject o : objects) {
-            if (this.isColliding((Collider) o) && this != o) {
+            if (this.isColliding((Collider) o)
+                    && this != o
+                    && !(o instanceof Pawn)
+                    && !(o instanceof Bomb)) {
+                return preChangePosition;
+            } else if (this.isColliding((Collider) o)
+                    && o instanceof Bomb
+                    && ((Bomb)o).getPawnId() != this.id) {
                 return preChangePosition;
             }
         }
@@ -83,11 +91,10 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
 
     public boolean isColliding(Collider c) {
         if (c instanceof Bomb) {
-            if (Math.abs(this.getPosition().getX() - c.getPosition().getX()) < 5 &&
-            Math.abs(this.getPosition().getY() - c.getPosition().getY()) < 5) {
-                System.out.println("That's all");
+//            if (Math.abs(this.getPosition().getX() - c.getPosition().getX()) < 12 &&
+//            Math.abs(this.getPosition().getY() - c.getPosition().getY()) < 12) {
                 return false;
-            }
+            //}
         }
         if (this.getPosition().getX() - GameField.GRID_SIZE / 2 < c.getPosition().getX() + GameField.GRID_SIZE / 2
                 && this.getPosition().getY() - GameField.GRID_SIZE / 2 < c.getPosition().getY() + GameField.GRID_SIZE / 2
@@ -124,5 +131,20 @@ public class Pawn implements GameObject, Positionable, Movable, Tickable, Collid
 
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public long getLifetimeMillis() {
+        return 0; //dummy, we don't need to record Pawn's lifetime
+    }
+
+    @Override
+    public void destroy() {
+        isDead = true;
     }
 }

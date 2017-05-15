@@ -1,8 +1,13 @@
 package ru.atom.bombergirl.gamemodel.model;
 
+import javafx.geometry.Pos;
 import ru.atom.bombergirl.gamemodel.geometry.Collider;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
+
+import java.util.List;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by dmitriy on 05.03.17.
@@ -15,21 +20,27 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
     private boolean isDead = false;
     private final int id;
     private GameSession session;
+    private int pawnId;
 
     /*public Bomb(int x, int y) {
         this.position = new Point(x, y);
         id = GameSession.nextValue();
     }*/
 
-    private Bomb(GameSession session) {
+    private Bomb(GameSession session, int pawnId) {
         this.session = session;
+        this.pawnId = pawnId;
         id = GameSession.nextValue();
     }
 
-    public static void create(Point position, GameSession session) {
-        Bomb thisBomb = new Bomb(session);
+    public static void create(Point position, GameSession session, int pawnId) {
+        Bomb thisBomb = new Bomb(session, pawnId);
         thisBomb.setPosition(position);
         session.addGameObject(thisBomb);
+    }
+
+    public int getPawnId() {
+        return pawnId;
     }
 
     @Override
@@ -61,8 +72,19 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
         return isDead;
     }
 
-    private void destroy() {
-        //TODO destroy nearest objects
+    public void destroy() {
+        List<GameObject> gameObjects = session.getGameObjects();
+        for (GameObject o : gameObjects) {
+            if (o instanceof Temporary
+                    && o instanceof Positionable
+                    && !(o instanceof Bomb)
+                    && (abs(((Positionable) o).getPosition().getX() - this.position.getX()) < 64
+                        && ((Positionable) o).getPosition().getY() == this.position.getY())
+                    || (abs(((Positionable) o).getPosition().getY() - this.position.getY()) < 64
+                        && ((Positionable) o).getPosition().getX() == this.position.getX())) {
+                ((Temporary) o).destroy();
+            }
+        }
     }
 
     public void setPosition(Point position) {

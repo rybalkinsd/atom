@@ -7,10 +7,11 @@ import ru.atom.bombergirl.mmserver.GameSession;
 /**
  * Created by dmitriy on 05.03.17.
  */
-public class Wood implements Block, GameObject, Positionable {
+public class Wood implements Block, GameObject, Positionable, Temporary {
 
     private Point position;
     private final int id;
+    private boolean isDead = false;
 
     public Wood(int x, int y) {
         this.position = new Point(x, y);
@@ -30,5 +31,25 @@ public class Wood implements Block, GameObject, Positionable {
     @Override
     public boolean isColliding(Collider other) {
         return false; //DUMMY
+    }
+
+    @Override
+    public void destroy() {
+        isDead = true;
+    }
+
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public long getLifetimeMillis() {
+        return 0; //dummy, we don't need to record Wood's lifetime
+    }
+
+    @Override
+    public void tick(long elapsed) {
+        return; //dummy, Wood doesn't tick
     }
 }

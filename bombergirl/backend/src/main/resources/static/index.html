@@ -27,24 +27,26 @@
 
 <script>
     function newGame() {
+        console.log('new game !!!!');
+        var url = window.location.origin.slice(0, window.location.origin.length - 2) + "90/mm/join";
+
+        console.log('origin', window.location.origin);
+        console.log('url', url);
+
         var settings = {
             "method": "GET",
             "crossDomain": true,
-            "url": window.location.origin.slice(0, window.location.origin.length - 2) + "90/mm/join",
+            "url": url,
             'data': {
                 'user': Cookies.get('user'),
                 'token': Cookies.get('token')
             }
-//            'success' : function(data) {
-//                window.location = data.toString()
-//            }
         };
         $.ajax(settings).done(function(response) {
-            //setTimeout(window.location.href = response.toString(), 1000);
-            //window.location.reload(true);
-            window.location.href = response.toString();
-            return false
+            window.location.assign(response);
+            return false;
         }).fail(function (jqXHR, textStatus) {
+            console.log('fail', jqXHR);
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             window.location.href = '/';

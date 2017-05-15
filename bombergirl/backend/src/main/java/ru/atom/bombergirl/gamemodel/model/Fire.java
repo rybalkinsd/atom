@@ -3,6 +3,8 @@ package ru.atom.bombergirl.gamemodel.model;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by dmitriy on 11.03.17.
  */
@@ -50,4 +52,14 @@ public class Fire implements GameObject, Positionable, Temporary, Tickable {
         return isDead;
     }
 
+    @Override
+    public void destroy() {
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            isDead = true;
+        }
+    }
 }
