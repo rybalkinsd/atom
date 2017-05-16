@@ -6,11 +6,14 @@ import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 /**
  * Created by BBPax on 11.05.17.
  */
 public class Fire extends AbstractGameObject implements Temporary  {
     private static final Logger log = LogManager.getLogger(Fire.class);
+    public static final long FIRE_LIFETIME = Long.valueOf(getProperties().getProperty("FIRE_LIFETIME"));
 
     @JsonIgnore
     private long lifeTime;
@@ -20,9 +23,9 @@ public class Fire extends AbstractGameObject implements Temporary  {
     public Fire(int id, Point position) {
         super(id, position.getX(), position.getY());
         type = "Fire";
-        this.lifeTime = 1000L;
+        this.lifeTime = FIRE_LIFETIME;
         this.isDead = false;
-        bar = new Bar(new Point(position.getX() + 7, position.getY() + 7), 18);
+        bar = new Bar(new Point(position.getX() + CENTERED_BAR_SHIFT, position.getY() + CENTERED_BAR_SHIFT), CENTERED_BAR_SIZE);
         log.info("Fire(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bar {}", id,
                 position.getX(), position.getY(), this.lifeTime, bar.toString());
     }

@@ -5,11 +5,12 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.Nullable;
 import ru.atom.Ticker;
-import ru.atom.geometry.Point;
 import ru.atom.websocket.model.Movable;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static ru.atom.WorkWithProperties.getProperties;
 
 /**
  * Created by BBPax on 04.05.17.
@@ -17,7 +18,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GameManager {
     private static final Logger log = LogManager.getLogger(GameManager.class);
     private static final GameManager instance = new GameManager();
-    private static final int PARALLELISM_LEVEL = 2;  // TODO: 06.05.17   MAX_PLAYERS
+    private static final int GAME_MAN_PARALLELISM_LEVEL =
+            Integer.valueOf(getProperties().getProperty("GAME_MAN_PARALLELISM_LEVEL"));  // TODO: 06.05.17   MAX_PLAYERS
 
     private final ConcurrentLinkedQueue<Ticker> games;
     private Ticker currentGame;
@@ -36,7 +38,7 @@ public class GameManager {
         log.info("number of players in currentGame before add: {}", currentGame.numberOfPlayers());
         currentGame.addPawn(session, login);
         log.info("number of players in currentGame after add: {}", currentGame.numberOfPlayers());
-        if (currentGame.numberOfPlayers() == PARALLELISM_LEVEL) {
+        if (currentGame.numberOfPlayers() == GAME_MAN_PARALLELISM_LEVEL) {
             startGame();
             games.offer(currentGame);
             log.info("game is started");

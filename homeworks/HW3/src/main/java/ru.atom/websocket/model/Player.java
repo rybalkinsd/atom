@@ -6,11 +6,16 @@ import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 /**
  * Created by BBPax on 06.03.17.
  */
 public class Player extends AbstractGameObject implements Movable {
     private static final Logger log = LogManager.getLogger(Player.class);
+    public static final int BAG_SIZE = Integer.valueOf(getProperties().getProperty("BAG_SIZE"));
+    public static final int POWER_BOMB = Integer.valueOf(getProperties().getProperty("POWER_BOMB"));
+    public static final int VELOCITY = Integer.valueOf(getProperties().getProperty("VELOCITY"));
     @JsonIgnore
     private int bagSize;
     @JsonIgnore
@@ -51,13 +56,15 @@ public class Player extends AbstractGameObject implements Movable {
     public Player(int id, Point position) {
         super(id, position.getX(),position.getY());
         type = "Pawn";
-        bagSize = 1;
-        powerBomb = 1;
-        velocity = 1;
+        bagSize = BAG_SIZE;
+        powerBomb = POWER_BOMB;
+        velocity = VELOCITY;
         elapsedTime = 0L;
         direction = Direction.IDLE;
         plantBomb = false;
-        bar = new Bar(new Point(position.getX() + 7, position.getY() + 7), 18);
+        bar = new Bar(
+                new Point(position.getX() + CENTERED_BAR_SHIFT,
+                        position.getY() + CENTERED_BAR_SHIFT), CENTERED_BAR_SIZE);
         log.info("Player(id = {}) is created in ( {} ; {} ) and bar {}",
                 id, position.getX(), position.getY(), bar.toString());
     }
@@ -79,7 +86,7 @@ public class Player extends AbstractGameObject implements Movable {
         }
         //log.info("time before bomb will appeared in my bag is {}", elapsedTime);
         position = move(direction);
-        bar.setBarPosition(new Point(position.getX() + 7, position.getY() + 7));
+        bar.setBarPosition(new Point(position.getX() + CENTERED_BAR_SHIFT, position.getY() + CENTERED_BAR_SHIFT));
         direction = Direction.IDLE;
     }
 
@@ -109,10 +116,10 @@ public class Player extends AbstractGameObject implements Movable {
                 log.info(" I don't have bombs in bag");
                 return null;
             } else {
-                Point centralPosition = new Point((position.getX() % 32 < 32 / 2)
-                        ? position.getX() - position.getX() % 32 : position.getX() + 32 - position.getX() % 32 ,
-                        (position.getY() % 32 < 32 / 2) ? position.getY() - position.getY() % 32
-                                : position.getY() + 32 - position.getY() % 32);
+                Point centralPosition = new Point((position.getX() % BAR_SIZE < BAR_SIZE / 2)
+                        ? position.getX() - position.getX() % BAR_SIZE : position.getX() + BAR_SIZE - position.getX() % BAR_SIZE,
+                        (position.getY() % BAR_SIZE < BAR_SIZE / 2) ? position.getY() - position.getY() % BAR_SIZE
+                                : position.getY() + BAR_SIZE - position.getY() % BAR_SIZE);
                 bagSize--;
                 elapsedTime = 2000L;
                 return new Bomb(0, centralPosition, powerBomb, this.getId());

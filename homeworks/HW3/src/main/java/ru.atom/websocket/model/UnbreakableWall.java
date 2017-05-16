@@ -14,7 +14,7 @@ public class UnbreakableWall extends AbstractGameObject {
     public UnbreakableWall(int id, Point position) {
         super(id, position.getX(),position.getY());
         type = "Wall";
-        bar = new Bar(new Point(32 * position.getX(), 32 * position.getY()), 32);
+        bar = new Bar(new Point(BAR_SIZE * position.getX(), BAR_SIZE * position.getY()), BAR_SIZE);
         log.info("UnbreackableWall(id = {}) was created in ( {} ; {} ) with bar {}",
                 id, position.getX(), position.getY(), bar.toString());
     }

@@ -15,10 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 public class Ticker extends Thread {
     private static final Logger log = LogManager.getLogger(Ticker.class);
-    private static final int FPS = 60;
-    private static final long FRAME_TIME = 1000 / FPS;
+    private static final int FPS = Integer.valueOf(getProperties().getProperty("TICKER_FPS"));
+    private static final long FRAME_TIME =
+            Integer.valueOf(getProperties().getProperty("TICKER_FRAME_TIME"))/ FPS;
     private long tickNumber = 0;
     private GameSession gameSession = new GameSession();
     private static final Object lock = new Object();
@@ -61,9 +64,9 @@ public class Ticker extends Thread {
     private void act(long time) {
         synchronized (lock) {
             // TODO: 14.05.17 надо что то сделать
-            actions.forEach(PARALLELISM_LEVEL, (pawnId, action) -> action.applyAction(gameSession, pawnId));
+            actions.forEach(TICKER_PARALLELISM_LEVEL, (pawnId, action) -> action.applyAction(gameSession, pawnId));
             log.info("===================== Actions ======================");
-            actions.forEach(PARALLELISM_LEVEL, (pawnId, action) ->
+            actions.forEach(TICKER_PARALLELISM_LEVEL, (pawnId, action) ->
                     log.info("Action of player {} is {}", pawnId, action));
             log.info("====================================================");
             actions.clear();
@@ -98,9 +101,9 @@ public class Ticker extends Thread {
      * collection commands to Pawns
      * and reply REPLICA to Broker
      */
-    private static final int PARALLELISM_LEVEL = 4;
+    private static final int TICKER_PARALLELISM_LEVEL = Integer.valueOf(getProperties().getProperty("TICKER_PARALLELISM_LEVEL"));
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>(); //связь session<->login
-    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL); //idPawn<->login
+    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(TICKER_PARALLELISM_LEVEL); //idPawn<->login
     private ConcurrentHashMap<Integer, Action> actions = new ConcurrentHashMap<>();
     private static final Point[] startPoint = new Point[]
     {

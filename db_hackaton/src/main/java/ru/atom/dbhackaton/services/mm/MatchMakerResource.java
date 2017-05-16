@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Map;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 /**
  * Created by BBPax on 18.04.17.
  */
@@ -23,6 +25,7 @@ import java.util.Map;
 public class MatchMakerResource {
     private static final Logger log = LogManager.getLogger(MatchMakerResource.class);
     private static final MatchMakerService mms = new MatchMakerService();
+    public static final String PATH_TO_FRONTEND = getProperties().getProperty("PATH_TO_FRONTEND");
 
     @POST
     @Path("/join")
@@ -38,7 +41,7 @@ public class MatchMakerResource {
             return  Response.status(Response.Status.BAD_REQUEST).entity("invalid user").build();
         }
         log.info("joining user: " + user.getLogin() + " with token: " + token);
-        return  Response.ok().entity("http://localhost:8080/bomberman/frontend/").build();
+        return  Response.ok().entity(PATH_TO_FRONTEND).build();
     }
 
     /**

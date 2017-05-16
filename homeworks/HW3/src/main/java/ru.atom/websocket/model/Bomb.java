@@ -5,11 +5,14 @@ import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 /**
  * Created by BBPax on 06.03.17.
  */
 public class Bomb extends AbstractGameObject implements Temporary {
     private static final Logger log = LogManager.getLogger(Bomb.class);
+    public static final long BOMB_LIFETIME = Long.valueOf(getProperties().getProperty("BOMB_LIFETIME"));
 
     @JsonIgnore
     private long lifeTime;
@@ -24,7 +27,7 @@ public class Bomb extends AbstractGameObject implements Temporary {
     public Bomb(int id, Point position, int power, int pawnId) {
         super(id, position.getX(), position.getY());
         type = "Bomb";
-        this.lifeTime = 2000L;
+        this.lifeTime = BOMB_LIFETIME;
         this.isDead = false;
         this.power = power;
         this.pawnId = pawnId;

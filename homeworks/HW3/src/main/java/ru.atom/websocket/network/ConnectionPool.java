@@ -13,10 +13,13 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static ru.atom.WorkWithProperties.getProperties;
+
 public class ConnectionPool {
     private static final Logger log = LogManager.getLogger(ConnectionPool.class);
     private static final ConnectionPool instance = new ConnectionPool();
-    private static final int PARALLELISM_LEVEL = 1;
+    private static final int CON_POOL_PARALLELISM_LEVEL =
+            Integer.valueOf(getProperties().getProperty("CON_POOL_PARALLELISM_LEVEL"));
 
     private final ConcurrentHashMap<Session, String> pool;
 
@@ -31,7 +34,7 @@ public class ConnectionPool {
     public void loggingEnterance(Session sess) {
         log.info("====================================");
         log.info("King of party: {}", pool.get(sess));
-        pool.forEachKey(PARALLELISM_LEVEL, session -> {
+        pool.forEachKey(CON_POOL_PARALLELISM_LEVEL, session -> {
             log.info("Session {} ", session);
             log.info("is opened: {}  by {}", session.isOpen(), pool.get(session));
         });
@@ -50,12 +53,12 @@ public class ConnectionPool {
     }
 
     public void broadcast(@NotNull String msg) {
-        pool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
+        pool.forEachKey(CON_POOL_PARALLELISM_LEVEL, session -> send(session, msg));
     }
 
     // TODO: 08.05.17   need to be threadSafe
     public void localBroadcast(@NotNull ConcurrentHashMap<Session, String> localPool, @NotNull String msg) {
-        localPool.forEachKey(PARALLELISM_LEVEL, session -> {
+        localPool.forEachKey(CON_POOL_PARALLELISM_LEVEL, session -> {
             if (pool.get(session) == localPool.get(session)) {
                 send(session,msg);
             }
@@ -63,7 +66,7 @@ public class ConnectionPool {
     }
 
     public void shutdown() {
-        pool.forEachKey(PARALLELISM_LEVEL, session -> {
+        pool.forEachKey(CON_POOL_PARALLELISM_LEVEL, session -> {
             if (session.isOpen()) {
                 session.close();
             }

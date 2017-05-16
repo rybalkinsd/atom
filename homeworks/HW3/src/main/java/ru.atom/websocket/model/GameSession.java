@@ -11,14 +11,21 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static ru.atom.WorkWithProperties.getProperties;
+import static ru.atom.websocket.model.AbstractGameObject.BAR_SIZE;
+import static ru.atom.websocket.model.AbstractGameObject.CENTERED_BAR_SHIFT;
+import static ru.atom.websocket.model.Fire.CENTERED_BAR_SIZE;
+
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
+    public static final int MAP_WIDTH = Integer.valueOf(getProperties().getProperty("MAP_WIDTH"));
+    public static final int MAP_HEIGHT = Integer.valueOf(getProperties().getProperty("MAP_HEIGHT"));
     private List<GameObject> gameObjects;
     private AtomicInteger id = new AtomicInteger(0);
 
     public GameSession() {
         gameObjects = new ArrayList<>();
-        generateStandartMap(17, 13);
+        generateStandartMap(MAP_WIDTH, MAP_HEIGHT);
     }
 
     public int getCurrentId() {
@@ -59,24 +66,24 @@ public class GameSession implements Tickable {
         Point bombPosition = bomb.getPosition();
         explosion.add(new Fire(id.getAndIncrement(), bombPosition));
         // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками и стенами
-        if ((bombPosition.getX() / 32) % 2 != 0) {
+        if ((bombPosition.getX() / BAR_SIZE) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                if (bombPosition.getY() + 32 * (i + 1) < 13*32)
+                if (bombPosition.getY() + BAR_SIZE * (i + 1) < MAP_HEIGHT*BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
-                        new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
-                if (bombPosition.getY() - 32 * (i + 1) > 0*32)
+                        new Point(bombPosition.getX(), bombPosition.getY() + BAR_SIZE * (i + 1))));
+                if (bombPosition.getY() - BAR_SIZE * (i + 1) > 0*BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
-                        new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
+                        new Point(bombPosition.getX(), bombPosition.getY() - BAR_SIZE * (i + 1))));
             }
         }
-        if ((bombPosition.getY() / 32) % 2 != 0) {
+        if ((bombPosition.getY() / BAR_SIZE) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                if (bombPosition.getX() + 32 * (i + 1) < 17*32)
+                if (bombPosition.getX() + BAR_SIZE * (i + 1) < MAP_WIDTH*BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
-                        new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
-                if (bombPosition.getX() - 32 * (i + 1) > 0 *32)
+                        new Point(bombPosition.getX() + BAR_SIZE * (i + 1), bombPosition.getY())));
+                if (bombPosition.getX() - BAR_SIZE * (i + 1) > 0 *BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
-                        new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
+                        new Point(bombPosition.getX() - BAR_SIZE * (i + 1), bombPosition.getY())));
             }
         }
         return explosion;
@@ -86,7 +93,7 @@ public class GameSession implements Tickable {
         Player pawn = findPawn(pawnId);
         if (pawn.getDirection() == Movable.Direction.IDLE) {
             Point endPosition = direction.move(pawn.getPosition(), pawn.getVelocity());
-            Bar pawnBar = new Bar(new Point(endPosition.getX() + 7, endPosition.getY()), 18);
+            Bar pawnBar = new Bar(new Point(endPosition.getX() + CENTERED_BAR_SHIFT, endPosition.getY()), CENTERED_BAR_SIZE);
             try {
                 GameObject block = gameObjects.stream()
                         .filter(gameObject -> ((AbstractGameObject) gameObject).getBar().isColliding(pawnBar))
