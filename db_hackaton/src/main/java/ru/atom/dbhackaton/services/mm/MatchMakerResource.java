@@ -39,9 +39,13 @@ public class MatchMakerResource {
         }
         log.info("joining user: " + user.getLogin() + " with token: " + token);
         return  Response.ok().entity("http://localhost:8080/bomberman/frontend/").build();
-//        return  Response.ok().entity("http://localhost:8080/bomberman/frontend$user=" + user.getLogin()).build();
     }
 
+    /**
+     * body: {"id":12345, "result":{"user1":10, "user2":15}}
+     * @param result String of game's result, which will be written in DB
+     * @return response ok() if everything is ok, and code = 400, if result is null
+     */
     @POST
     @Path("/finish")
     @Consumes(MediaType.APPLICATION_JSON)

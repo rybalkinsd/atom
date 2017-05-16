@@ -19,8 +19,8 @@ public class Message {
      * Message msg = new Message(Topic.MOVE, JsonHelper.toJson(direction));
      * Good way:
      * msg = new Message(Topic.MOVE, JsonHelper.getJsonNode(JsonHelper.toJson(direction)));
-     * @param topic
-     * @param data
+     * @param topic see Topic.java
+     * @param data data of message
      */
     @JsonCreator
     public Message(@JsonProperty("topic") Topic topic, @JsonProperty("data") JsonNode data) {

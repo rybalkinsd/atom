@@ -1,7 +1,14 @@
 package ru.atom.dbhackaton.resource;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 
 /**
  * Created by BBPax on 24.03.17.
@@ -17,7 +24,6 @@ public class Token {
     @Column(name = "token", unique = true, nullable = false)
     private Long token;
 
-//    @OneToOne(fetch = FetchType.EAGER, mappedBy = "token", cascade = CascadeType.PERSIST)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

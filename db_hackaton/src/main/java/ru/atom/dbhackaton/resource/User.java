@@ -4,7 +4,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import java.util.Date;
 
 /**
@@ -28,11 +36,6 @@ public class User {
     @Column(name = "registration_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date regDate = new Date();
-
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-//    @JoinColumn(name = "user_id")
-//    @OneToOne
-//    private Token token;
 
     public Date getRegDate() {
         return regDate;

@@ -105,11 +105,4 @@ public class ConnectionPool {
         log.info("pool.size() after remove: {}", pool.size());
         GameManager.getInstance().removePlayer(session);
     }
-
-//    private int getGameId(Session session) {
-//       int idGame =  gamesPool.entrySet().stream().filter(entry -> {
-//            return entry.getValue().contains(session);
-//        }).findFirst().get().getKey();
-//       return idGame;
-//    }
 }

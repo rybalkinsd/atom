@@ -13,6 +13,7 @@ import ru.atom.dbhackaton.dao.UserDao;
 import ru.atom.dbhackaton.resource.Result;
 import ru.atom.dbhackaton.resource.Token;
 import ru.atom.dbhackaton.resource.User;
+import ru.atom.dbhackaton.services.auth.AuthException;
 
 import java.util.Random;
 
@@ -94,10 +95,21 @@ public class DaoTest {
 
     @Test
     public void getTokenTest() {
-        Token nextToken = TokenDao.getInstance().getToken(Database.session(), token.getToken());
-        Assert.assertEquals(token.getUser(), nextToken.getUser());
-        Assert.assertEquals(token.getToken(), nextToken.getToken());
-        Assert.assertEquals(token.getId(), nextToken.getId());
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+            Token nextToken = TokenDao.getInstance().getToken(session, token.getToken());
+
+            Assert.assertEquals(token.getUser().getLogin(), nextToken.getUser().getLogin());
+            Assert.assertEquals(token.getToken(), nextToken.getToken());
+            Assert.assertEquals(token.getId(), nextToken.getId());
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     @After

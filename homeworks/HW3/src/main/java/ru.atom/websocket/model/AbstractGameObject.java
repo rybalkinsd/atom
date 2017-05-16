@@ -20,7 +20,6 @@ public class AbstractGameObject implements Positionable {
     public AbstractGameObject(int id, int x, int y) {
         if (x < 0 || y < 0) {
             log.error("Wrong coordinates of creating objects");
-           // throw new IllegalArgumentException();
         }
         type = "AbstractGameObject";
         this.id = id;

@@ -38,15 +38,9 @@ public enum Action {
             gameSession.plantBomb(pawnId);
         }
     },
-    DIE {
+    DIE;
 
-//        @Override
-//        public void applyAction(GameSession gameSession, int pawnId) {
-//
-//        }
-    };
-
-    public void applyAction(GameSession gameSession, int pawnId){
+    public void applyAction(GameSession gameSession, int pawnId) {
         System.out.println("here I will do nothing");
     }
 }

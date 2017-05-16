@@ -59,7 +59,8 @@ public class Broker {
         connectionPool.broadcast(message);
     }
 
-    public void broadcast(@NotNull ConcurrentHashMap<Session, String> localPool, @NotNull Topic topic, @NotNull Object object) {
+    public void broadcast(@NotNull ConcurrentHashMap<Session, String> localPool,
+                          @NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.getJsonNode(JsonHelper.toJson(object))));
         log.info("localBroadcast: {}", message);
         connectionPool.localBroadcast(localPool, message);

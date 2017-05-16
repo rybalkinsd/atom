@@ -28,6 +28,7 @@ public class Ticker extends Thread {
     public void setGameSession(GameSession gameSession) {
         this.gameSession = gameSession;
     }
+
     @Deprecated
     public GameSession getGameSession() {
         return gameSession;
@@ -46,7 +47,8 @@ public class Ticker extends Thread {
             }
             log.info("{}: tick ", tickNumber);
             tickNumber++;
-            if(Thread.currentThread().isInterrupted()) {
+            if (Thread.currentThread().isInterrupted()) {
+                // TODO: 16.05.17   надо тут генерить rezults
                 break;
             }
             // TODO: 06.05.17   проверка на необходимость чутка почистить пул.
@@ -61,9 +63,8 @@ public class Ticker extends Thread {
             // TODO: 14.05.17 надо что то сделать
             actions.forEach(PARALLELISM_LEVEL, (pawnId, action) -> action.applyAction(gameSession, pawnId));
             log.info("===================== Actions ======================");
-            actions.forEach(PARALLELISM_LEVEL,
-                    (pawnId, action) -> log.info("Action of player {} is {}", pawnId,
-                            action));
+            actions.forEach(PARALLELISM_LEVEL, (pawnId, action) ->
+                    log.info("Action of player {} is {}", pawnId, action));
             log.info("====================================================");
             actions.clear();
             gameSession.tick(time);//Your logic here
@@ -79,9 +80,7 @@ public class Ticker extends Thread {
      * <code>Runnable</code> run object, then that
      * <code>Runnable</code> object's <code>run</code> method is called;
      * otherwise, this method does nothing and returns.
-     * <p>
      * Subclasses of <code>Thread</code> should override this method.
-     *
      * @see #start()
      * @see #stop()
      * @see Thread#run()
@@ -99,20 +98,25 @@ public class Ticker extends Thread {
      * collection commands to Pawns
      * and reply REPLICA to Broker
      */
-    private static final int PARALLELISM_LEVEL = 1;
-    private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>();//связь session<->login
-    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL);//связь idPawn<->login
+    private static final int PARALLELISM_LEVEL = 4;
+    private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>(); //связь session<->login
+    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(PARALLELISM_LEVEL); //idPawn<->login
     private ConcurrentHashMap<Integer, Action> actions = new ConcurrentHashMap<>();
-    private static final Point[] startPoint = {new Point(481,352), new Point(32, 352),
-            new Point(481, 32), new Point(32, 32)};
+    private static final Point[] startPoint = new Point[]
+    {
+        new Point(481,352),
+        new Point(32, 352),
+        new Point(481, 32),
+        new Point(32, 32)
+    };
 
     /**
      * initial method, which chould be used before game is started
-     * @param session
-     * @param login
+     * @param session session of player
+     * @param login login of player
      * @return pawnId, connected with session, or -1 if Thread is running
      */
-    public void addPawn (Session session, String login) {
+    public void addPawn(Session session, String login) {
         log.info("localPool.size() before add: {}", localPool.size());
         localPool.putIfAbsent(session, login);
         log.info("localPool.size() after add: {}", localPool.size());
@@ -120,7 +124,7 @@ public class Ticker extends Thread {
         log.info("player with login {} has new pawn with id {}", login, playerId);
         playerPawn.put(login, playerId);
         // TODO: 06.05.17   неправильно расставляются игроки в случае лива)
-        gameSession.addGameObject(new Player(playerId, startPoint[playerId%4])); // TODO: 06.05.17   MAX_PLAYERS
+        gameSession.addGameObject(new Player(playerId, startPoint[playerId % 4])); // TODO: 06.05.17   MAX_PLAYERS
         Broker.getInstance().send(login, Topic.POSSESS, playerId);
         synchronized (lock) {
             Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
@@ -129,8 +133,8 @@ public class Ticker extends Thread {
 
     /**
      * Not ThreadSafe.
-     * @param session
-     * @return
+     * @param session session of player
+     * @return id of pawn
      */
     public int killPawn(Session session) {
         log.info("localPool.size() before killPawn: {}", localPool.size());
@@ -153,17 +157,6 @@ public class Ticker extends Thread {
             log.info("{} will not place bomb", localPool.get(session));
         }
     }
-
-//    public void returnBomb(Session session) {
-//        if (Thread.currentThread().isAlive()) {
-//            log.info("Bomb is returned to {} ", localPool.get(session));
-//            synchronized (lock) {
-//                gameSession.returnBomb(playerPawn.get(localPool.get(session)));
-//            }
-//        } else {
-//            log.info("{} will not place bomb", localPool.get(session));
-//        }
-//    }
 
     public void move(Session session, Movable.Direction direction) {
         if (Thread.currentThread().isAlive()) {

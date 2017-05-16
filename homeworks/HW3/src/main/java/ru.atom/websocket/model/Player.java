@@ -71,7 +71,7 @@ public class Player extends AbstractGameObject implements Movable {
     public void tick(long elapsed) {
         if (elapsedTime <= 0L) {
             elapsedTime = 0L;
-            if(bagSize == 0) {
+            if (bagSize == 0) {
                 bagSize++;
             }
         } else {
@@ -109,8 +109,8 @@ public class Player extends AbstractGameObject implements Movable {
                 log.info(" I don't have bombs in bag");
                 return null;
             } else {
-                Point centralPosition = new Point((position.getX() % 32 < 32 / 2) ? position.getX() - position.getX() % 32
-                        : position.getX() + 32 - position.getX() % 32 ,
+                Point centralPosition = new Point((position.getX() % 32 < 32 / 2)
+                        ? position.getX() - position.getX() % 32 : position.getX() + 32 - position.getX() % 32 ,
                         (position.getY() % 32 < 32 / 2) ? position.getY() - position.getY() % 32
                                 : position.getY() + 32 - position.getY() % 32);
                 bagSize--;

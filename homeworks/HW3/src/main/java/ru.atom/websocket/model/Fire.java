@@ -22,7 +22,7 @@ public class Fire extends AbstractGameObject implements Temporary  {
         type = "Fire";
         this.lifeTime = 1000L;
         this.isDead = false;
-        bar = new Bar(new Point( position.getX() + 7, position.getY() + 7), 18);
+        bar = new Bar(new Point(position.getX() + 7, position.getY() + 7), 18);
         log.info("Fire(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bar {}", id,
                 position.getX(), position.getY(), this.lifeTime, bar.toString());
     }
@@ -30,7 +30,7 @@ public class Fire extends AbstractGameObject implements Temporary  {
     /**
      * Applies changes to game objects that happen after elapsed time
      *
-     * @param elapsed
+     * @param elapsed time that expired in this tick
      */
     @Override
     public void tick(long elapsed) {

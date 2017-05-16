@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import ru.atom.dbhackaton.server.MainServerWithAuthAndMm;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import static ru.atom.WorkWithProperties.getStrBundle;
 /**
  * Created by Western-Co on 27.03.2017.
  */
+@Ignore
 public class AuthTest {
     private String token;
 

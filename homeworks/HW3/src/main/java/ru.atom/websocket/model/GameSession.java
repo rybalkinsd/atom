@@ -40,7 +40,7 @@ public class GameSession implements Tickable {
 
     /**
      * can be used only before game starts
-     * @param pawnId
+     * @param pawnId Id of player's gameobject
      */
     public void killPawn(int pawnId) {
         gameObjects.remove(findPawn(pawnId));
@@ -59,16 +59,20 @@ public class GameSession implements Tickable {
         Point bombPosition = bomb.getPosition();
         explosion.add(new Fire(id.getAndIncrement(), bombPosition));
         // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками и стенами
-        if ((bombPosition.getX()/32) % 2 != 0) {
+        if ((bombPosition.getX() / 32) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
-                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
+                explosion.add(new Fire(id.getAndIncrement(),
+                        new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
+                explosion.add(new Fire(id.getAndIncrement(),
+                        new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
             }
         }
-        if ((bombPosition.getY()/32) % 2 != 0) {
+        if ((bombPosition.getY() / 32) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
-                explosion.add(new Fire(id.getAndIncrement(), new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
+                explosion.add(new Fire(id.getAndIncrement(),
+                        new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
+                explosion.add(new Fire(id.getAndIncrement(),
+                        new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
             }
         }
         return explosion;
@@ -88,7 +92,9 @@ public class GameSession implements Tickable {
             } catch (NoSuchElementException e) {
                 pawn.setDirection(direction);
             }
-        } else {log.info("player has instruction to move already");}
+        } else {
+            log.info("player has instruction to move already");
+        }
     }
 
     @Override
@@ -101,7 +107,7 @@ public class GameSession implements Tickable {
                 if (gameObject instanceof Player) {
                     Player player = (Player) gameObject;
                     Bomb bomb = player.plantBomb();
-                    if (bomb !=null) {
+                    if (bomb != null) {
                         bomb.setId(id.getAndIncrement());
                         born.add(bomb);
                     }
@@ -115,13 +121,14 @@ public class GameSession implements Tickable {
                         ((Player) pawn).getBonus((Bonus) gameObject);
                         dead.add(gameObject);
                     } catch (NoSuchElementException e) {
+                        log.error(e);
                     }
                 }
                 ((Tickable) gameObject).tick(elapsed);
             }
             if (gameObject instanceof Temporary && ((Temporary) gameObject).isDead()) {
                 dead.add(gameObject);
-                if(gameObject instanceof Bomb) {
+                if (gameObject instanceof Bomb) {
                     born.addAll(explosionBomb((Bomb)gameObject));
                     returnBomb(((Bomb) gameObject).getPawnId());
                 }
@@ -154,7 +161,7 @@ public class GameSession implements Tickable {
                         //kill Pawn
                         //killPawn(destruction.getId());
                     }
-                } catch(NoSuchElementException e) {
+                } catch (NoSuchElementException e) {
                     log.warn("here should be Grass, but it is not");
                 }
             }
@@ -170,8 +177,8 @@ public class GameSession implements Tickable {
      * | * * * * * * |
      * | * * * * * * |
      * |-------------|
-     * @param width
-     * @param height
+     * @param width of map
+     * @param height of map
      */
     private void generateStandartMap(int width, int height) {
         for (int x = 0; x < width; x++) {
@@ -192,7 +199,7 @@ public class GameSession implements Tickable {
                             || x == width - 3 && y == height - 2
                             || x == 1 && y == height - 2 || x == 1 && y == height - 3 || x == 2 && y == height - 2
                             || x == width - 2 && y == 1 || x == width - 2 && y == 2 || x == width - 3 && y == 1) {
-//                        addGameObject(new Grass(getCurrentId(), new Point(x, y)));
+                        // TODO: 16.05.17 addGameObject(new Grass(getCurrentId(), new Point(x, y)));
                     } else {
                         addGameObject(new Wall(getCurrentId(), new Point(x, y)));
                     }

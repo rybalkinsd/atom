@@ -72,6 +72,7 @@ public interface Movable extends Positionable, Tickable {
         };
 
         public abstract Point move(Point point, int velocity);
+
         public abstract Action makeAction();
 
         @JsonCreator
