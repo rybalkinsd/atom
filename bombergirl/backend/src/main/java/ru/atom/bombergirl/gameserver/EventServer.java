@@ -13,11 +13,16 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.atom.bombergirl.server.CrossBrowserFilter;
 
-public class EventServer {
+import java.util.concurrent.atomic.AtomicLong;
+
+public class EventServer implements Runnable{
+
+    private static AtomicLong idforurl = new AtomicLong(0);
+
     public static void main(String[] args) {
         Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
-        connector.setPort(8085);
+        connector.setPort((int) (8085 + idforurl.get() * 10));
         server.addConnector(connector);
 
         // Setup the basic application "context" for this application at "/"
@@ -69,7 +74,7 @@ public class EventServer {
     private static ContextHandler createResourceContext() {
         ContextHandler context = new ContextHandler();
         context.setCompactPath(true);
-        context.setContextPath("/gs/0/*");
+        context.setContextPath("/gs/" + idforurl.toString() + "/*");
         ResourceHandler handler = new ResourceHandler();
         String eventRoot = EventServer.class.getResource("/static").toString();
         String serverRoot = eventRoot.substring(0, eventRoot.length() - 35) + "frontend/src/main/webapp";
@@ -77,5 +82,16 @@ public class EventServer {
         handler.setResourceBase(serverRoot);
         context.setHandler(handler);
         return context;
+    }
+
+    public EventServer (AtomicLong id) {
+        idforurl = id;
+    }
+
+    @Override
+    public void run() {
+        String[] args = new String[0];
+        System.out.println("Event server with idforurl " + idforurl.toString()+" started");
+        EventServer.main(args);
     }
 }

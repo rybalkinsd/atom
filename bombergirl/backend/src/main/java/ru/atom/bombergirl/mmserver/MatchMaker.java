@@ -2,6 +2,7 @@ package ru.atom.bombergirl.mmserver;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.bombergirl.gameserver.EventServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,11 @@ public class MatchMaker implements Runnable {
     public void run() {
         log.info("MM Started");
         List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
+        EventServer server = new EventServer(idGame);
+        Thread eventServer = new Thread(server);
+        eventServer.setName("eventServer " + idGame);
+        eventServer.start();
+        log.info(eventServer);
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 log.info("I'm here");
@@ -53,6 +59,11 @@ public class MatchMaker implements Runnable {
                 ThreadSafeStorage.put(session);
                 candidates.clear();
                 idGame.getAndIncrement();
+                server = new EventServer(idGame);
+                eventServer = new Thread(server);
+                eventServer.setName("eventServer " + idGame);
+                eventServer.start();
+                log.info(eventServer);
                 log.info("idGame : " + idGame);
             }
         }

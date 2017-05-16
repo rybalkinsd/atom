@@ -63,7 +63,7 @@ public class MatchMakerResources {
             }
             return Response.status(Response.Status.BAD_REQUEST).entity("Exception occured.").build();
         }
-        return Response.ok("http://localhost:8085/gs/" + MatchMaker.getIdGame() + "/index.html")
+        return Response.ok("http://localhost:" + (8085 + MatchMaker.getIdGame() * 10) + "/gs/" + MatchMaker.getIdGame() + "/index.html")
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")
