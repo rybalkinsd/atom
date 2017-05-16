@@ -61,16 +61,20 @@ public class GameSession implements Tickable {
         // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками и стенами
         if ((bombPosition.getX() / 32) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
+                if (bombPosition.getY() + 32 * (i + 1) < 13*32)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX(), bombPosition.getY() + 32 * (i + 1))));
+                if (bombPosition.getY() - 32 * (i + 1) > 0*32)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX(), bombPosition.getY() - 32 * (i + 1))));
             }
         }
         if ((bombPosition.getY() / 32) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
+                if (bombPosition.getX() + 32 * (i + 1) < 17*32)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX() + 32 * (i + 1), bombPosition.getY())));
+                if (bombPosition.getX() - 32 * (i + 1) > 0 *32)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX() - 32 * (i + 1), bombPosition.getY())));
             }
