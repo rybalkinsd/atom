@@ -54,7 +54,7 @@ https://atom.mail.ru/
 #### Сериализация
 1. как сериализовать и десеарилизовать объект в java?
 1. ключевое слово transient
-#### GC
+####  GC
 1. как увеличить размер кучи в java?
 1. как работает GC в java?
 
@@ -66,17 +66,17 @@ Expected **General Availability** at 2017/07/27
 
 #HSLIDE
 ## References
-### Conferences:
-https://www.oracle.com/javaone/index.html
-http://jpoint.ru/
-http://jug.ru/
-#### Community:
-http://razbor-poletov.com/ 
+**Conferences**
+https://www.oracle.com/javaone/index.html  
+http://jpoint.ru/  
+http://jug.ru/  
+**Community**
+http://razbor-poletov.com/  
 https://gitter.im/razbor-poletov/razbor-poletov.github.com
-#### Books:
-https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486 (basic)
+**Books**
+https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486 (basic)  
 https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep concurrency)
-#### Other:
+**Other**
 https://shipilev.net/
 
 
