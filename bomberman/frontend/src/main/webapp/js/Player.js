@@ -70,10 +70,6 @@ Player = Entity.extend({
             return;
         }
 
-        if (gGameEngine.menu.visible) {
-            return;
-        }
-
         if (gInputEngine.actions[this.controls.up]) {
             this.animate('up');
         } else if (gInputEngine.actions[this.controls.down]) {
