@@ -5,8 +5,10 @@ import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Bar;
 import ru.atom.geometry.Point;
 import ru.atom.websocket.util.JsonHelper;
+import ru.atom.websocket.util.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,10 +24,12 @@ public class GameSession implements Tickable {
     public static final int MAP_HEIGHT = Integer.valueOf(getProperties().getProperty("MAP_HEIGHT"));
     private List<GameObject> gameObjects;
     private AtomicInteger id = new AtomicInteger(0);
+    private Result result;
 
     public GameSession() {
         gameObjects = new ArrayList<>();
         generateStandartMap(MAP_WIDTH, MAP_HEIGHT);
+        result = new Result();
     }
 
     public int getCurrentId() {
@@ -36,12 +40,16 @@ public class GameSession implements Tickable {
         return new ArrayList<>(gameObjects);
     }
 
+    public int numberOfPlayers() {
+        return (int) gameObjects.stream().filter(gameObject -> gameObject instanceof Player).count();
+    }
+
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
         id.incrementAndGet();
     }
 
-    private Player findPawn(int pawnId) {
+    private Player findPawn(int pawnId) throws NoSuchElementException {
         return (Player)gameObjects.stream().filter(gameObject -> gameObject.getId() == pawnId).findAny().get();
     }
 
@@ -49,16 +57,24 @@ public class GameSession implements Tickable {
      * can be used only before game starts
      * @param pawnId Id of player's gameobject
      */
-    public void killPawn(int pawnId) {
+    public void removePawn(int pawnId) {
         gameObjects.remove(findPawn(pawnId));
     }
 
     public void plantBomb(int pawnId) {
-        findPawn(pawnId).plant();
+        try {
+            findPawn(pawnId).plant();
+        } catch (NoSuchElementException e) {
+            log.info("bomb wasn't planted because of die/leave");
+        }
     }
 
     public void returnBomb(int pawnId) {
-        findPawn(pawnId).returnBomb();
+        try {
+            findPawn(pawnId).returnBomb();
+        } catch (NoSuchElementException e) {
+            log.info("bomb wasn't returned because of die/leave");
+        }
     }
 
     private List<Fire> explosionBomb(Bomb bomb) {
@@ -90,21 +106,26 @@ public class GameSession implements Tickable {
     }
 
     public void movePawn(int pawnId, Movable.Direction direction) {
-        Player pawn = findPawn(pawnId);
-        if (pawn.getDirection() == Movable.Direction.IDLE) {
-            Point endPosition = direction.move(pawn.getPosition(), pawn.getVelocity());
-            Bar pawnBar = new Bar(new Point(endPosition.getX() + CENTERED_BAR_SHIFT, endPosition.getY()), CENTERED_BAR_SIZE);
-            try {
-                GameObject block = gameObjects.stream()
-                        .filter(gameObject -> ((AbstractGameObject) gameObject).getBar().isColliding(pawnBar))
-                        .filter(gameObject -> gameObject instanceof Wall || gameObject instanceof UnbreakableWall)
-                        .findAny().get();
-                log.info("I was blocked by : {}", JsonHelper.toJson(block));
-            } catch (NoSuchElementException e) {
-                pawn.setDirection(direction);
+        try {
+            Player pawn = findPawn(pawnId);
+            if (pawn.getDirection() == Movable.Direction.IDLE) {
+                Point endPosition = direction.move(pawn.getPosition(), pawn.getVelocity());
+                Bar pawnBar = new Bar(new Point(endPosition.getX() + CENTERED_BAR_SHIFT, endPosition.getY()),
+                        CENTERED_BAR_SIZE);
+                try {
+                    GameObject block = gameObjects.stream()
+                            .filter(gameObject -> ((AbstractGameObject) gameObject).getBar().isColliding(pawnBar))
+                            .filter(gameObject -> gameObject instanceof Wall || gameObject instanceof UnbreakableWall)
+                            .findAny().get();
+                    log.info("I was blocked by : {}", JsonHelper.toJson(block));
+                } catch (NoSuchElementException e) {
+                    pawn.setDirection(direction);
+                }
+            } else {
+                log.info("player has instruction to move already");
             }
-        } else {
-            log.info("player has instruction to move already");
+        } catch (NoSuchElementException e) {
+            log.info("pawn wasn't moved because of die/leave");
         }
     }
 
@@ -132,7 +153,7 @@ public class GameSession implements Tickable {
                         ((Player) pawn).getBonus((Bonus) gameObject);
                         dead.add(gameObject);
                     } catch (NoSuchElementException e) {
-                        log.error(e);
+                        log.error("Nobody wants to recieve me) - {}", ((Bonus)gameObject).getBonusType());
                     }
                 }
                 ((Tickable) gameObject).tick(elapsed);
@@ -169,8 +190,7 @@ public class GameSession implements Tickable {
                         ((Bonus) destruction).setDead();
                     } else if (destruction instanceof Player) {
                         log.info("I killed you player {}", JsonHelper.toJson(destruction));
-                        //kill Pawn
-                        //killPawn(destruction.getId());
+                        dead.add(destruction);
                     }
                 } catch (NoSuchElementException e) {
                     log.warn("here should be Grass, but it is not");

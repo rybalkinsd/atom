@@ -40,6 +40,10 @@ public class MatchMakerService {
         try (Session session = Database.session()) {
             txn = session.beginTransaction();
             user = UserDao.getInstance().getByName(session, login);
+            if (user == null) {
+                log.error("user doesn't existed???(");
+                return null;
+            }
             log.debug("user: id = {}, login - {}, password - {}", user.getId(), user.getLogin(), user.getPassword());
             txn.commit();
         } catch (RuntimeException e) {

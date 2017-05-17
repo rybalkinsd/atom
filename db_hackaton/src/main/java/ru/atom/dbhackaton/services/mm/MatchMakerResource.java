@@ -58,9 +58,14 @@ public class MatchMakerResource {
         }
         JsonObject gson = new JsonParser().parse(result).getAsJsonObject();
         Integer gameId = gson.get("id").getAsInt();
-        log.info("gameId = " + gameId);
+        log.info("gameId: {}", gameId);
         for (Map.Entry<String, JsonElement> entry : gson.get("result").getAsJsonObject().entrySet()) {
+            log.info("user is : {} with score : {}", entry.getKey(), entry.getValue().getAsInt());
             User temp = mms.findUser(entry.getKey());
+            if (temp == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                        .entity("User doesn't existed: " + entry.getKey()).build();
+            }
             mms.saveResult(gameId, temp, entry.getValue().getAsInt());
         }
         log.info(result);

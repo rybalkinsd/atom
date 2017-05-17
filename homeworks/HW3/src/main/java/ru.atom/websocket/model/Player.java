@@ -101,7 +101,7 @@ public class Player extends AbstractGameObject implements Movable {
             log.error("direction shouldn't be null");
             throw new NullPointerException();
         }
-        log.info("I'll move in direction {} from ({};{})", direction, position.getX(), position.getY());
+        log.info("I, {}, will move in direction {} from ({};{})", getId(), direction, position.getX(), position.getY());
         return direction.move(position, velocity);
     }
 

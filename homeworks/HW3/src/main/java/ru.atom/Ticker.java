@@ -10,7 +10,12 @@ import ru.atom.websocket.model.GameSession;
 import ru.atom.websocket.model.Movable;
 import ru.atom.websocket.model.Player;
 import ru.atom.websocket.network.Broker;
+import ru.atom.websocket.server.GameManager;
+import ru.atom.websocket.util.JsonHelper;
+import ru.atom.websocket.util.MatchMakerClient;
+import ru.atom.websocket.util.Result;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
@@ -24,8 +29,13 @@ public class Ticker extends Thread {
             Integer.valueOf(getProperties().getProperty("TICKER_FRAME_TIME"))/ FPS;
     private long tickNumber = 0;
     private GameSession gameSession = new GameSession();
+    private Result result = new Result();
     private static final Object lock = new Object();
 
+    public Ticker setId(int id) {
+        result.setgameId(id);
+        return this;
+    }
 
     @Deprecated
     public void setGameSession(GameSession gameSession) {
@@ -43,7 +53,7 @@ public class Ticker extends Thread {
             act(FRAME_TIME);
             long elapsed = System.currentTimeMillis() - started;
             if (elapsed < FRAME_TIME) {
-                log.info("All tick finish at {} ms", elapsed);
+                log.info("All tick finish at {} ms except {} ms", elapsed, FRAME_TIME);
                 LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
             } else {
                 log.warn("tick lag {} ms", elapsed - FRAME_TIME);
@@ -51,7 +61,6 @@ public class Ticker extends Thread {
             log.info("{}: tick ", tickNumber);
             tickNumber++;
             if (Thread.currentThread().isInterrupted()) {
-                // TODO: 16.05.17   надо тут генерить rezults
                 break;
             }
             // TODO: 06.05.17   проверка на необходимость чутка почистить пул.
@@ -70,8 +79,25 @@ public class Ticker extends Thread {
                     log.info("Action of player {} is {}", pawnId, action));
             log.info("====================================================");
             actions.clear();
+            if(numberOfPlayers() == 1) {
+                finishGame();
+            }
             gameSession.tick(time);//Your logic here
         }
+    }
+
+    private void finishGame() {
+        Player winner = (Player)gameSession.getGameObjects()
+                .stream().filter(gameObject -> gameObject instanceof Player).findAny().get();
+        playerPawn.forEach(4, (login, id) -> result.addScore(login, winner.getId() == id ? 30 : 10));
+        log.info("result is: {}", JsonHelper.toJson(result));
+        // TODO: 17.05.17   тут надо отправить в Broker сообщение об окончании игры для всех игроков
+        try {
+            log.info("answer: ", MatchMakerClient.finish(JsonHelper.toJson(result)));
+        } catch (IOException e) {
+            log.error(e);
+        }
+        Thread.currentThread().interrupt();
     }
 
     public long getTickNumber() {
@@ -93,7 +119,7 @@ public class Ticker extends Thread {
         super.run();
         log.info("The Game begins!");
         loop();
-        log.info("Rezults must be written somewhere");
+        log.info("Results must be written somewhere");
     }
 
     /**
@@ -127,9 +153,10 @@ public class Ticker extends Thread {
         log.info("player with login {} has new pawn with id {}", login, playerId);
         playerPawn.put(login, playerId);
         // TODO: 06.05.17   неправильно расставляются игроки в случае лива)
-        gameSession.addGameObject(new Player(playerId, startPoint[playerId % 4])); // TODO: 06.05.17   MAX_PLAYERS
-        Broker.getInstance().send(login, Topic.POSSESS, playerId);
         synchronized (lock) {
+            gameSession.addGameObject(new Player(playerId, startPoint[numberOfPlayers() % 4]));
+            // TODO: 06.05.17   MAX_PLAYERS
+            Broker.getInstance().send(login, Topic.POSSESS, playerId);
             Broker.getInstance().broadcast(localPool, Topic.REPLICA, gameSession.getGameObjects());
         }
     }
@@ -139,16 +166,25 @@ public class Ticker extends Thread {
      * @param session session of player
      * @return id of pawn
      */
-    public int killPawn(Session session) {
+    public int removePawn(Session session) {
         log.info("localPool.size() before killPawn: {}", localPool.size());
         int pawnId;
-        actions.put(playerPawn.get(localPool.get(session)), Action.DIE);
         pawnId = playerPawn.remove(localPool.remove(session)); //return pawnId in GameSession
         log.info("localPool.size() after killPawn: {}", localPool.size());
-        // TODO: 15.05.17   потом надо будет разделить на до и после старта игры a пока что лок:
         synchronized (lock) {
-            gameSession.killPawn(pawnId);
+            gameSession.removePawn(pawnId);
         }
+        return pawnId;
+    }
+
+    /**
+     * killing pawn in game, when connection is lost
+     * @param session session of player
+     * @return id of pawn
+     */
+    public int killPawn(Session session) {
+        int pawnId = playerPawn.get(localPool.remove(session));
+        actions.put(pawnId, Action.DIE);
         return pawnId;
     }
 
@@ -171,7 +207,9 @@ public class Ticker extends Thread {
     }
 
     public int numberOfPlayers() {
-        return localPool.size();
+        synchronized (lock) {
+            return gameSession.numberOfPlayers();
+        }
     }
 
     public boolean containSession(Session session) {

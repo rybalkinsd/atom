@@ -6,9 +6,9 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.Nullable;
 import ru.atom.Ticker;
 import ru.atom.websocket.model.Movable;
-
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static ru.atom.WorkWithProperties.getProperties;
 
@@ -23,11 +23,12 @@ public class GameManager {
 
     private final ConcurrentLinkedQueue<Ticker> games;
     private Ticker currentGame;
+    private AtomicInteger currentGameId = new AtomicInteger(0);
     private static final Object gameLock = new Object();
 
     private GameManager() {
         games = new ConcurrentLinkedQueue<>();
-        currentGame = new Ticker();
+        currentGame = new Ticker().setId(currentGameId.getAndIncrement());
     }
 
     public static GameManager getInstance() {
@@ -42,7 +43,7 @@ public class GameManager {
             startGame();
             games.offer(currentGame);
             log.info("game is started");
-            currentGame = new Ticker();
+            currentGame = new Ticker().setId(currentGameId.getAndIncrement());
             log.info("next game is ready to add new players");
         }
     }
@@ -69,21 +70,10 @@ public class GameManager {
         Ticker ticker = findBySession(session);
         if (ticker == null) {
             log.warn("number of players in currentGame before remove: {}", currentGame.numberOfPlayers());
-            log.info("{} pawn was killed", currentGame.killPawn(session));
+            log.info("{} pawn was killed", currentGame.removePawn(session));
             log.warn("number of players in currentGame after remove: {}", currentGame.numberOfPlayers());
         } else {
             log.info("{} pawn will be killed in game", ticker.killPawn(session));
-        }
-        if (ticker.numberOfPlayers() == 0) {
-            ticker.interrupt();
-            log.info("games size before interrupting: {}", games.size());
-            try {
-                ticker.join();
-            } catch (InterruptedException e) {
-                log.warn("some bitches falled me down");
-            }
-            games.remove(ticker);
-            log.info("games size after interrupting: {}",games.size());
         }
     }
 
