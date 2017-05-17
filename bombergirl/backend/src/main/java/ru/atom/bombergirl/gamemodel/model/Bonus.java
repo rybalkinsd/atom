@@ -28,4 +28,8 @@ public class Bonus implements GameObject, Positionable {
         return position;
     }
 
+    @Override
+    public void setPosition(Point position) {
+        this.position = position;
+    }
 }

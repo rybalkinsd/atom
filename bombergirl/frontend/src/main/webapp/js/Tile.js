@@ -1,4 +1,5 @@
 Tile = Entity.extend({
+    id: null,
     /**
      * Entity position on map grid
      */
@@ -19,21 +20,23 @@ Tile = Entity.extend({
 
     material: '',
 
-    init: function(material, position) {
+    init: function(id, material, position) {
+        this.id = id;
         this.material = material;
         this.position = position;
         var img;
-        if (material == 'grass') {
-            img = gGameEngine.tilesImgs.grass;
-        } else if (material == 'wall') {
-            img = gGameEngine.tilesImgs.wall;
-        } else if (material == 'wood') {
+        if (material === 'Wood') {
             img = gGameEngine.tilesImgs.wood;
+        } else if (material === 'Wall') {
+            img = gGameEngine.tilesImgs.wall;
+        } else if (material === 'Grass') {
+            img = gGameEngine.tilesImgs.grass;
         }
         this.bmp = new createjs.Bitmap(img);
         var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x;
-        this.bmp.y = pixels.y;
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
+        gGameEngine.stage.addChild(this.bmp);
     },
 
     update: function() {

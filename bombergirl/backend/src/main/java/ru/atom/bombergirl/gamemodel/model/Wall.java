@@ -28,6 +28,11 @@ public class Wall implements Block, GameObject, Positionable {
     }
 
     @Override
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    @Override
     public boolean isColliding(Collider other) {
         return false; //DUMMY
     }

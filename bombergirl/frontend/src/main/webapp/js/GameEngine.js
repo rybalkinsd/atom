@@ -6,6 +6,7 @@ GameEngine = Class.extend({
     fps: 60,
     playersCount: 2,
     bonusesPercent: 16,
+    idTile: 0,
 
     stage: null,
     menu: null,
@@ -87,9 +88,9 @@ GameEngine = Class.extend({
         this.tiles = [];
         this.bonuses = [];
 
-        // Draw tiles
+        // // Draw tiles
         this.drawTiles();
-        this.drawBonuses();
+        // this.drawBonuses();
 
         // this.spawnPlayers();
 
@@ -177,91 +178,95 @@ GameEngine = Class.extend({
     },
 
     drawTiles: function() {
-        for (var i = 0; i < this.tilesY; i++) {
-            for (var j = 0; j < this.tilesX; j++) {
-                if ((i == 0 || j == 0 || i == this.tilesY - 1 || j == this.tilesX - 1)
-                    || (j % 2 == 0 && i % 2 == 0)) {
+        for (var i = 0; i < this.tilesX; i++) {
+            for (var j = 0; j < this.tilesY; j++) {
+                if (!(i == 1 && j == 1 || i == 1 && j == 11 || i == 15 && j == 1
+                    || i == 15 && j == 11 || i == 1 && j == 2 || i == 2 && j == 1
+                    || i == 14 && j == 1 || i == 15 && j == 2 || i == 1 && j == 10
+                    || i == 2 && j == 11 || i == 14 && j == 11 || i == 15 && j == 10)
+                    && (i % 2 == 0 && j % 2 == 0 || i == 0 || j == 0 || i == 16 || j == 12)) {
                     // Wall tiles
-                    var tile = new Tile('wall', { x: j, y: i });
+                    var tile = new Tile(this.idTile, 'Wall', { x: j * 32, y: i * 32 });
                     this.stage.addChild(tile.bmp);
                     this.tiles.push(tile);
                 } else {
                     // Grass tiles
-                    var tile = new Tile('grass', { x: j, y: i });
+                    var tile = new Tile(this.idTile, 'Grass', { x: j * 32, y: i * 32 });
+                    this.idTile = this.idTile + 1;
                     this.stage.addChild(tile.bmp);
 
-                    // Wood tiles
-                    if (!(i <= 2 && j <= 2)
-                        && !(i >= this.tilesY - 3 && j >= this.tilesX - 3)
-                        && !(i <= 2 && j >= this.tilesX - 3)
-                        && !(i >= this.tilesY - 3 && j <= 2)) {
-
-                        var wood = new Tile('wood', { x: j, y: i });
-                        this.stage.addChild(wood.bmp);
-                        this.tiles.push(wood);
-                    }
+                    // // Wood tiles
+                    // if (!(i <= 2 && j <= 2)
+                    //     && !(i >= this.tilesY - 3 && j >= this.tilesX - 3)
+                    //     && !(i <= 2 && j >= this.tilesX - 3)
+                    //     && !(i >= this.tilesY - 3 && j <= 2)) {
+                    //
+                    //     var wood = new Tile('wood', { x: j, y: i });
+                    //     this.stage.addChild(wood.bmp);
+                    //     this.tiles.push(wood);
+                    // }
                 }
             }
         }
     },
-
-    drawBonuses: function() {
-        // Cache woods tiles
-        var woods = [];
-        for (var i = 0; i < this.tiles.length; i++) {
-            var tile = this.tiles[i];
-            if (tile.material == 'wood') {
-                woods.push(tile);
-            }
-        }
-
-        // Sort tiles randomly
-        woods.sort(function() {
-            return 0.5 - Math.random();
-        });
-
-        // Distribute bonuses to quarters of map precisely fairly
-        for (var j = 0; j < 4; j++) {
-            var bonusesCount = Math.round(woods.length * this.bonusesPercent * 0.01 / 4);
-            var placedCount = 0;
-            for (var i = 0; i < woods.length; i++) {
-                if (placedCount > bonusesCount) {
-                    break;
-                }
-
-                var tile = woods[i];
-                if ((j == 0 && tile.position.x < this.tilesX / 2 && tile.position.y < this.tilesY / 2)
-                    || (j == 1 && tile.position.x < this.tilesX / 2 && tile.position.y > this.tilesY / 2)
-                    || (j == 2 && tile.position.x > this.tilesX / 2 && tile.position.y < this.tilesX / 2)
-                    || (j == 3 && tile.position.x > this.tilesX / 2 && tile.position.y > this.tilesX / 2)) {
-
-                    var typePosition = placedCount % 3;
-                    var bonus = new Bonus(tile.position, typePosition);
-                    this.bonuses.push(bonus);
-
-                    // Move wood to front
-                    this.moveToFront(tile.bmp);
-
-                    placedCount++;
-                }
-            }
-        }
-    },
-
-    // gameOver: function(status) {
-    //     if (gGameEngine.menu.visible) { return; }
     //
-    //     if (status == 'win') {
-    //         var winText = "You won!";
-    //         if (gGameEngine.playersCount > 1) {
-    //             var winner = gGameEngine.getWinner();
-    //             winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
+    // drawBonuses: function() {
+    //     // Cache woods tiles
+    //     var woods = [];
+    //     for (var i = 0; i < this.tiles.length; i++) {
+    //         var tile = this.tiles[i];
+    //         if (tile.material == 'wood') {
+    //             woods.push(tile);
     //         }
-    //         this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
-    //     } else {
-    //         this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
+    //     }
+    //
+    //     // Sort tiles randomly
+    //     woods.sort(function() {
+    //         return 0.5 - Math.random();
+    //     });
+    //
+    //     // Distribute bonuses to quarters of map precisely fairly
+    //     for (var j = 0; j < 4; j++) {
+    //         var bonusesCount = Math.round(woods.length * this.bonusesPercent * 0.01 / 4);
+    //         var placedCount = 0;
+    //         for (var i = 0; i < woods.length; i++) {
+    //             if (placedCount > bonusesCount) {
+    //                 break;
+    //             }
+    //
+    //             var tile = woods[i];
+    //             if ((j == 0 && tile.position.x < this.tilesX / 2 && tile.position.y < this.tilesY / 2)
+    //                 || (j == 1 && tile.position.x < this.tilesX / 2 && tile.position.y > this.tilesY / 2)
+    //                 || (j == 2 && tile.position.x > this.tilesX / 2 && tile.position.y < this.tilesX / 2)
+    //                 || (j == 3 && tile.position.x > this.tilesX / 2 && tile.position.y > this.tilesX / 2)) {
+    //
+    //                 var typePosition = placedCount % 3;
+    //                 var bonus = new Bonus(tile.position, typePosition);
+    //                 this.bonuses.push(bonus);
+    //
+    //                 // Move wood to front
+    //                 this.moveToFront(tile.bmp);
+    //
+    //                 placedCount++;
+    //             }
+    //         }
     //     }
     // },
+    //
+    // // gameOver: function(status) {
+    // //     if (gGameEngine.menu.visible) { return; }
+    // //
+    // //     if (status == 'win') {
+    // //         var winText = "You won!";
+    // //         if (gGameEngine.playersCount > 1) {
+    // //             var winner = gGameEngine.getWinner();
+    // //             winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
+    // //         }
+    // //         this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
+    // //     } else {
+    // //         this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
+    // //     }
+    // // },
 
     restart: function() {
         // gInputEngine.removeAllListeners();

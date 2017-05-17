@@ -4,9 +4,9 @@ Messages = Class.extend({
     init: function () {
         this.handler['Pawn'] = this.handlePawn;
         this.handler['Bomb'] = this.handleBomb;
-        this.handler['Wood'] = this.handleWood;
-        this.handler['Wall'] = this.handleWall;
-        this.handler['Grass'] = this.handleGrass;
+        this.handler['Wood'] = this.handleTile;
+        this.handler['Wall'] = this.handleTile;
+        this.handler['Grass'] = this.handleTile;
         // this.handler['Fire'] = this.handleFire;
     },
 
@@ -43,6 +43,9 @@ Messages = Class.extend({
     },
 
     handlePossess: function (msg) {
+        console.log('handlePossess');
+        console.log('msg.data', msg.data);
+        console.log('gGameEngine', gGameEngine.stage);
         gInputEngine.possessed = parseInt(msg.data);
     },
 
@@ -77,45 +80,17 @@ Messages = Class.extend({
         }
     },
 
-    handleWood: function(obj) {
-        var wood = gGameEngine.tiles.find(function (el) {
-            return el.id = obj.id;
+    handleTile: function(obj) {
+        var tile = gGameEngine.tiles.find(function (el) {
+            return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-        if (wood) {
-            wood.bmp.x = position.x;
-            wood.bmp.y = position.y;
+        if (tile) {
+            tile.bmp.x = position.x;
+            tile.bmp.y = position.y;
         } else {
-            wood = new Tile('wood', position);
-            gGameEngine.tiles.push(wood);
-        }
-    },
-
-    handleWall: function(obj) {
-        var wall = gGameEngine.tiles.find(function (el) {
-            return el.id = obj.id;
-        });
-        var position = Utils.getEntityPosition(obj.position);
-        if (wall) {
-            wall.bmp.x = position.x;
-            wall.bmp.y = position.y;
-        } else {
-            wall = new Tile('wall', position);
-            gGameEngine.tiles.push(wall);
-        }
-    },
-
-    handleGrass: function(obj) {
-        var grass = gGameEngine.tiles.find(function (el) {
-            return el.id = obj.id;
-        });
-        var position = Utils.getEntityPosition(obj.position);
-        if (grass) {
-            grass.bmp.x = position.x;
-            grass.bmp.y = position.y;
-        } else {
-            grass = new Tile('grass', position);
-            gGameEngine.tiles.push(grass);
+            tile = new Tile(obj.id, obj.type, position);
+            gGameEngine.tiles.push(tile);
         }
     }
 

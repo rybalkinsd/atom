@@ -87,11 +87,6 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
                     }
                 }
             }
-            if (o.getClass() == Temporary.class &&
-                    o.getClass() != Bomb.class &&
-                    o.getClass() == Positionable.class) {
-
-            }
         }
     }
 
