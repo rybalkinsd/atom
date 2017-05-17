@@ -171,14 +171,14 @@ public class GameSession implements Tickable {
                 Fire fire = (Fire) gameObject;
                 try {
                     GameObject destruction = gameObjects.stream().filter(gameObject1 ->
-                            fire.getBar().isColliding(((AbstractGameObject) gameObject1).getBar())).findFirst().get();
+                            fire.getBar().isColliding(((AbstractGameObject) gameObject1).getBar())
+                                    && !(gameObject1 instanceof Grass)).findFirst().get();
                     if (destruction instanceof UnbreakableWall) {
                         log.info("I was blocked by Wall {}", JsonHelper.toJson(destruction));
                         dead.add(gameObject);
                     } else if (destruction instanceof Wall) {
                         log.info("I destroyed Wood {}", JsonHelper.toJson(destruction));
                         dead.add(destruction);
-                        //addGameObject(new Grass(getCurrentId(), ((Wall) destruction).getPosition()));
                         Bonus bonus = ((Wall) destruction).plantBonus();
                         if (bonus != null) {
                             bonus.setId(id.getAndIncrement());
@@ -230,8 +230,9 @@ public class GameSession implements Tickable {
                             || x == width - 3 && y == height - 2
                             || x == 1 && y == height - 2 || x == 1 && y == height - 3 || x == 2 && y == height - 2
                             || x == width - 2 && y == 1 || x == width - 2 && y == 2 || x == width - 3 && y == 1) {
-                        // TODO: 16.05.17 addGameObject(new Grass(getCurrentId(), new Point(x, y)));
+                        addGameObject(new Grass(getCurrentId(), new Point(x, y)));
                     } else {
+                        addGameObject(new Grass(getCurrentId(), new Point(x, y)));
                         addGameObject(new Wall(getCurrentId(), new Point(x, y)));
                     }
                 }

@@ -9,6 +9,7 @@ ServerProxy = Class.extend({
     init: function() {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
+        this.handler['END_MATCH'] = gMessages.handleFinish;
 
         var self = this;
         gInputEngine.subscribe('up', function() {
@@ -36,6 +37,8 @@ ServerProxy = Class.extend({
 
         this.socket.onopen = function() {
             console.log("Connection established.");
+            var login = Cookies.get('user');
+            self.socket.send(gMessages.hello(login));
         };
 
         this.socket.onclose = function(event) {

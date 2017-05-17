@@ -161,35 +161,6 @@ GameEngine = Class.extend({
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
         this.serverProxy = new ServerProxy();
-        gGameEngine.sendHello();
-    },
-
-    sendHello: function() {
-        var ws = this.serverProxy.socket;
-        // Wait until the state of the socket is not ready and send the message when it is...
-        gGameEngine.waitForSocketConnection(ws, function() {
-            var HELLO_Message = "{\"topic\":\"HELLO\",\"data\":\"" + Cookies.get('user') + "\"}";
-            ws.send(HELLO_Message);
-            console.log(HELLO_Message);
-        });
-    },
-
-    // Make the function wait until the connection is made...
-    waitForSocketConnection: function(socket, callback){
-        setTimeout(
-            function () {
-                if (socket.readyState === 1) {
-                    console.log("Connection is made")
-                    if(callback != null){
-                        callback();
-                    }
-                    return;
-
-                } else {
-                    console.log("Wait for connection...")
-                    gGameEngine.waitForSocketConnection(socket, callback);
-                }
-            }, 5); // wait 5 milisecond for the connection...
     },
 
     /**

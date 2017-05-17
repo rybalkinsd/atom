@@ -91,6 +91,7 @@ public class Ticker extends Thread {
                 .stream().filter(gameObject -> gameObject instanceof Player).findAny().get();
         playerPawn.forEach(4, (login, id) -> result.addScore(login, winner.getId() == id ? 30 : 10));
         log.info("result is: {}", JsonHelper.toJson(result));
+        Broker.getInstance().broadcast(localPool, Topic.END_MATCH, JsonHelper.toJson(result));
         // TODO: 17.05.17   тут надо отправить в Broker сообщение об окончании игры для всех игроков
         try {
             log.info("answer: ", MatchMakerClient.finish(JsonHelper.toJson(result)));

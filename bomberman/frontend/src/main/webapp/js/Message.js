@@ -30,6 +30,16 @@ Messages = Class.extend({
         return JSON.stringify(template);
     },
 
+    hello: function (login) {
+        var template = {
+            topic: "HELLO",
+            data: {}
+        };
+
+        template.data = login;
+        return JSON.stringify(template);
+    },
+
 
     handleReplica: function (msg) {
         // alert("msg.data.length: " + msg.data.length);
@@ -51,6 +61,11 @@ Messages = Class.extend({
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);
+    },
+
+    handleFinish: function (msg) {
+        alert(msg.data);
+        window.location = 'http://localhost:8070/';
     },
 
     handlePawn: function(obj) {
