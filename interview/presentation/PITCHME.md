@@ -61,14 +61,20 @@ https://atom.mail.ru/
 #HSLIDE
 ## Do you know...
 Hibernate?  
-Spring?  
+Spring?
+Spring Boot?
 
 
 #HSLIDE
-## Whats next
+## Whats next?
 **JDK 9**  
 http://openjdk.java.net/projects/jdk9/  
 Expected **General Availability** at 2017/07/27
+
+#HSLIDE
+### Whats next?
+Contribute our project!
+
 
 #HSLIDE
 ## References
