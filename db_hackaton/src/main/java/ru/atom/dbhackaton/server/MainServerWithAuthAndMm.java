@@ -17,7 +17,6 @@ public class MainServerWithAuthAndMm {
 
     public static void main(String[] args) throws Exception {
         if (args.length > 0) {
-            System.out.println("THIS is PATH: " + args[0]);
             PATH_TO_FRONTEND = args[0];
         } else {
             PATH_TO_FRONTEND = getProperties().getProperty("PATH_TO_FRONTEND");

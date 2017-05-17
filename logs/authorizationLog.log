@@ -1,0 +1,6 @@
+14:19:40.769 [qtp1495445111-14] INFO  ru.atom.dbhackaton.services.auth.AuthResource - Login user Egor_Test_1
+14:19:42.781 [qtp1495445111-14] INFO  ru.atom.dbhackaton.services.auth.AuthResource - User Egor_Test_1 not found
+14:20:15.965 [qtp1495445111-20] INFO  ru.atom.dbhackaton.services.auth.AuthResource - Registration of user: Egor_Test_1
+14:20:17.628 [qtp1495445111-20] INFO  ru.atom.dbhackaton.services.auth.AuthResource - New user "Egor_Test_1" created
+14:20:35.200 [qtp1495445111-14] INFO  ru.atom.dbhackaton.services.auth.AuthResource - Login user Egor_Test_1
+14:35:48.129 [qtp1495445111-15] INFO  ru.atom.dbhackaton.services.auth.AuthResource - Login user Egor_Test_1

@@ -65,7 +65,7 @@ Messages = Class.extend({
 
     handleFinish: function (msg) {
         alert(msg.data);
-        window.location = 'http://localhost:8070/';
+        window.location = 'http://195.19.44.151:55670';
     },
 
     handlePawn: function(obj) {
