@@ -60,23 +60,23 @@ https://atom.mail.ru/
 
 #HSLIDE
 ## Whats next
-JDK 9  
+**JDK 9**  
 http://openjdk.java.net/projects/jdk9/  
 Expected **General Availability** at 2017/07/27
 
 #HSLIDE
 ## References
-**Conferences**
+**Conferences**  
 https://www.oracle.com/javaone/index.html  
 http://jpoint.ru/  
 http://jug.ru/  
-**Community**
+**Community**  
 http://razbor-poletov.com/  
 https://gitter.im/razbor-poletov/razbor-poletov.github.com
-**Books**
+**Books**  
 https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486 (basic)  
 https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep concurrency)
-**Other**
+**Other**  
 https://shipilev.net/
 
 
@@ -88,4 +88,4 @@ https://shipilev.net/
 
 
 #HSLIDE
-<img src="interview/presentation/assets/img/finish.png" alt="process" style="width: 800px;"/>h
+<img src="interview/presentation/assets/img/finish.png" alt="process" style="width: 800px;"/>
