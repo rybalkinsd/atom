@@ -12,6 +12,7 @@ GameEngine = Class.extend({
     menu: null,
     players: [],
     tiles: [],
+    fires: [],
     bombs: [],
     bonuses: [],
 

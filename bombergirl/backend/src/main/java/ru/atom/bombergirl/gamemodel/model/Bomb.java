@@ -93,7 +93,7 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
             }
         }
         for (Point p: toBurn) {
-            gameObjects.add(new Fire(p.getX(), p.getY(), session));
+            session.addGameObject(new Fire(p.getX(), p.getY(), session));
         }
     }
 

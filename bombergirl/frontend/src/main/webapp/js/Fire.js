@@ -1,4 +1,5 @@
 Fire = Entity.extend({
+    id: null,
     /**
      * Entity position on map grid
      */
@@ -20,10 +21,9 @@ Fire = Entity.extend({
     /**
      * The bomb that triggered this fire
      */
-    bomb: null,
 
-    init: function(position, bomb) {
-        this.bomb = bomb;
+    init: function(id, position) {
+        this.id = id;
 
         var spriteSheet = new createjs.SpriteSheet({
             images: [gGameEngine.fireImg],
@@ -42,8 +42,8 @@ Fire = Entity.extend({
         this.position = position;
 
         var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x + 2;
-        this.bmp.y = pixels.y - 5;
+        this.bmp.x = position.x + 2;
+        this.bmp.y = position.y - 5;
 
         gGameEngine.stage.addChild(this.bmp);
     },
@@ -52,25 +52,6 @@ Fire = Entity.extend({
     },
 
     remove: function() {
-        if (this.bomb.explodeListener) {
-            this.bomb.explodeListener();
-            this.bomb.explodeListener = null;
-        }
-
         gGameEngine.stage.removeChild(this.bmp);
-
-        for (var i = 0; i < this.bomb.fires.length; i++) {
-            var fire = this.bomb.fires[i];
-            if (this == fire) {
-                this.bomb.fires.splice(i, 1);
-            }
-        }
-
-        for (var i = 0; i < gGameEngine.bombs.length; i++) {
-            var bomb = gGameEngine.bombs[i];
-            if (this.bomb == bomb) {
-                gGameEngine.bombs.splice(i, 1);
-            }
-        }
     }
 });

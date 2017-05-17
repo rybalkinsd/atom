@@ -7,7 +7,7 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Grass'] = this.handleTile;
-        // this.handler['Fire'] = this.handleFire;
+        this.handler['Fire'] = this.handleFire;
     },
 
     move: function (direction) {
@@ -92,11 +92,21 @@ Messages = Class.extend({
             tile = new Tile(obj.id, obj.type, position);
             gGameEngine.tiles.push(tile);
         }
-    }
+    },
 
-    // handleFire: function (obj) {
-    //
-    // }
+    handleFire: function (obj) {
+        var fire = gGameEngine.fires.find(function (el) {
+            return el.id === obj.id;
+        });
+        var position = Utils.getEntityPosition(obj.position);
+        if (fire) {
+            fire.bmp.x = position.x;
+            fire.bmp.y = position.y;
+        } else {
+            fire = new Fire(obj.id, position);
+            gGameEngine.fires.push(fire);
+        }
+    }
 
 });
 
