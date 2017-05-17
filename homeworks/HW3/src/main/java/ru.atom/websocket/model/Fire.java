@@ -25,7 +25,8 @@ public class Fire extends AbstractGameObject implements Temporary  {
         type = "Fire";
         this.lifeTime = FIRE_LIFETIME;
         this.isDead = false;
-        bar = new Bar(new Point(position.getX() + CENTERED_BAR_SHIFT, position.getY() + CENTERED_BAR_SHIFT), CENTERED_BAR_SIZE);
+        bar = new Bar(new Point(position.getX() + CENTERED_BAR_SHIFT, position.getY() + CENTERED_BAR_SHIFT),
+                CENTERED_BAR_SIZE);
         log.info("Fire(id = {}) was created in ( {} ; {} ) with lifeTime: {} and bar {}", id,
                 position.getX(), position.getY(), this.lifeTime, bar.toString());
     }

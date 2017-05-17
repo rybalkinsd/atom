@@ -26,7 +26,7 @@ public class Ticker extends Thread {
     private static final Logger log = LogManager.getLogger(Ticker.class);
     private static final int FPS = Integer.valueOf(getProperties().getProperty("TICKER_FPS"));
     private static final long FRAME_TIME =
-            Integer.valueOf(getProperties().getProperty("TICKER_FRAME_TIME"))/ FPS;
+            Integer.valueOf(getProperties().getProperty("TICKER_FRAME_TIME")) / FPS;
     private long tickNumber = 0;
     private GameSession gameSession = new GameSession();
     private Result result = new Result();
@@ -79,7 +79,7 @@ public class Ticker extends Thread {
                     log.info("Action of player {} is {}", pawnId, action));
             log.info("====================================================");
             actions.clear();
-            if(numberOfPlayers() == 1) {
+            if (numberOfPlayers() == 1) {
                 finishGame();
             }
             gameSession.tick(time);//Your logic here
@@ -128,9 +128,11 @@ public class Ticker extends Thread {
      * collection commands to Pawns
      * and reply REPLICA to Broker
      */
-    private static final int TICKER_PARALLELISM_LEVEL = Integer.valueOf(getProperties().getProperty("TICKER_PARALLELISM_LEVEL"));
+    private static final int TICKER_PARALLELISM_LEVEL = Integer.valueOf(getProperties()
+            .getProperty("TICKER_PARALLELISM_LEVEL"));
     private ConcurrentHashMap<Session, String> localPool = new ConcurrentHashMap<>(); //связь session<->login
-    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(TICKER_PARALLELISM_LEVEL); //idPawn<->login
+    private ConcurrentHashMap<String, Integer> playerPawn = new ConcurrentHashMap<>(TICKER_PARALLELISM_LEVEL);
+    //idPawn<->login
     private ConcurrentHashMap<Integer, Action> actions = new ConcurrentHashMap<>();
     private static final Point[] startPoint = new Point[]
     {

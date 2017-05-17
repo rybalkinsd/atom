@@ -17,8 +17,8 @@ public class EventHandler extends WebSocketAdapter {
     public void onWebSocketConnect(Session sess) {
         super.onWebSocketConnect(sess);
         System.out.println("Socket Connected: " + sess);
-//        Broker.getInstance().receive(sess, JsonHelper.toJson(new Message(Topic.HELLO,
-//                "Vlad" + abs(new Random().nextInt()))));
+        //Broker.getInstance().receive(sess, JsonHelper.toJson(new Message(Topic.HELLO,
+        //        "Vlad" + abs(new Random().nextInt()))));
     }
 
     @Override

@@ -84,20 +84,20 @@ public class GameSession implements Tickable {
         // TODO: 11.05.17   надо тут исправить, когда будут коллизии с досками и стенами
         if ((bombPosition.getX() / BAR_SIZE) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                if (bombPosition.getY() + BAR_SIZE * (i + 1) < MAP_HEIGHT*BAR_SIZE)
+                if (bombPosition.getY() + BAR_SIZE * (i + 1) < MAP_HEIGHT * BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX(), bombPosition.getY() + BAR_SIZE * (i + 1))));
-                if (bombPosition.getY() - BAR_SIZE * (i + 1) > 0*BAR_SIZE)
+                if (bombPosition.getY() - BAR_SIZE * (i + 1) > 0 * BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX(), bombPosition.getY() - BAR_SIZE * (i + 1))));
             }
         }
         if ((bombPosition.getY() / BAR_SIZE) % 2 != 0) {
             for (int i = 0; i < bomb.getPower(); i++) {
-                if (bombPosition.getX() + BAR_SIZE * (i + 1) < MAP_WIDTH*BAR_SIZE)
+                if (bombPosition.getX() + BAR_SIZE * (i + 1) < MAP_WIDTH * BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX() + BAR_SIZE * (i + 1), bombPosition.getY())));
-                if (bombPosition.getX() - BAR_SIZE * (i + 1) > 0 *BAR_SIZE)
+                if (bombPosition.getX() - BAR_SIZE * (i + 1) > 0 * BAR_SIZE)
                 explosion.add(new Fire(id.getAndIncrement(),
                         new Point(bombPosition.getX() - BAR_SIZE * (i + 1), bombPosition.getY())));
             }

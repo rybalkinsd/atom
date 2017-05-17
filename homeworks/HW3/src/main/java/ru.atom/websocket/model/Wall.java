@@ -15,8 +15,10 @@ import static ru.atom.WorkWithProperties.getProperties;
  */
 public class Wall extends AbstractGameObject {
     private static final Logger log = LogManager.getLogger(Wall.class);
-    public static final double PROBABILITY_OF_BONUS = Double.valueOf(getProperties().getProperty("PROBABILITY_OF_BONUS"));
-    public static final int AMOUNT_OF_TYPE_BONUSES = Integer.valueOf(getProperties().getProperty("AMOUNT_OF_TYPE_BONUSES"));
+    public static final double PROBABILITY_OF_BONUS = Double.valueOf(getProperties()
+            .getProperty("PROBABILITY_OF_BONUS"));
+    public static final int AMOUNT_OF_TYPE_BONUSES = Integer.valueOf(getProperties()
+            .getProperty("AMOUNT_OF_TYPE_BONUSES"));
     @JsonIgnore
     final Random random = new Random();
 

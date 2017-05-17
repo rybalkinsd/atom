@@ -38,7 +38,7 @@ public enum Action {
             gameSession.plantBomb(pawnId);
         }
     },
-    DIE{
+    DIE {
         @Override
         public void applyAction(GameSession gameSession, int pawnId) {
             gameSession.removePawn(pawnId);

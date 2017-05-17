@@ -117,7 +117,8 @@ public class Player extends AbstractGameObject implements Movable {
                 return null;
             } else {
                 Point centralPosition = new Point((position.getX() % BAR_SIZE < BAR_SIZE / 2)
-                        ? position.getX() - position.getX() % BAR_SIZE : position.getX() + BAR_SIZE - position.getX() % BAR_SIZE,
+                        ? position.getX() - position.getX() % BAR_SIZE : position.getX()
+                        + BAR_SIZE - position.getX() % BAR_SIZE,
                         (position.getY() % BAR_SIZE < BAR_SIZE / 2) ? position.getY() - position.getY() % BAR_SIZE
                                 : position.getY() + BAR_SIZE - position.getY() % BAR_SIZE);
                 bagSize--;

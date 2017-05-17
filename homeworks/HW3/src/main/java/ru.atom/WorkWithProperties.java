@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 public class WorkWithProperties {
     private static final Logger log = LogManager.getLogger(WorkWithProperties.class);
     private static Properties properties = new Properties();
-//    private static ResourceBundle strProp = ResourceBundle.getBundle("strings");
+    //private static ResourceBundle strProp = ResourceBundle.getBundle("strings");
 
     static {
         try {
@@ -31,7 +31,7 @@ public class WorkWithProperties {
         return properties;
     }
 
-//    public static ResourceBundle getStrBundle() {
-//        return strProp;
-//    }
+    //public static ResourceBundle getStrBundle() {
+    //    return strProp;
+    //}
 }
