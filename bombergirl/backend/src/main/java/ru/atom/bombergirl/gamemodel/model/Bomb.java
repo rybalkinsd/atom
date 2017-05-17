@@ -5,6 +5,8 @@ import ru.atom.bombergirl.gamemodel.geometry.Collider;
 import ru.atom.bombergirl.gamemodel.geometry.Point;
 import ru.atom.bombergirl.mmserver.GameSession;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -74,6 +76,7 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
 
     public void destroy() {
         List<GameObject> gameObjects = session.getGameObjects();
+        List<Point> toBurn = new ArrayList<>(Arrays.asList(position));
         for (GameObject o : gameObjects) {
             if (o instanceof Temporary) {
                 if (!(o instanceof Bomb)) {
@@ -83,10 +86,14 @@ public class Bomb implements GameObject, Positionable, Temporary, Tickable, Coll
                                 || (abs(((Positionable) o).getPosition().getY() - this.position.getY()) <= GameField.GRID_SIZE
                                 && Math.abs(((Positionable) o).getPosition().getX() - this.position.getX()) < 10)) {
                             ((Temporary) o).destroy();
+                            toBurn.add(((Positionable)o).getPosition());
                         }
                     }
                 }
             }
+        }
+        for (Point p: toBurn) {
+            gameObjects.add(new Fire(p.getX(), p.getY(), session));
         }
     }
 

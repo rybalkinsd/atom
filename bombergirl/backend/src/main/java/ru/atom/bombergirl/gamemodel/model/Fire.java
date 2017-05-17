@@ -32,7 +32,7 @@ public class Fire implements GameObject, Positionable, Temporary, Tickable {
     public void tick(long elapsed) {
         workTime += elapsed;
         if (elapsed >= lifetime) {
-            isDead = true;
+            destroy();
         }
 
     }
@@ -59,12 +59,6 @@ public class Fire implements GameObject, Positionable, Temporary, Tickable {
 
     @Override
     public void destroy() {
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            isDead = true;
-        }
+        isDead = true;
     }
 }
