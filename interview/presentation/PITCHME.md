@@ -94,4 +94,4 @@ https://shipilev.net/
 
 
 #HSLIDE
-<img src="interview/presentation/assets/img/final.png" alt="final" style="width: 800px;"/>
+<img src="interview/presentation/assets/img/final.png" alt="final" style="width: 1000px;"/>
