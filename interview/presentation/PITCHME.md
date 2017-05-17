@@ -59,6 +59,12 @@ https://atom.mail.ru/
 1. как работает GC в java?
 
 #HSLIDE
+## Do you know...
+Hibernate?  
+Spring?  
+
+
+#HSLIDE
 ## Whats next
 **JDK 9**  
 http://openjdk.java.net/projects/jdk9/  
@@ -72,10 +78,10 @@ http://jpoint.ru/
 http://jug.ru/  
 **Community**  
 http://razbor-poletov.com/  
-https://gitter.im/razbor-poletov/razbor-poletov.github.com
+https://gitter.im/razbor-poletov/razbor-poletov.github.com  
 **Books**  
 https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486 (basic)  
-https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep concurrency)
+https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep concurrency)  
 **Other**  
 https://shipilev.net/
 
@@ -88,4 +94,4 @@ https://shipilev.net/
 
 
 #HSLIDE
-<img src="interview/presentation/assets/img/finish.png" alt="process" style="width: 800px;"/>
+<img src="interview/presentation/assets/img/final.png" alt="final" style="width: 800px;"/>
