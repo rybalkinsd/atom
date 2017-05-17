@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 import static ru.atom.WorkWithProperties.getProperties;
+import static ru.atom.dbhackaton.server.MainServerWithAuthAndMm.PATH_TO_FRONTEND;
 
 /**
  * Created by BBPax on 18.04.17.
@@ -25,7 +26,6 @@ import static ru.atom.WorkWithProperties.getProperties;
 public class MatchMakerResource {
     private static final Logger log = LogManager.getLogger(MatchMakerResource.class);
     private static final MatchMakerService mms = new MatchMakerService();
-    public static final String PATH_TO_FRONTEND = getProperties().getProperty("PATH_TO_FRONTEND");
 
     @POST
     @Path("/join")

@@ -11,11 +11,17 @@ import ru.atom.dbhackaton.dao.Database;
 
 import static ru.atom.WorkWithProperties.getProperties;
 
-
 public class MainServerWithAuthAndMm {
     private static Server jettyServer;
+    public static String PATH_TO_FRONTEND;
 
     public static void main(String[] args) throws Exception {
+        if (args.length > 0) {
+            System.out.println("THIS is PATH: " + args[0]);
+            PATH_TO_FRONTEND = args[0];
+        } else {
+            PATH_TO_FRONTEND = getProperties().getProperty("PATH_TO_FRONTEND");
+        }
         startUp();
     }
 
