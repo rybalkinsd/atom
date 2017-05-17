@@ -7,14 +7,6 @@
 https://atom.mail.ru/
 
 #HSLIDE
-
-#HSLIDE
-## Whats next
-JDK 9  
-http://openjdk.java.net/projects/jdk9/
-Expected **General Availability** at 2017/07/27
-
-#HSLIDE
 ## General question
 1. какие есть в java базовые типы и каков их размер?
 1. как в java передаются значения в функцию?
@@ -56,18 +48,21 @@ Expected **General Availability** at 2017/07/27
 
 #HSLIDE
 ## Other
-### Strings
+#### Strings
 1. как сравнивать строки?
 1. Как склеивать большое клоичество строк?
-### Сериализация
+#### Сериализация
 1. как сериализовать и десеарилизовать объект в java?
 1. ключевое слово transient
-### GC
+#### GC
 1. как увеличить размер кучи в java?
 1. как работает GC в java?
 
 #HSLIDE
-<img src="interview/presentation/assets/img/finish.png" alt="process" style="width: 800px;"/>
+## Whats next
+JDK 9  
+http://openjdk.java.net/projects/jdk9/  
+Expected **General Availability** at 2017/07/27
 
 #HSLIDE
 ## References
@@ -75,13 +70,13 @@ Expected **General Availability** at 2017/07/27
 https://www.oracle.com/javaone/index.html
 http://jpoint.ru/
 http://jug.ru/
-### Community:
+#### Community:
 http://razbor-poletov.com/ 
 https://gitter.im/razbor-poletov/razbor-poletov.github.com
-### Books:
+#### Books:
 https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486 (basic)
 https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep concurrency)
-### Other:
+#### Other:
 https://shipilev.net/
 
 
@@ -90,3 +85,7 @@ https://shipilev.net/
 (вам на почту придет анкета)  
 
 **Это важно!**
+
+
+#HSLIDE
+<img src="interview/presentation/assets/img/finish.png" alt="process" style="width: 800px;"/>h
