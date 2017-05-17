@@ -178,18 +178,15 @@ GameEngine = Class.extend({
     },
 
     drawTiles: function() {
-        for (var i = 0; i < this.tilesX; i++) {
-            for (var j = 0; j < this.tilesY; j++) {
-                if (!(i == 1 && j == 1 || i == 1 && j == 11 || i == 15 && j == 1
-                    || i == 15 && j == 11 || i == 1 && j == 2 || i == 2 && j == 1
-                    || i == 14 && j == 1 || i == 15 && j == 2 || i == 1 && j == 10
-                    || i == 2 && j == 11 || i == 14 && j == 11 || i == 15 && j == 10)
-                    && (i % 2 == 0 && j % 2 == 0 || i == 0 || j == 0 || i == 16 || j == 12)) {
-                    // Wall tiles
-                    var tile = new Tile(this.idTile, 'Wall', { x: j * 32, y: i * 32 });
-                    this.stage.addChild(tile.bmp);
-                    this.tiles.push(tile);
-                } else {
+        for (var i = 0; i < this.tilesY; i++) {
+            for (var j = 0; j < this.tilesX; j++) {
+                // if ((i == 0 || j == 0 || i == this.tilesY - 1 || j == this.tilesX - 1)
+                //     || (j % 2 == 0 && i % 2 == 0)) {
+                //     // Wall tiles
+                //     // var tile = new Tile(this.idTile, 'Wall', { x: j * 32, y: i * 32 });
+                //     // this.stage.addChild(tile.bmp);
+                //     // this.tiles.push(tile);
+                // } else {
                     // Grass tiles
                     var tile = new Tile(this.idTile, 'Grass', { x: j * 32, y: i * 32 });
                     this.idTile = this.idTile + 1;
@@ -205,7 +202,7 @@ GameEngine = Class.extend({
                     //     this.stage.addChild(wood.bmp);
                     //     this.tiles.push(wood);
                     // }
-                }
+                // }
             }
         }
     },
