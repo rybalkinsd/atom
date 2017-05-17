@@ -1,0 +1,34 @@
+BEGIN;
+
+DROP SCHEMA IF EXISTS game CASCADE;
+CREATE SCHEMA game;
+
+DROP TABLE IF EXISTS game.user;
+CREATE TABLE game.user (
+  id      serial              NOT NULL,
+  login   VARCHAR(20) UNIQUE  NOT NULL,
+  password VARCHAR(256) NOT NULL,
+  regdate TIMESTAMP,
+
+  PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS game.token;
+CREATE TABLE game.token (
+  value VARCHAR(512) UNIQUE NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES game.user ON DELETE CASCADE,
+
+  PRIMARY KEY (value)
+);
+
+DROP TABLE IF EXISTS game.result;
+CREATE TABLE game.result (
+  id SERIAL NOT NULL,
+  game_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES game.user on DELETE CASCADE,
+  score INTEGER,
+
+  PRIMARY KEY (id)
+);
+
+COMMIT;

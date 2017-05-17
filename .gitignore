@@ -7,3 +7,6 @@ build/
 /*/build/
 /*/classes
 /classes
+/logs
+db_hackaton/logs
+bombergirl/backend/logs/

@@ -1,0 +1,37 @@
+dependencies {
+    testCompile rootProject.libraries.junit
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.jetty_server
+    compile rootProject.libraries.jetty_servlet
+    compile rootProject.libraries.jersey_server
+    compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.jwt_token
+    compile rootProject.libraries.gson
+    compile rootProject.libraries.hibernate
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jbcrypt
+    compile rootProject.libraries.websocketclient
+    compile rootProject.libraries.websocketserver
+    compile rootProject.libraries.websocketapi
+
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.bombergirl.server.AuthServer' }
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
