@@ -6,28 +6,37 @@ import org.junit.Test;
 import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 
+import java.util.Date;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class MessageDaoTest {
-    private String msg ;
+    private MessageDao messageDao;
+    private UserDao userDao;
+    private String msg;
     private Message message;
     private int messagesBeforeTest;
+    private String login;
 
     //TODO check if this test works
     @Before
     public void setUp() throws Exception {
         Database.setUp();
-        msg = "Hello World " + new Random().nextInt(999999);
+        messageDao = MessageDao.getInstance();
+        userDao = UserDao.getInstance();
+        msg = "Hiii " + new Random().nextInt(999999);
+        login = "USERRR";
+        User user = new User().setLogin(login);
+        Database.execTransactionalConsumer(s -> userDao.insert(s, user));
         messagesBeforeTest = MessageDao.getInstance().getAll(Database.session()).size();
         message = new Message()
-                .setUser(new User().setLogin("test user"))
-                .setValue(msg);
+                .setUser(userDao.getByName(Database.session(), login))
+                .setValue(msg)
+                .setTime(new Date(System.currentTimeMillis()));
 
-        Database.execTransactionalConsumer(s -> MessageDao.getInstance().insert(Database.session(), message));
+        Database.execTransactionalConsumer(s -> messageDao.insert(s, message));
     }
 
     @Test
