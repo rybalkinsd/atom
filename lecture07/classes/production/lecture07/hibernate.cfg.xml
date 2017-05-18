@@ -7,9 +7,9 @@
     <session-factory>
         <!-- Connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://wtfis.ru:5432/chatdb_atom21</property>
-        <property name="hibernate.connection.username">atom21</property>
-        <property name="hibernate.connection.password">atom21</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://wtfis.ru:5432/chatdb_atom0</property>
+        <property name="hibernate.connection.username">atom0</property>
+        <property name="hibernate.connection.password">atom0</property>
 
         <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
@@ -32,7 +32,7 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!--mapping-->
-        <mapping class="ru.atom.lecture07.server.model.User"/>
+        <mapping class="ru.atom.lecture07.server.User"/>
         <mapping class="ru.atom.lecture07.server.model.Message"/>
     </session-factory>
 </hibernate-configuration>

@@ -24,6 +24,6 @@ public class MessageDao {
     }
 
     public void insert(Session session, Message message) {
-        throw new NotImplementedException();
+        session.saveOrUpdate(message);
     }
 }
