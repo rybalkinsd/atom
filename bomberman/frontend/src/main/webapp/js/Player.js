@@ -36,7 +36,8 @@ Player = Entity.extend({
     init: function(id, position) {
         this.id = id;
 
-        var img = gGameEngine.playerGirlImg;
+        var allImages = [gGameEngine.playerBoyImg, gGameEngine.playerGirlImg, gGameEngine.playerGirl2Img];
+        var img = allImages[Player.totalPlayersCreated++ % 3];
 
         var spriteSheet = new createjs.SpriteSheet({
             images: [img],
@@ -113,5 +114,17 @@ Player = Entity.extend({
             }
 
         }, 30);
+    },
+
+    remove: function() {
+		//gGameEngine.stage.removeChild(this.bmp); //breaks die animation, call die before this
+        for (var i = 0; i < gGameEngine.players.length; i++) {
+            var player = gGameEngine.players[i];
+            if (this == player) {
+                gGameEngine.players.splice(i, 1);
+            }
+        }
     }
 });
+
+Player.totalPlayersCreated = 0;
