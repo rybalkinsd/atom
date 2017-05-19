@@ -5,11 +5,6 @@ Bomb = Entity.extend({
     position: {},
 
     /**
-     * How far the fire reaches when bomb explodes
-     */
-    strength: 1,
-
-    /**
      * Bitmap dimensions
      */
     size: {
@@ -22,25 +17,8 @@ Bomb = Entity.extend({
      */
     bmp: null,
 
-    /**
-     * Timer in frames
-     */
-    timer: 0,
-
-    /**
-     * Max timer value in seconds
-     */
-    timerMax: 2,
-
-    exploded: false,
-
-    fires: [],
-
-    explodeListener: null,
-
-    init: function(id, position, strength) {
+    init: function(id, position) {
         this.id = id;
-        this.strength = strength;
 
         var spriteSheet = new createjs.SpriteSheet({
             images: [gGameEngine.bombImg],
@@ -61,11 +39,20 @@ Bomb = Entity.extend({
         this.bmp.x = position.x;
         this.bmp.y = position.y;
 
-        this.fires = [];
         gGameEngine.stage.addChild(this.bmp);
     },
+	
+	explodeSound: function() {
+		createjs.Sound.play("bomb");
+	},
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
+        for (var i = 0; i < gGameEngine.bombs.length; i++) {
+            var bomb = gGameEngine.bombs[i];
+            if (this == bomb) {
+                gGameEngine.bombs.splice(i, 1);
+            }
+        }
     }
 });
