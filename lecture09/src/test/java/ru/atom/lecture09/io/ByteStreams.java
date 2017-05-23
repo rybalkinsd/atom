@@ -27,6 +27,8 @@ public class ByteStreams {
     @Test
     public void fileReadWrite() throws IOException {
         try (FileInputStream in = new FileInputStream("src/main/resources/from.txt");
+             //can be wrapped into BufferedOutputStream to use buffering and avoid losing data
+             //BuffededOutputStream out = new BufferedOutputStream(new FileOutputStream(...));
              FileOutputStream out = new FileOutputStream("src/main/resources/to.txt");
         ) {
             int chunk;

@@ -31,6 +31,7 @@ public class ObjectServer {
                 //Block until object received
                 Packet inputData = (Packet) in.readObject();
                 log.info("[received] " + inputData);
+                System.out.println(inputData);
             } catch (Exception e) {
                 log.error(e);
             }
