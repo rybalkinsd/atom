@@ -20,7 +20,7 @@ public class ChatServer {
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        Server jettyServer = new Server(8081);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
