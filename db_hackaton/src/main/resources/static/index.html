@@ -27,7 +27,23 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+        var settings = {
+            "method": "GET",
+            "crossDomain": true,
+            "url": "/mm/join",
+            'data': {
+                'user': Cookies.get('user'),
+                'token': Cookies.get('token')
+            }
+        };
+        $.ajax(settings).done(function(response) {
+            window.location = "/";
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
+        });
+
     }
 </script>
 
@@ -52,10 +68,11 @@
         $.ajax(settings).done(function(response) {
             Cookies.remove('user');
             Cookies.remove('token');
+            window.location = "/";
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
         });
-        window.location = "/";
     }
 </script>

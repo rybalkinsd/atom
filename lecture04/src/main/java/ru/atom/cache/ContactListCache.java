@@ -1,4 +1,4 @@
-package ru.atom.cache;
+package ru.atom.model;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

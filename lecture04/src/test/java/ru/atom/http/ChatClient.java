@@ -1,4 +1,4 @@
-package ru.atom.http;
+package ru.atom.server;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
