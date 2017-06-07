@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.authservice;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -7,23 +7,28 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.atom.dbhackaton.server.dao.Database;
 
 
 public class AuthServer {
-    public static void main(String[] args) throws Exception {
+
+    private static Server jettyServer;
+
+    public static void startServer() throws Exception {
+        Database.setUp();
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
-                createChatContext(),
+        contexts.setHandlers(new Handler[]{
+                createAuthContext(),
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        jettyServer = new Server(8080);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
     }
 
-    private static ServletContextHandler createChatContext() {
+    private static ServletContextHandler createAuthContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/auth/*");
         ServletHolder jerseyServlet = context.addServlet(
@@ -55,4 +60,11 @@ public class AuthServer {
         return context;
     }
 
+    public static void stopServer() throws Exception {
+        jettyServer.stop();
+    }
+
+    public static void main(String[] args) throws Exception {
+        startServer();
+    }
 }

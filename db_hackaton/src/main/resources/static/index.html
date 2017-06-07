@@ -3,13 +3,13 @@
 <link rel="stylesheet" href="common.css">
 
 <body>
-    <!--<div id="authorizeUser"  style="display: none;">-->
-        <h2>Welcome back, <p id="username"></p></h2>
+<!--<div id="authorizeUser"  style="display: none;">-->
+<h2>Welcome back, <p id="username"></p></h2>
 
-        <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
-        <br>
-        <button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button>
-    <!--</div>-->
+<button type="button" style="font-size:large" onclick="newGame()">New Game</button>
+<br>
+<button type="button" class="logoutButton" style="font-size:large" onclick="logout()">Logout</button>
+<!--</div>-->
 </body>
 </html>
 
@@ -49,13 +49,15 @@
             }
         };
 
-        $.ajax(settings).done(function(response) {
+        $.ajax(settings).done(function (response) {
             Cookies.remove('user');
             Cookies.remove('token');
+            window.location = "/";
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
         });
-        window.location = "/";
+
     }
 </script>
