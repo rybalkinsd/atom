@@ -6,16 +6,13 @@ dependencies {
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
-    compile rootProject.libraries.postgres
-    compile rootProject.libraries.jetbrainsAnnotations
-    compile rootProject.libraries.hibernate
-    compile rootProject.libraries.gson
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.http.server.auth.AuthServer' }
+    manifest { attributes 'Main-Class': 'ru.atom.authserver.HttpServer' }
 }
+
 
 
 sourceSets {

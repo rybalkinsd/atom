@@ -27,7 +27,7 @@
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+        window.location = "http://"+window.location.hostname+":8081/mm/join?token=" + Cookies.get('token');
     }
 </script>
 
@@ -52,10 +52,11 @@
         $.ajax(settings).done(function(response) {
             Cookies.remove('user');
             Cookies.remove('token');
+            window.location = "/";
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
         });
-        window.location = "/";
     }
 </script>
