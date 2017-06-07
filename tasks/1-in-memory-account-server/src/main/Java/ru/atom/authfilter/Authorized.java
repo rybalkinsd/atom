@@ -1,11 +1,9 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.authfilter;
 
 
 import javax.ws.rs.NameBinding;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;

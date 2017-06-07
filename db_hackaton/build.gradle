@@ -5,6 +5,13 @@ dependencies {
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile 'commons-codec:commons-codec:1.10'
+    compile rootProject.libraries.hibernate
+    compile 'com.google.code.gson:gson:2.2.4'
+    
+
 }
 
 jar {

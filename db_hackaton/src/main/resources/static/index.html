@@ -52,10 +52,14 @@
         $.ajax(settings).done(function(response) {
             Cookies.remove('user');
             Cookies.remove('token');
+            window.location = "/";
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            window.location = "/";
         });
-        window.location = "/";
     }
 </script>
+
+
+<!--ПОПЫТКА СДЕЛАТЬ NEW GAME-->

@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.server;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -10,9 +10,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 
 public class AuthServer {
+    public static Server jettyServer = new Server(8080);
+
     public static void main(String[] args) throws Exception {
+        serverRun();
+    }
+
+    public static void serverRun() throws Exception {
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
+        contexts.setHandlers(new Handler[]{
                 createChatContext(),
                 createResourceContext()
         });
@@ -21,6 +27,10 @@ public class AuthServer {
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
+    }
+
+    public static void serverStop() throws Exception {
+        jettyServer.stop();
     }
 
     private static ServletContextHandler createChatContext() {
@@ -32,7 +42,7 @@ public class AuthServer {
 
         jerseyServlet.setInitParameter(
                 "jersey.config.server.provider.packages",
-                "ru.atom.dbhackaton.server"
+                "ru.atom.server"
         );
 
         jerseyServlet.setInitParameter(
