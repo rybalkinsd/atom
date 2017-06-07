@@ -8,12 +8,16 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import ru.atom.dbhackaton.server.dao.Database;
+
 
 public class AuthServer {
     public static void main(String[] args) throws Exception {
+        Database.setUp();
+
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
-                createChatContext(),
+        contexts.setHandlers(new Handler[]{
+                createAuthContext(),
                 createResourceContext()
         });
 
@@ -23,7 +27,7 @@ public class AuthServer {
         jettyServer.start();
     }
 
-    private static ServletContextHandler createChatContext() {
+    private static ServletContextHandler createAuthContext() {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/auth/*");
         ServletHolder jerseyServlet = context.addServlet(
