@@ -359,7 +359,7 @@ Lets add some "pagination"
 ```java
 class Message {
     private static final int CHARS_PER_PAGE = 256;
-    private String content;
+    public String content;
     
     private String getContent() {
         return content;
