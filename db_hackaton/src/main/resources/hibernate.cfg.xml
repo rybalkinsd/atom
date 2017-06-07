@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:postgresql://wtfis.ru:5432/chatdb_atom1</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.username">atom1</property>
+    <property name="connection.password">atom1</property>
+
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+    <!--Print executed SQL to stdout -->
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    <property name="use_sql_comments">true</property>
+
+    <!--what to do with schema in database if it conflicts with mapping-->
+    <property name="hibernate.hbm2ddl.auto">update</property>
+
+    <!--handle transactions manually-->
+    <property name="hibernate.connection.autocommit">false</property>
+
+    <!--boot boost hack-->
+    <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+
+    <!--new session for new thread-->
+    <mapping class="ru.atom.dbhackaton.hibernate.LoginEntity"/>
+    <mapping class="ru.atom.dbhackaton.hibernate.RegistredEntity"/>
+    <mapping class="ru.atom.dbhackaton.mm.UserGameResult"/>
+
+    <!--mapping-->
+      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
