@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package ru.atom.dbhackaton.server.mm;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -7,20 +7,24 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.atom.dbhackaton.server.AuthServer;
+import ru.atom.dbhackaton.server.CrossBrowserFilter;
 import ru.atom.dbhackaton.server.dao.Database;
 
-
-public class AuthServer {
+/**
+ * Created by konstantin on 19.04.17.
+ */
+public class MatchMakerServer {
     public static void main(String[] args) throws Exception {
         Database.setUp();
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.setHandlers(new Handler[] {
+        contexts.setHandlers(new Handler[]{
                 createChatContext(),
                 createResourceContext()
         });
 
-        Server jettyServer = new Server(8080);
+        Server jettyServer = new Server(8090);
         jettyServer.setHandler(contexts);
 
         jettyServer.start();
@@ -28,7 +32,7 @@ public class AuthServer {
 
     private static ServletContextHandler createChatContext() {
         ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/auth/*");
+        context.setContextPath("/mm/*");
         ServletHolder jerseyServlet = context.addServlet(
                 org.glassfish.jersey.servlet.ServletContainer.class, "/*");
         jerseyServlet.setInitOrder(0);
@@ -57,5 +61,4 @@ public class AuthServer {
         context.setHandler(handler);
         return context;
     }
-
 }
