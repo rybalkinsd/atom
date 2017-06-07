@@ -1,4 +1,4 @@
-package ru.atom.dbhackaton.server;
+package dbhackaton;
 
 
 import javax.ws.rs.NameBinding;
@@ -15,4 +15,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Target({TYPE, METHOD})
 public @interface Authorized {
+
 }

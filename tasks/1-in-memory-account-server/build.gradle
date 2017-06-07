@@ -1,20 +1,21 @@
 dependencies {
+
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
     compile rootProject.libraries.jetty_server
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
-    compile rootProject.libraries.postgres
-    compile rootProject.libraries.okhttp
-    compile rootProject.libraries.jetbrainsAnnotations
-    compile rootProject.libraries.hibernate
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
+
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.http.server.HttpServer' }
+    manifest { attributes 'Main-Class': 'main.Main' }
 }
 
 
