@@ -97,3 +97,4 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
+

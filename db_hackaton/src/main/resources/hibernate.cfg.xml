@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Connection settings -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://wtfis.ru:5432/chatdb_atom41</property>
+        <property name="hibernate.connection.username">atom41</property>
+        <property name="hibernate.connection.password">atom41</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+         <!--Print executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="use_sql_comments">true</property>
+
+        <!--what to do with schema in database if it conflicts with mapping-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!--handle transactions manually-->
+        <property name="hibernate.connection.autocommit">false</property>
+
+        <!--boot boost hack-->
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+
+        <!--new session for new thread-->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!--mapping-->
+        <mapping class="ru.atom.dbhackaton.server.base.User"/>
+        <mapping class="ru.atom.dbhackaton.server.base.Token"/>
+        <mapping class="ru.atom.dbhackaton.server.base.Match"/>
+        <mapping class="ru.atom.dbhackaton.server.base.PersonalResult"/>
+    </session-factory>
+</hibernate-configuration>

@@ -1,22 +1,32 @@
 dependencies {
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
     compile rootProject.libraries.jetty_server
     compile rootProject.libraries.jetty_servlet
     compile rootProject.libraries.jersey_server
     compile rootProject.libraries.jersey_containers
     compile rootProject.libraries.gson
-    compile rootProject.libraries.okhttp
-    compile rootProject.libraries.hibernate
-    compile rootProject.libraries.postgres
-    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
-    compile group: 'com.squareup.okio', name: 'okio', version: '1.0.0'
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.http.server.HttpServer' }
+    manifest { attributes 'Main-Class': 'ru.atom.AuthServer' }
 }
+
+//String myPath = '/home/mkai/IdeaProjects/atom/tasks/1-in-memory-account-server/release'
+//
+//task myBuild () {
+//    dependsOn ':jar'
+//    doLast {
+//        delete myPath
+//        copy {
+//            from { project.jar }
+//            from { project.configurations.runtime }
+//            into(myPath + "/jars")
+//        }
+//    }
+//}
 
 
 sourceSets {

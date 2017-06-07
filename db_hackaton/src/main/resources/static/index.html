@@ -2,14 +2,17 @@
 
 <link rel="stylesheet" href="common.css">
 
-<body>
-    <!--<div id="authorizeUser"  style="display: none;">-->
+<body id="body">
+    <div id="authorizeUser" class="initial-hide">
         <h2>Welcome back, <p id="username"></p></h2>
 
         <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
         <br>
-        <button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button>
-    <!--</div>-->
+        <div class="containerPopup" style="width: 40rem">
+            <div><button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button></div>
+            <div class="popup"><span class="popuptext" id="myPopup" display="hide"></span></div>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -20,14 +23,35 @@
     if (Cookies.get('user') === undefined) {
         window.location = "/login.html";
     } else {
-        $('#authorizeUser').show();
+        document.getElementById("authorizeUser").className =
+            document.getElementById("authorizeUser").className.replace(/\binitial-hide\b/,'');
         $('#username').text(Cookies.get('user'));
     }
 </script>
 
 <script>
     function newGame() {
-        alert("Reguest Match Maker here")
+        if (Cookies.get('user') === undefined
+            || Cookies.get('token') === undefined) {
+
+            window.location = "/login.html";
+        }
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://localhost:8090/mm/join",
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            },
+            "data": {
+                "token": Cookies.get('token')
+            }
+        };
+
+        $.ajax(settings).done(function(data, textStatus, jqXHR) {
+            alert(data);
+        })
     }
 </script>
 
@@ -49,13 +73,21 @@
             }
         };
 
-        $.ajax(settings).done(function(response) {
+        $.ajax(settings).done(function() {
             Cookies.remove('user');
             Cookies.remove('token');
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-        window.location = "/";
+            window.location = "/";
+        }).fail(function (jqXHR, textStatus, errorOptions) {
+            console.log(jqXHR.status + " " + jqXHR.statusText);
+            if(errorOptions == 'Unauthorized') {
+                Cookies.remove('user');
+                Cookies.remove('token');
+                window.location = "/";
+            } else {
+                document.getElementById("myPopup").className = "show";
+                $('#myPopup').html(errorOptions + '...<br> Try again');
+            }
+        })
+
     }
 </script>
