@@ -11,8 +11,7 @@ import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Service is responsible for using DAO and provide all the guaranties that are expected in resource method:
@@ -36,8 +35,37 @@ public class ChatService {
 
             Message loginMessage = new Message()
                     .setUser(newUser)
+                    .setTime(new Date())
                     .setValue("joined");
             MessageDao.getInstance().insert(session, loginMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    public void logout(String login) throws ChatException {
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logined");
+            }
+
+            User logoutUser = UserDao.getInstance().getByName(session, login);
+
+            Message logoutMessage = new Message()
+                    .setUser(logoutUser)
+                    .setTime(new Date())
+                    .setValue("Logout");
+            MessageDao.getInstance().insert(session, logoutMessage);
+
+            UserDao.getInstance().delete(session, login);
 
             txn.commit();
         } catch (RuntimeException e) {
@@ -68,10 +96,52 @@ public class ChatService {
     }
 
     public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logined");
+            }
+            User messageUser = UserDao.getInstance().getByName(session, login);
+
+            Message newMessage = new Message()
+                    .setUser(messageUser)
+                    .setValue(msg);
+            MessageDao.getInstance().insert(session, newMessage);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
-    public List<Message> viewChat() {
-        throw new NotImplementedException();
+    public List<Message> viewChat(String login) throws ChatException {
+        List<Message> listMessage;
+        Transaction txn = null;
+        try (Session session = Database.session()) {
+            txn = session.beginTransaction();
+
+            if (UserDao.getInstance().getByName(session, login) == null) {
+                throw new ChatException("Not logined");
+            }
+
+            Integer user_id = UserDao.getInstance().getByName(session, login).getId();
+
+            listMessage = MessageDao.getInstance().getById(session, user_id);
+
+            txn.commit();
+        } catch (RuntimeException e) {
+            log.error("Transaction failed.", e);
+            if (txn != null && txn.isActive()) {
+                txn.rollback();
+            }
+            listMessage = Collections.emptyList();
+        }
+
+        return listMessage;
     }
 }

@@ -34,8 +34,8 @@ public class ChatResource {
         if (name.length() > 20) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
         }
-        if (name.toLowerCase().contains("hitler")) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("hitler not allowed, sorry :(").build();
+        if (name.toLowerCase().contains("Hitler")) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Hitler not allowed, sorry :(").build();
         }
         try {
             chatService.login(name);
@@ -70,7 +70,7 @@ public class ChatResource {
         try {
             chatService.say(name, msg);
         } catch (ChatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
         }
         log.info("[" + name + "]: " + msg);
 
@@ -80,13 +80,34 @@ public class ChatResource {
     @GET
     @Produces("text/plain")
     @Path("/chat")
-    public Response chat() {
-        List<Message> chatHistory = chatService.viewChat();
-        return Response.ok(String.join("\n", chatHistory
-                .stream()
-                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
-                .collect(Collectors.toList()))).build();
+    public Response chat(@QueryParam("name") String name) {
+        try {
+            List<Message> chatHistory = chatService.viewChat(name);
+            return Response.ok(String.join("\n", chatHistory
+                    .stream()
+                    .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                    .collect(Collectors.toList()))).build();
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
+        }
+
     }
 
-    //TODO implement logout here from scratch
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("/logout")
+    public Response logout(@QueryParam("name") String name) {
+        if (name == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Name not provided").build();
+        }
+
+        try {
+            chatService.logout(name);
+        } catch (ChatException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Not logined").build();
+        }
+        log.info("[" + name + "]: logout");
+
+        return Response.ok().build();
+    }
 }
