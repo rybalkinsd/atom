@@ -8,3 +8,6 @@
 
 Course repository.
 All course lectures/sources/tasks are available here.
+
+
+[![Course announcement](https://img.youtube.com/vi/12Ur1brHHz8/0.jpg)](https://www.youtube.com/watch?v=12Ur1brHHz8&feature=youtu.be "Course announcement")
