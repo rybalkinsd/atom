@@ -8,18 +8,6 @@ lecture 2
 https://atom.mail.ru/
 
 #HSLIDE
-### About me
-<img src="https://avatars2.githubusercontent.com/u/710546?v=3&s=460" alt="me" style="width: 200px;"/>
-    
-- yan.brikl@gmail.com 
-- [https://github.com/rybalkinsd](https://github.com/rybalkinsd)
-- Java 5+ years
-- Yandex, Allods Team (mail.ru group)
-- Currently Senior Software Engineer at AliExpress.com
-
-**Люблю зеленые билды**  
-
-#HSLIDE
 ### get ready
 ```bash
 > git fetch upstream
