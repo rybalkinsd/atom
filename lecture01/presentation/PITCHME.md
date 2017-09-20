@@ -169,6 +169,28 @@ https://atom.mail.ru/
 5. Gradle
 6. Homework 1  
 
+#HSLIDE
+# JDK Setup
+1. Download [**JDK9**](http://jdk.java.net/9/)  (and un-archive)
+
+2. Look inside jdk directory
+**Linux/macOs:**
+```
+> ls jdk9/
+```
+```
+> ls jdk9/bin/
+```
+**Windows:**
+```
+> dir jdk9/
+```
+```
+> dir jdk9/bin/
+```
+Many useful developer utilities here:  
+java, javac, jshell, javap, jar
+
 #HSLIDE 
 # jshell
 JDK9 introdeces cool REPL called **jshell**  
@@ -301,28 +323,6 @@ Method name **getCountOfApples**
 Parameter list **( … )**  
 Exception list **throws Throwable**  
 Method body **{ … }**  
-
-#HSLIDE
-# JDK Setup
-1. Download [**JDK9**](http://jdk.java.net/9/)  (and un-archive)
-
-2. Look inside jdk directory
-**Linux/macOs:**
-```
-> ls jdk9/
-```
-```
-> ls jdk9/bin/
-```
-**Windows:**
-```
-> dir jdk9/
-```
-```
-> dir jdk9/bin/
-```
-Many useful developer utilities here:  
-java, javac, jshell, javap, jar
 
 #HSLIDE
 ## JDK/JRE/JVM
