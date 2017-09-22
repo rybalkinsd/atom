@@ -29,7 +29,7 @@ public class Util {
      */
 
     public static long sum(int[] values) {
-        int tecsum = values[0];
+        long tecsum = values[0];
         for (int i = 1; i < values.length; i++)
             tecsum = tecsum + values[i];
         return (tecsum);
