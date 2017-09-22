@@ -1,0 +1,118 @@
+<script>
+    var host = "localhost";
+    var port = 8080;
+</script>
+
+<html>
+<style>
+    :root {
+        background: #336666;
+    }
+    .chat {
+        background: #99CCCC;
+        font-family: "Courier New", Courier, monospace;
+        padding: 7px;
+        margin: 0 0 1em;
+        overflow: auto;
+    }
+    .form {
+        height: 85%;
+    }
+    .msginput {
+        width: 80%;
+    }
+    .sendbutton {
+        width: 15%;
+    }
+    #header {
+        background: #336666;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+    #body {
+        padding: 10px;
+        padding-top: 0;
+        padding-bottom: 30px; /* Height of the footer */
+    }
+    #footer {
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 30px; /* Height of the footer */
+        background: #336666;
+    }
+</style>
+
+<body>
+<div id="header">
+    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+        <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input value="Login" style="font-size:large" type="submit">
+    </form>
+</div>
+<div id="body">
+    <div id="history" class="chat form"></div>
+</div>
+<div id="footer">
+    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+    </form>
+</div>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    function loadHistory() {
+        var name = $('#nameform').serialize();
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/chat?"+name,
+            "method": "GET",
+        }
+        $.ajax(settings).done(function (response) {
+            $( "#history" ).html(response.replace(/\n/g, "<br />"))
+            $( "#history" ).scrollTop( $( "#history" )[0].scrollHeight );
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+    setInterval(loadHistory, 5000);
+</script>
+<script>
+    function say() {
+        var msg = $('#msgform').serialize();
+        var name = $('#nameform').serialize();
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/say?"+name,
+            "data": msg
+        }
+        $.ajax(settings).done(function(response) {
+            $('#msgform').trigger("reset");
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+</script>
+<script>
+    function login() {
+        var name = $('#nameform').serialize();
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/login?"+name,
+        }
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+</script>

@@ -7,10 +7,18 @@ ext {
     jdkVersion = 1.8
 
     jettyVersion = "9.3.12.v20160915"
-    junitVersion = "4.+"
+    junitVersion = "4.12"
     jacksonVersion = "2.5.3"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
+    okhttpVersion = "3.6.0"
+    jerseyVersion = "2.25.1"
+    gsonjVersion = "2.7"
+    postgresVersion = "9.4-1200-jdbc41"
+    jetbrainsAnnotationVersion = "15.0"
+    hibernateVersion = "5.2.3.Final"
+    websocketVersion = "9.4.3.v20170317"
+    jolVersion = "0.8"
 }
 
 allprojects {
@@ -55,7 +63,21 @@ ext.libraries = [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
             "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
-        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion"
+        jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
+        okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+        jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
+        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        jersey_test:
+                "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
+        gson: "com.google.code.gson:gson:$gsonjVersion",
+        postgres: "org.postgresql:postgresql:$postgresVersion",
+        hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
+        websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
+        websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
+        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
+        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+        jol: "org.openjdk.jol:jol-core:$jolVersion",
+        jol_samples: "org.openjdk.jol:jol-samples:$jolVersion"
 ]
 
 // code coverage settings
