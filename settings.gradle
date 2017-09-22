@@ -1,21 +1,2 @@
 rootProject.name = 'atom'
 include 'lecture01'
-include 'lecture02'
-include 'lecture03'
-include 'lecture04'
-include 'lecture05'
-include 'lecture06'
-include 'lecture07'
-include 'lecture08'
-include 'lecture09'
-include 'lecture10'
-include 'lecture11'
-include 'lecture12'
-
-include 'homeworks/HW1'
-include 'homeworks/HW3'
-
-include 'web_hackaton'
-include 'db_hackaton'
-
-include 'bomberman/frontend'
