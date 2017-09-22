@@ -30,7 +30,13 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sumOfValues = 0;
+
+        for (int value : values) {
+            sumOfValues += value;
+        }
+
+        return sumOfValues;
     }
 
 
