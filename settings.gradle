@@ -1,4 +1,5 @@
 rootProject.name = 'atom'
+<<<<<<< HEAD
 include 'lecture01'
 include 'lecture02'
 include 'lecture03'
@@ -11,3 +12,6 @@ include 'lecture09'
 include 'lecture10'
 include 'bomberman/frontend'
 include 'homeworks/HW2'
+=======
+include 'homeworks/HW1'
+>>>>>>> gradle fix
