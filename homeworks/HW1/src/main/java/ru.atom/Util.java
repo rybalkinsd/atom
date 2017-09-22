@@ -16,7 +16,11 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int param = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > param) param = values[i];
+        }
+        return param;
     }
 
     /**
