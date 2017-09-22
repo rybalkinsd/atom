@@ -8,23 +8,35 @@ lecture 1
 https://atom.mail.ru/
 
 #HSLIDE
-# About me
+## About me
+<img src="https://avatars2.githubusercontent.com/u/710546?v=3&s=460" alt="me" style="width: 200px;"/>
+    
+- yan.brikl@gmail.com 
+- [https://github.com/rybalkinsd](https://github.com/rybalkinsd)
+- Java 6+ years
+- Yandex, Allods Team (mail.ru group)
+- Currently engineer at AliExpress.com
+
+**Люблю зеленые билды**  
+
+#HSLIDE
+## About me
 <img src="lecture01/presentation/assets/img/me.jpg" alt="me" style="width: 220px; float: left;"/>  
 
   alpieex@gmail.com  
   [https://github.com/Al-p-i](https://github.com/Al-p-i)  
 
-  Java 5+ years
+- Java 6+ years
+- MailRu, Headhunter
+- Currently engineer at AliExpress.com
 
-- Former software developer in Allods Team (Skyforge)
-- Currently lead developer at hh.ru
-
-**Люблю смотреть, как другие пишут тесты**  
+**Люблю смотреть, как другие работают**  
 
 #HSLIDE
-# Цель курса
-Практическое введение в разработку серверных web приложений на Java
-Практическая часть - разработка сервера для мультиплеерной игры
+## Цель курса
+Прагматичное введение в разработку серверных web-приложений на Java  
+  
+**Практическая часть** - разработка сервера для мультиплеерной игры
 
 **Мы научимся:**
 - разрабатывать
@@ -32,9 +44,9 @@ https://atom.mail.ru/
 - деплоить  
   
 #HSLIDE
-# Ключевые технологии
-**Java SE 8.0**  
-**Jersey** - web framework + **jetty** webserver  
+## Ключевые технологии
+**Java SE 9.0**  
+**Spring MVC** - web framework  
 **Hibernate** - общение с базами данных  
 **WebSocket** - сетевое взаимодействие  
 **Инструменты:** Git, Gradle, Docker
@@ -52,29 +64,32 @@ https://atom.mail.ru/
 **!Чатик в Telegram!**  
 [https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ)  
 
-**JDK8**  
-[http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)  
+**JDK9**  
+**RC:** [http://jdk.java.net/9/](http://jdk.java.net/9/)  
+**General Availability:** coming 21.09.2017 
   
 **Официальная документация Java**  
-[http://docs.oracle.com/javase/8/docs/api/](http://docs.oracle.com/javase/8/docs/api/)
+[http://download.java.net/java/jdk9/docs/api/](http://download.java.net/java/jdk9/docs/api/)
 
 #HSLIDE
-# План курса
-12 лекций/семинаров + 3 рубежных контроля + защита проектов
+## План курса
+12 лекций/семинаров + рубежный контроль + 2 хакатона + защита проектов
 1. **Intro** - познаем основы языка, знакомимся с инструментарием
 2. **Java WEB** - учимся писать web-сервисы
-3. **Persisnence** - работаем с базами данных
+3. **Persistence** - работаем с базами данных
 4. **Client-server interaction** - общаемся по сети
 5. **Game mechanics** - строим игру
-6. **Final project** - защищаем групповой проект
+6. **Concurrency** - знакомимся со сложным
+7. **Final project** - защищаем групповой проект
 
 #HSLIDE
-# Оценка
+## Оценка
 ### Структура оценки:
-- 3 Рубежных контроля = 16 + 12 + 12  
-- Домашние работы и тесты на занятиях = 30  
+- РК + хакатоны = 16+12+12 (за хакатон можно получить больше) 
+- Домашние работы = 30  
 - Сдача итогового проекта = 30  
-- \+ есть возможность получать дополнительные баллы за задания, которые мы даем прямо на семинарах  
+- \+ доп баллы за задания, которые мы даем на семинарах  
+- \+ доп баллы за принятые pull request-ы в репозиторий курса
 
 **Сертификат:**  
 нужно набрать 50 баллов и защитить проект
@@ -93,7 +108,7 @@ https://atom.mail.ru/
   
 Мы подготовили для вас готовый клиент на javascript  
 Группы будут сформированы после первого рубежного контроля  
-
+  
 **Защита проекта - обязательный критерий получения сертификата**
 
 #HSLIDE
@@ -122,8 +137,7 @@ https://atom.mail.ru/
 ### Java dominates areas:
 - Back-end for enterprise-scale solutions
 - Android (specific area)  
-
-
+  
 ### Where Java mostly does not work?
 - Low level high performance software
 - soft for specific hardware
@@ -143,7 +157,7 @@ https://atom.mail.ru/
 - Java is compiled to **Byte Code** (not to machine codes), which is executed by **Java Virtual Machine (JVM)**
 - automatic memory management **(GC)**
 - Java is **object-oriented**, **class-based**
-- static strong safe typisation
+- static strong safe typization
 - concurrent
 
 #HSLIDE 
@@ -155,11 +169,42 @@ https://atom.mail.ru/
 5. Gradle
 6. Homework 1  
 
+#HSLIDE
+# JDK Setup
+1. Download [**JDK9**](http://jdk.java.net/9/)  (and un-archive)
+
+2. Look inside jdk directory
+**Linux/macOs:**
+```
+> ls jdk9/
+```
+```
+> ls jdk9/bin/
+```
+**Windows:**
+```
+> dir jdk9/
+```
+```
+> dir jdk9/bin/
+```
+Many useful developer utilities here:  
+java, javac, jshell, javap, jar
+
 #HSLIDE 
-# Basic types
+# jshell
+JDK9 introdeces cool REPL called **jshell**  
+So you can use **java** almost as interpreted language (like python)  
+```bash
+> jshell
+```
+Try the examples below.
+
+#HSLIDE 
+## Basic types
 | Type          | Size          | Range             |
 | ------------- |:-------------:| -----------------:|
-| boolean       | undefined     | true/false        |
+| boolean       | undefined*    | true/false        |
 | byte          | 1 byte        | -128-127          |
 | char          | 2 bytes       | \u0000-\uffff     |
 | short         | 2 bytes       | -32768 - 32767    |
@@ -168,9 +213,10 @@ https://atom.mail.ru/
 | float         | 4 bytes       | IEEE 754          |
 | double        | 8 bytes       | IEEE 754          |
 | **reference** | system bitness|                   |
+* Not defined by specification, but actually 1 byte in hotspot.
 
 #HSLIDE 
-# Operators
+## Operators
 |Operator type  |Operator                   |
 |---------------|---------------------------|
 |Assignment     | =, +=, *= …^=             |
@@ -183,7 +229,7 @@ https://atom.mail.ru/
 
 
 #HSLIDE
-#Expressions
+# Expressions
 
 ```java
 int value = 0;
@@ -197,7 +243,7 @@ if (value1 == value2)
     System.out.println("value1 == value2");
 
 int commonVariable = 0;
-if (commonVarialbe > -42) { // ← начало блока
+if (commonVariable > -42) { // ← начало блока
     int innerVariable = commonVariable + 1;
     System.out.println(String.format(“Inner variable is %d“, innerVariable));
 } // ← конец блока
@@ -206,7 +252,7 @@ if (commonVarialbe > -42) { // ← начало блока
 */
 ```
 #HSLIDE
-##if else
+## if else
 ```java
 if (18 == yourAge) {
     // у вас всё хорошо
@@ -245,21 +291,15 @@ for (initialization; termination; increment)
 ```
 **Examples:**
 ```java
-for (int i = 0; i < numberOfObjects; i++) {
-    // iterates numberOfObjects times,
-    // if numberOfObjects >= 0
+int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+for (int i : digits) {
+    System.out.println(“Digit: “ + i);
 }
 
-int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-for (int i : digits ) {
-    System.out.println(“Digit: “ + digit);
-}
-
-//Для хипстеров
+//Итерация для хипстеров
 IntStream.range(0, 10).forEach(digit -> System.out.println(digit));
 
 IntStream.range(0, 10).forEach(System.out::println);
-
 ```
 
 #HSLIDE 
@@ -283,19 +323,6 @@ Method name **getCountOfApples**
 Parameter list **( … )**  
 Exception list **throws Throwable**  
 Method body **{ … }**  
-
-#HSLIDE
-# JDK Setup
-1. Download [**JDK8**](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 
-
-2. Look inside jdk directory
-```
-> ls jdk8/
-```
-```
-> ls jdk8/bin/
-```
-java, javac, javap, jar
 
 #HSLIDE
 ## JDK/JRE/JVM
@@ -325,8 +352,8 @@ JVM + Lang + Libs
 set **path** and **JAVA_HOME** environment variables  
 **Linux:**
 ```bash
-> echo "PATH='/path/to/jdk8/bin:$PATH'" >> ~/.bashrc
-> echo "JAVA_HOME='/path/to/jdk8/'" >> ~/.bashrc
+> echo "PATH='/path/to/jdk9/bin:$PATH'" >> ~/.bashrc
+> echo "JAVA_HOME='/path/to/jdk9/'" >> ~/.bashrc
 > source ~/.bashrc
 > echo $PATH
 ...
@@ -335,8 +362,8 @@ set **path** and **JAVA_HOME** environment variables
 ```
 **macOS:** (possibly sudo)
 ```bash
-> echo "PATH='/path/to/jdk8/bin:$PATH'" >> /etc/profile
-> echo "JAVA_HOME='/path/to/jdk8/'" >> /etc/profile
+> echo "PATH='/path/to/jdk9/bin:$PATH'" >> /etc/profile
+> echo "JAVA_HOME='/path/to/jdk9/'" >> /etc/profile
 > source /etc/profile
 > echo $PATH
 ...
@@ -355,6 +382,11 @@ set **path** and **JAVA_HOME** environment variables
 ...
 ```
 
+#HSLIDE
+# First program
+All the code in contained in **.java** files.  
+Let's create our first java program in file with name **HelloWorld.java**  
+
 #HSLIDE 
 # Hello, World!
 **HelloWorld.java**
@@ -372,7 +404,7 @@ public class HelloWorld {
 5. Every statement must end with **;**
 
 #HSLIDE 
-# compile and run
+# Compile and run
 
 1. Compile program with **javac**
 ```bash
@@ -428,43 +460,71 @@ So they use java archives (**jar**) that contain all necessary class files and c
 
 #HSLIDE 
 # Git
-Distributed **version control system**
-Install git  
-[https://git-scm.com/](https://git-scm.com/)
+Distributed **version control system**   
+[Install git](https://git-scm.com/)
 
-How it is different from **svn**?
-
-(We will just cover basic commands  
-To better understand git - get some course)
+(We will just cover commands, necessary for our workflow  
+To better understand **git** - get some course)
 
 #HSLIDE
 ## Fork repository and set upstream
-1. После форка в вашем github появится копия репозитория
+1. После форка в вашем github появится несинхронизованная копия (**fork**), **склонируем** ее и получим **рабочую копию** форка
 ```bash
-> git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git
+> git clone https://github.com/YOUR_USERNAME/atom.git
 ```
-если вы его уже склонировали раньше, то обновите
-```bash
-> git pull --rebase
-```
-2. Настроим синхронизацию репозитория, чтобы вы работали со свежей версией кода
+2. Свяжем **рабочую копию вашего форка** с **репозиторием курса**, чтобы вы могли их синхронизировать и работать со свежей версией кода и проверим, что это сработало
 ```bash
 > cd atom
 > git remote add upstream https://github.com/rybalkinsd/atom.git
-```
-3. Проверим, что синхронизация включена
-```bash
 > git remote -v
-origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
-origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+origin  https://github.com/YOUR_USERNAME/atom.git (fetch)
+origin  https://github.com/YOUR_USERNAME/atom.git (push)
 upstream https://github.com/rybalkinsd/atom.git (fetch)
 upstream https://github.com/rybalkinsd/atom.git (push)
 ```
+Теперь ваш fork будет известен git-у как **origin** (по умолчанию)  
+а репозиторий курса - как **upstream** (только что настроили)  
 
 #HSLIDE
 ## Git branches
-https://www.atlassian.com/git/tutorials/using-branches
-<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 750px; float: left;"/>  
+We will use git branches to communicate.  
+we will do **homeworks** in branches (like **homeworkN**) and all the **class activity** in repository will be in branches (like **lectureN**)  
+
+[[Guide on using branches by Atlassian]](https://www.atlassian.com/git/tutorials/using-branches)
+<img src="lecture01/presentation/assets/img/branch.png" alt="me" style="width: 400px; float: left;"/>  
+
+#HSLIDE
+## Git practice
+Now we have **course repository** known as **upstream**,  
+**your fork**, known as **origin**  
+
+We now practice to make changes in our **working copy** of **your fork**, then push them to **your fork** on github and **pull-request** them to **course repository**  
+
+You will push only to **your fork** (**not** to **course repository**)  
+
+[**fork local copy**] ==push==> [**fork repo**] ==pull request==> [**course repo**]
+
+
+#HSLIDE
+## Github workflow
+1. **Fork** project **(only once)**
+2. **clone** your fork **(only once)**
+```bash
+> git clone https://github.com/MY-GITHUB-NAME/atom
+```
+3. **checkout** branch which you want to contribute
+```bash
+> git fetch upstream
+> git checkout -b lecture01 upstream/lecture01
+```
+4. make changes and **push** them to **your fork**
+```bash
+> git pull --rebase upstream lecture01
+> git add MyFixedFile1.java MyFixedFile2.java
+> git commit -m 'Fixed all bugs and added new'
+> git push -u origin lecture01
+```
+5. make **pull-request** **(only once)**
 
 #HSLIDE
 ## git branch commands
@@ -473,22 +533,26 @@ https://www.atlassian.com/git/tutorials/using-branches
 > git branch
 master
 ```
-взять последние сведени о ветках из удаленного репозитория
+взять последние сведения о ветках из **вашего форка**
 ```bash
-> git fetch
+> git fetch origin
 ```
-выбрать ветку lecture1
+взять последние сведения о ветках из **репозитория курса**
+```bash
+> git fetch upstream
+```
+переключиться на ветку **lecture1**
 ```bash
 > git checkout lecture1
 ```
-Создать ветку new-branch
+Создать ветку **new-branch**
 ```bash
 > git checkout -b new-branch
 ```
 
 #HSLIDE
 ## git commit commands
-посмотреть состояние рабочей копии
+посмотреть состояние **рабочей копии**
 ```bash
 > git status
 ...
@@ -497,40 +561,36 @@ master
 ```bash
 > git add changed_file
 ```
-зафиксировать изменения в локальном репозитории
+зафиксировать изменения в **локальном репозитории**
 ```bash
 > git commit -m 'Сообщение с пояснением коммита'
 ```
-послать изменения в удаленный (публичный) репозиторий
+послать изменения в **ваш форк** на github
 ```bash
-> git push
-```
-взять новые изменения из удаленного репозитория
-```bash
-> git pull --rebase
+> git push origin branch-to-push
 ```
 
 #HSLIDE
-## Github workflow
-1. **Fork** project
-2. **clone** forked project
+## git update commands
+взять новые изменения из **вашего форка**
 ```bash
-> git clone https://github.com/MY-GITHUB-NAME/atom
+> git pull --rebase origin master
 ```
-3. **checkout** branch which you want to contribute
+взять новые изменения из **репозитория курса**
 ```bash
-> git fetch
-> git checkout homework-branch
+> git pull --rebase upstream master
 ```
-4. make changes and **push** them to **your fork**
-```bash
-> git pull --rebase
-> git add MyFixedFile1.java MyFixedFile2.java
-> git commit -m 'Fixed all bugs and added new'
-> git push
-```
-5. make **pull-request**
+**--rebase** заставляет **git** переносить ваши изменения поверх изменений других людей в этой ветке, которые они сделали, пока вы работали над этой веткой локально  
+(возможны конфликты)
 
+#HSLIDE
+# Git editor setup
+Для некоторых интерактивных действий (например изменение описания коммита) git использует редактор    
+Редактор по умолчанию - **vim**  
+Для тех, кто не знает, [как выйти из вима](https://stackoverflow.com/questions/11828270/how-to-exit-the-vim-editor), и пользуется **windows**, простой путь - сделать редактором notepad
+```bash
+> git config --global core.editor notepad
+```
 
 #HSLIDE 
 # 5. Gradle 
@@ -543,10 +603,11 @@ master
 
 #HSLIDE
 # Gradle
-https://gradle.org/
+https://gradle.org/  
 **Gradle** - build automation system  
+
 Like **maven** but more powerful  
-do not need installation ([details](https://gradle.org/install)), just use:
+do not need installation ([details](https://gradle.org/install)), just use inside atom directory:
 
 
 **Windows:**
@@ -559,11 +620,11 @@ do not need installation ([details](https://gradle.org/install)), just use:
 ```
 
 #HSLIDE
-## What grandle can
+## Why gradle?
 - build/test/jar ... your project
 - support custom build stages, configurable with **groovy**
-- manage dependencies (automatacally download)
-- manage dependencies between projects  
+- manage **dependencies** (automatically download)
+- manage project structure  
   
 build configuration is contained in **build.gradle**  
 gradle settings are defined in **gradle.settings**  
@@ -597,12 +658,28 @@ So your code will not build unless style is correct :)
 Continuous Integration Tool  
 [https://travis-ci.org/](https://travis-ci.org/)  
 
-When you push to repository - Travis automatically runs gradle build on server
-It tracks all branches and pull requests
+When you push to repository - Travis automatically runs gradle build on server  
+It tracks all branches and pull requests  
 [https://travis-ci.org/rybalkinsd/atom/pull_requests](https://travis-ci.org/rybalkinsd/atom/pull_requests)  
 
 **check your pull requests there!**
 **all tests must pass!**
+
+#HSLIDE 
+## Summary
+**Now you must:**
+1. Setup JDK
+2. Be able to write simple program, compile and run
+3. Fork course repository and clone it
+4. Be able co make changes and commit to you fork
+5. Be able to make pull request
+6. Be able to build project with
+```
+./gradlew clean build
+```
+**Uff, a lot of staff!**  
+  
+Ask me if you have any problems
 
 #HSLIDE 
 # 6. Homework 1 
@@ -615,20 +692,24 @@ It tracks all branches and pull requests
 
 #HSLIDE
 # Homework 1
-1. Fix tests in branch **homework1**
-2. Make pull request to course repository
-[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
-3. Make sure tests are passing in travis  
+1. Fix tests in branch **homework1** and push it to **your fork**  
+[[Github branch]](https://github.com/rybalkinsd/atom/tree/homework1)
+[[Travis build]](https://travis-ci.org/rybalkinsd/atom/builds/204177834)
+2. Make pull request to **course repository**
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)  
+(from your branch **homework1** to ours **homework1**)
+3. Write your credentials in description for pull request
+4. Make sure **tests** and **checkstyle** are passing in **Travis**  
 
-**Deadline:** 1 March
-**Mark:** **5 balls**
+**Deadline:** 27 September (before lecture)  
+**Mark:** 5 points
 
 #HSLIDE
 ## Литература
 **Thinking in Java** (в русском переводе - философия Java)  
 [https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486](https://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486)  
   
-Хорошая книга, придерживаться ее мы, конечно не будем
+Хорошая книга, придерживаться ее мы, конечно, не будем
 
 #HSLIDE
 ## IDE
@@ -638,7 +719,7 @@ It tracks all branches and pull requests
 **Community edition** будет достаточно, но для студентов часто бесплатно предоставляют **professional edition**
 
 #HSLIDE
-## Ура! Праздники!
+## Horay! Lecture 1 is over
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
