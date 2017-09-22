@@ -1,0 +1,52 @@
+ .container {
+    width: 545px;
+}
+
+#game {
+    margin: auto;
+    text-align: center;
+}
+
+.footer .alert {
+    text-align: center;
+    line-height: 35px;
+}
+
+.footer .alert img {
+    margin-top: -3px;
+    margin-right: 5px;
+}
+
+h1 {
+    line-height: 64px;
+    margin-bottom: 0;
+}
+
+.html5 {
+    width: 64px;
+    height: 64px;
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+
+.html5 span {
+    display: none;
+}
+
+h1 strong {
+    color: #FF4444;
+}
+
+.credits {
+    color: gray;
+}
+
+.credits a {
+    color: gray;
+    text-decoration: underline;
+}
+
+.credits a:hover {
+    color: black;
+}
