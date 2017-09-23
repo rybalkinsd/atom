@@ -8,7 +8,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class UtilTest {
-    
+
     @Test
     public void max0() throws Exception {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
@@ -42,7 +42,7 @@ public class UtilTest {
             997, 3760, 3312, 4577, 988, 3325, 472, 367, 4108};
         assertThat(Util.max(values), is(equalTo(4913)));
     }
-    
+
     @Test
     public void sum0() throws Exception {
         assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
@@ -57,7 +57,7 @@ public class UtilTest {
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
-    
+
     @Test
     public void sum3() throws Exception {
 
