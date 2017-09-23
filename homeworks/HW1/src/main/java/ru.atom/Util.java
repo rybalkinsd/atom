@@ -18,7 +18,9 @@ public class Util {
     public static int max(int[] values) {
         int param = 0;
         for (int i : values){
-        if (values[i] > param) param = values[i];
+            if (i > param){
+                param = i;
+            }
         }
         return param;
     }
@@ -32,7 +34,7 @@ public class Util {
     public static long sum(int[] values) {
         long param = 0;
         for (int i : values){
-            param += values[i];
+            param += i;
         }
         return param;
     }
