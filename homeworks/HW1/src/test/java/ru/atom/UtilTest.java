@@ -8,6 +8,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class UtilTest {
+
     
     @Test
     public void max0() throws Exception {
