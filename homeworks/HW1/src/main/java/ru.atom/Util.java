@@ -5,9 +5,8 @@ package ru.atom;
  * Note:
  *  throw new UnsupportedOperationException(); - is just a stub
  */
+
 public class Util {
-
-
 
     /**
      * Returns the greatest of {@code int} values.
@@ -16,7 +15,20 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int mx = values[0];
+        for (int index = 1; index < values.length; ++index) {
+            if (mx < values[index]) {
+                mx = values[index];
+            }
+        }
+        return mx;
+        /*
+        хотел бы так я написать
+        на джаве код в одну строку
+        чтобы студентам показать
+        смотрите все, как я могу
+         */
+        //return Arrays.stream(values).max().getAsInt();
     }
 
     /**
@@ -26,7 +38,11 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sm = 0;
+        for (int value : values) {
+            sm += value;
+        }
+        return sm;
     }
 
 
