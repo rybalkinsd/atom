@@ -17,12 +17,12 @@ public class Util {
      */
     public static int max(int[] values) {
         int maxEl = values[0];
-        for (int i : values)
-            if (i > maxEl) {
-            maxEl = i;
+        for (int i: values) {
+            if (maxEl < i) {
+                maxEl = i;
+            }
         }
         return maxEl;
-
     }
 
     /**
@@ -33,11 +33,10 @@ public class Util {
      */
     public static long sum(int[] values) {
         long sumEl = 0;
-        for (int i : values){
-          sumEl = sumEl +i;
+        for (int i: values) {
+            sumEl = sumEl + i;
         }
         return sumEl;
     }
-
 
 }
