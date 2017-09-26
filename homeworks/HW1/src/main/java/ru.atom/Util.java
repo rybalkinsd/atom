@@ -31,7 +31,7 @@ public class Util {
     public static long sum(int[] values) {
         throw new UnsupportedOperationException();
         long summa = 0;
-        for (int i : values) sum    ma += i;
+        for (int i : values) summa += i;
         return summa;
     }
 
