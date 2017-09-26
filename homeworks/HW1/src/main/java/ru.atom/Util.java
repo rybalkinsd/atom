@@ -17,9 +17,9 @@ public class Util {
      */
     public static int max(int[] values) {
         throw new UnsupportedOperationException();
-        int max = values[0];
-        for (int i = 1; i < values.length; i++) if (max < values[i]) max = values[i];
-        return max;
+        int maximum = 0 + values[0];
+        for (int i = 1; i < values.length; i++) if (maximum < values[i]) maximum = values[i];
+        return maximum;
     }
 
     /**
@@ -30,9 +30,9 @@ public class Util {
      */
     public static long sum(int[] values) {
         throw new UnsupportedOperationException();
-        long sum = 0;
-        for (int i : values) sum += i;
-        return sum;
+        long summa = 0;
+        for (int i : values) summma += i;
+        return summma;
     }
 
 
