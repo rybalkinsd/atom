@@ -19,10 +19,10 @@ public class Util {
 
         int maximum = values[0];
 
-        for (int var: values)
-        {
-            if( var > maximum)
+        for (int var: values) {
+            if (var > maximum) {
                 maximum = var;
+            }
         }
         return maximum;
     }
