@@ -8,7 +8,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class UtilTest {
-    
+
     @Test
     public void max0() throws Exception {
         assertThat(Util.max(new int[]{42}), is(equalTo(42)));
@@ -23,7 +23,7 @@ public class UtilTest {
     public void max2() throws Exception {
         assertThat(Util.max(new int[]{2, 2, 0}), is(equalTo(2)));
     }
-    
+
     @Test
     public void max3() throws Exception {
         int[] values = {3262, 3989, 4825, 3751, 147, 2376, 2866, 1192, 2259, 905, 4810, 2481, 4243,
@@ -42,7 +42,7 @@ public class UtilTest {
             997, 3760, 3312, 4577, 988, 3325, 472, 367, 4108};
         assertThat(Util.max(values), is(equalTo(4913)));
     }
-    
+
     @Test
     public void sum0() throws Exception {
         assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
@@ -57,7 +57,7 @@ public class UtilTest {
     public void sum2() throws Exception {
         assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
     }
-    
+
     @Test
     public void sum3() throws Exception {
 
@@ -226,6 +226,6 @@ public class UtilTest {
             230403624, 2089178816, -2031848796, -434079731, 282818750, 1283007243, -2133152874,
             1414327400, 815984940, 495461839, -107851191, -1472540960, -264932259, -41121395};
 
-        assertThat(Util.sum(values), is(equalTo(-53_391_415_378L)));
+        assertThat((Long)Util.sum(values), is(equalTo(-1851807826L)));
     }
 }
