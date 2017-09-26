@@ -1,14 +1,13 @@
 package ru.atom;
 
+import java.util.stream.IntStream;
+
 /**
  * In this assignment you need to implement the following util methods.
  * Note:
  *  throw new UnsupportedOperationException(); - is just a stub
  */
 public class Util {
-
-
-
     /**
      * Returns the greatest of {@code int} values.
      *
@@ -16,7 +15,13 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+
+        int maxValue = values[0];
+
+        for (int value: values)
+            if (maxValue < value) maxValue = value;
+
+        return maxValue;
     }
 
     /**
@@ -26,8 +31,13 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+
+        int sumValues = 0;
+
+        // in jshell lambda works :(
+        //IntStream.range(0, values.length).forEach(i -> sumValues+=values[i]);
+
+        for (int value: values) sumValues += value;
+        return sumValues;
     }
-
-
 }
