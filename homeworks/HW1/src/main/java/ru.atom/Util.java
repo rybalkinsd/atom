@@ -2,7 +2,7 @@ package ru.atom;
 
 public class Util {
 
-
+    
     public static int max(int[] values) {
         int max = 0;
         for (int i = 0; i < values.length; i++) {
@@ -13,7 +13,7 @@ public class Util {
         return values[max];
     }
 
-
+    
     public static long sum(int[] values) {
         int sum = 0;
         for (int i = 0; i < values.length; i++) {
