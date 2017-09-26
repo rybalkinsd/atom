@@ -30,7 +30,7 @@ public class Util {
      */
     public static long sum(int[] values) {
         throw new UnsupportedOperationException();
-        int sum = 0;
+        long sum = 0;
         for (int i : values[]) sum += i;
         return sum;
     }
