@@ -1,31 +1,13 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
+    
     private Point vertex1 = new Point(0, 0);
     private Point vertex3 = new Point(1, 1);
-
-    public Bar() {
-    }
 
     public Bar(int x1, int y1, int x3, int y3) {
         this.vertex1 = new Point(min(x1, x3), min(y1, y3));
         this.vertex3 = new Point(max(x1, x3), max(y1, y3));
-    }
-
-    public Point getVertex1() {
-        return vertex1;
-    }
-
-    public Point getVertex3() {
-        return vertex3;
-    }
-
-    public void setVertex1(Point vertex1) {
-        this.vertex1 = vertex1;
-    }
-
-    public void setVertex3(Point vertex3) {
-        this.vertex3 = vertex3;
     }
 
     private int max(int a, int b) {
