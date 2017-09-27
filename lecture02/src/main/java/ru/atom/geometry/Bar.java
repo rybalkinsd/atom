@@ -21,10 +21,10 @@ public class Bar implements Collider {
         // cast from Object to Bar
         Bar bar = (Bar) o;
 
-        return bar.getFirstCornerX() == getFirstCornerX() &&
-                bar.getFirstCornerY() == getFirstCornerY() &&
-                bar.getSecondCornerX() == getSecondCornerX() &&
-                bar.getSecondCornerY() == getSecondCornerY();
+        return bar.getFirstCornerX() == getFirstCornerX()
+                && bar.getFirstCornerY() == getFirstCornerY()
+                && bar.getSecondCornerX() == getSecondCornerX()
+                && bar.getSecondCornerY() == getSecondCornerY();
     }
 
     @Override
@@ -60,9 +60,9 @@ public class Bar implements Collider {
         Point pointRightDown = (Point) Geometry.createPoint(other.getSecondCornerX(), other.getFirstCornerY());
         Point pointRightUp = (Point) Geometry.createPoint(other.getSecondCornerX(), other.getSecondCornerY());
 
-        return Utils.barIsCollidingWithPoint(this, pointLeftDown) ||
-                Utils.barIsCollidingWithPoint(this, pointLeftUp) ||
-                Utils.barIsCollidingWithPoint(this, pointRightDown) ||
-                Utils.barIsCollidingWithPoint(this, pointRightUp);
+        return Utils.barIsCollidingWithPoint(this, pointLeftDown)
+                || Utils.barIsCollidingWithPoint(this, pointLeftUp)
+                || Utils.barIsCollidingWithPoint(this, pointRightDown)
+                || Utils.barIsCollidingWithPoint(this, pointRightUp);
     }
 }
