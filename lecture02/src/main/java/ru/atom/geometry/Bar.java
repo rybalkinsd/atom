@@ -2,7 +2,8 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    private Point up, down;
+    private Point up;
+    private Point down;
 
     Bar(int firstX, int firstY, int secondX, int secondY) {
 
