@@ -11,20 +11,27 @@ public class Point implements Collider {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Point point = (Point) o;
-        if (this.x == point.returnX() && this.y == point.returnY())
+        if (this.x == point.returnX() && this.y == point.returnY()) {
             return true;
-        else return false;
+        } else {
+            return false;
+        }
     }
 
     public boolean isColliding(Collider point) {
-        if (point instanceof Point)
+        if (point instanceof Point) {
             return this.equals(point);
-        else if (point instanceof Bar)
+        } else if (point instanceof Bar) {
             return point.isColliding(this);
+        }
         return false;
     }
 
