@@ -18,20 +18,18 @@ public class Bar implements Collider {
             Bar bar = (Bar) o;
             Point firstPoint = new Point(bar.firstCornerPoint.x, bar.secondCornerPoint.y);
             Point secondPoint = new Point(bar.secondCornerPoint.x, bar.firstCornerPoint.y);
-            return pointInsideBar(firstPoint) ||
-                    pointInsideBar(secondPoint) ||
-                    bar.pointInsideBar(firstCornerPoint) ||
-                    bar.pointInsideBar(secondCornerPoint);
+            boolean isInThisBar = pointInsideBar(firstPoint) || pointInsideBar(secondPoint);
+            boolean isInThatBar = bar.pointInsideBar(firstCornerPoint) || bar.pointInsideBar(secondCornerPoint);
+            return isInThisBar || isInThatBar;
         } else {
             return pointInsideBar((Point) o);
         }
     }
 
     public boolean pointInsideBar(Point point) {
-        return this.firstCornerPoint.x <= point.x &&
-                this.firstCornerPoint.y <= point.y &&
-                point.x <= secondCornerPoint.x &&
-                point.y <= secondCornerPoint.y;
+        boolean isRight = this.firstCornerPoint.x <= point.x && this.firstCornerPoint.y <= point.y;
+        boolean isLeft = point.x <= secondCornerPoint.x && point.y <= secondCornerPoint.y;
+        return isLeft && isRight;
     }
 
     public boolean equals(Object o) {
@@ -39,8 +37,7 @@ public class Bar implements Collider {
         if (o == null || getClass() != o.getClass()) return false;
 
         Bar bar = (Bar) o;
-        return firstCornerPoint.equals(bar.firstCornerPoint) &&
-                secondCornerPoint.equals(bar.secondCornerPoint);
+        return firstCornerPoint.equals(bar.firstCornerPoint) && secondCornerPoint.equals(bar.secondCornerPoint);
     }
 
     /* public boolean isColliding(Bar other) {
