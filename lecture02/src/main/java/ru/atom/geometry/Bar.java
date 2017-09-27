@@ -30,8 +30,8 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
             Bar obj = (Bar) other;
-            return (obj.vertex1.moreOrEquals(this.vertex1) && obj.vertex1.lessOrEquals(this.vertex3)) ||
-                    (obj.vertex3.moreOrEquals(this.vertex1) && obj.vertex3.lessOrEquals(this.vertex3));
+            return (obj.vertex1.moreOrEquals(this.vertex1) && obj.vertex1.lessOrEquals(this.vertex3))
+                    || (obj.vertex3.moreOrEquals(this.vertex1) && obj.vertex3.lessOrEquals(this.vertex3));
 
         } else if (other instanceof Point) {
             Point obj = (Point) other;
