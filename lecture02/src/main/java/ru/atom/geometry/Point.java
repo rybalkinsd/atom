@@ -1,25 +1,43 @@
 package ru.atom.geometry;
 
-/**
- * Template class for
- */
-public class Point /* super class and interfaces here if necessary */ {
-    // fields
-    // and methods
+public class Point implements Collider {
 
-    /**
-     * @param o - other object to check equality with
-     * @return true if two points are equal and not null.
-     */
+    private int x = 0;
+    private int y = 0;
+
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean moreOrEquals(Point o) {
+        return this.x >= o.getX() && this.y >= o.getY();
+    }
+
+    public boolean lessOrEquals(Point o) {
+        return this.x <= o.getX() && this.y <= o.getY();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        Point other = (Point) o;
+        return x == other.x && y == other.y;
+    }
 
-        // cast from Object to Point
-        Point point = (Point) o;
-
-        // your code here
-        throw new UnsupportedOperationException();
+    @Override
+    public boolean isColliding(Collider other) {
+        Point obj = (Point) other;
+        return this.x == obj.x && this.y == obj.y;
     }
 }
