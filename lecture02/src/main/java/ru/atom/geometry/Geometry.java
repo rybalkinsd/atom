@@ -22,7 +22,25 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new UnsupportedOperationException();
+        int xmax;
+        int xmin;
+        int ymax;
+        int ymin;
+        if (secondCornerX > firstCornerX) {
+            xmax = secondCornerX;
+            xmin = firstCornerX;
+        } else {
+            xmax = firstCornerX;
+            xmin = secondCornerX;
+        }
+        if (secondCornerY > firstCornerY) {
+            ymax = secondCornerY;
+            ymin = firstCornerY;
+        } else {
+            ymax = firstCornerY;
+            ymin = secondCornerY;
+        }
+        return new Bar(xmin, ymin, xmax, ymax);
     }
 
     /**
@@ -30,6 +48,6 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new UnsupportedOperationException();
+        return new Point(x, y);
     }
 }
