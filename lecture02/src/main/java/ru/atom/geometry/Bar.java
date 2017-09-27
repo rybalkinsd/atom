@@ -48,8 +48,7 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
             Bar o = (Bar) other;
-            return (o.vertex1.moreOrEquals(this.vertex1) && o.vertex1.lessOrEquals(this.vertex3)) ||
-                    (o.vertex3.moreOrEquals(this.vertex1) && o.vertex3.lessOrEquals(this.vertex3));
+            return (o.vertex1.moreOrEquals(this.vertex1) && o.vertex1.lessOrEquals(this.vertex3)) || (o.vertex3.moreOrEquals(this.vertex1) && o.vertex3.lessOrEquals(this.vertex3));
 
         } else if (other instanceof Point) {
             Point o = (Point) other;
