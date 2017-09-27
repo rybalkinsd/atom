@@ -37,7 +37,7 @@ public class Point implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        Point o = (Point) other;
-        return this.x == o.x && this.y == o.y;
+        Point obj = (Point) other;
+        return this.x == obj.x && this.y == obj.y;
     }
 }

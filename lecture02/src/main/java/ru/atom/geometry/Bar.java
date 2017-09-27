@@ -1,7 +1,7 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
-    
+
     private Point vertex1 = new Point(0, 0);
     private Point vertex3 = new Point(1, 1);
 
@@ -29,12 +29,12 @@ public class Bar implements Collider {
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
-            Bar o = (Bar) other;
-            return (o.vertex1.moreOrEquals(this.vertex1) && o.vertex1.lessOrEquals(this.vertex3)) || (o.vertex3.moreOrEquals(this.vertex1) && o.vertex3.lessOrEquals(this.vertex3));
+            Bar obj = (Bar) other;
+            return (obj.vertex1.moreOrEquals(this.vertex1) && obj.vertex1.lessOrEquals(this.vertex3)) || (obj.vertex3.moreOrEquals(this.vertex1) && obj.vertex3.lessOrEquals(this.vertex3));
 
         } else if (other instanceof Point) {
-            Point o = (Point) other;
-            return o.moreOrEquals(this.vertex1) && o.lessOrEquals(this.vertex3);
+            Point obj = (Point) other;
+            return obj.moreOrEquals(this.vertex1) && obj.lessOrEquals(this.vertex3);
         }
         return true;
     }
