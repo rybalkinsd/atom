@@ -1,4 +1,5 @@
 package ru.atom;
+
 public class Util {
 
 
