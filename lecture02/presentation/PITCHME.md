@@ -248,7 +248,7 @@ Player customPlayer = new Player(10, "Niels Bohr");
 #HSLIDE
 ### Default constructor
 
-**NO**.
+**NO** default constructor, if any constructor is defined.
 ```java
 Player simplePlayer = new Player(); // <-- Compilation error
 ```
@@ -589,7 +589,7 @@ public class Point {
 Message message = new TitledMessage("Awesome title", "Perfect content");
 message instanceOf TitledMessage // <-- It is true 
 ```
-Software engineering wisdom:
+Software engineering wisdom:  
 **Do not** disclose the details of implementation (without need).
 Use "interface" wherever you can.  
   
