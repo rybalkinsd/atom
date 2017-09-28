@@ -23,21 +23,24 @@ public final class Geometry {
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         //from bottom left corner to top right corner
-        Bar bar = null;
+        int tmp = 0;
         if (firstCornerX < secondCornerX) {
-            if (firstCornerY < secondCornerY) {
-                bar = new Bar(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
-            } else {
-                bar = new Bar(firstCornerX, secondCornerY, secondCornerX, firstCornerY);
+            if (firstCornerY > secondCornerY) {
+                tmp = secondCornerY;
+                secondCornerY = firstCornerY;
+                firstCornerY = tmp;
             }
         } else {
-            if (firstCornerY < secondCornerY) {
-                bar = new Bar(secondCornerX, firstCornerY, firstCornerX, secondCornerY);
-            } else {
-                bar = new Bar(secondCornerX, secondCornerY, firstCornerX, firstCornerY);
+            tmp = secondCornerX;
+            secondCornerX = firstCornerX;
+            firstCornerX = tmp;
+            if (firstCornerY > secondCornerY) {
+                tmp = secondCornerY;
+                secondCornerY = firstCornerY;
+                firstCornerY = tmp;
             }
         }
-        return bar;
+        return new Bar(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
     }
 
     /**

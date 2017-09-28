@@ -26,9 +26,9 @@ public class Point implements Collider {
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
-            return IntersectionDetector.isIntersects((Bar)other, this);
+            return ((Bar)other).hasInto(this);
         } else /*if (other instanceof Point)*/ {
-            return IntersectionDetector.isIntersects(this, (Point)other);
+            return equals(other);
         }
     }
 

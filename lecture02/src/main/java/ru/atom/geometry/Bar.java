@@ -27,12 +27,24 @@ public class Bar implements Collider {
         return finishCorner.getY() - startCorner.getY();
     }
 
+    public boolean isIntersects(Bar otherBar) {
+        int width = startCorner.getX() < otherBar.getStartCorner().getX() ? this.getWidth() : otherBar.getWidth();
+        int height = startCorner.getY() < otherBar.getStartCorner().getY() ? this.getHeight() : otherBar.getHeight();
+        return Math.abs(startCorner.getX()  - otherBar.getStartCorner().getX()) <= width
+                && Math.abs(startCorner.getY() - otherBar.getStartCorner().getY()) <= height;
+    }
+
+    public boolean hasInto(Point point) {
+        return point.getX() <= startCorner.getX() + this.getWidth()
+                && point.getY() <= startCorner.getY() + this.getHeight();
+    }
+
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
-            return IntersectionDetector.isIntersects(this, (Bar)other);
+            return isIntersects((Bar)other);
         } else /*if (other instanceof Point)*/ {
-            return IntersectionDetector.isIntersects(this, (Point) other);
+            return hasInto((Point)other);
         }
     }
 
