@@ -32,17 +32,16 @@ public class Point implements Collider/* super class and interfaces here if nece
     this.y = y;
     }
      */
+    
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-         // cast from Object to Point
+
         Point point = (Point) o;
 
-         // your code here//
-        //throw new UnsupportedOperationException();
 
         if (this.x == point.x && this.y == point.y) {
 
@@ -51,6 +50,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         }
         return false;
     }
+
     @Override
     public boolean isColliding(Collider other) {
 
