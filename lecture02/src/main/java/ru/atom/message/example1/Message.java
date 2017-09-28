@@ -5,6 +5,7 @@ package ru.atom.message.example1;
  */
 public class Message {
     private String content;
+    //здарова
 
 
 
