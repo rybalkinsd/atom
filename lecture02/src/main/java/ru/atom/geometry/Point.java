@@ -26,7 +26,7 @@ public class Point implements Collider {
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
-            return ((Bar)other).hasInto(this);
+            return ((Bar)other).isIncluding(this);
         } else /*if (other instanceof Point)*/ {
             return equals(other);
         }

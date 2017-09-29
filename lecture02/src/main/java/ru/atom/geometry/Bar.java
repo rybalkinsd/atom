@@ -3,48 +3,56 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    private Point startCorner;
-    private Point finishCorner;
+    private final Point originCorner;
+    private final Point endCorner;
 
-    public Bar(int startCornerX, int startCornerY, int finishCornerX, int finishCornerY) {
-        startCorner = new Point(startCornerX, startCornerY);
-        finishCorner = new Point(finishCornerX, finishCornerY);
+    /*                  endCorner
+                    +--*
+                    | /|
+                    |/ |
+                    *--+
+        originCorner
+     */
+
+    public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        originCorner = new Point(Math.min(firstCornerX, secondCornerX), Math.min(firstCornerY, secondCornerY));
+        endCorner = new Point(Math.max(firstCornerX, secondCornerX), Math.max(firstCornerY, secondCornerY));
     }
 
-    public Point getStartCorner() {
-        return new Point(startCorner.getX(), startCorner.getY());
+    public Point getOriginCorner() {
+        return new Point(originCorner.getX(), originCorner.getY());
     }
 
-    public Point getFinishCorner() {
-        return new Point(finishCorner.getX(), finishCorner.getY());
+    public Point getEndCorner() {
+        return new Point(endCorner.getX(), endCorner.getY());
     }
 
     public int getWidth() {
-        return finishCorner.getX() - startCorner.getX();
+        return endCorner.getX() - originCorner.getX();
     }
 
     public int getHeight() {
-        return finishCorner.getY() - startCorner.getY();
+        return endCorner.getY() - originCorner.getY();
     }
 
-    public boolean isIntersects(Bar otherBar) {
-        int width = startCorner.getX() < otherBar.getStartCorner().getX() ? this.getWidth() : otherBar.getWidth();
-        int height = startCorner.getY() < otherBar.getStartCorner().getY() ? this.getHeight() : otherBar.getHeight();
-        return Math.abs(startCorner.getX()  - otherBar.getStartCorner().getX()) <= width
-                && Math.abs(startCorner.getY() - otherBar.getStartCorner().getY()) <= height;
+    public boolean isIntersecting(Bar otherBar) {
+        return Math.abs(originCorner.getX() - (otherBar.getOriginCorner().getX()))
+                <= (originCorner.getX() < otherBar.getOriginCorner().getX() ? this.getWidth() : otherBar.getWidth())
+                && Math.abs(originCorner.getY() - otherBar.getOriginCorner().getY())
+                <= (originCorner.getY() < otherBar.getOriginCorner().getY() ? this.getHeight() : otherBar.getHeight());
     }
 
-    public boolean hasInto(Point point) {
-        return point.getX() <= startCorner.getX() + this.getWidth()
-                && point.getY() <= startCorner.getY() + this.getHeight();
+    public boolean isIncluding(Point point) {
+        return point.getX() <= originCorner.getX() + this.getWidth()
+                && point.getY() <= originCorner.getY() + this.getHeight();
     }
 
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Bar) {
-            return isIntersects((Bar)other);
+            return isIntersecting((Bar)other);
         } else /*if (other instanceof Point)*/ {
-            return hasInto((Point)other);
+            return isIncluding((Point)other);
         }
     }
 
