@@ -13,19 +13,15 @@ public class Point implements Collider/* super class and interfaces here if nece
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
 
     public boolean isColliding(Collider other) {
 
         if (other instanceof Point) {
-            if (x == ((Point) other).getX() && y == ((Point) other).getY()) return true;
+            if (x == ((Point) other).x && y == ((Point) other).y) return true;
 
+        } else {
+            Bar bar = (Bar) other;
+            if (bar.x1 <= x && x <= bar.x2 && bar.y1 <= y && y <= bar.y2) return true;
         }
 
         return false;
