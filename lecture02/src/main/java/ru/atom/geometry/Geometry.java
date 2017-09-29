@@ -23,7 +23,8 @@ public final class Geometry {
      */
 
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-       return new Bar(Math.max(firstCornerX, secondCornerX), Math.max(firstCornerY, secondCornerY), Math.min(firstCornerX, secondCornerX), Math.min(firstCornerY, secondCornerY));
+        return new Bar(Math.max(firstCornerX, secondCornerX), Math.max(firstCornerY, secondCornerY), Math.min(firstCornerX,
+               secondCornerX), Math.min(firstCornerY, secondCornerY));
     }
 
     /**
