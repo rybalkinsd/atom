@@ -65,7 +65,7 @@ public class Bar implements Collider {
         Bar bar = (Bar) o;
 
         // your code here
-        return getWidth() == bar.getWidth() && getHeight() == bar.getHeight();
+        return originCorner.equals(bar.originCorner) && endCorner.equals(bar.endCorner);
     }
 
 }
