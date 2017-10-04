@@ -6,36 +6,80 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+    int size = 0;
+    ListNode<E> x;
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        for (E i : this) {
+            if (i == o) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+            int count;
+            ListNode<E> curr = x;
+            @Override
+            public boolean hasNext() {
+                return (size != count);
+            }
+
+            @Override
+            public E next() {
+                count++;
+                E next = curr.value;
+                curr = curr.next;
+                return next;
+            }
+        };
     }
 
     @Override
-    public boolean add(E e) {
-        throw new UnsupportedOperationException();
+    public boolean add(E t) {
+        if (size == 0) {
+            x = new ListNode(t);
+        } else {
+            ListNode<E> newListNode = new ListNode(t,x,x.prev);
+            newListNode.prev.next = newListNode;
+            newListNode.next.prev = newListNode;
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> num = x;
+        while (num.value != o) {
+            num = num.next;
+        }
+        if (num.value == o) {
+            if (num == x) {
+                x = x.next;
+            }
+            num.prev.next = num.next;
+            num.next.prev = num.prev;
+            num.next = num.prev = null;
+            num.value = null;
+            size--;
+        }
+        return true;
     }
 
     @Override
@@ -55,7 +99,10 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E i : c) {
+            this.add(i);
+        }
+        return true;
     }
 
 
