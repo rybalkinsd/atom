@@ -53,7 +53,7 @@ public class Bar implements Collider {
 
         // compare the area of rectangles
 
-        return firstPoint.x == bar.firstPoint.x && firstPoint.y == bar.firstPoint.y
-                && secondPoint.x == bar.secondPoint.x && secondPoint.y == bar.secondPoint.y ;
+        return firstPoint.equals(bar.firstPoint) && secondPoint.equals(bar.secondPoint);
+        
     }
 }
