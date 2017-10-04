@@ -1,7 +1,5 @@
 package ru.atom.list;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -12,67 +10,67 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int size() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean add(E e) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void clear() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public E get(int index) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
-
-
-
-
 
 
     /*
       !!! Implement methods below Only if you know what you are doing !!!
      */
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        for (Object o : c) {
+            if (!contains(o)) {
+                return true;
+            }
+        }
+        return true;
+    }
 
     /**
      * Do not implement
