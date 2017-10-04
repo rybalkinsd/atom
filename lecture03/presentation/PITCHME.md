@@ -33,24 +33,44 @@ https://atom.mail.ru/
 1. Collections
 1. Homework 2
 
+
+#HSLIDE
+### adding library manually
+All the class and jar files must be in CLASSPATH  
+[CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
+It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
+
+#HSLIDE
+### gradle as dependency manager
+External libraries (**dependencies**) are managed with **gradle**.  
+  
+That is: **gradle** downloads libraries from repository and adds them to **CLASSPATH**  
+The most famous public one is **maven central**:  
+[https://search.maven.org/](https://search.maven.org/)
+  
+How to add a library and choose a version?  
+Let's recall basic info about gradle:
+- gradle.settings
+- gradle.build
+
+
 #HSLIDE
 ### settings.gradle
 Declares the configuration required to instantiate and configure the hierarchy of Project instances which are to participate in a build.
 
 ```groovy
 rootProject.name = 'atom'
-// subproject includes
+// subprojects:
 include 'lecture01'
 include 'lecture02'
 include 'lecture03'
-
-include 'homeworks/HW1'
 ```
 
 #HSLIDE
 ### build.gradle
 Project(subproject) build configuration
 
+- **plugins** - for example, *coveralls* to count coverage during build
 - **ext** - set of global variables
 - **ext.libraries** - map of most common(for our project) libraries
 - **allprojects** block - instruction for all projects
@@ -59,7 +79,10 @@ Project(subproject) build configuration
 
 #HSLIDE
 ### dependencies
-We need tests(junit) only on testCompile stage
+Let's look how test library **junit** is plugged in in gradle:  
+  
+We need tests(junit) only on testCompile stage:
+**lecture03/build.gradle** :
 ```groovy
 dependencies {
     testCompile rootProject.libraries.junit 
@@ -67,9 +90,9 @@ dependencies {
 ```
 
 #HSLIDE
-### New dependency from "project common"
-Now we want to add logging to our subproject.
-
+### New dependency is configured in ext.libraries
+Now we want to add logging to our subproject lecture03.  
+The library will be used in all the subprojects so it is configured in root **build.gradle**.  
 There is **log4j** in our `ext.libraries`
 ```groovy
 ext.libraries = [
@@ -80,8 +103,12 @@ ext.libraries = [
         ]
         //...
 ```
+**org.apache.logging.log4j:log4j-core** is the name of artifact in [https://search.maven.org/](https://search.maven.org/)
 
-Lets use it
+#HSLIDE
+### Then the library added to dependencies
+Lets use it in lecture03  
+**lecture03/build.gradle**:
 ```groovy
 dependencies {
     testCompile rootProject.libraries.junit
@@ -92,25 +119,26 @@ dependencies {
 
 #HSLIDE
 ### log4j
-Usage
+log4j is one of standard libraries for logging in java. That's how we us it:
 ```java
 class A {
+    //the logger is registered by his class name, we can use any string as a name
     private static final Logger log = LogManager.getLogger(A.class);
     
     public A() {
-        log.info("A class constructor.");
+        log.info("new A is initialized");
     }
 }
 ```
-
-**Note:** to use log4j you also have to create `lo4j2.properties` in resources folder 
+To customize logging you must create `log4j2.properties` in resources folder (in CLASSPATH)
 
 
 #HSLIDE
-### New dependency from worldwide
+### One line adding dependency:
 ```groovy
 dependencies {
     testCompile rootProject.libraries.junit
+    //this string is from https://search.maven.org/#artifactdetails%7Corg.twitter4j%7Ctwitter4j-core%7C4.0.6%7Cjar
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
 }
 ```
@@ -147,6 +175,9 @@ Recovery:
 or
 - cancel operations
 
+#HSLIDE
+### Exceptions
+Java provide high-level mechanism for this situations called **Exceptions**
 
 #HSLIDE
 ### Exceptions hierarchy
@@ -155,6 +186,7 @@ or
 
 #HSLIDE
 ##Checked exceptions must be handled
+Compiler force you to check **checked exceptions**
 
 
 #HSLIDE
