@@ -36,8 +36,7 @@ https://atom.mail.ru/
 
 #HSLIDE
 ### adding library manually
-All the class and jar files must be in CLASSPATH  
-[CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
+All the class and jar files must be in [CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
 It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
 
 #HSLIDE
@@ -45,6 +44,7 @@ It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
 External libraries (**dependencies**) are managed with **gradle**.  
   
 That is: **gradle** downloads libraries from repository and adds them to **CLASSPATH**  
+  
 The most famous public one is **maven central**:  
 [https://search.maven.org/](https://search.maven.org/)
   
@@ -68,8 +68,9 @@ include 'lecture03'
 
 #HSLIDE
 ### build.gradle
-Project(subproject) build configuration
-
+Project(or subproject) build configuration
+  
+Look at *build.gradle* (root project):
 - **plugins** - for example, *coveralls* to count coverage during build
 - **ext** - set of global variables
 - **ext.libraries** - map of most common(for our project) libraries
@@ -79,9 +80,9 @@ Project(subproject) build configuration
 
 #HSLIDE
 ### dependencies
-Let's look how test library **junit** is plugged in in gradle:  
+Let's look how test library **junit** is plugged with **gradle**:  
   
-We need tests(junit) only on testCompile stage:
+We need tests(junit) only on testCompile stage.  
 **lecture03/build.gradle** :
 ```groovy
 dependencies {
@@ -119,7 +120,7 @@ dependencies {
 
 #HSLIDE
 ### log4j
-log4j is one of standard libraries for logging in java. That's how we us it:
+log4j is one of standard libraries for logging in java. That's how we use it:
 ```java
 class A {
     //the logger is registered by his class name, we can use any string as a name
