@@ -9,6 +9,6 @@ public class HelloWorld {
     }
 
     public static String getHelloWorld() {
-        throw new NullPointerException("Ой всё");
+        return "Hello, World!";
     }
 }
