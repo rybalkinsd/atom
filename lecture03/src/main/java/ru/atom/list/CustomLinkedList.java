@@ -6,36 +6,81 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+
+    int size = 0;
+    ListNode<E> list;
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return (size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        for (E a : this) {
+            if (a == o) return true;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+            int count;
+            ListNode<E> a = list;
+
+            @Override
+            public boolean hasNext() {
+                return (size != count);
+            }
+
+            @Override
+            public E next() {
+                count++;
+                E next = a.object;
+                a = a.next;
+                return next;
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            list = new ListNode(e);
+        } else {
+            ListNode<E> newlist = new ListNode(e, list, list.prev);
+            newlist.prev.next = newlist;
+            newlist.next.prev = newlist;
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = list;
+        while (temp.object != o) {
+            temp = temp.next;
+        }
+        if (temp.object == o) {
+            if (temp == list) {
+                list = list.next;
+            }
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
+            temp.next = null;
+            temp.prev = null;
+            temp.object = null;
+            size--;
+        }
+        return true;
     }
 
     @Override
@@ -55,7 +100,10 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E a : c) {
+            this.add(a);
+        }
+        return true;
     }
 
 
