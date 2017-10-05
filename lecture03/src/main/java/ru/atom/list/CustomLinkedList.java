@@ -22,9 +22,9 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     }
 
     public boolean contains(Object o) {
-        int i = 0;
+        int itr = 0;
         ListNode<E> current = first;
-        while (i < size) {
+        while (itr < size) {
             if (current.get() == o) return true;
             if (current.hasNext()) {
                 current = current.getNext();
@@ -37,16 +37,16 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             private ListNode<E> current = first;
-            private int i = 0;
+            private int itr = 0;
 
             public boolean hasNext() {
-                return i < size;
+                return itr < size;
             }
 
             public E next() {
                 E temp = current.get();
                 current = current.getNext();
-                i++;
+                itr++;
                 return temp;
             }
 
@@ -62,7 +62,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             last = new ListNode<E>(e, last);
             size++;
         }
-        return true;    
+        return true;
     }
 
     public boolean remove(Object o) {
@@ -96,23 +96,23 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     public E get(int index) {
         if (index > size) return null;
-        int i = 1;
+        int itr = 1;
         ListNode<E> current = first;
-        while (i < index) {
+        while (itr < index) {
             current = current.getNext();
         }
         return current.get();
     }
 
     public int indexOf(Object o) {
-        int i = 1;
+        int itr = 1;
         ListNode<E> current = first;
         while (current.get() != o) {
-            if (i > size) return -1;
-            i++;
+            if (itr > size) return -1;
+            itr++;
             current = current.getNext();
         }
-        return i;
+        return itr;
     }
 
     public boolean addAll(Collection<? extends E> c) {
