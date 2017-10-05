@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -61,20 +62,25 @@ public class CustomLinkedListTest {
     public void addAll() throws Exception {
         intList.addAll(Arrays.asList(1, 2, 3, 4, 5));
         assertThat(intList.size(), is(equalTo(2 + 5)));
+
+        stringList.addAll(Arrays.asList(" I", " like", " Java"));
+        assertThat(stringList.size(), is(equalTo(3 + 3)));
     }
 
     @Test
     public void removeTest() throws Exception {
-        intList.remove((Integer) 42);
-        assertThat(intList.contains(42), is(false));
-        assertThat(intList.contains(38), is(true));
-        assertThat(intList.size(), is(1));
+        assertThat(intList.remove((Integer) 42), is(true));
+
+        assertThat(stringList.remove(", "), is(true));
     }
 
     @Test
     public void getByIndexTest1() {
-        assertThat("Hello".equals(stringList.get(0)), is(true));
-        assertThat("Hello".equals(stringList.get(1)), is(false));
+        assertThat(intList.get(0), is(equalTo(42)));
+        assertThat(intList.get(1), is(not(equalTo(42))));
+
+        assertThat(stringList.get(0), is(equalTo("Hello")));
+        assertThat(stringList.get(1), is(not(equalTo("Hello"))));
     }
 
     @Test
@@ -86,7 +92,7 @@ public class CustomLinkedListTest {
             assertThat("reachable line", true);
         }
         try {
-            String str = stringList.get(-3);
+            Integer num = intList.get(-3);
             assertThat("unreachable line", false);
         } catch (ArrayIndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
@@ -95,64 +101,61 @@ public class CustomLinkedListTest {
 
     @Test
     public void addAllWithIndexTest1() {
-        intList.addAll(0, Arrays.asList(11, 111, 1111));
-        assertThat(intList.get(0).equals((Integer)11), is(true));
-        assertThat(intList.get(1).equals((Integer)111), is(true));
-        assertThat(intList.get(2).equals((Integer)1111), is(true));
-    }
+        intList.addAll(0, Arrays.asList(11));
+        assertThat(intList.get(0), is(equalTo(11)));
 
-    @Test
-    public void addAllWithIndexTest2() {
-        stringList.addAll(stringList.size(), Arrays.asList(" my", " name", " is", " Alexander"));
-        stringList.add("!");
-        assertThat("!".equals(stringList.get(stringList.size() - 1)), is(true));
+        stringList.addAll(1, Arrays.asList("I", " like", " Java"));
+        assertThat(stringList.get(2), is(equalTo(" like")));
     }
 
     @Test
     public void removeAllTest1() {
+        intList.removeAll(Arrays.asList(38));
+        assertThat(intList.size(), is(equalTo(1)));
+
         stringList.removeAll(Arrays.asList("Hello", "world!", "lol"));
-        assertThat(", ".equals(stringList.get(stringList.size() - 1)), is(true));
+        assertThat(stringList.get(stringList.size() - 1), is(equalTo(", ")));
     }
 
     @Test
     public void removeAllTest2() {
+        assertThat(intList.removeAll(Arrays.asList(1, 2)), is(false));
+
         assertThat(stringList.removeAll(Arrays.asList("kek", "lol")), is(false));
     }
 
     @Test
-    public void retainAllTest1() {
-        List<Integer> lst = Arrays.asList(11, 111, 1111);
-        intList.addAll(0, lst);
-        assertThat(intList.retainAll(lst), is(true));
-        assertThat(intList.size() == 3, is(true));
-        assertThat(intList.get(0).equals((Integer)11), is(true));
-        assertThat(intList.get(1).equals((Integer)111), is(true));
-        assertThat(intList.get(2).equals((Integer)1111), is(true));
-    }
-
-    @Test
     public void addWithIndexTest1() {
+        intList.add(2, 11);
+        assertThat(intList.size(), is(equalTo(3)));
+
         stringList.add(1, "lol");
-        assertThat(stringList.size() == 4, is(true));
-        assertThat("world!".equals(stringList.get(3)), is(true));
+        assertThat(stringList.size(), is(equalTo(4)));
     }
 
     @Test
     public void removeWithIndexTest1() {
-        Integer removedElement = intList.remove(1);
-        assertThat(removedElement.equals(38), is(true));
-        assertThat(intList.size() == 1, is(true));
+        Integer removedIntElement = intList.remove(1);
+        assertThat(removedIntElement, is(equalTo(38)));
+
+        String removedStringElement = stringList.remove(2);
+        assertThat(removedStringElement, is(equalTo("world!")));
     }
 
     @Test
     public void clearTest() {
         intList.clear();
-        assertThat(intList.size() == 0, is(true));
+        assertThat(intList.size(), is(equalTo(0)));
+
+        stringList.clear();
+        assertThat(stringList.size(), is(equalTo(0)));
     }
 
     @Test
     public void indexOfTest() {
-        assertThat(stringList.indexOf(", ") == 1, is(true));
+        assertThat(intList.indexOf(12), is(equalTo(-1)));
+
+        assertThat(stringList.indexOf(", "), is(equalTo(1)));
     }
 
 }
