@@ -57,8 +57,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         if (size == 0) {
             first = new ListNode<E>(e);
             size++;
-        }
-        else {
+        } else {
             last = new ListNode<E>(e, last);
             size++;
         }
@@ -68,7 +67,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     public boolean remove(Object o) {
         ListNode<E> current = first;
         for (E e : this) {
-            if(e == o) {
+            if (e == o) {
                 size--;
                 if (current == first) {
                     first = first.getNext();
