@@ -120,15 +120,15 @@ public class CustomLinkedList<E> implements List<E> {
     public E get(int index) {
         //checkElementIndex(index);
         if (index < (size >> 1)) {
-            ListNode<E> x = first;
+            ListNode<E> node = first;
             for (int i = 0; i < index; i++)
-                x = x.next;
-            return x.item;
+                node = node.next;
+            return node.item;
         } else {
-            ListNode<E> x = last;
+            ListNode<E> node = last;
             for (int i = size - 1; i > index; i--)
-                x = x.prev;
-            return x.item;
+                node = node.prev;
+            return node.item;
         }
     }
 
@@ -175,12 +175,13 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
+        Object[] array = c.toArray();
+        int numNew = array.length;
         if (numNew == 0)
             return false;
 
-        ListNode<E> pred, succ;
+        ListNode<E> pred;
+        ListNode<E> succ;
         if (index == size) {
             succ = null;
             pred = last;
@@ -189,9 +190,9 @@ public class CustomLinkedList<E> implements List<E> {
             pred = succ.prev;
         }
 
-        for (Object o : a) {
-            E e = (E) o;
-            ListNode<E> newNode = new ListNode<>(pred, e, null);
+        for (Object o : array) {
+            E elem = (E) o;
+            ListNode<E> newNode = new ListNode<>(pred, elem, null);
             if (pred == null)
                 first = newNode;
             else
@@ -212,15 +213,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     ListNode<E> node(int index) {
         if (index < (size >> 1)) {
-            ListNode<E> x = first;
+            ListNode<E> node = first;
             for (int i = 0; i < index; i++)
-                x = x.next;
-            return x;
+                node = node.next;
+            return node;
         } else {
-            ListNode<E> x = last;
+            ListNode<E> node = last;
             for (int i = size - 1; i > index; i--)
-                x = x.prev;
-            return x;
+                node = node.prev;
+            return node;
         }
     }
 
