@@ -92,7 +92,7 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E get(int index){
+    public E get(int index) {
         if (index < 0 || index >= size())
             throw new IndexOutOfBoundsException();
         ListNode<E> tempNode = node.getNext();
