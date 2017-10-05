@@ -4,58 +4,143 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+import java.util.NoSuchElementException;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private ListNode<E> last = null;
+    private ListNode<E> first = null;
+    private int size = 0;
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = first;
+        for (int i = 0; i < size; i++) {
+            if (current.getObject() == (E) o) return true;
+            current = current.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CustomIterator();
+    }
+
+    private class CustomIterator implements Iterator<E> {
+
+        private ListNode<E> current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (hasNext()) {
+                E item = current.getObject();
+                current = current.getNext();
+                return item;
+            }
+            throw new NoSuchElementException();
+        }
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> node = new ListNode<>();
+        node.setObject(e);
+        if (last == null) {
+            node.setPrev(node);
+            first = node;
+        } else {
+            node.setPrev(last);
+            last.setNext(node);
+        }
+        last = node;
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = first;
+        for (int i = 0; i < size; i++) {
+            if (current.getObject() == (E) o) {
+
+                if (current == first) {
+                    first = current.getNext();
+                    first.setPrev(first);
+                } else {
+                    current.getPrev().setNext(current.getNext());
+                    current.setNext(null);
+                }
+
+                if (current.getNext() == null) {
+                    last = current.getPrev();
+                    last.setNext(null);
+                } else {
+                    current.getNext().setPrev(current.getPrev());
+                    current.setPrev(null);
+                }
+
+                size--;
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        CustomIterator iterator = new CustomIterator();
+        while (iterator.hasNext()) {
+            remove(iterator.next());
+        }
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = first;
+        for (int i = 0; i < size; i++) {
+            if (i == index) return current.getObject();
+            current = current.getNext();
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = first;
+        for (int i = 0; i < size; i++) {
+            if (current.getObject() == (E) o) return i;
+            current = current.getNext();
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E item : c) {
+            add(item);
+        }
+        return true;
     }
 
 
