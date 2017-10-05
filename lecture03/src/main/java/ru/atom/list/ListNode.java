@@ -14,12 +14,6 @@ public class ListNode<E> {
         this.object = object;
     }
 
-    public ListNode(E object, ListNode<E> prev) {
-        this.object = object;
-        this.prev = prev;
-        this.prev.setNext(this);
-    }
-
     public ListNode(E object, ListNode<E> prev, ListNode<E> next) {
         this.object = object;
         this.prev = prev;

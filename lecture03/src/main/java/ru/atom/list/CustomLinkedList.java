@@ -58,7 +58,10 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
             first = new ListNode<E>(e);
             size++;
         } else {
-            last = new ListNode<E>(e, last);
+            ListNode<E> temp = new ListNode<E>(e);
+            temp.setPrev(last);
+            last.setNext(temp);
+            last = temp;
             size++;
         }
         return true;
