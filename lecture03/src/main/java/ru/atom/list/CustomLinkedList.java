@@ -107,8 +107,6 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-/*        prev=next;
-        remove(next.object);*/
         ListNode<E> current = next;
         while (current != null) {
             remove(current.object);
