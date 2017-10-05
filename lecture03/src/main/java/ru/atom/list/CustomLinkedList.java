@@ -5,57 +5,125 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-
 public class CustomLinkedList<E> implements List<E> {
+
+    private ListNode<E> rootNode = new ListNode<>();
+    private int size = 0;
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return this.size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return this.size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return false;
+        }
+        ListNode<E> curNode = rootNode;
+        for (int i = 0; i < this.size; i++) {
+            curNode = curNode.next;
+            if (o.equals(curNode.var)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CllIterator<E>(rootNode);
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> node;
+        try {
+            node = new ListNode<>(e);
+        } catch (Exception ex) {
+            return false;
+        }
+        rootNode.prev.next = node;
+        node.prev = rootNode.prev;
+        rootNode.prev = node;
+        node.next = rootNode;
+        ++this.size;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return false;
+        }
+        ListNode<E> curNode = rootNode;
+        for (int i = 0; i < size; i++) {
+            curNode = curNode.next;
+            if (o.equals(curNode.var)) {
+                curNode.next.prev = curNode.prev;
+                curNode.prev.next = curNode.next;
+                --this.size;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        rootNode = new ListNode<>();
     }
 
     @Override
-    public E get(int index) {
-        throw new UnsupportedOperationException();
+    public E get(int index) throws IndexOutOfBoundsException {
+        if (index >= this.size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index < this.size / 2) {
+            ListNode<E> curNode = rootNode;
+            for (int i = 0; i != index; i++) {
+                curNode = curNode.next;
+            }
+            return curNode.var;
+        }
+        if (index >= this.size / 2) {
+            ListNode<E> curNode = rootNode;
+            for (int i = size; i != index; i--) {
+                curNode = curNode.prev;
+            }
+            return curNode.var;
+        }
+        throw new IndexOutOfBoundsException();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return -1;
+        }
+        ListNode<E> curNode = rootNode;
+        for (int i = 0; i < size; i++) {
+            curNode = curNode.next;
+            if (o.equals(curNode.var)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E e : c) {
+            if (!this.add(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
