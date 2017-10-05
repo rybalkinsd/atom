@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+public class CustomLinkedList<E> implements List<E> {
     private int size = 0;
     private ListNode<E> head;
 
@@ -89,9 +89,7 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
 
     @Override
     public void clear() {
-        head.setElement(null);
-        head.setNext(null);
-        head.setPrev(null);
+        head = null;
         size = 0;
     }
 
