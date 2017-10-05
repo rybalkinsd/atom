@@ -43,19 +43,19 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new  Iterator<E>() {
+        return new Iterator<E>() {
             @Override
             public boolean hasNext() {
                 return current != null;
             }
 
             @Override
-            public E next()
-            {
+            public E next() {
                 E result = current.object;
                 current = current.prev;
                 return result;
             }
+
             ListNode<E> current = next;
         };
     }
@@ -110,7 +110,7 @@ public class CustomLinkedList<E> implements List<E> {
 /*        prev=next;
         remove(next.object);*/
         ListNode<E> current = next;
-        while (current != null){
+        while (current != null) {
             remove(current.object);
             current = next;
         }
