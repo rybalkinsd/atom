@@ -35,14 +35,19 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
         return new Iterator<E>() {
             private ListNode<E> current = first;
 
-            public boolean hasNext() {
-                return current.hasNext();
+            public E next() {
+                if (current.hasNext()) {
+                    current = current.getNext();
+                    return current.getPrev().get();
+                } else {
+                    E temp = current.get();
+                    current.set(null);
+                    return temp;
+                }
             }
 
-            public E next() {
-                E temp = current.get();
-                current = current.getNext();
-                return temp;
+            public boolean hasNext() {
+                return current.hasCurrent();
             }
         };
     }

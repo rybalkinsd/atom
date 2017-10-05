@@ -39,8 +39,11 @@ public class ListNode<E> {
     }
 
     public boolean hasNext() {
-        if (this.next != (ListNode<E>) null) return true;
-        return false;
+        return next != null;
+    }
+
+    public boolean hasCurrent() {
+        return object != null;
     }
 
     public ListNode<E> getNext() {
