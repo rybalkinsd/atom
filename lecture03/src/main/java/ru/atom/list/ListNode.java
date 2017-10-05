@@ -43,11 +43,6 @@ public class ListNode<E> {
         return false;
     }
 
-    public boolean hasPrev() {
-        if (this.prev != (ListNode<E>) null) return true;
-        return false;
-    }
-
     public ListNode<E> getNext() {
         return this.next;
     }

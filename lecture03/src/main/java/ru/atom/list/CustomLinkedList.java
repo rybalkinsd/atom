@@ -22,46 +22,40 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     }
 
     public boolean contains(Object o) {
-        int itr = 0;
         ListNode<E> current = first;
-        while (itr < size) {
-            if (current.get() == o) return true;
-            if (current.hasNext()) {
-                current = current.getNext();
-            }
+        while (current.hasNext()) {
+            if (current.get() == (E) o) return true;
+            current = current.getNext();
         }
+        if (current.get() == (E) o) return true;
         return false;
     }
 
-    @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             private ListNode<E> current = first;
-            private int itr = 0;
 
             public boolean hasNext() {
-                return itr < size;
+                return current.hasNext();
             }
 
             public E next() {
                 E temp = current.get();
                 current = current.getNext();
-                itr++;
                 return temp;
             }
-
         };
     }
 
     public boolean add(E e) {
         if (size == 0) {
             first = new ListNode<E>(e);
+            last = first;
             size++;
         } else {
-            ListNode<E> temp = new ListNode<E>(e);
-            temp.setPrev(last);
-            last.setNext(temp);
-            last = temp;
+            last.setNext(new ListNode<E>(e));
+            last.getNext().setPrev(last);
+            last = last.getNext();
             size++;
         }
         return true;
@@ -118,9 +112,10 @@ public class CustomLinkedList<E> implements List<E>, Iterable<E> {
     }
 
     public boolean addAll(Collection<? extends E> c) {
-        for (E e : c) {
-            this.add(e);
-            size++;
+        Object[] objArray = c.toArray();
+        if (objArray.length == 0) return false;
+        for (int i = 0; i < objArray.length; i++) {
+            this.add((E) objArray[i]);
         }
         return true;
     }
