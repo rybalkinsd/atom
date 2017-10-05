@@ -13,8 +13,8 @@ public class ListNode<E> {
 
     ListNode() {
         value = null;
-        next = this;
-        prev = this;
+        next = null;
+        prev = null;
     }
 
 
