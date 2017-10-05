@@ -56,8 +56,9 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         while (head.next != null) {
-            remove(head.next);
+            removeNode(head.next);
         }
+        recoverTail();
         sz = 0;
     }
 
@@ -251,6 +252,9 @@ public class CustomLinkedList<E> implements List<E> {
     private void recoverTail() {
         while (tail.next != null) {
             tail = tail.next;
+        }
+        if (tail.prev == null) {
+            trail = head;
         }
     }
 

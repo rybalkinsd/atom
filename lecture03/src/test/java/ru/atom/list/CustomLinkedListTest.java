@@ -144,4 +144,15 @@ public class CustomLinkedListTest {
         assertThat(intList.size() == 1, is(true));
     }
 
+    @Test
+    public void clearTest() {
+        intList.clear();
+        assertThat(intList.size() == 0, is(true));
+    }
+
+    @Test
+    public void indexOfTest() {
+        assertThat(stringList.indexOf(", ") == 1, is(true));
+    }
+
 }
