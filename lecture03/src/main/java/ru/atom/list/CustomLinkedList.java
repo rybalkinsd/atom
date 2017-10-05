@@ -254,7 +254,7 @@ public class CustomLinkedList<E> implements List<E> {
             tail = tail.next;
         }
         if (tail.prev == null) {
-            trail = head;
+            tail = head;
         }
     }
 
