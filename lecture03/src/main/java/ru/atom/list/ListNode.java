@@ -8,22 +8,9 @@ public class ListNode<E> {
     ListNode<E> next; //default
     ListNode<E> prev; //default
 
-    ListNode() {
-        element = null;
-        next = prev = null;
-    }
-
     ListNode(E element) {
         this.element = element;
         next = prev = null;
-    }
-
-    ListNode<E> getNext() {
-        return next;
-    }
-
-    ListNode<E> getPrev() {
-        return prev;
     }
 
     void add(ListNode<E> node) {

@@ -12,7 +12,7 @@ public class CustomLinkedList<E> implements List<E> {
     private int sz; //cache it to avoid iteration over the list in the size method
 
     public CustomLinkedList() {
-        head = new ListNode<>();
+        head = new ListNode<>(null);
         tail = head;
         sz = 0;
     }
