@@ -4,69 +4,157 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+import java.util.function.Predicate;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private final ListNode<E> head; //the field does not contain data (the element field is null)
+    private ListNode<E> tail; //cache it to fast adding
+    private int size; //cache it to avoid iteration over the list in the size method
+
+    public CustomLinkedList() {
+        head = new ListNode<>(null);
+        tail = head;
+        size = 0;
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        return findNode(o) != null;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CustomListIterator<E>(head);
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> node = new ListNode<>(e);
+        tail.next = node;
+        node.prev = tail;
+        tail = tail.next;
+        ++size;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> node = findNode(o);
+        if (node != null) {
+            removeNode(node);
+            --size;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        while (tail != head) {
+            ListNode<E> iter = tail;
+            tail = tail.prev;
+            tail.next = null;
+            iter.prev = iter.next = null;
+            iter = null;
+        }
+        tail = head;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException(index);
+        return getNode(index).element;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        int index = 0;
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        for (ListNode<E> iter = head.next; iter != null; iter = iter.next, ++index) {
+            if (predicate.test(iter.element)) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        if (c.isEmpty())
+            return false;
+        for (E el : c) {
+            ListNode<E> node = new ListNode<>(el);
+            tail.next = node;
+            node.prev = tail;
+            tail = tail.next;
+        }
+        size += c.size();
+        return true;
     }
 
+    private ListNode<E> findNode(Object o) {
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        for (ListNode<E> iter = head.next; iter != null; iter = iter.next) {
+            if (predicate.test(iter.element)) {
+                return iter;
+            }
+        }
+        return null;
+    }
+
+    private ListNode<E> getNode(int index) {
+        ListNode<E> node = head.next;
+        for (int ind = 0; ind < index; ++ind) {
+            node = node.next;
+        }
+        return node;
+    }
+
+    private void removeNode(ListNode<E> node) {
+        if (node == tail) {
+            tail = tail.prev;
+            tail.next = null;
+            node.prev = null;
+        } else {
+            ListNode<E> leftNode = node.prev;
+            ListNode<E> rightNode = node.next;
+            leftNode.next = rightNode;
+            rightNode.prev = leftNode;
+            node.prev = node.next = null;
+        }
+    }
 
     /*
-      !!! Implement methods below Only if you know what you are doing !!!
-     */
+  !!! Implement methods below Only if you know what you are doing !!!
+ */
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object o : c) {
             if (!contains(o)) {
-                return true;
+                return false;
             }
         }
         return true;
@@ -108,15 +196,32 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public E remove(int index) {
-        return null;
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException(index);
+        ListNode<E> iter = getNode(index);
+        removeNode(iter);
+        --size;
+        return iter.element;
     }
 
     /**
-     * Do not implement
+     * Last element is first if we iterate list from end to begin
      */
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        int index = size - 1;
+        for (ListNode<E> iter = tail; iter != head; iter = iter.prev, --index) {
+            if (predicate.test(iter.element)) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -140,7 +245,15 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        if (fromIndex < 0 || toIndex > size || fromIndex > toIndex)
+            throw new IndexOutOfBoundsException(fromIndex + " " + toIndex);
+        ListNode<E> beginNode = getNode(fromIndex);
+        ListNode<E> endNode = getNode(toIndex);
+        CustomLinkedList<E> subList = new CustomLinkedList<>();
+        for (; beginNode != endNode; beginNode = beginNode.next) {
+            subList.add(beginNode.element);
+        }
+        return subList;
     }
 
     /**
@@ -165,5 +278,25 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         return null;
+    }
+
+    static class CustomListIterator<E> implements Iterator<E> {
+
+        private ListNode<E> current;
+
+        CustomListIterator(ListNode<E> beginIter) {
+            current = beginIter;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current.next != null;
+        }
+
+        @Override
+        public E next() {
+            return (current = current.next).element;
+        }
+
     }
 }
