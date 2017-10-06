@@ -193,11 +193,23 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     /**
-     * Do not implement
+     * Last element is first if we iterate list from end to begin
      */
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        int index = size - 1;
+        for (ListNode<E> iter = tail; iter != head; iter = iter.prev, --index) {
+            if (predicate.test(iter.element)) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     /**

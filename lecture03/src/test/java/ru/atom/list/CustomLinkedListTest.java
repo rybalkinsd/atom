@@ -148,12 +148,23 @@ public class CustomLinkedListTest {
     }
 
     @Test
-    public void containsAll() {
+    public void containsAllTest() {
         assertThat(intList.containsAll(Arrays.asList(38, 42)), is(true));
         assertThat(intList.containsAll(Arrays.asList(38, 42, 13)), is(false));
 
         assertThat(stringList.containsAll(Arrays.asList("Hello", "world!")), is(true));
         assertThat(stringList.containsAll(Arrays.asList("Hello", "Goodby")), is(false));
+    }
+
+    @Test
+    public void lastIndexOfTest() {
+        assertThat(intList.lastIndexOf((Integer)38), is(1));
+        assertThat(intList.lastIndexOf((Integer)55), is(-1));
+        assertThat(intList.lastIndexOf(null), is(-1));
+
+        assertThat(stringList.lastIndexOf("Hello"), is(0));
+        assertThat(stringList.lastIndexOf("Java"), is(-1));
+        assertThat(stringList.lastIndexOf(null), is(-1));
     }
 
 }
