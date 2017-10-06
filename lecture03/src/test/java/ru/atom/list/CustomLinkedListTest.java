@@ -1,8 +1,9 @@
 package ru.atom.list;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import ru.atom.list.CustomLinkedList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,6 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -63,21 +63,23 @@ public class CustomLinkedListTest {
         intList.addAll(Arrays.asList(1, 2, 3, 4, 5));
         assertThat(intList.size(), is(equalTo(2 + 5)));
 
-        stringList.addAll(Arrays.asList(" I", " like", " Java"));
+        stringList.addAll(Arrays.asList("I", "like", "Java"));
         assertThat(stringList.size(), is(equalTo(3 + 3)));
     }
 
     @Test
     public void removeTest() throws Exception {
         assertThat(intList.remove((Integer) 42), is(true));
+        assertThat(intList.remove((Integer) 42), is(false));
 
         assertThat(stringList.remove(", "), is(true));
+        assertThat(stringList.remove(", "), is(false));
     }
 
     @Test
     public void getByIndexTest1() {
-        assertThat(intList.get(0), is(equalTo(42)));
-        assertThat(intList.get(1), is(not(equalTo(42))));
+        assertThat(intList.get(0), is(equalTo((Integer)42)));
+        assertThat(intList.get(1), is(not(equalTo((Integer)42))));
 
         assertThat(stringList.get(0), is(equalTo("Hello")));
         assertThat(stringList.get(1), is(not(equalTo("Hello"))));
@@ -86,13 +88,26 @@ public class CustomLinkedListTest {
     @Test
     public void getByIndexTest2() {
         try {
-            String str = stringList.get(5);
+            intList.get(5);
             assertThat("unreachable line", false);
         } catch (ArrayIndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
         }
         try {
-            Integer num = intList.get(-3);
+            intList.get(-3);
+            assertThat("unreachable line", false);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+
+        try {
+            stringList.get(5);
+            assertThat("unreachable line", false);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            stringList.get(-3);
             assertThat("unreachable line", false);
         } catch (ArrayIndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
@@ -100,62 +115,32 @@ public class CustomLinkedListTest {
     }
 
     @Test
-    public void addAllWithIndexTest1() {
-        intList.addAll(0, Arrays.asList(11));
-        assertThat(intList.get(0), is(equalTo(11)));
+    public void indexOfTest() {
+        assertThat(intList.indexOf((Integer)38), is(1));
+        assertThat(intList.indexOf((Integer)55), is(-1));
 
-        stringList.addAll(1, Arrays.asList("I", " like", " Java"));
-        assertThat(stringList.get(2), is(equalTo(" like")));
-    }
-
-    @Test
-    public void removeAllTest1() {
-        intList.removeAll(Arrays.asList(38));
-        assertThat(intList.size(), is(equalTo(1)));
-
-        stringList.removeAll(Arrays.asList("Hello", "world!", "lol"));
-        assertThat(stringList.get(stringList.size() - 1), is(equalTo(", ")));
-    }
-
-    @Test
-    public void removeAllTest2() {
-        assertThat(intList.removeAll(Arrays.asList(1, 2)), is(false));
-
-        assertThat(stringList.removeAll(Arrays.asList("kek", "lol")), is(false));
-    }
-
-    @Test
-    public void addWithIndexTest1() {
-        intList.add(2, 11);
-        assertThat(intList.size(), is(equalTo(3)));
-
-        stringList.add(1, "lol");
-        assertThat(stringList.size(), is(equalTo(4)));
-    }
-
-    @Test
-    public void removeWithIndexTest1() {
-        Integer removedIntElement = intList.remove(1);
-        assertThat(removedIntElement, is(equalTo(38)));
-
-        String removedStringElement = stringList.remove(2);
-        assertThat(removedStringElement, is(equalTo("world!")));
+        assertThat(stringList.indexOf("world!"), is(2));
+        assertThat(stringList.indexOf("Java"), is(-1));
     }
 
     @Test
     public void clearTest() {
         intList.clear();
-        assertThat(intList.size(), is(equalTo(0)));
+        assertThat(intList.isEmpty(), is(true));
 
         stringList.clear();
-        assertThat(stringList.size(), is(equalTo(0)));
+        assertThat(stringList.isEmpty(), is(true));
     }
 
     @Test
-    public void indexOfTest() {
-        assertThat(intList.indexOf(12), is(equalTo(-1)));
+    public void addRemoveNullTest() {
+        assertThat(intList.add(null), is(true));
+        assertThat(intList.contains(null), is(true));
+        assertThat(intList.remove(null), is(true));
 
-        assertThat(stringList.indexOf(", "), is(equalTo(1)));
+        assertThat(stringList.add(null), is(true));
+        assertThat(stringList.contains(null), is(true));
+        assertThat(stringList.remove(null), is(true));
     }
 
 }

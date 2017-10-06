@@ -4,32 +4,33 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Predicate;
 
 public class CustomLinkedList<E> implements List<E> {
 
     private final ListNode<E> head; //the field does not contain data (the element field is null)
     private ListNode<E> tail; //cache it to fast adding
-    private int sz; //cache it to avoid iteration over the list in the size method
+    private int size; //cache it to avoid iteration over the list in the size method
 
     public CustomLinkedList() {
         head = new ListNode<>(null);
         tail = head;
-        sz = 0;
+        size = 0;
     }
 
     @Override
     public int size() {
-        return sz;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return sz == 0;
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return find(o) != null;
+        return findNode(o) != null;
     }
 
     @Override
@@ -39,15 +40,30 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        addAfter(tail, e);
+        ListNode<E> node = new ListNode<>(e);
+        tail.next = node;
+        node.prev = tail;
+        tail = tail.next;
+        ++size;
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        ListNode<E> iter = find(o);
+        ListNode<E> iter = findNode(o);
         if (iter != null) {
-            removeNode(iter);
+            if (iter == tail) {
+                tail = tail.prev;
+                tail.next = null;
+                iter.prev = null;
+            } else {
+                ListNode<E> leftNode = iter.prev;
+                ListNode<E> rightNode = iter.next;
+                leftNode.next = rightNode;
+                rightNode.prev = leftNode;
+                iter.prev = iter.next = null;
+            }
+            --size;
             return true;
         }
         return false;
@@ -55,39 +71,78 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        while (head.next != null) {
-            removeNode(head.next);
+        while (tail != head) {
+            ListNode<E> iter = tail;
+            tail = tail.prev;
+            tail.next = null;
+            iter.prev = iter.next = null;
+            iter = null;
         }
-        recoverTail();
-        sz = 0;
+        tail = head;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= sz)
+        if (index < 0 || index >= size)
             throw new ArrayIndexOutOfBoundsException(index);
-        return getByIndex(index).element; //ListNode can not be null!!!
+        ListNode<E> iter = head.next;
+        for (int ind = 0; ind < index; ++ind) {
+            iter = iter.next;
+        }
+        return iter.element;
     }
 
     @Override
     public int indexOf(Object o) {
         int index = 0;
-        for (E el : this) {
-            if (el.equals(o)) {
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        for (ListNode<E> iter = head.next; iter != null; iter = iter.next, ++index) {
+            if (predicate.test(iter.element)) {
                 return index;
             }
-            ++index;
         }
         return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        addAfter(tail, c);
+        if (c.isEmpty())
+            return false;
+        for (E el : c) {
+            ListNode<E> node = new ListNode<>(el);
+            tail.next = node;
+            node.prev = tail;
+            tail = tail.next;
+        }
+        size += c.size();
         return true;
     }
 
+    private ListNode<E> findNode(Object o) {
+        Predicate<E> predicate = null;
+        if (o == null) {
+            predicate = (el) -> el == null;
+        } else {
+            predicate = (el) -> o.equals(el); //o cannot be null (we recently checked it), but el can be null
+        }
+        for (ListNode<E> iter = head.next; iter != null; iter = iter.next) {
+            if (predicate.test(iter.element)) {
+                return iter;
+            }
+        }
+        return null;
+    }
 
+
+    /*
+  !!! Implement methods below Only if you know what you are doing !!!
+ */
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object o : c) {
@@ -103,52 +158,38 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        if (index < 0 || index > sz)
-            throw new ArrayIndexOutOfBoundsException(index);
-        ListNode<E> leftNode = getByIndex(index - 1); //get node before insert position (it could be head if index == 0)
-        addAfter(leftNode, c);
-        return true;
+        return false;
     }
 
+    /**
+     * Do not implement
+     */
     @Override
     public boolean removeAll(Collection<?> c) {
-        int prevsize = sz;
-        for (Object el : c) {
-            remove(el);
-        }
-        recoverTail();
-        return prevsize > sz;
+        return false;
     }
 
+    /**
+     * Do not implement
+     */
     @Override
     public boolean retainAll(Collection<?> c) {
-        int prevsize = sz;
-        for (ListNode<E> iter = head; iter.next != null;) {
-            if (!c.contains(iter.next.element)) {
-                removeNode(iter.next);
-            } else {
-                iter = iter.next;
-            }
-        }
-        recoverTail();
-        return prevsize > sz;
+        return false;
     }
 
+    /**
+     * Do not implement
+     */
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > sz)
-            throw new ArrayIndexOutOfBoundsException(index);
-        addAfter(getByIndex(index - 1), element);
     }
 
+    /**
+     * Do not implement
+     */
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= sz)
-            throw new ArrayIndexOutOfBoundsException(index);
-        ListNode<E> node = getByIndex(index);
-        removeNode(node);
-        recoverTail();
-        return node.element;
+        return null;
     }
 
     /**
@@ -207,65 +248,12 @@ public class CustomLinkedList<E> implements List<E> {
         return null;
     }
 
-    private ListNode<E> find(Object o) {
-        for (ListNode<E> iter = head.next; iter != null; iter = iter.next) {
-            if (iter.element.equals(o)) {
-                return iter;
-            }
-        }
-        return null;
-    }
-
-    private ListNode<E> getByIndex(int index) {
-        ListNode<E> iter = head; //if index is less that 0 returns head
-        for (int id = 0; id <= index; ++id) {
-            iter = iter.next;
-        }
-        return iter;
-    }
-    
-    private void addAfter(ListNode<E> leftNode, E el) {
-        leftNode.add(new ListNode<E>(el));
-        recoverTail();
-        ++sz;
-    }
-    
-    private void addAfter(ListNode<E> leftNode, Collection<? extends E> c) {
-        for (E el : c) {
-            leftNode.add(new ListNode<E>(el));
-            leftNode = leftNode.next;
-        }
-        recoverTail();
-        sz += c.size();
-    }
-    
-    private void removeNode(ListNode<E> node) {
-        ListNode.connect(node.prev, node.next);
-        node.next = node.prev = null;
-        node = null;
-        --sz;
-    }
-    
-    /*
-     * Use it if tail could be changed (after additional in the end)
-     */
-    private void recoverTail() {
-        while (tail.next != null) {
-            tail = tail.next;
-        }
-        if (tail.prev == null) {
-            tail = head;
-        }
-    }
-
     static class CustomListIterator<E> implements Iterator<E> {
 
-        private final ListNode<E> head;
         private ListNode<E> current;
 
-        CustomListIterator(ListNode<E> head) {
-            this.head = head;
-            current = head;
+        CustomListIterator(ListNode<E> beginIter) {
+            current = beginIter;
         }
 
         @Override
@@ -275,8 +263,8 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public E next() {
-            current = current.next;
-            return current.element;
+            return (current = current.next).element;
         }
+
     }
 }

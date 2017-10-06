@@ -12,17 +12,4 @@ public class ListNode<E> {
         this.element = element;
         next = prev = null;
     }
-
-    void add(ListNode<E> node) {
-        ListNode<E> rightNode = next;
-        connect(this, node);
-        connect(node, rightNode);
-    }
-
-    static <E> void connect(ListNode<E> leftNode, ListNode<E> rightNode) {
-        leftNode.next = rightNode;
-        if (rightNode != null) {
-            rightNode.prev = leftNode;
-        }
-    }
 }
