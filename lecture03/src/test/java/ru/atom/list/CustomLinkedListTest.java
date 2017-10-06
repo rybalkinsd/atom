@@ -92,26 +92,26 @@ public class CustomLinkedListTest {
         try {
             intList.get(5);
             assertThat("unreachable line", false);
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
         }
         try {
             intList.get(-3);
             assertThat("unreachable line", false);
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
         }
 
         try {
             stringList.get(5);
             assertThat("unreachable line", false);
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
         }
         try {
             stringList.get(-3);
             assertThat("unreachable line", false);
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             assertThat("reachable line", true);
         }
     }
@@ -165,6 +165,42 @@ public class CustomLinkedListTest {
         assertThat(stringList.lastIndexOf("Hello"), is(0));
         assertThat(stringList.lastIndexOf("Java"), is(-1));
         assertThat(stringList.lastIndexOf(null), is(-1));
+    }
+
+    @Test
+    public void removeByIndex1() {
+        assertThat(intList.remove(0), is(equalTo((Integer)42)));
+
+        assertThat(stringList.remove(2), is(equalTo("world!")));
+    }
+
+    @Test
+    public void removeByIndexTest2() {
+        try {
+            intList.remove(5);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            intList.remove(-3);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+
+        try {
+            stringList.remove(5);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            stringList.remove(-3);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
     }
 
 }

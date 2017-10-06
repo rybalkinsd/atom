@@ -50,19 +50,9 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        ListNode<E> iter = findNode(o);
-        if (iter != null) {
-            if (iter == tail) {
-                tail = tail.prev;
-                tail.next = null;
-                iter.prev = null;
-            } else {
-                ListNode<E> leftNode = iter.prev;
-                ListNode<E> rightNode = iter.next;
-                leftNode.next = rightNode;
-                rightNode.prev = leftNode;
-                iter.prev = iter.next = null;
-            }
+        ListNode<E> node = findNode(o);
+        if (node != null) {
+            removeNode(node);
             --size;
             return true;
         }
@@ -85,7 +75,7 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public E get(int index) {
         if (index < 0 || index >= size)
-            throw new ArrayIndexOutOfBoundsException(index);
+            throw new IndexOutOfBoundsException(index);
         ListNode<E> iter = head.next;
         for (int ind = 0; ind < index; ++ind) {
             iter = iter.next;
@@ -139,6 +129,19 @@ public class CustomLinkedList<E> implements List<E> {
         return null;
     }
 
+    private void removeNode(ListNode<E> node) {
+        if (node == tail) {
+            tail = tail.prev;
+            tail.next = null;
+            node.prev = null;
+        } else {
+            ListNode<E> leftNode = node.prev;
+            ListNode<E> rightNode = node.next;
+            leftNode.next = rightNode;
+            rightNode.prev = leftNode;
+            node.prev = node.next = null;
+        }
+    }
 
     /*
   !!! Implement methods below Only if you know what you are doing !!!
@@ -189,7 +192,15 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public E remove(int index) {
-        return null;
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException(index);
+        ListNode<E> iter = head.next;
+        for (int ind = 0; ind < index; ++ind) {
+            iter = iter.next;
+        }
+        removeNode(iter);
+        --size;
+        return iter.element;
     }
 
     /**
