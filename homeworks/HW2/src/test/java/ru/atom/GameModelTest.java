@@ -6,11 +6,8 @@ import ru.atom.geometry.Point;
 import ru.atom.model.GameObject;
 import ru.atom.model.GameSession;
 import ru.atom.model.Movable;
-import ru.atom.model.Temporary;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GameModelTest {
     @Test
@@ -39,49 +36,23 @@ public class GameModelTest {
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Movable) {
                 Point firstPosition = ((Movable) gameObject).getPosition();
-                Point currentPosition = ((Movable) gameObject).move(Movable.Direction.UP);
-                Assert.assertTrue(currentPosition.getX() > firstPosition.getX());
+                Point currentPosition = ((Movable) gameObject).move(Movable.Direction.UP, 1000);
+                Assert.assertTrue(currentPosition.getY() > firstPosition.getX());
 
-                currentPosition = ((Movable) gameObject).move(Movable.Direction.DOWN);
+                currentPosition = ((Movable) gameObject).move(Movable.Direction.DOWN, 1000);
+                Assert.assertTrue(currentPosition.getY() == firstPosition.getX());
+
+                currentPosition = ((Movable) gameObject).move(Movable.Direction.RIGHT, 500);
+                Assert.assertTrue(currentPosition.getX() > firstPosition.getY());
+
+                currentPosition = ((Movable) gameObject).move(Movable.Direction.LEFT, 500);
+                Assert.assertTrue(currentPosition.getX() == firstPosition.getY());
+
+                currentPosition = ((Movable) gameObject).move(Movable.Direction.IDLE, 1000);
+
                 Assert.assertTrue(currentPosition.getX() == firstPosition.getX());
-
-                currentPosition = ((Movable) gameObject).move(Movable.Direction.RIGHT);
-                Assert.assertTrue(currentPosition.getY() > firstPosition.getY());
-
-                currentPosition = ((Movable) gameObject).move(Movable.Direction.LEFT);
-                Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
-
-                currentPosition = ((Movable) gameObject).move(Movable.Direction.IDLE);
                 Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
             }
         }
-    }
-
-    /**
-     * Test checks that all temporary objects live at least for some time and are dead after very long time
-     */
-    @Test
-    public void ticking() {
-        GameSession gameSession = TestGameSessionCreator.createGameSession();
-        List<Temporary> temporaries = gameSession.getGameObjects().stream()
-                .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
-        
-        Assert.assertFalse(temporaries.isEmpty());
-        
-        long maxLifeTime = temporaries.stream().max(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
-        long minLifeTime = temporaries.stream().min(Comparator.comparingLong(Temporary::getLifetimeMillis)).get().getLifetimeMillis();
-        gameSession.tick(minLifeTime - 1);
-        List<Temporary> temporariesAfterSmallTime = gameSession.getGameObjects().stream()
-                .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
-        Assert.assertTrue(temporaries.containsAll(temporariesAfterSmallTime));
-        Assert.assertTrue(temporariesAfterSmallTime.containsAll(temporaries));
-        
-        gameSession.tick(maxLifeTime + 1);
-        temporaries = gameSession.getGameObjects().stream()
-                .filter(o -> o instanceof Temporary)
-                .map(o -> (Temporary)o).collect(Collectors.toList());
-        Assert.assertTrue(temporaries.isEmpty());
     }
 }

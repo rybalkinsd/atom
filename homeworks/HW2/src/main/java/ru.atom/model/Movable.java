@@ -7,10 +7,10 @@ import ru.atom.geometry.Point;
  */
 public interface Movable extends Positionable, Tickable {
     /**
-     * Tries to move entity towards specified direction
+     * Tries to move entity towards specified direction for time
      * @return final position after movement
      */
-    Point move(Direction direction);
+    Point move(Direction direction, long time);
     
     enum Direction {
         UP, DOWN, RIGHT, LEFT, IDLE
