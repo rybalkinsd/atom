@@ -6,56 +6,127 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+public class CustomLinkedList<E> implements List<E>, Iterable<E> {
+
+    ListNode<E> header;
+    ListNode<E> prev;
+    ListNode<E> next;
+
+    public CustomLinkedList() {
+        header = new ListNode<>();
+        header.prev = header;
+        header.next = header;
+    }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = header;
+        int sz = 0;
+        while (temp.next != header) {
+            sz++;
+            temp = temp.next;
+        }
+        return sz;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return (header.next == header);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = header.next;
+        E o1 = (E) o;
+        while (temp != header) {
+            if (o1.equals(temp.value))
+                return true;
+            temp = temp.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        Iterator<E> it = new Iterator<E>() {
+
+            ListNode<E> temp = header.next;
+
+            @Override
+            public boolean hasNext() {
+                return (temp != header);
+            }
+
+            @Override
+            public E next() {
+                E tmp = temp.value;
+                temp = temp.next;
+                return tmp;
+            }
+        };
+
+        return it;
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = new ListNode<E>(e,header,header.prev);
+        header.prev.next = temp;
+        header.prev = temp;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = header.next;
+        E o1 = (E) o;
+        while (temp != header) {
+            if (o1.equals(temp.value)) {
+                temp.prev.next = temp.next;
+                temp.next.prev = temp.prev;
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        header.next = header;
+        header.prev = header;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = header.next;
+        for (int i = 0; i < index; i++)
+            temp = temp.next;
+        return temp.value;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = header.next;
+        E o1 = (E) o;
+        int index = 0;
+        while (temp != header) {
+            if (o1.equals(temp.value))
+                return index;
+            else {
+                index++;
+                temp = temp.next;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E temp : c) {
+            add(temp);
+        }
+        return true;
     }
 
 
