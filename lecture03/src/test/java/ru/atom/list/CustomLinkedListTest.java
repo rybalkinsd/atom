@@ -203,4 +203,52 @@ public class CustomLinkedListTest {
         }
     }
 
+    @Test
+    public void subListTest1() {
+        assertThat(intList.subList(0,1).contains((Integer)42), is(true));
+
+        assertThat(stringList.subList(0,2).containsAll(Arrays.asList(", ", "Hello")), is(true));
+    }
+
+    @Test
+    public void subListTest2() {
+        try {
+            intList.subList(-1,1);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            intList.subList(0,4);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            intList.subList(1,0);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+
+        try {
+            stringList.subList(-2, 2);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            stringList.subList(1,5);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+        try {
+            stringList.subList(2,1);
+            assertThat("unreachable line", false);
+        } catch (IndexOutOfBoundsException ex) {
+            assertThat("reachable line", true);
+        }
+    }
+
 }

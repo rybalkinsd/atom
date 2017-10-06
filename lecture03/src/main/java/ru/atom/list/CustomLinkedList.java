@@ -76,11 +76,7 @@ public class CustomLinkedList<E> implements List<E> {
     public E get(int index) {
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException(index);
-        ListNode<E> iter = head.next;
-        for (int ind = 0; ind < index; ++ind) {
-            iter = iter.next;
-        }
-        return iter.element;
+        return getNode(index).element;
     }
 
     @Override
@@ -127,6 +123,14 @@ public class CustomLinkedList<E> implements List<E> {
             }
         }
         return null;
+    }
+
+    private ListNode<E> getNode(int index) {
+        ListNode<E> node = head.next;
+        for (int ind = 0; ind < index; ++ind) {
+            node = node.next;
+        }
+        return node;
     }
 
     private void removeNode(ListNode<E> node) {
@@ -194,10 +198,7 @@ public class CustomLinkedList<E> implements List<E> {
     public E remove(int index) {
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException(index);
-        ListNode<E> iter = head.next;
-        for (int ind = 0; ind < index; ++ind) {
-            iter = iter.next;
-        }
+        ListNode<E> iter = getNode(index);
         removeNode(iter);
         --size;
         return iter.element;
@@ -244,7 +245,15 @@ public class CustomLinkedList<E> implements List<E> {
      */
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        if (fromIndex < 0 || toIndex > size || fromIndex > toIndex)
+            throw new IndexOutOfBoundsException(fromIndex + " " + toIndex);
+        ListNode<E> beginNode = getNode(fromIndex);
+        ListNode<E> endNode = getNode(toIndex);
+        CustomLinkedList<E> subList = new CustomLinkedList<>();
+        for (; beginNode != endNode; beginNode = beginNode.next) {
+            subList.add(beginNode.element);
+        }
+        return subList;
     }
 
     /**
