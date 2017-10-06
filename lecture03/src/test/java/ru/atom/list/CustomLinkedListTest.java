@@ -61,9 +61,11 @@ public class CustomLinkedListTest {
     @Test
     public void addAll() throws Exception {
         intList.addAll(Arrays.asList(1, 2, 3, 4, 5));
+        intList.addAll(Arrays.asList());
         assertThat(intList.size(), is(equalTo(2 + 5)));
 
         stringList.addAll(Arrays.asList("I", "like", "Java"));
+        stringList.addAll(Arrays.asList());
         assertThat(stringList.size(), is(equalTo(3 + 3)));
     }
 
@@ -118,9 +120,11 @@ public class CustomLinkedListTest {
     public void indexOfTest() {
         assertThat(intList.indexOf((Integer)38), is(1));
         assertThat(intList.indexOf((Integer)55), is(-1));
+        assertThat(intList.indexOf(null), is(-1));
 
         assertThat(stringList.indexOf("world!"), is(2));
         assertThat(stringList.indexOf("Java"), is(-1));
+        assertThat(stringList.indexOf(null), is(-1));
     }
 
     @Test
@@ -141,6 +145,15 @@ public class CustomLinkedListTest {
         assertThat(stringList.add(null), is(true));
         assertThat(stringList.contains(null), is(true));
         assertThat(stringList.remove(null), is(true));
+    }
+
+    @Test
+    public void containsAll() {
+        assertThat(intList.containsAll(Arrays.asList(38, 42)), is(true));
+        assertThat(intList.containsAll(Arrays.asList(38, 42, 13)), is(false));
+
+        assertThat(stringList.containsAll(Arrays.asList("Hello", "world!")), is(true));
+        assertThat(stringList.containsAll(Arrays.asList("Hello", "Goodby")), is(false));
     }
 
 }

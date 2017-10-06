@@ -147,7 +147,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean containsAll(Collection<?> c) {
         for (Object o : c) {
             if (!contains(o)) {
-                return true;
+                return false;
             }
         }
         return true;
