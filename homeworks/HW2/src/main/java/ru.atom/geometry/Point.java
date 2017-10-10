@@ -25,8 +25,11 @@ public class Point implements Collider {
 
         Point point = (Point) o;
 
-        if (x != point.x) return false;
-        return y == point.y;
+        if (x == point.x && y == point.y) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override

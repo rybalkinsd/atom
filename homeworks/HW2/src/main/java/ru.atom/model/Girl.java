@@ -6,6 +6,8 @@ import ru.atom.geometry.Point;
 
 public class Girl extends GameObject implements Movable {
     private static final Logger logger = LogManager.getLogger(Girl.class);
+    private static final int WIDTH = 48;
+    private static final int HEIGHT = 48;
 
     private int speed = 30;
     private int bombCapacity = 1;
@@ -13,7 +15,7 @@ public class Girl extends GameObject implements Movable {
 
     public Girl(GameSession session, Point position) {
         super(session, position);
-        logger.info("New Girl id={}, position={}", getId(), position);
+        logger.info("New Girl id={}, position={}", id, position);
     }
 
     @Override
@@ -39,7 +41,8 @@ public class Girl extends GameObject implements Movable {
                         position.getX() - speed * time, position.getY());
                 setPosition(new Point(position.getX() - speed * time, position.getY()));
                 break;
-            default: return position;
+            default:
+                return position;
         }
         return position;
     }
