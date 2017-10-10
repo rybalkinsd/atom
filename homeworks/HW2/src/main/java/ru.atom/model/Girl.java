@@ -22,22 +22,22 @@ public class Girl extends GameObject implements Movable {
     public Point move(Direction direction, int time) {
         switch (direction) {
             case UP:
-                moveLog(direction.toString(), position.getX(), position.getY(),
+                moveLog(direction, position.getX(), position.getY(),
                         position.getX(), position.getY() + speed * time);
                 setPosition(new Point(position.getX(), position.getY() + speed * time));
                 break;
             case DOWN:
-                moveLog(direction.toString(), position.getX(), position.getY(),
+                moveLog(direction, position.getX(), position.getY(),
                         position.getX(), position.getY() - speed * time);
                 setPosition(new Point(position.getX(), position.getY() - speed * time));
                 break;
             case RIGHT:
-                moveLog(direction.toString(), position.getX(), position.getY(),
+                moveLog(direction, position.getX(), position.getY(),
                         position.getX() + speed * time, position.getY());
                 setPosition(new Point(position.getX() + speed * time, position.getY()));
                 break;
             case LEFT:
-                moveLog(direction.toString(), position.getX(), position.getY(),
+                moveLog(direction, position.getX(), position.getY(),
                         position.getX() - speed * time, position.getY());
                 setPosition(new Point(position.getX() - speed * time, position.getY()));
                 break;
@@ -52,8 +52,8 @@ public class Girl extends GameObject implements Movable {
         throw new UnsupportedOperationException();
     }
 
-    public void moveLog(String direction, int oldX, int oldY, int x, int y) {
-        logger.info("Girl id = {} moved {}! ({}, {}) to ({}, {})",
-                getId(), direction, oldX, oldY, x, y);
+    public void moveLog(Direction direction, int oldX, int oldY, int x, int y) {
+        logger.info("Girl id = {} moved {} ({}, {}) to ({}, {})",
+                getId(), direction.name(), oldX, oldY, x, y);
     }
 }

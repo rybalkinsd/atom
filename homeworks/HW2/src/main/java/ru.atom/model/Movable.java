@@ -15,10 +15,5 @@ public interface Movable extends Tickable {
 
     enum Direction {
         UP, DOWN, RIGHT, LEFT, IDLE;
-
-        @Override
-        public String toString() {
-            return "{}";
-        }
     }
 }
