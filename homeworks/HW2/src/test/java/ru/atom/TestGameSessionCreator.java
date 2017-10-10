@@ -1,6 +1,7 @@
 package ru.atom;
 
-import ru.atom.model.GameSession;
+import ru.atom.geometry.Point;
+import ru.atom.model.*;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game
@@ -11,7 +12,16 @@ public final class TestGameSessionCreator {
 
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
-        //TODO populate your game session with sample objects and log their creation
-        throw new UnsupportedOperationException();
+        gameSession.addGameObject(new Girl(gameSession, new Point(1, 1)));
+        gameSession.addGameObject(new Girl(gameSession, new Point(3, 1)));
+        gameSession.addGameObject(new Brick(gameSession, new Point(2, 2)));
+        gameSession.addGameObject(new Brick(gameSession, new Point(10, 1)));
+        gameSession.addGameObject(new Wall(gameSession, new Point(2, 1)));
+        gameSession.addGameObject(new Wall(gameSession, new Point(3, 3)));
+        gameSession.addGameObject(new Fire(gameSession, new Point(5, 5)));
+        gameSession.addGameObject(new Fire(gameSession, new Point(6, 3)));
+        gameSession.addGameObject(new Bomb(gameSession, new Point(6, 4)));
+        gameSession.addGameObject(new Bomb(gameSession, new Point(7, 7)));
+        return gameSession;
     }
 }

@@ -35,8 +35,11 @@ public class GameModelTest {
 
         for (GameObject gameObject : gameObjects) {
             if (gameObject instanceof Movable) {
-                Point firstPosition = ((Movable) gameObject).getPosition();
+                Point firstPosition = gameObject.getPosition();
                 Point currentPosition = ((Movable) gameObject).move(Movable.Direction.UP, 1000);
+                System.out.println(firstPosition.getY());
+                System.out.println(currentPosition.getY());
+                System.out.println(gameObject.getPosition().getY());
                 Assert.assertTrue(currentPosition.getY() > firstPosition.getY());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.DOWN, 1000);
