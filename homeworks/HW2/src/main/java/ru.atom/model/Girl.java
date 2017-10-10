@@ -39,6 +39,7 @@ public class Girl extends GameObject implements Movable {
                         position.getX() - speed * time, position.getY());
                 setPosition(new Point(position.getX() - speed * time, position.getY()));
                 break;
+            default: return position;
         }
         return position;
     }
