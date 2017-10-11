@@ -258,7 +258,7 @@ For example, one can extend server functionality by custom logic (e.g. for dynam
 #HSLIDE
 ## HTTP via telnet
 ```bash
-> telnet example.org
+> telnet example.org 80
 ```
 request:
 ```http
@@ -313,7 +313,7 @@ removes resource
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #HSLIDE
-##HTTP via browser
+## HTTP via browser
 When you enter adress line in browser, in creates **GET** request  
 So we can do previous example just by typing in browser:
 > example.org
@@ -502,7 +502,7 @@ login:
 ## OkHTTP
 We use OkHTTP library as java HTTP Client
 [http://square.github.io/okhttp/](http://square.github.io/okhttp/)
-###@see ru.atom.http.client
+### @see ru.atom.http.client
 
 #HSLIDE
 ## GET example from Java
