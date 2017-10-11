@@ -40,7 +40,7 @@ public class ChatResource {
     }
 
     @GET
-    @Produces("text/plain")
+    @Produces("text/plain;charset=UTF-8")
     @Path("/online")
     public Response online() {
         return Response.ok(String.join("\n", logined)).build();
@@ -65,7 +65,7 @@ public class ChatResource {
     }
 
     @GET
-    @Produces("text/plain")
+    @Produces("text/plain;charset=UTF-8")
     @Path("/chat")
     public Response chat() {
         return Response.ok(String.join("\n", chat)).build();

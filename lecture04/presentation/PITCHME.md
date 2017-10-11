@@ -347,18 +347,18 @@ it wraps **libcurl** library, which is available for all major languages
 ## GET Example
 Request from cURL:
 ```bash
-> curl -i -X GET -H "Host: example.org" example.org
+> curl -i -X GET example.org
 ```
 Response:
 ```http
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Sat, 11 Mar 2017 00:22:28 GMT
+Date: Wed, 11 Oct 2017 14:17:54 GMT
 Etag: "359670651+ident"
-Expires: Sat, 18 Mar 2017 00:22:28 GMT
+Expires: Wed, 18 Oct 2017 14:17:54 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D2C)
+Server: ECS (dca/24D5)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -377,22 +377,20 @@ POST /chat/say HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 
-msg="Привет всем в этом чатике"
+msg=Hi everyone in this chat!
 ```
 cURL:
 ```bash
->curl -X POST \
--H "Content-Type: application/x-www-form-urlencoded" \
--H "Host: localhost:8080" \
--d 'msg="Привет всем в этом чатике"'' \
-http://localhost:8080/chat/say
+> curl -X POST \
+-d 'msg=Hi everyone in this chat!' \
+http://localhost:8080/chat/say?name=MY_NAME
 ```
 response:
 ```http
 HTTP/1.1 200 OK
-Date: Sat, 11 Mar 2017 13:05:11 GMT
+Date: Wed, 11 Oct 2017 14:17:11 GMT
 Content-Length: 0
-Server: Jetty(9.3.12.v20160915)
+Server: Jetty(9.4.z-SNAPSHOT)
 
 ```
 
