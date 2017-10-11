@@ -424,7 +424,7 @@ REST API is a common way for services to publish their functionality for other s
 ## HTTP Client Pracrice
 We got a chat REST service open for you on  
   
-Implement **chat client** and enjoy!
+Implement **chat client** and enjoy!  
 @see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
 #HSLIDE
@@ -446,7 +446,7 @@ login:
     Protocol: HTTP
     Path: chat/login
     Method: POST
-    PathParam: name
+    QueryParam: name
     Host: {IP}:8080
     Response:
       Success code: 200
@@ -455,11 +455,11 @@ login:
         400 - Too long name (longer than 30 symbols)
 ```
 #HSLIDE
-## Chat REST API. View Online
+## Chat REST API. View chat
 online:
 ```
     Protocol: HTTP
-    Path: chat/online
+    Path: chat/chat
     Method: GET
     Host: {IP}:8080
     Response:
@@ -474,7 +474,7 @@ login:
     Protocol: HTTP
     Path: chat/say
     Method: POST
-    PathParam: name
+    QueryParam: name
     Body:
       msg="my message"
     Host: {IP}:8080
