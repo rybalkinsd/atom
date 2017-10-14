@@ -10,30 +10,30 @@ public class Wall implements Positionable {
     private int y;
     private int id;
     private boolean breakable;
-    public Wall (int id, int x, int y)
-    {
-        this.id=id;
-        this.x=x;
-        this.y=y;
-        this.breakable=false;
+
+    public Wall(int id, int x, int y) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.breakable = false;
         log.info("new wall");
     }
-    private final static Logger log = LogManager.getLogger(Wall.class);
-    public int getId()
-       {
-           return id;
-       }
-    public boolean durability()
-    {
+
+    private final  Logger log = LogManager.getLogger(Wall.class);
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean durability() {
         return breakable;
     }
-    public Point getPosition()
-    {
-        Point point =new Point(x,y);
+
+    public Point getPosition() {
+        Point point = new Point(x, y);
         return point;
 
     }
-
 
 
 }

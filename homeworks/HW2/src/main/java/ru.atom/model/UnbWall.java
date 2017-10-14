@@ -19,7 +19,7 @@ public class UnbWall implements Positionable {
         log.info("new unbreakable wall");
     }
 
-    private final static Logger log = LogManager.getLogger(UnbWall.class);
+    private final  Logger log = LogManager.getLogger(UnbWall.class);
 
     public int getId() {
         return id;
