@@ -2,7 +2,6 @@ package ru.atom.http.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.util.ConcurrentArrayQueue;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -12,13 +11,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Path("/chat")
 public class ChatResource {
     private static final Logger log = LogManager.getLogger(ChatResource.class);
 
-    private static final ConcurrentArrayQueue<String> logined = new ConcurrentArrayQueue<>();
-    private static final ConcurrentArrayQueue<String> chat = new ConcurrentArrayQueue<>();
+    private static final ConcurrentLinkedQueue<String> logined = new ConcurrentLinkedQueue<>();
+    private static final ConcurrentLinkedQueue<String> chat = new ConcurrentLinkedQueue<>();
 
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -27,8 +27,8 @@ public class ChatResource {
         if (name.length() > 30) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Too long name, sorry :(").build();
         }
-        if (name.toLowerCase().contains("gitler")) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Gitler not allowed, sorry :(").build();
+        if (name.toLowerCase().contains("hitler")) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Hitler not allowed, sorry :(").build();
         }
         if (logined.contains(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Already logined").build();
@@ -40,7 +40,7 @@ public class ChatResource {
     }
 
     @GET
-    @Produces("text/plain")
+    @Produces("text/plain;charset=UTF-8")
     @Path("/online")
     public Response online() {
         return Response.ok(String.join("\n", logined)).build();
@@ -65,7 +65,7 @@ public class ChatResource {
     }
 
     @GET
-    @Produces("text/plain")
+    @Produces("text/plain;charset=UTF-8")
     @Path("/chat")
     public Response chat() {
         return Response.ok(String.join("\n", chat)).build();

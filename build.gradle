@@ -6,13 +6,13 @@ plugins {
 ext {
     jdkVersion = 1.9
 
-    jettyVersion = "9.3.12.v20160915"
+    jettyVersion = "9.4.7.v20170914"
     junitVersion = "4.12"
-    jacksonVersion = "2.5.3"
+    jacksonVersion = "2.9.1"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
-    jerseyVersion = "2.25.1"
+    jerseyVersion = "2.26"
     gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
@@ -66,6 +66,7 @@ ext.libraries = [
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
         jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
+        jersey_hk2: "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion",
         jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
         jersey_test:
                 "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
