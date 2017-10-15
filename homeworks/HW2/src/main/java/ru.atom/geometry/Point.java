@@ -1,6 +1,5 @@
 package ru.atom.geometry;
 
-//TODO insert your implementation of geometry here
 public class Point implements Collider {
     private final int x;
     private final int y;
@@ -8,6 +7,10 @@ public class Point implements Collider {
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Point convertToBitmapPosition() {
+        return new Point(x / 32, y / 32);
     }
 
     public int getX() {
@@ -18,6 +21,22 @@ public class Point implements Collider {
         return y;
     }
 
+    public Point getRightPoint(int i) {
+        return new Point(x + 32 * i, y);
+    }
+
+    public Point getLeftPoint(int i) {
+        return new Point(x - 32 * i, y);
+    }
+
+    public Point getUpperPoint(int i) {
+        return new Point(x, y + 32 * i);
+    }
+
+    public Point getLowerPoint(int i) {
+        return new Point(x, y - 32 * i);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -25,8 +44,11 @@ public class Point implements Collider {
 
         Point point = (Point) o;
 
-        if (x != point.x) return false;
-        return y == point.y;
+        if (x == point.x && y == point.y) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -42,5 +64,13 @@ public class Point implements Collider {
             return this.equals(other);
         }
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
