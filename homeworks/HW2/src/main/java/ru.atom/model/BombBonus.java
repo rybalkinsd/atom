@@ -2,6 +2,9 @@ package  ru.atom.model;
 
 import ru.atom.geometry.Point;
 
+/**
+ * Bomb bonus, increments maximum of bombs for player
+ */
 public class BombBonus extends Bonus implements Positionable {
 
     public BombBonus(int id, Point position) {

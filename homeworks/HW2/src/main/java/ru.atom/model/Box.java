@@ -4,6 +4,9 @@ import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Destructable with bombs wooden box
+ */
 public class Box implements Positionable {
 
     private static final Logger log = LogManager.getLogger(Box.class);

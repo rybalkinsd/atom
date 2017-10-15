@@ -2,6 +2,9 @@ package  ru.atom.model;
 
 import ru.atom.geometry.Point;
 
+/**
+ * Fire bonus, increments player's bombs strenght
+ */
 public class Fire extends Bonus implements Positionable {
 
     public Fire(int id, Point position) {

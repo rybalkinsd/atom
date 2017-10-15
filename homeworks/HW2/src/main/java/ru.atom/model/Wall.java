@@ -4,6 +4,9 @@ import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Undestructable stone wall
+ */
 public class Wall implements Positionable {
     private static final Logger log = LogManager.getLogger(Bomb.class);
     private int id;
