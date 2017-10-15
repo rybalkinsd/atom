@@ -4,12 +4,13 @@ import ru.atom.geometry.Point;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Bomb implements Positionable {
+public class Bomb implements Positionable, Tickable {
 
     private static final Logger log = LogManager.getLogger(Bomb.class);
     private int id;
     private Point position;
     private int strenght;
+    private long timer = 2000000;
 
     public Bomb(int id, Point position, int strenght) {
         this.id = id;
@@ -35,5 +36,13 @@ public class Bomb implements Positionable {
     @Override
     public Point getPosition() {
         return position;
+    }
+
+    @Override
+    public void tick(long elapsed) {
+        if (timer < elapsed)
+            timer = 0;
+        else
+            timer -= elapsed;
     }
 }
