@@ -6,16 +6,26 @@ import ru.atom.geometry.Point;
 
 public class Girl extends GameObject implements Movable {
     private static final Logger logger = LogManager.getLogger(Girl.class);
-    private static final int WIDTH = 48;
-    private static final int HEIGHT = 48;
+    private static final int GIRL_WIDTH = 48;
+    private static final int GIRL_HEIGHT = 48;
 
     private int speed = 30;
     private int bombCapacity = 1;
     private int bombRange = 1;
 
     public Girl(GameSession session, Point position) {
-        super(session, position);
+        super(session, position, GIRL_WIDTH, GIRL_HEIGHT);
         logger.info("New Girl id={}, position={}", id, position);
+    }
+
+    public void incBombCapacity() {
+        this.bombCapacity++;
+    }
+
+    public void plantBomb() {
+        Point bitmapPosition = this.position.convertToBitmapPosition();
+        new Bomb(this.session, bitmapPosition, this);
+        this.bombCapacity--;
     }
 
     @Override

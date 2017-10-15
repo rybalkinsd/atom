@@ -2,13 +2,13 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    private final Point leftPoint; //upper left corner
-    private final Point rightPoint; //lower right corner
+    private final Point leftPoint; //lower left corner
+    private final Point rightPoint; //upper right corner
 
 
-    public Bar(int x1, int y1, int x2, int y2) {
-        leftPoint = new Point(Math.min(x1, x2), Math.max(y1, y2));
-        rightPoint = new Point(Math.max(x1, x2), Math.min(y1, y2));
+    public Bar(Point point, int x2, int y2) {
+        leftPoint = point;
+        rightPoint = new Point(x2, y2);
     }
 
     @Override
@@ -32,12 +32,12 @@ public class Bar implements Collider {
             Bar bar = (Bar) other;
             return leftPoint.getX() <= bar.rightPoint.getX()
                     && rightPoint.getX() >= bar.leftPoint.getX()
-                    && leftPoint.getY() >= bar.rightPoint.getY()
-                    && rightPoint.getY() <= bar.leftPoint.getY();
+                    && leftPoint.getY() <= bar.rightPoint.getY()
+                    && rightPoint.getY() >= bar.leftPoint.getY();
         } else if (other.getClass() == Point.class) {
             Point point = (Point) other;
-            return leftPoint.getX() <= point.getX() && leftPoint.getY() >= point.getY()
-                    && rightPoint.getX() >= point.getX() && rightPoint.getY() <= point.getY();
+            return leftPoint.getX() <= point.getX() && leftPoint.getY() <= point.getY()
+                    && rightPoint.getX() >= point.getX() && rightPoint.getY() >= point.getY();
         } else throw new IllegalArgumentException();
     }
 

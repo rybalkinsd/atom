@@ -25,8 +25,10 @@ public final class TestGameSessionCreator {
         gameSession.addGameObject(new Wall(gameSession, new Point(3, 3)));
         gameSession.addGameObject(new Fire(gameSession, new Point(5, 5)));
         gameSession.addGameObject(new Fire(gameSession, new Point(6, 3)));
-        gameSession.addGameObject(new Bomb(gameSession, new Point(6, 4)));
-        gameSession.addGameObject(new Bomb(gameSession, new Point(7, 7)));
+        gameSession.addGameObject(new Bomb(gameSession, new Point(6, 4),
+                new Girl(gameSession, new Point(1, 1))));
+        gameSession.addGameObject(new Bomb(gameSession, new Point(7, 7),
+                new Girl(gameSession, new Point(1, 1))));
         return gameSession;
     }
 }

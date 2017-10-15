@@ -16,14 +16,23 @@ public class GameSession implements Tickable {
         return new ArrayList<>(gameObjects);
     }
 
-    public boolean removeByPosition(Point position) {
-        for (GameObject gameObject : gameObjects) {
-            if (gameObject.getPosition().equals(position)) {
-                gameObjects.remove(gameObject); // Возможно оптимизировать??
+    public boolean removeById(int id) {
+        while (gameObjects.iterator().hasNext()) {
+            if (gameObjects.iterator().next().id == id) {
+                gameObjects.iterator().remove();
                 return true;
             }
         }
         return false;
+    }
+
+    public GameObject getGameObjectByPosition(Point position) {
+        for (GameObject object : gameObjects) {
+            if (object.getPosition().equals(position)) {
+                return object;
+            }
+        }
+        return null; //TODO: Exception??
     }
 
     public void addGameObject(GameObject gameObject) {
