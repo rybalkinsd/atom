@@ -30,7 +30,6 @@
 
 #HSLIDE
 ### Как сдавать?
-
 1) Создайте ветку **homework2**
 ```bash
 > git fetch upstream

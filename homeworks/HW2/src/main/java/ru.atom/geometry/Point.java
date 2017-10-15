@@ -43,4 +43,9 @@ public class Point implements Collider {
         }
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public String toString() {
+        return "[Point: x=" + String.valueOf(x) + " y=" + String.valueOf(y) + "]";
+    }
 }
