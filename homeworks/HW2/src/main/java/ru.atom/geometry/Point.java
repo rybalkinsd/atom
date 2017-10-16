@@ -18,6 +18,10 @@ public class Point implements Collider {
         return y;
     }
 
+    public String toString() {
+        return "x = " + x + "; y = " + y + ";";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,4 +47,5 @@ public class Point implements Collider {
         }
         throw new UnsupportedOperationException();
     }
+
 }
