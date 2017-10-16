@@ -19,24 +19,24 @@ public class GameUnit extends GameObjectAbstract implements Movable {
 
     @Override
     public Point move(Direction direction, long time) {
-        int x = position.getX();
-        int y = position.getY();
+        int posX = position.getX();
+        int posY = position.getY();
         switch (direction) {
             case UP:
-                y += speed * time;
+                posY += speed * time;
                 break;
             case DOWN:
-                y -= speed * time;
+                posY -= speed * time;
                 break;
             case RIGHT:
-                x += speed * time;
+                posX += speed * time;
                 break;
             case LEFT:
-                x -= speed * time;
+                posX -= speed * time;
                 break;
             default:
         }
-        position = new Point(x, y);
+        position = new Point(posX, posY);
         return position;
     }
 
