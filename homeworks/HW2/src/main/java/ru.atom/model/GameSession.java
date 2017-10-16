@@ -10,6 +10,12 @@ public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
 
+    public GameSession() {
+
+        log.info("GameSession was created");
+
+    }
+
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
     }
