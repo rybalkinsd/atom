@@ -22,25 +22,25 @@ public class Player implements Movable {
     @Override
     public Point move(Direction direction, long time) {
         isAlive = true;
-        int x = position.getX();
-        int y = position.getY();
+        int curX = position.getX();
+        int curY = position.getY();
         switch (direction) {
             case UP:
-                y += time;
+                curY += time;
                 break;
             case DOWN:
-                y -= time;
+                curY -= time;
                 break;
             case LEFT:
-                x -= time;
+                curX -= time;
                 break;
             case RIGHT:
-                x += time;
+                curX += time;
                 break;
-            case IDLE:
+            default:
                 break;
         }
-        this.position = new Point(x, y);
+        this.position = new Point(curX, curY);
         return position;
     }
 

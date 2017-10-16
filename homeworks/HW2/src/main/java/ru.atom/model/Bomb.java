@@ -20,7 +20,7 @@ public class Bomb implements Positionable, Tickable {
         this.position = position;
         this.holderId = holderId;
         log.info("Bomb with ID(" + id + ") was created on point("
-                + position.getX() + "," + position.getY() + ")" + " by player("+ holderId + ")");
+                + position.getX() + "," + position.getY() + ")" + " by player(" + holderId + ")");
     }
 
     @Override

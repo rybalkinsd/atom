@@ -3,12 +3,18 @@ package ru.atom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
+import ru.atom.model.Box;
+import ru.atom.model.Bomb;
+import ru.atom.model.Bonus;
+import ru.atom.model.GameSession;
+import ru.atom.model.Explosion;
+import ru.atom.model.Player;
+import ru.atom.model.Wall;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game
  */
-public final class TestGameSessionCreator extends GameSession {
+public final class TestGameSessionCreator {
     private TestGameSessionCreator() {
     }
 
@@ -18,7 +24,7 @@ public final class TestGameSessionCreator extends GameSession {
         GameSession gameSession = new GameSession();
         //TODO populate your game session with sample objects and log their creation
         log.info("GameSession was created");
-        gameSession.addGameObject(new Player(1, new Point (400, 1000)));
+        gameSession.addGameObject(new Player(1, new Point(400, 1000)));
         gameSession.addGameObject(new Player(2, new Point(100, 700)));
         gameSession.addGameObject(new Bomb(3, new Point(300,200),1));
         gameSession.addGameObject(new Bomb(4, new Point(400, 200),2));
