@@ -7,5 +7,7 @@ public interface GameObject {
     /**
      * Unique id
      */
-    int getId();
+    long getId();
 }
+
+
