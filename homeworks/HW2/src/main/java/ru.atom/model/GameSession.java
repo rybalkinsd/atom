@@ -11,9 +11,7 @@ public class GameSession implements Tickable {
     private List<GameObject> gameObjects = new ArrayList<>();
 
     public GameSession() {
-
         log.info("GameSession was created");
-
     }
 
     public List<GameObject> getGameObjects() {
