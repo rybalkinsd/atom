@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
 
-public class Wall implements GameObject, Positionable{
+public class Wall implements GameObject, Positionable {
     private static final Logger log = LogManager.getLogger(Wall.class);
     private Point position;
     private boolean breakable;

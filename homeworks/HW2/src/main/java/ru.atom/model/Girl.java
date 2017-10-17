@@ -7,7 +7,8 @@ import ru.atom.geometry.Point;
 public class Girl implements GameObject, Tickable, Positionable, Movable {
     private static final Logger log = LogManager.getLogger(Girl.class);
     private Point position;
-    private int id, speed;
+    private int id;
+    private int speed;
 
     public Girl(Point position, int id) {
         this.position = position;
