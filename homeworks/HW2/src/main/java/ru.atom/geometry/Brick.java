@@ -17,7 +17,7 @@ public class Brick implements GameObject {
     private static final Logger logger = LogManager.getLogger(Wall.class);
 
 
-    public Brick(GameSession session,Point position, Rectangle space,int id){
+    public Brick(GameSession session,Point position, Rectangle space,int id) {
         this.id = id;
         this.position = position;
         this.space = space;
@@ -33,6 +33,7 @@ public class Brick implements GameObject {
     public Point getPosition() {
         return position;
     }
+
     @Override
     public Rectangle getSpace() {
         return space;

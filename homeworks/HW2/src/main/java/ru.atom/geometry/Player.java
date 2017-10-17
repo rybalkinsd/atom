@@ -2,8 +2,10 @@ package ru.atom.geometry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.*;
-import ru.atom.model.Tickable;
+import ru.atom.model.GameObject;
+import ru.atom.model.Movable;
+import ru.atom.model.GameSession;
+
 
 public class Player implements GameObject,Movable {
 
@@ -72,6 +74,7 @@ public class Player implements GameObject,Movable {
                         position.getX() - speed * localTime, position.getY());
                 setPosition(new Point(position.getX() - speed * localTime, position.getY()));
                 break;
+            default: return position;
         }
         return position;
     }

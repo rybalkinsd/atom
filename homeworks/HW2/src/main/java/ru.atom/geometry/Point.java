@@ -26,6 +26,7 @@ public class Point implements Collider,Positionable {
     public Point getPosition() {
         return this;
     }
+
     @Override
     public Rectangle getSpace() {
         return space;

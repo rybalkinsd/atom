@@ -17,7 +17,7 @@ public class Explosion implements GameObject,Tickable {
     private static final Logger logger = LogManager.getLogger(Wall.class);
 
 
-    public Explosion(GameSession session,Point position, Rectangle space,int id){
+    public Explosion(GameSession session,Point position, Rectangle space,int id) {
         this.id = id;
         this.position = position;
         this.space = space;
@@ -33,6 +33,7 @@ public class Explosion implements GameObject,Tickable {
     public Point getPosition() {
         return position;
     }
+
     @Override
     public Rectangle getSpace() {
         return space;

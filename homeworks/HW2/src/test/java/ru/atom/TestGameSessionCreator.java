@@ -1,6 +1,12 @@
 package ru.atom;
 
-import ru.atom.geometry.*;
+import ru.atom.geometry.Bomb;
+import ru.atom.geometry.Brick;
+import ru.atom.geometry.Explosion;
+import ru.atom.geometry.Player;
+import ru.atom.geometry.Point;
+import ru.atom.geometry.Rectangle;
+import ru.atom.geometry.Wall;
 import ru.atom.model.GameSession;
 
 /**

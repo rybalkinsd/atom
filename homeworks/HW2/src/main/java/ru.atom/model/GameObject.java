@@ -5,7 +5,7 @@ import ru.atom.geometry.Point;
 /**
  * Any entity of game mechanics
  */
-public interface GameObject extends Positionable{
+public interface GameObject extends Positionable {
     /**
      * Unique id
      */

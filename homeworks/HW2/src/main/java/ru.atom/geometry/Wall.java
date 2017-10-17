@@ -16,7 +16,7 @@ public class Wall implements GameObject {
     private static final Logger logger = LogManager.getLogger(Wall.class);
 
 
-    public Wall(GameSession session,Point position, Rectangle space,int id){
+    public Wall(GameSession session,Point position, Rectangle space,int id) {
         this.id = id;
         this.position = position;
         this.space = space;
@@ -32,6 +32,7 @@ public class Wall implements GameObject {
     public Point getPosition() {
         return position;
     }
+
     @Override
     public Rectangle getSpace() {
         return space;

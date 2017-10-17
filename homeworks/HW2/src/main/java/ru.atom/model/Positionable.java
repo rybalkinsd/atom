@@ -12,7 +12,7 @@ import ru.atom.geometry.Rectangle;
  * |          X
  * .---------->
  */
-public interface Positionable{
+public interface Positionable {
     /**
      * @return Current position
      */
