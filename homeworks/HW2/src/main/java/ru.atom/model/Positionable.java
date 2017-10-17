@@ -1,6 +1,7 @@
 package ru.atom.model;
 
 import ru.atom.geometry.Point;
+import ru.atom.geometry.Rectangle;
 
 /**
  * GameObject that has coordinates
@@ -11,9 +12,14 @@ import ru.atom.geometry.Point;
  * |          X
  * .---------->
  */
-public interface Positionable extends GameObject {
+public interface Positionable{
     /**
      * @return Current position
      */
     Point getPosition();
+
+    /**
+     * @return The space occupied by the object
+     */
+    Rectangle getSpace();
 }
