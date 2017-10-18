@@ -15,8 +15,10 @@ public class GameSession implements Tickable {
     }
 
     public void addGameObject(GameObject gameObject) {
+        log.info(gameObject.getClass().getName() + " with id = " + gameObject.getId() + " is created");
         gameObjects.add(gameObject);
     }
+
 
     @Override
     public void tick(long elapsed) {
