@@ -52,6 +52,7 @@ public class GameModelTest {
 
                 Assert.assertTrue(currentPosition.getX() == firstPosition.getX());
                 Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
+
             }
         }
     }
