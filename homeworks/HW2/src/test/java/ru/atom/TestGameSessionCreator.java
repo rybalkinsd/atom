@@ -17,9 +17,13 @@ public final class TestGameSessionCreator {
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
         gameSession.addGameObject(new BomberGirl(new Point(1, 1)));
+        gameSession.addGameObject(new BomberGirl(new Point(8,8)));
         gameSession.addGameObject(new Bomb(new Point(2,2)));
+        gameSession.addGameObject(new Bomb(new Point(9,9)));
         gameSession.addGameObject(new Wall(new Point(4,4)));
+        gameSession.addGameObject(new Wall(new Point(10,10)));
         gameSession.addGameObject(new Bonus(new Point(5,5)));
+        gameSession.addGameObject(new Bonus(new Point(11,11)));
         return gameSession;
     }
 }
