@@ -14,8 +14,10 @@ public class GameSession implements Tickable {
         return new ArrayList<>(gameObjects);
     }
 
-    public void addGameObject(GameObject gameObject) {
+    public void addGameObject(AbstractGameObj gameObject) {
         gameObjects.add(gameObject);
+        log.info("Object " + gameObject.getClass() + " created with id = " + gameObject.getId()
+                                    + " at current position " + gameObject.getPosition());
     }
 
     @Override
