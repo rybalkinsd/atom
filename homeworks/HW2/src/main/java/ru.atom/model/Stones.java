@@ -1,8 +1,8 @@
 package ru.atom.model;
 
-        public class Stones extends AbstractGameObj {
+public class Stones extends AbstractGameObj {
 
-            public Stones(int x, int y) {
+    public Stones(int x, int y) {
                 super(x, y);
-            }
+    }
 }

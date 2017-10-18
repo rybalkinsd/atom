@@ -1,13 +1,13 @@
 package ru.atom.model;
 
-        public class Box extends AbstractGameObj implements Tickable {
+public class Box extends AbstractGameObj implements Tickable {
 
-            public Box(int x, int y) {
+    public Box(int x, int y) {
                 super(x, y);
-            }
+    }
 
-            @Override
+    @Override
     public void tick(long elapsed) {
 
-                    }
+    }
 }
