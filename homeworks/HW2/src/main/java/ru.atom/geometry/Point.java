@@ -1,7 +1,7 @@
 package ru.atom.geometry;
 
 //TODO insert your implementation of geometry here
-public class Point implements Collider {
+public final class Point implements Collider {
     private final int x;
     private final int y;
 
