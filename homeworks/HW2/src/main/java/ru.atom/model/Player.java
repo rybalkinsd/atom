@@ -11,6 +11,9 @@ public final class Player implements Movable {
     private Point position;
     private long lifeTime;
     private int velocity;
+
+
+
     private int rangeExplosion;
     private int countBomb;
     private Type type;
@@ -76,6 +79,10 @@ public final class Player implements Movable {
     @Override
     public void tick(long elapsed) {
         lifeTime += elapsed;
+    }
+
+    public int getRangeExplosion() {
+        return rangeExplosion;
     }
 
 }

@@ -40,8 +40,8 @@ public final class TestGameSessionCreator {
         gameSession.addGameObject(bonus2);
         gameSession.addGameObject(bonus3);
 
-        Bomb bomb1 = new Bomb(new Point(40, 67));
-        Bomb bomb2 = new Bomb(new Point(37, 55));
+        Bomb bomb1 = new Bomb(new Point(40, 67), girl.getRangeExplosion());
+        Bomb bomb2 = new Bomb(new Point(37, 55), boy.getRangeExplosion());
         gameSession.addGameObject(bomb1);
         gameSession.addGameObject(bomb2);
 

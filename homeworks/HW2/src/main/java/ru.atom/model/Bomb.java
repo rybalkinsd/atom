@@ -15,10 +15,10 @@ public final class  Bomb implements Tickable, Positionable {
     private int rangeExplosion;
     private final Point position;
 
-    public Bomb(final Point position) {
+    public Bomb(final Point position, final int rangeExplosion) {
         this.position = position;
         this.id = GameSession.nextId();
-        this.rangeExplosion = 1;
+        this.rangeExplosion = rangeExplosion;
         this.lifeTime = 0;
 
         log.info("New Bomb: id={}, position({}, {})\n", id, position.getX(), position.getY()) ;
