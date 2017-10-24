@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
+    private static int bombId = 0;
+    private static int playerId = 0;
+    private static int bonusId = 0;
+    private static int boxId = 0;
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
 
@@ -17,6 +21,23 @@ public class GameSession implements Tickable {
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
     }
+
+    public static int getBombId() {
+        return ++bombId;
+    }
+
+    public static int getPlayerId() {
+        return ++playerId;
+    }
+
+    public static int getBonusId() {
+        return ++bonusId;
+    }
+
+    public static int getBoxId() {
+        return ++boxId;
+    }
+
 
     @Override
     public void tick(long elapsed) {
