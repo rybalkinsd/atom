@@ -15,7 +15,6 @@ public final class Box implements Positionable {
         log.info("New Box: id={},  id={}, position({}, {})\n", id, position.getX(), position.getY());
     }
 
-
     @Override
     public Point getPosition() {
         return position;
