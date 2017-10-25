@@ -22,10 +22,17 @@ Refresh gradle project
 #HSLIDE
 ### Agenda
 1. Threads
-1. Servlets
-1. HTTP Web Server
 1. Annotations
+1. Match-maker
+1. HTTP Web Server
 
+
+#HSLIDE
+### Threads
+1. **[Threads]**
+1. Annotations
+1. Match-maker
+1. HTTP Web Server
 
 #HSLIDE
 ### Why do we need parallel execution?
@@ -125,14 +132,20 @@ Util to observe java process stack state.
 # show all java processes
 > jcmd
 # get report
-> jstack <pid> > report.info
+> jstack <pid> report.info
 > less report.info
 ```
 
+#HSLIDE
+### Match-maker
+1. Threads
+1. Annotations
+1. Match-maker
+1. HTTP Web Server
 
 #HSLIDE
 ### Practice #1
-Our Bomberman is a client server game.
+Our Bomberman is a client-server game.
 
 As a client server game we have Clients or **Connections**
 
@@ -140,20 +153,20 @@ Clients want to play. So, we have Games or **GameSessions**
  
 
 #HSLIDE
-### Matchmaker
+### Match-maker
 <img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
 
 
 #HSLIDE
-### Matchmaking algorithm
+### Match-making algorithm
 <img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
 
 
 #HSLIDE
-### Matchmaking algorithm
+### Match-making algorithm
 **Assume we have a queue storing connections**
 
-Matchmaker is an infinity-loop algorithm with steps
+Match-maker is an infinity-loop algorithm with steps
 1. **Poll connection** from queue
 1. **Collect** polled connection to game GameSession candidates
 1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
@@ -223,6 +236,14 @@ You want to
 
 
 #HSLIDE
+### HTTP Web Server
+1. Threads
+1. Annotations
+1. Match-maker
+1. **[HTTP Web Server]**
+
+
+#HSLIDE
 ### Web server
 Web server - is a system that processes request via HTTP.
 
@@ -231,8 +252,8 @@ Examples:
 - NGINX
 
 Can be embedded into application
-- Jetty **our choice**
-- Tomcat
+- Jetty
+- Tomcat (**our choice**)
 
 Plain web server is ok for static content. 
 
@@ -253,8 +274,8 @@ Two types of solutions:
 
 
 #HSLIDE
-### Jetty
-Jetty provides a Web server and javax.servlet container
+### Tomcat
+Tomcat provides a Web server and javax.servlet container
 
 Supports
 - HTTP/2
@@ -263,7 +284,7 @@ Supports
 
 
 #HSLIDE
-### Server approximate behavior
+### Web Server approximate behavior
 1. Start
 1. Initialize internal servlets
 1. Create a "mapping" **(request, /path)** -> handling servlet
@@ -354,7 +375,7 @@ in application runtime.
 
 
 #HSLIDE
-### Make MatchMaker great again
+### Make Match-maker great again
 Goals
 1. Migrate to jersey
 1. Migrate connect method from GET to POST
