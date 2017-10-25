@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.atom.thread.mm.ThreadSafeStorage;
+import ru.atom.thread.mm.ThreadSafeMap;
 
 /**
  * Created by sergey on 3/15/17.
@@ -14,11 +14,11 @@ import ru.atom.thread.mm.ThreadSafeStorage;
 @Controller
 @RequestMapping("/games")
 public class GamesView {
-    private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
+    private static final Logger log = LogManager.getLogger(GamesView.class);
 
     @RequestMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     public String getView() {
         log.info("View request");
-        return ThreadSafeStorage.getAll().toString();
+        return ThreadSafeMap.getAll().toString();
     }
 }

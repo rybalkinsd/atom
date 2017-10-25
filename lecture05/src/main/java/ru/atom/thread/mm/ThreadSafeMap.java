@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by sergey on 3/15/17.
  */
-public class ThreadSafeStorage {
+public class ThreadSafeMap {
     private static ConcurrentHashMap<Long, GameSession> map = new ConcurrentHashMap<>();
 
     public static void put(GameSession session) {
