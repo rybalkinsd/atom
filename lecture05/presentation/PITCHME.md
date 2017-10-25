@@ -326,7 +326,7 @@ Today we will build web application with **Spring MVC** module
 #HSLIDE
 ### MVC
 **MVC (Model-View-Controller)** - popular pattern used to build web applications
-<img src="lecture05/presentation/assets/img/MVC-introduction2.jpg" alt="exception" style="width: 700px;"/>
+<img src="lecture05/presentation/assets/img/MVC-Introduction2.jpg" style="width: 700px;"/>
 
 
 #HSLIDE
