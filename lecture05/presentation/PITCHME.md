@@ -357,10 +357,10 @@ All the magic works via **annotations**
 1. Application entry point (HelloSpringBoot)  
 *@SpringBootApplication* auto-configures spring application
 1. Request controller - handles HTTP connections  
-*@Controller* - states, let Spring recognize this class  
-*@RequestMapping("hello")* - states, that the class will handle **HTTP Requests** to **/hello** url  
-*@RequestMapping("world")* - states that this method will handle **HTTP Requests** to **/hello/world** url  
-*@ResponseBody* states that method return result will be the **HTTP response body** 
+*@Controller* - let Spring recognize this class  
+*@RequestMapping("hello")* - this class handles **HTTP Requests** to **/hello** url  
+*@RequestMapping("world")* - this method handles **HTTP Requests** to **/hello/world** url  
+*@ResponseBody* method returns result will be the **HTTP response body** 
 
 
 #HSLIDE
