@@ -25,7 +25,6 @@ public class ConnectionControllerTest {
     @Ignore
     public void list() throws Exception {
         assertTrue(false);
-
     }
 
 }
