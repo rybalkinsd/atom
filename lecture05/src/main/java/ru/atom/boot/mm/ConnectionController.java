@@ -12,17 +12,18 @@ import ru.atom.thread.mm.ConnectionQueue;
 
 
 @Controller
-@RequestMapping("/connect")
-public class ConnectionHandler {
-    private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
+@RequestMapping("/connection")
+public class ConnectionController {
+    private static final Logger log = LogManager.getLogger(ConnectionController.class);
 
 
     /**
      * curl test
      *
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/connect -d 'id=1&name=bomberman'
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/connection/connect -d 'id=1&name=bomberman'
      */
     @RequestMapping(
+            path = "connect",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -32,4 +33,15 @@ public class ConnectionHandler {
         log.info("New connection id={} name={}", id, name);
         ConnectionQueue.getInstance().offer(new Connection(id, name));
     }
+
+    /**
+     * curl test
+     *
+     * curl -i localhost:8080/connection/list'
+     */
+    public String list() {
+        throw new UnsupportedOperationException();
+    }
+
+
 }

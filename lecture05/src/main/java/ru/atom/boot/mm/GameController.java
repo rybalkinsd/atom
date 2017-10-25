@@ -14,21 +14,22 @@ import ru.atom.thread.mm.GameRepository;
  */
 
 @Controller
-@RequestMapping("/games")
-public class GamesView {
-    private static final Logger log = LogManager.getLogger(GamesView.class);
+@RequestMapping("/game")
+public class GameController {
+    private static final Logger log = LogManager.getLogger(GameController.class);
 
     /**
      * curl test
      *
-     * curl -i localhost:8080/games
+     * curl -i localhost:8080/game/list
      */
     @RequestMapping(
+            path = "list",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
-    public String getView() {
-        log.info("View request");
+    public String list() {
+        log.info("Games list request");
         return GameRepository.getAll().toString();
     }
 }
