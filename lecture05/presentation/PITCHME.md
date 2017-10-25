@@ -20,6 +20,13 @@ Refresh gradle project
 
 
 #HSLIDE
+### Поиграем в web-server
+Any questions on HTTP?
+  
+**You must understand HTTP!** 
+
+
+#HSLIDE
 ### Agenda
 1. Threads
 1. Annotations
@@ -36,6 +43,14 @@ Refresh gradle project
 1. HTTP Web Server
 1. Spring
 
+#HSLIDE
+### Threads intro
+As we go into the land of servers, we face multi-threaded environment.  
+  
+Most of the hard part of multi-threading is covered with frameworks.  
+So this gentle introduction only covers basics that are necessary so far.  
+  
+We will have deeper topics on concurrency further in the course.
 
 #HSLIDE
 ### Why do we need parallel execution?
@@ -223,10 +238,10 @@ in application runtime.
 ### Web server
 **Web server** - is a program that processes HTTP Requests and provide HTTP responses.
   
-#### Web server can be a separate application. like**
+#### Web server can be a separate application. like
 - Apache HTTP Server
 - NGINX
-
+  
 #### Can be embedded into application
 - Jetty
 - Embedded Tomcat (**our choice**)
@@ -237,8 +252,8 @@ in application runtime.
 Alternatively large projects can use **Application Servers** to manage web application:  
  - Sun GlassFish
  - IBM WebSphere
- - RedHat JBoss
-
+ - RedHat JBoss  
+  
 We will not go this way
 
 #HSLIDE
@@ -290,8 +305,11 @@ The most famous web framework is **Spring**
 
 #HSLIDE
 ### Spring
-**Spring** - is a universal framework, used to develop web applications  
+<img src="lecture05/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 100px;"/>
+**Spring** - is a universal open-source framework, used to develop web applications  
 https://spring.io/  
+
+First version - **2002**
   
 It includes a number of modules for different functionality:
 - Spring MVC for building Web Applications
@@ -306,18 +324,19 @@ Today we will build web application with **Spring MVC** module
 
 #HSLIDE
 ### Spring MVC
-**Spring MVC**
+**Spring MVC** - 
 Django, Rails
 
 #HSLIDE
 ### Spring Boot
 Spring is a powerful tool and has a lot of configuration options.  
 **Spring Boot** is a project, that makes working with Spring easier:
-- minimum configuration
-- sane defaults
+- embedded tomcat included with servlet container
+- minimum configuration sane defaults
 - metrics, health checks and externalized configuration
-- embedded tomcat included  
 https://projects.spring.io/spring-boot/  
+  
+First version: **2014**
   
 With Spring boot life is much easier for us :)
 
@@ -339,7 +358,7 @@ All the magic works via Annotations
 @See ru.atom.thread.mm and tests 
 
 #HSLIDE
-### Practice #1
+### Match-maker
 Our Bomberman is a client-server game.
 
 As a client server game we have Clients or **Connections**
@@ -375,74 +394,36 @@ Match-maker is an infinity-loop algorithm with steps
 #HSLIDE
 ### Connection producer
 We do not have server to get connections for now. 
-
 We need an instance to emulate client.  
-
+  
 **Connection producer** will put new requests to our **queue** time-to-time.
-
 It is possible to have many producers.
 
-#HSLIDE
-### Practice #2
-No more Connection Producers.
-
-Now we can start a **jetty server**.
-
 
 #HSLIDE
-### API
-Serving two types of request:
-- Connect new player with **id** and **name**
-```bash
-GET /connect?id=1&amp;name=bomberman HTTP/1.1
-Host: localhost:8080
-```
+### Practice 2
+#### We have
+Math-maker service implementation
+@see ru.atom.boot.mm  
+  
+#### Implement:
+- ConnectionController::list()
+  
+#### Un-ignore and fix:
+- ConnectionControllerIntegrationTest::list()
+- GameControllerTest::list() 
+- GameControllerTest::connect()
+- GameControllerIntegrationTest::list()
 
-- View all games list 
-```bash
-GET /games HTTP/1.1
-Host: localhost:8080
-```
-    
-@See ru.atom.servlet.mm
-
-
-#HSLIDE
-### +/- of plain Servlets
-1. Is it convenient?
-1. Could I write less code?
-1. Is it as easy as you can imagine?
-
-
-#HSLIDE
-### API
-Serving two types of request
-
-- Connect 
-
-```bash
-POST /connect HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-
-id=1&name=bomberman
-```
-
--View all games list
- 
-```bash
-GET /games HTTP/1.1
-Host: localhost:8080
-```
-    
-@See ru.atom.boot.mm
-    
 
 #HSLIDE
 ### Summary
-1. Threads are not difficult until concurrency comes
-1. Jersey is lightweight and good with jetty
-1. Annotations info can disappear in compile-time 
+1. **Threads** are not difficult until concurrency comes
+1. **Annotations** help to build meta-information about application and can be used in both compile-time and runtime
+1. **Spring** is powerful universal framework
+1. **Spring Boot** makes a lot of staff to keep Spring **simple** and work out of the box
+1. **MVC** - methodology for building web application (learn it)
+1. **Spring MVC** is Spring module that allows to build web application based on MVC pattern
 1. Keep learning **HTTP** 
 
 
