@@ -340,7 +340,7 @@ Today we will build web application with **Spring MVC** module
 Spring is a powerful tool and has a lot of configuration options.  
 **Spring Boot** is a project, that makes working with Spring easier:
 - embedded tomcat included with servlet container
-- minimum configuration sane defaults
+- minimum configuration, sane defaults
 - metrics, health checks and externalized configuration
 https://projects.spring.io/spring-boot/  
   
@@ -351,7 +351,7 @@ First version: **2014**
 
 #HSLIDE
 ### Hello Spring Boot
-**@See ru.atom.boot.hw**
+**@See ru.atom.boot.hw**  
 All the magic works via **annotations**
 
 1. Application entry point (HelloSpringBoot)  
