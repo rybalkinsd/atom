@@ -25,6 +25,7 @@ Refresh gradle project
 1. Annotations
 1. Match-maker
 1. HTTP Web Server
+1. Spring
 
 
 #HSLIDE
@@ -33,6 +34,8 @@ Refresh gradle project
 1. Annotations
 1. Match-maker
 1. HTTP Web Server
+1. Spring
+
 
 #HSLIDE
 ### Why do we need parallel execution?
@@ -137,58 +140,6 @@ Util to observe java process stack state.
 ```
 
 #HSLIDE
-### Match-maker
-1. Threads
-1. Annotations
-1. Match-maker
-1. HTTP Web Server
-
-#HSLIDE
-### Practice #1
-Our Bomberman is a client-server game.
-
-As a client server game we have Clients or **Connections**
-
-Clients want to play. So, we have Games or **GameSessions** 
- 
-
-#HSLIDE
-### Match-maker
-<img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
-
-
-#HSLIDE
-### Match-making algorithm
-<img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
-
-
-#HSLIDE
-### Match-making algorithm
-**Assume we have a queue storing connections**
-
-Match-maker is an infinity-loop algorithm with steps
-1. **Poll connection** from queue
-1. **Collect** polled connection to game GameSession candidates
-1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
-    - If **no** continue to step #1
-    - If **yes**
-        - Create and save GameSession
-        - Clean GameSession candidates
-        - Continue to step #1
-
-
-#HSLIDE
-### Connection producer
-We do not have server to get connections for now. 
-
-We need an instance to emulate client.  
-
-**Connection producer** will put new requests to our **queue** time-to-time.
-
-It is possible to have many producers.
-
-
-#HSLIDE
 ### Queue
 Queue is a shared resource in a multi-threaded environment.
 
@@ -236,51 +187,71 @@ You want to
 
 
 #HSLIDE
+### Annotations
+1. Threads
+1. **[Annotations]**
+1. HTTP Web Server
+1. Spring
+1. Match-maker
+
+
+#HSLIDE
+### Annotations
+What annotations did you see before?
+
+
+#HSLIDE
+### Override
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.SOURCE)
+public @interface Override {
+}
+```
+
+#HSLIDE
+### Reflection API
+Reflection is an API to find information about classes/fields/methods 
+in application runtime.
+
+@See ru.atom.annotation and tests
+
+
+#HSLIDE
 ### HTTP Web Server
 1. Threads
 1. Annotations
-1. Match-maker
 1. **[HTTP Web Server]**
+1. Spring
+1. Match-maker
 
 
 #HSLIDE
 ### Web server
-Web server - is a system that processes request via HTTP.
-
-Examples:
+**Web server** - is a program that processes HTTP Requests and provide HTTP responses.
+  
+Web server can be a separate application. like"
 - Apache HTTP Server
 - NGINX
 
 Can be embedded into application
 - Jetty
-- Tomcat (**our choice**)
-
-Plain web server is ok for static content. 
+- Embedded Tomcat (**our choice**)
 
 
 #HSLIDE
-### Application server
-Two types of solutions:
-1. Old smelly JEE
-    - Sun GlassFish
-    - IBM WebSphere
-    - RedHat JBoss
-1. The other way
+### Servlet container
+Basic function of web server - to serve static content (html, css, images)  
+But most web servers provide some functionality to apply **custom logic on HTTP Request** and return **custom HTTP Response**.
+  
+This can be used to serve dynamic pages or for custom **web application** (that's how we will use it)
+  
+Custom server logic in java can be embedded into **servlet container** (part of web-server, that manages **Servlets**)
 
 
 #HSLIDE
 ### Servlet
 <img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
-
-
-#HSLIDE
-### Tomcat
-Tomcat provides a Web server and javax.servlet container
-
-Supports
-- HTTP/2
-- WebSocket
-- ...
 
 
 #HSLIDE
@@ -294,13 +265,105 @@ Supports
 
 
 #HSLIDE
-### HelloWorld servlet
-@See ru.atom.servlet.hw
+### Modern way
+**Servlet API** (a part of java API) - is low-level API  
+People tend to use high-level frameworks to make web applications  
+This frameworks use servlet API internally  
+The most famous web framework is **Spring**.
 
-- Servlet class
-- doGet / doPost
-- jetty server init
 
+#HSLIDE
+### Spring
+1. Threads
+1. Annotations
+1. HTTP Web Server
+1. **[Spring]**
+1. Match-maker
+
+
+#HSLIDE
+### Spring
+**Spring** - is a universal framework, used to develop web applications  
+https://spring.io/  
+  
+It includes a number of modules for different functionality:
+- Spring MVC for building Web Applications
+- Working with Databases
+- Messaging
+- RPC
+- Security
+- Testing
+  
+Today we will build web application with **Spring MVC** module
+
+#HSLIDE
+### Spring Boot
+Spring is a powerful tool and has a lot of configuration options.  
+**Spring Boot** is a project, that makes working with Spring easier:
+- minimum configuration
+- sane defaults
+- metrics, health checks and externalized configuration
+- embedded tomcat included  
+https://projects.spring.io/spring-boot/  
+  
+With Spring boot life is much easier for us :)
+
+#HSLIDE
+### Hello Spring Boot
+@See ru.atom.boot.hw
+All the magic works via Annotations
+
+1. Application entry point (HelloSpringBoot)
+- @SpringBootApplication autoconfigures spring application
+1. Request controller - handles HTTP connections  
+@Controller - states, let Spring recognize this class  
+@RequestMapping("hello") - states, that the class will handle **HTTP Requests** to **/hello** url  
+@RequestMapping("world") - states that this method will handle **HTTP Requests** to **/hello/world** url  
+@ResponseBody states that method return result will be the **HTTP response body** 
+
+#HSLIDE
+### Practice #1
+Our Bomberman is a client-server game.
+
+As a client server game we have Clients or **Connections**
+
+Clients want to play. So, we have Games or **GameSessions** 
+ 
+
+#HSLIDE
+### Match-maker
+<img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
+
+
+#HSLIDE
+### Match-making algorithm
+<img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
+
+
+#HSLIDE
+### Match-making algorithm
+**Assume we have a queue storing connections**
+
+Match-maker is an infinity-loop algorithm with steps
+1. **Poll connection** from queue
+1. **Collect** polled connection to game GameSession candidates
+1. **Check** if candidates count equals to PLAYERS_IN_GAME constant 
+    - If **no** continue to step #1
+    - If **yes**
+        - Create and save GameSession
+        - Clean GameSession candidates
+        - Continue to step #1
+
+
+#HSLIDE
+### Connection producer
+We do not have server to get connections for now. 
+
+We need an instance to emulate client.  
+
+**Connection producer** will put new requests to our **queue** time-to-time.
+
+It is possible to have many producers.
 
 #HSLIDE
 ### Practice #2
@@ -335,53 +398,6 @@ Host: localhost:8080
 
 
 #HSLIDE
-### Annotations
-What annotations did you see before?
-
-
-#HSLIDE
-### Override
-```java
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
-public @interface Override {
-}
-```
-
-
-#HSLIDE
-### Reflection API
-Reflection is an API to find information about classes/fields/methods 
-in application runtime.
-
-@See ru.atom.annotation and tests
-
-
-#HSLIDE
-### Jersey
-[Jersey](https://jersey.java.net/) is
-1. RESTful Web services framework
-1. Serlvet-free from our point of view
-1. Lightweight (low overhead) compare to servlets
-1. Minimalistic syntax
-
-
-#HSLIDE
-### Jersey Hello World
-@See ru.atom.boot.hw
-
-- @Path, @GET, @POST annotations
-- jersey initialization
-
-
-#HSLIDE
-### Make Match-maker great again
-Goals
-1. Migrate to jersey
-1. Migrate connect method from GET to POST
-
-
-#HSLIDE
 ### API
 Serving two types of request
 
@@ -404,31 +420,6 @@ Host: localhost:8080
     
 @See ru.atom.boot.mm
     
-
-#HSLIDE
-### Interceptors and filters
-Sometimes you want to add some aspect to your method.
-
-Authorization:
-
-```bash
-POST /connect HTTP/1.1
-Host: localhost:8080
-Content-Type: application/x-www-form-urlencoded
-Authorization: <auth token>
-
-id=1&name=bomberman
-```
-
-
-#HSLIDE
-### Authorized aspect
-@See ru.atom.boot.aspect
-
-- Filter definition
-- Adding filter in jetty context
-- Applying filter to methods
-
 
 #HSLIDE
 ### Summary
