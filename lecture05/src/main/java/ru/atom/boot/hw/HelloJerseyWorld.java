@@ -1,4 +1,4 @@
-package ru.atom.jersey.hw;
+package ru.atom.boot.hw;
 
 
 import javax.ws.rs.GET;
@@ -12,7 +12,7 @@ public class HelloJerseyWorld {
     @GET
     @Produces("text/plain")
     public Response sayHello() {
-        return Response.ok("Hello jersey world")
+        return Response.ok("Hello boot world")
                 .build();
     }
 }

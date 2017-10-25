@@ -1,5 +1,6 @@
 plugins {
-    id "com.github.kt3k.coveralls" version "2.6.3"
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 // constants declaration
@@ -25,9 +26,10 @@ allprojects {
     group = "technoatom"
     version = "1.0-SNAPSHOT"
 
-    apply plugin: "java"
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
     apply plugin: 'checkstyle'
-    apply plugin: "jacoco"
+    apply plugin: 'jacoco'
 
     repositories {
         mavenCentral()
@@ -65,11 +67,11 @@ ext.libraries = [
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
-        jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_hk2: "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
+        jersey_server: "org.glassfish.boot.core:boot-server:$jerseyVersion",
+        jersey_hk2: "org.glassfish.boot.inject:boot-hk2:$jerseyVersion",
+        jersey_containers: "org.glassfish.boot.containers:boot-container-servlet:$jerseyVersion",
         jersey_test:
-                "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
+                "org.glassfish.boot.test-framework.providers:boot-test-framework-provider-grizzly2:$jerseyVersion",
         gson: "com.google.code.gson:gson:$gsonjVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",

@@ -17,7 +17,7 @@ public class HttpServer {
         jerseyServlet.setInitOrder(0);
 
         jerseyServlet.setInitParameter(
-                "jersey.config.server.provider.packages",
+                "boot.config.server.provider.packages",
                 "ru.atom.http"
         );
         jettyServer.start();

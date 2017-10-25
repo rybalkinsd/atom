@@ -347,7 +347,7 @@ in application runtime.
 
 #HSLIDE
 ### Jersey Hello World
-@See ru.atom.jersey.hw
+@See ru.atom.boot.hw
 
 - @Path, @GET, @POST annotations
 - jersey initialization
@@ -381,7 +381,7 @@ GET /games HTTP/1.1
 Host: localhost:8080
 ```
     
-@See ru.atom.jersey.mm
+@See ru.atom.boot.mm
     
 
 #HSLIDE
@@ -402,7 +402,7 @@ id=1&name=bomberman
 
 #HSLIDE
 ### Authorized aspect
-@See ru.atom.jersey.aspect
+@See ru.atom.boot.aspect
 
 - Filter definition
 - Adding filter in jetty context
