@@ -308,9 +308,11 @@ The most famous web framework is **Spring**
 <img src="lecture05/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 100px;"/>
 **Spring** - is a universal open-source framework, used to develop web applications  
 https://spring.io/  
-
-First version - **2002**
   
+First version - **2002**
+
+#HSLIDE
+### Spring modules
 It includes a number of modules for different functionality:
 - Spring MVC for building Web Applications
 - Working with Databases
@@ -321,11 +323,18 @@ It includes a number of modules for different functionality:
   
 Today we will build web application with **Spring MVC** module
 
+#HSLIDE
+### MVC
+MVC (Model-View-Controller) - popular pattern used to build web applications
+<img src="lecture05/presentation/assets/img/MVC-introduction2.jpg" alt="exception" style="width: 700px;"/>
+
 
 #HSLIDE
 ### Spring MVC
-**Spring MVC** - 
-Django, Rails
+Spring MVC - Spring Module that make it easier to build MVC Applications  
+(Like **Django**, **Rails**)
+<img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 700px;"/>
+
 
 #HSLIDE
 ### Spring Boot
@@ -340,6 +349,7 @@ First version: **2014**
   
 With Spring boot life is much easier for us :)
 
+
 #HSLIDE
 ### Hello Spring Boot
 @See ru.atom.boot.hw
@@ -353,8 +363,16 @@ All the magic works via Annotations
 @RequestMapping("world") - states that this method will handle **HTTP Requests** to **/hello/world** url  
 @ResponseBody states that method return result will be the **HTTP response body** 
 
+
 #HSLIDE
-### And now
+### Important notes
+These notes are important to understand:
+1. HelloController is **Singleton** (by default) - the same instance for all requests
+1. Every request runs in **new thread** (actually backed by thread pool)  
+Here comes **multi-threading** with **shared memory** (further discussion)
+
+#HSLIDE
+### Match-maker practice
 @See ru.atom.thread.mm and tests 
 
 #HSLIDE
