@@ -37,16 +37,16 @@ public class GameModelTest {
             if (gameObject instanceof Movable) {
                 Point firstPosition = ((Movable) gameObject).getPosition();
                 Point currentPosition = ((Movable) gameObject).move(Movable.Direction.UP, 1000);
-                Assert.assertTrue(currentPosition.getY() > firstPosition.getX());
+                Assert.assertTrue(currentPosition.getY() > firstPosition.getY());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.DOWN, 1000);
-                Assert.assertTrue(currentPosition.getY() == firstPosition.getX());
+                Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.RIGHT, 500);
-                Assert.assertTrue(currentPosition.getX() > firstPosition.getY());
+                Assert.assertTrue(currentPosition.getX() > firstPosition.getX());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.LEFT, 500);
-                Assert.assertTrue(currentPosition.getX() == firstPosition.getY());
+                Assert.assertTrue(currentPosition.getX() == firstPosition.getX());
 
                 currentPosition = ((Movable) gameObject).move(Movable.Direction.IDLE, 1000);
 

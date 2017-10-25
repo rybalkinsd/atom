@@ -7,3 +7,6 @@ build/
 /*/build/
 /*/classes
 /classes
+
+*.iml
+*.class
