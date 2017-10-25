@@ -325,13 +325,13 @@ Today we will build web application with **Spring MVC** module
 
 #HSLIDE
 ### MVC
-MVC (Model-View-Controller) - popular pattern used to build web applications
+**MVC (Model-View-Controller)** - popular pattern used to build web applications
 <img src="lecture05/presentation/assets/img/MVC-introduction2.jpg" alt="exception" style="width: 700px;"/>
 
 
 #HSLIDE
 ### Spring MVC
-Spring MVC - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
+**Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
 <img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
 
 
@@ -355,12 +355,12 @@ First version: **2014**
 All the magic works via **annotations**
 
 1. Application entry point (HelloSpringBoot)  
-@SpringBootApplication auto-configures spring application
+*@SpringBootApplication* auto-configures spring application
 1. Request controller - handles HTTP connections  
-@Controller - states, let Spring recognize this class  
-@RequestMapping("hello") - states, that the class will handle **HTTP Requests** to **/hello** url  
-@RequestMapping("world") - states that this method will handle **HTTP Requests** to **/hello/world** url  
-@ResponseBody states that method return result will be the **HTTP response body** 
+*@Controller* - states, let Spring recognize this class  
+*@RequestMapping("hello")* - states, that the class will handle **HTTP Requests** to **/hello** url  
+*@RequestMapping("world")* - states that this method will handle **HTTP Requests** to **/hello/world** url  
+*@ResponseBody* states that method return result will be the **HTTP response body** 
 
 
 #HSLIDE
