@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.atom.thread.mm.ThreadSafeMap;
 
 /**
@@ -16,7 +18,15 @@ import ru.atom.thread.mm.ThreadSafeMap;
 public class GamesView {
     private static final Logger log = LogManager.getLogger(GamesView.class);
 
-    @RequestMapping(produces = MediaType.TEXT_PLAIN_VALUE)
+    /**
+     * curl test
+     *
+     * curl -i localhost:8080/games
+     */
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
     public String getView() {
         log.info("View request");
         return ThreadSafeMap.getAll().toString();

@@ -16,6 +16,12 @@ import ru.atom.thread.mm.ThreadSafeQueue;
 public class ConnectionHandler {
     private static final Logger log = LogManager.getLogger(ConnectionHandler.class);
 
+
+    /**
+     * curl test
+     *
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/connect -d 'id=1&name=bomberman'
+     */
     @RequestMapping(
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
