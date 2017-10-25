@@ -15,7 +15,7 @@ public class Wall implements Positionable {
 
         this.id += 1000000;
         this.position = position;
-        log.info("New Girl id={}, position={}", id, position);
+        log.info("New Wall id={}, position={}", id, position);
     }
 
 

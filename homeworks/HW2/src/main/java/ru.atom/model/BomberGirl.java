@@ -8,6 +8,9 @@ public class BomberGirl implements Movable {
 
     private static final Logger log = LogManager.getLogger(BomberGirl.class);
 
+    private  int height = 50;
+    private int width = 50;
+
     //private int speed = 5;
     //private int bomb_counter = 1; //на будущее
     //private int bomb_range = 1; //на будущее
@@ -26,6 +29,7 @@ public class BomberGirl implements Movable {
     public Point move(Direction direction, long time) {
         switch (direction) {
             case UP: this.position = new Point(getPosition().getX(), getPosition().getY() + (int)time);
+            log.info(this.position);
                 break;
             case DOWN: this.position = new Point(getPosition().getX(), getPosition().getY() - (int)time);
                 break;
@@ -54,7 +58,12 @@ public class BomberGirl implements Movable {
 
     @Override
     public void tick(long elapsed) {
+
         log.info("tick {}",elapsed);
+        //if (System.currentTimeMillis() - lastTimer > 100){
+            //tick();
+       // }
+
     }
 
 }

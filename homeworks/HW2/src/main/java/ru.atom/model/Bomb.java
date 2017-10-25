@@ -15,7 +15,7 @@ public class Bomb implements Tickable, Positionable {
 
         this.id += 100;
         this.position = position;
-        log.info("New Girl id={}, position={}", id, position);
+        log.info("New Bomb id={}, position={}", id, position);
 
     }
 
@@ -31,6 +31,7 @@ public class Bomb implements Tickable, Positionable {
 
     @Override
     public void tick(long elapsed) {
+
         log.info("tick {}",elapsed);
     }
 }

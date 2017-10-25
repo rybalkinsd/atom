@@ -15,7 +15,7 @@ public class Bonus implements Tickable, Positionable {
 
         this.id += 100000000;
         this.position = position;
-        log.info("New Girl id={}, position={}", id, position);
+        log.info("New Bonus id={}, position={}", id, position);
     }
 
     @Override

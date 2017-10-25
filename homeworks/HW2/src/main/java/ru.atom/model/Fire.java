@@ -4,18 +4,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
 
-public class Brick implements Tickable, Positionable {
+public class Fire implements Tickable, Positionable {
 
-    private static final Logger log = LogManager.getLogger(Brick.class);
+    private static final Logger log = LogManager.getLogger(Fire.class);
 
-    public static Long id = 10000000000L;
+    public static Long id = 1000000000000L;
     private Point position;
 
-    public Brick(Point position) {
+    public Fire(Point position) {
 
-        this.id += 10000;
+        this.id += 100000000;
         this.position = position;
-        log.info("New Brick id={}, position={}", id, position);
+        log.info("Fire id={}, position={}", id, position);
     }
 
 
