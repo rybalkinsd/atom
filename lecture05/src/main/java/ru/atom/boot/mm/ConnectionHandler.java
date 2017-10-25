@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.atom.thread.mm.Connection;
-import ru.atom.thread.mm.ThreadSafeQueue;
+import ru.atom.thread.mm.ConnectionQueue;
 
 
 @Controller
@@ -30,6 +30,6 @@ public class ConnectionHandler {
                         @RequestParam("name") String name) {
 
         log.info("New connection id={} name={}", id, name);
-        ThreadSafeQueue.getInstance().offer(new Connection(id, name));
+        ConnectionQueue.getInstance().offer(new Connection(id, name));
     }
 }

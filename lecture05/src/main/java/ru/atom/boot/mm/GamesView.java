@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.atom.thread.mm.ThreadSafeMap;
+import ru.atom.thread.mm.GameRepository;
 
 /**
  * Created by sergey on 3/15/17.
@@ -29,6 +29,6 @@ public class GamesView {
     @ResponseBody
     public String getView() {
         log.info("View request");
-        return ThreadSafeMap.getAll().toString();
+        return GameRepository.getAll().toString();
     }
 }

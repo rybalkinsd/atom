@@ -1,17 +1,10 @@
 dependencies {
-    testCompile rootProject.libraries.junit
+    compile rootProject.libraries.spring_boot
     compile rootProject.libraries.log4j
-    compile rootProject.libraries.okhttp
 
-    compile rootProject.libraries.jetty_server
-    compile rootProject.libraries.jetty_servlet
-    compile rootProject.libraries.jersey_server
-    compile rootProject.libraries.jersey_containers
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-
+    
     testCompile rootProject.libraries.junit
-    testCompile "org.springframework.boot:spring-boot-starter-test:1.5.8.RELEASE"
+    testCompile rootProject.libraries.spring_boot_test
 }
 
 sourceSets {

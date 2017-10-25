@@ -58,6 +58,13 @@ subprojects {
 
 // common libraries declaration
 ext.libraries = [
+        spring_boot : [
+            "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-starter-actuator"
+        ],
+
+        spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
+
         jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
         jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
         junit: "junit:junit:$junitVersion",
