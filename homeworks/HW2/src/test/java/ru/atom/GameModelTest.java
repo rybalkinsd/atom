@@ -14,6 +14,7 @@ public class GameModelTest {
     public void gameIsCreated() {
         GameSession gameSession = TestGameSessionCreator.createGameSession();
         Assert.assertNotNull(gameSession);
+        System.out.println();
     }
 
     @Test
@@ -22,6 +23,7 @@ public class GameModelTest {
         List<GameObject> gameObjects = gameSession.getGameObjects();
         Assert.assertNotNull(gameObjects);
         Assert.assertFalse(gameObjects.size() == 0);
+        System.out.println();
     }
 
     /**
@@ -54,5 +56,6 @@ public class GameModelTest {
                 Assert.assertTrue(currentPosition.getY() == firstPosition.getY());
             }
         }
+        System.out.println();
     }
 }

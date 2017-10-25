@@ -2,8 +2,8 @@ package ru.atom.geometry;
 
 //TODO insert your implementation of geometry here
 public class Point implements Collider {
-    private final int x;
-    private final int y;
+    final int x;
+    final int y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -42,5 +42,10 @@ public class Point implements Collider {
             return this.equals(other);
         }
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String toString() {
+        return ("x:" + this.x + " " + "y:" + this.y);
     }
 }
