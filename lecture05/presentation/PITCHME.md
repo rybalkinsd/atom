@@ -68,8 +68,6 @@ Refresh gradle project
 
 Behaviour of multithreaded program is (inter alia) dependent on OS scheduling
 
-Consequences?
-
 
 #HSLIDE
 ### interface Runnable
@@ -167,11 +165,6 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 
 
 #HSLIDE
-### And now
-@See ru.atom.thread.mm and tests 
-
-
-#HSLIDE
 ### Your turn
 @See ru.atom.thread.practice in tests
  
@@ -237,6 +230,16 @@ Web server can be a separate application. like"
 Can be embedded into application
 - Jetty
 - Embedded Tomcat (**our choice**)
+
+
+#HSLIDE
+### Alternative - application servers
+Two types of solutions:
+1. Old smelly JEE
+    - Sun GlassFish
+    - IBM WebSphere
+    - RedHat JBoss
+1. The other way
 
 
 #HSLIDE
@@ -314,12 +317,16 @@ With Spring boot life is much easier for us :)
 All the magic works via Annotations
 
 1. Application entry point (HelloSpringBoot)
-- @SpringBootApplication autoconfigures spring application
+- @SpringBootApplication auto-configures spring application
 1. Request controller - handles HTTP connections  
 @Controller - states, let Spring recognize this class  
 @RequestMapping("hello") - states, that the class will handle **HTTP Requests** to **/hello** url  
 @RequestMapping("world") - states that this method will handle **HTTP Requests** to **/hello/world** url  
 @ResponseBody states that method return result will be the **HTTP response body** 
+
+#HSLIDE
+### And now
+@See ru.atom.thread.mm and tests 
 
 #HSLIDE
 ### Practice #1
