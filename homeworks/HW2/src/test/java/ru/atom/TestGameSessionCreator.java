@@ -1,7 +1,11 @@
 package ru.atom;
 
 import ru.atom.geometry.Point;
-import ru.atom.model.*;
+import ru.atom.model.Bomb;
+import ru.atom.model.GameSession;
+import ru.atom.model.Improvment;
+import ru.atom.model.Player;
+import ru.atom.model.Obstacle;
 
 import static ru.atom.model.Improvment.ImprovmentType.EXPLOSIONRANGE;
 import static ru.atom.model.Improvment.ImprovmentType.BOMBMAX;

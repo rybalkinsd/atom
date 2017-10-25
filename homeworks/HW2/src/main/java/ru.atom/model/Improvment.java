@@ -20,7 +20,7 @@ public class Improvment implements Positionable {
         this.type = type;
         this.id = GameSession.nextId();
 
-        log.info("Player: id={}, position({}, {}), type = {}\n", this.id, coordinates.getX(), coordinates.getY(), this.type);
+        log.info("Player: id={},position({},{}),type={}\n", this.id, coordinates.getX(), coordinates.getY(), this.type);
     }
 
     @Override

@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Point;
 
-public class Player implements Movable{
+public class Player implements Movable {
 
     private static final Logger log = LogManager.getLogger(Player.class);
     private final int id;
@@ -22,13 +22,13 @@ public class Player implements Movable{
         this.explosionRange = 1;
         this.id = GameSession.nextId();
         this.lifeTime = 0;
-        log.info("Player: id={}, position({}, {})\n", id, position.getX(), position.getY()) ;
+        log.info("Player: id={}, position({}, {})\n", id, position.getX(), position.getY());
     }
 
     @Override
     public Point move(Direction direction, long time) {
-        int distance =(int)(time * speed);
-        switch(direction) {
+        int distance = (int) (time * speed);
+        switch (direction) {
             case UP:
                 position = new Point(position.getX(), position.getY() + distance);
                 break;

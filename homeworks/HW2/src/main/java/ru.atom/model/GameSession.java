@@ -10,6 +10,7 @@ public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
     private static int id = 0;
+
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
     }
@@ -27,6 +28,7 @@ public class GameSession implements Tickable {
             }
         }
     }
+
     public static int nextId() {
         return ++id;
     }
