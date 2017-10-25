@@ -183,12 +183,12 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 ### Your turn
 @See ru.atom.thread.practice in tests
  
-We have
+**We have**
 1. Event producers
 1. Event queue
 1. Event processor
-
-You want to
+  
+**You want to**
 1. Fix `EventProcessorTest`
 1. Remove @Ignore annotation
 1. Implement missing methods
@@ -238,11 +238,11 @@ in application runtime.
 ### Web server
 **Web server** - is a program that processes HTTP Requests and provide HTTP responses.
   
-#### Web server can be a separate application. like
+**Web server can be a separate application, like:**
 - Apache HTTP Server
 - NGINX
   
-#### Can be embedded into application
+**Can be embedded into application:**
 - Jetty
 - Embedded Tomcat (**our choice**)
 
@@ -254,7 +254,7 @@ Alternatively large projects can use **Application Servers** to manage web appli
  - IBM WebSphere
  - RedHat JBoss  
   
-We will not go this way
+**We will not go this way**
 
 #HSLIDE
 ### Servlet container
@@ -305,8 +305,8 @@ The most famous web framework is **Spring**
 
 #HSLIDE
 ### Spring
-<img src="lecture05/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 100px;"/>
-**Spring** - is a universal open-source framework, used to develop web applications  
+<img src="lecture05/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 300px;"/>  
+is a universal open-source framework, used to develop web applications  
 https://spring.io/  
   
 First version - **2002**
@@ -331,9 +331,8 @@ MVC (Model-View-Controller) - popular pattern used to build web applications
 
 #HSLIDE
 ### Spring MVC
-Spring MVC - Spring Module that make it easier to build MVC Applications  
-(Like **Django**, **Rails**)
-<img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 700px;"/>
+Spring MVC - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
+<img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
 
 
 #HSLIDE
@@ -347,16 +346,16 @@ https://projects.spring.io/spring-boot/
   
 First version: **2014**
   
-With Spring boot life is much easier for us :)
+**With Spring Boot our life is much easier :)**
 
 
 #HSLIDE
 ### Hello Spring Boot
-@See ru.atom.boot.hw
-All the magic works via Annotations
+**@See ru.atom.boot.hw**
+All the magic works via **annotations**
 
-1. Application entry point (HelloSpringBoot)
-- @SpringBootApplication auto-configures spring application
+1. Application entry point (HelloSpringBoot)  
+@SpringBootApplication auto-configures spring application
 1. Request controller - handles HTTP connections  
 @Controller - states, let Spring recognize this class  
 @RequestMapping("hello") - states, that the class will handle **HTTP Requests** to **/hello** url  
@@ -369,7 +368,8 @@ All the magic works via Annotations
 These notes are important to understand:
 1. HelloController is **Singleton** (by default) - the same instance for all requests
 1. Every request runs in **new thread** (actually backed by thread pool)  
-Here comes **multi-threading** with **shared memory** (further discussion)
+   
+Here comes **multi-threading** with **shared memory** (concurrency) - topic for further discussion
 
 #HSLIDE
 ### Match-maker practice
