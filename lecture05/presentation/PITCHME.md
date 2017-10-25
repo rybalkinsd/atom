@@ -170,7 +170,7 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
  
 We have
 1. Event producers
-1. ThreadSafe Event queue
+1. Event queue
 1. Event processor
 
 You want to
@@ -223,24 +223,23 @@ in application runtime.
 ### Web server
 **Web server** - is a program that processes HTTP Requests and provide HTTP responses.
   
-Web server can be a separate application. like"
+#### Web server can be a separate application. like**
 - Apache HTTP Server
 - NGINX
 
-Can be embedded into application
+#### Can be embedded into application
 - Jetty
 - Embedded Tomcat (**our choice**)
 
 
 #HSLIDE
 ### Alternative - application servers
-Two types of solutions:
-1. Old smelly JEE
-    - Sun GlassFish
-    - IBM WebSphere
-    - RedHat JBoss
-1. The other way
+Alternatively large projects can use **Application Servers** to manage web application:  
+ - Sun GlassFish
+ - IBM WebSphere
+ - RedHat JBoss
 
+We will not go this way
 
 #HSLIDE
 ### Servlet container
@@ -256,6 +255,10 @@ Custom server logic in java can be embedded into **servlet container** (part of 
 ### Servlet
 <img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
 
+#HSLIDE
+### Servlet
+**Servlet** - is class that handles HTTP Requests.  
+Java provide low-level **Servlet API**
 
 #HSLIDE
 ### Web Server approximate behavior
@@ -271,8 +274,9 @@ Custom server logic in java can be embedded into **servlet container** (part of 
 ### Modern way
 **Servlet API** (a part of java API) - is low-level API  
 People tend to use high-level frameworks to make web applications  
-This frameworks use servlet API internally  
-The most famous web framework is **Spring**.
+This frameworks use servlet API under the hood  
+  
+The most famous web framework is **Spring**
 
 
 #HSLIDE
@@ -298,6 +302,12 @@ It includes a number of modules for different functionality:
 - Testing
   
 Today we will build web application with **Spring MVC** module
+
+
+#HSLIDE
+### Spring MVC
+**Spring MVC**
+Django, Rails
 
 #HSLIDE
 ### Spring Boot
