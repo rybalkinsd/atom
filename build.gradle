@@ -2,7 +2,9 @@ plugins {
     id 'org.springframework.boot' version '1.5.8.RELEASE'
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
-
+springBoot {
+    mainClass = 'ru.atom.boot.mm.MatchMakerApp'
+}
 // constants declaration
 ext {
     jdkVersion = 1.9
