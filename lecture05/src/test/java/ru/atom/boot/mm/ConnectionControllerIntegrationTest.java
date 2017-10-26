@@ -10,7 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -28,9 +31,23 @@ public class ConnectionControllerIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=I")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=Like")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=Java")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/connection/list"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("I, Like, Java"));
     }
 
 }
