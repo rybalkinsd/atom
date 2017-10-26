@@ -8,6 +8,7 @@ public class GoodEventProducer implements EventProducer {
     private final int numberOfEvents;
 
     public GoodEventProducer(int numberOfEvents) {
+
         this.numberOfEvents = numberOfEvents;
     }
 
@@ -16,5 +17,9 @@ public class GoodEventProducer implements EventProducer {
         for (int i = 0; i < numberOfEvents; i++) {
             EventQueue.getInstance().offer(new Event(Event.EventType.GOOD));
         }
+    }
+
+    public int getNumberOfEvents() {
+        return this.numberOfEvents;
     }
 }

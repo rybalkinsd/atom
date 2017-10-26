@@ -114,3 +114,7 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
+
+springBoot {
+    mainClass = "com.example.Main"
+}
