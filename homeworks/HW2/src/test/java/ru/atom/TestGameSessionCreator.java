@@ -1,9 +1,10 @@
 package ru.atom;
 
-import ru.atom.model.GameSession;
-import ru.atom.model.Girl;
 import ru.atom.model.Bomb;
+import ru.atom.model.GameField;
+import ru.atom.model.Girl;
 import ru.atom.model.Wall;
+import ru.atom.model.GameSession;
 import ru.atom.geometry.Point;
 
 /**
@@ -24,6 +25,8 @@ public final class TestGameSessionCreator {
         Wall wall1 = new Wall(new Point(3, 2), false, 1);
         Bomb bomb0 = new Bomb(new Point(2, 1), 0);
         Bomb bomb1 = new Bomb(new Point(1, 2), 1);
+        GameField gamefield1 = new GameField(0);
+        GameField gamefield2 = new GameField(1);
 
         gameSession.addGameObject(girl0);
         gameSession.addGameObject(girl1);
@@ -31,6 +34,8 @@ public final class TestGameSessionCreator {
         gameSession.addGameObject(wall1);
         gameSession.addGameObject(bomb0);
         gameSession.addGameObject(bomb1);
+        gameSession.addGameObject(gamefield1);
+        gameSession.addGameObject(gamefield2);
 
         return gameSession;
     }
