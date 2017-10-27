@@ -28,9 +28,24 @@ public class ConnectionControllerIntegrationTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=Athos")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=2&name=Porthos")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=3&name=Aramis")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=4&name=D'Artagnan")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
     }
 
 }
