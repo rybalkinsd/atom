@@ -1,7 +1,7 @@
 package ru.atom.geometry;
 
 //TODO insert your implementation of geometry here
-public class Point implements Collider {
+public class Point implements GeomObject {
     private final int x;
     private final int y;
 
@@ -43,4 +43,15 @@ public class Point implements Collider {
         }
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Point getPosition() {
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Point(x = " + x + ", y = " + y + ")";
+    }
+
 }
