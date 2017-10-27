@@ -3,6 +3,9 @@ plugins {
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
+springBoot {
+    mainClass = 'ru.atom.boot.hw'
+}
 // constants declaration
 ext {
     jdkVersion = 1.9
