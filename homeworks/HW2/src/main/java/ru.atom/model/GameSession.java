@@ -9,6 +9,7 @@ import java.util.List;
 public class GameSession implements Tickable {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private List<GameObject> gameObjects = new ArrayList<>();
+    private int amountId = 0;
 
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
@@ -16,6 +17,10 @@ public class GameSession implements Tickable {
 
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
+    }
+
+    public int getNewId() {
+        return ++amountId;
     }
 
     @Override
