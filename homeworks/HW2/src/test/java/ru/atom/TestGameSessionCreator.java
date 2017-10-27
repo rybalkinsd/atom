@@ -5,6 +5,7 @@ import ru.atom.model.Bomb;
 import ru.atom.model.Obstacle;
 import ru.atom.model.GameSession;
 import ru.atom.model.Girl;
+import ru.atom.model.GameField;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game
@@ -16,6 +17,7 @@ public final class TestGameSessionCreator {
     static GameSession createGameSession() {
         GameSession gameSession = new GameSession();
         //TODO populate your game session with sample objects and log their creation
+        gameSession.addGameObject(new GameField(gameSession.getNewId()));
         gameSession.addGameObject(new Girl(gameSession.getNewId(), new Point(1, 1), 2));
         gameSession.addGameObject(new Girl(gameSession.getNewId(), new Point(3, 5), 8));
         gameSession.addGameObject(new Bomb(gameSession.getNewId(), 13, new Point(21, 34)));
