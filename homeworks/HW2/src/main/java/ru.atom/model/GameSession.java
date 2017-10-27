@@ -7,7 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSession implements Tickable {
+
     private static final Logger log = LogManager.getLogger(GameSession.class);
+
+    public GameSession() {
+        log.info("gameSession object created");
+    }
+
     private List<GameObject> gameObjects = new ArrayList<>();
 
     public List<GameObject> getGameObjects() {
