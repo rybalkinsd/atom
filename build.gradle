@@ -4,12 +4,12 @@ plugins {
 }
 
 springBoot {
-    mainClass = "ru.atom.boot.mm.MatchMakerApp"
+    mainClass = "ru.atom.boot.hw.HelloSpringBoot"
 }
 
 // constants declaration
 ext {
-    jdkVersion = 1.9
+    jdkVersion = 1.8
 
     jettyVersion = "9.4.7.v20170914"
     junitVersion = "4.12"
