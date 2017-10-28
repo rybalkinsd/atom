@@ -31,11 +31,6 @@ public class ConnectionController {
         ConnectionQueue.getInstance().offer(new Connection(id, name));
     }
 
-    /**
-     * curl test
-     *
-     * curl -i localhost:8080/connection/list'
-     */
     public String list() {
         throw new UnsupportedOperationException();
     }
