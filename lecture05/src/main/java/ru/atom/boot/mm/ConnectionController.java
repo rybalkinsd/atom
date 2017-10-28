@@ -19,16 +19,6 @@ import ru.atom.thread.mm.ConnectionQueue;
 public class ConnectionController {
     private static final Logger log = LogManager.getLogger(ConnectionController.class);
 
-<<<<<<< HEAD
-=======
-
-    /**
-     * curl test
-     *
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
-     * localhost:8080/connection/connect -d 'id=1&name=bomberman'
-     */
->>>>>>> 047704d8c8aa704964e4ffa1731fb893dc4783a1
     @RequestMapping(
             path = "connect",
             method = RequestMethod.POST,
