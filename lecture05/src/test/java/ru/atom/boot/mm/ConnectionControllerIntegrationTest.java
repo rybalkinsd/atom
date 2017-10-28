@@ -10,7 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -28,9 +31,12 @@ public class ConnectionControllerIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        connect();
+        mockMvc.perform(get("/connection/list"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("Connection{playerId=1, name='a'}" + '\n'));
     }
 
 }
