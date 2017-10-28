@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
 
@@ -21,6 +24,8 @@ public class ConnectionController {
     /**
      * curl test
      * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
+     *
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
      * localhost:8080/connection/connect -d 'id=1&name=bomberman'
      */
 
