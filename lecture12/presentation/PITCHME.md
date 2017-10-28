@@ -254,7 +254,7 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 1. GC Theory
 1. Java Garbage Collection
 1. **[Troubleshooting]**
->see GarbageProducer
+> see GarbageProducer
 
 #HSLIDE
 ## Docker
@@ -279,8 +279,8 @@ It is provisioned via **Dockerfile**:
 - docker toolchain allows many cool features
 
 #HSLIDE
-##Docker practice
->see lecture11/ru.atom.lecture11/Dockerfile
+## Docker practice
+> see lecture11/ru.atom.lecture11/Dockerfile
 
 #HSLIDE
 ## Deploy service to our docker could
