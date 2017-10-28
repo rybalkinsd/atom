@@ -20,7 +20,7 @@ public class GameController {
 
     /**
      * curl test
-     *
+     *<p></p>
      * curl -i localhost:8080/game/list
      */
     @RequestMapping(
