@@ -6,10 +6,17 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+<<<<<<< HEAD
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+=======
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+>>>>>>> 047704d8c8aa704964e4ffa1731fb893dc4783a1
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
 
@@ -22,10 +29,17 @@ public class ConnectionController {
 
     /**
      * curl test
+<<<<<<< HEAD
+     * <p></p>
+     * curl -i -X POST -H "Content-Type:
+     * application/x-www-form-urlencoded" localhost:8080/connection/connect -d 'id=1&name=bomberman'
+=======
      *
      * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
      * localhost:8080/connection/connect -d 'id=1&name=bomberman'
+>>>>>>> 047704d8c8aa704964e4ffa1731fb893dc4783a1
      */
+
     @RequestMapping(
             path = "connect",
             method = RequestMethod.POST,
@@ -40,7 +54,7 @@ public class ConnectionController {
 
     /**
      * curl test
-     *
+     * <p></p>
      * curl -i localhost:8080/connection/list'
      */
     public String list() {
