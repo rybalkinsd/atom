@@ -12,7 +12,8 @@ public class EventProcessor {
     private static long countBadEvent = 0;
 
     public static void produceEvents(List<EventProducer> eventProducers) {
-        for(EventProducer eventProducer : eventProducers) {
+
+        for (EventProducer eventProducer : eventProducers) {
             Thread thread = new Thread(eventProducer);
             thread.start();
             try {
@@ -26,13 +27,14 @@ public class EventProcessor {
 
         while (true) {
             event = EventQueue.getInstance().poll();
-            if(event == null) {
+
+            if (event == null) {
                 return;
             }
-            if(event.getEventType().equals(Event.EventType.BAD)) {
+            if (event.getEventType().equals(Event.EventType.BAD)) {
                 countBadEvent++;
             }
-            if(event.getEventType().equals(Event.EventType.GOOD)) {
+            if (event.getEventType().equals(Event.EventType.GOOD)) {
                 countGoodEvent++;
             }
         }
