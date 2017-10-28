@@ -1,6 +1,7 @@
 package ru.atom.thread.practice;
 
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author apomosov
@@ -8,14 +9,28 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();
+        for (EventProducer eventProducer : eventProducers) {
+            eventProducer.run();
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        int eventCounter = 0;
+        LinkedBlockingQueue<Event> queue = (LinkedBlockingQueue<Event>) EventQueue.getInstance();
+        for (Event event : queue) {
+            if (event.getEventType() == Event.EventType.GOOD)
+                eventCounter++;
+        }
+        return eventCounter;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        int eventCounter = 0;
+        LinkedBlockingQueue<Event> queue = (LinkedBlockingQueue<Event>) EventQueue.getInstance();
+        for (Event event : queue) {
+            if (event.getEventType() == Event.EventType.BAD)
+                eventCounter++;
+        }
+        return eventCounter;
     }
 }
