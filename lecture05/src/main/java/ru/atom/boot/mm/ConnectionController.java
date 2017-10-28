@@ -27,6 +27,7 @@ public class ConnectionController {
     /**
      * curl test
      * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
      * localhost:8080/connection/connect -d 'id=1&name=bomberman'
      */
     @RequestMapping(

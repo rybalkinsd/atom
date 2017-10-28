@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 public class ConnectionControllerTest {
 
     @Test
-    @Ignore
     public void connect() throws Exception {
         ConnectionController connectionHandler = new ConnectionController();
         assertThat(connectionHandler.list()).isEmpty();
@@ -22,9 +21,16 @@ public class ConnectionControllerTest {
     }
 
     @Test
-    @Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        ConnectionQueue.getInstance().clear();
+        ConnectionController connectionHandler = new CoonnectionController();
+        assertThat(connectionHandler.list()).isEmpty();
+        connectionHandler.connect(1, "a");
+        connectionHandler.connect(2, "b");
+        connectionHandler.connect(3, "c");
+        Thread.sleep(5000);
+
+        assertEquals("a, b, c", new ConnectionController().list());
     }
 
 }
