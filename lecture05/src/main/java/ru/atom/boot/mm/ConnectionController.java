@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,6 +41,11 @@ public class ConnectionController {
      * curl -i localhost:8080/connection/list'
      */
 
+    @RequestMapping(
+            path = "list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
     public String list() {
         String list = "";
         for (Connection connection : ConnectionQueue.getInstance()) {
