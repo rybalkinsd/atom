@@ -258,16 +258,17 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 
 #HSLIDE
 ## Docker
-Docker https://www.docker.com/
+[Docker](https://www.docker.com/)
+
 **Docker** - toolchain for lightweight customizable deployment
 (delivery of you code to production)
 
 #HSLIDE
 ## Docker basics
 **Image** - description of **minimal virtual machine** that will contain **application**, that we want to **deploy**.  
-It is provisioned via **Dockerfile**:  
-- what is our application  
-- what we need for our application  
+It is provisioned via **Dockerfile** :  
+    - what is our application  
+    - what we need for our application  
   
 **Container** - instance of image, able to deploy 
 
@@ -280,18 +281,26 @@ It is provisioned via **Dockerfile**:
 
 #HSLIDE
 ## Docker practice
-> see lecture11/ru.atom.lecture11/Dockerfile
+
+@see **lecture11/ru.atom.lecture11/Dockerfile**
+
 
 #HSLIDE
 ## Deploy service to our docker could
 1. login with your name on  
-> docker login
+    ```bash
+    > docker login
+    ``` 
  
 1. build image
-> docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
+    ```bash
+    > docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
+    ```
   
 1. push image to repository
-docker push yourname/servicename:version
+    ```bash
+    > docker push yourname/servicename:version
+    ```
   
 1. go to http://docker.bmstu.cloud:8080/ in browser
   
@@ -299,8 +308,16 @@ docker push yourname/servicename:version
 
 #HSLIDE
 ## Docker howto
-Docker images - show local images
-Docker ps - show running containers
+
+1. show local images
+    ```bash
+    > docker images 
+    ```
+
+1. show running containers
+    ```bash
+    > docker ps
+    ```
 
 #HSLIDE
 **Оставьте обратную связь**
