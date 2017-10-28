@@ -282,7 +282,7 @@ It is provisioned via **Dockerfile** :
 #HSLIDE
 ## Docker practice
 
-@see **lecture11/ru.atom.lecture11/Dockerfile**
+@see **lecture05/Dockerfile**
 
 
 #HSLIDE
@@ -318,6 +318,35 @@ It is provisioned via **Dockerfile** :
     ```bash
     > docker ps
     ```
+
+#HSLIDE
+## Example
+Build project
+```gradlew clean lecture05:jar```
+
+Build image
+```docker run -p 80:8080 mmaud/helloboot:1.0```
+
+Run image locally
+```docker run -p 80:8080 mmaud/helloboot:1.0```
+
+login (if not logged in already)
+```docker login```
+
+push image to docker hub
+```docker push```
+
+#HSLIDE
+### AWS
+**Find your credentials**  
+https://docs.google.com/spreadsheets/d/1i-WoyUrpunxwmFYkUGTLqm6ue6J24V0Py4OkjCLCaVc/edit?usp=sharing
+  
+**login**  
+https://302755701450.signin.aws.amazon.com/console  
+  
+**go to**  
+Services -> EC2 Container Service
+
 
 #HSLIDE
 **Оставьте обратную связь**
