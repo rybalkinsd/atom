@@ -8,14 +8,36 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();
+        for (EventProducer eventProducer : eventProducers) {
+            Thread eventThread = new Thread(eventProducer);
+            eventThread.start();
+            try {
+                eventThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        int totalNumberOfGoodEvents = 0;
+        if (!EventQueue.getInstance().isEmpty()) {
+            for (Event event : EventQueue.getInstance()) {
+                if (event.getEventType() == Event.EventType.GOOD)
+                    totalNumberOfGoodEvents++;
+            }
+        }
+        return totalNumberOfGoodEvents;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        int totalNumberOfBadEvents = 0;
+        if (!EventQueue.getInstance().isEmpty()) {
+            for (Event event : EventQueue.getInstance()) {
+                if (event.getEventType() == Event.EventType.BAD)
+                    totalNumberOfBadEvents++;
+            }
+        }
+        return totalNumberOfBadEvents;
     }
 }
