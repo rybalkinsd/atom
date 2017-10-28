@@ -18,11 +18,11 @@ public class EventProcessorTest {
 
         EventProcessor.produceEvents(Arrays.asList(
                 new GoodEventProducer(100_000),
-                new GoodEventProducer(50_000),
+                new GoodEventProducer(60_000),
                 new BadEventProducer(100_000),
                 new BadEventProducer(50_000)));
 
-        Assert.assertEquals(150_000, EventProcessor.countTotalNumberOfGoodEvents());
+        Assert.assertEquals(160_000, EventProcessor.countTotalNumberOfGoodEvents());
         Assert.assertEquals(150_000, EventProcessor.countTotalNumberOfBadEvents());
     }
 }
