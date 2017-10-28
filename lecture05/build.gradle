@@ -1,8 +1,9 @@
 dependencies {
     compile rootProject.libraries.spring_boot
     compile rootProject.libraries.log4j
+    compile rootProject.libraries.gson
 
-    
+
     testCompile rootProject.libraries.junit
     testCompile rootProject.libraries.spring_boot_test
 }
