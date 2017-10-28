@@ -1,7 +1,6 @@
 package ru.atom.thread.practice;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author apomosov
@@ -23,7 +22,8 @@ public class EventProcessor {
             }
         }
 
-        Event event = null;
+        Event event;
+
         while (true) {
             event = EventQueue.getInstance().poll();
             if(event == null) {
