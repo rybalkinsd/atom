@@ -254,11 +254,11 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 1. GC Theory
 1. Java Garbage Collection
 1. **[Troubleshooting]**
-> see GarbageProducer
+    @see GarbageProducer
 
 #HSLIDE
 ## Docker
-[Docker](https://www.docker.com/)
+[[Docker]](https://www.docker.com/)
 
 **Docker** - toolchain for lightweight customizable deployment
 (delivery of you code to production)
@@ -267,8 +267,8 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 ## Docker basics
 **Image** - description of **minimal virtual machine** that will contain **application**, that we want to **deploy**.  
 It is provisioned via **Dockerfile** :  
-    - what is our application  
-    - what we need for our application  
+- what is our application  
+- what we need for our application  
   
 **Container** - instance of image, able to deploy 
 
@@ -294,7 +294,8 @@ It is provisioned via **Dockerfile** :
  
 1. build image
     ```bash
-    > docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
+    > docker build --tag yourname/servicename:version 
+             path/to/dir-with-Dockerfile
     ```
   
 1. push image to repository
@@ -308,7 +309,6 @@ It is provisioned via **Dockerfile** :
 
 #HSLIDE
 ## Docker howto
-
 1. show local images
     ```bash
     > docker images 
