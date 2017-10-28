@@ -14,7 +14,6 @@ public class GameRepository {
     }
 
     public static Collection<GameSession> getAll() {
-		
         return map.values();
     }
 }

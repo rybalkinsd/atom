@@ -13,7 +13,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void connect() throws Exception {
-		ConnectionQueue.getInstance().clear();
+        ConnectionQueue.getInstance().clear();
         ConnectionController connectionHandler = new ConnectionController();
         assertThat(connectionHandler.list()).isEmpty();
 
@@ -26,14 +26,13 @@ public class ConnectionControllerTest {
 
     @Test
     public void list() throws Exception {
-		ConnectionQueue.getInstance().clear();
-		ConnectionController connectionHandler = new ConnectionController();
-		
-		connectionHandler.connect(1, "a");
-		connectionHandler.connect(2, "b");
+        ConnectionQueue.getInstance().clear();
+        ConnectionController connectionHandler = new ConnectionController();
+
+        connectionHandler.connect(1, "a");
+        connectionHandler.connect(2, "b");
         connectionHandler.connect(3, "c");
         Thread.sleep(5000);
- 
         assertEquals("a, b, c", new ConnectionController().list());
         
     }

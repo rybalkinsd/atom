@@ -25,7 +25,7 @@ public class ConnectionControllerIntegrationTest {
 
     @Test
     public void connect() throws Exception {
-		ConnectionQueue.getInstance().clear();
+        ConnectionQueue.getInstance().clear();
         mockMvc.perform(post("/connection/connect")
                     .content("id=1&name=a")
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED))
@@ -34,7 +34,7 @@ public class ConnectionControllerIntegrationTest {
 
     @Test
     public void list() throws Exception {
-		ConnectionQueue.getInstance().clear();
+        ConnectionQueue.getInstance().clear();
         mockMvc.perform(post("/connection/connect")
                 .content("id=1&name=a")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED));

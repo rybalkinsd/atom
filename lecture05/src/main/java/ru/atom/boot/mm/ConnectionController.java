@@ -24,11 +24,11 @@ public class ConnectionController {
     private static final Logger log = LogManager.getLogger(ConnectionController.class);
 
 
-	/**
-	 * curl test
-	 * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
-	 * localhost:8080/connection/connect -d 'id=1&name=bomberman'
-	 */
+    /**
+     * curl test
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
+     * localhost:8080/connection/connect -d 'id=1&name=bomberman'
+     */
     @RequestMapping(
             path = "connect",
             method = RequestMethod.POST,
@@ -42,15 +42,15 @@ public class ConnectionController {
     }
 
     /**
-	 * curl test
-	 * curl -i localhost:8080/connection/list'
-	 */
-	@RequestMapping("list")
-	@ResponseBody
+     * curl test
+     * curl -i localhost:8080/connection/list'
+     */
+    @RequestMapping("list")
+    @ResponseBody
     public String list() {
-		return ConnectionQueue.getInstance().stream()
-		        .map(connection -> connection.getName())
-				.collect(Collectors.joining(", "));
+        return ConnectionQueue.getInstance().stream()
+                .map(connection -> connection.getName())
+                .collect(Collectors.joining(", "));
     }
 
 

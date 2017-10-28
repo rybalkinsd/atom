@@ -19,9 +19,9 @@ public class GameController {
     private static final Logger log = LogManager.getLogger(GameController.class);
 
     /**
-	 * curl test
-	 * curl -i localhost:8080/game/list
-	 */
+     * curl test
+     * curl -i localhost:8080/game/list
+     */
     @RequestMapping(
             path = "list",
             method = RequestMethod.GET,

@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("hello")
 public class HelloController {
-	
-	/**
-	 * curl test
-	 * curl -i localhost:8080/hello/world
-	 */    
+    /**
+     * curl test
+     * curl -i localhost:8080/hello/world
+     */    
     @RequestMapping("world")
     @ResponseBody
     public String hi() {

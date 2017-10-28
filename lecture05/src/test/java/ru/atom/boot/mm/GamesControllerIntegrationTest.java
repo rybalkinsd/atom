@@ -24,13 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest
 public class GamesControllerIntegrationTest {
-	@Autowired
+    @Autowired
     MockMvc mockMvc;
 
     @Test
     @Ignore
     public void list() throws Exception {
-		ConnectionQueue.getInstance().clear();
+        ConnectionQueue.getInstance().clear();
         GameRepository.getAll().clear();
         mockMvc.perform(post("/connection/connect")
                 .content("id=1&name=a")

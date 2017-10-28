@@ -15,7 +15,7 @@ public class GameControllerTest {
 
     @Test
     public void list() throws Exception {
-		ConnectionQueue.getInstance().clear();
+        ConnectionQueue.getInstance().clear();
         GameRepository.getAll().clear();
         ConnectionQueue.getInstance().offer(new Connection(1, "a"));
         ConnectionQueue.getInstance().offer(new Connection(2, "b"));
