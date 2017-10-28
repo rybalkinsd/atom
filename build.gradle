@@ -4,7 +4,7 @@ plugins {
 }
 
 springBoot {
-    mainClass = "ru.atom.boot.mm.MatchMakerApp"
+    mainClass = 'ru.atom.boot.hw'
 }
 
 // constants declaration
