@@ -7,3 +7,13 @@ build/
 /*/build/
 /*/classes
 /classes
+
+.class
+*.class
+.iml
+*.iml
+.gradlew
+*.properties
+.build
+.gradlew
+.md
