@@ -114,6 +114,7 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
+
 springBoot {
     mainClass = "ru.atom.boot.hw.HelloSpringBoot"
 }
