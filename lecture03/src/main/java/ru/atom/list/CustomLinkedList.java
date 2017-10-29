@@ -8,54 +8,144 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private ListNode<E> next;
+    private ListNode<E> prev;
+    private ListNode<E> current;
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next;
+        int count = 0;
+        while (current != null) {
+            current = current.prev();
+            count++;
+        }
+        return (count);
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return next.next() == next;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next;
+        E obj = (E) o;
+        while (current != null) {
+            if (current.getObject().equals(obj)) {
+                return true;
+            }
+            current = current.prev();
+        }
+        return (false);
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public E next() {
+                E result = current.getObject();
+                current = current.prev();
+                return result;
+            }
+
+            ListNode<E> current = next;
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        current = new ListNode<E>(e);
+        if (next == null) {
+            next = current;
+            prev = current;
+        } else {
+            prev.setPrev(current);
+            prev = current;
+        }
+        return true;
+
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next;
+        E obj = (E) o;
+        while (current != null) {
+            if (current.getObject().equals(obj)) {
+                if (current.next() != null) {
+                    current.prev().setNext(current.next());
+                    current.next().setPrev(current.prev());
+                    current.setNext(null);
+                    current.setPrev(null);
+                    current.setObject(null);
+                    if (current.prev() == null) {
+                        prev = current.next();
+                    }
+                } else {
+                    next = next.prev();
+                    current.setNext(null);
+                    current.setPrev(null);
+                    current.setObject(null);
+                    if (next == null) {
+                        prev = null;
+                    }
+                }
+                return true;
+            }
+            current = current.prev();
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next;
+        while (current != null) {
+            remove(current.getObject());
+            current = next;
+        }
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next.prev();
+        while (current != next && index > 0) {
+            current = current.prev();
+            index--;
+        }
+        return current != next ? current.getObject() : null;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = next;
+        E obj = (E) o;
+        int index = 0;
+        while (current != null) {
+            if (current.getObject().equals(obj)) {
+                return index;
+            }
+            current = current.prev();
+            index++;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        boolean flag = true;
+        for (E obj : c) {
+            flag &= add(obj);
+        }
+        return flag;
     }
 
 
