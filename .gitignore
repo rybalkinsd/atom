@@ -12,3 +12,7 @@ build/
 *.class
 .iml
 *.iml
+*.class
+.class
+.iml
+*.iml
