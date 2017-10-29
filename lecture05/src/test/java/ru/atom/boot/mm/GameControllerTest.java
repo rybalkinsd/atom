@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class GameControllerTest {
 
     @Test
+    @Ignore
     public void list() throws Exception {
         ConnectionQueue.getInstance().clear();
         GameRepository.getAll().clear();
