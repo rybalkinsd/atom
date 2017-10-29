@@ -10,14 +10,14 @@ public class CustomLinkedList<E> implements List<E> {
 
     private ListNode<E> next;
     private ListNode<E> prev;
+    private ListNode<E> current;
 
     @Override
     public int size() {
-        ListNode<E> current = new ListNode<E>();
-        current = next;
+        ListNode<E> current = next;
         int count = 0;
         while (current != null) {
-            current = current.prev;
+            current = current.prev();
             count++;
         }
         return (count);
@@ -25,7 +25,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return next.next == next;
+        return next.next() == next;
     }
 
     @Override
@@ -33,10 +33,10 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode<E> current = next;
         E obj = (E) o;
         while (current != null) {
-            if (current.object.equals(obj)) {
+            if (current.getObject().equals(obj)) {
                 return true;
             }
-            current = current.prev;
+            current = current.prev();
         }
         return (false);
     }
@@ -51,8 +51,8 @@ public class CustomLinkedList<E> implements List<E> {
 
             @Override
             public E next() {
-                E result = current.object;
-                current = current.prev;
+                E result = current.getObject();
+                current = current.prev();
                 return result;
             }
 
@@ -62,16 +62,14 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-
-        ListNode<E> current = new ListNode<E>();
+        current = new ListNode<E>(e);
         if (next == null) {
             next = current;
             prev = current;
         } else {
-            prev.prev = current;
+            prev.setPrev(current);
             prev = current;
         }
-        current.object = e;
         return true;
 
     }
@@ -81,26 +79,28 @@ public class CustomLinkedList<E> implements List<E> {
         ListNode<E> current = next;
         E obj = (E) o;
         while (current != null) {
-            if (current.object.equals(obj)) {
-                if (current.next != null) {
-                    current.prev.next = current.next;
-                    current.next.prev = current.prev;
-                    current.next = current.prev = null;
-                    current.object = null;
-                    if (current.prev == null) {
-                        prev = current.next;
+            if (current.getObject().equals(obj)) {
+                if (current.next() != null) {
+                    current.prev().setNext(current.next());
+                    current.next().setPrev(current.prev());
+                    current.setNext(null);
+                    current.setPrev(null);
+                    current.setObject(null);
+                    if (current.prev() == null) {
+                        prev = current.next();
                     }
                 } else {
-                    next = next.prev;
-                    current.next = current.prev = null;
-                    current.object = null;
+                    next = next.prev();
+                    current.setNext(null);
+                    current.setPrev(null);
+                    current.setObject(null);
                     if (next == null) {
                         prev = null;
                     }
                 }
                 return true;
             }
-            current = current.prev;
+            current = current.prev();
         }
         return false;
     }
@@ -109,19 +109,19 @@ public class CustomLinkedList<E> implements List<E> {
     public void clear() {
         ListNode<E> current = next;
         while (current != null) {
-            remove(current.object);
+            remove(current.getObject());
             current = next;
         }
     }
 
     @Override
     public E get(int index) {
-        ListNode<E> current = next.prev;
+        ListNode<E> current = next.prev();
         while (current != next && index > 0) {
-            current = current.prev;
+            current = current.prev();
             index--;
         }
-        return current != next ? current.object : null;
+        return current != next ? current.getObject() : null;
     }
 
     @Override
@@ -130,10 +130,10 @@ public class CustomLinkedList<E> implements List<E> {
         E obj = (E) o;
         int index = 0;
         while (current != null) {
-            if (current.object.equals(obj)) {
+            if (current.getObject().equals(obj)) {
                 return index;
             }
-            current = current.prev;
+            current = current.prev();
             index++;
         }
         return -1;
