@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.ResponseBody;
-=======
->>>>>>> e0520b93b4221d476c081235c442b3c5fcdda883
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
 
@@ -29,13 +26,6 @@ public class ConnectionController {
 
     /**
      * curl test
-<<<<<<< HEAD
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded"
-=======
-     *
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
->>>>>>> e0520b93b4221d476c081235c442b3c5fcdda883
      * localhost:8080/connection/connect -d 'id=1&name=bomberman'
      */
     @RequestMapping(
