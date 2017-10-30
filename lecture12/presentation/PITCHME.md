@@ -359,7 +359,7 @@ Services -> EC2 Container Service
 1. Deploy
 
 #HSLIDE
-## Docker example for HelloSpringBoot app from lecture05
+## Docker full example
 1. Build project
 ```
 gradlew clean lecture05:build
