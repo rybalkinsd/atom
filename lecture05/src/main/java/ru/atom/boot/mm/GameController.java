@@ -2,11 +2,13 @@ package ru.atom.boot.mm;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.GameRepository;
 
 /**
@@ -20,7 +22,6 @@ public class GameController {
 
     /**
      * curl test
-     *
      * curl -i localhost:8080/game/list
      */
     @RequestMapping(
