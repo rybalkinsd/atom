@@ -7,10 +7,10 @@ dependencies {
     testCompile rootProject.libraries.spring_boot_test
 }
 
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.boot.mm.MatchMakerApp' }
+springBoot {
+    mainClass = "ru.atom.boot.hw.HelloSpringBoot"
 }
+
 
 sourceSets {
     main {
