@@ -2,25 +2,29 @@ package ru.atom.boot.mm;
 
 
 import org.junit.Test;
-import ru.atom.thread.mm.Connection;
-import ru.atom.thread.mm.ConnectionQueue;
+import ru.atom.thread.mm.*;
 
-import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class GameControllerTest {
 
     @Test
     public void list() throws Exception {
+        ConnectionQueue.getInstance().clear();
+        List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
+        candidates.add(new Connection(1, "a"));
+        candidates.add(new Connection(2, "b"));
+        candidates.add(new Connection(3, "c"));
+        candidates.add(new Connection(4, "d"));
+        GameSession session = new GameSession(candidates.toArray(new Connection[0]));
+        GameRepository.put(session);
+        assertEquals("[" + session + "]", new GameController().list().toString());
 
-        ConnectionQueue.getInstance().offer(new Connection(1, "a"));
-        ConnectionQueue.getInstance().offer(new Connection(2, "b"));
-        ConnectionQueue.getInstance().offer(new Connection(3, "c"));
-        ConnectionQueue.getInstance().offer(new Connection(4, "d"));
-        assertTrue(("[GameSession{connections=[Connection{playerId=1, name='a'}," +
-                " Connection{playerId=2, name='b'}," +
-                " Connection{playerId=3, name='c'}," +
-                " Connection{playerId=4, name='d'}], id=0}]").equals(new GameController().list()));
     }
 
 }
