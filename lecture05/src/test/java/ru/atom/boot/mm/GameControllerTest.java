@@ -2,7 +2,10 @@ package ru.atom.boot.mm;
 
 
 import org.junit.Test;
-import ru.atom.thread.mm.*;
+import ru.atom.thread.mm.Connection;
+import ru.atom.thread.mm.ConnectionQueue;
+import ru.atom.thread.mm.GameRepository;
+import ru.atom.thread.mm.GameSession;
 
 
 import java.util.ArrayList;
