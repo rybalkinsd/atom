@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,9 +29,27 @@ public class ConnectionControllerIntegrationTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=Athos")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=2&name=Porthos")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=3&name=Aramis")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/connection/connect")
+                .content("id=4&name=D'Artagnan")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+        mockMvc.perform(get("/connection/list")
+                .contentType(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk());
     }
 
 }

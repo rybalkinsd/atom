@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Controller
@@ -19,13 +25,6 @@ import ru.atom.thread.mm.ConnectionQueue;
 public class ConnectionController {
     private static final Logger log = LogManager.getLogger(ConnectionController.class);
 
-
-    /**
-     * curl test
-     *
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
-     * localhost:8080/connection/connect -d 'id=1&name=bomberman'
-     */
     @RequestMapping(
             path = "connect",
             method = RequestMethod.POST,
@@ -37,15 +36,23 @@ public class ConnectionController {
         log.info("New connection id={} name={}", id, name);
         ConnectionQueue.getInstance().offer(new Connection(id, name));
     }
-
     /**
      * curl test
-     *
      * curl -i localhost:8080/connection/list'
      */
+
+    @RequestMapping(
+            path = "list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
     public String list() {
-        throw new UnsupportedOperationException();
+        String list = "";
+        for (Connection connection : ConnectionQueue.getInstance()) {
+            if (list != "")
+                list += ", ";
+            list += connection.getName();
+        }
+        return list;
     }
-
-
 }

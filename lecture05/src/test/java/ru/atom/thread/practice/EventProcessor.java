@@ -1,5 +1,7 @@
 package ru.atom.thread.practice;
 
+import jdk.jfr.EventType;
+
 import java.util.List;
 
 /**
@@ -8,14 +10,26 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();
+        for (EventProducer eventProducer : eventProducers) {
+            eventProducer.run();
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        int good = 0;
+        for (Event event : EventQueue.getInstance()) {
+            if (event.getEventType() == Event.EventType.GOOD)
+                good++;
+        }
+        return good;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        int bad = 0;
+        for (Event event : EventQueue.getInstance()) {
+            if (event.getEventType() == Event.EventType.BAD)
+                bad++;
+        }
+        return bad;
     }
 }
