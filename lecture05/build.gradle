@@ -8,6 +8,11 @@ dependencies {
     testCompile rootProject.libraries.spring_boot_test
 }
 
+springBoot {
+    mainClass = "ru.atom.boot.hw.HelloSpringBoot"
+}
+
+
 sourceSets {
     main {
         java {
