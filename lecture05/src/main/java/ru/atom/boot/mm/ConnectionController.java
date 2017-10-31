@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
+import ru.atom.thread.mm.GameRepository;
+import ru.atom.thread.mm.GameSession;
 
 
 @Controller
@@ -23,7 +25,8 @@ public class ConnectionController {
     /**
      * curl test
      *
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/connection/connect -d 'id=1&name=bomberman'
+     * curl -i -X POST -H "Content-Type:
+     * application/x-www-form-urlencoded" localhost:8080/connection/connect -d 'id=1&name=bomberman'
      */
     @RequestMapping(
             path = "connect",
@@ -43,7 +46,7 @@ public class ConnectionController {
      * curl -i localhost:8080/connection/list'
      */
     public String list() {
-        throw new UnsupportedOperationException();
+        return GameRepository.getAll().toString();
     }
 
 
