@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.atom.thread.mm.ConnectionQueue;
 
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,16 +21,34 @@ public class ConnectionControllerIntegrationTest {
 
     @Test
     public void connect() throws Exception {
+        ConnectionQueue.getInstance().clear();
         mockMvc.perform(post("/connection/connect")
-                    .content("id=1&name=a")
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .content("id=1&name=a")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk());
     }
 
     @Test
-    @Ignore
     public void list() throws Exception {
-        assertTrue(false);
+        mockMvc.perform(post("/connection/connect")
+                .content("id=1&name=a")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/connection/connect")
+                .content("id=2&name=b")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/connection/connect")
+                .content("id=3&name=c")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/connection/connect")
+                .content("id=4&name=d")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk());
     }
 
 }

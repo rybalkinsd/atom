@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
 
+import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("/connection")
@@ -43,8 +45,11 @@ public class ConnectionController {
      *
      * curl -i localhost:8080/connection/list'
      */
+    @RequestMapping("list")
     public String list() {
-        throw new UnsupportedOperationException();
+        return ConnectionQueue.getInstance().stream()
+                .map(connection -> connection.getName())
+                .collect(Collectors.joining(", "));
     }
 
 
