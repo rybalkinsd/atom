@@ -8,14 +8,28 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();
+        for (EventProducer e : eventProducers) {
+            e.run();
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        int number = 0;
+        for (Event currentevent : EventQueue.getInstance()) {
+            if (currentevent.getEventType() == Event.EventType.GOOD) {
+                number++;
+            }
+        }
+        return number;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        int number = 0;
+        for (Event currentevent : EventQueue.getInstance()) {
+            if (currentevent.getEventType() == Event.EventType.BAD) {
+                number++;
+            }
+        }
+        return number;
     }
 }
