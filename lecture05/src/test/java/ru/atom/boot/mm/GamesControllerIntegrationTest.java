@@ -1,6 +1,5 @@
 package ru.atom.boot.mm;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.atom.thread.mm.ConnectionQueue;
 import ru.atom.thread.mm.GameRepository;
 import ru.atom.thread.mm.MatchMaker;
 
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -33,7 +29,7 @@ public class GamesControllerIntegrationTest {
     @Test
     public void list() throws Exception {
         ConnectionQueue.getInstance().clear();
-        GameRepository.getAll().clear();
+
         Thread thread = new Thread(new MatchMaker());
         thread.start();
 
