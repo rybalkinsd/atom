@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.xml.crypto.Data;
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("chat")
@@ -82,7 +85,8 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) throws InterruptedException {
+    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg)
+            throws InterruptedException {
         if (msg == null || msg.isEmpty()) {
             return new ResponseEntity<>("No msg provided", HttpStatus.BAD_REQUEST);
         }
