@@ -18,6 +18,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("chat")
@@ -42,7 +45,7 @@ public class ChatController {
         if (!online.add(name)) {
             return new ResponseEntity<>("Already logged in", HttpStatus.BAD_REQUEST);
         }
-        messages.addFirst("[" + name + "] is online");
+        messages.addFirst(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] is online");
         log.info(name + " logged in");
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -56,7 +59,15 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        if (!online.contains(name)) {
+            return new ResponseEntity<>("No login", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] logged out");
+        log.info(name + " logged out");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -68,7 +79,10 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(online.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
 
 
@@ -81,7 +95,15 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        if (messages.contains(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] " + msg)) {
+            return new ResponseEntity<>("Spam", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] " + msg);
+        log.info(name + " : " + msg);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
