@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LogManager.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
+    private Deque<String> messages = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
 
     /**
@@ -40,7 +42,7 @@ public class ChatController {
         if (!online.add(name)) {
             return new ResponseEntity<>("Already logged in", HttpStatus.BAD_REQUEST);
         }
-        messages.add("[" + name + "] is online");
+        messages.addFirst("[" + name + "] is online");
         log.info(name + " logged in");
         return new ResponseEntity<>(HttpStatus.OK);
     }

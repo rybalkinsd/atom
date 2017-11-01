@@ -27,6 +27,7 @@
 1. different colors for name and timestamp - 2p
 1. hrefs highlighting - 2p
 1. anti-spam - 2p
+1. anti-injection - 2p
 1. pretty frontend - 2p
 1. test fixes - 2p
 1. deploy to aws - 3p

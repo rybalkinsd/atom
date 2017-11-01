@@ -86,7 +86,7 @@ function loadHistory() {
            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
     });
 }
-setInterval(loadHistory, 1000);
+//setInterval(loadHistory, 1000);
 
 </script>
 <script>
@@ -98,7 +98,7 @@ function say() {
         "method": "POST",
         "crossDomain": true,
         "url": "http://" + host + ":" + port + "/chat/say",
-        "data": "name=" + name + "&msg=" + msg
+        "data": name + "&" + msg
     };
 
    $.ajax(settings).done(function(response) {
@@ -119,7 +119,7 @@ function login() {
         "method": "POST",
         "crossDomain": true,
         "url": "http://" + host + ":" + port + "/chat/login",
-        "data": "name=" + name
+        "data": name
     };
 
    $.ajax(settings).done(function(response) {
