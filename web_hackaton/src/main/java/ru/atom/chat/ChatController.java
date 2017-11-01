@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.text.SimpleDateFormat;
 import java.util.Deque;
-import  java.util.Date;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Queue;
@@ -77,7 +78,6 @@ public class ChatController {
     }
 
 
-
     /**
      * curl -i localhost:8080/chat/online
      */
@@ -116,9 +116,10 @@ public class ChatController {
 
         if (msg.contains("www") || msg.contains("http"))
             trash = dateFormat.format(new Date()).toString() + "<text> <font color=#FF0000>" + "[" + name + "] </font> <font color=#0000FF> say: <a href=\"" + msg + "\"> " + msg + "</a>;" + "</font></text>";
-        else trash = dateFormat.format(new Date()).toString() + "<script language=\"javascript\" type=\"text/javascript\">
-        document.write(getDate()); </script>" + "<text> <font color=#FF0000>" + 
-        "[" + name + "] </font> <font color=#0000FF> say: " + msg + ";" + "</font></text>";
+        else trash = dateFormat.format(new Date()).toString() +
+                "<script language=\"javascript\" type=\"text/javascript\"> document.write(getDate()); </script>" +
+                "<text> <font color=#FF0000>" +
+                "[" + name + "] </font> <font color=#0000FF> say: " + msg + ";" + "</font></text>";
         messages.add(trash);
         log.info(name + " say " + msg);
         return new ResponseEntity<>(HttpStatus.OK);
