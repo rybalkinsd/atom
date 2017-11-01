@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.xml.crypto.Data;
+import java.lang.reflect.Array;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Queue;
 import java.util.Set;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("chat")
@@ -26,6 +28,9 @@ public class ChatController {
 
     private Deque<String> messages = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
+    String temp = "";
+    int i = 0;
+    int ban = 0;
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -80,8 +85,32 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg)
+            throws InterruptedException {
+        if (msg == null || msg.isEmpty()) {
+            return new ResponseEntity<>("No msg provided", HttpStatus.BAD_REQUEST);
+        }
+        Date date = new Date();
+
+        if (name.equals(temp)) {
+            i++;
+            if (i >= 5) {
+                ban = 1;
+            }
+        }
+        temp = name;
+        Date tempdate = date;
+
+        if (ban == 0) {
+            messages.add("[" + name + "] msg: " + msg + " " + "data: " + date);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        i = 0;
+        ban = 0;
+        Thread.sleep(10000);
+        messages.add("[" + name + "] msg: " + msg + " " + "data: " + date);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -98,4 +127,6 @@ public class ChatController {
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
+
+
 }
