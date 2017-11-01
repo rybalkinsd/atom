@@ -18,8 +18,7 @@ public class GameSession {
     private final Connection[] connections;
     private final long id = idGenerator.getAndIncrement();
 
-    public GameSession(Connection[] connections) {
-        this.connections = connections;
+    public GameSession(Connection[] connections) {this.connections = connections;
     }
 
     @Override

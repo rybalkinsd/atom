@@ -23,13 +23,16 @@ public class MatchMaker implements Runnable {
                 candidates.add(
                         ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
                 );
+                log.info("Added candidate");
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
             }
 
+            System.out.println(candidates.size());
+
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
-                log.info(session);
+                log.info(session + "session created");
                 GameRepository.put(session);
                 candidates.clear();
             }
