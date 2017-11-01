@@ -4,7 +4,7 @@ plugins {
 }
 
 springBoot {
-    mainClass = "ru.atom.boot.hw.HelloSpringBoot"
+    mainClass = "ru.atom.chat.ChatApplication"
 }
 
 // constants declaration

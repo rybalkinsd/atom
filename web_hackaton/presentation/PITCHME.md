@@ -1,7 +1,6 @@
 #HSLIDE
 # Java
-hackaton
-## Web service
+## Web hackaton
 
 #HSLIDE
 ### get ready
