@@ -86,7 +86,7 @@ public class ChatController {
 
 
     /**
-     * curl -i localhost:8080/hello/chat
+     * curl -i localhost:8080/chat/chat
      */
     @RequestMapping(
             path = "chat",

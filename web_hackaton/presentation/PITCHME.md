@@ -31,7 +31,7 @@
 1. pretty frontend - 2p
 1. test fixes - 2p
 1. deploy to aws - 3p
-1. self with server startup inside - 3p
+1. test with server startup inside - 3p
 1. authentication - 3p
 
 #HSLIDE
