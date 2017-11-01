@@ -18,6 +18,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("chat")
@@ -26,6 +29,9 @@ public class ChatController {
 
     private Deque<String> messages = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
+
+    Date now = new Date();
+    DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -42,7 +48,10 @@ public class ChatController {
         if (!online.add(name)) {
             return new ResponseEntity<>("Already logged in", HttpStatus.BAD_REQUEST);
         }
-        messages.addFirst("[" + name + "] is online");
+        if (name.length() > 30) {
+            return new ResponseEntity<>("Too long name", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst(formatter.format(now) + " [" + name + "] is online");
         log.info(name + " logged in");
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -56,7 +65,13 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!online.contains(name)) {
+            return new ResponseEntity<>("Already logged out", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst(formatter.format(now) + " [" + name + "] logged out");
+        log.info(name + " logged out");
+        online.remove(name);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -68,7 +83,10 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(online.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
 
 
@@ -81,7 +99,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst(formatter.format(now) + " [" + name + "] " + msg);
+        log.info(name + " sent message");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -91,7 +114,7 @@ public class ChatController {
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> chat() {
         return new ResponseEntity<>(messages.stream()
                 .map(Object::toString)
