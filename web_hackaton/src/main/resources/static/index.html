@@ -1,6 +1,7 @@
 <script>
   var host = "localhost";
   var port = 8080;
+
 </script>
 
 <html>
@@ -49,13 +50,16 @@
         height: 30px; /* Height of the footer */
         background: #336666;
     }
+
 </style>
 
 <body>
 <div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+    <form method="POST" id="nameform" action="javascript:void(null);">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <input id="login_button" value="Login" name="button" style="font-size:large" type="button" onclick="login();">
+        <input id="logout_button" value="Logout" name="button" style="font-size:large" type="button"
+               onclick="logout();">
     </form>
 </div>
 <div id="body">
@@ -88,6 +92,7 @@ function loadHistory() {
 }
 //setInterval(loadHistory, 1000);
 
+
 </script>
 <script>
 function say() {
@@ -110,6 +115,7 @@ function say() {
    });
 }
 
+
 </script>
 <script>
 function login() {
@@ -129,4 +135,26 @@ function login() {
        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
    });
 }
+
+</script>
+
+<script>
+    function logout() {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
+            "data": name
+        };
+
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
 </script>

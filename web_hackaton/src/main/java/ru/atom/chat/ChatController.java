@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Queue;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
@@ -25,7 +29,9 @@ public class ChatController {
     private static final Logger log = LogManager.getLogger(ChatController.class);
 
     private Deque<String> messages = new ConcurrentLinkedDeque<>();
+    private Deque<String> chatHistory = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
+    private Deque<String> usersOnline = new ConcurrentLinkedDeque<>();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -43,6 +49,7 @@ public class ChatController {
             return new ResponseEntity<>("Already logged in", HttpStatus.BAD_REQUEST);
         }
         messages.addFirst("[" + name + "] is online");
+        online.add(name);
         log.info(name + " logged in");
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -55,8 +62,18 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        log.info("Entered logout method");
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        if (!online.remove(name)) {
+            return new ResponseEntity<>("No logged user with matching name", HttpStatus.BAD_REQUEST);
+        }
+        usersOnline.addFirst("<font face=\"Helvetica\" color=\"red\">[" + name +
+                "]</font><font face=\"Helvetica\"> is offline</font>");
+        log.info(name + " logged out");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -67,8 +84,13 @@ public class ChatController {
             path = "online",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Iterator<String> itr = online.iterator();
+        while (itr.hasNext()) {
+            usersOnline.addFirst("[" + itr.next() + "]");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -80,8 +102,35 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (!online.contains(name)) {
+            return new ResponseEntity<>("Not logined", HttpStatus.UNAUTHORIZED);
+        }
+        if (msg == null) {
+            return new ResponseEntity<>("No message provided", HttpStatus.BAD_REQUEST);
+        }
+        if (msg.length() > 140) {
+            return new ResponseEntity<>("Too long message", HttpStatus.BAD_REQUEST);
+        }
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("HH:mm:ss ");
+        Date date = new Date();
+        log.info(formatForDateNow.format(date) + "<font face=\"Helvetica\" color=\"red\">[" + name +
+                "]:</font><font face=\"Helvetica\" color=\"green\">" + msg + "</font>");
+        messages.add(formatForDateNow.format(date) + "<font face=\"Helvetica\" color=\"red\">[" + name +
+                "]:</font><font face=\"Helvetica\" color=\"green\">" + msg + "</font>");
+        chatHistory.add(formatForDateNow.format(date) + "[" + name + "]: " + msg);
+        try {
+            FileWriter writer = new FileWriter("chatHistory.txt", true);
+            for (String line : chatHistory) {
+                writer.write(line);
+                writer.write(System.getProperty("line.separator"));
+            }
+            writer.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
