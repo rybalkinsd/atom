@@ -34,12 +34,12 @@ public class ChatServer {
         jerseyServlet.setInitOrder(0);
 
         jerseyServlet.setInitParameter(
-                "jersey.config.server.provider.packages",
+                "boot.config.server.provider.packages",
                 "ru.atom.lecture07.server"
         );
 
         jerseyServlet.setInitParameter(
-                "com.sun.jersey.spi.container.ContainerResponseFilters",
+                "com.sun.boot.spi.container.ContainerResponseFilters",
                 CrossBrowserFilter.class.getCanonicalName()
         );
 
