@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.thread.mm.Connection;
 import ru.atom.thread.mm.ConnectionQueue;
+import ru.atom.thread.mm.GameRepository;
+import ru.atom.thread.mm.GameSession;
+
+import java.util.Collection;
 
 
 @Controller
@@ -42,10 +46,10 @@ public class ConnectionController {
      * curl test
      *
      * curl -i localhost:8080/connection/list'
-     */
+//     */
     public String list() {
-        throw new UnsupportedOperationException();
+        log.info("Connection list request");
+        return ConnectionQueue.getInstance().poll().toString();
     }
-
 
 }
