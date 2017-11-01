@@ -1,5 +1,7 @@
 package ru.atom.boot.mm;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.atom.thread.mm.ConnectionQueue;
@@ -50,6 +52,7 @@ public class GameControllerTest {
                 "Connection{playerId=7, name='g'}" + ", " +
                 "Connection{playerId=8, name='h'}" + ']' +
                 ", " + "id=1}]", gameHandler.list());
+        ConnectionQueue.getInstance().clear();
     }
 
 }
