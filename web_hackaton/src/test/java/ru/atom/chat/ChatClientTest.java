@@ -4,17 +4,20 @@ import okhttp3.Response;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 
 @Ignore
 public class ChatClientTest {
     private static final Logger log = LogManager.getLogger(ChatClient.class);
-
     private static String MY_NAME_IN_CHAT = "sasha";
     private static String MY_MESSAGE_TO_CHAT = "Всем привет в этом чатике!";
+
 
     @Test
     public void viewOnline() throws IOException {
@@ -31,6 +34,7 @@ public class ChatClientTest {
         String body = response.body().string();
         log.info(body);
         Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
+
     }
 
     @Test
