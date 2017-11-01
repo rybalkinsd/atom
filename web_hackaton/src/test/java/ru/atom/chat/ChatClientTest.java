@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-@Ignore
 public class ChatClientTest {
     private static final Logger log = LogManager.getLogger(ChatClient.class);
 
@@ -17,6 +16,7 @@ public class ChatClientTest {
     private static String MY_MESSAGE_TO_CHAT = "Всем привет в этом чатике!";
 
     @Test
+    @Ignore
     public void viewOnline() throws IOException {
         Response response = ChatClient.viewOnline();
         log.info("[" + response + "]");
@@ -25,6 +25,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void login() throws IOException {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);
         log.info("[" + response + "]");
@@ -34,6 +35,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void viewChat() throws IOException {
         Response response = ChatClient.viewChat();
         log.info("[" + response + "]");
@@ -42,6 +44,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void say() throws IOException {
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         log.info("[" + response + "]");
