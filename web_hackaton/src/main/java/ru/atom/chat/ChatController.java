@@ -98,7 +98,7 @@ public class ChatController {
         if (name == null || name.isEmpty()) {
             return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
         }
-        if (messages.contains(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] " + msg)){
+        if (messages.contains(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] " + msg)) {
             return new ResponseEntity<>("Spam", HttpStatus.BAD_REQUEST);
         }
         messages.addFirst(new SimpleDateFormat("HH:mm").format(new Date()) + "[" + name + "] " + msg);
