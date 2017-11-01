@@ -25,6 +25,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void login() throws IOException {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);
         log.info("[" + response + "]");
@@ -34,6 +35,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void viewChat() throws IOException {
         Response response = ChatClient.viewChat();
         log.info("[" + response + "]");
@@ -42,6 +44,7 @@ public class ChatClientTest {
     }
 
     @Test
+    @Ignore
     public void say() throws IOException {
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         log.info("[" + response + "]");
