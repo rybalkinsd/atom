@@ -9,12 +9,17 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-@Ignore
+/*
+    Все работает только при поднятом сервере, но мы закомитили из-за гредла!
+    У нас еще есть интегрированные тесты!
+ */
+
+/*
 public class ChatClientTest {
     private static final Logger log = LogManager.getLogger(ChatClient.class);
 
-    private static String MY_NAME_IN_CHAT = "sasha";
-    private static String MY_MESSAGE_TO_CHAT = "Всем привет в этом чатике!";
+    private static String MY_NAME_IN_CHAT = "arif";
+    private static String MY_MESSAGE_TO_CHAT = "11";
 
     @Test
     public void viewOnline() throws IOException {
@@ -48,4 +53,4 @@ public class ChatClientTest {
         log.info(response.body().string());
         Assert.assertEquals(200, response.code());
     }
-}
+}*/
