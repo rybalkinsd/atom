@@ -43,6 +43,7 @@ public class ChatClientTest {
 
     @Test
     public void say() throws IOException {
+        ChatClient.login(MY_NAME_IN_CHAT);
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         log.info("[" + response + "]");
         log.info(response.body().string());
