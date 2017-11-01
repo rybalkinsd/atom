@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.text.SimpleDateFormat;
 import java.util.Deque;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
@@ -19,13 +22,18 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
+
 @Controller
 @RequestMapping("chat")
 public class ChatController {
     private static final Logger log = LogManager.getLogger(ChatController.class);
 
+
     private Deque<String> messages = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
+    private Set<String> onlinename = new HashSet<>();
+    private String trash;
+    //private String onlinename;
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -56,7 +64,17 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        if (!online.remove(name)) {
+            return new ResponseEntity<>("User is not authorized", HttpStatus.BAD_REQUEST);
+        }
+
+
+        messages.add("[" + name + "] is logout");
+        log.info(name + " logged out");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -68,20 +86,43 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        for (String text : online) {
+            onlinename.add(text);
+        }
+        return new ResponseEntity<>(onlinename.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
 
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
+    Date curDate = new Date();
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
     @RequestMapping(
             path = "say",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!online.contains(name)) {
+            return new ResponseEntity<>("User is not authorized", HttpStatus.BAD_REQUEST);
+        }
+
+        if (msg.contains("www") || msg.contains("http"))
+            trash = dateFormat.format(new Date()).toString() + "<text> <font color=#FF0000>" + "[" + name + "] </font> <font color=#0000FF> say: <a href=\"" + msg + "\"> " + msg + "</a>;" + "</font></text>";
+        else trash = dateFormat.format(new Date()).toString() +
+                "<script language=\"javascript\" type=\"text/javascript\"> document.write(getDate()); </script>" +
+                "<text> <font color=#FF0000>" +
+                "[" + name + "] </font> <font color=#0000FF> say: " + msg + ";" + "</font></text>";
+        messages.add(trash);
+        log.info(name + " say " + msg);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
