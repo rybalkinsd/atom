@@ -87,9 +87,8 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
 
-        for (String text : online)
-        {
-          onlinename.add(text);
+        for (String text : online) {
+            onlinename.add(text);
         }
         return new ResponseEntity<>(onlinename.stream()
                 .map(Object::toString)
@@ -104,7 +103,7 @@ public class ChatController {
     Date curDate = new Date();
     Calendar calendar = Calendar.getInstance();
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-       // System.out.println("date: " + dateFormat.format( new Date() ) );
+
     @RequestMapping(
             path = "say",
             method = RequestMethod.POST,
@@ -116,8 +115,10 @@ public class ChatController {
         }
 
         if (msg.contains("www") || msg.contains("http"))
-            trash = dateFormat.format( new Date() ).toString()+"<text> <font color=#FF0000>" + "[" + name + "] </font> <font color=#0000FF> say: <a href=\""+msg+"\"> " + msg + "</a>;" + "</font></text>";
-        else trash = dateFormat.format( new Date() ).toString()+"<script language=\"javascript\" type=\"text/javascript\"> document.write(getDate()); </script>"+ "<text> <font color=#FF0000>" + "[" + name + "] </font> <font color=#0000FF> say: " + msg + ";" + "</font></text>";
+            trash = dateFormat.format(new Date()).toString() + "<text> <font color=#FF0000>" + "[" + name + "] </font> <font color=#0000FF> say: <a href=\"" + msg + "\"> " + msg + "</a>;" + "</font></text>";
+        else trash = dateFormat.format(new Date()).toString() + "<script language=\"javascript\" type=\"text/javascript\">
+        document.write(getDate()); </script>" + "<text> <font color=#FF0000>" + 
+        "[" + name + "] </font> <font color=#0000FF> say: " + msg + ";" + "</font></text>";
         messages.add(trash);
         log.info(name + " say " + msg);
         return new ResponseEntity<>(HttpStatus.OK);
