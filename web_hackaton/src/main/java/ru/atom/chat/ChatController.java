@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.sql.Time;
+import java.util.Date;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,6 +26,8 @@ public class ChatController {
 
     private Deque<String> messages = new ConcurrentLinkedDeque<>();
     private Set<String> online = new HashSet<>();
+    private Time lastMsgTime = new Time(0);
+
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -47,6 +49,7 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
@@ -56,7 +59,16 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (name == null || name.isEmpty()) {
+            return new ResponseEntity<>("No name provided", HttpStatus.BAD_REQUEST);
+        }
+        if (!online.remove(name)) {
+            return new ResponseEntity<>("There is no such person", HttpStatus.BAD_REQUEST);
+        }
+        messages.addFirst("[" + name + "] is logout");
+        messages.remove(name);
+        log.info(name + "is logout");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -68,9 +80,11 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(online.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
-
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -80,8 +94,35 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity say(
+            @RequestParam("name") String name, @RequestParam("msg") String msg
+    ) throws InterruptedException {
+        if (online.add(name)) {
+            return new ResponseEntity<>("Not logged in", HttpStatus.UNAUTHORIZED);
+        }
+        if (msg.isEmpty()) {
+            return new ResponseEntity<>("Message field is empty", HttpStatus.BAD_REQUEST);
+        }
+
+        Time time = new Time(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
+        if (time.getTime() - lastMsgTime.getTime() <= 5000) {
+            return new ResponseEntity<>(
+                    "Don't try to send messages more often than 1 messages per 5 secs",
+                    HttpStatus.FORBIDDEN);
+        }
+        lastMsgTime = time;
+        if (msg.contains("http")) {
+            messages.addFirst("<a style=\"color:SlateBlue\">" + time +
+                    "</a> " + "<a style=\"color:Tomato\">" + "[" + name + "]" +
+                    "</a>" + ":<a href=" + msg + ">" + msg + "</a>");
+        } else {
+            messages.addFirst("<a style=\"color:SlateBlue\">" + time +
+                    "</a> " + "<a style=\"color:Tomato\">" + "[" + name + "]" +
+                    "</a>" + ":" + msg);
+        }
+        log.info("message by" + name + "message text" + msg);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
 
@@ -98,4 +139,6 @@ public class ChatController {
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
+
+
 }
