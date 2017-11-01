@@ -24,6 +24,6 @@ public class AnnotationDemoTest {
     @Test
     public void countResponseStatus() throws Exception {
         assertThat(AnnotationDemo.getNumberOfAnnotatedMethods(
-                ru.atom.boot.mm.ConnectionController.class, ResponseStatus.class)).isEqualTo(1);
+                ru.atom.boot.mm.ConnectionController.class, ResponseStatus.class)).isEqualTo(2);
     }
 }
