@@ -8,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+
 @Ignore
 public class ChatClientTest {
     private static final Logger log = LogManager.getLogger(ChatClient.class);
