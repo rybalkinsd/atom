@@ -4,10 +4,11 @@ import okhttp3.Response;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-
+@Ignore
 public class ChatClientTest {
     private static final Logger log = LogManager.getLogger(ChatClient.class);
 
