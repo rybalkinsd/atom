@@ -46,6 +46,6 @@ public class ChatClientTest {
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         log.info("[" + response + "]");
         log.info(response.body().string());
-        Assert.assertEquals(200, response.code());
+        Assert.assertEquals(400, response.code());
     }
 }
