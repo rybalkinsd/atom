@@ -3,6 +3,7 @@ package ru.atom.lecture07.server.dao;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.atom.lecture06.server.dao.UserDao;
 import ru.atom.lecture06.server.model.User;
 
 import java.util.List;

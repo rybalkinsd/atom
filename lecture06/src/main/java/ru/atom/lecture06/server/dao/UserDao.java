@@ -1,10 +1,9 @@
-package ru.atom.lecture07.server.dao;
+package ru.atom.lecture06.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -86,7 +85,7 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

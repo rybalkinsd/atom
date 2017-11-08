@@ -1,11 +1,10 @@
-package ru.atom.lecture07.server.dao;
+package ru.atom.lecture06.server.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.intellij.lang.annotations.Language;
 import ru.atom.lecture06.server.model.Message;
 import ru.atom.lecture06.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,15 +22,15 @@ public class MessageDao implements Dao<Message> {
 
     @Language("sql")
     private static final String SELECT_ALL_MESSAGES =
-            "select m.time, m.value, u.*" +
+            "select m.time, m.value, u.* " +
                     "from chat.message as m " +
-                    "join chat.user as u" +
+                    "join chat.user as u " +
                     "  on m.user = u.id " +
                     "order by m.time";
 
     @Language("sql")
     private static final String INSERT_MESSAGE_TEMPLATE =
-            "insert into chat.message (\"user\", time, value)" +
+            "insert into chat.message (\"user\", time, value) " +
                     "values (%d, now(), '%s')";
 
     @Override
@@ -54,7 +53,7 @@ public class MessageDao implements Dao<Message> {
 
     @Override
     public List<Message> getAllWhere(String... conditions) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

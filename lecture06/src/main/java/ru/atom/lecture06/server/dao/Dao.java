@@ -1,6 +1,5 @@
-package ru.atom.lecture07.server.dao;
+package ru.atom.lecture06.server.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 

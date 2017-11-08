@@ -1,4 +1,4 @@
-package ru.atom.lecture07.server.dao;
+package ru.atom.lecture06.server.dao;
 
 /**
  * Created by sergey on 3/25/17.
