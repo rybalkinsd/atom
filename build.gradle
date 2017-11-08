@@ -9,15 +9,13 @@ springBoot {
 
 // constants declaration
 ext {
-    jdkVersion = 1.8
+    jdkVersion = 1.9
 
-    jettyVersion = "9.4.7.v20170914"
     junitVersion = "4.12"
     jacksonVersion = "2.9.1"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
-    jerseyVersion = "2.26"
     gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
@@ -69,8 +67,6 @@ ext.libraries = [
 
         spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
 
-        jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
-        jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
         junit: "junit:junit:$junitVersion",
         log4j: [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
@@ -78,11 +74,6 @@ ext.libraries = [
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
-        jersey_server: "org.glassfish.boot.core:boot-server:$jerseyVersion",
-        jersey_hk2: "org.glassfish.boot.inject:boot-hk2:$jerseyVersion",
-        jersey_containers: "org.glassfish.boot.containers:boot-container-servlet:$jerseyVersion",
-        jersey_test:
-                "org.glassfish.boot.test-framework.providers:boot-test-framework-provider-grizzly2:$jerseyVersion",
         gson: "com.google.code.gson:gson:$gsonjVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
