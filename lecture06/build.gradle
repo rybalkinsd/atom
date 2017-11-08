@@ -8,6 +8,11 @@ dependencies {
     testCompile rootProject.libraries.spring_boot_test
 }
 
+springBoot {
+    mainClass = "ru.atom.lecture06.servcer.ChatApplication"
+}
+
+
 sourceSets {
     main {
         java {
