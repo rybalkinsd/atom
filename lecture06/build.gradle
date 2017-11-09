@@ -8,8 +8,12 @@ dependencies {
     testCompile rootProject.libraries.spring_boot_test
 }
 
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+
 springBoot {
-    mainClass = "ru.atom.lecture06.servcer.ChatApplication"
+    mainClass = "ru.atom.lecture06.server.ChatApplication"
 }
 
 
