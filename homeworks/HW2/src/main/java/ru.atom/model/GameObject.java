@@ -1,6 +1,6 @@
 package ru.atom.model;
 
-import ru.atom.geometry.Point;
+
 
 /**
  * Any entity of game mechanics

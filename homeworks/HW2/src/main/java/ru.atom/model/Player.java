@@ -1,10 +1,9 @@
-package ru.atom.geometry;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.GameObject;
-import ru.atom.model.Movable;
-import ru.atom.model.GameSession;
+import ru.atom.geometry.Point;
+import ru.atom.geometry.Rectangle;
 
 
 public class Player implements GameObject,Movable {
@@ -18,7 +17,7 @@ public class Player implements GameObject,Movable {
 
     private static final Logger logger = LogManager.getLogger(Player.class);
 
-    public Player(GameSession session, Point position,Rectangle space, int id) {
+    public Player(Point position,Rectangle space, int id) {
         this.id = id;
         this.position = position;
         this.space = space;

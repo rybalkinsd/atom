@@ -1,13 +1,15 @@
-package ru.atom.geometry;
+package ru.atom.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.atom.model.GameObject;
-import ru.atom.model.GameSession;
+import ru.atom.geometry.Rectangle;
+import ru.atom.geometry.Point;
 
-public class Wall implements GameObject {
 
-    protected GameSession session;
+
+public class Bomb implements GameObject,Tickable {
+
+
     protected int id;
     protected Point position;
     protected Rectangle space;
@@ -16,11 +18,11 @@ public class Wall implements GameObject {
     private static final Logger logger = LogManager.getLogger(Wall.class);
 
 
-    public Wall(GameSession session,Point position, Rectangle space,int id) {
+    public Bomb(Point position, Rectangle space,int id) {
         this.id = id;
         this.position = position;
         this.space = space;
-        logger.info("New gamezone id={}, With edges={}", id, space);
+        logger.info("Tick Tack!Bomb{} has been planted at {}", id, position);
     }
 
     @Override
@@ -36,5 +38,9 @@ public class Wall implements GameObject {
     @Override
     public Rectangle getSpace() {
         return space;
+    }
+
+    public void tick(long elapsed) {
+        throw new UnsupportedOperationException();
     }
 }

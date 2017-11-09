@@ -1,14 +1,13 @@
-package ru.atom.geometry;
+package ru.atom.model;
 
-import ru.atom.model.GameObject;
-import ru.atom.model.GameSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.geometry.Point;
+import ru.atom.geometry.Rectangle;
+
+public class Wall implements GameObject {
 
 
-public class Brick implements GameObject {
-
-    protected GameSession session;
     protected int id;
     protected Point position;
     protected Rectangle space;
@@ -17,11 +16,11 @@ public class Brick implements GameObject {
     private static final Logger logger = LogManager.getLogger(Wall.class);
 
 
-    public Brick(GameSession session,Point position, Rectangle space,int id) {
+    public Wall(Point position, Rectangle space,int id) {
         this.id = id;
         this.position = position;
         this.space = space;
-        logger.info("New brick id={}, With edges={}", id, space);
+        logger.info("New gamezone id={}, With edges={}", id, space);
     }
 
     @Override
@@ -38,5 +37,4 @@ public class Brick implements GameObject {
     public Rectangle getSpace() {
         return space;
     }
-
 }
