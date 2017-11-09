@@ -1,9 +1,11 @@
 package ru.atom.model;
 
+
+
 /**
  * Any entity of game mechanics
  */
-public interface GameObject {
+public interface GameObject extends Positionable {
     /**
      * Unique id
      */
