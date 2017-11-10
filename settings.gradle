@@ -1,2 +1,8 @@
 rootProject.name = 'atom'
+include 'lecture01'
+include 'lecture02'
+include 'lecture03'
+include 'lecture04'
+include 'lecture05'
 include 'lecture06'
+include 'web_hackaton'
