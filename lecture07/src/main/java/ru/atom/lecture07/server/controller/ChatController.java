@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
+import java.util.Date;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
+        User user = chatService.getLoggedIn(name);
+        if (user != null) {
+            chatService.logout(user.getId(), user.getLogin());
+            return ResponseEntity.ok().build();
+
+        }
         return ResponseEntity.badRequest().build();
     }
 
@@ -91,7 +99,30 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        if (name == null) {
+            return ResponseEntity.badRequest()
+                    .body("Name not provided");
+        }
+
+        if (msg == null) {
+            return ResponseEntity.badRequest()
+                    .body("No message provided");
+        }
+
+        if (msg.length() > 140) {
+            return ResponseEntity.badRequest()
+                    .body("Too long message");
+        }
+
+        User loggedIn = chatService.getLoggedIn(name);
+        if (loggedIn == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Not logined");
+        }
+
+        chatService.say(loggedIn, new Date(), msg);
+
+        return ResponseEntity.ok().build();
     }
 
 
