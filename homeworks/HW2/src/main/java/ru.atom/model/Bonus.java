@@ -13,7 +13,7 @@ public abstract class Bonus extends AbstractGameObject implements Tickable {
     public void tick(long elapsed) {
         timer += elapsed;
         if (timer >= Bonus.lifetime) {
-            //delete object, make flame
+            //delete object
         }
     }
 }
