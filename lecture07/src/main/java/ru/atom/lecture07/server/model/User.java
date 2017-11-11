@@ -1,11 +1,7 @@
 package ru.atom.lecture07.server.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "chat")
@@ -16,6 +12,9 @@ public class User {
 
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Message> messages;
 
     public Integer getId() {
         return id;
