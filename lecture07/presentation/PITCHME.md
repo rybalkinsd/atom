@@ -202,7 +202,7 @@ We will use **session-per-thread** strategy (configurable by hibernate)
 ## Hibernate theory summary
 - Hibernate provide **Session** object to manage Entities and to make queries. 
 - Entity mapping is described by **annotations**
-- **Session** object is configurable in **hibernate.cfg.xml**  
+- **Session** object is configurable in **application.properties** (or hibernate.cfg.xml or with annotations)  
 - All hibernate guaranties are valid within single session
 Let's look how it works...
 
@@ -240,12 +240,12 @@ Persistence configuration contain two main parts:
 1. Hibernate config (hibernate settings)
 
 #HSLIDE
-### hibernate.cfg.xml
-hibernate.cfg.xml must be placed in **CLASS_PATH** of project (for example in **resources** directory).
+### application.properties
+application.properties must be placed in **CLASS_PATH** of project (for example in **resources** directory).
 It describes settings required for hibernate (and mapping references)  
   
-Those options, provided in **resources/hibernate.cfg.xml** are essential to understand  
-@see resources/hibernate.cfg.xml
+Those options, provided in **resources/application.properties** are essential to understand  
+@see resources/application.properties
 
 #HSLIDE
 ### Mapping definition (via annotations)
@@ -303,9 +303,7 @@ or use **Transaction **interface available from **Session**
 Implement chat server with persistence via **hibernate**
 
 **Implement:**  
-/chat/login  
-/chat/chat  
-/chat/online  
+/chat/say
 /chat/logout  
   
 **@see ru/atom/lecture07/**
@@ -325,7 +323,7 @@ in **index.html**
 ```bash
 > psql -h wtfis.ru -U atom0 -a -d chatdb_atom0 -f lecture07/src/main/resources/sql/schema/chat-schema.sql
 ```
-1. Change user and password in **hibernate.cfg.xml**
+1. Change user and password in **applicatin.properties**
 1. Un-ignore **UserDaoTest** and **MessageDaoTest**
 1. Annotate **Message.java** to make it **Entity** class
 1. Implement methods in **ChatService**, add new if necessary
@@ -348,7 +346,7 @@ in **index.html**
 1. Hibernate - implementation of **JPA**
 1. To make object manageable by hibernate (**entity**) you must annotate class (or describe mapping any other way, like xml)
 1. To manage entity, you must use **Session** object
-1. Hibernate configuration matters - understand what every line mean in **hibernate.cfg.xml**
+1. Hibernate configuration matters - understand what every line mean in **applicaiton.properties**
 1. **Session is not thread safe** - one must use hibernate session from single thread
 1. Session lifespan is configurable (by hibernate)
 1. Hibernate will not work without **transactions**

@@ -42,8 +42,8 @@ public class ChatController {
                     .body("Too long name");
         }
 
-        User alreadyLogined = chatService.getLoggedIn(name);
-        if (alreadyLogined != null) {
+        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        if (alreadyLoggedIn != null) {
             return ResponseEntity.badRequest()
                     .body("Already logged in");
         }

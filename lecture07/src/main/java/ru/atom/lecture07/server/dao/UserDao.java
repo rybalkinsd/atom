@@ -5,7 +5,7 @@ import ru.atom.lecture07.server.model.User;
 
 public interface UserDao extends CrudRepository<User, Integer> {
     /**
-     * Return the user having the passed email or null if no user is found.
+     * Return the user having the passed login or null if no user is found.
      *
      * @param login the user login.
      */
