@@ -19,7 +19,7 @@ ext {
     gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
-    hibernateVersion = "5.2.3.Final"
+    hibernateVersion = "5.1.10.Final"
     websocketVersion = "9.4.3.v20170317"
     jolVersion = "0.8"
 }
@@ -62,7 +62,8 @@ subprojects {
 ext.libraries = [
         spring_boot : [
             "org.springframework.boot:spring-boot-starter-web",
-            "org.springframework.boot:spring-boot-starter-actuator"
+            "org.springframework.boot:spring-boot-starter-actuator",
+            "org.springframework.boot:spring-boot-starter-data-jpa"
         ],
 
         spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
