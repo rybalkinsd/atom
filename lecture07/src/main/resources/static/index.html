@@ -3,7 +3,7 @@
   var port = 8080;
 </script>
 
-<html>
+<html onload="loadHistory()">
 <style>
     :root {
         background: #336666;
@@ -53,10 +53,12 @@
 
 <body>
 <div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+    <form method="POST" id="nameform" action="javascript:void(null);">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <input value="Login" style="font-size:large" type="submit" onclick="login()">
+        <input value="Logout" style="font-size:large" type="submit" onclick="logout()">
     </form>
+
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
@@ -91,42 +93,73 @@ function loadHistory() {
 </script>
 <script>
 function say() {
-   var msg = $('#msgform').serialize();
-   var name = $('#nameform').serialize();
+    if(document.getElementById("msg").value == ""
+        || document.getElementById("name").value == "") {
+        return;
+    } else {
+        var msg = $('#msgform').serialize();
+        var name = $('#nameform').serialize();
 
-   var settings = {
-        "method": "POST",
-        "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/say",
-        "data": name + "&" + msg
-    };
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/say",
+            "data": name + "&" + msg
+        };
 
-   $.ajax(settings).done(function(response) {
-        $('#msgform').trigger("reset");
-        loadHistory();
-   }).fail(function (jqXHR, textStatus) {
-        alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-   });
+        $.ajax(settings).done(function(response) {
+            $('#msgform').trigger("reset");
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
 }
 
 </script>
 <script>
 function login() {
-   var name = $('#nameform').serialize();
+    if(document.getElementById("name").value == "") {
+        return
+    } else {
+        var name = $('#nameform').serialize();
 
-   var settings = {
-        "method": "POST",
-        "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/login",
-        "data": name
-    };
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name
+        };
 
-   $.ajax(settings).done(function(response) {
-        loadHistory();
-   }).fail(function (jqXHR, textStatus) {
-       alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-       console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-   });
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
 }
+</script>
+<script>
+    function logout() {
+        if(document.getElementById("name").value == "") {
+            return
+        } else {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
+            "data": name
+        };
+
+        $.ajax(settings).done(function(response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });}
+    }
 </script>

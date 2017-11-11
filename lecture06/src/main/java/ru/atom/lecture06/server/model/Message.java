@@ -39,8 +39,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "user=" + user +
+        return user.getLogin() +_":"
                 ", timestamp=" + timestamp +
                 ", value='" + value + '\'' +
                 '}';
