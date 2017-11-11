@@ -1,6 +1,15 @@
 package ru.atom;
 
-import ru.atom.model.*;
+import ru.atom.model.Bomb;
+import ru.atom.model.BombBonus;
+import ru.atom.model.Field;
+import ru.atom.model.Flame;
+import ru.atom.model.FlameBonus;
+import ru.atom.model.GameSession;
+import ru.atom.model.Player;
+import ru.atom.model.SpeedBonus;
+import ru.atom.model.Stone;
+import ru.atom.model.Wood;
 
 /**
  * Create sample game session with all kinds of objects that will present in bomber-man game
