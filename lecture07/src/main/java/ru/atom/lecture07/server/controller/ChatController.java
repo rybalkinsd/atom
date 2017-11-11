@@ -61,7 +61,8 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        chatService.logout(name);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -91,7 +92,8 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        chatService.say(name, msg);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -103,6 +105,6 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<String>(chatService.loadHistory(), HttpStatus.OK);
     }
 }
