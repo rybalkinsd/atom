@@ -2,7 +2,7 @@ package ru.atom.model;
 
 import ru.atom.geometry.Point;
 
-public class Player extends AbstractGameObject implements Tickable, Movable {
+public class Player extends AbstractGameObject implements Movable {
     private int speed = 1;
 
     public Player(int x, int y) {
