@@ -61,8 +61,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        chatService.logout(name);
-        return ResponseEntity.ok().build();
+        if (chatService.getLoggedIn(name) != null) {
+            chatService.logout(name);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Not logined");
+        }
     }
 
 
@@ -92,8 +96,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        chatService.say(name, msg);
-        return ResponseEntity.ok().build();
+        if (chatService.getLoggedIn(name) != null) {
+            chatService.say(name, msg);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Not Logined");
+        }
     }
 
 
