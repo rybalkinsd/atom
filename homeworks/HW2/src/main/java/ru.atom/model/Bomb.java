@@ -3,6 +3,7 @@ package ru.atom.model;
 public class Bomb extends AbstractGameObject implements Tickable {
 
     private static final int lifetime = 3000;
+    private int timer = 0;
 
     public Bomb(int x, int y) {
         super(x, y);
@@ -10,8 +11,9 @@ public class Bomb extends AbstractGameObject implements Tickable {
 
     @Override
     public void tick(long elapsed) {
-        if (elapsed >= Bomb.lifetime) {
-            //do something
+        timer += elapsed;
+        if (timer >= Bomb.lifetime) {
+            //delete oblect
         }
     }
 }
