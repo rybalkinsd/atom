@@ -14,9 +14,6 @@ import ru.atom.lecture07.server.model.User;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by a.pomosov on 11/11/2017.
- */
 @Service
 public class ChatService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ChatController.class);
