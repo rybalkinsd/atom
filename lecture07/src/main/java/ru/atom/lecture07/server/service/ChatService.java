@@ -1,77 +1,70 @@
 package ru.atom.lecture07.server.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import ru.atom.lecture07.server.dao.Database;
+import com.google.common.collect.Lists;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.atom.lecture07.server.controller.ChatController;
 import ru.atom.lecture07.server.dao.MessageDao;
 import ru.atom.lecture07.server.dao.UserDao;
 import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.Collections;
+import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Service is responsible for using DAO and provide all the guaranties that are expected in resource method:
- * - transactions
- * - access rights check
- * - any other business guaranties
- */
+@Service
 public class ChatService {
-    private static final Logger log = LogManager.getLogger(ChatService.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    public void login(String login) throws ChatException {
-        Transaction txn = null;
-        try (Session session = Database.session()) {
-            txn = session.beginTransaction();
+    @Autowired
+    private UserDao userDao;
 
-            if (UserDao.getInstance().getByName(session, login) != null) {
-                throw new ChatException("Already logined");
-            }
-            User newUser = new User().setLogin(login);
-            UserDao.getInstance().insert(session, newUser);
+    @Autowired
+    private MessageDao messageDao;
 
-            Message loginMessage = new Message()
-                    .setUser(newUser)
-                    .setValue("joined");
-            MessageDao.getInstance().insert(session, loginMessage);
-
-            txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
-            if (txn != null && txn.isActive()) {
-                txn.rollback();
-            }
-        }
+    @Nullable
+    @Transactional
+    public User getLoggedIn(@NotNull String name) {
+        return userDao.getByLogin(name);
     }
 
-    public List<User> getOnline() {
-        List<User> online;
-        Transaction txn = null;
-        try (Session session = Database.session()) {
-            txn = session.beginTransaction();
-
-            online = UserDao.getInstance().getAll(session);
-
-            txn.commit();
-        } catch (RuntimeException e) {
-            log.error("Transaction failed.", e);
-            if (txn != null && txn.isActive()) {
-                txn.rollback();
-            }
-            online = Collections.emptyList();
-        }
-        return online;
+    @Transactional
+    public void login(@NotNull String login) {
+        User user = new User();
+        userDao.save(user.setLogin(login));
+        log.info("[" + login + "] logged in");
     }
 
-    public void say(String login, String msg) throws ChatException {
-        throw new NotImplementedException();
+    @Transactional
+    public void logout(@NotNull String name) {
+        userDao.removeByLogin(name);
+        log.info("[" + name + "] logged out");
     }
 
-    public List<Message> viewChat() {
-        throw new NotImplementedException();
+    @Transactional
+    public void say(@NotNull String name, @NotNull String msg) {
+        User user = userDao.getByLogin(name);
+        Message message = new Message();
+        messageDao.save(message.setUser(user).setValue(msg).setTime(new Timestamp(System.currentTimeMillis())));
+        log.info("[" + name + "] said: " + msg);
+    }
+
+    @Transactional
+    public String loadHistory() {
+        List<Message> messages = Lists.newArrayList(messageDao.findAll());
+        messages.sort((a,b) ->  a.getTime().compareTo(b.getTime()));
+        return messages.stream().map(Message::toString)
+                .collect(Collectors.joining("<br>"));
+    }
+
+    @NotNull
+    @Transactional
+    public List<User> getOnlineUsers() {
+        return Lists.newArrayList(userDao.findAll());
     }
 }
