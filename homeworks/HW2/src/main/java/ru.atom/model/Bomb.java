@@ -13,7 +13,7 @@ public class Bomb extends AbstractGameObject implements Tickable {
     public void tick(long elapsed) {
         timer += elapsed;
         if (timer >= Bomb.lifetime) {
-            //delete oblect
+            //delete object
         }
     }
 }
