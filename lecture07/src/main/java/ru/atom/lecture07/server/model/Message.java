@@ -22,10 +22,10 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "time", unique = false, nullable = false)
+    @Column(name = "time", nullable = false)
     private Date time = new Date();
 
-    @Column(name = "value", unique = false, nullable = false)
+    @Column(name = "value", nullable = false)
     private String value;
 
     public User getUser() {

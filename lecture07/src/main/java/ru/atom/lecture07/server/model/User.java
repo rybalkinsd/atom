@@ -1,5 +1,6 @@
 package ru.atom.lecture07.server.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Message> messages;
 
     public Integer getId() {

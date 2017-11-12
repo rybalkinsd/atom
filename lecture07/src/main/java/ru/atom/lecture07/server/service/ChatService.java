@@ -13,8 +13,10 @@ import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
@@ -53,15 +55,15 @@ public class ChatService {
     @NotNull
     @Transactional
     public List<Message> getMessages() {
-        return Lists.newArrayList(messageDao.findAll());
+        return Lists.newArrayList(messageDao.findAll()).stream()
+                .sorted(Comparator.comparing(Message::getTime))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void say(@NotNull User user, @NotNull Date time, @NotNull String value) {
         Message message = new Message();
-        message.setUser(user);
-        message.setTime(time);
-        message.setValue(value);
+        message.setUser(user).setTime(time).setValue(value);
         messageDao.save(message);
         log.info("[" + user.getLogin() + "] say: \"" + value + "\"");
     }
