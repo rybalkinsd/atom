@@ -53,24 +53,14 @@ public class ChatController {
 
         return ResponseEntity.ok().build();
     }
-
-    /**
-     * package ru.atom.lecture07.server.dao;
-
-     import org.springframework.data.repository.CrudRepository;
-     import ru.atom.lecture07.server.model.Message;
-     import ru.atom.lecture07.server.model.User;
-
-     public interface MessageDao extends CrudRepository<Message, Integer> {
-     }
-     */
+    
     @RequestMapping(
             path = "logout",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        if (name.length() < 1){
+        if (name.length() < 1) {
             return ResponseEntity.badRequest()
                     .body("Too short name");
         }

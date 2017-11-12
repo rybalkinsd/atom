@@ -54,7 +54,7 @@ public class ChatService {
         message.setValue(value);
         messageDao.save(message);
         log.info(time + ":[" + user.getLogin() + "] say: " + value);
-        }
+    }
 
     @NotNull
     @Transactional
