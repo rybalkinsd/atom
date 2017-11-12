@@ -46,7 +46,7 @@ public class ChatService {
 
     @NotNull
     @Transactional
-    public void say(String name, String msg){
+    public void say(String name, String msg) {
         Message message = new Message()
                 .setUser(getLoggedIn(name))
                 .setValue(msg);
