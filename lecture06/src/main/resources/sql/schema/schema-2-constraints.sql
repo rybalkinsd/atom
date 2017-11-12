@@ -18,3 +18,4 @@ create table chat.message (
 
   primary key (id)
 );
+
