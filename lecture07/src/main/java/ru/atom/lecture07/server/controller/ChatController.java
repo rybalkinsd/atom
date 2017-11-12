@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
@@ -61,7 +62,17 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        if (name == null || name.isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body("No name provided");
+        }
+        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        if (alreadyLoggedIn == null) {
+            return ResponseEntity.badRequest()
+                    .body("Name is logout");
+        }
+        chatService.logout(alreadyLoggedIn.getLogin(), alreadyLoggedIn.getId());
+        return ResponseEntity.ok().build();
     }
 
 
@@ -91,7 +102,25 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        if (name == null) {
+            return ResponseEntity.badRequest()
+                    .body("No such name");
+        }
+        if (msg == null) {
+            return ResponseEntity.badRequest()
+                    .body("Enter message");
+        }
+        if (msg.length() > 120) {
+            return ResponseEntity.badRequest()
+                    .body("Too long message");
+        }
+        User loggedIn = chatService.getLoggedIn(name);
+        if (loggedIn == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Not logged");
+        }
+        chatService.say(name, msg);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -103,6 +132,10 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> online = chatService.getMessages();
+        String responseBody = online.stream()
+                .map(Message::getValue)
+                .collect(Collectors.joining("\n"));
+        return ResponseEntity.ok().body(responseBody + "\n");
     }
 }
