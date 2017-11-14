@@ -18,3 +18,9 @@ create table chat.message (
 
   primary key (id)
 );
+
+insert into chat.user (login)
+values ('admin123');
+
+insert into chat.message ("user", time, value)
+values (2, now(), 'anon');
