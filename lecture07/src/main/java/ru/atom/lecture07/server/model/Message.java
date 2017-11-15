@@ -1,14 +1,32 @@
 package ru.atom.lecture07.server.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Entity
+@Table(name = "message", schema = "chat")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    @Column(name = "date", nullable = false)
     private Date time = new Date();
 
+    @Column(name = "value", nullable = false, length = 140)
     private String value;
 
     public User getUser() {
@@ -42,8 +60,9 @@ public class Message {
         return id;
     }
 
-    public void setId(Integer id) {
+    public Message setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     @Override
