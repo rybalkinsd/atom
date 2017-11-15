@@ -41,7 +41,7 @@ mac
 #HSLIDE
 ### get ready #3
 ```bash
-> psql -h wtfis.ru -U <your user> -d testdb
+> psql -h 34.229.108.81 -U <your user> -d atomN
 > enter your password
 >> psql (9.6.2, server 9.2.18)
 >> Type "help" for help.

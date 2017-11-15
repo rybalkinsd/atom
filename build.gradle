@@ -1,22 +1,25 @@
 plugins {
-    id "com.github.kt3k.coveralls" version "2.6.3"
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
+springBoot {
+    mainClass = "ru.atom.chat.ChatApplication"
 }
 
 // constants declaration
 ext {
     jdkVersion = 1.9
 
-    jettyVersion = "9.3.12.v20160915"
     junitVersion = "4.12"
-    jacksonVersion = "2.5.3"
+    jacksonVersion = "2.9.1"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
-    jerseyVersion = "2.25.1"
     gsonjVersion = "2.7"
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
-    hibernateVersion = "5.2.3.Final"
+    hibernateVersion = "5.1.10.Final"
     websocketVersion = "9.4.3.v20170317"
     jolVersion = "0.8"
 }
@@ -25,9 +28,10 @@ allprojects {
     group = "technoatom"
     version = "1.0-SNAPSHOT"
 
-    apply plugin: "java"
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
     apply plugin: 'checkstyle'
-    apply plugin: "jacoco"
+    apply plugin: 'jacoco'
 
     repositories {
         mavenCentral()
@@ -56,8 +60,14 @@ subprojects {
 
 // common libraries declaration
 ext.libraries = [
-        jetty_server : "org.eclipse.jetty:jetty-server:$jettyVersion",
-        jetty_servlet: "org.eclipse.jetty:jetty-servlet:$jettyVersion",
+        spring_boot : [
+            "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-starter-actuator",
+            "org.springframework.boot:spring-boot-starter-data-jpa"
+        ],
+
+        spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
+
         junit: "junit:junit:$junitVersion",
         log4j: [
             "org.apache.logging.log4j:log4j-api:$log4jVersion",
@@ -65,10 +75,6 @@ ext.libraries = [
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
-        jersey_server: "org.glassfish.jersey.core:jersey-server:$jerseyVersion",
-        jersey_containers: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
-        jersey_test:
-                "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
         gson: "com.google.code.gson:gson:$gsonjVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
