@@ -8,4 +8,4 @@ include 'lecture06'
 include 'lecture07'
 include 'web_hackaton'
 include 'homeworks/HW2'
-
+include 'bomberman/frontend'
