@@ -50,7 +50,7 @@ Refresh gradle project
 
 #HSLIDE
 ### Services
-<img src="lecture08/presentation/assets/img/services.png" alt="exception" style="width: 600px;"/>
+<img src="lecture08/presentation/assets/img/Game-architecture.png" alt="exception" style="width: 600px;"/>
 
 
 #HSLIDE
