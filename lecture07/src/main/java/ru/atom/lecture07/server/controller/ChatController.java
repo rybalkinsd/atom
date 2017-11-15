@@ -104,11 +104,11 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        if (name.isEmpty()) {
+        if (name.isEmpty() || (name.length() < 1 && name.length() > 20)) {
             return ResponseEntity.badRequest()
                     .body("you have't mentioned your name");
         }
-        if (msg.isEmpty()) {
+        if (msg.isEmpty() || (msg.length() < 1 && msg.length() > 140)) {
             return ResponseEntity.badRequest()
                     .body("you have not specified the message");
         }
