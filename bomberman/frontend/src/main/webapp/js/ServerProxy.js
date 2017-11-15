@@ -1,6 +1,7 @@
 ServerProxy = Class.extend({
 
     host: "localhost:8090",
+    sessionId: "1234",
 
     socket: null,
 
@@ -32,7 +33,7 @@ ServerProxy = Class.extend({
 
     initSocket: function() {
         var self = this;
-        this.socket = new WebSocket("ws://" + this.host + "/events");
+        this.socket = new WebSocket("ws://" + this.host + "/game?session=" + this.sessionId);
 
         this.socket.onopen = function() {
             console.log("Connection established.");
