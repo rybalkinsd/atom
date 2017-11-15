@@ -35,7 +35,7 @@ public class ChatService {
     @Nullable
     @Transactional
     public List<Message> getChat() {
-        return  Lists.newArrayList(messageDao.findAll());
+        return Lists.newArrayList(messageDao.findAll());
     }
 
     @Transactional
@@ -44,6 +44,7 @@ public class ChatService {
         userDao.save(user.setLogin(login));
         log.info("[" + login + "] logged in");
     }
+
     @NotNull
     @Transactional
     public List<User> getOnlineUsers() {
@@ -58,7 +59,7 @@ public class ChatService {
     }
 
     @Transactional
-    public void say(@NotNull String name,@NotNull Date time, @NotNull String msg) {
+    public void say(@NotNull String name, @NotNull Date time, @NotNull String msg) {
         Message message = new Message();
         message.setUser(getLoggedIn(name));
         message.setTime(time);
