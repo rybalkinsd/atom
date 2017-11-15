@@ -1,14 +1,23 @@
 package ru.atom.lecture07.server.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "message", schema = "chat")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "time", nullable = false)
     private Date time = new Date();
 
+    @Column(name = "value", nullable = false)
     private String value;
 
     public User getUser() {

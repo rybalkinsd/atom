@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +63,23 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest()
+                    .body("Too short name");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest()
+                    .body("Too long name");
+        }
+
+        User notLoggedIn = chatService.getLoggedIn(name);
+
+        if (notLoggedIn == null) {
+            return ResponseEntity.badRequest()
+                    .body("wasn't logged in");
+        }
+        chatService.logout(name);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -91,9 +109,18 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
-    }
+        if (name.isEmpty() || (name.length() < 1 && name.length() > 20)) {
+            return ResponseEntity.badRequest()
+                    .body("name wasn't entered");
+        }
+        if (msg.isEmpty() || (msg.length() < 1 && msg.length() > 140)) {
+            return ResponseEntity.badRequest()
+                    .body("message wasn't entered");
+        }
 
+        chatService.say(name, new Date(), msg);
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -i localhost:8080/chat/chat
@@ -103,6 +130,11 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> messages = chatService.getMessages();
+        String responseBody = messages.stream()
+                .map(Message::getValue)
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }
