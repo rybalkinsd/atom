@@ -1,6 +1,9 @@
 package ru.atom.lecture07.server.model;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.GenerationType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +25,7 @@ public class Message {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Column(name = "time", nullable = false)
@@ -62,9 +65,9 @@ public class Message {
         return id;
     }
 
-    public Message setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
-        return this;
+
     }
 
     @Override
