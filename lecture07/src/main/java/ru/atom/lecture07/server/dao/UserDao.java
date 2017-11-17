@@ -10,4 +10,6 @@ public interface UserDao extends CrudRepository<User, Integer> {
      * @param login the user login.
      */
     User getByLogin(String login);
+
+    int removeByLogin(String login);
 }
