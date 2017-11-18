@@ -42,7 +42,7 @@ public class ChatService {
     @Transactional
     public void logout(@NotNull String login) {
         User user = userDao.getByLogin(login);
-        userDao.delete(user);
+        userDao.delete(user.getId());
         log.info("[" + login + "] logged in");
     }
 

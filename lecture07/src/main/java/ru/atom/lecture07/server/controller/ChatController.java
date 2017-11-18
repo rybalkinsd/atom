@@ -129,7 +129,7 @@ public class ChatController {
             path = "chat",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> chat() {
+    public ResponseEntity<String> chat()  {
         List<Message> messages = chatService.getMessages();
         String responseBody = messages.stream()
                 .map(Message::getValue)
