@@ -145,7 +145,6 @@ Each request will be processed in separate thread.
 title Game infrastructure
 
 participant Alice participant Bob
-
 Alice->Matchmaker: join(name=Alice) 
 note right of Alice: POST matchmaker/join 
 note right of Matchmaker: Matchmaker doesn't have vacant games 
