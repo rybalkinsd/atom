@@ -2,6 +2,8 @@
 
 We are going to continue our game developemnt. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
 
+![](top_view.jpg)
+
 API that our user see:
     `join(name: String)`
 	User opens game webpage (localhost:8080) and see the landing page (index page)
@@ -139,30 +141,29 @@ Each request will be processed in separate thread.
 1. Logging
 1. Service deployment in docker (without using IDE)
 
-[//]: # (title Game infrastructure)
+<!---
+title Game infrastructure
 
-[//]: # (participant Alice)
-[//]: # (participant Bob)
+participant Alice participant Bob
 
-[//]: # (Alice->Matchmaker: join(name=Alice))
-[//]: # (note right of Alice: POST matchmaker/join)
-[//]: # (note right of Matchmaker: Matchmaker doesn't have vacant games)
-[//]: # (note right of Matchmaker: Matchmaker has to ask for a new one)
-[//]: # (Matchmaker->GameService: create(playerCount=2))
-[//]: # (note right of Matchmaker: POST crea)
-[//]: # (note right of GameService: GameService creates new game )
-[//]: # (GameService->Matchmaker: gameId: 42)
-[//]: # (Matchmaker-> Alice: gameId: 42)
-[//]: # (Alice-> GameService: connect(gameId=42, name=Alice))
-[//]: # (note right of Alice: Alice is connected to GameService via websocket )
-[//]: # (note right of Matchmaker: now game 42 has 1 out of 2 players)
-[//]: # (Bob->Matchmaker:  join(name=Bob))
-[//]: # (note right of Matchmaker: Matchmaker has a vacant place in game 42 )
-[//]: # (Matchmaker->Bob: gameId=42)
-[//]: # (Bob-> GameService: connect(gameId=42, name=Bob))
-[//]: # (note right of Bob: Bob is connected to GameService via websocket )
-
-[//]: # (note right of Matchmaker: now game 42 has 2 out of 2 players)
-[//]: # (note right of Matchmaker: time to ask GameService to start game 42)
-[//]: # (Matchmaker->GameService: start(gameId=42))
-
+Alice->Matchmaker: join(name=Alice) 
+note right of Alice: POST matchmaker/join 
+note right of Matchmaker: Matchmaker doesn't have vacant games 
+note right of Matchmaker: Matchmaker has to ask for a new one 
+Matchmaker->GameService: create(playerCount=2) 
+note right of Matchmaker: POST create 
+note right of GameService: GameService creates new game 
+GameService->Matchmaker: gameId: 42 
+Matchmaker-> Alice: gameId: 42 
+Alice-> GameService: connect(gameId=42, name=Alice) 
+note right of Alice: Alice is connected to GameService via websocket 
+note right of Matchmaker: now game 42 has 1 out of 2 players 
+Bob->Matchmaker: join(name=Bob) 
+note right of Matchmaker: Matchmaker has a vacant place in game 42 
+Matchmaker->Bob: gameId=42 
+Bob->GameService: connect(gameId=42, name=Bob) 
+note right of Bob: Bob is connected to GameService via websocket
+note right of Matchmaker: now game 42 has 2 out of 2 players 
+note right of Matchmaker: time to ask GameService to start game 42 
+Matchmaker->GameService: start(gameId=42)
+-->
