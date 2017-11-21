@@ -1,16 +1,16 @@
 # Рубежный контроль
 
-API:
+We are going to continue our game developemnt. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
+
+API that our user see:
     `join(name: String)`
 	User opens game webpage (localhost:8080) and see the landing page (index page)
 	with the only button [Play] and a text form to enter his nickname.
 
-
-
 Under the hood:
 1. Matchmaker service.
 	Matchmaker should handle `play` button request from user and provide a valid game session id to the user
-	User is waiting until Matchmaker will respond with the `game id`  
+	User is waiting until Matchmaker will respond with the `game id`.  
 
 	Specification  
 	  ```
@@ -19,13 +19,13 @@ Under the hood:
 	    Method: POST
 	    Host: {IP}:8080 (IP = localhost for local server tests)
 	    Headers:
-	        Content-Type: application/x-www-form-urlencoded
+		Content-Type: application/x-www-form-urlencoded
 	    Body:
-	        name={}
+		name={}
 	    Response: 
-	        Code: 200
-	        Сontent-Type: text/plain
-	        Body: game id
+		Code: 200
+		Сontent-Type: text/plain
+		Body: game id
 	  ```
 
   [mm.pic]
@@ -39,18 +39,19 @@ Bonus:
 
 2. Game service
 
-API:
-	`gameId create(playerCount: int): long`
-	Creates 
+	API:
+	```
+	gameId create(playerCount: int): long
 	
-	`connect(name: String, gameId: long)`
+	connect(name: String, gameId: long)
 
-	`start(gameId: long)`
+	start(gameId: long)
+	```
 
-Under the hood:
-At some point Matchmaker asks Game service to `create` a new game for `playerCount` users.
-After that Matchmaker will provide this `gameId` to clients and clients will
-`connect` to the exact game using `gameId` and `name`
+	Under the hood:
+	At some point Matchmaker asks Game service to `create` a new game for `playerCount` users.
+	After that Matchmaker will provide this `gameId` to clients and clients will
+	`connect` to the exact game using `gameId` and `name`
 
 At some poing Matchmaker starts the game with `gameId`.
 In general it should be when nuber of connected players equals to number of players that should play in one game.
@@ -98,67 +99,63 @@ In general it should be when nuber of connected players equals to number of play
 
 
 
-## Технологический стек:
+## Tech Stack:
 ### Spring & Spring-boot
-**[Srping]( @TODO )** - самый популярный фреймворк в мире java, в него входит в частности web-mvc.
-**[Spring-boot]( @TODO)** - фреймворк, позволяющий очень качественно и быстро конфигурировать java/spring приложения, 
-в том числе и web-mvc.
-**[Spring mvc]** - реализация концепции mvc на уровне фреймворка Spring.
+**[Srping]( @TODO )** - the most popular java framework, web-mvc is a part of it.
+**[Spring-boot]( @TODO)** - framework for fast configuration and deployment of java-spring applications.
+**[Spring mvc]** - spring implementation of model-view-controller architectural pattern.
 
 **Spring mvc реализует модель thread per request** [[link]](http://stackoverflow.com/questions/15217524/what-is-the-difference-between-thread-per-connection-vs-thread-per-request)  
-Это значит, что каждый запрос будет обработан в своем потоке:
+Each request will be processed in separate thread.
 ![](thread_per_request.jpg)
 
 
-## Форма и сроки сдачи
-- `git checkout -b rk1 upstream/rk1` после этого работаете в ветки
-- Срок сдачи: **29 марта** на лекции. Целое занятие будет посвящено сдаче этого задания.
-- Задание выполняется индивидуально
-- Формат сдачи:
-    1. вы показываете свой красивый PR с выполненным билдом
-    1. смотрим тесты и полноту тестового покрытия
-    1. вы поднимаете свой AuthServer
-    1. вы запускаете тесты на каждый из ресурсных методов
-    1. мы делаем запросы к вашему сервису 
-    1. смотрим код AuthServer'а и обсуждаем его    
-- Если нам что-то не нравится на одном из этапов - попросим внести коррективы прямо на паре
-- Максимальное количество баллов, которое можно получить за первый рубежный контроль - **16**
-- Обращаю внимание, что вы должны понимать (уметь объяснить) для чего нужна каждая строчка вашего кода.
+## Deadline and HowTo?
+- `git checkout -b ???` and work in this branch
+- Deadlin: **???** lecture.
+- This is team task (3-2 persons, **single submissions are not aloud**) 
+- Procedure:
+    1. show us PR with green build
+    1. show us a demo of your service
+    1. show us your tests
+    1. get ready for tricky questions
+    1. java knowledge will be checked
+- Base is **16 points** for this task
+- The more features you will develop - the better rank you will get. Try to make the best service you can.
+- If you are coping code from anywhere make sure you can explain what's happening.
 
 ## Критерии оценки
-1. Корректная реализация поставленной задачи
-1. Зеленый билд (пройденный чекстайл)
-1. Качественные тесты
-1. Покрытие кода > 60%
-1. Грамотное логгирование
-1. Разворачивание сервера не из Idea, а из командной строки
-1. Понимание происходящего
+1. Correct implementation
+1. Green CI build (checkstyle)
+1. Tests quality (both unit and integration with SpringBootTest)
+1. Code coverage > 60%
+1. Logging
+1. Service deployment in docker (without using IDE)
 
+[//]: # (title Game infrastructure)
 
-title Game infrastructure
+[//]: # (participant Alice)
+[//]: # (participant Bob)
 
-participant Alice
-participant Bob
+[//]: # (Alice->Matchmaker: join(name=Alice))
+[//]: # (note right of Alice: POST matchmaker/join)
+[//]: # (note right of Matchmaker: Matchmaker doesn't have vacant games)
+[//]: # (note right of Matchmaker: Matchmaker has to ask for a new one)
+[//]: # (Matchmaker->GameService: create(playerCount=2))
+[//]: # (note right of Matchmaker: POST crea)
+[//]: # (note right of GameService: GameService creates new game )
+[//]: # (GameService->Matchmaker: gameId: 42)
+[//]: # (Matchmaker-> Alice: gameId: 42)
+[//]: # (Alice-> GameService: connect(gameId=42, name=Alice))
+[//]: # (note right of Alice: Alice is connected to GameService via websocket )
+[//]: # (note right of Matchmaker: now game 42 has 1 out of 2 players)
+[//]: # (Bob->Matchmaker:  join(name=Bob))
+[//]: # (note right of Matchmaker: Matchmaker has a vacant place in game 42 )
+[//]: # (Matchmaker->Bob: gameId=42)
+[//]: # (Bob-> GameService: connect(gameId=42, name=Bob))
+[//]: # (note right of Bob: Bob is connected to GameService via websocket )
 
-Alice->Matchmaker: join(name=Alice)
-note right of Alice: POST matchmaker/join
-note right of Matchmaker: Matchmaker doesn't have vacant games
-note right of Matchmaker: Matchmaker has to ask for a new one
-Matchmaker->GameService: create(playerCount=2)
-note right of Matchmaker: POST crea
-note right of GameService: GameService creates new game 
-GameService->Matchmaker: gameId: 42
-Matchmaker-> Alice: gameId: 42
-Alice-> GameService: connect(gameId=42, name=Alice)
-note right of Alice: Alice is connected to GameService via websocket 
-note right of Matchmaker: now game 42 has 1 out of 2 players
-Bob->Matchmaker:  join(name=Bob)
-note right of Matchmaker: Matchmaker has a vacant place in game 42 
-Matchmaker->Bob: gameId=42
-Bob-> GameService: connect(gameId=42, name=Bob)
-note right of Bob: Bob is connected to GameService via websocket 
-
-note right of Matchmaker: now game 42 has 2 out of 2 players
-note right of Matchmaker: time to ask GameService to start game 42
-Matchmaker->GameService: start(gameId=42)
+[//]: # (note right of Matchmaker: now game 42 has 2 out of 2 players)
+[//]: # (note right of Matchmaker: time to ask GameService to start game 42)
+[//]: # (Matchmaker->GameService: start(gameId=42))
 
