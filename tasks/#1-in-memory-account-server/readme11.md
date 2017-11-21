@@ -53,50 +53,48 @@ Bonus:
 	After that Matchmaker will provide this `gameId` to clients and clients will
 	`connect` to the exact game using `gameId` and `name`
 
-At some poing Matchmaker starts the game with `gameId`.
-In general it should be when nuber of connected players equals to number of players that should play in one game.
+	At some poing Matchmaker starts the game with `gameId`.
+	In general it should be when nuber of connected players equals to number of players that should play in one game.
 
 	Specification  
-	  ```
+	```
 	    Protocol: HTTP
 	    Path: game/create
 	    Method: POST
 	    Host: {IP}:8090 (IP = localhost for local server tests)
 	    Headers:
-	        Content-Type: application/x-www-form-urlencoded
+		Content-Type: application/x-www-form-urlencoded
 	    Body:
-	        playerCount={}
+		playerCount={}
 	    Response: 
-	        Code: 200
-	        Сontent-Type: text/plain
-	        Body: game id
-	  ```
+		Code: 200
+		Сontent-Type: text/plain
+		Body: game id
+	```
 
-	  ```
+	```
 	    Protocol: HTTP
 	    Path: game/start
 	    Method: POST
 	    Host: {IP}:8090 (IP = localhost for local server tests)
 	    Headers:
-	        Content-Type: application/x-www-form-urlencoded
+		Content-Type: application/x-www-form-urlencoded
 	    Body:
-	        gameId={}
+		gameId={}
 	    Response: 
-	        Code: 200
-	        Сontent-Type: text/plain
-	        Body: game id
-	  ```
+		Code: 200
+		Сontent-Type: text/plain
+		Body: game id
+	```
 
-	  ```
+	```
 	    Protocol: WS
 	    Path: game/connect?gameId={}&name={}
 	    Host: {IP}:8090 (IP = localhost for local server tests)
-	    
+
 	    Result: 
-	        WS connection established
-	  ```
-
-
+		WS connection established
+	```
 
 
 ## Tech Stack:
@@ -105,7 +103,7 @@ In general it should be when nuber of connected players equals to number of play
 **[Spring-boot]( @TODO)** - framework for fast configuration and deployment of java-spring applications.
 **[Spring mvc]** - spring implementation of model-view-controller architectural pattern.
 
-**Spring mvc реализует модель thread per request** [[link]](http://stackoverflow.com/questions/15217524/what-is-the-difference-between-thread-per-connection-vs-thread-per-request)  
+**Spring mvc implements thread per request model** [[link]](http://stackoverflow.com/questions/15217524/what-is-the-difference-between-thread-per-connection-vs-thread-per-request)  
 Each request will be processed in separate thread.
 ![](thread_per_request.jpg)
 
