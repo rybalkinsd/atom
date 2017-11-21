@@ -1,4 +1,4 @@
-# Рубежный контроль
+# Bomberman ifrastructure
 
 We are going to continue our game developemnt. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
 
@@ -6,6 +6,8 @@ API that our user see:
     `join(name: String)`
 	User opens game webpage (localhost:8080) and see the landing page (index page)
 	with the only button [Play] and a text form to enter his nickname.
+
+
 
 Under the hood:
 1. Matchmaker service.
@@ -28,14 +30,15 @@ Under the hood:
 		Body: game id
 	  ```
 
-  [mm.pic]
-
 	Matchmaker is creating a new games when necessary.
 	Matchmaker provides same gameId to N client connections(players) 
 	Matchmaking algorithm was described in lectures.
 
-Bonus: 
-	Monitoring - how many players are in queue and other interesting data 
+	Bonus:
+	
+		- Monitoring - how many players are in queue and other interesting data 
+		- Matchmaking based on leaderboard
+		- Start match with not full players in game when have to wait for a long time
 
 2. Game service
 
@@ -95,6 +98,12 @@ Bonus:
 	    Result: 
 		WS connection established
 	```
+  	
+	Bonus: 
+	
+		- Monitoring - how many games were played
+		- Leaderboard
+		- Player statistics
 
 
 ## Tech Stack:
