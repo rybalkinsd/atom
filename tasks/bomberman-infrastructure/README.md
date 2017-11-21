@@ -2,7 +2,7 @@
 
 We are going to continue our game developemnt. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
 
-![](top_view.jpg)
+![](top_view.png)
 
 API that our user see:
     `join(name: String)`
