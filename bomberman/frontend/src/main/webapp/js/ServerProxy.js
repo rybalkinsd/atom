@@ -60,7 +60,7 @@ ServerProxy = Class.extend({
 
     connectToGameServer: function (gameId, login) {
         var self = this;
-        this.socket = new WebSocket("ws://" + this.gameServerUrl + "/game?gameId=" + gameId + "&name=" + login);
+        this.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
 
         this.socket.onopen = function () {
             console.log("Connection established.");
