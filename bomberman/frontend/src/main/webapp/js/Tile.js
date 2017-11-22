@@ -44,11 +44,5 @@ Tile = Entity.extend({
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
-        for (var i = 0; i < gGameEngine.tiles.length; i++) {
-            var tile = gGameEngine.tiles[i];
-            if (this == tile) {
-                gGameEngine.tiles.splice(i, 1);
-            }
-        }
     }
 });
