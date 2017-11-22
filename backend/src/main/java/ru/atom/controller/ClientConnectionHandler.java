@@ -10,6 +10,8 @@ import ru.atom.network.Player;
 import ru.atom.network.message.Broker;
 
 import javax.servlet.Servlet;
+import java.util.List;
+import java.util.Map;
 
 public class ClientConnectionHandler extends WebSocketAdapter {
     private final static Logger log = LogManager.getLogger(ClientConnectionHandler.class);
@@ -25,7 +27,13 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     public void onWebSocketConnect(Session session) {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
-        sessionManager.register(new Player("first", session));
+        Map<String, List<String>> parameterMap = session.getUpgradeRequest().getParameterMap();
+        List<String> login = parameterMap.get("login");
+        if(login != null){
+            sessionManager.register(new Player(login.get(0), session));
+        } else {
+            log.error("No login provided");
+        }
     }
 
     @Override

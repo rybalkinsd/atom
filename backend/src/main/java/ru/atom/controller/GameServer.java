@@ -33,7 +33,7 @@ public class GameServer {
         server.setHandler(context);
 
         ServletHolder holderEvents = new ServletHolder("ws-events", ClientConnectionHandler.makeServlet());
-        context.addServlet(holderEvents, "/game/*");
+        context.addServlet(holderEvents, "/game/connect*");
 
         new Thread(sessionManager).start();
 

@@ -2,7 +2,6 @@ package ru.atom.util;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by sergey on 2/2/17.
@@ -20,13 +19,14 @@ public class V {
     }
 
     @JsonCreator
-    public static V of(@JsonProperty("x") double x,  @JsonProperty("y") double y) {
+    public static V of(@JsonProperty("x") double x, @JsonProperty("y") double y) {
         return new V(x, y);
     }
 
     public V move(double dx, double dy) {
         return V.of(x + dx, y + dy);
     }
+
     public V move(V v) {
         return V.of(x + v.x, y + v.y);
     }
@@ -56,7 +56,7 @@ public class V {
 
     @Override
     public int hashCode() {
-        throw new NotImplementedException();
+        return (int) (x * 37 + y);
     }
 
     public double getX() {
