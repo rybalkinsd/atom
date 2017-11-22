@@ -7,7 +7,6 @@ dependencies {
 
     testCompile rootProject.libraries.junit
     testCompile rootProject.libraries.spring_boot_test
-
 }
 
 jar {
