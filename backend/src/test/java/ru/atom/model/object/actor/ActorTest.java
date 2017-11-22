@@ -1,6 +1,7 @@
 package ru.atom.model.object.actor;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.atom.model.Level;
 import ru.atom.model.World;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by sergey on 2/2/17.
  */
+@Ignore
 public class ActorTest {
     private Actor actor;
 
