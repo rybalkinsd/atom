@@ -10,6 +10,8 @@ import ru.atom.lecture07.server.controller.ChatController;
 import ru.atom.lecture07.server.dao.MessageDao;
 import ru.atom.lecture07.server.dao.UserDao;
 import ru.atom.lecture07.server.model.User;
+import ru.atom.lecture07.server.model.Message;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,6 +22,7 @@ public class ChatService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
     private MessageDao messageDao;
 
     @Nullable
@@ -39,5 +42,24 @@ public class ChatService {
     @Transactional
     public List<User> getOnlineUsers() {
         return Lists.newArrayList(userDao.findAll());
+    }
+
+    @NotNull
+    @Transactional
+    public void say(String name, String msg) {
+        Message message = new Message()
+                .setUser(getLoggedIn(name))
+                .setValue(msg);
+        if (message.getUser() != null) {
+            messageDao.save(message);
+        }
+    }
+
+    @Transactional
+    public void userLogout(String name) {
+        User user = getLoggedIn(name);
+        if (user != null) {
+            userDao.delete(user.getId());
+        }
     }
 }
