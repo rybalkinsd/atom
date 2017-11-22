@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,10 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
+        if (chatService.getLoggedIn(name) != null) {
+            chatService.logout(name);
+            return ResponseEntity.ok().build();
+        }
         return ResponseEntity.badRequest().build();
     }
 
@@ -91,6 +97,13 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+
+        if (chatService.getLoggedIn(name) != null) {
+            User user = chatService.getLoggedIn(name);
+            chatService.say(user, new Date(), msg);
+            return ResponseEntity.ok().build();
+        }
+
         return ResponseEntity.badRequest().build();
     }
 
@@ -103,6 +116,11 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> allMessages = chatService.getMessages();
+        String responseBody = allMessages.stream()
+                .map(Message::getValue)
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }
