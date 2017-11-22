@@ -4,7 +4,6 @@ Menu = Class.extend({
     views: [],
 
     init: function() {
-        gGameEngine.botsCount = 4;
         gGameEngine.playersCount = 0;
 
         this.showLoader();
@@ -43,13 +42,6 @@ Menu = Class.extend({
         });
     },
 
-    setMode: function(mode) {
-        this.hide();
-
-        gGameEngine.playing = true;
-        gGameEngine.restart();
-    },
-
     draw: function(text) {
         var that = this;
 
@@ -75,7 +67,7 @@ Menu = Class.extend({
         var modeSize = 110;
         var modesY = title1.y + title1.getMeasuredHeight() + 40;
 
-        // singleplayer button
+        // start button
         var singleX = gGameEngine.size.w / 2 - 55;
         var singleBgGraphics = new createjs.Graphics().beginFill("rgba(0, 0, 0, 0.5)").drawRect(singleX, modesY, modeSize, modeSize);
         var singleBg = new createjs.Shape(singleBgGraphics);
@@ -83,7 +75,10 @@ Menu = Class.extend({
         this.views.push(singleBg);
         this.setHandCursor(singleBg);
         singleBg.addEventListener('click', function() {
-            that.setMode('single');
+            this.hide();
+
+            gGameEngine.playing = true;
+            gGameEngine.restart();
         });
 
         var singleTitle = new createjs.Text("Play", "16px Helvetica", "#ff4444");
