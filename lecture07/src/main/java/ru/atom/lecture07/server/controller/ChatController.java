@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,7 @@ public class ChatController {
     private ChatService chatService;
 
     /**
-     * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
+         * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
      */
     @RequestMapping(
             path = "login",
@@ -61,7 +63,18 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        if (name == null) {
+            return ResponseEntity.badRequest()
+                    .body("You don't enter your name");
+        }
+        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        if (alreadyLoggedIn == null) {
+            return ResponseEntity.badRequest()
+                    .body("Don't login in");
+        }
+        chatService.logout(name);
+
+        return ResponseEntity.ok().build();
     }
 
 
@@ -91,7 +104,17 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        if (name.isEmpty() || (name.length() < 1 && name.length() > 20)) {
+            return ResponseEntity.badRequest()
+                    .body("you have't mentioned your name");
+        }
+        if (msg.isEmpty() || (msg.length() < 1 && msg.length() > 140)) {
+            return ResponseEntity.badRequest()
+                    .body("you have not specified the message");
+        }
+
+        chatService.say(name, new Date(), msg);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -103,6 +126,12 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> chat = chatService.getChat();
+        String responseBody = chat.stream()
+                .map(Message::getValue)
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity.ok().body(responseBody);
+
     }
 }
