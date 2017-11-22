@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Boom</title>
+    <title>Bombergirl</title>
     <meta name="description" content="Go Java">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
@@ -9,6 +9,7 @@
     <script src="js/lib/preloadjs-NEXT.combined.js"></script>
     <script src="js/lib/easeljs-NEXT.combined.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/core.js"></script>
     <script type="text/javascript" src="js/Utils.js"></script>
     <script type="text/javascript" src="js/Entity.js"></script>
@@ -22,37 +23,141 @@
     <script type="text/javascript" src="js/GameEngine.js"></script>
     <script type="text/javascript" src="js/Message.js"></script>
     <script type="text/javascript" src="js/ServerProxy.js"></script>
+    <script type="text/javascript" src="js/Login.js"></script>
+    <script type="text/javascript" src="js/SignUp.js"></script>
+    <script type="text/javascript" src="js/SignOut.js"></script>
+    <script type="text/javascript" src="js/History.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/menu.css">
 </head>
-<body onload="gGameEngine.load()">
+<body onload="gGameEngine.load()" id="body">
+	
+	
+    <div id="loginModal" class="modal">
+        <span onclick="document.getElementById('loginModal').style.display='none';
+                       document.getElementById('body').style.overflow='auto';" class="close" title="Close Modal">x</span>
+        <form class="modal-content animate" style="background-color: #efe9db">
+
+            <div class="container">
+                <label><b>Username</b></label>
+                <input id="loginInput" type="text" placeholder="Enter Username" name="uname" required>
+
+                <label><b>Password</b></label>
+                <input id="loginPassword" type="password" placeholder="Enter Password" name="psw" required>
+                <p id="loginError" style="color: red; size: 14px; display: none; "></p>
+                <div class="container" style="background-color:#dcd6c6; width: auto">
+                    <button type="button" onclick="var login = new Login; login.login();" class="loginbtn">Login</button>
+                    <button type="button" onclick="document.getElementById('loginModal').style.display='none'" class="cancelbtn">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="historyModal" class="modal">
+        <span onclick="document.getElementById('historyModal').style.display='none';
+                        document.getElementById('body').style.overflow='auto';" class="close" title="Close Modal">x</span>
+        <form class="modal-content animate" style="background-color: #efe9db;">
+            <div  class="container" style="height: 500px;position:relative; background-color: #efe9db;">
+            <h3 style = "margin-top: 10px"><b>Game History</b></h3>
+                <div id="historyContainer" style="margin-bottom: 10px; max-height:80%;overflow:auto;border:2px solid; background-color: #e2ddcf" >
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="signupModal" class="modal">
+      <span onclick="document.getElementById('signupModal').style.display='none';
+                     document.getElementById('body').style.overflow='auto';" class="close" title="Close Modal">x</span>
+      <form class="modal-content animate" style="background-color: #efe9db">
+        <div class="container">
+          <label><b>Login</b></label>
+          <input id="signUpLoginInput" type="text" placeholder="Enter Login" name="login" required>
+
+          <label><b>Password</b></label>
+          <input id="signUpPasswordInput" type="password" placeholder="Enter Password" name="psw" required>
+
+          <label><b>Repeat Password</b></label>
+          <input id="signUpPasswordRepeatInput"type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+            <p id="signUpRule" style = "size: 14px;"><b>Login and password length should be less than 20</b></p>
+            <p id="signUpError" style = "size: 14px; color: red; display: none;"><b>Passwords should match</b></p>
+
+          <div class="container" style="background-color:#dcd6c6; width: auto">
+            <button type="button" onclick="document.getElementById('signupModal').style.display='none'" class="cancelbtn">Cancel</button>
+            <button type="button" onclick="var signUp = new SignUp; signUp.signUp();"class="loginbtn">Sign Up</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <script>
+    // Get the modal
+    var signupModal = document.getElementById('signupModal');
+    var loginModal = document.getElementById('loginModal');
+    var historyModal = document.getElementById('historyModal');
+    var body = document.getElementById('body');
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == historyModal) {
+            historyModal.style.display = "none";
+            body.style.overflow='auto';
+        }
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+            body.style.overflow='auto';
+        }
+        if (event.target == signupModal) {
+            signupModal.style.display = "none";
+            body.style.overflow='auto';
+        }
+    }
+    </script>
+
+    <div class="navbar">
+        <button id = "loginButton" onclick="document.getElementById('loginModal').style.display='block';
+                                            document.getElementById('body').style.overflow = 'hidden';" style="width:auto; margin: 10px; float: right;">Login</button>
+        <button id = "signupButton" onclick="document.getElementById('signupModal').style.display='block';
+                                            document.getElementById('body').style.overflow = 'hidden';" style="width:auto; margin: 10px; float: right;">Sign Up</button>
+        <p id="loginedInfo" class="logininfo"></p>
+        <button id = "signOut" onclick="var signOut = new SignOut; signOut.signOut();" style = "display: none;" class="signoutbtn">Sign out</button>
+        <button id="historyButton" onclick="var history = new History; history.getHistory(gGameEngine.serverProxy.playerName);
+                                            document.getElementById('body').style.overflow = 'hidden';" style="display: none;" class="historybtn">History</button>
+
+    </div>
+	
     <div class="container">
         <div class="page-header">
-            <h1>Boom </h1>
+            <h1>Bombergirl</h1>
         </div>
-        <div id="game">
+        <div id="game" style = "display: none;">
             <canvas id="canvas" width="545" height="416" style="background-color: gray;"></canvas>
+            <hr>
         </div>
-        <h3>How to play</h3>
-        <ul>
-            <li><strong>arrow keys</strong> &hellip; move</li>
-            <li><strong>spacebar</strong> &hellip; plant the bomb</li>
-        </ul>
-        <i><strong>M</strong> &hellip; mute / unmute sound</i><br>
-        <i><strong>enter</strong> &hellip; restart</i><br>
-        <i><strong>escape</strong> &hellip; menu</i>
 
-        <hr>
+        <div>
+            <h3 >How to play</h3>
+            <ul>
+                <li><strong>arrow keys</strong> &hellip; move</li>
+                <li><strong>spacebar</strong> &hellip; plant the bomb</li>
+            </ul>
+            <i><strong>M</strong> &hellip; mute / unmute sound</i><br>
+            <i><strong>enter</strong> &hellip; restart</i><br>
+            <i><strong>escape</strong> &hellip; menu</i>
 
+            <hr>
+		</div>
         <div class="footer">
             <div class="alert alert-success">
                 <img src="img/github.png" width="25">
               <a href="http://gojava.ru">  Contribute this game </a>
             </div>
-            <p class="pull-left">&copy; 2017 Created by <a href="http://matousskala.cz">Sergey Rybalkin, Alexander Pomosov</a></p>
-                Credits: <a href="http://gojava.ru">Go Java</a> with us! Web client inspired by <a href="http://matousskala.cz">Matt Skala</a>
-            </p>
+            Credits:
+            <p class="pull-left">&copy; 2017 Created by <a href="http://gojava.ru">Sergey Rybalkin, Alexander Pomosov</a></p>
+                 <a href="http://gojava.ru">Go Java</a> with us! Web client inspired by <a href="http://matousskala.cz">Matt Skala</a>
         </div>
     </div>
 </body>
