@@ -28,7 +28,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
         super.onWebSocketConnect(session);
         log.info("Socket Connected: " + session);
         Map<String, List<String>> parameterMap = session.getUpgradeRequest().getParameterMap();
-        List<String> login = parameterMap.get("login");
+        List<String> login = parameterMap.get("name");
         if(login != null){
             sessionManager.register(new Player(login.get(0), session));
         } else {
