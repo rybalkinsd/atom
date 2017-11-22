@@ -16,16 +16,16 @@ public class EventClient {
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketSession session = null;
         try {
-                // The socket that receives events
-                EventHandler socket = new EventHandler();
-                // Make a handshake with server
-                ListenableFuture<WebSocketSession> fut = client.doHandshake(socket, uri);
-                // Wait for Connect
-                session = fut.get();
-                // Send a message
-                session.sendMessage(new TextMessage("Hello"));
-                // Close session
-                session.close();
+            // The socket that receives events
+            EventHandler socket = new EventHandler();
+            // Make a handshake with server
+            ListenableFuture<WebSocketSession> fut = client.doHandshake(socket, uri);
+            // Wait for Connect
+            session = fut.get();
+            // Send a message
+            session.sendMessage(new TextMessage("Hello"));
+            // Close session
+            session.close();
 
         } catch (Throwable t) {
             t.printStackTrace(System.err);
