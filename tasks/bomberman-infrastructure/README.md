@@ -1,6 +1,6 @@
 # Bomberman ifrastructure
 
-We are going to continue our game developemnt. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
+We are going to continue our game development. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
 
 ![](top_view.png)
 
@@ -11,7 +11,7 @@ API that our user see:
 
 
 
-Under the hood:
+Under the hood (**Implement this service**):
 1. Matchmaker service.
 	Matchmaker should handle `play` button request from user and provide a valid game session id to the user
 	User is waiting until Matchmaker will respond with the `game id`.  
@@ -32,9 +32,12 @@ Under the hood:
 		Body: game id
 	  ```
 
-	Matchmaker is creating a new games when necessary.
+	1.1) Matchmaker is creating a new games when necessary.
 	Matchmaker provides same gameId to N client connections(players) 
-	Matchmaking algorithm was described in lectures.
+	Matchmaking algorithm was described in lectures  
+	  
+	1.2) Matchmaker saves the info about the game to database:  
+	gameId and all players involved (on game creation)  
 
 	Bonus:
 	
