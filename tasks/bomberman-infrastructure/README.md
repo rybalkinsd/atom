@@ -59,7 +59,7 @@ Under the hood:
 	`connect` to the exact game using `gameId` and `name`
 
 	At some poing Matchmaker starts the game with `gameId`.
-	In general it should be when nuber of connected players equals to number of players that should play in one game.
+	In general it should be when number of connected players equals to number of players that should play in one game.
 
 	Specification  
 	```
@@ -120,8 +120,8 @@ Each request will be processed in separate thread.
 
 
 ## Deadline and HowTo?
-- `git checkout -b ???` and work in this branch
-- Deadlin: **???** lecture.
+- `git checkout -b matchmaker` and work in this branch
+- Deadline: **29.11** lecture.
 - This is team task (3-2 persons, **single submissions are not aloud**) 
 - Procedure:
     1. show us PR with green build
@@ -137,7 +137,7 @@ Each request will be processed in separate thread.
 1. Correct implementation
 1. Green CI build (checkstyle)
 1. Tests quality (both unit and integration with SpringBootTest)
-1. Code coverage > 60%
+1. Code coverage > 50%
 1. Logging
 1. Service deployment in docker (without using IDE)
 
