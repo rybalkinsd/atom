@@ -3,9 +3,24 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
+public class Point implements Collider /* super class and interfaces here if necessary */ {
     // fields
     // and methods
+    private int x;
+    private int y;
+
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     /**
      * @param o - other object to check equality with
@@ -20,6 +35,20 @@ public class Point /* super class and interfaces here if necessary */ {
         Point point = (Point) o;
 
         // your code here
-        throw new UnsupportedOperationException();
+        if (this.x == point.x && this.y == point.y) {
+            return true;
+        } else
+            return false;
     }
+
+    @Override
+    public boolean isColliding(Collider collider) {
+        if (collider instanceof Point) {
+            Point point = (Point) collider;
+            return this.equals(collider);
+        } else
+            return false;
+
+    }
+
 }
