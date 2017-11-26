@@ -4,6 +4,9 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import ru.atom.lecture08.websocket.message.Message;
+import ru.atom.lecture08.websocket.message.Topic;
+import ru.atom.lecture08.websocket.util.JsonHelper;
 
 import java.io.IOException;
 
@@ -22,7 +25,7 @@ public class EventClient {
             // Wait for Connect
             session = fut.get();
             // Send a message
-            session.sendMessage(new TextMessage("Hello"));
+            session.sendMessage(new TextMessage(JsonHelper.toJson(new Message(Topic.HELLO, "Viktor Kozlov"))));
             // Close session
             session.close();
 
