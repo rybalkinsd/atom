@@ -16,7 +16,7 @@ public class Bomb extends GameObject implements Tickable {
     public Bomb(GameSession session, Point position, Girl owner) {
         super(session, position, BOMB_WIDTH, BOMB_HEIGHT);
         this.owner = owner;
-        logger.info("New Bomb id={}, position={}, session_ID", id, position, session.getId());
+        logger.info("New Bomb id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 
     //TODO: Чет дерьмово выглядит
