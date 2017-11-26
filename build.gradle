@@ -63,10 +63,12 @@ ext.libraries = [
         spring_boot : [
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-actuator",
-            "org.springframework.boot:spring-boot-starter-data-jpa"
         ],
 
         spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
+
+        spring_boot_websocket: "org.springframework.boot:spring-boot-starter-websocket",
+        spring_boot_jpa: "org.springframework.boot:spring-boot-starter-data-jpa",
 
         junit: "junit:junit:$junitVersion",
         log4j: [
