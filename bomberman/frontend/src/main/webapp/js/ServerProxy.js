@@ -1,5 +1,5 @@
 ServerProxy = Class.extend({
-    gameServerUrl: "localhost:8090",
+    gameServerUrl: "52.91.84.175:22012",
     matchMakerUrl: "localhost:8080/matchmaker/join",
     gameId: "1234",
 
