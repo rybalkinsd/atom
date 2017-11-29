@@ -93,6 +93,15 @@ Messages = Class.extend({
         }
     },
 
+    hello: function (name) {
+        var template = {
+            topic: "HELLO",
+            data: {}
+        };
+        template.data = name;
+        return JSON.stringify(template);
+    },
+
     handleFire: function (obj) {
         var fire = gGameEngine.fires.find(function (el) {
             return el.id === obj.id;

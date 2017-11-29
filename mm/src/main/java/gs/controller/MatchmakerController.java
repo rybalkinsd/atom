@@ -8,23 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("matchmaker")
+@CrossOrigin(origins = "http://localhost:8089")
+@RequestMapping(value = "matchmaker", method = RequestMethod.POST)
 public class MatchmakerController {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MatchmakerController.class);
 
     @Autowired
     MatchmakerService matchmakerService;
-
-    private static HttpHeaders headers = new HttpHeaders();
-    static {
-        headers.add("Access-Control-Allow-Origin", "*");
-    }
 
     @RequestMapping(
             path = "join",
@@ -34,6 +31,6 @@ public class MatchmakerController {
     public ResponseEntity<String> join(@RequestParam("name") String name) {
         logger.info(name + " joins");
         Long gameId = matchmakerService.join(name);
-        return new ResponseEntity<String>(gameId.toString(), headers, HttpStatus.OK);
+        return new ResponseEntity<String>(gameId.toString(), HttpStatus.OK);
     }
 }
