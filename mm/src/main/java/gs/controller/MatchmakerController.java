@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:8089")
+@CrossOrigin(origins = "http://localhost:63342")
 @RequestMapping(value = "matchmaker", method = RequestMethod.POST)
 public class MatchmakerController {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MatchmakerController.class);
