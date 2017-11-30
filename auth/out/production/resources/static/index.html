@@ -1,0 +1,106 @@
+<html>
+
+<link rel="stylesheet" href="common.css">
+
+<body id="body">
+<div id="authorizeUser" class="initial-hide">
+    <h2>Welcome back, <p id="username"></p></h2>
+
+    <button type="button" style="font-size:large" onclick="newGame()" >New Game</button>
+    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="getResults()">
+        <div class="container">
+            <br>
+            <input id="name" name="name"
+                   value="" style="font-size:medium" type="text" placeholder="Enter Username" required>
+            <button style="font-size:large" type="submit">Get results</button>
+        </div>
+    </form>
+    <br>
+    <div class="containerPopup" style="width: 40rem">
+        <div><button type="button" class="logoutButton" style="font-size:large" onclick="logout()" >Logout</button></div>
+        <div class="popup"><span class="popuptext" id="myPopup" display="hide"></span></div>
+    </div>
+</div>
+<div id="results">
+
+</div>
+</body>
+</html>
+
+<script src="lib/js-cookie.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+    if (Cookies.get('user') === undefined) {
+        window.location = "/login.html";
+    } else {
+        document.getElementById("authorizeUser").className =
+            document.getElementById("authorizeUser").className.replace(/\binitial-hide\b/,'');
+        $('#username').text(Cookies.get('user'));
+    }
+</script>
+
+<script>
+    function newGame() {
+        window.location.href = "http://bombergirl.io:80"
+    }
+</script>
+
+<script>
+    function getResults() {
+        if (Cookies.get('user') === undefined
+            || Cookies.get('token') === undefined) {
+            window.location = "/login.html";
+        }
+        var credentials = $('#nameform').serialize();
+        console.log(credentials);
+        var settings = {
+            "method": "GET",
+            "crossDomain": true,
+            "url": "/mm/get-result",
+            "data": credentials,
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            }
+        };
+        $.ajax(settings).done(function(result) {
+            $('#result').html(result);
+        }).fail(function (jqXHR, textStatus, errorOptions) {
+            console.log(jqXHR.status + " " + jqXHR.statusText);
+            document.getElementById("myPopup").className = "show";
+            $('#myPopup').html(errorOptions + '...<br> Try again');
+        })
+    }
+</script>
+
+<script>
+    function logout() {
+        if (Cookies.get('user') === undefined
+            || Cookies.get('token') === undefined) {
+            window.location = "/login.html";
+        }
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "/auth/logout",
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token')
+            }
+        };
+        $.ajax(settings).done(function() {
+            Cookies.remove('user');
+            Cookies.remove('token');
+            window.location = "/";
+        }).fail(function (jqXHR, textStatus, errorOptions) {
+            console.log(jqXHR.status + " " + jqXHR.statusText);
+            if(errorOptions == 'Unauthorized') {
+                Cookies.remove('user');
+                Cookies.remove('token');
+                window.location = "/";
+            } else {
+                document.getElementById("myPopup").className = "show";
+                $('#myPopup').html(errorOptions + '...<br> Try again');
+            }
+        })
+    }
+</script>
