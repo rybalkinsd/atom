@@ -1,32 +1,34 @@
 package gs.service;
 
+import gs.connection.ConnectionQueue;
+import gs.connection.ThreadSafeStorage;
 import gs.network.MatchmakerClient;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service
 public class MatchmakerService {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MatchmakerService.class);
-
-    @Autowired
-    MatchmakerClient client;
-
-    private static final String URI = "localhost:8090/game/";
-    private static final int PLAYER_COUNT = 2;
-    private long gameId;
-    private int vacantPlaces = 0;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(MatchmakerService.class);
 
     public long join(@NotNull String name) {
-        if (vacantPlaces != 0) {
-            vacantPlaces--;
-            logger.info(name + " joined to game: " + gameId);
-            return gameId;
+        if (ThreadSafeStorage.getInstance().containsKey(name)) {
+            return ThreadSafeStorage.getInstance().get(name);
         } else {
-            gameId = Long.parseLong(client.createPost(PLAYER_COUNT));
-            vacantPlaces = PLAYER_COUNT - 1;
-            return gameId;
+            ConnectionQueue.getInstance().offer(name);
+            while (!ThreadSafeStorage.getInstance().containsKey(name)) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    log.error("Interrupted");
+                }
+            }
+            return ThreadSafeStorage.getInstance().get(name);
         }
+
     }
 }

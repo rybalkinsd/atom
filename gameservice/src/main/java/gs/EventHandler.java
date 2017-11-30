@@ -21,7 +21,6 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
-        System.out.println(session.getUri());
         MultiValueMap<String, String> parameters =
                 UriComponentsBuilder.fromUri(session.getUri()).build().getQueryParams();
         String idParam = parameters.get("gameId").toString();
