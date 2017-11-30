@@ -28,7 +28,6 @@ public class SessionStorage {
                 entry.getValue().add(session);
             }
         }
-        System.out.println(storage.size());
     }
 
     public static long addSession(int playerCount) {

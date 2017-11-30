@@ -1,7 +1,7 @@
 package gs.service;
 
 import gs.connection.ConnectionQueue;
-import gs.connection.ThreadSafeStorage;
+import gs.connection.Joins;
 import gs.network.MatchmakerClient;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
@@ -16,18 +16,18 @@ public class MatchmakerService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(MatchmakerService.class);
 
     public long join(@NotNull String name) {
-        if (ThreadSafeStorage.getInstance().containsKey(name)) {
-            return ThreadSafeStorage.getInstance().get(name);
+        if (Joins.getInstance().containsKey(name)) {
+            return Joins.getInstance().get(name);
         } else {
             ConnectionQueue.getInstance().offer(name);
-            while (!ThreadSafeStorage.getInstance().containsKey(name)) {
+            while (!Joins.getInstance().containsKey(name)) {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
                     log.error("Interrupted");
                 }
             }
-            return ThreadSafeStorage.getInstance().get(name);
+            return Joins.getInstance().get(name);
         }
 
     }

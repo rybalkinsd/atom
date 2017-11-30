@@ -1,10 +1,7 @@
 package gs.connection;
 
-import gs.controller.MatchmakerController;
 import gs.network.MatchmakerClient;
 import gs.service.MatchmakerService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,14 +32,13 @@ public class MatchMaker extends Thread {
         List<String> candidates = new ArrayList<>(PLAYERS_IN_GAME);
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                candidates.add(
-                        ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
-                );
+                String player = ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS);
+                candidates.add(player);
+                putJoin(player, gameId);
             } catch (InterruptedException e) {
                 logger.warn("Timeout reached");
             }
             if (candidates.size() == PLAYERS_IN_GAME) {
-                putJoins(candidates, gameId);
                 //client.start();
                 //logger.info("game started id={}", gameId);
                 candidates.clear();
@@ -51,9 +47,7 @@ public class MatchMaker extends Thread {
         }
     }
 
-    private void putJoins(List<String> players, long gameId) {
-        for(String i : players) {
-            ThreadSafeStorage.getInstance().put(i, gameId);
-        }
+    private void putJoin(String player, long gameId) {
+        Joins.getInstance().put(player, gameId);
     }
 }
