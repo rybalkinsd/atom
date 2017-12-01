@@ -10,6 +10,10 @@ dependencies {
     testCompile rootProject.libraries.spring_boot_test
 }
 
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest { attributes 'Main-Class': 'ru.atom.lecture08.websocket.EventServer' }
