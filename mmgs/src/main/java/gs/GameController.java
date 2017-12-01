@@ -23,8 +23,8 @@ public class GameController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Long> create(@RequestParam("gameSession") GameSession gameSession) {
-        long gameId = gameService.create(gameSession);
+    public ResponseEntity<Long> create(@RequestParam("playerCount") int playerCount) {
+        long gameId = gameService.create(playerCount);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<Long>(gameId, headers, HttpStatus.OK);

@@ -8,22 +8,21 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class GameService {
-    private static final Logger log = LogManager.getLogger(GameService.class);
-    private static final String url = "http://52.91.84.175:22012/game";
-    // private static final String url = "http://192.168.99.100:8090/game",
+public class GameServiceRequest {
+    private static final Logger log = LogManager.getLogger(GameServiceRequest.class);
+
     private RestTemplate rest;
     private HttpHeaders headers;
     private HttpStatus status;
 
-    public GameService() {
+    public GameServiceRequest() {
         this.rest = new RestTemplate();
         this.headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
     }
 
     public String create(int playerCount) {
-        String uri = url + "/create";
+        String uri = "http://localhost:8090/game/create";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri)
                 .queryParam("playerCount", playerCount);
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -37,7 +36,7 @@ public class GameService {
 
     public String start(long gameId) {
 
-        String uri = url + "/start";
+        String uri = "http://localhost:8090/game/start";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri)
                 .queryParam("gameId", gameId);
         HttpEntity<?> entity = new HttpEntity<>(headers);

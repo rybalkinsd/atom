@@ -1,6 +1,5 @@
 package mm;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,9 @@ public class Matchmaker {
     private static final Logger log = LogManager.getLogger(Matchmaker.class);
 
     @Autowired
-    GameService client;
+    GameServiceRequest client;
     private static final int PLAYER_COUNT = 2;
-    private long gameId;
+    private long gameId=1;
     private int playersInGame = 0;
 
     public long join(@NotNull String name) {
@@ -23,7 +22,7 @@ public class Matchmaker {
             //gameId = Long.parseLong(client.start(PLAYER_COUNT));
             return gameId;
         } else {
-            //gameId = Long.parseLong(client.create(PLAYER_COUNT));
+           // gameId = Long.parseLong(client.create(playersInGame));
             playersInGame = playersInGame + 1;
             return gameId;
         }

@@ -9,7 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GameRepository {
     private static ConcurrentHashMap<Long, GameSession> map = new ConcurrentHashMap<>();
 
-    public static long newSession(GameSession gameSession) {
+    public static long newSession(int playerCount) {
+        GameSession gameSession = new GameSession(playerCount);
         map.put(gameSession.getId(), gameSession);
         return gameSession.getId();
     }

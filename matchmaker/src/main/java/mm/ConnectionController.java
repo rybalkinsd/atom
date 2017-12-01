@@ -19,11 +19,6 @@ public class ConnectionController {
     @Autowired
     Matchmaker matchmaker;
 
-    private static HttpHeaders headers = new HttpHeaders();
-
-    static {
-        headers.add("Access-Control-Allow-Origin", "*");
-    }
 
     /**
      * curl test
@@ -39,6 +34,8 @@ public class ConnectionController {
     public ResponseEntity<String> join(@RequestParam("name") String name) {
         log.info(name + " joins");
         Long gameId = matchmaker.join(name);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<String>(gameId.toString(), headers, HttpStatus.OK);
     }
     /**
