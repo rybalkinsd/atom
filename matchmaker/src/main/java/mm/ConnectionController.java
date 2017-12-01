@@ -11,14 +11,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.*;
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @RequestMapping("matchmaker")
 public class ConnectionController {
     private static final Logger log = LogManager.getLogger(ConnectionController.class);
 
     @Autowired
-    Matchmaker matchmaker;
+    static Matchmaker matchMaker = new Matchmaker();
 
+    private static HttpHeaders headers = new HttpHeaders();
+
+    static {
+        headers.add("Access-Control-Allow-Origin", "*");
+        Thread matchMakerThread = new Thread(matchMaker);
+        matchMakerThread.start();
+    }
 
     /**
      * curl test
@@ -33,10 +44,23 @@ public class ConnectionController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> join(@RequestParam("name") String name) {
         log.info(name + " joins");
-        Long gameId = matchmaker.join(name);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "*");
-        return new ResponseEntity<String>(gameId.toString(), headers, HttpStatus.OK);
+        if (matchMaker.join(name)) {
+            log.info(name + " added to queue");
+        }
+        else {
+            log.error(name + " cannot be added to queue");
+            //TODO: return error response entity
+        }
+        Long gameId = null;
+        while (gameId == null) {
+            gameId = matchMaker.inGamePlayers.get(name);
+            if (gameId == null)
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {}
+        }
+        log.info("gameId = " + gameId.toString() + " sent to " + name);
+        return new ResponseEntity<>(gameId.toString(), headers, HttpStatus.OK);
     }
     /**
      * curl test
