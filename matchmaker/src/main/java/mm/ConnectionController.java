@@ -1,6 +1,7 @@
 package mm;
 
 
+import mm.dao.PlayerDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class ConnectionController {
 
     @Autowired
     static Matchmaker matchMaker = new Matchmaker();
+    static private PlayerDao playerDao = new PlayerDao();
 
     private static HttpHeaders headers = new HttpHeaders();
 
@@ -29,6 +31,7 @@ public class ConnectionController {
         headers.add("Access-Control-Allow-Origin", "*");
         Thread matchMakerThread = new Thread(matchMaker);
         matchMakerThread.start();
+        playerDao.reset();
     }
 
     /**

@@ -20,7 +20,7 @@ public class Matchmaker implements Runnable {
     private static final Logger log = LogManager.getLogger(Matchmaker.class);
 
     @Autowired
-    GameService client;
+//    GameService client;
     private static final int PLAYER_COUNT = 4;
     private static final int TIMEOUT = 10;
     private long gameId = 100;
