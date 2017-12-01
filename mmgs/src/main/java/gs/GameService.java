@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class GameService {
     private static final Logger log = LogManager.getLogger(GameService.class);
 
-    public long create(GameSession gameSession) {
-        return GameRepository.newSession(gameSession);
+    public long create(int playerCount) {
+        return GameRepository.newSession(playerCount);
     }
 }
