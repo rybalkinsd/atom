@@ -1,6 +1,7 @@
-package dao;
+package auth.dao;
 
-import model.Token;
+import auth.model.Token;
+import auth.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TokenDao extends CrudRepository<Token, Integer> {

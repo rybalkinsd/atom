@@ -1,9 +1,10 @@
-package service;
+package auth.service;
 
-import dao.TokenDao;
-import dao.UserDao;
-import model.Token;
-import model.User;
+import auth.AuthServer;
+import auth.dao.TokenDao;
+import auth.dao.UserDao;
+import auth.model.Token;
+import auth.model.User;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;

@@ -1,5 +1,6 @@
 dependencies {
     compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_jpa
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate
@@ -13,6 +14,10 @@ configurations {
     compile.exclude group:'ch.qos.logback'
 }
 
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.auth.AuthServer' }
+}
 
 sourceSets {
     main {
