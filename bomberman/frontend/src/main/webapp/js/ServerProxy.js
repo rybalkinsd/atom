@@ -1,8 +1,9 @@
 ServerProxy = Class.extend({
     //gameServerUrl: "52.91.84.175:22012",
     // gameServerUrl: "192.168.99.100:8090",
-    gameServerUrl: "localhost:8090",
-    matchMakerUrl: "http://localhost:8080/matchmaker/join",
+    gameServerUrl: "192.168.99.100:8090",
+    //matchMakerUrl: "http://localhost:8080/matchmaker/join",
+    matchMakerUrl: "http://192.168.99.100:8090/matchmaker/join",
     gameId: "1234",
 
     socket: null,
