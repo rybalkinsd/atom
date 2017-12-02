@@ -25,7 +25,7 @@ public class ConnectionControllerTest {
     public void join() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("101", headers, HttpStatus.OK);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>("0", headers, HttpStatus.OK);
         assertEquals(responseEntity, connectionController.join("Alice"));
     }
 }
