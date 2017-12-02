@@ -1,7 +1,8 @@
 #HSLIDE
 # Java
 lecture 9
-## Game Server architecture. Client-server protocol
+## Game Server architecture.
+## Client-server protocol
 
 #HSLIDE
 ## Отметьтесь на портале
@@ -73,12 +74,26 @@ We will discuss details when talk about game mechanics
 0. Client-server protocol
 
 #HSLIDE
+## Create a branch for game server
+Create the branch^ where you will develop the game server
+```bash
+> git checkout -b game-server
+```
+
+#HSLIDE
+## create a directory for game-server
+Call it **game_server**  
+In this directory you will create game server from scratch
+
+#HSLIDE
 ## Game Server Hackaton
 Implement the skeleton of the game server.
 Everything on picture except:
 - GameMechanics (Next Lectures)
 - ConnectionHandler (Homework)
-And connect with MatchMaker
+- Connect with MatchMaker  
+  
+Connection handler must log all connections
 
 
 #HSLIDE
