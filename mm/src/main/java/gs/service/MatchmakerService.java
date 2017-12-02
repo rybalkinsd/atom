@@ -2,14 +2,9 @@ package gs.service;
 
 import gs.connection.ConnectionQueue;
 import gs.connection.Joins;
-import gs.network.MatchmakerClient;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class MatchmakerService {

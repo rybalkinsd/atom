@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by sergey on 3/14/17.
- */
 @Component
 public class MatchMaker extends Thread {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MatchMaker.class);

@@ -1,4 +1,4 @@
-package model;
+package auth.model;
 
 import javax.persistence.*;
 
