@@ -75,13 +75,14 @@ We will discuss details when talk about game mechanics
 
 #HSLIDE
 ## Create a branch for game server
-Create the branch^ where you will develop the game server
+Create the branch from branch lecture09, where you will develop the game server:
 ```bash
 > git checkout -b game-server
 ```
 
 #HSLIDE
-## create a directory for game-server
+## create a directory for game server
+create a directory for game server  
 Call it **game_server**  
 In this directory you will create game server from scratch
 
@@ -89,11 +90,11 @@ In this directory you will create game server from scratch
 ## Game Server Hackaton
 Implement the skeleton of the game server.
 Everything on picture except:
-- GameMechanics (Next Lectures)
-- ConnectionHandler (Homework)
+- GameMechanics (Next Lectures)  
+create stub for it
+- ConnectionHandler (Homework)  
+create stub for it
 - Connect with MatchMaker  
-  
-Connection handler must log all connections
 
 
 #HSLIDE
