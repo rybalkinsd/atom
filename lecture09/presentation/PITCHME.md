@@ -55,7 +55,7 @@ Game Server is a separate application that do in cycle:
 
 #HSLIDE
 ## Time model with variable tick time
-> @see ru.atom.lecture09.tick.Ticker
+> @see tick.Ticker
 
 In our model tick lasts until all messages from InoutQueue are handled  
 So every time tick time is different  
