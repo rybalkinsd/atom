@@ -20,6 +20,7 @@ public class Matchmaker implements Runnable {
     private static final Logger log = LogManager.getLogger(Matchmaker.class);
 
     @Autowired
+    GameServiceRequest client = new GameServiceRequest();
     private static final int PLAYER_COUNT = 4;
     private static final int TIMEOUT = 10;
     private long gameId = 100;
@@ -45,15 +46,15 @@ public class Matchmaker implements Runnable {
                             playerDao.insert(player);
                         }
                         log.info("timeout, game started with " + players.size() + " players, pushed to DB");
-                        //FIXME: client.start(gameId);
+                        client.start(gameId);
                         players.clear();
                     } else
                         log.info("not enough players to start the game");
                 } else if (!inGamePlayers.containsKey(newPlayer.getLogin())) {
                     players.add(newPlayer);
                     if (players.size() == 1) {
-                        //FIXME: gameId = Long.parseLong(client.create(PLAYER_COUNT));
-                        gameId++;
+                        gameId = Long.parseLong(client.create(PLAYER_COUNT));
+//                        gameId++; //FIXME: should be removed when gs works
                         log.info("created new game with gameId = " + gameId);
                     }
                     log.info(newPlayer.getLogin() + " added to table");
@@ -70,7 +71,7 @@ public class Matchmaker implements Runnable {
                     playerDao.insert(player);
                 }
                 log.info("game started with maximum players, pushed to DB");
-                //FIXME: client.start(gameId);
+                client.start(gameId);
                 players.clear();
             }
         }
