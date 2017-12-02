@@ -1,6 +1,5 @@
 package mm;
 
-
 import mm.dao.PlayerDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,11 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.sql.*;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("matchmaker")
@@ -23,7 +21,7 @@ public class ConnectionController {
 
     @Autowired
     static Matchmaker matchMaker = new Matchmaker();
-    static private PlayerDao playerDao = new PlayerDao();
+    private static PlayerDao playerDao = new PlayerDao();
 
     private static HttpHeaders headers = new HttpHeaders();
 
@@ -37,7 +35,8 @@ public class ConnectionController {
     /**
      * curl test
      * <p>
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/matchmaker/join -d "name=bomberman"
+     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+     * localhost:8080/matchmaker/join -d "name=bomberman"
      */
 
     @RequestMapping(
@@ -49,8 +48,7 @@ public class ConnectionController {
         log.info(name + " joins");
         if (matchMaker.join(name)) {
             log.info(name + " added to queue");
-        }
-        else {
+        } else {
             log.error(name + " cannot be added to queue");
             //TODO: return error response entity
         }
@@ -60,7 +58,8 @@ public class ConnectionController {
             if (gameId == null)
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException ignored) {}
+                } catch (InterruptedException ignored) {
+                }
         }
         log.info("gameId = " + gameId.toString() + " sent to " + name);
         return new ResponseEntity<>(gameId.toString(), headers, HttpStatus.OK);

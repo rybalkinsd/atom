@@ -1,6 +1,5 @@
 package mm;
 
-
 import mm.dao.Player;
 import mm.dao.PlayerDao;
 import org.apache.logging.log4j.LogManager;
@@ -12,21 +11,21 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class Matchmaker implements Runnable {
     private static final Logger log = LogManager.getLogger(Matchmaker.class);
 
     @Autowired
-//    GameService client;
     private static final int PLAYER_COUNT = 4;
     private static final int TIMEOUT = 10;
     private long gameId = 100;
     private PlayerDao playerDao = new PlayerDao();
     private BlockingQueue<Player> queue = new LinkedBlockingQueue<>();
-    Hashtable <String, Long> inGamePlayers = new Hashtable<>();
+    Hashtable<String, Long> inGamePlayers = new Hashtable<>();
 
     public boolean join(@NotNull String name) {
         return queue.offer(new Player(0, name));
@@ -46,15 +45,14 @@ public class Matchmaker implements Runnable {
                             playerDao.insert(player);
                         }
                         log.info("timeout, game started with " + players.size() + " players, pushed to DB");
-//                      FIXME: client.start(gameId);
+                        //FIXME: client.start(gameId);
                         players.clear();
-                    }
-                    else
+                    } else
                         log.info("not enough players to start the game");
                 } else if (!inGamePlayers.containsKey(newPlayer.getLogin())) {
                     players.add(newPlayer);
                     if (players.size() == 1) {
-//                      FIXME: gameId = Long.parseLong(client.create(PLAYER_COUNT));
+                        //FIXME: gameId = Long.parseLong(client.create(PLAYER_COUNT));
                         gameId++;
                         log.info("created new game with gameId = " + gameId);
                     }
@@ -72,7 +70,7 @@ public class Matchmaker implements Runnable {
                     playerDao.insert(player);
                 }
                 log.info("game started with maximum players, pushed to DB");
-//              FIXME: client.start(gameId);
+                //FIXME: client.start(gameId);
                 players.clear();
             }
         }
