@@ -54,7 +54,6 @@ public class Matchmaker implements Runnable {
                     players.add(newPlayer);
                     if (players.size() == 1) {
                         gameId = Long.parseLong(client.create(PLAYER_COUNT));
-//                        gameId++; //FIXME: should be removed when gs works
                         log.info("created new game with gameId = " + gameId);
                     }
                     log.info(newPlayer.getLogin() + " added to table");

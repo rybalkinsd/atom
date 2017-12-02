@@ -1,4 +1,4 @@
 FROM openjdk:8-jre-alpine
-COPY build/libs/web_hackaton-1.0-SNAPSHOT.jar /services/mm.jar
-EXPOSE 8080
-CMD ["java", "-jar", "/services/mm.jar"]
+COPY build/libs/mmgs-1.0-SNAPSHOT.jar /services/mmgs.jar
+EXPOSE 8090
+CMD ["java", "-jar", "/services/mmgs.jar"]
