@@ -1,0 +1,34 @@
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.hibernate
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.postgres
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+
+
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+
+}
+
+
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}

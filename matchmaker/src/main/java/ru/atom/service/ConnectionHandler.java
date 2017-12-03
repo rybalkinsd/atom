@@ -1,0 +1,57 @@
+package ru.atom.service;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+
+public class ConnectionHandler implements Runnable {
+    private static final Logger log = LogManager.getLogger(ru.atom.service.ConnectionHandler.class);
+    private MatchMakerService matchMakerService;
+    //@Value("{game.}")
+    private static int REQUIRED_PLAYERS_AMOUNT = 2;
+
+    public ConnectionHandler(MatchMakerService matchMakerService) {
+        this.matchMakerService = matchMakerService;
+        /*Properties props = new Properties();
+        try {
+            props.load(new FileInputStream(new File("matchmaker/src/settings.ini")));
+            REQUIRED_PLAYERS_AMOUNT = Integer.valueOf(props.getProperty("REQUIRED_PLAYERS_AMOUNT", "1"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    @Override
+    public void run() {
+        log.info("Started");
+        List<Connection> candidates = new ArrayList<>(REQUIRED_PLAYERS_AMOUNT);
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                candidates.add(
+                        ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
+                );
+            } catch (InterruptedException e) {
+                log.warn("Timeout reached");
+            }
+
+            if (candidates.size() == REQUIRED_PLAYERS_AMOUNT) {
+                Thread thread = new Thread(new GameIdBroker(REQUIRED_PLAYERS_AMOUNT,
+                        new ArrayList<>(candidates), matchMakerService));
+                thread.start();
+                candidates.clear();
+
+
+            }
+        }
+
+    }
+}
