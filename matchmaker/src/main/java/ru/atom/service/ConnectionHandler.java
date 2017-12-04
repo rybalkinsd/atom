@@ -12,22 +12,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-
 public class ConnectionHandler implements Runnable {
     private static final Logger log = LogManager.getLogger(ru.atom.service.ConnectionHandler.class);
     private MatchMakerService matchMakerService;
-    //@Value("{game.}")
     private static int REQUIRED_PLAYERS_AMOUNT = 2;
 
     public ConnectionHandler(MatchMakerService matchMakerService) {
         this.matchMakerService = matchMakerService;
-        /*Properties props = new Properties();
-        try {
-            props.load(new FileInputStream(new File("matchmaker/src/settings.ini")));
-            REQUIRED_PLAYERS_AMOUNT = Integer.valueOf(props.getProperty("REQUIRED_PLAYERS_AMOUNT", "1"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
