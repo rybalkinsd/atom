@@ -11,7 +11,6 @@ public class Replicator {
         WebSocketSession session=gs.getSession();
         if (gs.jsonStringBombs() == null) {
             if (gs.jsonStringExplosions() == null) {
-                //Broker.getInstance().send(connectionPool.getPlayer(session), Topic.REPLICA, gs.jsonStringWalls() + "," + gs.getPawn().toJson());
                 Broker.getInstance().send(gs, connectionPool.getPlayer(session), Topic.REPLICA, gs.jsonStringWalls() + "," + gs.getPawn().toJson());
             } else {
                 Broker.getInstance().send(gs, connectionPool.getPlayer(session), Topic.REPLICA, gs.jsonStringWalls() + "," + gs.jsonStringExplosions() + "," + gs.getPawn().toJson());
