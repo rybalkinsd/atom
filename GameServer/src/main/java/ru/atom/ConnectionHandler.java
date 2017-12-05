@@ -11,7 +11,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class ConnectionHandler extends TextWebSocketHandler implements WebSocketHandler  {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        super.afterConnectionEstablished(session);
     }
 
     @Override

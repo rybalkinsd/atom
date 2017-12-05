@@ -5,6 +5,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +45,16 @@ public class GameServerController {
 
         return ResponseEntity.ok().headers(headers).body(gameId.toString());
     }
+
+
+    @Scheduled(fixedRate = 5000)
+    @SendTo("/")
+    public String sendReplica() throws Exception {
+        System.out.println("scheduled");
+        return "{ \"topic\" =  PLANT_BOMB \"data\" = {}}";
+    }
+
+
 
 
 }
