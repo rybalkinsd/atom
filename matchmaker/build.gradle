@@ -8,6 +8,7 @@ dependencies {
 
     testCompile rootProject.libraries.junit
     testCompile rootProject.libraries.spring_boot_test
+    compile rootProject.libraries.spring_boot_jpa
 }
 
 configurations {

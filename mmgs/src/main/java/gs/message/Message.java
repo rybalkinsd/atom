@@ -7,10 +7,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class Message {
     private final Topic topic;
     private final String data;
+    private String owner;
 
     public Message(Topic topic, String data) {
         this.topic = topic;
         this.data = data;
+    }
+
+    public void setOwner(String name) {
+        this.owner = name;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     @JsonCreator

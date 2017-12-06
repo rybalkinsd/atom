@@ -15,8 +15,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class GameServiceRequest {
     private static final Logger log = LogManager.getLogger(GameServiceRequest.class);
 
-    private RestTemplate rest;
-    private HttpHeaders headers;
+    private final RestTemplate rest;
+    private final HttpHeaders headers;
     private HttpStatus status;
 
     public GameServiceRequest() {
@@ -26,7 +26,7 @@ public class GameServiceRequest {
     }
 
     public String create(int playerCount) {
-        String uri = "http://192.168.99.100:8090/game/create";
+        String uri = "http://localhost:8090/game/create";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri)
                 .queryParam("playerCount", playerCount);
         HttpEntity<?> entity = new HttpEntity<>(headers);
@@ -39,8 +39,7 @@ public class GameServiceRequest {
     }
 
     public String start(long gameId) {
-
-        String uri = "http://192.168.99.100:8090/game/start";
+        String uri = "http://localhost:8090/game/start";
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri)
                 .queryParam("gameId", gameId);
         HttpEntity<?> entity = new HttpEntity<>(headers);

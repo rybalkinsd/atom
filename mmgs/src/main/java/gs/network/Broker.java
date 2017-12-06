@@ -18,7 +18,6 @@ public class Broker {
 
     private static final Broker instance = new Broker();
     private final ConnectionPool connectionPool;
-    private GameMechanics gameMechanics = new GameMechanics();//TODO удалить после реализации Tick
 
     public static Broker getInstance() {
         return instance;
@@ -31,52 +30,19 @@ public class Broker {
     }
 
     public void receive(@NotNull WebSocketSession session, @NotNull String msg) {
-        //log.info("RECEIVED: " + msg);
-        //System.out.println("RECEIVED: " + msg);
         Message message = JsonHelper.fromJson(msg, Message.class);
-        inputQueue.addToQueue(session, message);
-
-        //System.out.println(inputQueue.getQueue().peek().getData());
-        /*if (message.getTopic().equals(Topic.MOVE)) {
-            handleMove(session, message.getData());
-        } else if (message.getTopic().equals(Topic.PLANT_BOMB)) {
-            handleBomb(session);
-        }*/
+        message.setOwner(ConnectionPool.getInstance().getPlayer(session));
+        inputQueue.addToQueue(message);
     }
 
     public void send(@NotNull GameSession gs, @NotNull String player, @NotNull Topic topic, @NotNull String message) {
-        //String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
-        //Message message = new Message(topic, JsonHelper.toJson(object));
-        //WebSocketSession session = connectionPool.getSession(player);
-        //connectionPool.send(session, message);
         String msg = "{\"topic\":\"" + topic + "\",\"data\":{\"objects\":[" + message + "]}}";
-        //gs.getSession().sendMessage(new TextMessage(msg.toCharArray()));
-        //TextMessage check = new TextMessage(JsonHelper.toJson(new Message(topic, message)));
-        TextMessage check = new TextMessage(msg);
-        System.out.println(check.getPayload());
+        TextMessage msgToJson = new TextMessage(msg);
         try {
-            gs.getSession().sendMessage(check);
-            ;
+            gs.getSession(player).sendMessage(msgToJson);
         } catch (Throwable t) {
             t.printStackTrace(System.err);
         }
-    }
-
-
-    /*public void send(@NotNull GameSession gs) {
-        String message = "";
-        message = "{\"topic\":\"REPLICA\",\"data\":{\"objects\":[" + gs.jsonStringWalls() + "]}}";
-        System.out.println(message);
-        }*/
-
-
-    public void handleBomb(WebSocketSession session) {
-        log.info("bomb planted");
-    }
-
-    public void broadcast(@NotNull Topic topic, @NotNull Object object) {
-        String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
-        connectionPool.broadcast(message);
     }
 
 }

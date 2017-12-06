@@ -6,7 +6,7 @@ import java.util.Optional;
 /**
  * Created by s.rybalkin on 17.10.2016.
  */
-public interface Dao<T> {
+interface Dao<T> {
     /**
      * SELECT * from ...
      */
@@ -21,6 +21,11 @@ public interface Dao<T> {
      * INSERT INTO ...
      */
     void insert(T t);
+
+    /**
+     * DELETE * from ... WHERE login=
+     */
+    void delete(T t);
 
     /**
      * SELECT * from ... WHERE id=

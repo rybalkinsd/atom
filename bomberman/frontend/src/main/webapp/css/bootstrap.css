@@ -11,6 +11,7 @@ html {
 }
 body {
   margin: 0;
+  background-image: url("texture.jpg");
 }
 article,
 aside,
@@ -1290,10 +1291,20 @@ p {
   margin: 0 0 10px;
 }
 .lead {
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.4;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+.logininfo {
+    font-size: 14px;
+    color: white;
+    display: none;
+    position: absolute;
+    padding: 14px 20px;
+    background-color: gray;
+    border-radius: 4px;
+    margin: 10px;
 }
 @media (min-width: 768px) {
   .lead {
@@ -1409,7 +1420,7 @@ a.bg-danger:focus {
 }
 .page-header {
   padding-bottom: 9px;
-  margin: 40px 0 20px;
+  margin: 70px 0 20px;
   border-bottom: 1px solid #eee;
 }
 ul,

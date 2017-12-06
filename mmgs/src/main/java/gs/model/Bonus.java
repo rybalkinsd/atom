@@ -10,29 +10,44 @@ public class Bonus extends Field implements Positionable, Tickable {
     private static final Logger log = LogManager.getLogger(Bomb.class);
     private final int id;
     private Point point;
-    private long time;
+    private long currentTime = 0;
+    private final long lifeTime = 10000;
 
-    public Bonus(int x, int y, long time) {
+    public enum Type {
+        speed, bomb, fire
+    }
+
+    private Type type;
+
+    public Bonus(int x, int y, Bonus.Type type) {
         super(x, y);
         this.id = getId();
+        this.type = type;
         this.point = getPosition();
         log.info("Bonusid = " + id + "; " + "Bonus place = (" + point.getX() + "," +
-                point.getY() + ")" + "; " + "Bonus timer = " + time);
+                point.getY() + ")" + "; ");
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     @Override
     public void tick(long elapsed) {
-        if (time < elapsed) {
-            time = 0;
-        } else {
-            time -= elapsed;
-        }
+        currentTime += elapsed;
+    }
+
+    public boolean isDead() {
+        return currentTime >= lifeTime;
     }
 
     public String toJson() {
         Point pos = getPosition();
-        String obj = "{\"type\":\"" + this.getClass().getSimpleName() + "\",\"id\":" +
+        return "{\"type\":\"" + type.name() + "\",\"id\":" +
                 this.getId() + ",\"position\":{\"x\":" + pos.getX() + ",\"y\":" + pos.getY() + "}}";
-        return obj;
     }
 }

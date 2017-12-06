@@ -24,7 +24,7 @@ Tile = Entity.extend({
         this.material = material;
         this.position = position;
         var img;
-        if (material == 'grass') {
+        if (material === 'grass') {
             img = gGameEngine.tilesImgs.grass;
         } else if (material === 'Wall') {
             img = gGameEngine.tilesImgs.wall;

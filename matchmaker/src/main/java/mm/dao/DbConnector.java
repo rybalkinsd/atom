@@ -1,7 +1,7 @@
 package mm.dao;
 
-/**
- * Created by sergey on 3/25/17.
+/*
+  Created by sergey on 3/25/17.
  */
 
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +13,8 @@ import java.sql.SQLException;
 
 
 class DbConnector {
-    private static final Logger log = LogManager.getLogger(DbConnector.class);
 
+    private static final Logger log = LogManager.getLogger(DbConnector.class);
     private static final String URL_TEMPLATE = "jdbc:postgresql://%s:%d/%s";
     private static final String URL;
     private static final String HOST = "34.229.108.81";
