@@ -117,6 +117,7 @@ Util to observe java process stack state.
 1. **[Multiple threads in game]**
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
+1. Concurrency and data races
 1. Synchronization. Critical section
 1. Practice
 
@@ -138,6 +139,7 @@ As usual - they can communicate via public variables, via mutable objects.
 1. Multiple threads in game
 1. **[Parallelism and Concurrency]**
 1. What can go wrong with concurrency?
+1. Concurrency and data races
 1. Synchronization. Critical section
 1. Practice
 
@@ -167,6 +169,7 @@ Is it **shared mutable state**?
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. **[What can go wrong with concurrency?]**
+1. Concurrency and data races
 1. Synchronization. Critical section
 1. Practice
 
@@ -202,7 +205,22 @@ Inproper usage can lead to common problems:
 - livelocks
 
 #HSLIDE
-## Data race
+## 4) Performance
+Reasoning about performance of concurrent programs is tricky
+> @see https://shipilev.net/
+
+#HSLIDE
+## Agenda
+1. Threads and processes
+1. Multiple threads in game
+1. Parallelism and Concurrency
+1. What can go wrong with concurrency?
+1. **[Concurrency and data races]**
+1. Synchronization. Critical section
+1. Practice
+
+#HSLIDE
+## Concurrency and data races
 Data races guaranties are defined by **Java Memory Model (JMM)**
 There are 3 reasons for data races according to JMM. The following guaranties are **weaker** in multithreaded environment than in single-threaded:
 - Atomicity
@@ -210,10 +228,6 @@ There are 3 reasons for data races according to JMM. The following guaranties ar
 - Ordering
 > @see ru.atom.lecture10.dataraces
 
-#HSLIDE
-## Performance
-Reasoning about performance of concurrent programs is tricky
-> @see https://shipilev.net/
 
 #HSLIDE
 ## Concurrency in different languages
@@ -296,6 +310,7 @@ JMM restrict some reorderings.
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
+1. Concurrency and data races
 1. **[1. Synchronization. Critical section]**
 1. Practice
 
@@ -361,7 +376,8 @@ class java.lang.Object {
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
-1. What to do?
+1. Concurrency and data races
+1. Synchronization. Critical section
 1. **[Practice]**
 
 #HSLIDE
