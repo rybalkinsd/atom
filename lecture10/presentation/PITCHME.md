@@ -1,7 +1,7 @@
 #HSLIDE
 # Java
 lecture 10
-## Practical Concurrency
+## Game threads
 
 #HSLIDE
 ## Отметьтесь на портале
@@ -97,28 +97,8 @@ class Thread implements Runnable {
 #HSLIDE
 ### Start and Run
 ```java
-new Thread().start();
-
 new Thread( runnable ).start();
 ```
-
-
-#HSLIDE
-### Start and Run
-<img src="lecture10/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
-
-#HSLIDE
-## Multithreaded programs are racy
-Behaviour of multithreaded program is (inter alia) dependent on **OS scheduling**
-Multithreaded programs are **racy** by nature.
-
-#HSLIDE
-## Race condition
-Race condition (состояние гони, гонка)
-program behaviour where the output is dependent on the
-sequence or timing of other uncontrollable events
-Parallel programs are racy by nature, some races are erroneous.
-> @see ru.atom.lecture10.races
 
 #HSLIDE
 ## jstack
@@ -145,15 +125,12 @@ Util to observe java process stack state.
 <img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 850px;"/>
 
 #HSLIDE
-## Multuple threads in Bomberman
-Our Bomberman is a **client-server** game.  
-Every player establishes **Session** with Server over **WebSocket**.  
-Every connection is processed in **dedicated thread** (Actually thread from some **ThreadPool**).  
-That is players are in different threads.
+### How different threads can communicate?
+As usual - they can communicate via public variables, via mutable objects.  
+### Look how our threads communicates:  
+0. Only game mechanics communicate with GameSession (so game mechanics is single-threaded)
+0. WS threads communicate with game mechanics via **thread-safe queue**
 
-#HSLIDE
-## How different threads communicate?
-As usual - they can communicate via public variables, via mutable objects.
 
 #HSLIDE
 ## Agenda
@@ -193,14 +170,54 @@ Is it **shared mutable state**?
 1. Synchronization. Critical section
 1. Practice
 
+
 #HSLIDE
 ## What if we just write concurrent program as single-threaded?
-Many things will go wrong. It depends on **Memory Model** of language.  
-First let's look at how MM is implemented in other languages and in Java.
+**Many things will go wrong**
 
+
+#HSLIDE
+## 1) Race condition
+Race condition (состояние гони, гонка)
+program behaviour where the output is dependent on the
+sequence or timing of other uncontrollable events  
+  
+Behaviour of multithreaded program is (inter alia) dependent on **OS scheduling**  
+  
+**Uncontrollable races are almost always erroneous**  
+> @see ru.atom.lecture10.races
+
+#HSLIDE
+## 2) Data races
+**Data race** - when several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**  
+ (Not the same as race conditions)
+
+Is **Bomberman** prone to data races?  
+
+#HSLIDE
+## 3) Locking problems
+Standard way to handle multi-threaded problems is using critical sections (on locks)
+Inproper usage can lead to common problems:
+- deadlocks
+- livelocks
+
+#HSLIDE
+## Data race
+Data races guaranties are defined by **Java Memory Model (JMM)**
+There are 3 reasons for data races according to JMM. The following guaranties are **weaker** in multithreaded environment than in single-threaded:
+- Atomicity
+- Visibility
+- Ordering
+> @see ru.atom.lecture10.dataraces
+
+#HSLIDE
+## Performance
+Reasoning about performance of concurrent programs is tricky
+> @see https://shipilev.net/
 
 #HSLIDE
 ## Concurrency in different languages
+First let's look at how MM is implemented in other languages and in Java.  
 Many languages have no default concurrency support (does not have **Memory Model**)
 - c (concurrency provided by **pthreads** library)
 - c++ (before C++11)
@@ -236,17 +253,6 @@ JMM was created as a trade-off between performance, complexity of JVM and abilit
 JMM considered to be one of the most successful memory models.  
 Recently Introduced C++ Memory Model is highly based on JMM.  
 
-#HSLIDE
-## Data race
-**Data race** - when several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**   
-> @see ru.atom.lecture10.dataraces
-
-Is **Bomberman** prone to data races?  
-  
-There are 3 reasons for data races according to JMM. The following guaranties are **weaker** in multithreaded environment than in single-threaded:
-- Atomicity
-- Visibility
-- Ordering
 
 #HSLIDE
 ## Atomicity
@@ -277,15 +283,6 @@ In sake of performance **javac**, **jit** and **JVM** may change your code whene
 After all, **processor** reorders instructions by himself.  
 JMM restrict some reorderings.
 > @see ru.atom.lecture10.ordering 
-
-#HSLIDE
-## Any other problems?
-Many other problems, among them:
-- deadlocks
-- livelocks
-- performance  
-Reasoning about performance of concurrent programs is tricky
-> @see https://shipilev.net/
 
 #HSLIDE
 ## What to do?
@@ -368,55 +365,8 @@ class java.lang.Object {
 1. **[Practice]**
 
 #HSLIDE
-### Queue
-Queue is a shared resource in a multithreaded environment.
-
-We will use **BlockingQueue** implementation.
-
-```java
-interface BlockingQueue<E> implements java.util.Queue<E> {
-    /** 
-     * Inserts the specified element into this queue ...
-     */
-    void put(E e);
-    
-    /**
-    * Retrieves and removes the head of this queue, waiting up to the
-    * specified wait time if necessary for an element to become available.
-    */
-    E poll(long timeout, TimeUnit unit);   
-}
-```
-
-
-#HSLIDE
-### Queue
-<img src="lecture10/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
-
-#HSLIDE
-## Reasoning about concurrent programs
-Bugs in concurrent programs are hard to reproduce. Hopefully we have toolchain for analysis of multithreaded programs.  
-**jcstress**
-http://openjdk.java.net/projects/code-tools/jcstress/  
-(requires JDK9)
-
-#HSLIDE
-### Back to the root
-
-```java
-class java.lang.Object {
-    public final native void wait(long timeout) throws InterruptedException;
-    public final native void notify();
-    public final native void notifyAll();
-}
-```
-
-#HSLIDE
-### How-to
-1. notify vs notifyAll
-2. how to wait - while approach
-
-
+## Implement threading scheme in game server
+<img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 850px;"/>
 #HSLIDE
 ### Monitors
 <img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 400px;"/>
