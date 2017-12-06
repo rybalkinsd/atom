@@ -311,7 +311,7 @@ JMM restrict some reorderings.
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
 1. Concurrency and data races
-1. **[1. Synchronization. Critical section]**
+1. **[Synchronization. Critical section]**
 1. Practice
 
 #HSLIDE
