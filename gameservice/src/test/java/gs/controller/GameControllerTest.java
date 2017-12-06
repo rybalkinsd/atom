@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class GameControllerTest {
