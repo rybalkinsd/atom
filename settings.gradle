@@ -1,5 +1,6 @@
 rootProject.name = 'atom'
 include 'lecture08'
 include 'lecture09'
+include 'gameservice'
 include 'bomberman/frontend'
 include 'homeworks/HW2'
