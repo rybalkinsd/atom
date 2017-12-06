@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * Created by Alexandr on 06.12.2017.
  */
-public class Girl extends AbstractGameObject implements Movable {
+public class Pawn extends AbstractGameObject implements Movable {
 
-    private final int velocity;
+    private float velocity;
     private int maxBombs;
     private List<Bomb> bombs;
 
-    public Girl(int id, Point position, int velocity, int maxBombs) {
+    public Pawn(int id, Point position, float velocity, int maxBombs) {
         super(id, position);
         this.velocity = velocity;
         this.maxBombs = maxBombs;
