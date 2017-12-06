@@ -1,13 +1,8 @@
 package gs;
 
-import gs.message.Message;
-import gs.message.Topic;
-import gs.model.Bomb;
-import gs.model.Wall;
+import gs.replicator.Replicator;
 import gs.network.Broker;
 import gs.network.ConnectionPool;
-import gs.util.JsonHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -19,8 +14,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 public class GameHandler extends TextWebSocketHandler implements WebSocketHandler {
 
     private GameSession gs = new GameSession(4);
+    private GameMechanics gameMechanics = new GameMechanics();//TODO удалить после реализации Tick
     private final long tickTime = 5;
     private final ConnectionPool connectionPool;
+
     public GameHandler() {
         this.connectionPool = ConnectionPool.getInstance();
     }
@@ -42,9 +39,9 @@ public class GameHandler extends TextWebSocketHandler implements WebSocketHandle
 
         gs.initCanvas();
         gs.setSession(session);
-        Replicator replicator=new Replicator();
-        replicator.writeReplica(gs,cp);
-
+        gameMechanics.writeReplica(gs, cp);
+        //TODO вызывать не здесь, а после тика?
+        gameMechanics.read();
         /*Thread thread = new Thread(new Runnable() {
 
             @Override
@@ -67,14 +64,15 @@ public class GameHandler extends TextWebSocketHandler implements WebSocketHandle
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("Received " + message.toString());
-        System.out.println(message.getPayload());
+        // System.out.println("Received " + message.toString());
+        //System.out.println(message.getPayload());
         Broker broker = new Broker();
         broker.receive(session, message.getPayload());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+        gameMechanics.clear();
         System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
         super.afterConnectionClosed(session, closeStatus);
     }

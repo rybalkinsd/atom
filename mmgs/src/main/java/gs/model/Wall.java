@@ -9,6 +9,7 @@ public class Wall extends Field implements Positionable {
 
     private final int id;
     private Point point;
+
     public enum Type {
         Wood, Wall, Grass
     }
@@ -34,7 +35,8 @@ public class Wall extends Field implements Positionable {
 
     public String toJson() {
         Point pos = getPosition();
-        String obj = "{\"type\":\"" + type.name() + "\",\"id\":" + this.getId() + ",\"position\":{\"x\":" + pos.getX() + ",\"y\":" + pos.getY() + "}}";
+        String obj = "{\"type\":\"" + type.name() + "\",\"id\":" + this.getId() +
+                ",\"position\":{\"x\":" + pos.getX() + ",\"y\":" + pos.getY() + "}}";
         return obj;
     }
 }

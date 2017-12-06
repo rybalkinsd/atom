@@ -7,7 +7,6 @@ import gs.model.Wall;
 import gs.tick.Tickable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 import gs.geometry.Point;
 import gs.model.Wall.Type;
@@ -31,8 +30,8 @@ public class GameSession implements Tickable {
 
     Pawn pawn;
     private final int playerCount;
-    private final long Id = idGenerator.getAndIncrement();
-    private int id=0;
+    private final long iD = idGenerator.getAndIncrement();
+    private int id = 0;
     private WebSocketSession session;
 
     public void setSession(WebSocketSession session) {
@@ -47,9 +46,9 @@ public class GameSession implements Tickable {
         this.playerCount = playerCount;
     }
 
-   void Test(){
-        Point point =new Point(1,1);
-        allWalls.put(point, new Wall(1,1, Wall.Type.Wall, 1));
+    void test() {
+        Point point = new Point(1, 1);
+        allWalls.put(point, new Wall(1, 1, Wall.Type.Wall, 1));
         Wall obj = allWalls.get(point);
         System.out.println(allWalls.values());
         System.out.println(obj);
@@ -57,7 +56,7 @@ public class GameSession implements Tickable {
     }
 
     public void initCanvas() {
-        pawn = new Pawn(32,32,300);
+        pawn = new Pawn(32, 32, 300);
 
         for (int i = 0; i < 13; ++i) {
             for (int k = 0; k < 17; ++k) {
@@ -102,12 +101,12 @@ public class GameSession implements Tickable {
     }
 
     public String jsonStringWalls() {
-        String objJSON = "";
+        String objjson = "";
         for (Point p : allWalls.keySet()) {
             Wall obj = allWalls.get(p);
-            objJSON = objJSON + obj.toJson() + ",";
+            objjson = objjson + obj.toJson() + ",";
         }
-        String result = objJSON.substring(0, (objJSON.length() - 1));
+        String result = objjson.substring(0, (objjson.length() - 1));
         return result;
     }
 
@@ -115,12 +114,12 @@ public class GameSession implements Tickable {
         if (allBombs.size() == 0) {
             return null;
         } else {
-            String objJSON = "";
+            String objjson = "";
             for (Integer i : allBombs.keySet()) {
                 Bomb obj = allBombs.get(i);
-                objJSON = objJSON + obj.toJson() + ",";
+                objjson = objjson + obj.toJson() + ",";
             }
-            String result = objJSON.substring(0, (objJSON.length() - 1));
+            String result = objjson.substring(0, (objjson.length() - 1));
             return result;
         }
     }
@@ -129,23 +128,23 @@ public class GameSession implements Tickable {
         if (allExplosions.size() == 0) {
             return null;
         } else {
-            String objJSON = "";
+            String objjson = "";
             for (Integer i : allExplosions.keySet()) {
                 Explosion obj = allExplosions.get(i);
-                objJSON = objJSON + obj.toJson() + ",";
+                objjson = objjson + obj.toJson() + ",";
             }
-            String result = objJSON.substring(0, (objJSON.length() - 1));
+            String result = objjson.substring(0, (objjson.length() - 1));
             return result;
         }
     }
 
 
-    private int incId(){
+    private int incId() {
         return id++;
     }
 
-    public long getId() {
-        return Id;
+    public long getiD() {
+        return iD;
     }
 
     public Pawn getPawn() {
