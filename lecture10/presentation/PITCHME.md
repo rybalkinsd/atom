@@ -142,7 +142,7 @@ Util to observe java process stack state.
 
 #HSLIDE
 ## Game Server threads in Bomberman
-<img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 750px;"/>
+<img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 800px;"/>
 
 #HSLIDE
 ## Multuple threads in Bomberman
