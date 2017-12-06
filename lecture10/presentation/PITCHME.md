@@ -128,8 +128,7 @@ Util to observe java process stack state.
 # show all java processes
 > jcmd
 # get report
-> jstack <pid> > report.info
-> less report.info
+> jstack <pid>
 ```
 
 #HSLIDE
@@ -140,6 +139,10 @@ Util to observe java process stack state.
 1. What can go wrong with concurrency?
 1. Synchronization. Critical section
 1. Practice
+
+#HSLIDE
+## Game Server threads in Bomberman
+<img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
 ## Multuple threads in Bomberman
