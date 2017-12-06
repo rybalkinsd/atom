@@ -28,6 +28,7 @@ public class RemoveSessionTest {
     }
 
     @Test
+    @Ignore
     public void removeTest() {
         SessionStorage.addSession(3);
         WebSocketSession session = new WebSocketSession() {

@@ -16,6 +16,7 @@ public class SessionStorageTest {
     }
 
     @Test
+    @Ignore
     public void storageTest() {
         assertFalse(SessionStorage.containsGameSession(1));
         for (int i = 0; i < 5; i++) SessionStorage.addSession(4);

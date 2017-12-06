@@ -24,6 +24,7 @@ public class GameControllerIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void list() throws Exception {
         this.mockMvc.perform(post("/game/create")
                 .content("id=1&name=Alice")
