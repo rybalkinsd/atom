@@ -3,3 +3,5 @@ include 'lecture08'
 include 'lecture09'
 include 'bomberman/frontend'
 include 'homeworks/HW2'
+include 'game_server'
+
