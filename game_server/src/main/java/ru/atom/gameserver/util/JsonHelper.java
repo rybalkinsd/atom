@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -30,6 +31,11 @@ public final class JsonHelper {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NotNull
+    public static ObjectNode getJsonNode(@NotNull Object object) {
+        return mapper.valueToTree(object);
     }
 
     @NotNull

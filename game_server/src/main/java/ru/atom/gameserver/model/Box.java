@@ -1,9 +1,12 @@
 package ru.atom.gameserver.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.gameserver.geometry.Point;
 
 public class Box extends AbstractGameObject {
 
+    @JsonProperty("buffType")
     private Buff.BuffType buffType = null;
 
     public Box(int id, Point position) {

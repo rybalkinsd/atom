@@ -1,5 +1,7 @@
 package ru.atom.gameserver.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.gameserver.geometry.Point;
 
 /**
@@ -7,7 +9,9 @@ import ru.atom.gameserver.geometry.Point;
  */
 public abstract class AbstractGameObject implements GameObject {
 
+    @JsonProperty("id")
     private final int id;
+    @JsonProperty("position")
     private final Point position;
 
     public AbstractGameObject(int id, Point position) {
