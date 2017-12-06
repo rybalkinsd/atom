@@ -22,7 +22,7 @@ Refresh gradle project
 1. Multiple threads in game
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
-1. What to do?
+1. Synchronization. Critical section
 1. Practice
 
 #HSLIDE
@@ -180,7 +180,7 @@ Is it **shared mutable state**?
 
 
 #HSLIDE
-## 1) Race condition
+## 1. Race condition
 Race condition (состояние гони, гонка)
 program behaviour where the output is dependent on the
 sequence or timing of other uncontrollable events  
@@ -191,21 +191,21 @@ Behaviour of multithreaded program is (inter alia) dependent on **OS scheduling*
 > @see ru.atom.lecture10.races
 
 #HSLIDE
-## 2) Data races
+## 2. Data races
 **Data race** - when several processes communicate via **shared mutable state** and at least one is writing **without proper synchronization**  
  (Not the same as race conditions)
 
 Is **Bomberman** prone to data races?  
 
 #HSLIDE
-## 3) Locking problems
+## 3. Locking problems
 Standard way to handle multi-threaded problems is using critical sections (on locks)
 Inproper usage can lead to common problems:
 - deadlocks
 - livelocks
 
 #HSLIDE
-## 4) Performance
+## 4. Performance
 Reasoning about performance of concurrent programs is tricky
 > @see https://shipilev.net/
 
