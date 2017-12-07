@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class GameServerApp {
     public static void main(String[] args) {
         SpringApplication.run(GameServerApp.class, args);
+        GameServerService.run();
     }
 
 }

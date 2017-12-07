@@ -33,7 +33,7 @@ public class MatchMakerController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> join(@RequestParam("name") String name) {
-        Player alreadyInGame = mmService.getPlayerByName(name);
+        /*Player alreadyInGame = mmService.getPlayerByName(name);
         if (name == null || name == "") {
             return ResponseEntity.badRequest()
                     .body("Enter your name");
@@ -41,7 +41,7 @@ public class MatchMakerController {
         if (alreadyInGame != null) {
             return ResponseEntity.badRequest()
                     .body("Already in game");
-        }
+        }*/
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 

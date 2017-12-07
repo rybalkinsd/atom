@@ -75,6 +75,7 @@ ServerProxy = Class.extend({
         };
 
         this.socket.onmessage = function (event) {
+            console.log(event.data);
             var msg = JSON.parse(event.data);
             if (self.handler[msg.topic] === undefined)
                 return;

@@ -66,12 +66,12 @@ public class MatchMakerService {
 
     @Transactional
     public void saveGame(Game game) {
-        gameDao.save(game);
+        //gameDao.save(game);
     }
 
     @Transactional
     public void savePlayer(Player player) {
-        playerDao.save(player);
+        //playerDao.save(player);
     }
 
 
