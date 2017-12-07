@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -35,18 +36,45 @@ public class ConnectionHandler extends TextWebSocketHandler implements WebSocket
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        Pair<Long, String> idLoginPair = getParameters(session.getUri().toString());
+        Long gameId = idLoginPair.getKey();
+        if (!sessionUnion.containsKey(gameId)) {
+            logger.warn("connection handler has not gameId " + gameId);
+            return;
+        }
+        Set<WebSocketSession> webSocketSessions = sessionUnion.get(gameId);
+        webSocketSessions.remove(session);
+        if (webSocketSessions.isEmpty()) {
+            sessionUnion.remove(gameId);
+        }
 
         logger.info("ws connection has been closed with status code " + status.getCode());
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        Pair<Long, String> idLoginPair = getParameters(session.getUri().toString());
 
         logger.info("text message has been received");
     }
 
-    public void sendMessage(String jsonReplica) {
-
+    public void sendMessage(long gameId, String jsonMessage) {
+        if (!sessionUnion.containsKey(gameId)) {
+            logger.warn("connection handler has not gameId " + gameId);
+            return;
+        }
+        Set<WebSocketSession> webSocketSessions = sessionUnion.get(gameId);
+        for (WebSocketSession webSocketSession : webSocketSessions) {
+            if (webSocketSession.isOpen()) {
+                try {
+                    webSocketSession.sendMessage(new TextMessage(jsonMessage));
+                } catch (IOException exception) {
+                    logger.warn(exception.getMessage());
+                }
+            } else {
+                logger.warn("web socket " + webSocketSession + " is not opened");
+            }
+        }
         logger.info("text message has been sent");
     }
 
