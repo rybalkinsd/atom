@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Broken implementation of billing service
+ * Money are lost here
+ */
 @Controller
 @RequestMapping("billing")
 public class BillingResource {
     private Map<String, Integer> userToMoney = new HashMap<>();
 
     /**
-     * curl -XPOST localhost:8080/billing/addUser -d "user=Sasha&money=100000"
-     * curl -XPOST localhost:8080/billing/addUser -d "user=Sergey&money=100000"
+     * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
+     * curl -XPOST localhost:8080/billing/addUser -d "user=sergey&money=100000"
      */
     @RequestMapping(
             path = "addUser",
