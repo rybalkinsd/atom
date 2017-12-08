@@ -1,7 +1,8 @@
-package ru.atom.gameserver.replicate;
+package ru.atom.gameserver.gsession;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import ru.atom.gameserver.component.ConnectionHandler;
 import ru.atom.gameserver.message.Message;
 import ru.atom.gameserver.message.Topic;
 import ru.atom.gameserver.model.GameObject;
@@ -9,15 +10,20 @@ import ru.atom.gameserver.util.JsonHelper;
 
 import java.util.List;
 
-/**
- * Created by Alexandr on 05.12.2017.
- */
 public class Replicator {
+
+    private final Long gameId;
+    private final ConnectionHandler connectionHandler;
+
+    public Replicator(Long gameId, ConnectionHandler connectionHandler) {
+        this.gameId = gameId;
+        this.connectionHandler = connectionHandler;
+    }
 
     public Message writeReplica(List<GameObject> objects, boolean gameOverFlag) {
         ObjectNode node = getJsonNode(objects, gameOverFlag);
         Message message = new Message(Topic.REPLICA, node);
-        //pass the message to ConnectionHandler
+        connectionHandler.sendMessage(gameId, message);
         return message;
     }
 
@@ -32,5 +38,4 @@ public class Replicator {
         rootObject.put("gameOver", gameOverFlag);
         return rootObject;
     }
-
 }
