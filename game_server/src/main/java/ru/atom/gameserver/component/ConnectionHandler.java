@@ -4,12 +4,13 @@ import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import ru.atom.gameserver.message.Message;
+import ru.atom.gameserver.util.JsonHelper;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -52,8 +53,14 @@ public class ConnectionHandler extends TextWebSocketHandler implements WebSocket
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
         Pair<Long, String> idLoginPair = getParameters(session.getUri().toString());
+        Long gameId = idLoginPair.getKey();
+        if (!sessionUnion.containsKey(gameId)) {
+            logger.warn("connection handler has not gameId " + gameId);
+            return;
+        }
+        Message message = JsonHelper.fromJson(textMessage.toString(), Message.class);
 
         logger.info("text message has been received");
     }
