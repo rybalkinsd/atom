@@ -7,6 +7,7 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Grass'] = this.handleTile;
     },
 
     move: function (direction) {
@@ -41,7 +42,7 @@ Messages = Class.extend({
             survivors.add(obj.id);
             gMessages.handler[obj.type](obj);
         }
-        gGameEngine.gc(survivors);
+        //gGameEngine.gc(survivors);
     },
 
     handlePossess: function (msg) {

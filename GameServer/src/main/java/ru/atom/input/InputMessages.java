@@ -1,4 +1,6 @@
-package ru.atom;
+package ru.atom.input;
+
+import ru.atom.message.Message;
 
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,4 +11,12 @@ public class InputMessages {
     public static ConcurrentHashMap<String, Vector<Message>> getInstance() {
         return instance;
     }
+
+    public static void addEntry(String name) {
+        instance.put(name, new Vector<Message>());
+    }
+
+
+
+
 }

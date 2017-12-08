@@ -5,6 +5,7 @@ import ru.atom.geometry.GeomObject;
 import ru.atom.geometry.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.tick.Tickable;
 
 import java.time.Duration;
 

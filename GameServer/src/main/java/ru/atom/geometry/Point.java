@@ -2,19 +2,19 @@ package ru.atom.geometry;
 
 //TODO insert your implementation of geometry here
 public class Point implements GeomObject {
-    private final int x;
-    private final int y;
+    private final float x;
+    private final float y;
 
-    public Point(int x, int y) {
+    public Point(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -31,8 +31,8 @@ public class Point implements GeomObject {
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
+        int result = 0;
+        result = (int)( 31 * result + y);
         return result;
     }
 
@@ -51,7 +51,7 @@ public class Point implements GeomObject {
 
     @Override
     public String toString() {
-        return "\"position\":{\"x\":" + x + ",\"y\":" + y + "}";
+        return "\"position\":{\"x\":" + (int)x + ",\"y\":" + (int)y + "}";
     }
 
 }

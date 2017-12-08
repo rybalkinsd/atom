@@ -12,9 +12,7 @@ public class Girl extends MovableFormedGameObject {
 
     public Girl(GeomObject geomObject, float velocity) {
         super(geomObject, velocity);
-        log.info(" [id = " + this.getId() + "] Created: Girl( " + geomObject.toString() +
-                ", velocity = " + velocity +
-                " )");
+        log.info(this.toString());
     }
 
     public void setBomb() {

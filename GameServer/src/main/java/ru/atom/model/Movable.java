@@ -1,6 +1,7 @@
 package ru.atom.model;
 
 import ru.atom.geometry.Point;
+import ru.atom.tick.Tickable;
 
 /**
  * GameObject that can move during game

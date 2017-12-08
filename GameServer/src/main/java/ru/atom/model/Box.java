@@ -23,4 +23,12 @@ public class Box extends FormedGameObject {
     public Feed.FeedType getFeedType() {
         return feedType;
     }
+
+    @Override
+    public String toString() {
+        return "{" + getForm().toString() +
+                ",\"id\":" + getId() +
+                ",\"type\":\"Wood\"" +
+                "}";
+    }
 }

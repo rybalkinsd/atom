@@ -39,8 +39,8 @@ public abstract class MovableFormedGameObject extends FormedGameObject implement
                 default:    { }
             }
             super.geomObject = new Rectangle(
-                    new Point((int) (super.getPosition().getX() + kx * velocity * time),
-                              (int) (super.getPosition().getY() + ky * velocity * time)),
+                    new Point(super.getPosition().getX() + kx * velocity * time,
+                              super.getPosition().getY() + ky * velocity * time),
                     ((Rectangle)super.getForm()).getWidth(),
                     ((Rectangle)super.getForm()).getHeight());
 

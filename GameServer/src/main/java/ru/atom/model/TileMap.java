@@ -44,8 +44,8 @@ public class TileMap {
         List<Tile> tempTiles = new ArrayList<>();
         if (geomObject instanceof Rectangle) {
             Rectangle rectangle = (Rectangle) geomObject;
-            int startColumn = rectangle.getPosition().getX() / tileWidth;
-            int startRow = rectangle.getPosition().getY() / tileHeight;
+            int startColumn = (int)rectangle.getPosition().getX() / tileWidth;
+            int startRow = (int)rectangle.getPosition().getY() / tileHeight;
             int endRow = startRow + rectangle.getHeight() / tileHeight + 1;
             int endColumn = startColumn + rectangle.getWidth() / tileWidth + 1;
             for (int row = startRow; row < endRow; row++) {

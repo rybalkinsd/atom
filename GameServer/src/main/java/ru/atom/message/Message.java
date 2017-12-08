@@ -1,4 +1,4 @@
-package ru.atom;
+package ru.atom.message;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,11 +19,11 @@ public class Message {
         this.data = data.toString();
     }
 
-    Topic getTopic() {
-        return topic;
+    public Topic getTopic() {
+        return this.topic;
     }
 
-    String getData() {
-        return data;
+    public String getData() {
+        return this.data;
     }
 }

@@ -1,4 +1,4 @@
-package ru.atom.model;
+package ru.atom.tick;
 
 /**
  * Any game object that changes with time
