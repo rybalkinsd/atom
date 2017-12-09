@@ -32,17 +32,25 @@ Messages = Class.extend({
 
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data).objects;
-        var survivors = new Set();
+        var survivors =  new Set();
+        var deleted= JSON.parse(msg.data).deleted;
+
+        for (var i = 0; i < deleted.length; i++) {
+            var deletedObj = deleted[i];
+            /*if (gMessages.handler[obj.type] == undefined)
+                continue;*/
+            survivors.add(deletedObj.id);
+        }
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
-            if (gMessages.handler[obj.type] === undefined)
-                continue;
+            /*if (gMessages.handler[obj.type] === undefined)
+                continue;*/
 
-            survivors.add(obj.id);
+            //survivors.add(deletedObj.id);
             gMessages.handler[obj.type](obj);
         }
-        //gGameEngine.gc(survivors);
+        gGameEngine.gc(survivors);
     },
 
     handlePossess: function (msg) {

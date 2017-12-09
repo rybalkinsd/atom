@@ -3,37 +3,41 @@ package ru.atom.service;
 import ru.atom.message.Message;
 import ru.atom.message.Topic;
 import ru.atom.model.GameModel;
+import ru.atom.model.TileMap;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Replicator {
 
-    public static Message getBackGround() {
+    static Message getBackGroundReplica(GameModel gameModel) {
+        TileMap map = gameModel.getTileMap();
         String replica = "{\"objects\":[";
-        for (int i = 0; i < 17; i++) {
-            for (int j = 0; j < 13; j++) {
-                replica = replica.concat("{\"position\":{\"x\":" + i + ",\"y\":" + j + "}" +
-                        ",\"id\":" + (i*16+j + 10000) +
+        ArrayList<String> grassTiles = new ArrayList<String>(map.getHeight() * map.getWidth());
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getHeight(); j++) {
+                grassTiles.add("{\"position\":{\"x\":" + i + ",\"y\":" + j + "}" +
+                        ",\"id\":" + GameModel.generateGameObjectId() +
                         ",\"type\":\"Grass\"" +
-                        "},");
+                        "}");
             }
         }
-        replica = replica.concat("{\"position\":{\"x\":" + 13 + ",\"y\":" + 17 + "}" +
-                ",\"id\":" + (16*16+13+10000) +
-                ",\"type\":\"Grass\"" +
-                "}");
-
+        replica = replica.concat(grassTiles.stream().collect(Collectors.joining(", ")).toString());
+        replica = replica.concat("],\"deleted\":[");
         replica = replica.concat("],\"gameOver\":false}");
         return new Message(Topic.REPLICA, replica);
 
     }
+
 
     public static Message getReplica(GameModel gameModel) {
         String replica = "{\"objects\":[";
 
         replica = replica.concat(gameModel.changed.entrySet().stream().map(girlEntry ->
                 girlEntry.getValue().toString()).collect(Collectors.joining(",")).toString());
-
+        replica = replica.concat("],\"deleted\":[");
+        replica = replica.concat(gameModel.deleted.entrySet().stream().map(girlEntry ->
+                girlEntry.getValue().toString()).collect(Collectors.joining(",")).toString());
         replica = replica.concat("],\"gameOver\":false}");
         return new Message(Topic.REPLICA, replica);
 

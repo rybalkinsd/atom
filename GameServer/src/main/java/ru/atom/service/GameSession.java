@@ -28,6 +28,7 @@ public class GameSession implements Tickable, Comparable<GameSession>{
     private GameModel gameModel = new GameModel();
     private ArrayList<Player> players = new ArrayList<>();
     private Ticker ticker = new Ticker();
+    private Message backGroundReplica;
 
     public long getId() {
         return this.id;
@@ -35,6 +36,7 @@ public class GameSession implements Tickable, Comparable<GameSession>{
 
     public GameSession(int playersAmount) {
         this.playersAmount = playersAmount;
+        backGroundReplica = Replicator.getBackGroundReplica(gameModel);
     }
 
 
@@ -45,8 +47,7 @@ public class GameSession implements Tickable, Comparable<GameSession>{
         if (players.size() != playersAmount) {
             players.add(player);
             Broker.getInstance().send(playerName, Topic.POSSESS, player.getId());
-            Message message = Replicator.getBackGround();
-            Broker.getInstance().send(playerName, message);
+            Broker.getInstance().send(playerName, backGroundReplica);
             log.info("New player name: " + playerName + " playerId: " + player.getId());
             if (players.size() == playersAmount) {
                 ticker.registerTickable(this);
