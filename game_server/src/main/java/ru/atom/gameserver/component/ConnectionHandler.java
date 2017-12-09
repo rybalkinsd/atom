@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ConnectionHandler extends TextWebSocketHandler implements WebSocketHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(ConnectionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionHandler.class);
     private Map<Long, Set<WebSocketSession>> sessionUnion = new ConcurrentHashMap<>();
 
     @Autowired
