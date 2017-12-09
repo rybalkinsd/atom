@@ -1,9 +1,11 @@
 .gradle/
 /gradle/
-/out/
 build/
 
 .idea/
+/*/out/
 /*/build/
 /*/classes
 /classes
+*.DS_Store
+*.iml

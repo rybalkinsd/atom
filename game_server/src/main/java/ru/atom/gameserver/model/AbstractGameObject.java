@@ -2,16 +2,16 @@ package ru.atom.gameserver.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import ru.atom.gameserver.geometry.Point;
 
 /**
  * Created by Alexandr on 05.12.2017.
  */
+@JsonPropertyOrder({"id", "position"})
 public abstract class AbstractGameObject implements GameObject {
 
-    @JsonProperty("id")
     private final int id;
-    @JsonProperty("position")
     private final Point position;
 
     public AbstractGameObject(int id, Point position) {

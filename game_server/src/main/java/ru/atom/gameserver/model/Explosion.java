@@ -1,12 +1,10 @@
 package ru.atom.gameserver.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.gameserver.geometry.Point;
 import ru.atom.gameserver.tick.Tickable;
 
 public class Explosion extends AbstractGameObject implements Tickable {
 
-    @JsonProperty("lifetime")
     private long lifetime;
 
     public Explosion(int id, Point position, long lifetime) {

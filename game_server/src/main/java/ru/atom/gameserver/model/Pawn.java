@@ -1,8 +1,6 @@
 package ru.atom.gameserver.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.atom.gameserver.geometry.Point;
 
 import java.util.ArrayList;
@@ -13,13 +11,9 @@ import java.util.List;
  */
 public class Pawn extends AbstractGameObject implements Movable {
 
-    @JsonProperty("velocity")
     private float velocity;
-    @JsonProperty("maxBombs")
     private int maxBombs;
-    @JsonProperty("bombPower")
     private int bombPower;
-    @JsonProperty("speedModifier")
     private float speedModifier;
     @JsonIgnore
     private List<Bomb> bombs;

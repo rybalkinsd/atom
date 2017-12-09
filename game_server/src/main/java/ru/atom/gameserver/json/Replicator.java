@@ -1,4 +1,4 @@
-package ru.atom.gameserver.replicate;
+package ru.atom.gameserver.json;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
