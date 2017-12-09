@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GameRepository {
 
-    private Map<Long, GameSession> games = new ConcurrentHashMap<>();
+    private final Map<Long, GameSession> games = new ConcurrentHashMap<>();
 
     @Autowired
     private ConnectionHandler connectionHandler;

@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionHandler extends TextWebSocketHandler implements WebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectionHandler.class);
-    private Map<Long, Set<WebSocketSession>> sessionUnion = new ConcurrentHashMap<>();
+    private final Map<Long, Set<WebSocketSession>> sessionUnion = new ConcurrentHashMap<>();
 
     @Autowired
     private GameRepository gameRepository;
