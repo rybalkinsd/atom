@@ -52,7 +52,7 @@ ServerProxy = Class.extend({
                 console.log("Matchmaker request failed, use default gameId=" + that.gameId);
                 that.connectToGameServer(that.gameId, login);
             },
-            processData: false,
+            //processData: false
             type: 'POST',
             url: that.matchMakerUrl
         });
