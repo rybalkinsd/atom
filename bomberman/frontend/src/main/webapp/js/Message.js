@@ -115,7 +115,7 @@ Messages = Class.extend({
 
         var position = Utils.getEntityPosition(obj.position);
         if (bonus) {
-            bonus.material = obj.type;
+            bonus.type = bonus.types[obj.type];
         } else {
             bonus = new Bonus(obj.id, position, obj.type);
             gGameEngine.bonuses.push(bonus);
