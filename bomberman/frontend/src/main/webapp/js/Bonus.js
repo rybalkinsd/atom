@@ -5,7 +5,8 @@ Bonus = Entity.extend({
     position: {},
     bmp: null,
 
-    init: function(position, typePosition) {
+    init: function(id, position, typePosition) {
+		this.id = id;
         this.type = this.types[typePosition];
 
         this.position = position;
