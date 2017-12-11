@@ -7,7 +7,7 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
-		this.handler['Bonus'] = this.handleBonus;
+        this.handler['Bonus'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -106,21 +106,21 @@ Messages = Class.extend({
             fire = new Fire(obj.id, position);
             gGameEngine.fires.push(fire);
         }
-    }
+    },
 
-	handleBonus: function (obj) {
-		var bonus = gGameEngine.bonuses.find(function (el) {
+    handleBonus: function (obj) {
+        var bonus = gGameEngine.bonuses.find(function (el) {
             return el.id === obj.id;
         });
-		
-		var position = Utils.getEntityPosition(obj.position);
+
+        var position = Utils.getEntityPosition(obj.position);
         if (bonus) {
             bonus.material = obj.type;
         } else {
             bonus = new Bonus(obj.id, position, obj.type);
             gGameEngine.bonuses.push(bonus);
         }
-	}
+    }
 });
 
 gMessages = new Messages();
