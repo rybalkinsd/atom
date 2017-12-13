@@ -9,7 +9,7 @@ public class Wall extends GameObject {
     private static final int WALL_HEIGHT = 32;
 
     public Wall(GameSession session, Point position) {
-        super(session, position, WALL_WIDTH, WALL_HEIGHT);
+        super(session, position, "Wall", WALL_WIDTH, WALL_HEIGHT);
         logger.info("New Wall id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 }

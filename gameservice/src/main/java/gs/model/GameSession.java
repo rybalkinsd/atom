@@ -1,6 +1,8 @@
 package gs.model;
 
 import gs.geometry.Point;
+import gs.message.Message;
+import gs.message.Topic;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public class GameSession implements Tickable {
     private final int playerCount;
     private final long id;
     //ID for game objects
-    private int lastId = 0;
+    private int lastId = -1;
 
     public GameSession(int playerCount, long id) {
         this.playerCount = playerCount;
@@ -20,8 +22,35 @@ public class GameSession implements Tickable {
         Util.generateMap(this);
     }
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public GameObject getById(int id) {
+        for(GameObject i :gameObjects) {
+            if(i.getId() == id) return i;
+        }
+        return null;
+    }
+
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
+    }
+
+    public void addPlayer(int id) {
+        Point position;
+        switch (id) {
+            case 1 : position = new Point(1, 1);
+                break;
+            case 2 : position = new Point(15, 11);
+                break;
+            case 3 : position = new Point(15, 1);
+                break;
+            case 4 : position = new Point(1, 11);
+                break;
+            default : position = new Point(1, 1);
+        }
+        addGameObject(new Girl(this, position));
     }
 
     public boolean removeById(int id) {
@@ -43,6 +72,10 @@ public class GameSession implements Tickable {
         return null; //TODO: Exception??
     }
 
+    public Message initReplica() {
+        return new Message(Topic.REPLICA, gameObjects.toString());
+    }
+
     public void addGameObject(GameObject gameObject) {
         gameObjects.add(gameObject);
     }
@@ -54,6 +87,8 @@ public class GameSession implements Tickable {
     public long getId() {
         return id;
     }
+
+    public int getLastId() {return lastId;}
 
     @Override
     public void tick(int elapsed) {

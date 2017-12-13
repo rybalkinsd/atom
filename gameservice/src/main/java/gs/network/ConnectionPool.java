@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionPool {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private static final ConnectionPool instance = new ConnectionPool();
-    private static final int PARALLELISM_LEVEL = 4;
+    private static final int PARALLELISM_LEVEL = 2;
 
     private final ConcurrentHashMap<WebSocketSession, String> pool;
 

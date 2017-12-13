@@ -25,6 +25,14 @@ public final class Util {
                 }
             }
         }
+        for (int i = 3; i < 10; i++) {
+            addBrick(session, new Point(15, i));
+            addBrick(session, new Point(1, i));
+        }
+        for (int i = 3; i < 14; i++) {
+            addBrick(session, new Point(i, 11));
+            addBrick(session, new Point(i, 1));
+        }
     }
 
     private static void addBrick(GameSession session, Point position) {

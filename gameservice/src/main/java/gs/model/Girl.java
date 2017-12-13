@@ -5,15 +5,16 @@ import org.slf4j.LoggerFactory;
 
 public class Girl extends GameObject implements Movable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Girl.class);
-    private static final int GIRL_WIDTH = 48;
-    private static final int GIRL_HEIGHT = 48;
+    private static final int GIRL_WIDTH = 32;
+    private static final int GIRL_HEIGHT = 32;
 
-    private int speed = 30;
-    private int bombCapacity = 1;
-    private int bombRange = 1;
+    private transient int speed = 30;
+    private transient int bombCapacity = 1;
+    private transient int bombRange = 1;
 
     public Girl(GameSession session, Point position) {
-        super(session, position, GIRL_WIDTH, GIRL_HEIGHT);
+        super(session, new Point(position.getX() * GIRL_WIDTH, position.getY() * GIRL_HEIGHT),
+                "Pawn", GIRL_WIDTH, GIRL_HEIGHT);
         logger.info("New Girl id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 
@@ -54,11 +55,6 @@ public class Girl extends GameObject implements Movable {
                 return position;
         }
         return position;
-    }
-
-    @Override
-    public void tick(int elapsed) {
-        throw new UnsupportedOperationException();
     }
 
     public void moveLog(Direction direction, int oldX, int oldY, int x, int y) {

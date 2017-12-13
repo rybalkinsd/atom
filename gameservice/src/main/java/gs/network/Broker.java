@@ -28,9 +28,8 @@ public class Broker {
         //TODO TASK2 implement gs.message processing
     }
 
-    public void send(@NotNull String player, @NotNull Topic topic, @NotNull Object object) {
+    public void send(@NotNull WebSocketSession session, @NotNull Topic topic, @NotNull Object object) {
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
-        WebSocketSession session = connectionPool.getSession(player);
         connectionPool.send(session, message);
     }
 

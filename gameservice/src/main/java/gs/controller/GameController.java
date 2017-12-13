@@ -1,5 +1,8 @@
 package gs.controller;
 
+import gs.storage.SessionStorage;
+import gs.storage.TickerStorage;
+import gs.ticker.Ticker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,9 @@ public class GameController {
     @Autowired
     GameService gameService;
 
+    @Autowired
+    SessionStorage sessionStorage;
+
     @RequestMapping(
             path = "create",
             method = RequestMethod.POST,
@@ -29,5 +35,17 @@ public class GameController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<Long>(gameId, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            path = "start",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Long> start(@RequestParam("gameId") long gameId) {
+        Ticker ticker = new Ticker(sessionStorage.getSessionById(gameId));
+        sessionStorage.putTicker(ticker, sessionStorage.getSessionById(gameId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
