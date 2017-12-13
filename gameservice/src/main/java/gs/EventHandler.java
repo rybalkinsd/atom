@@ -1,9 +1,21 @@
 package gs;
 
+import gs.geometry.Point;
+import gs.message.Message;
+import gs.message.Topic;
+import gs.model.GameSession;
+import gs.model.Girl;
+import gs.network.Broker;
+import gs.network.ConnectionPool;
 import gs.storage.SessionStorage;
+import gs.storage.TickerStorage;
+import gs.ticker.Action;
+import gs.ticker.Ticker;
+import gs.util.JsonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -11,6 +23,8 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.HashMap;
 
 @Component
 public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
@@ -24,13 +38,31 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         MultiValueMap<String, String> parameters =
                 UriComponentsBuilder.fromUri(session.getUri()).build().getQueryParams();
         String idParam = parameters.get("gameId").toString();
+        String name = parameters.get("name").toString();
+        name = name.substring(1, name.length() - 1);
         long gameId = Long.parseLong(idParam.substring(1, idParam.length() - 1));
         storage.addByGameId(gameId, session);
+        GameSession gameSession = storage.getSessionById(gameId);
+        ConnectionPool.getInstance().add(session, name);
+        int data = storage.getId(gameId);
+        Broker.getInstance().send(session, Topic.POSSESS, data);
+        gameSession.addPlayer(data);
+        storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
+        Broker.getInstance().send(session, Topic.REPLICA, storage.getSessionById(gameId).getGameObjects());
+        if(gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
+            Ticker ticker = new Ticker(gameSession);
+            storage.putTicker(ticker, gameSession);
+            ticker.setName("gameId : " + gameId);
+            ticker.start();
+        }
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("Received " + message.toString());
+        Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
+        System.out.println(msg.toString());
+        Action action = new Action(msg.getTopic(), storage.getGirlBySocket(session), msg.getData());
+        storage.putAction(storage.getByWebsocket(session), action);
     }
 
     @Override

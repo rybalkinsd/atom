@@ -19,12 +19,19 @@ public class Message {
         this.data = data.toString();
     }
 
-    Topic getTopic() {
+    public Topic getTopic() {
         return topic;
     }
 
-    String getData() {
+    public String getData() {
         return data;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" +
+                "topic=" + topic +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

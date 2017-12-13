@@ -2,7 +2,7 @@ package gs.model;
 
 import gs.geometry.Point;
 
-public interface Movable extends Tickable {
+public interface Movable {
     /**
      * Tries to move entity towards specified direction for time
      *

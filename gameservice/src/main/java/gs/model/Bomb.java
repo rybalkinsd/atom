@@ -9,12 +9,12 @@ public class Bomb extends GameObject implements Tickable {
     private static final int BOMB_WIDTH = 28;
     private static final int BOMB_HEIGHT = 28;
 
-    private Girl owner;
-    private int rangeOfExplosion = 1;
-    private int elapsed = 0;
+    private transient Girl owner;
+    private transient int rangeOfExplosion = 1;
+    private transient int elapsed = 0;
 
     public Bomb(GameSession session, Point position, Girl owner) {
-        super(session, position, BOMB_WIDTH, BOMB_HEIGHT);
+        super(session, position, "Bomb", BOMB_WIDTH, BOMB_HEIGHT);
         this.owner = owner;
         logger.info("New Bomb id={}, position={}, session_ID = {}", id, position, session.getId());
     }
