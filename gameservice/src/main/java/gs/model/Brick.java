@@ -9,10 +9,8 @@ public class Brick extends GameObject {
     private static final int BRICK_HEIGHT = 32;
 
     public Brick(GameSession session, Point position) {
-        //super(session, position, "Brick", BRICK_WIDTH, BRICK_HEIGHT);
-        super(session, new Point(position.getX() * GameObject.getWidthBox(),
-                        position.getY() * GameObject.getWidthBox()),
-                "Brick", BRICK_WIDTH, BRICK_HEIGHT);
+        super(session, new Point(position.getX() * GameObject.getWidthBox(), position.getY() * GameObject.getWidthBox()),
+                "Wood", BRICK_WIDTH, BRICK_HEIGHT);
         logger.info("New Brick id={}, position={}, session_ID={}", id, position, session.getId());
     }
 }
