@@ -11,11 +11,11 @@ public class Point implements GeomObject {
     }
 
     public float getX() {
-        return x;
+        return this.x;
     }
 
     public float getY() {
-        return y;
+        return this.y;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Point implements GeomObject {
         if (other instanceof Point) {
             return this.equals(other);
         }
-        throw new UnsupportedOperationException();
+        return false;
     }
 
     @Override

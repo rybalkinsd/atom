@@ -9,6 +9,14 @@ public class Wall extends FormedGameObject {
 
     public Wall(GeomObject geomObject) {
         super(geomObject);
-        log.info(" [id = " + this.getId() + "] Created: Wall( " + geomObject.toString() + " )");
+        log.info(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "{" + getForm().toString() +
+                ",\"id\":" + getId() +
+                ",\"type\":\"Wall\"" +
+                "}";
     }
 }

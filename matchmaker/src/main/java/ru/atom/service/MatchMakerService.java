@@ -32,10 +32,10 @@ public class MatchMakerService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(MatchMakerService.class);
     private Thread connectionHandlerThread = new Thread(new ConnectionHandler(this));
 
-    @Autowired
+    /* @Autowired*/
     private PlayerDao playerDao;
 
-    @Autowired
+    /* @Autowired*/
     private GameDao gameDao;
 
     public MatchMakerService() {
@@ -44,7 +44,8 @@ public class MatchMakerService {
 
     @Transactional
     public Player getPlayerByName(@NotNull String name) {
-        return playerDao.getByName(name);
+        //return playerDao.getByName(name);
+        return null;
     }
 
     public Long handleConnection(String name) {

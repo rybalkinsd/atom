@@ -1,6 +1,7 @@
 package ru.atom.model;
 
 import ru.atom.geometry.GeomObject;
+import ru.atom.geometry.IntersectionParams;
 import ru.atom.geometry.Point;
 import ru.atom.geometry.Rectangle;
 
@@ -8,6 +9,20 @@ import ru.atom.geometry.Rectangle;
 public abstract class MovableFormedGameObject extends FormedGameObject implements Movable {
 
     protected float velocity;
+    private MoveEventListener moveEventListener = null;
+
+    public boolean addMoveEventListener(MoveEventListener moveEventLisetner) {
+        if (this.moveEventListener == null) {
+            this.moveEventListener = moveEventLisetner;
+            return true;
+        }
+        return false;
+    }
+
+    public void removeMoveEventLstener() {
+        moveEventListener = null;
+    }
+
 
     MovableFormedGameObject(GeomObject geomObj, float velocity) {
         super(geomObj);
@@ -30,20 +45,34 @@ public abstract class MovableFormedGameObject extends FormedGameObject implement
                 break;
                 case LEFT:  { kx = -1; }
                 break;
-                case UP:    { ky = 1; }
+                case UP:    { ky = -1; }
                 break;
-                case DOWN:  { ky = -1; }
+                case DOWN:  { ky = 1; }
                 break;
                 case IDLE:  { }
                 break;
                 default:    { }
             }
-            super.geomObject = new Rectangle(
+            Rectangle newForm = new Rectangle(
                     new Point(super.getPosition().getX() + kx * velocity * time,
                               super.getPosition().getY() + ky * velocity * time),
                     ((Rectangle)super.getForm()).getWidth(),
                     ((Rectangle)super.getForm()).getHeight());
 
+            Rectangle oldForm = new Rectangle(
+                    new Point(super.getPosition().getX(),
+                            super.getPosition().getY()),
+                    ((Rectangle)super.getForm()).getWidth(),
+                    ((Rectangle)super.getForm()).getHeight());
+
+            FormedGameObject newform = new FormedGameObject(newForm, this.getId());
+            FormedGameObject oldform = new FormedGameObject(getForm(), this.getId());
+            if(moveEventListener != null &&
+                    !moveEventListener.getMovePermission(newform, this)) {
+                return super.getForm().getPosition();
+            }
+            super.geomObject = newForm;
+            moveEventListener.handleMoveEvent(oldform, this);
         }
         return super.getForm().getPosition();
     }

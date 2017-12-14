@@ -12,7 +12,7 @@ public class Ticker {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(Ticker.class);
     private static final int FPS = 60;
     private static final long FRAME_TIME = 1000 / FPS;
-    private ConcurrentSkipListSet<Tickable> tickables = new ConcurrentSkipListSet<>();
+    private final ConcurrentSkipListSet<Tickable> tickables = new ConcurrentSkipListSet<>();
     private long tickNumber = 0;
     private Thread tickThread = new Thread(new Runnable() {
         @Override

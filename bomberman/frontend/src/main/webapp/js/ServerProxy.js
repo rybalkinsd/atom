@@ -11,22 +11,6 @@ ServerProxy = Class.extend({
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
 
-        var self = this;
-        gInputEngine.subscribe('up', function () {
-            self.socket.send(gMessages.move('up'))
-        });
-        gInputEngine.subscribe('down', function () {
-            self.socket.send(gMessages.move('down'))
-        });
-        gInputEngine.subscribe('left', function () {
-            self.socket.send(gMessages.move('left'))
-        });
-        gInputEngine.subscribe('right', function () {
-            self.socket.send(gMessages.move('right'))
-        });
-        gInputEngine.subscribe('bomb', function () {
-            self.socket.send(gMessages.plantBomb())
-        });
     },
 
     getSessionIdFromMatchMaker: function () {
@@ -59,7 +43,22 @@ ServerProxy = Class.extend({
 
     connectToGameServer: function (gameId, login) {
         var self = this;
-        this.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
+        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
+        gInputEngine.subscribe('up', function () {
+            self.socket.send(gMessages.move('up'))
+        });
+        gInputEngine.subscribe('down', function () {
+            self.socket.send(gMessages.move('down'))
+        });
+        gInputEngine.subscribe('left', function () {
+            self.socket.send(gMessages.move('left'))
+        });
+        gInputEngine.subscribe('right', function () {
+            self.socket.send(gMessages.move('right'))
+        });
+        gInputEngine.subscribe('bomb', function () {
+            self.socket.send(gMessages.plantBomb())
+        });
 
         this.socket.onopen = function () {
             console.log("Connection established.");
@@ -75,7 +74,7 @@ ServerProxy = Class.extend({
         };
 
         this.socket.onmessage = function (event) {
-            console.log(event.data);
+            //console.log(event.data);
             var msg = JSON.parse(event.data);
             if (self.handler[msg.topic] === undefined)
                 return;

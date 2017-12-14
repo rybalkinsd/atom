@@ -4,7 +4,10 @@ import ru.atom.geometry.GeomObject;
 import ru.atom.geometry.Rectangle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 public class TileMap {
@@ -21,6 +24,9 @@ public class TileMap {
         this.height = height;
         this.tileHeight = tileHeight;
         this.tileWidth = tileWidth;
+        for(int i = 0; i < (width)*(height); i++ ) {
+            tiles.add(new Tile());
+        }
     }
 
     public int getTileWidth() {
@@ -44,13 +50,13 @@ public class TileMap {
         List<Tile> tempTiles = new ArrayList<>();
         if (geomObject instanceof Rectangle) {
             Rectangle rectangle = (Rectangle) geomObject;
-            int startColumn = (int)rectangle.getPosition().getX() / tileWidth;
-            int startRow = (int)rectangle.getPosition().getY() / tileHeight;
-            int endRow = startRow + rectangle.getHeight() / tileHeight + 1;
-            int endColumn = startColumn + rectangle.getWidth() / tileWidth + 1;
+            int startColumn = (int)(rectangle.getPosition().getX() / tileWidth);
+            int startRow = (int)(rectangle.getPosition().getY() / tileHeight);
+            int endRow = (int)((rectangle.getPosition().getY() + rectangle.getHeight() ) / tileHeight + 1);
+            int endColumn = (int)((rectangle.getPosition().getX() + rectangle.getWidth()) / tileWidth + 1);
             for (int row = startRow; row < endRow; row++) {
                 for (int column = startColumn; column < endColumn; column++) {
-                    if (row < width && row >= 0 && column < width && column >= 0) {
+                    if (row < height && row >= 0 && column < width && column >= 0) {
                         tempTiles.add(tiles.get(row * width + column));
                     }
                 }
@@ -75,16 +81,18 @@ public class TileMap {
         }
     }
 
-    public List<FormedGameObject> getNearbyGameObjects(FormedGameObject gameObject) {
+    public HashSet<FormedGameObject> getNearbyGameObjects(FormedGameObject gameObject) {
         List<Tile> tempTiles = getTilesUnderGeomObject(gameObject.getForm());
-        List<FormedGameObject> gameObjects = new Vector<>();
+        HashSet<FormedGameObject> gameObjects = new HashSet<FormedGameObject> ();
 
         for (Tile tile : tempTiles) {
-            for (Long key: tile.geomObjects.keySet()) {
-                if (tile.geomObjects.get(key).getId() != gameObject.getId()) {
-                    gameObjects.add(tile.geomObjects.get(key));
+            tile.geomObjects.entrySet().forEach(geomEntry -> {
+                if (geomEntry.getValue().getId() != gameObject.getId()) {
+                    gameObjects.add( geomEntry.getValue());
                 }
-            }
+
+            });
+
         }
         return gameObjects;
     }

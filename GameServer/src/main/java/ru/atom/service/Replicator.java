@@ -16,7 +16,7 @@ public class Replicator {
         ArrayList<String> grassTiles = new ArrayList<String>(map.getHeight() * map.getWidth());
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                grassTiles.add("{\"position\":{\"x\":" + i + ",\"y\":" + j + "}" +
+                grassTiles.add("{\"position\":{\"x\":" + i * map.getTileWidth() + ",\"y\":" + j * map.getTileHeight() + "}" +
                         ",\"id\":" + GameModel.generateGameObjectId() +
                         ",\"type\":\"Grass\"" +
                         "}");
@@ -33,11 +33,11 @@ public class Replicator {
     public static Message getReplica(GameModel gameModel) {
         String replica = "{\"objects\":[";
 
-        replica = replica.concat(gameModel.changed.entrySet().stream().map(girlEntry ->
-                girlEntry.getValue().toString()).collect(Collectors.joining(",")).toString());
+        replica = replica.concat(gameModel.changed.stream().map(girl ->
+                girl.toString()).collect(Collectors.joining(",")).toString());
         replica = replica.concat("],\"deleted\":[");
-        replica = replica.concat(gameModel.deleted.entrySet().stream().map(girlEntry ->
-                girlEntry.getValue().toString()).collect(Collectors.joining(",")).toString());
+        replica = replica.concat(gameModel.deleted.stream().map(girl ->
+                girl.toString()).collect(Collectors.joining(",")).toString());
         replica = replica.concat("],\"gameOver\":false}");
         return new Message(Topic.REPLICA, replica);
 

@@ -9,15 +9,29 @@ public class Box extends FormedGameObject {
     private static final Logger log = LogManager.getLogger(Box.class);
     private  Feed.FeedType feedType;
 
+    BoxCollapseListener listener = null;
+
+    public boolean addBoxCollapseListener(BoxCollapseListener boxCollapseListener) {
+        if (this.listener == null) {
+            this.listener = boxCollapseListener;
+            return true;
+        }
+        return false;
+    }
+
+    public void removeBoxCollapseListener() {
+        listener = null;
+    }
+
+
     public Box(GeomObject geomObject, Feed.FeedType feedType) {
         super(geomObject);
         this.feedType = feedType;
-        log.info(" [id = " + this.getId() + "] Created: Box( " + geomObject.toString() +
-                ", feedType = " + feedType.name() +
-                " )");
+        log.info(this.toString());
     }
 
     public void collapse() {
+        listener.handleBoxCollapse(this);
     }
 
     public Feed.FeedType getFeedType() {
@@ -30,5 +44,10 @@ public class Box extends FormedGameObject {
                 ",\"id\":" + getId() +
                 ",\"type\":\"Wood\"" +
                 "}";
+    }
+
+    @Override
+    public Rectangle getForm() {
+        return (Rectangle)geomObject;
     }
 }

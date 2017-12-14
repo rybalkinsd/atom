@@ -21,6 +21,25 @@ public class Feed extends FormedGameObject {
         return type;
     }
 
-    public enum FeedType { SPEED_BOOTS, AMMUNITION_INCR, EXPLOS_BOOST, EMPTY }
+    public enum FeedType {
+        SPEED_BOOTS(0), AMMUNITION_INCR(1), EXPLOS_BOOST(2), EMPTY(3);
+        private final int value;
+        private FeedType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "{" + getForm().toString() +
+                ",\"id\":" + getId() +
+                ",\"typePosition\":" + type.getValue() +
+                ",\"type\":\"Bonus\"" +
+                "}";
+    }
 }
 

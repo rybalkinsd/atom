@@ -7,6 +7,7 @@ import ru.atom.input.InputMessages;
 import ru.atom.message.Message;
 import ru.atom.message.Topic;
 import ru.atom.model.GameModel;
+import ru.atom.model.GameObject;
 import ru.atom.model.Movable;
 import ru.atom.network.Broker;
 import ru.atom.network.ConnectionPool;
@@ -19,15 +20,15 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-public class GameSession implements Tickable, Comparable<GameSession>{
+public class GameSession implements GameObject, Tickable, Comparable<GameObject>{
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private static AtomicLong idGenerator = new AtomicLong();
 
     private long id = idGenerator.getAndIncrement();
     private int playersAmount = 0;
-    private GameModel gameModel = new GameModel();
     private ArrayList<Player> players = new ArrayList<>();
     private Ticker ticker = new Ticker();
+    private GameModel gameModel = new GameModel(ticker, 2);
     private Message backGroundReplica;
 
     public long getId() {
@@ -124,7 +125,7 @@ public class GameSession implements Tickable, Comparable<GameSession>{
     }
 
     @Override
-    public int compareTo(GameSession that) {
+    public int compareTo(GameObject that) {
         if (this.id == that.getId()) {
             return 0;
         }

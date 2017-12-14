@@ -31,6 +31,7 @@ Tile = Entity.extend({
         } else if (material === 'Wood') {
             img = gGameEngine.tilesImgs.wood;
         }
+
         this.bmp = new createjs.Bitmap(img);
 
         this.bmp.x = position.x;

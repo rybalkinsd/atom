@@ -7,6 +7,14 @@ Player = Entity.extend({
         h: 48
     },
 
+    oldx: 0,
+
+    oldy: 0,
+
+    stopTimer: 0,
+
+    stopDelay: 10,
+
     /**
      * Bitmap animation
      */
@@ -38,6 +46,12 @@ Player = Entity.extend({
 
         var img = gGameEngine.playerGirlImg;
 
+        if (gInputEngine.possessed !== this.id) {
+            img = gGameEngine.playerGirl2Img;
+        }
+
+
+
         var spriteSheet = new createjs.SpriteSheet({
             images: [img],
             frames: { width: this.size.w, height: this.size.h, regX: 10, regY: 12 },
@@ -66,20 +80,25 @@ Player = Entity.extend({
             return;
         }
 
-        if (gInputEngine.possessed !== this.id) {
-            return;
-        }
-
-        if (gInputEngine.actions[this.controls.up]) {
-            this.animate('up');
-        } else if (gInputEngine.actions[this.controls.down]) {
-            this.animate('down');
-        } else if (gInputEngine.actions[this.controls.left]) {
-            this.animate('left');
-        } else if (gInputEngine.actions[this.controls.right]) {
-            this.animate('right');
-        } else {
+        if (this.oldx != this.bmp.x || this.oldy != this.bmp.y) {
+            this.stopTimer = 0;
+            var dx = this.oldx - this.bmp.x;
+            var dy = this.oldy - this.bmp.y;
+            if (dy > 0) {
+                this.animate('up');
+            } else if (dy < 0) {
+                this.animate('down');
+            } else if (dx > 0) {
+                this.animate('left');
+            } else if (dx < 0) {
+                this.animate('right');
+            }
+            this.oldx = this.bmp.x.valueOf();
+            this.oldy = this.bmp.y.valueOf();}
+        if (this.stopTimer == this.stopDelay) {
             this.animate('idle');
+        } else if (this.stopTimer < this.stopDelay) {
+            this.stopTimer++;
         }
     },
 
@@ -110,8 +129,13 @@ Player = Entity.extend({
             }
             if (bmp.alpha <= 0) {
                 clearInterval(fade);
+                gGameEngine.stage.removeChild(this.bmp);
             }
 
         }, 30);
+    },
+
+    remove: function() {
+        this.die();
     }
 });
