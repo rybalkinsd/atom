@@ -12,15 +12,17 @@ public class Fire extends GameObject implements Tickable {
     private transient int elapsed = 0;
 
     public Fire(GameSession session, Point position) {
-        super(session, position, "Fire", FIRE_WIDTH, FIRE_HEIGHT);
+        super(session, new Point(position.getX(), position.getY()),
+                "Fire", FIRE_WIDTH, FIRE_HEIGHT);
         logger.info("New Fire id={}, position={}, session_ID={}", id, position, session.getId());
     }
 
     @Override
     public void tick(int elapsed) {
         this.elapsed += elapsed;
-        if (this.elapsed >= LIFETIME) {
-            session.removeById(this.id);
-        }
+    }
+
+    public boolean dead() {
+        return this.elapsed >= LIFETIME;
     }
 }

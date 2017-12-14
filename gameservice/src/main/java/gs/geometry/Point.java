@@ -2,6 +2,7 @@ package gs.geometry;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import gs.model.GameObject;
 
 public class Point implements Collider {
     private final int x;
@@ -76,5 +77,37 @@ public class Point implements Collider {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public static Point getUp1Position (Point point) {
+        return new Point(point.getX(), point.getY() + GameObject.getHeightBox());
+    }
+
+    public static Point getUp2Position (Point point) {
+        return new Point(point.getX(), point.getY() + GameObject.getHeightBox()*2);
+    }
+
+    public static Point getDown1Position (Point point) {
+        return new Point(point.getX(),point.getY() - GameObject.getHeightBox());
+    }
+
+    public static Point getDown2Position (Point point) {
+        return new Point(point.getX(),point.getY() - GameObject.getHeightBox()*2);
+    }
+
+    public static Point getRight1Position (Point point) {
+        return new Point(point.getX()+ GameObject.getWidthBox(), point.getY());
+    }
+
+    public static Point getRight2Position (Point point) {
+        return new Point(point.getX()+ GameObject.getWidthBox()*2, point.getY());
+    }
+
+    public static Point getLeft1Position (Point point) {
+        return new Point(point.getX() - GameObject.getWidthBox(), point.getY());
+    }
+
+    public static Point getLeft2Position (Point point) {
+        return new Point(point.getX() - GameObject.getWidthBox()*2, point.getY());
     }
 }

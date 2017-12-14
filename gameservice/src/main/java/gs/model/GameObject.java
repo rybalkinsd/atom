@@ -11,6 +11,8 @@ public abstract class GameObject {
     protected Point position;
     private transient final int width;
     private transient final int height;
+    private static final int widthBox = 32;
+    private static final int heightBox = 32;
     private String type;
 
     @JsonCreator
@@ -24,6 +26,7 @@ public abstract class GameObject {
     }
 
     public Bar getBar() {
+        //return new Bar(position.getX(), position.getY(), position.getX() + 1, position.getY() + 1);
         return new Bar(position.getX(), position.getY(), position.getX() + width, position.getY() + height);
     }
 
@@ -48,12 +51,7 @@ public abstract class GameObject {
 
         GameObject that = (GameObject) o;
 
-        if (id != that.id) return false;
-        if (width != that.width) return false;
-        if (height != that.height) return false;
-        if (session != null ? !session.equals(that.session) : that.session != null) return false;
-        if (position != null ? !position.equals(that.position) : that.position != null) return false;
-        return type != null ? type.equals(that.type) : that.type == null;
+        return id == that.id;
     }
 
     @Override
@@ -65,5 +63,13 @@ public abstract class GameObject {
         result = 31 * result + height;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
+    }
+
+    public static int getWidthBox() {
+        return widthBox;
+    }
+
+    public static int getHeightBox() {
+        return heightBox;
     }
 }

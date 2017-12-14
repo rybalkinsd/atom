@@ -27,7 +27,7 @@ public class GameSession implements Tickable {
     }
 
     public GameObject getById(int id) {
-        for(GameObject i :gameObjects) {
+        for(GameObject i: gameObjects) {
             if(i.getId() == id) return i;
         }
         return null;
@@ -63,6 +63,10 @@ public class GameSession implements Tickable {
         return false;
     }
 
+    public boolean removeGameObject(GameObject object) {
+        return gameObjects.remove(object);
+    }
+
     public GameObject getGameObjectByPosition(Point position) {
         for (GameObject object : gameObjects) {
             if (object.getPosition().equals(position)) {
@@ -89,6 +93,52 @@ public class GameSession implements Tickable {
     }
 
     public int getLastId() {return lastId;}
+
+    public ArrayList<Girl> getGirls() {
+        ArrayList<Girl> girls = new ArrayList<>();
+        for (GameObject object: gameObjects) {
+            if (object instanceof Girl)
+                girls.add((Girl)object);
+        }
+        return girls;
+    }
+
+
+    public ArrayList<Bomb> getBombs() {
+        ArrayList<Bomb> bombs = new ArrayList<>();
+        for (GameObject object: gameObjects) {
+            if (object instanceof Bomb)
+                bombs.add((Bomb)object);
+        }
+        return bombs;
+    }
+
+    public ArrayList<Wall> getWalls() {
+        ArrayList<Wall> walls = new ArrayList<>();
+        for (GameObject object: gameObjects) {
+            if (object instanceof Wall)
+                walls.add((Wall) object);
+        }
+        return walls;
+    }
+
+    public ArrayList<Brick> getBricks() {
+        ArrayList<Brick> bricks = new ArrayList<>();
+        for (GameObject object: gameObjects) {
+            if (object instanceof Brick)
+                bricks.add((Brick)object);
+        }
+        return bricks;
+    }
+
+    public ArrayList<Fire> getFire() {
+        ArrayList<Fire> fire = new ArrayList<>();
+        for (GameObject object: gameObjects) {
+            if (object instanceof Fire)
+                fire.add((Fire)object);
+        }
+        return fire;
+    }
 
     @Override
     public void tick(int elapsed) {
