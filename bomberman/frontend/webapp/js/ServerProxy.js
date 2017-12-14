@@ -1,3 +1,4 @@
+
 ServerProxy = Class.extend({
     gameServerUrl: "localhost:8090",
     matchMakerUrl: "http://localhost:8080",
