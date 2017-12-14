@@ -25,20 +25,21 @@ public class Action {
 
     public Movable.Direction getData() {
         Movable.Direction direction;
+        System.out.println("DATA = " + data);
         switch(data) {
-            case "UP" :
+            case "{\"direction\":\"UP\"}" :
                 direction = Movable.Direction.UP;
                 break;
-            case "RIGHT" :
+            case "{\"direction\":\"RIGHT\"}" :
                 direction = Movable.Direction.RIGHT;
                 break;
-            case "LEFT" :
+            case "{\"direction\":\"LEFT\"}" :
                 direction = Movable.Direction.LEFT;
                 break;
-            case "DOWN" :
+            case "{\"direction\":\"DOWN\"}" :
                 direction = Movable.Direction.DOWN;
                 break;
-            case "IDLE" :
+            case "{\"direction\":\"IDLE\"}" :
                 direction = Movable.Direction.IDLE;
                 break;
             default :
