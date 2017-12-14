@@ -18,7 +18,7 @@ public class Bar implements Collider {
 
     public Bar(Point point) {
         this.leftPoint = point;
-        this.rightPoint = new Point(point.getX()+ GameObject.getWidthBox(), point.getY()  + GameObject.getHeightBox());
+        this.rightPoint = new Point(point.getX() + GameObject.getWidthBox(), point.getY() + GameObject.getHeightBox());
     }
 
     @Override

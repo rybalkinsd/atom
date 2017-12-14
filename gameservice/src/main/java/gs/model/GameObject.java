@@ -6,17 +6,18 @@ import gs.geometry.Bar;
 import gs.geometry.Point;
 
 public abstract class GameObject {
-    protected transient final GameSession session;
-    protected final int id;
-    protected Point position;
-    private transient final int width;
-    private transient final int height;
     private static final int widthBox = 32;
     private static final int heightBox = 32;
+    protected final transient GameSession session;
+    protected final int id;
+    private final transient int width;
+    private final transient int height;
+    protected Point position;
     private String type;
 
     @JsonCreator
-    public GameObject(GameSession session, @JsonProperty Point position, @JsonProperty String type, int width, int height) {
+    public GameObject(GameSession session, @JsonProperty Point position,
+                      @JsonProperty String type, int width, int height) {
         this.position = position;
         this.type = type;
         this.id = session.getNewId();
@@ -25,13 +26,17 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    public Bar getBar() {
-        //return new Bar(position.getX(), position.getY(), position.getX() + 1, position.getY() + 1);
-        return new Bar(position.getX(), position.getY(), position.getX() + width, position.getY() + height);
+    public static int getWidthBox() {
+        return widthBox;
     }
 
-    public void setPosition(Point position) {
-        this.position = position;
+    public static int getHeightBox() {
+        return heightBox;
+    }
+
+    public Bar getBar() {
+        return new Bar(position.getX(), position.getY(),
+                position.getX() + width, position.getY() + height);
     }
 
     public int getId() {
@@ -42,7 +47,13 @@ public abstract class GameObject {
         return position;
     }
 
-    public String getType() {return type;}
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public String getType() {
+        return type;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -63,13 +74,5 @@ public abstract class GameObject {
         result = 31 * result + height;
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
-    }
-
-    public static int getWidthBox() {
-        return widthBox;
-    }
-
-    public static int getHeightBox() {
-        return heightBox;
     }
 }

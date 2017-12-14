@@ -10,9 +10,9 @@ import java.util.List;
 
 public class GameSession implements Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(GameSession.class);
-    private List<GameObject> gameObjects = new ArrayList<>();
     private final int playerCount;
     private final long id;
+    private List<GameObject> gameObjects = new ArrayList<>();
     //ID for game objects
     private int lastId = -1;
 
@@ -27,8 +27,8 @@ public class GameSession implements Tickable {
     }
 
     public GameObject getById(int id) {
-        for(GameObject i: gameObjects) {
-            if(i.getId() == id) return i;
+        for (GameObject i : gameObjects) {
+            if (i.getId() == id) return i;
         }
         return null;
     }
@@ -40,15 +40,20 @@ public class GameSession implements Tickable {
     public void addPlayer(int id) {
         Point position;
         switch (id) {
-            case 1 : position = new Point(1, 1);
+            case 1:
+                position = new Point(1, 1);
                 break;
-            case 2 : position = new Point(15, 11);
+            case 2:
+                position = new Point(15, 11);
                 break;
-            case 3 : position = new Point(15, 1);
+            case 3:
+                position = new Point(15, 1);
                 break;
-            case 4 : position = new Point(1, 11);
+            case 4:
+                position = new Point(1, 11);
                 break;
-            default : position = new Point(1, 1);
+            default:
+                position = new Point(1, 1);
         }
         addGameObject(new Girl(this, position));
     }
@@ -92,13 +97,15 @@ public class GameSession implements Tickable {
         return id;
     }
 
-    public int getLastId() {return lastId;}
+    public int getLastId() {
+        return lastId;
+    }
 
     public ArrayList<Girl> getGirls() {
         ArrayList<Girl> girls = new ArrayList<>();
-        for (GameObject object: gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof Girl)
-                girls.add((Girl)object);
+                girls.add((Girl) object);
         }
         return girls;
     }
@@ -106,16 +113,16 @@ public class GameSession implements Tickable {
 
     public ArrayList<Bomb> getBombs() {
         ArrayList<Bomb> bombs = new ArrayList<>();
-        for (GameObject object: gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof Bomb)
-                bombs.add((Bomb)object);
+                bombs.add((Bomb) object);
         }
         return bombs;
     }
 
     public ArrayList<Wall> getWalls() {
         ArrayList<Wall> walls = new ArrayList<>();
-        for (GameObject object: gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof Wall)
                 walls.add((Wall) object);
         }
@@ -124,18 +131,18 @@ public class GameSession implements Tickable {
 
     public ArrayList<Brick> getBricks() {
         ArrayList<Brick> bricks = new ArrayList<>();
-        for (GameObject object: gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof Brick)
-                bricks.add((Brick)object);
+                bricks.add((Brick) object);
         }
         return bricks;
     }
 
     public ArrayList<Fire> getFire() {
         ArrayList<Fire> fire = new ArrayList<>();
-        for (GameObject object: gameObjects) {
+        for (GameObject object : gameObjects) {
             if (object instanceof Fire)
-                fire.add((Fire)object);
+                fire.add((Fire) object);
         }
         return fire;
     }

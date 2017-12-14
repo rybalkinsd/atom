@@ -10,7 +10,8 @@ public class Wall extends GameObject {
 
     public Wall(GameSession session, Point position) {
         //super(session, position, "Wall", WALL_WIDTH, WALL_HEIGHT);
-        super(session, new Point(position.getX() * GameObject.getWidthBox(), position.getY() * GameObject.getWidthBox()),
+        super(session, new Point(position.getX() * GameObject.getWidthBox(),
+                        position.getY() * GameObject.getWidthBox()),
                 "Wall", WALL_WIDTH, WALL_HEIGHT);
         logger.info("New Wall id={}, position={}, session_ID = {}", id, position, session.getId());
     }
