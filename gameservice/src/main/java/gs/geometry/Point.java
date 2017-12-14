@@ -14,6 +14,38 @@ public class Point implements Collider {
         this.y = y;
     }
 
+    public static Point getUp1Position(Point point) {
+        return new Point(point.getX(), point.getY() + GameObject.getHeightBox());
+    }
+
+    public static Point getUp2Position(Point point) {
+        return new Point(point.getX(), point.getY() + GameObject.getHeightBox() * 2);
+    }
+
+    public static Point getDown1Position(Point point) {
+        return new Point(point.getX(), point.getY() - GameObject.getHeightBox());
+    }
+
+    public static Point getDown2Position(Point point) {
+        return new Point(point.getX(), point.getY() - GameObject.getHeightBox() * 2);
+    }
+
+    public static Point getRight1Position(Point point) {
+        return new Point(point.getX() + GameObject.getWidthBox(), point.getY());
+    }
+
+    public static Point getRight2Position(Point point) {
+        return new Point(point.getX() + GameObject.getWidthBox() * 2, point.getY());
+    }
+
+    public static Point getLeft1Position(Point point) {
+        return new Point(point.getX() - GameObject.getWidthBox(), point.getY());
+    }
+
+    public static Point getLeft2Position(Point point) {
+        return new Point(point.getX() - GameObject.getWidthBox() * 2, point.getY());
+    }
+
     public Point convertToBitmapPosition() {
         return new Point(x / 32, y / 32);
     }
@@ -77,37 +109,5 @@ public class Point implements Collider {
                 "x=" + x +
                 ", y=" + y +
                 '}';
-    }
-
-    public static Point getUp1Position (Point point) {
-        return new Point(point.getX(), point.getY() + GameObject.getHeightBox());
-    }
-
-    public static Point getUp2Position (Point point) {
-        return new Point(point.getX(), point.getY() + GameObject.getHeightBox()*2);
-    }
-
-    public static Point getDown1Position (Point point) {
-        return new Point(point.getX(),point.getY() - GameObject.getHeightBox());
-    }
-
-    public static Point getDown2Position (Point point) {
-        return new Point(point.getX(),point.getY() - GameObject.getHeightBox()*2);
-    }
-
-    public static Point getRight1Position (Point point) {
-        return new Point(point.getX()+ GameObject.getWidthBox(), point.getY());
-    }
-
-    public static Point getRight2Position (Point point) {
-        return new Point(point.getX()+ GameObject.getWidthBox()*2, point.getY());
-    }
-
-    public static Point getLeft1Position (Point point) {
-        return new Point(point.getX() - GameObject.getWidthBox(), point.getY());
-    }
-
-    public static Point getLeft2Position (Point point) {
-        return new Point(point.getX() - GameObject.getWidthBox()*2, point.getY());
     }
 }

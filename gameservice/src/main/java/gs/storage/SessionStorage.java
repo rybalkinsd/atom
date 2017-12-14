@@ -11,7 +11,6 @@ import org.springframework.web.socket.WebSocketSession;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -19,7 +18,8 @@ public class SessionStorage {
     private static ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>> storage
             = new ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>>();
     private static ConcurrentHashMap<Long, GameSession> sessions = new ConcurrentHashMap<Long, GameSession>();
-    private static ConcurrentHashMap<Girl, WebSocketSession> girlToWebsocket = new ConcurrentHashMap<Girl, WebSocketSession>();
+    private static ConcurrentHashMap<Girl, WebSocketSession> girlToWebsocket
+            = new ConcurrentHashMap<Girl, WebSocketSession>();
     private static ConcurrentHashMap<GameSession, Ticker> tickers = new ConcurrentHashMap<GameSession, Ticker>();
     private static long lastId = -1;
 
@@ -34,9 +34,9 @@ public class SessionStorage {
 
     public static GameSession getByWebsocket(WebSocketSession session) {
         System.out.println(storage.size());
-        for(Map.Entry<GameSession, ArrayList<WebSocketSession>> i : storage.entrySet()) {
-            for(WebSocketSession j : i.getValue()) {
-                if(session.equals(j)) {
+        for (Map.Entry<GameSession, ArrayList<WebSocketSession>> i : storage.entrySet()) {
+            for (WebSocketSession j : i.getValue()) {
+                if (session.equals(j)) {
                     return i.getKey();
                 }
             }
@@ -89,8 +89,8 @@ public class SessionStorage {
     }
 
     public static Girl getGirlBySocket(WebSocketSession session) {
-        for(Map.Entry<Girl, WebSocketSession> i : girlToWebsocket.entrySet()) {
-            if(i.getValue().equals(session)) {
+        for (Map.Entry<Girl, WebSocketSession> i : girlToWebsocket.entrySet()) {
+            if (i.getValue().equals(session)) {
                 return i.getKey();
             }
         }

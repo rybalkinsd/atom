@@ -1,30 +1,23 @@
 package gs;
 
-import gs.geometry.Point;
 import gs.message.Message;
 import gs.message.Topic;
 import gs.model.GameSession;
-import gs.model.Girl;
 import gs.network.Broker;
 import gs.network.ConnectionPool;
 import gs.storage.SessionStorage;
-import gs.storage.TickerStorage;
 import gs.ticker.Action;
 import gs.ticker.Ticker;
 import gs.util.JsonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.SystemPropertyUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.HashMap;
 
 @Component
 public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
@@ -49,7 +42,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         gameSession.addPlayer(data);
         storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
         Broker.getInstance().send(session, Topic.REPLICA, storage.getSessionById(gameId).getGameObjects());
-        if(gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
+        if (gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
             Ticker ticker = new Ticker(gameSession);
             storage.putTicker(ticker, gameSession);
             ticker.setName("gameId : " + gameId);

@@ -1,7 +1,6 @@
 package gs.controller;
 
 import gs.storage.SessionStorage;
-import gs.storage.TickerStorage;
 import gs.ticker.Ticker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -5,15 +5,15 @@ import gs.model.Girl;
 import gs.model.Movable;
 
 public class Action {
+    private Topic action;
+    private Girl actor;
+    private String data;
+
     public Action(Topic action, Girl actor, String data) {
         this.action = action;
         this.actor = actor;
         this.data = data;
     }
-
-    private Topic action;
-    private Girl actor;
-    private String data;
 
     public Topic getAction() {
         return action;
@@ -26,23 +26,23 @@ public class Action {
     public Movable.Direction getData() {
         Movable.Direction direction;
         System.out.println("DATA = " + data);
-        switch(data) {
-            case "{\"direction\":\"UP\"}" :
+        switch (data) {
+            case "{\"direction\":\"UP\"}":
                 direction = Movable.Direction.UP;
                 break;
-            case "{\"direction\":\"RIGHT\"}" :
+            case "{\"direction\":\"RIGHT\"}":
                 direction = Movable.Direction.RIGHT;
                 break;
-            case "{\"direction\":\"LEFT\"}" :
+            case "{\"direction\":\"LEFT\"}":
                 direction = Movable.Direction.LEFT;
                 break;
-            case "{\"direction\":\"DOWN\"}" :
+            case "{\"direction\":\"DOWN\"}":
                 direction = Movable.Direction.DOWN;
                 break;
-            case "{\"direction\":\"IDLE\"}" :
+            case "{\"direction\":\"IDLE\"}":
                 direction = Movable.Direction.IDLE;
                 break;
-            default :
+            default:
                 direction = Movable.Direction.IDLE;
                 break;
         }
