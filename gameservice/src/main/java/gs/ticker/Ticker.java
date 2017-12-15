@@ -60,7 +60,8 @@ public class Ticker extends Thread {
             checkCollisions();
             detonationBomb();
             for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
-                broker.send(session, Topic.REPLICA, gameSession.getGameObjects());
+                //broker.send(session, Topic.REPLICA, gameSession.getGameObjects());
+                broker.send(session, Topic.REPLICA, gameSession.getObjectsWithoutWalls());
             }
             long elapsed = System.currentTimeMillis() - started;
             if (elapsed < FRAME_TIME) {

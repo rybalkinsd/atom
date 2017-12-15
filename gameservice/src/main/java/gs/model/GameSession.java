@@ -147,6 +147,15 @@ public class GameSession implements Tickable {
         return fire;
     }
 
+    public ArrayList<GameObject> getObjectsWithoutWalls() {
+        ArrayList<GameObject> objects = new ArrayList<>();
+        for (GameObject object : gameObjects) {
+            if (object instanceof Wall)
+                continue;
+            objects.add(object);
+        }
+        return objects;
+    }
     @Override
     public void tick(int elapsed) {
         logger.info("tick");
