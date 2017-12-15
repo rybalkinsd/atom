@@ -10,23 +10,6 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
-
-        var self = this;
-        gInputEngine.subscribe('up', function () {
-            self.socket.send(gMessages.move('up'))
-        });
-        gInputEngine.subscribe('down', function () {
-            self.socket.send(gMessages.move('down'))
-        });
-        gInputEngine.subscribe('left', function () {
-            self.socket.send(gMessages.move('left'))
-        });
-        gInputEngine.subscribe('right', function () {
-            self.socket.send(gMessages.move('right'))
-        });
-        gInputEngine.subscribe('bomb', function () {
-            self.socket.send(gMessages.plantBomb())
-        });
     },
 
     getSessionIdFromMatchMaker: function () {
@@ -55,6 +38,27 @@ ServerProxy = Class.extend({
             //processData: false
             type: 'POST',
             url: that.matchMakerUrl
+        });
+
+        that.subscribeEvents();
+    },
+
+    subscribeEvents: function () {
+        var self = this;
+        gInputEngine.subscribe('up', function () {
+            self.socket.send(gMessages.move('up'))
+        });
+        gInputEngine.subscribe('down', function () {
+            self.socket.send(gMessages.move('down'))
+        });
+        gInputEngine.subscribe('left', function () {
+            self.socket.send(gMessages.move('left'))
+        });
+        gInputEngine.subscribe('right', function () {
+            self.socket.send(gMessages.move('right'))
+        });
+        gInputEngine.subscribe('bomb', function () {
+            self.socket.send(gMessages.plantBomb())
         });
     },
 
