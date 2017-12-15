@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import gs.model.GameObject;
 
+import java.util.ArrayList;
+
 public class Point implements Collider {
     private final int x;
     private final int y;
@@ -12,6 +14,30 @@ public class Point implements Collider {
     public Point(@JsonProperty("x") int x, @JsonProperty("y") int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static ArrayList<ArrayList<Point>> getExplosions(Point point, int range) {
+        ArrayList<Point> explosionsRight = new ArrayList<>();
+        ArrayList<Point> explosionsLeft = new ArrayList<>();
+        ArrayList<Point> explosionsUp = new ArrayList<>();
+        ArrayList<Point> explosionsDown = new ArrayList<>();
+        ArrayList<Point> explosionsCurrent = new ArrayList<>();
+        explosionsCurrent.add(point);
+
+        ArrayList<ArrayList<Point>> allExplosions = new ArrayList<>();
+        for (int i = 1; i < range + 1; i++) {
+            explosionsUp.add(new Point(point.getX(), point.getY() + GameObject.getHeightBox() * i));
+            explosionsDown.add(new Point(point.getX(), point.getY() - GameObject.getHeightBox() * i));
+            explosionsRight.add(new Point(point.getX()  + GameObject.getWidthBox() * i, point.getY()));
+            explosionsLeft.add(new Point(point.getX() - GameObject.getWidthBox() * i, point.getY()));
+        }
+        allExplosions.add(explosionsRight);
+        allExplosions.add(explosionsLeft);
+        allExplosions.add(explosionsUp);
+        allExplosions.add(explosionsDown);
+        allExplosions.add(explosionsCurrent);
+
+        return allExplosions;
     }
 
     public static Point getUp1Position(Point point) {

@@ -5,22 +5,18 @@ import org.slf4j.LoggerFactory;
 
 public class Girl extends GameObject implements Movable, Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Girl.class);
-    private static final int GIRL_WIDTH = 27;
-    private static final int GIRL_HEIGHT = 27;
+    private static final int GIRL_WIDTH = 25;
+    private static final int GIRL_HEIGHT = 25;
     private Direction direction = Direction.IDLE;
     private transient double speed = 1 / 2;
-    private transient int bombCapacity = 1;
-    private transient int bombRange = 1;
+    private transient int bombCapacity = 2;
+    private transient int bombRange = 2;
 
     public Girl(GameSession session, Point position) {
         super(session, new Point(position.getX() * GameObject.getWidthBox(),
                         position.getY() * GameObject.getWidthBox()),
                 "Pawn", GIRL_WIDTH, GIRL_HEIGHT);
         logger.info("New Girl id={}, position={}, session_ID = {}", id, position, session.getId());
-    }
-
-    public void incBombCapacity() {
-        ++this.bombCapacity;
     }
 
     public void plantBomb() {
@@ -95,8 +91,8 @@ public class Girl extends GameObject implements Movable, Tickable {
     }
 
     public void moveLog(Direction direction, int oldX, int oldY, int x, int y) {
-        logger.info("Girl id = {} moved {} ({}, {}) to ({}, {})",
-                getId(), direction.name(), oldX, oldY, x, y);
+        //logger.info("Girl id = {} moved {} ({}, {}) to ({}, {})",
+          //      getId(), direction.name(), oldX, oldY, x, y);
     }
 
     @Override
@@ -117,6 +113,13 @@ public class Girl extends GameObject implements Movable, Tickable {
     }
 
     public void decBombCapacity() {
-        --bombCapacity;
+        --this.bombCapacity;
+    }
+    public void incBombCapacity() {
+        ++this.bombCapacity;
+    }
+
+    public int getBombRange() {
+        return bombRange;
     }
 }
