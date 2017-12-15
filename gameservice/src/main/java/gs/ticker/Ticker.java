@@ -59,7 +59,6 @@ public class Ticker extends Thread {
             act(FRAME_TIME);
             checkCollisions();
             detonationBomb();
-            //test();
             for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
                 broker.send(session, Topic.REPLICA, gameSession.getGameObjects());
             }
@@ -82,7 +81,7 @@ public class Ticker extends Thread {
     private void handleQueue() {
         movedGirls.clear();
         for (Action action : inputQueue) {
-            if (action.getAction().equals(Topic.PLANT_BOMB)) {
+            if (action.getAction().equals(Topic.PLANT_BOMB) && action.getActor().getBombCapacity() != 0) {
                 Bomb bomb = new Bomb(gameSession, closestPoint(action.getActor().getPosition()), action.getActor());
                 gameSession.addGameObject(bomb);
                 gameSession.addGameObject(bomb);

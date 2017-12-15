@@ -31,14 +31,14 @@ GameEngine = Class.extend({
 
     serverProxy: null,
 
-    init: function() {
+    init: function () {
         this.size = {
             w: this.tileSize * this.tilesX,
             h: this.tileSize * this.tilesY
         };
     },
 
-    load: function() {
+    load: function () {
         // Init canvas
         this.stage = new createjs.Stage("canvas");
         this.stage.enableMouseOver();
@@ -46,7 +46,7 @@ GameEngine = Class.extend({
         // Load assets
         var queue = new createjs.LoadQueue();
         var that = this;
-        queue.addEventListener("complete", function() {
+        queue.addEventListener("complete", function () {
             that.playerBoyImg = queue.getResult("playerBoy");
             that.playerGirlImg = queue.getResult("playerGirl");
             that.playerGirl2Img = queue.getResult("playerGirl2");
@@ -78,7 +78,7 @@ GameEngine = Class.extend({
         this.menu = new Menu();
     },
 
-    setup: function() {
+    setup: function () {
         if (!gInputEngine.bindings.length) {
             gInputEngine.setup();
         }
@@ -107,9 +107,11 @@ GameEngine = Class.extend({
         if (!this.playing) {
             this.menu.show();
         }
+
+        this.drawTiles();
     },
 
-    onSoundLoaded: function(sound) {
+    onSoundLoaded: function (sound) {
         if (sound.id == 'game') {
             gGameEngine.soundtrackLoaded = true;
             if (gGameEngine.playersCount > 0) {
@@ -118,7 +120,7 @@ GameEngine = Class.extend({
         }
     },
 
-    playSoundtrack: function() {
+    playSoundtrack: function () {
         if (!gGameEngine.soundtrackPlaying) {
             gGameEngine.soundtrack = createjs.Sound.play("game", "none", 0, 0, -1);
             gGameEngine.soundtrack.setVolume(1);
@@ -126,7 +128,24 @@ GameEngine = Class.extend({
         }
     },
 
-    update: function() {
+    drawTiles: function () {
+        for (var i = 0; i < this.tilesY; i++) {
+            for (var j = 0; j < this.tilesX; j++) {
+                // Grass tiles
+                var img = new Image();
+                img.src = "img/tile_grass.png";
+
+                var bitmap = new createjs.Bitmap(img);
+
+                bitmap.x = j * 32;
+                bitmap.y = i * 32;
+
+                this.stage.addChild(bitmap);
+            }
+        }
+    },
+
+    update: function () {
         // Player
         for (var i = 0; i < gGameEngine.players.length; i++) {
             var player = gGameEngine.players[i];
@@ -161,7 +180,7 @@ GameEngine = Class.extend({
     //     }
     // },
 
-    restart: function() {
+    restart: function () {
         // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
@@ -171,12 +190,12 @@ GameEngine = Class.extend({
     /**
      * Moves specified child to the front.
      */
-    moveToFront: function(child) {
+    moveToFront: function (child) {
         var children = gGameEngine.stage.getNumChildren();
         gGameEngine.stage.setChildIndex(child, children - 1);
     },
 
-    toggleSound: function() {
+    toggleSound: function () {
         if (gGameEngine.mute) {
             gGameEngine.mute = false;
             gGameEngine.soundtrack.resume();
@@ -186,7 +205,7 @@ GameEngine = Class.extend({
         }
     },
 
-    gc: function(survivors) {
+    gc: function (survivors) {
         [this.players, this.tiles, this.bombs, this.bonuses].forEach(function (it) {
             var i = it.length;
             while (i--) {
