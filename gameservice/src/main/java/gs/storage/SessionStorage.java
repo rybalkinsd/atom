@@ -33,7 +33,6 @@ public class SessionStorage {
     }
 
     public static GameSession getByWebsocket(WebSocketSession session) {
-        System.out.println(storage.size());
         for (Map.Entry<GameSession, ArrayList<WebSocketSession>> i : storage.entrySet()) {
             for (WebSocketSession j : i.getValue()) {
                 if (session.equals(j)) {

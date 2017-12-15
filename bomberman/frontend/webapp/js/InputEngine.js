@@ -61,7 +61,7 @@ InputEngine = Class.extend({
             gInputEngine.actions[action] = true;
             var subscribers = gInputEngine.subscribers[action];
             if (subscribers) {
-                for (var i = 0; i < subscribers.length; i++ ) {
+                for (var i in subscribers) {
                     subscribers[i]()
                 }
             }
@@ -98,7 +98,7 @@ InputEngine = Class.extend({
                 return true;
             if (!(key in timers)) {
                 timers[key] = null;
-                keys[key](event);
+                //keys[key](event);
                 if (repeat !== 0)
                     var f = function () {
                         keys[key](event);

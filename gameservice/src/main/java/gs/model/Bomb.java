@@ -19,6 +19,9 @@ public class Bomb extends GameObject implements Tickable {
         logger.info("New Bomb id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 
+    public Girl getOwner() {
+        return this.owner;
+    }
 
     @Override
     public void tick(int elapsed) {

@@ -23,6 +23,7 @@ ServerProxy = Class.extend({
             self.socket.send(gMessages.move('left'))
         });
         gInputEngine.subscribe('right', function () {
+            console.log("socket : " + self.socket.toString());
             self.socket.send(gMessages.move('right'))
         });
         gInputEngine.subscribe('bomb', function () {
@@ -57,13 +58,13 @@ ServerProxy = Class.extend({
 
     connectToGameServer : function(gameId, login) {
         var self = this;
-        this.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&" + login);
+        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&" + login);
 
-        this.socket.onopen = function () {
+        self.socket.onopen = function () {
             console.log("Connection established.");
         };
 
-        this.socket.onclose = function (event) {
+        self.socket.onclose = function (event) {
             if (event.wasClean) {
                 console.log('closed');
             } else {
@@ -72,7 +73,7 @@ ServerProxy = Class.extend({
             console.log('Code: ' + event.code + ' cause: ' + event.reason);
         };
 
-        this.socket.onmessage = function (event) {
+        self.socket.onmessage = function (event) {
             var msg = JSON.parse(event.data);
             if (self.handler[msg.topic] === undefined)
                 return;
