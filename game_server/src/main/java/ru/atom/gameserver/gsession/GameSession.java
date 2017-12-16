@@ -51,10 +51,6 @@ public class GameSession {
         }
     }
 
-    /**
-     * @param login
-     * @return true if the last player was been removed from loginOnIdMap
-     */
     public boolean removePlayer(String login) {
         Integer id = loginOnIdMap.remove(login);
         //set pawn with id dead

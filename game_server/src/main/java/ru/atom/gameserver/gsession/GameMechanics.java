@@ -4,7 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import ru.atom.gameserver.geometry.Bar;
 import ru.atom.gameserver.geometry.Point;
 import ru.atom.gameserver.message.Message;
-import ru.atom.gameserver.model.*;
+import ru.atom.gameserver.model.Bomb;
+import ru.atom.gameserver.model.Buff;
+import ru.atom.gameserver.model.Fire;
+import ru.atom.gameserver.model.GameObject;
+import ru.atom.gameserver.model.Grass;
+import ru.atom.gameserver.model.Movable;
+import ru.atom.gameserver.model.Pawn;
+import ru.atom.gameserver.model.Static;
+import ru.atom.gameserver.model.Wall;
+import ru.atom.gameserver.model.Wood;
 import ru.atom.gameserver.tick.Tickable;
 import ru.atom.gameserver.tick.Ticker;
 import ru.atom.gameserver.util.JsonHelper;
@@ -80,7 +89,7 @@ public class GameMechanics implements Tickable, GarbageCollector, ModelsManager 
         Collections.shuffle(woodCollection);
         Random rnd = new Random();
         Buff.BuffType[] buffTypes = Buff.BuffType.values();
-        for (int i = 0; i < woodCollection.size(); ++i) {
+        for (int i = 0; i < 30; ++i) {
             woodCollection.get(i).setBuffType(buffTypes[rnd.nextInt(buffTypes.length)]);
         }
     }
@@ -88,12 +97,21 @@ public class GameMechanics implements Tickable, GarbageCollector, ModelsManager 
     int addPlayer() {
         int id = nextId();
         Point point = null;
-        switch (pawns.size()){
-            case 0: point = new Point(DEF_SIZE + 1.0f, DEF_SIZE + 1.0f); break;
-            case 1: point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE + 1.0f); break;
-            case 2: point = new Point(DEF_SIZE + 1.0f, DEF_SIZE * 11 - 1.0f); break;
-            case 3: point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE * 11 - 1.0f); break;
-            default: point = null;
+        switch (pawns.size()) {
+            case 0:
+                point = new Point(DEF_SIZE + 1.0f, DEF_SIZE + 1.0f);
+                break;
+            case 1:
+                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE + 1.0f);
+                break;
+            case 2:
+                point = new Point(DEF_SIZE + 1.0f, DEF_SIZE * 11 - 1.0f);
+                break;
+            case 3:
+                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE * 11 - 1.0f);
+                break;
+            default:
+                point = null;
         }
         Pawn pawn = new Pawn(id, point, 100.0f, 1);
         pawn.setGarbageCollector(this);
@@ -131,6 +149,8 @@ public class GameMechanics implements Tickable, GarbageCollector, ModelsManager 
                     translated.add(possess);
                     pawns.get(possess).plainBombEvent();
                 }
+                    break;
+                default:
                     break;
             }
         }

@@ -153,24 +153,24 @@ public class Field {
 
     public static class Cell {
 
-         public final int col;
-         public final int row;
+        public final int col;
+        public final int row;
 
-         public Cell(int col, int row) {
-             this.col = col;
-             this.row = row;
-         }
+        public Cell(int col, int row) {
+            this.col = col;
+            this.row = row;
+        }
 
         @Override
         public boolean equals(Object obj) {
-             if (obj == null) {
-                 return false;
-             }
-             if (!Cell.class.equals(obj)) {
-                 return false;
-             }
-             Cell cell = (Cell)obj;
-             return col == cell.col && row == cell.row;
+            if (obj == null) {
+                return false;
+            }
+            if (!Cell.class.equals(obj)) {
+                return false;
+            }
+            Cell cell = (Cell)obj;
+            return col == cell.col && row == cell.row;
         }
     }
 

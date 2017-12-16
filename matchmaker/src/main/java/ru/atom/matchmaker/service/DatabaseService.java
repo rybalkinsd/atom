@@ -83,7 +83,8 @@ public class DatabaseService {
     public String getTop() {
         Set<Player> players = playerDao.findTop10ByOrderByWinsDesc();
         logger.info("get top players");
-        return players.stream().map(player -> player.getLogin() + "=" + player.getWins()).collect(Collectors.joining(", "));
+        return players.stream().map(player -> player.getLogin() + "=" + player.getWins())
+                .collect(Collectors.joining(", "));
     }
 
     @Transactional

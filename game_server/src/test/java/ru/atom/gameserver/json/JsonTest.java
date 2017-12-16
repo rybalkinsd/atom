@@ -2,7 +2,12 @@ package ru.atom.gameserver.json;
 
 import org.junit.Test;
 import ru.atom.gameserver.geometry.Point;
-import ru.atom.gameserver.model.*;
+import ru.atom.gameserver.model.Bomb;
+import ru.atom.gameserver.model.Buff;
+import ru.atom.gameserver.model.Fire;
+import ru.atom.gameserver.model.Pawn;
+import ru.atom.gameserver.model.Wall;
+import ru.atom.gameserver.model.Wood;
 import ru.atom.gameserver.util.JsonHelper;
 
 import static org.junit.Assert.assertEquals;
@@ -41,16 +46,7 @@ public class JsonTest {
     public void woodWithoutBuffJsonTest() {
         Wood wood = new Wood(1, new Point(1.0f, 1.0f));
         String actualString = JsonHelper.getJsonNode(wood).toString();
-        String expectedString = "{\"id\":1,\"position\":{\"x\":1.0,\"y\":1.0},\"buffType\":null}";
-        assertEquals(expectedString, actualString);
-    }
-
-    @Test
-    public void woodWithBuffJsonTest() {
-        Wood wood = new Wood(1, new Point(1.0f, 1.0f));
-        wood.setBuffType(Buff.BuffType.CAPACITY);
-        String actualString = JsonHelper.getJsonNode(wood).toString();
-        String expectedString = "{\"id\":1,\"position\":{\"x\":1.0,\"y\":1.0},\"buffType\":\"CAPACITY\"}";
+        String expectedString = "{\"id\":1,\"position\":{\"x\":1.0,\"y\":1.0}}";
         assertEquals(expectedString, actualString);
     }
 

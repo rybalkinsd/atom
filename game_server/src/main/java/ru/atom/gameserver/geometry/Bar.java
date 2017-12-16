@@ -50,8 +50,8 @@ public class Bar implements Collider {
     }
 
     public boolean isIncluding(Point point) {
-        return originCorner.getX() <= point.getX() && point.getX() <= endCorner.getX() &&
-                originCorner.getY() <= point.getY() && point.getY() <= endCorner.getY();
+        return originCorner.getX() <= point.getX() && point.getX() <= endCorner.getX()
+                && originCorner.getY() <= point.getY() && point.getY() <= endCorner.getY();
     }
 
     public boolean isIncluding(Bar otherBar) {

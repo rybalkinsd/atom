@@ -2,7 +2,11 @@ package ru.atom.gameserver.gsession;
 
 import ru.atom.gameserver.geometry.Bar;
 import ru.atom.gameserver.geometry.Point;
-import ru.atom.gameserver.model.*;
+import ru.atom.gameserver.model.Bomb;
+import ru.atom.gameserver.model.Buff;
+import ru.atom.gameserver.model.Fire;
+import ru.atom.gameserver.model.GameObject;
+import ru.atom.gameserver.model.Pawn;
 
 import java.util.List;
 

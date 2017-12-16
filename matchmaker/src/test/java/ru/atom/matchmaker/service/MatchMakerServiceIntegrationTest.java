@@ -11,6 +11,7 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Ignore
 public class MatchMakerServiceIntegrationTest {
 
     @MockBean

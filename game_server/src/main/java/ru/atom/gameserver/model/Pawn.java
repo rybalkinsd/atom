@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Alexandr on 06.12.2017.
  */
-public class Pawn extends SaneGameObject implements Movable{
+public class Pawn extends SaneGameObject implements Movable {
 
     private float velocity;
     private int maxBombs;
@@ -83,11 +83,20 @@ public class Pawn extends SaneGameObject implements Movable{
         Point lastPosition = getPosition();
         Point newPosition;
         switch (direction) {
-            case UP: newPosition = new Point(lastPosition.getX(), lastPosition.getY() + dist); break;
-            case RIGHT: newPosition = new Point(lastPosition.getX() + dist, lastPosition.getY()); break;
-            case DOWN: newPosition = new Point(lastPosition.getX(), lastPosition.getY() - dist); break;
-            case LEFT: newPosition = new Point(lastPosition.getX() - dist, lastPosition.getY()); break;
-            default: newPosition = new Point(lastPosition.getX(), lastPosition.getY());
+            case UP:
+                newPosition = new Point(lastPosition.getX(), lastPosition.getY() + dist);
+                break;
+            case RIGHT:
+                newPosition = new Point(lastPosition.getX() + dist, lastPosition.getY());
+                break;
+            case DOWN:
+                newPosition = new Point(lastPosition.getX(), lastPosition.getY() - dist);
+                break;
+            case LEFT:
+                newPosition = new Point(lastPosition.getX() - dist, lastPosition.getY());
+                break;
+            default:
+                newPosition = new Point(lastPosition.getX(), lastPosition.getY());
         }
         Bar currBar = getBar();
         Bar nextBar = getSpecificBar(newPosition);
