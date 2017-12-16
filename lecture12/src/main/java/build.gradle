@@ -1,0 +1,27 @@
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.spring_boot_websocket
+    compile rootProject.libraries.websocketclient
+    compile rootProject.libraries.websocketserver
+    compile rootProject.libraries.websocketapi
+    compile rootProject.libraries.gson
+    compile rootProject.libraries.jetbrainsAnnotations
+
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
