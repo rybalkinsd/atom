@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public class Girl extends GameObject implements Movable, Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Girl.class);
-    private static final int GIRL_WIDTH = 23;
-    private static final int GIRL_HEIGHT = 23;
+    private static final int GIRL_WIDTH = 26;
+    private static final int GIRL_HEIGHT = 26;
     private Direction direction = Direction.IDLE;
-    private transient double speed = 1;
+    private transient double speed = 0.1;
     private transient int bombCapacity = 1;
     private transient int bombRange = 1;
 
@@ -29,7 +29,7 @@ public class Girl extends GameObject implements Movable, Tickable {
 
     @Override
     public Point move(int time) {
-        int delta = (int)(speed * (double)time / 8);
+        int delta = (int)(speed * (double)time);
         switch (direction) {
             case UP:
                 moveLog(direction, position.getX(), position.getY(),
@@ -58,7 +58,7 @@ public class Girl extends GameObject implements Movable, Tickable {
     }
 
     public Point moveBack(int time) {
-        int delta = (int)(speed * (double)time / 8);
+        int delta = (int)(speed * (double)time);
         switch (direction) {
             case DOWN:
                 moveLog(direction, position.getX(), position.getY(),
@@ -101,8 +101,8 @@ public class Girl extends GameObject implements Movable, Tickable {
         if (bonus.getBonusType().equals(Bonus.BonusType.BOMBS))
             this.bombCapacity++;
 
-        else if (bonus.getBonusType().equals(Bonus.BonusType.SPEED))
-            this.speed += 0.2;
+        else if (bonus.getBonusType().equals(Bonus.BonusType.SPEED) && this.speed < 0.26)
+            this.speed += 0.04;
 
         else this.bombRange++;
     }
@@ -133,5 +133,13 @@ public class Girl extends GameObject implements Movable, Tickable {
 
     public int getBombRange() {
         return bombRange;
+    }
+
+    public static int getGirlWidth() {
+        return GIRL_WIDTH;
+    }
+
+    public static int getGirlHeight() {
+        return GIRL_HEIGHT;
     }
 }
