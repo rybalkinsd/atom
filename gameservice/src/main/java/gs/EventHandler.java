@@ -3,6 +3,7 @@ package gs;
 import gs.message.Message;
 import gs.message.Topic;
 import gs.model.GameSession;
+import gs.model.Girl;
 import gs.network.Broker;
 import gs.network.ConnectionPool;
 import gs.storage.SessionStorage;
@@ -18,6 +19,8 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.ArrayList;
 
 @Component
 public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
@@ -46,21 +49,33 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
             Ticker ticker = new Ticker(gameSession);
             storage.putTicker(ticker, gameSession);
             ticker.setName("gameId : " + gameId);
+            ticker.begin();
             ticker.start();
         }
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
-        System.out.println(msg.toString());
-        Action action = new Action(msg.getTopic(), storage.getGirlBySocket(session), msg.getData());
-        storage.putAction(storage.getByWebsocket(session), action);
+        if(storage.isGameReady(storage.getByWebsocket(session))) {
+            Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
+            System.out.println(msg.toString());
+            Action action = new Action(msg.getTopic(), storage.getGirlBySocket(session), msg.getData());
+            storage.putAction(storage.getByWebsocket(session), action);
+        }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
+        GameSession gameSession = storage.getByWebsocket(session);
+        Girl girl = storage.getGirlBySocket(session);
+        gameSession.removeGameObject(girl);
+        ArrayList<WebSocketSession> websockets = storage.getWebsocketsByGameSession(gameSession);
+        websockets.remove(session);
+        if(websockets.isEmpty()) {
+            storage.getTickerByGameSession(gameSession).kill();
+            System.out.println("THE END!");
+        }
         super.afterConnectionClosed(session, closeStatus);
     }
 

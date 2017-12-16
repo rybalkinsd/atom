@@ -31,6 +31,7 @@ public class Ticker extends Thread {
     private final Set<String> players = new HashSet<>();
     private final ConcurrentHashMap<Integer, String> girlsIdToPlayer = new ConcurrentHashMap<Integer, String>();
     private final Queue<Action> inputQueue = new LinkedBlockingQueue<Action>();
+    private boolean isRunning;
 
     @Autowired
     SessionStorage storage;
@@ -47,23 +48,25 @@ public class Ticker extends Thread {
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            long started = System.currentTimeMillis();
-            handleQueue();
-            act(FRAME_TIME);
-            checkCollisions();
-            detonationBomb();
-            for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
-                broker.send(session, Topic.REPLICA, gameSession.getObjectsWithoutWalls());
-            }
-            long elapsed = System.currentTimeMillis() - started;
-            if (elapsed < FRAME_TIME) {
-                //log.info("All tick finish at {} ms", elapsed);
-                LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
-            } else {
-                log.warn("tick lag {} ms", elapsed - FRAME_TIME);
-            }
-            //log.info("{}: tick ", tickNumber);
-            tickNumber++;
+            if(isRunning) {
+                long started = System.currentTimeMillis();
+                handleQueue();
+                act(FRAME_TIME);
+                checkCollisions();
+                detonationBomb();
+                for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
+                    broker.send(session, Topic.REPLICA, gameSession.getObjectsWithoutWalls());
+                }
+                long elapsed = System.currentTimeMillis() - started;
+                if (elapsed < FRAME_TIME) {
+                    //log.info("All tick finish at {} ms", elapsed);
+                    LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
+                } else {
+                    log.warn("tick lag {} ms", elapsed - FRAME_TIME);
+                }
+                //log.info("{}: tick ", tickNumber);
+                tickNumber++;
+            } else return;
         }
     }
 
@@ -129,6 +132,10 @@ public class Ticker extends Thread {
             }
             girl.setDirection(Movable.Direction.IDLE);
         }
+    }
+
+    public void kill() {
+        isRunning = false;
     }
 
     public Point closestPoint(Point point) {
@@ -272,50 +279,15 @@ public class Ticker extends Thread {
             gameSession.addGameObject(new Fire(gameSession, bomb.getPosition()));
             if (verticalUp) {
                 gameSession.addGameObject(new Fire(gameSession, Point.getUp1Position(bomb.getPosition())));
-                if (notBonus && isBonus()) {
-                    gameSession.addGameObject(new Bonus(gameSession, Point.getUp1Position(bomb.getPosition()), randomBonus()));
-                    notBonus = false;
-                    System.out.println("BONUS");
-                }
-                /*if (gameSession.getGameObjectByPosition(Point.getUp2Position(bomb.getPosition())) == null
-                        || !Objects.equals("Wall",
-                        gameSession.getGameObjectByPosition(Point.getUp2Position(bomb.getPosition())).getType()))
-                    gameSession.addGameObject(new Fire(gameSession, Point.getUp2Position(bomb.getPosition())));*/
             }
             if (verticalDown) {
                 gameSession.addGameObject(new Fire(gameSession, Point.getDown1Position(bomb.getPosition())));
-                if (notBonus && isBonus()) {
-                    gameSession.addGameObject(new Bonus(gameSession, Point.getDown1Position(bomb.getPosition()), randomBonus()));
-                    notBonus = false;
-                    System.out.println("BONUS");
-                }
-                /*if (gameSession.getGameObjectByPosition(Point.getDown2Position(bomb.getPosition())) == null
-                        || !Objects.equals("Wall",
-                        gameSession.getGameObjectByPosition(Point.getDown2Position(bomb.getPosition())).getType()))
-                    gameSession.addGameObject(new Fire(gameSession, Point.getDown2Position(bomb.getPosition())));*/
             }
             if (horizontalRight) {
                 gameSession.addGameObject(new Fire(gameSession, Point.getRight1Position(bomb.getPosition())));
-                if (notBonus && isBonus()) {
-                    gameSession.addGameObject(new Bonus(gameSession, Point.getRight1Position(bomb.getPosition()), randomBonus()));
-                    notBonus = false;
-                    System.out.println("BONUS");
-                }
-                /*if (gameSession.getGameObjectByPosition(Point.getRight2Position(bomb.getPosition())) == null
-                        || !Objects.equals("Wall",
-                        gameSession.getGameObjectByPosition(Point.getRight2Position(bomb.getPosition())).getType()))
-                    gameSession.addGameObject(new Fire(gameSession, Point.getRight2Position(bomb.getPosition())));*/
             }
             if (horizontalLeft) {
                 gameSession.addGameObject(new Fire(gameSession, Point.getLeft1Position(bomb.getPosition())));
-                if (notBonus && isBonus()) {
-                    System.out.println("BONUS");
-                    gameSession.addGameObject(new Bonus(gameSession, Point.getLeft1Position(bomb.getPosition()), randomBonus()));
-                }
-                /*if (gameSession.getGameObjectByPosition(Point.getLeft2Position(bomb.getPosition())) == null
-                        || !Objects.equals("Wall",
-                        gameSession.getGameObjectByPosition(Point.getLeft2Position(bomb.getPosition())).getType()))
-                    gameSession.addGameObject(new Fire(gameSession, Point.getLeft2Position(bomb.getPosition())));*/
             }
             gameSession.removeGameObject(bomb);
         }
@@ -331,16 +303,13 @@ public class Ticker extends Thread {
         }
     }
 
-    public String randomBonus() {
-        double random = Math.random();
-        if (random < 0.33) return "Speed";
-        else if (random < 0.66) return "Bombs";
-        return "Explosion";
-    }
-
     public boolean isBonus() {
         double random = Math.random();
         if (random > 0.1) return true;
         return false;
+    }
+
+    public void begin() {
+        isRunning = true;
     }
 }

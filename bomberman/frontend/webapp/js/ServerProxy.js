@@ -1,4 +1,3 @@
-
 ServerProxy = Class.extend({
     gameServerUrl: "localhost:8090",
     matchMakerUrl: "http://localhost:8080",
@@ -11,24 +10,6 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
-
-        var self = this;
-        gInputEngine.subscribe('up', function () {
-            self.socket.send(gMessages.move('up'))
-        });
-        gInputEngine.subscribe('down', function () {
-            self.socket.send(gMessages.move('down'))
-        });
-        gInputEngine.subscribe('left', function () {
-            self.socket.send(gMessages.move('left'))
-        });
-        gInputEngine.subscribe('right', function () {
-            console.log("socket : " + self.socket.toString());
-            self.socket.send(gMessages.move('right'))
-        });
-        gInputEngine.subscribe('bomb', function () {
-            self.socket.send(gMessages.plantBomb())
-        });
     },
 
     getSessionIdFromMatchMaker: function () {
@@ -53,6 +34,28 @@ ServerProxy = Class.extend({
             alert("Matchmaker request failed, use default gameId=" + this.gameId);
             console.log("Matchmaker request failed, use default gameId=" + this.gameId);
             that.connectToGameServer(this.gameId, name);
+        });
+
+        that.subscribeEvents();
+    },
+
+    subscribeEvents: function() {
+        var self = this;
+        gInputEngine.subscribe('up', function () {
+            self.socket.send(gMessages.move('up'))
+        });
+        gInputEngine.subscribe('down', function () {
+            self.socket.send(gMessages.move('down'))
+        });
+        gInputEngine.subscribe('left', function () {
+            self.socket.send(gMessages.move('left'))
+        });
+        gInputEngine.subscribe('right', function () {
+            console.log("socket : " + self.socket.toString());
+            self.socket.send(gMessages.move('right'))
+        });
+        gInputEngine.subscribe('bomb', function () {
+            self.socket.send(gMessages.plantBomb())
         });
     },
 

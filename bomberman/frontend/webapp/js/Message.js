@@ -7,9 +7,7 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
-        this.handler['Speed'] = this.handleBonus;
-        this.handler['Bombs'] = this.handleBonus;
-        this.handler['Explosion'] = this.handleBonus;
+        this.handler['Bonus'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -35,9 +33,9 @@ Messages = Class.extend({
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data);
         var survivors = new Set();
-
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
+
             if (gMessages.handler[obj.type] === undefined)
                 continue;
 
@@ -56,7 +54,6 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-
         if (player) {
             player.bmp.x = position.x;
             player.bmp.y = position.y;
@@ -82,6 +79,21 @@ Messages = Class.extend({
         }
     },
 
+    handleBonus: function(obj) {
+        var bonus = gGameEngine.bonuses.find(function (el) {
+            return el.id === obj.id;
+        });
+        var position = Utils.getEntityPosition(obj.position);
+
+        if (bonus) {
+            bonus.bmp.x = position.x;
+            bonus.bmp.y = position.y;
+        } else {
+            bonus = new Bonus(obj.id, position, obj.bonusType);
+            gGameEngine.bonuses.push(bonus);
+        }
+    },
+
     handleTile: function (obj) {
         var tile = gGameEngine.tiles.find(function (el) {
             return el.id === obj.id;
@@ -94,19 +106,6 @@ Messages = Class.extend({
             gGameEngine.tiles.push(tile);
         }
     },
-
-     handleBonus: function (obj) {
-            var bonus = gGameEngine.bonuses.find(function (el) {
-                return el.id === obj.id;
-            });
-            var position = Utils.getEntityPosition(obj.position);
-            if (bonus) {
-                bonus.type = obj.type;
-            } else {
-                bonus = new Bonus(obj.id, obj.type, position);
-                gGameEngine.bonuses.push(bonus);
-            }
-        },
 
     hello: function (name) {
         var template = {
