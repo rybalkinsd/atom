@@ -1,0 +1,25 @@
+version: '2'
+services:
+  gameservice:
+    build:
+      context: .
+      dockerfile: Dockerfile.gameservice
+    ports:
+      - "8090:8090"
+  matchmaker:
+    build:
+      context: .
+      dockerfile: Dockerfile.matchmaker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - gameservice
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8000:8080"
+    depends_on:
+      - gameservice
+      - matchmaker

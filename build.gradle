@@ -61,17 +61,19 @@ subprojects {
 // common libraries declaration
 ext.libraries = [
         spring_boot : [
-            "org.springframework.boot:spring-boot-starter-web",
-            "org.springframework.boot:spring-boot-starter-actuator",
-            "org.springframework.boot:spring-boot-starter-data-jpa"
+                "org.springframework.boot:spring-boot-starter-web",
+                "org.springframework.boot:spring-boot-starter-actuator",
         ],
 
         spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
 
+        spring_boot_websocket: "org.springframework.boot:spring-boot-starter-websocket",
+        spring_boot_jpa: "org.springframework.boot:spring-boot-starter-data-jpa",
+
         junit: "junit:junit:$junitVersion",
         log4j: [
-            "org.apache.logging.log4j:log4j-api:$log4jVersion",
-            "org.apache.logging.log4j:log4j-core:$log4jVersion"
+                "org.apache.logging.log4j:log4j-api:$log4jVersion",
+                "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
@@ -83,7 +85,8 @@ ext.libraries = [
         websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
         jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
         jol: "org.openjdk.jol:jol-core:$jolVersion",
-        jol_samples: "org.openjdk.jol:jol-samples:$jolVersion"
+        jol_samples: "org.openjdk.jol:jol-samples:$jolVersion",
+        hibernate_entitymanager: "org.hibernate:hibernate-entitymanager:$hibernateVersion"
 ]
 
 // code coverage settings
@@ -97,8 +100,8 @@ jacocoTestReport {
     }
 
     reports {
-            xml.enabled = true
-            html.enabled = true
+        xml.enabled = true
+        html.enabled = true
     }
     doFirst {
         executionData = files(executionData.findAll {

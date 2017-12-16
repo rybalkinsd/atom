@@ -1,0 +1,5 @@
+apply plugin: 'war'
+
+bootRepackage {
+    enabled = false
+}
