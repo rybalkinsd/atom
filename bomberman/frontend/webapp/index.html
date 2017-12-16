@@ -37,9 +37,10 @@
             <input id="name" name="name"  size="81" type="text"  title="login" placeholder="login"/>
             <form method="POST" id="nameform" action="javascript:void(null);">
                 <input id="gamelink" name="gamelink"
-                       size="81" type="text" placeholder="Private link">
+                       size="81" type="text" placeholder="Player count to get link or link to connect">
                 <button onclick="getLink()">Get link</button>
-                <button onclick="connect()">Connect</button>
+                <button onclick="connectToPrivateGame()">Connect</button>
+            </form>
         </div>
         <h3>How to play</h3>
         <ul>
@@ -67,16 +68,24 @@
 <script>
     function getLink() {
         var url = "http://localhost:8080/";
+        var count = document.getElementById('gamelink').value;
         var settings = {
-            "method": "GET",
+            "method": "POST",
             "crossDomain": true,
-            "url": url + "matchmaker/link"
+            "url": url + "matchmaker/link",
+            "data": {playerCount: count}
         };
         $.ajax(settings).done(function(response) {
-            $("#gadget_url").val(response);
+            $("#gamelink").val(response);
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+    }
+</script>
+
+<script>
+    function connectToPrivateGame() {
+        gGameEngine.serverProxy.connectToGameServer(document.getElementById('gamelink').value, "name=Gitler")
     }
 </script>

@@ -35,8 +35,6 @@ ServerProxy = Class.extend({
             console.log("Matchmaker request failed, use default gameId=" + this.gameId);
             that.connectToGameServer(this.gameId, name);
         });
-
-        that.subscribeEvents();
     },
 
     subscribeEvents: function() {
@@ -62,6 +60,12 @@ ServerProxy = Class.extend({
     connectToGameServer : function(gameId, login) {
         var self = this;
         self.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&" + login);
+        gGameEngine.menu.hide();
+
+        gGameEngine.playing = true;
+        gGameEngine.restart();
+
+        self.subscribeEvents();
 
         self.socket.onopen = function () {
             console.log("Connection established.");

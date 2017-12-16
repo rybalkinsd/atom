@@ -3,6 +3,7 @@ package gs.controller;
 import gs.service.MatchmakerService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,17 @@ public class MatchmakerController {
         logger.info(name + " joins");
         Long gameId = matchmakerService.join(name);
         return new ResponseEntity<String>(gameId.toString(), HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            path = "link",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @CrossOrigin(origins = "http://localhost:63342")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> link(@RequestParam("playerCount") int playerCount) {
+        logger.info("Asked for private link");
+        String link = matchmakerService.getLink(playerCount);
+        return new ResponseEntity<>(link, HttpStatus.OK);
     }
 }

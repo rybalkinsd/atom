@@ -22,6 +22,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
+import static gs.message.Topic.GAME_OVER;
+
 public class Ticker extends Thread {
     public static final int PLAYERS_COUNT = 2;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(Ticker.class);
@@ -66,7 +68,10 @@ public class Ticker extends Thread {
                 }
                 //log.info("{}: tick ", tickNumber);
                 tickNumber++;
-            } else return;
+            } else {
+                System.out.println("THE END!");
+                return;
+            }
         }
     }
 
@@ -182,8 +187,12 @@ public class Ticker extends Thread {
                 for (int i = 0; i < explosions.size(); i++) {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
                         for (Girl girl: gameSession.getGirls()) {
-                            if (!girl.getBar().isColliding(explosions.get(i).get(j)))
+                            if (!girl.getBar().isColliding(explosions.get(i).get(j))) {
                                 objectList.add(girl);
+                                WebSocketSession session = storage.getWebsocketByGirl(girl);
+                                Broker.getInstance().send(session, GAME_OVER, "YOU LOSE, KAKASHI");
+                                storage.removeWebsocket(session);
+                            }
                         }
                         if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()) == null) {
                             gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
