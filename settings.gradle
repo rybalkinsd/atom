@@ -1,4 +1,4 @@
-rootProject.name = 'vinishko'
+rootProject.name = 'atom'
 include 'MatchMaker'
 include 'GameServer'
 
