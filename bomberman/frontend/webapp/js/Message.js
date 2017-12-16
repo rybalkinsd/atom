@@ -33,17 +33,25 @@ Messages = Class.extend({
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data);
         var survivors = new Set();
-        for (var i = 0; i < gameObjects.length; i++) {
-            var obj = gameObjects[i];
 
-            if (gMessages.handler[obj.type] === undefined)
-                continue;
-
-            survivors.add(obj.id);
-            gMessages.handler[obj.type](obj);
-        }
-        gGameEngine.gc(survivors);
+        gGameEngine.gc(gameObjects);
     },
+
+    /*handleReplica: function (msg) {
+              var gameObjects = JSON.parse(msg.data);
+              var survivors = new Set();
+              for (var i = 0; i < gameObjects.length; i++) {
+                  var obj = gameObjects[i];
+
+                  if (gMessages.handler[obj.type] === undefined)
+                      continue;
+
+                  survivors.add(obj.id);
+                  gMessages.handler[obj.type](obj);
+              }
+              gGameEngine.gc(survivors);
+      },*/
+
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);

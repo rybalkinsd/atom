@@ -209,26 +209,78 @@ GameEngine = Class.extend({
         }
     },
 
-    gc: function (survivors) {
-        [this.players, this.bombs, this.bonuses].forEach(function (it) {
-            var i = it.length;
-            while (i--) {
+    findObject: function (id) {
+        [this.bombs, this.bonuses, this.tiles, this.players].forEach(function (it) {
+                    var i = it.length;
+                    while (i--) {
+                        if (id == it[i].id) {
+                            return true;
+                        }
+                    }
+                });
+        return false;
+        },
+
+    gc: function (gameObjects) {
+        var survivors = new Set();
+
+        for (var i = 0; i < gameObjects.length; i++) {
+            var wasDeleted = false;
+            var obj = gameObjects[i];
+
+            if (obj.type == 'Pawn') {
+                gMessages.handler[obj.type](obj);
+                survivors.add(obj.id);
+                continue;
+            }
+
+            [this.tiles, this.bombs, this.bonuses].forEach(function (it) {
+                var i = it.length;
+                while (i--) {
+                    if (obj.id == it[i].id) {
+                        it[i].remove();
+                        it.splice(i, 1);
+                        wasDeleted = true;
+                    }
+                }
+            });
+
+            if (!wasDeleted && obj.type != 'Pawn') {
+                gMessages.handler[obj.type](obj);
+            }
+        }
+
+        [this.players].forEach(function (it) {
+             var i = it.length;
+             while (i--) {
                 if (!survivors.has(it[i].id)) {
                     it[i].remove();
                     it.splice(i, 1);
                 }
             }
         });
-        [this.tiles].forEach(function (it) {
-                    var i = it.length;
-                    while (i--) {
-                        if (it[i].material != 'Wall' && !survivors.has(it[i].id)) {
-                            it[i].remove();
-                            it.splice(i, 1);
-                        }
-                    }
-                });
     }
+
+    /*gc: function (survivors) {
+              [this.players, this.bombs, this.bonuses].forEach(function (it) {
+                  var i = it.length;
+                  while (i--) {
+                      if (!survivors.has(it[i].id)) {
+                          it[i].remove();
+                          it.splice(i, 1);
+                      }
+                  }
+              });
+              [this.tiles].forEach(function (it) {
+                          var i = it.length;
+                          while (i--) {
+                              if (it[i].material != 'Wall' && !survivors.has(it[i].id)) {
+                                  it[i].remove();
+                                  it.splice(i, 1);
+                              }
+                          }
+                      });
+      }*/
 
 });
 

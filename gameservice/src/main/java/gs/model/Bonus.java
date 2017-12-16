@@ -9,8 +9,6 @@ public class Bonus extends GameObject{
     private static final int BONUS_HEIGHT = 28;
     private final BonusType bonusType;
 
-    private static final int LIFETIME = 1000;
-
     public BonusType getBonusType() {
         return bonusType;
     }
@@ -28,7 +26,4 @@ public class Bonus extends GameObject{
         logger.info("New Bonus id={}, position={}, type = {}, session_ID = {}", id, position, bonusType, session.getId());
     }
 
-    public static int getLIFETIME() {
-        return LIFETIME;
-    }
 }
