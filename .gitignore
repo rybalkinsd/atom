@@ -3,6 +3,8 @@
 /out/
 build/
 
+*.class
+
 .idea/
 /*/build/
 /*/classes
