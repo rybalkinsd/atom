@@ -1,0 +1,31 @@
+repositories { jcenter() }
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile ('org.springframework.boot:spring-boot-starter-websocket')
+    compile rootProject.libraries.jetbrainsAnnotations
+
+    testCompile rootProject.libraries.okhttp
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+    testCompile "org.mockito:mockito-core:2.+"
+}
+
+springBoot {
+    mainClass = "gameserver.GameServerApplication"
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}

@@ -7,6 +7,9 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Speed'] = this.handleBonus;
+        this.handler['BBomb'] = this.handleBonus;
+        this.handler['BFire'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -30,7 +33,7 @@ Messages = Class.extend({
 
 
     handleReplica: function (msg) {
-        //var gameObjects = JSON.parse(msg.data).objects
+        //var gameObjects = JSON.parse(msg.data).objects;
         var gameObjects = msg.data.objects;
         var survivors = new Set();
 
@@ -62,6 +65,20 @@ Messages = Class.extend({
             console.log(new Date().getTime() + " handel new player " + obj.id);
             player = new Player(obj.id, position);
             gGameEngine.players.push(player);
+        }
+    },
+    handleBonus: function (obj) {
+        var bonus = gGameEngine.bonus.find(function (el) {
+            return el.id === obj.id;
+        });
+
+        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
+        var position = Utils.getEntityPosition(obj.position);
+        if (bonus) {
+            bonus.material = obj.type;
+        } else {
+            bonus = new Bonus(obj.id, obj.type, position);
+            gGameEngine.bonus.push(bonus);
         }
     },
 
