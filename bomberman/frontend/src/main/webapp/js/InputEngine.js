@@ -61,8 +61,8 @@ InputEngine = Class.extend({
             gInputEngine.actions[action] = true;
             var subscribers = gInputEngine.subscribers[action];
             if (subscribers) {
-                for (var i = 0; i < subscribers.length; i++ ) {
-                    subscribers[i]();
+                for (var i in subscribers) {
+                    subscribers[i]()
                 }
             }
 
