@@ -1,0 +1,8 @@
+  1 | Artur
+
+  1 | Artur
+
+
+ id     | integer               | not null  | plain    |              | 
+ login  | character varying(20) | not null  | extended |              | 
+
