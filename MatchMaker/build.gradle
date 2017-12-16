@@ -1,0 +1,31 @@
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile rootProject.libraries.postgres
+    compile rootProject.libraries.jetbrainsAnnotations
+    //compile rootProject.libraries.hibernate
+    //compile rootProject.libraries.mockServer
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+    testCompile("com.jayway.restassured:spring-mock-mvc:2.9.0")
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+configurations {
+    compile.exclude group:'ch.qos.logback'
+
+}
