@@ -1,0 +1,32 @@
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.okhttp
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile rootProject.libraries.postgres
+
+    testCompile rootProject.libraries.okhttp
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+}
+
+springBoot {
+    mainClass = "ru.atom.boot.mm.MatchMakerApp"
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}

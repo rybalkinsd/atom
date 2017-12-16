@@ -1,3 +1,4 @@
+
  .container {
     width: 545px;
 }
@@ -23,12 +24,19 @@ h1 {
 }
 
 .html5 {
+    //background: url('../img/html5.png');
     width: 64px;
     height: 64px;
     display: block;
     float: left;
     margin-right: 10px;
 }
+
+ .scrollDisabled {
+     position: fixed;
+     margin-top: 0;
+ width: 100%;
+ }
 
 .html5 span {
     display: none;
@@ -37,6 +45,10 @@ h1 {
 h1 strong {
     color: #FF4444;
 }
+
+ h1 strong {
+     color: Orange;
+ }
 
 .credits {
     color: gray;

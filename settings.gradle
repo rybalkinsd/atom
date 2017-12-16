@@ -1,2 +1,6 @@
-rootProject.name = 'atom'
-include 'lecture04'
+rootProject.name = 'vinishko'
+include 'MatchMaker'
+include 'GameServer'
+
+
+
