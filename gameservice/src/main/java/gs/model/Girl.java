@@ -3,14 +3,16 @@ package gs.model;
 import gs.geometry.Point;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 public class Girl extends GameObject implements Movable, Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Girl.class);
-    private static final int GIRL_WIDTH = 25;
-    private static final int GIRL_HEIGHT = 25;
+    private static final int GIRL_WIDTH = 23;
+    private static final int GIRL_HEIGHT = 23;
     private Direction direction = Direction.IDLE;
-    private transient double speed = 1 / 2;
-    private transient int bombCapacity = 2;
-    private transient int bombRange = 2;
+    private transient double speed = 1;
+    private transient int bombCapacity = 1;
+    private transient int bombRange = 1;
 
     public Girl(GameSession session, Point position) {
         super(session, new Point(position.getX() * GameObject.getWidthBox(),
@@ -27,7 +29,7 @@ public class Girl extends GameObject implements Movable, Tickable {
 
     @Override
     public Point move(int time) {
-        int delta = time / 8;
+        int delta = (int)(speed * (double)time / 8);
         switch (direction) {
             case UP:
                 moveLog(direction, position.getX(), position.getY(),
@@ -56,7 +58,7 @@ public class Girl extends GameObject implements Movable, Tickable {
     }
 
     public Point moveBack(int time) {
-        int delta = time / 8;
+        int delta = (int)(speed * (double)time / 8);
         switch (direction) {
             case DOWN:
                 moveLog(direction, position.getX(), position.getY(),
@@ -93,6 +95,16 @@ public class Girl extends GameObject implements Movable, Tickable {
     public void moveLog(Direction direction, int oldX, int oldY, int x, int y) {
         //logger.info("Girl id = {} moved {} ({}, {}) to ({}, {})",
           //      getId(), direction.name(), oldX, oldY, x, y);
+    }
+
+    public void takeBonus(Bonus bonus) {
+        if (bonus.getBonusType().equals(Bonus.BonusType.BOMBS))
+            this.bombCapacity++;
+
+        else if (bonus.getBonusType().equals(Bonus.BonusType.SPEED))
+            this.speed += 0.2;
+
+        else this.bombRange++;
     }
 
     @Override

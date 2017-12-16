@@ -120,15 +120,25 @@ public class Ticker extends Thread {
             Bar barGirl = girl.getBar();
             for (Wall wall : gameSession.getWalls()) {
                 Bar barWall = wall.getBar();
-                if (!barGirl.isColliding(barWall)) {
+                if (!barGirl.isColliding(barWall))
                     girl.moveBack(FRAME_TIME);
-                }
             }
             for (Brick brick : gameSession.getBricks()) {
                 Bar barBrick = brick.getBar();
-                if (!barGirl.isColliding(barBrick)) {
+                if (!barGirl.isColliding(barBrick))
                     girl.moveBack(FRAME_TIME);
+            }
+            for (Bonus bonus: gameSession.getBonuses()) {
+                Bar barBonus = bonus.getBar();
+                if (!barGirl.isColliding(barBonus)) {
+                    girl.takeBonus(bonus);
+                    gameSession.removeGameObject(bonus);
                 }
+            }
+            for (Bomb bomb: gameSession.getBombs()) {
+                Bar barBomb = bomb.getBar();
+                if (!barGirl.isColliding(barBomb) && !bomb.getOwner().equals(girl))
+                    girl.moveBack(FRAME_TIME);
             }
             girl.setDirection(Movable.Direction.IDLE);
         }
@@ -156,17 +166,16 @@ public class Ticker extends Thread {
 
     public void detonationBomb() {
         ArrayList<GameObject> objectList = new ArrayList<>();
-
         for (Fire fire : gameSession.getFire()) {
-            if (fire.dead())
+            if (fire.dead()) {
                 objectList.add(fire);
+            }
         }
 
         for (Bomb bomb : gameSession.getBombs()) {
             if (bomb.dead()) {
                 bomb.getOwner().incBombCapacity();
                 objectList.add(bomb);
-
                 ArrayList<ArrayList<Bar>> explosions = Bar.getExplosions(Point.getExplosions(bomb.getPosition(),
                         bomb.getOwner().getBombRange()));
 
@@ -180,13 +189,18 @@ public class Ticker extends Thread {
                             gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
                             continue;
                         }
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Bonus")) {
+                            continue;
+                        }
                         if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wall")) {
                             break;
                         }
                         if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wood")) {
                             objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
                             gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
-                            break;
+                            if (isBonus())
+                                gameSession.addGameObject(new Bonus(gameSession, explosions.get(i).get(j).getLeftPoint(), bonusType()));
+                            //break;
                         }
                         objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
                         gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
@@ -201,8 +215,14 @@ public class Ticker extends Thread {
 
     public boolean isBonus() {
         double random = Math.random();
-        if (random > 0.1) return true;
-        return false;
+        return (random < 0.3);
+    }
+
+    public Bonus.BonusType bonusType() {
+        double random = Math.random();
+        if (random < 0.3) return Bonus.BonusType.SPEED;
+        else if (random < 0.8) return Bonus.BonusType.BOMBS;
+        return Bonus.BonusType.RANGE;
     }
 
     public void begin() {

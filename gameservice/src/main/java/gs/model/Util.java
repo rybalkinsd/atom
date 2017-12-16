@@ -40,8 +40,9 @@ public final class Util {
     }
 
     private static void addBrick(GameSession session, Point position) {
+        session.addGameObject(new Brick(session, position));
         if(random.nextInt(100) < 16) {
-            switch (i) {
+            /*switch (i) {
                 case 1 :
                     addBonus(session, position, Bonus.BonusType.SPEED);
                     break;
@@ -56,11 +57,9 @@ public final class Util {
                     i = 1;
                     break;
                 default: break;
-
             }
-            i++;
+            i++;*/
         }
-        session.addGameObject(new Brick(session, position));
     }
 
     private static void addWall(GameSession session, Point position) {
