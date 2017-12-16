@@ -112,12 +112,13 @@ Messages = Class.extend({
         var bonus = gGameEngine.bonuses.find(function (el) {
             return el.id === obj.id;
         });
-
+        var types = ['speed', 'power', 'capacity']
         var position = Utils.getEntityPosition(obj.position);
+        var typePosition = types.findIndex(s => s == obj.buffType.toLowerCase())
         if (bonus) {
-            bonus.type = bonus.types[obj.type];
+            bonus.type = types[typePosition];
         } else {
-            bonus = new Bonus(obj.id, position, obj.type);
+            bonus = new Bonus(obj.id, position, typePosition);
             gGameEngine.bonuses.push(bonus);
         }
     }
