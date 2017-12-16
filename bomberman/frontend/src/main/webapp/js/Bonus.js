@@ -1,21 +1,37 @@
 Bonus = Entity.extend({
-    types: ['speed', 'bomb', 'fire'],
+    types: ['SPEED', 'BOMBS', 'RANGE'],
 
     type: '',
     position: {},
+    size: {
+        w: 32,
+        h: 32
+    },
+
     bmp: null,
 
-    init: function(position, typePosition) {
-        this.type = this.types[typePosition];
-
+    init: function(id, position, type) {
+        this.id = id;
+        this.type = type;
         this.position = position;
+        var img;
+        if (type === 'SPEED') {
+            img = gGameEngine.bonusesImgs.speed;
+        } else if (type === 'BOMBS') {
+            img = gGameEngine.bonusesImgs.bombs;
+        } else if (type === 'RANGE') {
+            img = gGameEngine.bonusesImgs.explosion;
+        }
 
-        this.bmp = new createjs.Bitmap(gGameEngine.bonusesImg);
-        var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x;
-        this.bmp.y = pixels.y;
-        this.bmp.sourceRect = new createjs.Rectangle(typePosition * 32, 0, 32, 32);
+        this.bmp = new createjs.Bitmap(img);
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
+        this.bmp.regX = -1;
+        this.bmp.regY = -1;
         gGameEngine.stage.addChild(this.bmp);
+    },
+
+    update: function() {
     },
 
     remove: function() {
