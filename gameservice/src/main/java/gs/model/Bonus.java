@@ -8,17 +8,27 @@ public class Bonus extends GameObject{
     private static final int BONUS_WIDTH = 28;
     private static final int BONUS_HEIGHT = 28;
     private final BonusType bonusType;
-    enum BonusType {
+
+    private static final int LIFETIME = 1000;
+
+    public BonusType getBonusType() {
+        return bonusType;
+    }
+
+    public enum BonusType {
         SPEED,
         RANGE,
         BOMBS
     }
 
     public Bonus(GameSession session, Point position, BonusType bonusType) {
-        super(session, new Point(position.getX() * GameObject.getWidthBox(),
-                        position.getY() * GameObject.getWidthBox()),
+        super(session, new Point(position.getX(), position.getY()),
                 "Bonus", BONUS_WIDTH, BONUS_HEIGHT);
         this.bonusType = bonusType;
         logger.info("New Bonus id={}, position={}, type = {}, session_ID = {}", id, position, bonusType, session.getId());
+    }
+
+    public static int getLIFETIME() {
+        return LIFETIME;
     }
 }
