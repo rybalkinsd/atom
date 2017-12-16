@@ -43,8 +43,8 @@ public class SessionStorage {
         return null;
     }
 
-    public static boolean isGameReady(long gameId) {
-        return storage.get(sessions.get(gameId)).size() == sessions.get(gameId).getPlayerCount();
+    public static boolean isGameReady(GameSession session) {
+        return storage.get(session).size() == session.getPlayerCount();
     }
 
     public static ArrayList<WebSocketSession> getWebsocketsByGameSession(GameSession session) {

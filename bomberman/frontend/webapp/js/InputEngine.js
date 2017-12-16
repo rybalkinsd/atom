@@ -98,7 +98,7 @@ InputEngine = Class.extend({
                 return true;
             if (!(key in timers)) {
                 timers[key] = null;
-                //keys[key](event);
+                keys[key](event);
                 if (repeat !== 0)
                     var f = function () {
                         keys[key](event);

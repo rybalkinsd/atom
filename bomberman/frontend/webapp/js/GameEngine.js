@@ -70,7 +70,7 @@ GameEngine = Class.extend({
             {id: "bomb", src: "img/bomb.png"},
             {id: "fire", src: "img/fire.png"},
             {id: "bonus_speed", src: "img/bonus_speed.png"},
-            {id: "bonus_bomb", src: "img/bonus_bombs.png"},
+            {id: "bonus_bomb", src: "img/bonus_bomb.png"},
             {id: "bonus_explosion", src: "img/bonus_explosion.png"},
         ]);
 
@@ -112,7 +112,7 @@ GameEngine = Class.extend({
             this.menu.show();
         }
 
-        this.drawTiles();
+        //this.drawTiles();
     },
 
     onSoundLoaded: function (sound) {

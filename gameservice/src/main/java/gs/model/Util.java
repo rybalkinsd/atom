@@ -1,10 +1,14 @@
 package gs.model;
 
 import gs.geometry.Point;
+import java.util.Random;
 
 public final class Util {
     private Util() {
     }
+
+    private static int i = 1;
+    private static final Random random = new Random();
 
     public static void generateMap(GameSession session) {
         for (int x = 0; x < 17; x++) {
@@ -36,11 +40,35 @@ public final class Util {
     }
 
     private static void addBrick(GameSession session, Point position) {
+        if(random.nextInt(100) < 16) {
+            switch (i) {
+                case 1 :
+                    addBonus(session, position, Bonus.BonusType.SPEED);
+                    break;
+                case 2 :
+                    addBonus(session, position, Bonus.BonusType.RANGE);
+                    break;
+                case 3 :
+                    addBonus(session, position, Bonus.BonusType.BOMBS);
+                    break;
+                case 4 :
+                    addBonus(session, position, Bonus.BonusType.SPEED);
+                    i = 1;
+                    break;
+                default: break;
+
+            }
+            i++;
+        }
         session.addGameObject(new Brick(session, position));
     }
 
     private static void addWall(GameSession session, Point position) {
         session.addGameObject(new Wall(session, position));
+    }
+
+    private static void addBonus(GameSession session, Point position, Bonus.BonusType type) {
+        session.addGameObject(new Bonus(session, position, type));
     }
 
 }
