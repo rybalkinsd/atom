@@ -26,6 +26,8 @@ Bonus = Entity.extend({
         this.bmp = new createjs.Bitmap(img);
         this.bmp.x = position.x;
         this.bmp.y = position.y;
+        this.bmp.regX = -1;
+        this.bmp.regY = -1;
         gGameEngine.stage.addChild(this.bmp);
     },
 

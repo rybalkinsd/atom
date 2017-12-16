@@ -14,7 +14,6 @@ public class Fire extends GameObject implements Tickable {
     public Fire(GameSession session, Point position) {
         super(session, new Point(position.getX(), position.getY()),
                 "Fire", FIRE_WIDTH, FIRE_HEIGHT);
-        logger.info("New Fire id={}, position={}, session_ID={}", id, position, session.getId());
     }
 
     @Override
