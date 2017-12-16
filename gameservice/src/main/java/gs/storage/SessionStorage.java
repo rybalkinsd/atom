@@ -57,12 +57,15 @@ public class SessionStorage {
                 entry.getValue().add(session);
             }
         }
+        System.out.println("addByGameId: " + storage.keySet().toString() + " " + storage.entrySet().size());
     }
 
     public static long addSession(int playerCount) {
         GameSession gameSession = new GameSession(playerCount, ++lastId);
         storage.put(gameSession, new ArrayList<WebSocketSession>(playerCount));
         sessions.put(lastId, gameSession);
+        System.out.println("addSession: " + storage.keySet().toString() + " " + storage.entrySet().size());
+        System.out.println("addSession: " + sessions.entrySet().toString() + " " + sessions.keySet().toString());
         return lastId;
     }
 
@@ -96,8 +99,13 @@ public class SessionStorage {
         return null;
     }
 
+    public static WebSocketSession getWebsocketByGirl(Girl girl) {
+        return girlToWebsocket.get(girl);
+    }
+
     public static void putGirlToSocket(WebSocketSession session, GameObject object) {
         girlToWebsocket.put((Girl) object, session);
+        System.out.println("girlToWebsocket: " + girlToWebsocket.keySet().toString() + " " + girlToWebsocket.entrySet().toString());
     }
 
     public static void putTicker(Ticker ticker, GameSession session) {
@@ -110,5 +118,29 @@ public class SessionStorage {
 
     public static Ticker getTickerByGameSession(GameSession session) {
         return tickers.get(session);
+    }
+
+    public void removeWebsocket(WebSocketSession session) {
+        for(Map.Entry e : storage.entrySet()) {
+            ArrayList<WebSocketSession> a = (ArrayList<WebSocketSession>) e.getValue();
+            if(a.contains(session)) {
+                GameSession gameSession = (GameSession) e.getKey();
+                gameSession.removeGameObject(getGirlBySocket(session));
+                a.remove(session);
+                if(a.isEmpty()) {
+                    removeGameSession(gameSession);
+                }
+            }
+        }
+        girlToWebsocket.remove(getGirlBySocket(session));
+    }
+
+    public void removeGameSession(GameSession session) {
+        storage.remove(session);
+        for(Map.Entry e : sessions.entrySet()) {
+            if(e.getValue().equals(session)) sessions.remove(e.getKey());
+        }
+        tickers.get(session).kill();
+        tickers.remove(session);
     }
 }

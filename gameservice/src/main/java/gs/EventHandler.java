@@ -33,24 +33,30 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         super.afterConnectionEstablished(session);
         MultiValueMap<String, String> parameters =
                 UriComponentsBuilder.fromUri(session.getUri()).build().getQueryParams();
+        System.out.println(session.toString());
         String idParam = parameters.get("gameId").toString();
         String name = parameters.get("name").toString();
         name = name.substring(1, name.length() - 1);
         long gameId = Long.parseLong(idParam.substring(1, idParam.length() - 1));
-        storage.addByGameId(gameId, session);
         GameSession gameSession = storage.getSessionById(gameId);
-        ConnectionPool.getInstance().add(session, name);
-        int data = storage.getId(gameId);
-        Broker.getInstance().send(session, Topic.POSSESS, data);
-        gameSession.addPlayer(data);
-        storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
-        Broker.getInstance().send(session, Topic.REPLICA, storage.getSessionById(gameId).getGameObjects());
-        if (gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
-            Ticker ticker = new Ticker(gameSession);
-            storage.putTicker(ticker, gameSession);
-            ticker.setName("gameId : " + gameId);
-            ticker.begin();
-            ticker.start();
+        if(gameSession.getPlayerCount() >= storage.getWebsocketsByGameSession(gameSession).size()) {
+            storage.addByGameId(gameId, session);
+            ConnectionPool.getInstance().add(session, name);
+            int data = storage.getId(gameId);
+            Broker.getInstance().send(session, Topic.POSSESS, data);
+            gameSession.addPlayer(data);
+            storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
+            Broker.getInstance().send(session, Topic.REPLICA, storage.getSessionById(gameId).getGameObjects());
+            System.out.println(gameSession.getPlayerCount() + " " + storage.getWebsocketsByGameSession(gameSession).size());
+            if (gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
+                Ticker ticker = new Ticker(gameSession);
+                storage.putTicker(ticker, gameSession);
+                ticker.setName("gameId : " + gameId);
+                ticker.begin();
+                ticker.start();
+            }
+        } else {
+            session.close();
         }
     }
 
@@ -67,15 +73,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
-        GameSession gameSession = storage.getByWebsocket(session);
-        Girl girl = storage.getGirlBySocket(session);
-        gameSession.removeGameObject(girl);
-        ArrayList<WebSocketSession> websockets = storage.getWebsocketsByGameSession(gameSession);
-        websockets.remove(session);
-        if(websockets.isEmpty()) {
-            storage.getTickerByGameSession(gameSession).kill();
-            System.out.println("THE END!");
-        }
+        storage.removeWebsocket(session);
         super.afterConnectionClosed(session, closeStatus);
     }
 

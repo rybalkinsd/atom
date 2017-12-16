@@ -43,11 +43,7 @@ Menu = Class.extend({
     },
 
     start: function () {
-        this.hide();
-
-        gGameEngine.playing = true;
         gGameEngine.serverProxy.getSessionIdFromMatchMaker();
-        gGameEngine.restart();
     },
 
     draw: function (text) {
