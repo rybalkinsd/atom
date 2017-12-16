@@ -1,14 +1,19 @@
 dependencies {
-    testCompile rootProject.libraries.junit
-    compile rootProject.libraries.log4j
-    compile rootProject.libraries.jetty_server
-    compile rootProject.libraries.jetty_servlet
-    compile rootProject.libraries.jersey_server
-    compile rootProject.libraries.jersey_containers
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_jpa
+
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate
+
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
 }
+
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+
 
 sourceSets {
     main {

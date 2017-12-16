@@ -1,12 +1,8 @@
 dependencies {
     testCompile rootProject.libraries.junit
+    compile rootProject.libraries.spring_boot
     compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
-}
-
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.lecture09.serialization.ObjectServer' }
 }
 
 sourceSets {

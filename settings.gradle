@@ -1,6 +1,5 @@
 rootProject.name = 'atom'
 include 'MatchMaker'
 include 'GameServer'
-
-
+include 'bomberman/frontend'
 
