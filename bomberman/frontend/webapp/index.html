@@ -35,6 +35,11 @@
         <div id="game">
             <canvas id="canvas" width="545" height="416" style="background-color: gray;"></canvas>
             <input id="name" name="name"  size="81" type="text"  title="login" placeholder="login"/>
+            <form method="POST" id="nameform" action="javascript:void(null);">
+                <input id="gamelink" name="gamelink"
+                       size="81" type="text" placeholder="Private link">
+                <button onclick="getLink()">Get link</button>
+                <button onclick="connect()">Connect</button>
         </div>
         <h3>How to play</h3>
         <ul>
@@ -58,3 +63,20 @@
     </div>
 </body>
 </html>
+
+<script>
+    function getLink() {
+        var url = "http://localhost:8080/";
+        var settings = {
+            "method": "GET",
+            "crossDomain": true,
+            "url": url + "matchmaker/link"
+        };
+        $.ajax(settings).done(function(response) {
+            $("#gadget_url").val(response);
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+</script>

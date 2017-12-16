@@ -34,7 +34,7 @@ Tile = Entity.extend({
         this.bmp.x = position.x;
         this.bmp.y = position.y;
 
-        //gGameEngine.stage.addChild(this.bmp);
+        gGameEngine.stage.addChild(this.bmp);
     },
 
     update: function() {
