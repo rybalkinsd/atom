@@ -74,7 +74,7 @@ public class GameSession implements Tickable {
 
     public GameObject getGameObjectByPosition(Point position) {
         for (GameObject object : gameObjects) {
-            if (object.getPosition().equals(position)) {
+            if (object.getPosition().equals(position) && !(object instanceof Fire)) {
                 return object;
             }
         }
@@ -145,6 +145,15 @@ public class GameSession implements Tickable {
                 fire.add((Fire) object);
         }
         return fire;
+    }
+
+    public ArrayList<Bonus> getBonuses() {
+        ArrayList<Bonus> bonuses = new ArrayList<>();
+        for (GameObject object : gameObjects) {
+            if (object instanceof Bonus)
+                bonuses.add((Bonus) object);
+        }
+        return bonuses;
     }
 
     public ArrayList<GameObject> getObjectsWithoutWalls() {
