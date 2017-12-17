@@ -71,7 +71,9 @@ public class Ticker extends Thread {
                 detonationBomb();
                 for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
                     broker.send(session, Topic.REPLICA, changedObjects);
-                    //broker.send(session, Topic.REPLICA, gameSession.getObjectsWithoutWalls());
+                }
+                for (Girl girl: gameSession.getGirls()) {
+                    girl.setDirection(Movable.Direction.IDLE);
                 }
                 long elapsed = System.currentTimeMillis() - started;
                 if (elapsed < FRAME_TIME) {
@@ -166,7 +168,6 @@ public class Ticker extends Thread {
                     girl.moveBack(FRAME_TIME);
             }
             changedObjects.add(girl);
-            girl.setDirection(Movable.Direction.IDLE);
         }
     }
 
@@ -219,16 +220,9 @@ public class Ticker extends Thread {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
                         for (Girl girl: gameSession.getGirls()) {
                             if (!girl.getGirlBar().isColliding(explosions.get(i).get(j))) {
-                                for (int k = 0; k < objectList.size(); k++) {
-                                    System.out.println(objectList.get(k).getType());
-                                }
                                 objectList.add(girl);
 
                                 WebSocketSession session = storage.getWebsocketByGirl(girl);
-                                for (int k = 0; k < objectList.size(); k++) {
-                                    System.out.println(objectList.get(k).getType());
-                                }
-
                                 Broker.getInstance().send(session, REPLICA, girl);
                                 storage.removeWebsocket(session);
                             }

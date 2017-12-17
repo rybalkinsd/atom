@@ -31,6 +31,7 @@ public class Broker {
     public void send(@NotNull WebSocketSession session, @NotNull Topic topic, @NotNull Object object) {
         long time = System.currentTimeMillis();
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
+        //System.out.println(message);
         connectionPool.send(session, message);
     }
 

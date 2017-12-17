@@ -153,7 +153,8 @@ GameEngine = Class.extend({
         // Player
         for (var i = 0; i < gGameEngine.players.length; i++) {
             var player = gGameEngine.players[i];
-            player.update();
+
+            player.update(player.id);
         }
 
         // Bombs
@@ -252,6 +253,7 @@ GameEngine = Class.extend({
 
         [this.players].forEach(function (it) {
              var i = it.length;
+
              while (i--) {
                 if (!survivors.has(it[i].id)) {
                     it[i].remove();
@@ -260,28 +262,6 @@ GameEngine = Class.extend({
             }
         });
     }
-
-    /*gc: function (survivors) {
-              [this.players, this.bombs, this.bonuses].forEach(function (it) {
-                  var i = it.length;
-                  while (i--) {
-                      if (!survivors.has(it[i].id)) {
-                          it[i].remove();
-                          it.splice(i, 1);
-                      }
-                  }
-              });
-              [this.tiles].forEach(function (it) {
-                          var i = it.length;
-                          while (i--) {
-                              if (it[i].material != 'Wall' && !survivors.has(it[i].id)) {
-                                  it[i].remove();
-                                  it.splice(i, 1);
-                              }
-                          }
-                      });
-      }*/
-
 });
 
 gGameEngine = new GameEngine();

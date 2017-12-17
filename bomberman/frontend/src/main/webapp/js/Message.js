@@ -29,29 +29,12 @@ Messages = Class.extend({
         return JSON.stringify(template);
     },
 
-
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data);
         var survivors = new Set();
 
         gGameEngine.gc(gameObjects);
     },
-
-    /*handleReplica: function (msg) {
-              var gameObjects = JSON.parse(msg.data);
-              var survivors = new Set();
-              for (var i = 0; i < gameObjects.length; i++) {
-                  var obj = gameObjects[i];
-
-                  if (gMessages.handler[obj.type] === undefined)
-                      continue;
-
-                  survivors.add(obj.id);
-                  gMessages.handler[obj.type](obj);
-              }
-              gGameEngine.gc(survivors);
-      },*/
-
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);
@@ -62,9 +45,12 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
+        var direction = obj.direction;
         if (player) {
             player.bmp.x = position.x;
             player.bmp.y = position.y;
+            player.direction = direction;
+            //player.update(obj.id);
         } else {
             console.log(new Date().getTime() + " handel new player " + obj.id);
             player = new Player(obj.id, position);

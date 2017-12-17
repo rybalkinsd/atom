@@ -11,7 +11,7 @@ Player = Entity.extend({
      * Bitmap animation
      */
     bmp: null,
-
+    direction: null,
     alive: true,
 
     bombs: [],
@@ -61,15 +61,25 @@ Player = Entity.extend({
     },
 
 
-    update: function() {
+    update: function(id) {
         if (!this.alive) {
             return;
         }
 
-        if (gInputEngine.possessed !== this.id) {
+        if (this.direction == "UP") {
+            this.animate('up');
+        } else if (this.direction == "DOWN") {
+            this.animate('down');
+        } else if (this.direction == "LEFT") {
+            this.animate('left');
+        } else if (this.direction == "RIGHT") {
+            this.animate('right');
+        } else {
+            this.animate('idle');
+        }
+        /*if (gInputEngine.possessed !== this.id) {
             return;
         }
-
         if (gInputEngine.actions[this.controls.up]) {
             this.animate('up');
         } else if (gInputEngine.actions[this.controls.down]) {
@@ -80,7 +90,8 @@ Player = Entity.extend({
             this.animate('right');
         } else {
             this.animate('idle');
-        }
+        }*/
+
     },
 
     /**
