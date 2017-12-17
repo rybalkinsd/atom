@@ -39,16 +39,20 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         name = name.substring(1, name.length() - 1);
         long gameId = Long.parseLong(idParam.substring(1, idParam.length() - 1));
         GameSession gameSession = storage.getSessionById(gameId);
-        if(gameSession.getPlayerCount() >= storage.getWebsocketsByGameSession(gameSession).size()) {
+        if (gameSession.getPlayerCount()
+                >= storage.getWebsocketsByGameSession(gameSession).size()) {
             storage.addByGameId(gameId, session);
             ConnectionPool.getInstance().add(session, name);
             int data = storage.getId(gameId);
             Broker.getInstance().send(session, Topic.POSSESS, data);
             gameSession.addPlayer(data);
             storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
-            Broker.getInstance().send(session, Topic.REPLICA, storage.getSessionById(gameId).getGameObjects());
-            System.out.println(gameSession.getPlayerCount() + " " + storage.getWebsocketsByGameSession(gameSession).size());
-            if (gameSession.getPlayerCount() == storage.getWebsocketsByGameSession(gameSession).size()) {
+            Broker.getInstance().send(session, Topic.REPLICA,
+                    storage.getSessionById(gameId).getGameObjects());
+            System.out.println(gameSession.getPlayerCount() + " " +
+                    storage.getWebsocketsByGameSession(gameSession).size());
+            if (gameSession.getPlayerCount()
+                    == storage.getWebsocketsByGameSession(gameSession).size()) {
                 Ticker ticker = new Ticker(gameSession);
                 storage.putTicker(ticker, gameSession);
                 ticker.setName("gameId : " + gameId);
@@ -62,17 +66,18 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        if(storage.isGameReady(storage.getByWebsocket(session))) {
+        if (storage.isGameReady(storage.getByWebsocket(session))) {
             Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
-            System.out.println(msg.toString());
-            Action action = new Action(msg.getTopic(), storage.getGirlBySocket(session), msg.getData());
+            Action action = new Action(msg.getTopic(),
+                    storage.getGirlBySocket(session), msg.getData());
             storage.putAction(storage.getByWebsocket(session), action);
         }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
+        System.out.println("Socket Closed: [" +
+                closeStatus.getCode() + "] " + closeStatus.getReason());
         storage.removeWebsocket(session);
         super.afterConnectionClosed(session, closeStatus);
     }

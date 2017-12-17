@@ -105,7 +105,8 @@ public class SessionStorage {
 
     public static void putGirlToSocket(WebSocketSession session, GameObject object) {
         girlToWebsocket.put((Girl) object, session);
-        System.out.println("girlToWebsocket: " + girlToWebsocket.keySet().toString() + " " + girlToWebsocket.entrySet().toString());
+        System.out.println("girlToWebsocket: " + girlToWebsocket.keySet().toString() +
+                " " + girlToWebsocket.entrySet().toString());
     }
 
     public static void putTicker(Ticker ticker, GameSession session) {
@@ -121,13 +122,13 @@ public class SessionStorage {
     }
 
     public void removeWebsocket(WebSocketSession session) {
-        for(Map.Entry e : storage.entrySet()) {
-            ArrayList<WebSocketSession> a = (ArrayList<WebSocketSession>) e.getValue();
-            if(a.contains(session)) {
+        for (Map.Entry e : storage.entrySet()) {
+            ArrayList<WebSocketSession> tmp = (ArrayList<WebSocketSession>) e.getValue();
+            if (tmp.contains(session)) {
                 GameSession gameSession = (GameSession) e.getKey();
                 gameSession.removeGameObject(getGirlBySocket(session));
-                a.remove(session);
-                if(a.isEmpty()) {
+                tmp.remove(session);
+                if (tmp.isEmpty()) {
                     removeGameSession(gameSession);
                 }
             }
@@ -137,8 +138,8 @@ public class SessionStorage {
 
     public void removeGameSession(GameSession session) {
         storage.remove(session);
-        for(Map.Entry e : sessions.entrySet()) {
-            if(e.getValue().equals(session)) sessions.remove(e.getKey());
+        for (Map.Entry e : sessions.entrySet()) {
+            if (e.getValue().equals(session)) sessions.remove(e.getKey());
         }
         tickers.get(session).kill();
         tickers.remove(session);

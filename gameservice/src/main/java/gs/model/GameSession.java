@@ -165,6 +165,7 @@ public class GameSession implements Tickable {
         }
         return objects;
     }
+
     @Override
     public void tick(int elapsed) {
         logger.info("tick");
