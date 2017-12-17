@@ -30,7 +30,7 @@ public class Pawn extends SaneGameObject implements Movable {
     }
 
     private Bar getSpecificBar(Point position) {
-        return new Bar(position, 28, 28);
+        return new Bar(position, 25, 25);
     }
 
     @Override
@@ -119,7 +119,8 @@ public class Pawn extends SaneGameObject implements Movable {
 
     public void plainBombEvent() {
         if (maxBombs > bombs.size()) {
-            Bomb bomb = modelsManager.putBomb(getPosition(), 2000, bombPower);
+            Point middlePos = new Point(getPosition().getX() + 12.5f, getPosition().getY() + 12.5f);
+            Bomb bomb = modelsManager.putBomb(middlePos, 2000, bombPower);
             bombs.add(bomb);
         }
     }

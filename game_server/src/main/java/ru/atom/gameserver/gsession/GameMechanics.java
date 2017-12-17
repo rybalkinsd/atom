@@ -102,13 +102,13 @@ public class GameMechanics implements Tickable, GarbageCollector, ModelsManager 
                 point = new Point(DEF_SIZE + 1.0f, DEF_SIZE + 1.0f);
                 break;
             case 1:
-                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE + 1.0f);
+                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE * 11 - 1.0f);
                 break;
             case 2:
                 point = new Point(DEF_SIZE + 1.0f, DEF_SIZE * 11 - 1.0f);
                 break;
             case 3:
-                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE * 11 - 1.0f);
+                point = new Point(DEF_SIZE * 15 - 1.0f, DEF_SIZE + 1.0f);
                 break;
             default:
                 point = null;
