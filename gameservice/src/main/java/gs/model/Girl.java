@@ -14,7 +14,7 @@ public class Girl extends GameObject implements Movable {
 
     public Girl(GameSession session, Point position) {
         super(session, position, GIRL_WIDTH, GIRL_HEIGHT);
-        logger.info("New Girl id={}, position={}, session_ID", id, position, session.getId());
+        logger.info("New Girl id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 
     public void incBombCapacity() {

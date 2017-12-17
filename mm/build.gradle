@@ -1,15 +1,18 @@
 dependencies {
     compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_websocket
+
+    compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
 
     testCompile rootProject.libraries.junit
     testCompile rootProject.libraries.spring_boot_test
 }
 
-configurations {
-    compile.exclude group:'ch.qos.logback'
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.mm.gs.MatchmakerServer' }
 }
-
 
 sourceSets {
     main {
