@@ -21,7 +21,7 @@ Utils.convertToEntityPosition = function(pixels) {
 Utils.getEntityPosition = function (pixels) {
     var position = {};
     position.x = pixels.x;
-    position.y = -pixels.y + 12 * 32;
+    position.y = /*-*/pixels.y /*+ 12 * 32*/;
     return position;
 }
 
@@ -30,8 +30,8 @@ Utils.getEntityPosition = function (pixels) {
  */
 Utils.convertToBitmapPosition = function(entity) {
     var position = {};
-    position.x = entity.x * gGameEngine.tileSize;
-    position.y = entity.y * gGameEngine.tileSize;
+    position.x = entity.x/* * gGameEngine.tileSize*/;
+    position.y = entity.y/* * gGameEngine.tileSize*/;
     return position;
 };
 

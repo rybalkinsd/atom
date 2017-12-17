@@ -86,6 +86,10 @@ GameEngine = Class.extend({
         this.bombs = [];
         this.tiles = [];
         this.bonuses = [];
+        this.players = [];
+        this.fires = [];
+
+        this.serverProxy = new ServerProxy();
 
         this.serverProxy = new ServerProxy();
 
@@ -146,26 +150,19 @@ GameEngine = Class.extend({
         gGameEngine.stage.update();
     },
 
-    // gameOver: function(status) {
-    //     if (gGameEngine.menu.visible) { return; }
-    //
-    //     if (status == 'win') {
-    //         var winText = "You won!";
-    //         if (gGameEngine.playersCount > 1) {
-    //             var winner = gGameEngine.getWinner();
-    //             winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
-    //         }
-    //         this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
-    //     } else {
-    //         this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
-    //     }
-    // },
+    gameOver: function(playerId) {
+         if (gInputEngine.possessed === playerId) {
+             var winText = "You won!";
+             this.menu.show({text: winText, color: '#669900'});
+         } else {
+             this.menu.show({text: 'Game Over', color: '#CC0000'});
+         }
+     },
 
     restart: function() {
-        // gInputEngine.removeAllListeners();
+        gInputEngine.removeSubscribers();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
-        this.serverProxy = new ServerProxy();
     },
 
     /**
@@ -186,11 +183,13 @@ GameEngine = Class.extend({
         }
     },
 
+
+
     gc: function(survivors) {
         [this.players, this.tiles, this.bombs, this.bonuses].forEach(function (it) {
             var i = it.length;
             while (i--) {
-                if (!survivors.has(it[i].id)) {
+                if (survivors.has(it[i].id)) {
                     it[i].remove();
                     it.splice(i, 1);
                 }
