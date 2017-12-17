@@ -35,8 +35,8 @@ Fire = Entity.extend({
 
         this.position = position;
 
-        this.bmp.x = position.x + 2;
-        this.bmp.y = position.y - 5;
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
 
         gGameEngine.stage.addChild(this.bmp);
     },
