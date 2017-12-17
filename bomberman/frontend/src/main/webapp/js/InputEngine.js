@@ -21,6 +21,10 @@ InputEngine = Class.extend({
 
     init: function() { },
 
+    removeSubscribers: function() {
+        this.subscribers = [];
+    },
+
     setup: function() {
         this.bind(37, 'left');
         this.bind(38, 'up');

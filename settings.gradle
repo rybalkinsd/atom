@@ -1,2 +1,4 @@
 rootProject.name = 'atom'
-include 'lecture01'
+include 'matchmaker'
+include 'GameServer'
+include 'bomberman'

@@ -7,6 +7,8 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Grass'] = this.handleTile;
+        this.handler['Bonus'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -31,17 +33,30 @@ Messages = Class.extend({
 
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data).objects;
-        var survivors = new Set();
+        var survivors =  new Set();
+        var deleted = JSON.parse(msg.data).deleted;
+        var winnerId = JSON.parse(msg.data).winnerId;
+        var gameOver = JSON.parse(msg.data).gameOver;
+
+        for (var i = 0; i < deleted.length; i++) {
+            var deletedObj = deleted[i];
+            /*if (gMessages.handler[obj.type] == undefined)
+                continue;*/
+            survivors.add(deletedObj.id);
+        }
 
         for (var i = 0; i < gameObjects.length; i++) {
             var obj = gameObjects[i];
-            if (gMessages.handler[obj.type] === undefined)
-                continue;
+            /*if (gMessages.handler[obj.type] === undefined)
+                continue;*/
 
-            survivors.add(obj.id);
+            //survivors.add(deletedObj.id);
             gMessages.handler[obj.type](obj);
         }
         gGameEngine.gc(survivors);
+        if (gameOver == true) {
+            gGameEngine.gameOver(winnerId);
+        }
     },
 
     handlePossess: function (msg) {
@@ -103,7 +118,22 @@ Messages = Class.extend({
             fire = new Fire(obj.id, position);
             gGameEngine.fires.push(fire);
         }
-    }
+    },
+
+    handleBonus: function(obj) {
+        var bonus = gGameEngine.bonuses.find(function (el) {
+            return el.id === obj.id;
+        });
+        var position = Utils.getEntityPosition(obj.position);
+
+        if (bonus) {
+            bonus.bmp.x = position.x;
+            bonus.bmp.y = position.y;
+        } else {
+            bonus = new Bonus(obj.id, position, obj.typePosition);
+            gGameEngine.bonuses.push(bonus);
+        }
+    },
 
 });
 
