@@ -13,7 +13,7 @@ public class ModelTest {
 
     @Test
     public void pawnCalculateBarTest() {
-        Bar expectedBar = new Bar(0,0,28,28);
+        Bar expectedBar = new Bar(0,0,25,25);
         pawn.calculateBar();
         assertTrue(pawn.getBar().equals(expectedBar));
     }
