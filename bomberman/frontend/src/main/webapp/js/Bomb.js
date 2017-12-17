@@ -47,8 +47,8 @@ Bomb = Entity.extend({
             frames: {
                 width: this.size.w,
                 height: this.size.h,
-                regX: 5,
-                regY: 5
+                regX: -2,
+                regY: -2
             },
             animations: {
                 idle: [0, 4, "idle", 0.2]
@@ -57,7 +57,7 @@ Bomb = Entity.extend({
         this.bmp = new createjs.Sprite(spriteSheet);
         this.bmp.gotoAndPlay('idle');
 
-        this.position = position;
+        this.position.x = position;
         this.bmp.x = position.x;
         this.bmp.y = position.y;
 
