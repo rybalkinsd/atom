@@ -21,7 +21,7 @@ GameEngine = Class.extend({
     tilesImgs: {},
     bombImg: null,
     fireImg: null,
-    bonusesImg: null,
+    bonusesImgs: {},
 
     playing: false,
     mute: false,
@@ -31,14 +31,14 @@ GameEngine = Class.extend({
 
     serverProxy: null,
 
-    init: function() {
+    init: function () {
         this.size = {
             w: this.tileSize * this.tilesX,
             h: this.tileSize * this.tilesY
         };
     },
 
-    load: function() {
+    load: function () {
         // Init canvas
         this.stage = new createjs.Stage("canvas");
         this.stage.enableMouseOver();
@@ -46,7 +46,7 @@ GameEngine = Class.extend({
         // Load assets
         var queue = new createjs.LoadQueue();
         var that = this;
-        queue.addEventListener("complete", function() {
+        queue.addEventListener("complete", function () {
             that.playerBoyImg = queue.getResult("playerBoy");
             that.playerGirlImg = queue.getResult("playerGirl");
             that.playerGirl2Img = queue.getResult("playerGirl2");
@@ -55,7 +55,9 @@ GameEngine = Class.extend({
             that.tilesImgs.wood = queue.getResult("tile_wood");
             that.bombImg = queue.getResult("bomb");
             that.fireImg = queue.getResult("fire");
-            that.bonusesImg = queue.getResult("bonuses");
+            that.bonusesImgs.speed = queue.getResult("bonus_speed");
+            that.bonusesImgs.bombs = queue.getResult("bonus_bomb");
+            that.bonusesImgs.explosion = queue.getResult("bonus_explosion");
             that.setup();
         });
         queue.loadManifest([
@@ -67,7 +69,9 @@ GameEngine = Class.extend({
             {id: "tile_wood", src: "img/tile_wood.png"},
             {id: "bomb", src: "img/bomb.png"},
             {id: "fire", src: "img/fire.png"},
-            {id: "bonuses", src: "img/bonuses.png"}
+            {id: "bonus_speed", src: "img/bonus_speed.png"},
+            {id: "bonus_bomb", src: "img/bonus_bomb.png"},
+            {id: "bonus_explosion", src: "img/bonus_explosion.png"},
         ]);
 
         createjs.Sound.addEventListener("fileload", this.onSoundLoaded);
@@ -78,7 +82,7 @@ GameEngine = Class.extend({
         this.menu = new Menu();
     },
 
-    setup: function() {
+    setup: function () {
         if (!gInputEngine.bindings.length) {
             gInputEngine.setup();
         }
@@ -107,9 +111,11 @@ GameEngine = Class.extend({
         if (!this.playing) {
             this.menu.show();
         }
+
+        //this.drawTiles();
     },
 
-    onSoundLoaded: function(sound) {
+    onSoundLoaded: function (sound) {
         if (sound.id == 'game') {
             gGameEngine.soundtrackLoaded = true;
             if (gGameEngine.playersCount > 0) {
@@ -118,7 +124,7 @@ GameEngine = Class.extend({
         }
     },
 
-    playSoundtrack: function() {
+    playSoundtrack: function () {
         if (!gGameEngine.soundtrackPlaying) {
             gGameEngine.soundtrack = createjs.Sound.play("game", "none", 0, 0, -1);
             gGameEngine.soundtrack.setVolume(1);
@@ -126,7 +132,24 @@ GameEngine = Class.extend({
         }
     },
 
-    update: function() {
+    drawTiles: function () {
+        for (var i = 0; i < this.tilesY; i++) {
+            for (var j = 0; j < this.tilesX; j++) {
+                // Grass tiles
+                var img = new Image();
+                img.src = "img/tile_grass.png";
+
+                var bitmap = new createjs.Bitmap(img);
+
+                bitmap.x = j * 32;
+                bitmap.y = i * 32;
+
+                this.stage.addChild(bitmap);
+            }
+        }
+    },
+
+    update: function () {
         // Player
         for (var i = 0; i < gGameEngine.players.length; i++) {
             var player = gGameEngine.players[i];
@@ -161,7 +184,7 @@ GameEngine = Class.extend({
     //     }
     // },
 
-    restart: function() {
+    restart: function () {
         // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
@@ -171,12 +194,12 @@ GameEngine = Class.extend({
     /**
      * Moves specified child to the front.
      */
-    moveToFront: function(child) {
+    moveToFront: function (child) {
         var children = gGameEngine.stage.getNumChildren();
         gGameEngine.stage.setChildIndex(child, children - 1);
     },
 
-    toggleSound: function() {
+    toggleSound: function () {
         if (gGameEngine.mute) {
             gGameEngine.mute = false;
             gGameEngine.soundtrack.resume();
@@ -186,18 +209,78 @@ GameEngine = Class.extend({
         }
     },
 
-    gc: function(survivors) {
-        [this.players, this.tiles, this.bombs, this.bonuses].forEach(function (it) {
-            var i = it.length;
-            while (i--) {
+    findObject: function (id) {
+        [this.bombs, this.bonuses, this.tiles, this.players].forEach(function (it) {
+                    var i = it.length;
+                    while (i--) {
+                        if (id == it[i].id) {
+                            return true;
+                        }
+                    }
+                });
+        return false;
+        },
+
+    gc: function (gameObjects) {
+        var survivors = new Set();
+
+        for (var i = 0; i < gameObjects.length; i++) {
+            var wasDeleted = false;
+            var obj = gameObjects[i];
+
+            if (obj.type == 'Pawn') {
+                gMessages.handler[obj.type](obj);
+                survivors.add(obj.id);
+                continue;
+            }
+
+            [this.tiles, this.bombs, this.bonuses].forEach(function (it) {
+                var i = it.length;
+                while (i--) {
+                    if (obj.id == it[i].id) {
+                        it[i].remove();
+                        it.splice(i, 1);
+                        wasDeleted = true;
+                    }
+                }
+            });
+
+            if (!wasDeleted && obj.type != 'Pawn') {
+                gMessages.handler[obj.type](obj);
+            }
+        }
+
+        [this.players].forEach(function (it) {
+             var i = it.length;
+             while (i--) {
                 if (!survivors.has(it[i].id)) {
                     it[i].remove();
                     it.splice(i, 1);
                 }
             }
         });
-
     }
+
+    /*gc: function (survivors) {
+              [this.players, this.bombs, this.bonuses].forEach(function (it) {
+                  var i = it.length;
+                  while (i--) {
+                      if (!survivors.has(it[i].id)) {
+                          it[i].remove();
+                          it.splice(i, 1);
+                      }
+                  }
+              });
+              [this.tiles].forEach(function (it) {
+                          var i = it.length;
+                          while (i--) {
+                              if (it[i].material != 'Wall' && !survivors.has(it[i].id)) {
+                                  it[i].remove();
+                                  it.splice(i, 1);
+                              }
+                          }
+                      });
+      }*/
 
 });
 

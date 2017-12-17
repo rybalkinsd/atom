@@ -47,8 +47,8 @@ Bomb = Entity.extend({
             frames: {
                 width: this.size.w,
                 height: this.size.h,
-                regX: 5,
-                regY: 5
+                regX: -1,
+                regY: -1
             },
             animations: {
                 idle: [0, 4, "idle", 0.2]
