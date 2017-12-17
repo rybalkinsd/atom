@@ -20,6 +20,10 @@ ext {
     hibernateEntityVersion = "5.2.3.Final"
 }
 
+springBoot {
+    mainClass = "ru.atom.MatchMakerApp"
+}
+
 allprojects {
     group = "technoatom"
     version = "1.0-SNAPSHOT"
