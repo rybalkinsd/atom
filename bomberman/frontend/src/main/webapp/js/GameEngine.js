@@ -75,7 +75,6 @@ GameEngine = Class.extend({
         createjs.Sound.registerSound("sound/bomb.ogg", "bomb");
         // createjs.Sound.registerSound("sound/game.ogg", "game");
 
-        // Create menu
         this.menu = new Menu();
     },
 
@@ -88,28 +87,10 @@ GameEngine = Class.extend({
         this.tiles = [];
         this.bonuses = [];
 
+        this.serverProxy = new ServerProxy();
+
         // Toggle sound
         gInputEngine.subscribe('mute', this.toggleSound);
-
-        // Restart listener
-        // Timeout because when you press enter in address bar too long, it would not show menu
-        setTimeout(function() {
-            gInputEngine.subscribe('restart', function() {
-                if (gGameEngine.playersCount == 0) {
-                    gGameEngine.menu.setMode('single');
-                } else {
-                    gGameEngine.menu.hide();
-                    gGameEngine.restart();
-                }
-            });
-        }, 200);
-
-        // Escape listener
-        gInputEngine.subscribe('escape', function() {
-            if (!gGameEngine.menu.visible) {
-                gGameEngine.menu.show();
-            }
-        });
 
         // Start loop
         if (!createjs.Ticker.hasEventListener('tick')) {
@@ -206,13 +187,14 @@ GameEngine = Class.extend({
     },
 
     gc: function(survivors) {
-        [this.players, this.tiles, this.bombs, this.bonuses].forEach(function (it) {
-            it.forEach(function(item, index, arr) {
-                if (!survivors.has(item.id)) {
-                    item.remove();
-                    arr.splice(index, 1);
+        [this.players, this.tiles, this.bombs, this.bonuses, this.fires].forEach(function (it) {
+            var i = it.length;
+            while (i--) {
+                if (!survivors.has(it[i].id)) {
+                    it[i].remove();
+                    it.splice(i, 1);
                 }
-            });
+            }
         });
 
     }

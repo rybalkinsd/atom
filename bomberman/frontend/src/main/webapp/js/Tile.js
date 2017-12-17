@@ -24,7 +24,7 @@ Tile = Entity.extend({
         this.material = material;
         this.position = position;
         var img;
-        if (material == 'grass') {
+        if (material === 'grass') {
             img = gGameEngine.tilesImgs.grass;
         } else if (material === 'Wall') {
             img = gGameEngine.tilesImgs.wall;
@@ -44,11 +44,5 @@ Tile = Entity.extend({
 
     remove: function() {
         gGameEngine.stage.removeChild(this.bmp);
-        for (var i = 0; i < gGameEngine.tiles.length; i++) {
-            var tile = gGameEngine.tiles[i];
-            if (this == tile) {
-                gGameEngine.tiles.splice(i, 1);
-            }
-        }
     }
 });
