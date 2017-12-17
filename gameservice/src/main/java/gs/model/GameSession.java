@@ -12,6 +12,7 @@ public class GameSession implements Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(GameSession.class);
     private final int playerCount;
     private final long id;
+    private int connectedPlayers = 0;
     private List<GameObject> gameObjects = new ArrayList<>();
     //ID for game objects
     private int lastId = -1;
@@ -56,6 +57,7 @@ public class GameSession implements Tickable {
                 position = new Point(1, 1);
         }
         addGameObject(new Girl(this, position));
+        connectedPlayers++;
     }
 
     public boolean removeById(int id) {
@@ -107,7 +109,7 @@ public class GameSession implements Tickable {
             if (object instanceof Girl)
                 girls.add((Girl) object);
         }
-        System.out.println(girls.toString());
+        //System.out.println(girls.toString());
         return girls;
     }
 
@@ -175,5 +177,9 @@ public class GameSession implements Tickable {
                 ((Tickable) gameObject).tick(elapsed);
             }
         }
+    }
+
+    public boolean isReady() {
+        return connectedPlayers == playerCount;
     }
 }

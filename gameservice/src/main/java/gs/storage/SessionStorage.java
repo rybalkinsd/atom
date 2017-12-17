@@ -5,6 +5,7 @@ import gs.model.GameSession;
 import gs.model.Girl;
 import gs.ticker.Action;
 import gs.ticker.Ticker;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class SessionStorage {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SessionStorage.class);
     private static ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>> storage
             = new ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>>();
     private static ConcurrentHashMap<Long, GameSession> sessions = new ConcurrentHashMap<Long, GameSession>();
@@ -44,7 +46,7 @@ public class SessionStorage {
     }
 
     public static boolean isGameReady(GameSession session) {
-        return storage.get(session).size() == session.getPlayerCount();
+        return session.isReady();
     }
 
     public static ArrayList<WebSocketSession> getWebsocketsByGameSession(GameSession session) {
@@ -128,12 +130,16 @@ public class SessionStorage {
                 GameSession gameSession = (GameSession) e.getKey();
                 gameSession.removeGameObject(getGirlBySocket(session));
                 tmp.remove(session);
+                if (tmp.size() == 1) {
+                    removeGameSession(gameSession);
+                }
                 if (tmp.isEmpty()) {
                     removeGameSession(gameSession);
                 }
             }
         }
         girlToWebsocket.remove(getGirlBySocket(session));
+        log.info("Websocket session: " + session + "removed");
     }
 
     public static void removeGameSession(GameSession session) {
@@ -143,5 +149,6 @@ public class SessionStorage {
         }
         tickers.get(session).kill();
         tickers.remove(session);
+        log.info("Session " + session.getId() + " removed");
     }
 }

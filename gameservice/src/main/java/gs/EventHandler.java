@@ -3,7 +3,6 @@ package gs;
 import gs.message.Message;
 import gs.message.Topic;
 import gs.model.GameSession;
-import gs.model.Girl;
 import gs.network.Broker;
 import gs.network.ConnectionPool;
 import gs.storage.SessionStorage;
@@ -20,8 +19,6 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
 
 @Component
 public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
@@ -41,8 +38,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         name = name.substring(1, name.length() - 1);
         long gameId = Long.parseLong(idParam.substring(1, idParam.length() - 1));
         GameSession gameSession = storage.getSessionById(gameId);
-        if (gameSession.getPlayerCount()
-                >= storage.getWebsocketsByGameSession(gameSession).size()) {
+        if (!gameSession.isReady()) {
             storage.addByGameId(gameId, session);
             ConnectionPool.getInstance().add(session, name);
             int data = storage.getId(gameId);
@@ -66,8 +62,9 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        if (storage.isGameReady(storage.getByWebsocket(session))) {
+        if (storage.getByWebsocket(session).isReady()) {
             Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
+            System.out.println(msg);
             Action action = new Action(msg.getTopic(),
                     storage.getGirlBySocket(session), msg.getData());
             storage.putAction(storage.getByWebsocket(session), action);
