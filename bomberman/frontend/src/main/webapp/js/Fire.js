@@ -17,21 +17,25 @@ Fire = Entity.extend({
      */
     bmp: null,
 
-    init: function(id, position) {
+    init: function (id, position) {
         this.id = id;
         var spriteSheet = new createjs.SpriteSheet({
             images: [gGameEngine.fireImg],
-            frames: { width: this.size.w, height: this.size.h, regX: 0, regY: 0 },
+            frames: {width: this.size.w, height: this.size.h, regX: 0, regY: 0},
             animations: {
-                idle: [0, 5, null, 0.4],
+                idle: [0, 1, "idle", 0.2]
+                /* idle: {
+                     frames: [0,1,0,1,0,1,0,1,2,3,4,5],
+                     speed: 0.4
+                 }*/
             }
         });
         this.bmp = new createjs.Sprite(spriteSheet);
         this.bmp.gotoAndPlay('idle');
-        var that = this;
-        this.bmp.addEventListener('animationend', function() {
+        /*var that = this;
+        this.bmp.addEventListener('animationend', function () {
             that.remove();
-        });
+        });*/
 
         this.position = position;
 
@@ -41,10 +45,7 @@ Fire = Entity.extend({
         gGameEngine.stage.addChild(this.bmp);
     },
 
-    update: function() {
-    },
-
-    remove: function() {
+    remove: function () {
         gGameEngine.stage.removeChild(this.bmp);
     }
 });

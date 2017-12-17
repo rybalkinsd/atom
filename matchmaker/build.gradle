@@ -1,0 +1,29 @@
+dependencies {
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_websocket
+
+    compile rootProject.libraries.log4j
+    compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.postgres
+
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
+    compile rootProject.libraries.spring_boot_jpa
+}
+
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
