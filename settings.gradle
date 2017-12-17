@@ -1,2 +1,4 @@
 rootProject.name = 'atom'
-include 'homeworks/HW1'
+include 'matchmaker'
+include 'mmgs'
+include 'bomberman/frontend'

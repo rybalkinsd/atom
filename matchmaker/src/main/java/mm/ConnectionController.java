@@ -42,9 +42,8 @@ public class ConnectionController {
 
     /**
      * curl test
-     * <p>
-     * curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/matchmaker/join
-     * -d "name=bomberman"
+     * <p>curl -i -X POST -H "Content-Type: application/x-www-form-urlencoded" localhost:8080/matchmaker/join
+     * -d "name=bomberman"</p>
      */
 
     @RequestMapping(
@@ -142,8 +141,7 @@ public class ConnectionController {
 
     /**
      * curl test
-     * <p>
-     * curl -i localhost:8080/matchmaker/
+     * <p>curl -i localhost:8080/matchmaker/</p>
      */
     @RequestMapping(
             path = "history",
