@@ -30,8 +30,7 @@ Messages = Class.extend({
 
 
     handleReplica: function (msg) {
-        //var gameObjects = JSON.parse(msg.data).objects
-        var gameObjects = msg.data.objects;
+        var gameObjects = JSON.parse(msg.data);
         var survivors = new Set();
 
         for (var i = 0; i < gameObjects.length; i++) {
@@ -84,9 +83,14 @@ Messages = Class.extend({
         var tile = gGameEngine.tiles.find(function (el) {
             return el.id === obj.id;
         });
+<<<<<<< HEAD
 
         //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
         var position = Utils.getEntityPosition(obj.position);
+=======
+        var position = Utils.getEntityPosition(obj.position);
+        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
+>>>>>>> b4d880e... minor fixes in front + type brick->wood for front
         if (tile) {
             tile.material = obj.type;
         } else {
