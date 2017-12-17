@@ -57,15 +57,12 @@ public class SessionStorage {
                 entry.getValue().add(session);
             }
         }
-        System.out.println("addByGameId: " + storage.keySet().toString() + " " + storage.entrySet().size());
     }
 
     public static long addSession(int playerCount) {
         GameSession gameSession = new GameSession(playerCount, ++lastId);
         storage.put(gameSession, new ArrayList<WebSocketSession>(playerCount));
         sessions.put(lastId, gameSession);
-        System.out.println("addSession: " + storage.keySet().toString() + " " + storage.entrySet().size());
-        System.out.println("addSession: " + sessions.entrySet().toString() + " " + sessions.keySet().toString());
         return lastId;
     }
 
@@ -100,13 +97,16 @@ public class SessionStorage {
     }
 
     public static WebSocketSession getWebsocketByGirl(Girl girl) {
+        for (Map.Entry e : girlToWebsocket.entrySet()) {
+            if (e.getKey().equals(girl)) {
+                return (WebSocketSession) e.getValue();
+            }
+        }
         return girlToWebsocket.get(girl);
     }
 
     public static void putGirlToSocket(WebSocketSession session, GameObject object) {
         girlToWebsocket.put((Girl) object, session);
-        System.out.println("girlToWebsocket: " + girlToWebsocket.keySet().toString() +
-                " " + girlToWebsocket.entrySet().toString());
     }
 
     public static void putTicker(Ticker ticker, GameSession session) {
@@ -121,7 +121,7 @@ public class SessionStorage {
         return tickers.get(session);
     }
 
-    public void removeWebsocket(WebSocketSession session) {
+    public static void removeWebsocket(WebSocketSession session) {
         for (Map.Entry e : storage.entrySet()) {
             ArrayList<WebSocketSession> tmp = (ArrayList<WebSocketSession>) e.getValue();
             if (tmp.contains(session)) {
@@ -136,7 +136,7 @@ public class SessionStorage {
         girlToWebsocket.remove(getGirlBySocket(session));
     }
 
-    public void removeGameSession(GameSession session) {
+    public static void removeGameSession(GameSession session) {
         storage.remove(session);
         for (Map.Entry e : sessions.entrySet()) {
             if (e.getValue().equals(session)) sessions.remove(e.getKey());

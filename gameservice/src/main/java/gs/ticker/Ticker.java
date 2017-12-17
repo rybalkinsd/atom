@@ -21,6 +21,7 @@ import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,11 +45,9 @@ public class Ticker extends Thread {
     private final Set<String> players = new HashSet<>();
     private final ConcurrentHashMap<Integer, String> girlsIdToPlayer = new ConcurrentHashMap<Integer, String>();
     private final Queue<Action> inputQueue = new LinkedBlockingQueue<Action>();
-    private boolean isRunning;
-
     @Autowired
     SessionStorage storage;
-
+    private boolean isRunning;
     private GameSession gameSession;
     private Set<Tickable> tickables = new ConcurrentSkipListSet<>();
     private long tickNumber = 0;
@@ -83,7 +82,7 @@ public class Ticker extends Thread {
                 //log.info("{}: tick ", tickNumber);
                 tickNumber++;
             } else {
-                System.out.println("THE END!");
+                log.info("THE END!");
                 return;
             }
         }
@@ -151,16 +150,15 @@ public class Ticker extends Thread {
                 if (!barGirl.isColliding(barBrick))
                     girl.moveBack(FRAME_TIME);
             }
-            for (Bonus bonus: gameSession.getBonuses()) {
+            for (Bonus bonus : gameSession.getBonuses()) {
                 Bar barBonus = bonus.getBar();
                 if (!barGirl.isColliding(barBonus)) {
                     girl.takeBonus(bonus);
                     changedObjects.add(bonus);
-                    System.out.println("2 " + bonus.getId());
                     gameSession.removeGameObject(bonus);
                 }
             }
-            for (Bomb bomb: gameSession.getBombs()) {
+            for (Bomb bomb : gameSession.getBombs()) {
                 Bar barBomb = bomb.getBar();
                 if (!barGirl.isColliding(barBomb) && !bomb.getOwner().equals(girl))
                     girl.moveBack(FRAME_TIME);
@@ -217,20 +215,9 @@ public class Ticker extends Thread {
 
                 for (int i = 0; i < explosions.size(); i++) {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
-                        for (Girl girl: gameSession.getGirls()) {
+                        for (Girl girl : gameSession.getGirls()) {
                             if (!girl.getGirlBar().isColliding(explosions.get(i).get(j))) {
-                                for (int k = 0; k < objectList.size(); k++) {
-                                    System.out.println(objectList.get(k).getType());
-                                }
                                 objectList.add(girl);
-
-                                WebSocketSession session = storage.getWebsocketByGirl(girl);
-                                for (int k = 0; k < objectList.size(); k++) {
-                                    System.out.println(objectList.get(k).getType());
-                                }
-
-                                Broker.getInstance().send(session, REPLICA, girl);
-                                storage.removeWebsocket(session);
                             }
                         }
                         if (gameSession.getGameObjectByPosition(explosions
@@ -243,9 +230,9 @@ public class Ticker extends Thread {
                         if (gameSession.getGameObjectByPosition(explosions
                                 .get(i).get(j).getLeftPoint()).getType().equals("Bonus")
                                 || gameSession.getGameObjectByPosition(explosions
-                                        .get(i).get(j).getLeftPoint()).getType().equals("Bomb")
+                                .get(i).get(j).getLeftPoint()).getType().equals("Bomb")
                                 || gameSession.getGameObjectByPosition(explosions
-                                            .get(i).get(j).getLeftPoint()).getType().equals("Pawn")) {
+                                .get(i).get(j).getLeftPoint()).getType().equals("Pawn")) {
                             continue;
                         }
                         if (gameSession.getGameObjectByPosition(explosions.get(i).get(j)
@@ -280,8 +267,18 @@ public class Ticker extends Thread {
             }
         }
 
-        for (GameObject gameObject: objectList)  {
-            gameSession.removeGameObject(gameObject);
+        for (GameObject gameObject : objectList) {
+            if (gameObject instanceof Girl) {
+                try {
+                    WebSocketSession session = storage.getWebsocketByGirl((Girl) gameObject);
+                    Broker.getInstance().send(session, GAME_OVER, "YOU LOSE, KAKASHI");
+                    session.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                gameSession.removeGameObject(gameObject);
+            }
         }
     }
 

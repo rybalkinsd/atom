@@ -107,6 +107,7 @@ public class GameSession implements Tickable {
             if (object instanceof Girl)
                 girls.add((Girl) object);
         }
+        System.out.println(girls.toString());
         return girls;
     }
 
