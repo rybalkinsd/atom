@@ -12,7 +12,7 @@ public class Brick extends GameObject {
         super(session, new Point(position.getX() * GameObject.getWidthBox(),
                         position.getY() * GameObject.getWidthBox()),
                 "Wood", BRICK_WIDTH, BRICK_HEIGHT);
-        logger.info("New Brick id={}, position={}, session_ID={}",
-                id, position, session.getId());
+        //logger.info("New Brick id={}, position={}, session_ID={}",
+                //id, position, session.getId());
     }
 }

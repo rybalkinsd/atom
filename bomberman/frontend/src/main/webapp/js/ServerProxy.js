@@ -10,6 +10,7 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
+        this.handler['GAME_OVER'] = gMessages.handleGameOver;
     },
 
     getSessionIdFromMatchMaker: function () {

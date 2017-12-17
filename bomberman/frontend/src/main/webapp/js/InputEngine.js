@@ -1,7 +1,7 @@
 InputEngine = Class.extend({
 
     // move notification fps
-    fps: 60,
+    fps: 180,
 
     /**
      * A dictionary mapping ASCII key codes to string values describing

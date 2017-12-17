@@ -38,6 +38,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         name = name.substring(1, name.length() - 1);
         long gameId = Long.parseLong(idParam.substring(1, idParam.length() - 1));
         GameSession gameSession = storage.getSessionById(gameId);
+
         if (!gameSession.isReady()) {
             storage.addByGameId(gameId, session);
             ConnectionPool.getInstance().add(session, name);
@@ -64,7 +65,6 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         if (storage.getByWebsocket(session).isReady()) {
             Message msg = JsonHelper.fromJson(message.getPayload(), Message.class);
-            System.out.println(msg);
             Action action = new Action(msg.getTopic(),
                     storage.getGirlBySocket(session), msg.getData());
             storage.putAction(storage.getByWebsocket(session), action);

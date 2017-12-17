@@ -36,6 +36,11 @@ Messages = Class.extend({
         gGameEngine.gc(gameObjects);
     },
 
+     handleGameOver: function (msg) {
+            console.log(msg);
+            gGameEngine.gameOver(msg);
+     },
+
     /*handleReplica: function (msg) {
               var gameObjects = JSON.parse(msg.data);
               var survivors = new Set();

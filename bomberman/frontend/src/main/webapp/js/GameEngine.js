@@ -185,6 +185,17 @@ GameEngine = Class.extend({
     //     }
     // },
 
+     gameOver: function(msg) {
+     if (msg.data == "\"YOU LOSE\"") {
+        this.menu.showWithText("GAME OVER :(");
+     }
+     else {
+        this.menu.showWithText("YOU WON! :)");
+     }
+
+     },
+
+
     restart: function () {
         // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
@@ -253,7 +264,6 @@ GameEngine = Class.extend({
 
         [this.players].forEach(function (it) {
              var i = it.length;
-
              while (i--) {
                 if (!survivors.has(it[i].id)) {
                     it[i].remove();

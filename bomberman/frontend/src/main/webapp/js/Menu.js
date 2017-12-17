@@ -12,8 +12,13 @@ Menu = Class.extend({
     show: function (text) {
         this.visible = true;
 
-        this.draw(text);
+        this.draw();
     },
+
+    showWithText: function (text) {
+            this.visible = true;
+            this.draw(text);
+        },
 
     hide: function () {
         this.visible = false;
@@ -86,6 +91,12 @@ Menu = Class.extend({
         singleIcon.y = iconsY;
         gGameEngine.stage.addChild(singleIcon);
         this.views.push(singleIcon);
+
+        var gameText = new createjs.Text(text, "20px Helvetica", "#ff4444");
+        gameText.x = playButton.x - 10;
+        gameText.y =  playButton.y - 100;
+        gGameEngine.stage.addChild(gameText);
+        this.views.push(gameText);
     },
 
     showLoader: function () {
@@ -97,6 +108,7 @@ Menu = Class.extend({
         loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
         loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
         gGameEngine.stage.addChild(loadingText);
+
         gGameEngine.stage.update();
     }
 });

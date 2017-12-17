@@ -55,6 +55,7 @@ public class Ticker extends Thread {
     private long tickNumber = 0;
     private ArrayList<Girl> movedGirls = new ArrayList<>(4);
     private ArrayList<GameObject> changedObjects = new ArrayList<>();
+    private ArrayList<Girl> deadGirls = new ArrayList<>();
 
     public Ticker(GameSession session) {
         this.gameSession = session;
@@ -66,6 +67,7 @@ public class Ticker extends Thread {
             if (isRunning) {
                 long started = System.currentTimeMillis();
                 changedObjects.clear();
+                deadGirls.clear();
                 handleQueue();
                 act(FRAME_TIME);
                 checkCollisions();
@@ -73,16 +75,22 @@ public class Ticker extends Thread {
                 for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
                     broker.send(session, Topic.REPLICA, changedObjects);
                     storage.getGirlBySocket(session).setDirection(Movable.Direction.IDLE);
-
+                }
+                for (Girl girl : deadGirls) {
+                    try {
+                        WebSocketSession session = storage.getWebsocketByGirl(girl);
+                        Broker.getInstance().send(session, GAME_OVER, "YOU LOSE");
+                        session.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 long elapsed = System.currentTimeMillis() - started;
                 if (elapsed < FRAME_TIME) {
-                    //log.info("All tick finish at {} ms", elapsed);
                     LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
                 } else {
                     log.warn("tick lag {} ms", elapsed - FRAME_TIME);
                 }
-                //log.info("{}: tick ", tickNumber);
                 tickNumber++;
             } else {
                 log.info("THE END!");
@@ -219,7 +227,9 @@ public class Ticker extends Thread {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
                         for (Girl girl : gameSession.getGirls()) {
                             if (!girl.getGirlBar().isColliding(explosions.get(i).get(j))) {
-                                objectList.add(girl);
+                                //objectList.add(girl);
+                                deadGirls.add(girl);
+                                changedObjects.remove(girl);
                             }
                         }
                         if (gameSession.getGameObjectByPosition(explosions
@@ -270,17 +280,7 @@ public class Ticker extends Thread {
         }
 
         for (GameObject gameObject : objectList) {
-            if (gameObject instanceof Girl) {
-                try {
-                    WebSocketSession session = storage.getWebsocketByGirl((Girl) gameObject);
-                    Broker.getInstance().send(session, GAME_OVER, "YOU LOSE, KAKASHI");
-                    session.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                gameSession.removeGameObject(gameObject);
-            }
+            gameSession.removeGameObject(gameObject);
         }
     }
 
