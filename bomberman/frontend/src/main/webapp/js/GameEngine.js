@@ -91,6 +91,8 @@ GameEngine = Class.extend({
 
         this.serverProxy = new ServerProxy();
 
+        this.serverProxy = new ServerProxy();
+
         // Toggle sound
         gInputEngine.subscribe('mute', this.toggleSound);
 

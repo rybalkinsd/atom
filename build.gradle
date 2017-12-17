@@ -38,6 +38,10 @@ allprojects {
 }
 
 subprojects {
+    if (!project.name.equals('bomberman/frontend'))
+        apply plugin: 'org.springframework.boot'
+
+
     checkstyle {
         ignoreFailures = false
         toolVersion = '7.5'

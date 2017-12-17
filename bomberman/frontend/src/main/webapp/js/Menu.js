@@ -90,7 +90,6 @@ Menu = Class.extend({
         }
         gGameEngine.stage.addChild(playButton);
         this.views.push(playButton);
-
         var iconsY = startButtonY + 13;
         var singleIcon = new createjs.Bitmap("img/betty.png");
         singleIcon.sourceRect = new createjs.Rectangle(0, 0, 48, 48);

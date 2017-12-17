@@ -258,7 +258,7 @@ For example, one can extend server functionality by custom logic (e.g. for dynam
 #HSLIDE
 ## HTTP via telnet
 ```bash
-> telnet example.org
+> telnet example.org 80
 ```
 request:
 ```http
@@ -313,7 +313,7 @@ removes resource
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 #HSLIDE
-##HTTP via browser
+## HTTP via browser
 When you enter adress line in browser, in creates **GET** request  
 So we can do previous example just by typing in browser:
 > example.org
@@ -347,18 +347,18 @@ it wraps **libcurl** library, which is available for all major languages
 ## GET Example
 Request from cURL:
 ```bash
-> curl -i -X GET -H "Host: example.org" example.org
+> curl -i -X GET example.org
 ```
 Response:
 ```http
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Sat, 11 Mar 2017 00:22:28 GMT
+Date: Wed, 11 Oct 2017 14:17:54 GMT
 Etag: "359670651+ident"
-Expires: Sat, 18 Mar 2017 00:22:28 GMT
+Expires: Wed, 18 Oct 2017 14:17:54 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D2C)
+Server: ECS (dca/24D5)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -377,22 +377,20 @@ POST /chat/say HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080
 
-msg="Привет всем в этом чатике"
+msg=Hi everyone in this chat!
 ```
 cURL:
 ```bash
->curl -X POST \
--H "Content-Type: application/x-www-form-urlencoded" \
--H "Host: localhost:8080" \
--d 'msg="Привет всем в этом чатике"'' \
-http://localhost:8080/chat/say
+> curl -X POST \
+-d 'msg=Hi everyone in this chat!' \
+http://localhost:8080/chat/say?name=MY_NAME
 ```
 response:
 ```http
 HTTP/1.1 200 OK
-Date: Sat, 11 Mar 2017 13:05:11 GMT
+Date: Wed, 11 Oct 2017 14:17:11 GMT
 Content-Length: 0
-Server: Jetty(9.3.12.v20160915)
+Server: Jetty(9.4.z-SNAPSHOT)
 
 ```
 
@@ -426,7 +424,7 @@ REST API is a common way for services to publish their functionality for other s
 ## HTTP Client Pracrice
 We got a chat REST service open for you on  
   
-Implement **chat client** and enjoy!
+Implement **chat client** and enjoy!  
 @see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
 #HSLIDE
@@ -448,7 +446,7 @@ login:
     Protocol: HTTP
     Path: chat/login
     Method: POST
-    PathParam: name
+    QueryParam: name
     Host: {IP}:8080
     Response:
       Success code: 200
@@ -457,11 +455,11 @@ login:
         400 - Too long name (longer than 30 symbols)
 ```
 #HSLIDE
-## Chat REST API. View Online
+## Chat REST API. View chat
 online:
 ```
     Protocol: HTTP
-    Path: chat/online
+    Path: chat/chat
     Method: GET
     Host: {IP}:8080
     Response:
@@ -476,7 +474,7 @@ login:
     Protocol: HTTP
     Path: chat/say
     Method: POST
-    PathParam: name
+    QueryParam: name
     Body:
       msg="my message"
     Host: {IP}:8080
@@ -502,7 +500,7 @@ login:
 ## OkHTTP
 We use OkHTTP library as java HTTP Client
 [http://square.github.io/okhttp/](http://square.github.io/okhttp/)
-###@see ru.atom.http.client
+### @see ru.atom.http.client
 
 #HSLIDE
 ## GET example from Java

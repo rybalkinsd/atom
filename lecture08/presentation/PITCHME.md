@@ -50,7 +50,7 @@ Refresh gradle project
 
 #HSLIDE
 ### Services
-<img src="lecture08/presentation/assets/img/services.png" alt="exception" style="width: 600px;"/>
+<img src="lecture08/presentation/assets/img/Game-architecture.png" alt="exception" style="width: 600px;"/>
 
 
 #HSLIDE
@@ -134,12 +134,12 @@ Then no handshakes or headers required. **Only raw data**
 
 #HSLIDE
 ## WebSocket library
-There are a number of **websocket** implementations. We will use jersey **websocket implementation**  
+There are a number of **websocket** implementations. We will use spring boot **websocket implementation**  
 > **@see** build.gradle
 
 #HSLIDE
 ## Websocket library interface
-All communication happen via **Session** interface
+All communication happen via **WebSocketSession** interface
 
 #HSLIDE
 ## Notes
@@ -181,13 +181,13 @@ Of course, we can also send structured data (like **JSON**)
 - our game will send all data as JSON. Lets emulate this feature
 
 #HSLIDE
-##Task 1
+## Task 1
 Look as Message class. It represents structured data and it can be converted to JSON
 > Implement sending **Message** with topic **Hello** and your name as **data**
 > Server adress: wtfis.ru:8090/events
 
 #HSLIDE
-##What we can do now
+## What we can do now
 Ok, now we can send structured messages via **websocket** with arbitrary **data** and defined **type**
 
 #HSLIDE
@@ -198,7 +198,7 @@ Ok, now we can send structured messages via **websocket** with arbitrary **data*
 1. Frontend sends commands **MOVE** and **PLANT_BOMB**
 
 #HSLIDE
-##MOVE
+## MOVE
 client -> server
 ```json
 {
@@ -212,7 +212,7 @@ client -> server
 direction values: UP/DOWN/RIGHT/LEFT
 
 #HSLIDE
-##PLANT_BOMB
+## PLANT_BOMB
 client -> server
 ```json
 {
