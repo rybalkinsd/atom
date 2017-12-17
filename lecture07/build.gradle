@@ -1,5 +1,7 @@
 dependencies {
     compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_jpa
+
     compile rootProject.libraries.postgres
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.hibernate

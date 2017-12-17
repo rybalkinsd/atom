@@ -10,6 +10,7 @@ import gs.storage.SessionStorage;
 import gs.ticker.Action;
 import gs.ticker.Ticker;
 import gs.util.JsonHelper;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 @Component
 public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(EventHandler.class);
+
     @Autowired
     SessionStorage storage;
 
@@ -33,7 +36,6 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         super.afterConnectionEstablished(session);
         MultiValueMap<String, String> parameters =
                 UriComponentsBuilder.fromUri(session.getUri()).build().getQueryParams();
-        System.out.println(session.toString());
         String idParam = parameters.get("gameId").toString();
         String name = parameters.get("name").toString();
         name = name.substring(1, name.length() - 1);
@@ -49,8 +51,6 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
             storage.putGirlToSocket(session, gameSession.getById(gameSession.getLastId()));
             Broker.getInstance().send(session, Topic.REPLICA,
                     storage.getSessionById(gameId).getGameObjects());
-            System.out.println(gameSession.getPlayerCount() + " " +
-                    storage.getWebsocketsByGameSession(gameSession).size());
             if (gameSession.getPlayerCount()
                     == storage.getWebsocketsByGameSession(gameSession).size()) {
                 Ticker ticker = new Ticker(gameSession);
@@ -76,7 +76,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        System.out.println("Socket Closed: [" +
+        log.info("Socket Closed: [" +
                 closeStatus.getCode() + "] " + closeStatus.getReason());
         storage.removeWebsocket(session);
         super.afterConnectionClosed(session, closeStatus);

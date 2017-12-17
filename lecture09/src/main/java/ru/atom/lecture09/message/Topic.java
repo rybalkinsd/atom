@@ -1,10 +1,13 @@
-package gs.message;
+package ru.atom.lecture09.message;
 
+/**
+ * Created by sergey on 2/2/17.
+ */
 public enum Topic {
+    HELLO,
     MOVE,
     PLANT_BOMB,
     REPLICA,
-    GAME_OVER,
 
     START,
     END_MATCH, POSSESS, FINISH

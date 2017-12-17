@@ -112,7 +112,7 @@ GameEngine = Class.extend({
             this.menu.show();
         }
 
-        //this.drawTiles();
+        this.drawTiles();
     },
 
     onSoundLoaded: function (sound) {
@@ -262,6 +262,7 @@ GameEngine = Class.extend({
             }
         });
     }
+
 });
 
 gGameEngine = new GameEngine();

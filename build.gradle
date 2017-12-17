@@ -12,7 +12,6 @@ ext {
     jdkVersion = 1.8
 
     junitVersion = "4.12"
-    jacksonVersion = "2.9.1"
     log4jVersion = "2.7"
     jetbrainsAnnotationVersion = "15.0"
     okhttpVersion = "3.6.0"
@@ -20,7 +19,6 @@ ext {
     postgresVersion = "9.4-1200-jdbc41"
     jetbrainsAnnotationVersion = "15.0"
     hibernateVersion = "5.1.10.Final"
-    websocketVersion = "9.4.3.v20170317"
     jolVersion = "0.8"
 }
 
@@ -29,7 +27,6 @@ allprojects {
     version = "1.0-SNAPSHOT"
 
     apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
     apply plugin: 'checkstyle'
     apply plugin: 'jacoco'
 
@@ -42,6 +39,10 @@ allprojects {
 }
 
 subprojects {
+    if (!project.name.equals('bomberman/frontend'))
+        apply plugin: 'org.springframework.boot'
+
+
     checkstyle {
         ignoreFailures = false
         toolVersion = '7.5'
@@ -80,10 +81,6 @@ ext.libraries = [
         gson: "com.google.code.gson:gson:$gsonjVersion",
         postgres: "org.postgresql:postgresql:$postgresVersion",
         hibernate: "org.hibernate:hibernate-core:$hibernateVersion",
-        websocketclient: "org.eclipse.jetty.websocket:websocket-client:$websocketVersion",
-        websocketserver: "org.eclipse.jetty.websocket:websocket-server:$websocketVersion",
-        websocketapi: "org.eclipse.jetty.websocket:websocket-api:$websocketVersion",
-        jackson: "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
         jol: "org.openjdk.jol:jol-core:$jolVersion",
         jol_samples: "org.openjdk.jol:jol-samples:$jolVersion"
 ]

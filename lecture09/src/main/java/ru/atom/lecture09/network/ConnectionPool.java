@@ -1,8 +1,8 @@
-package ru.atom.lecture08.websocket.network;
+package ru.atom.lecture09.network;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionPool {
-    private static final Logger log = LogManager.getLogger(ConnectionPool.class);
+    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 4;
 
