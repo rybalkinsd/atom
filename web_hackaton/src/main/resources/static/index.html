@@ -1,5 +1,5 @@
 <script>
-  var host = "wtfis.ru";
+  var host = "localhost";
   var port = 8080;
 </script>
 
@@ -86,7 +86,7 @@ function loadHistory() {
            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
     });
 }
-setInterval(loadHistory, 1000);
+//setInterval(loadHistory, 1000);
 
 </script>
 <script>
@@ -97,9 +97,9 @@ function say() {
    var settings = {
         "method": "POST",
         "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/say?"+name,
-        "data": msg
-    }
+        "url": "http://" + host + ":" + port + "/chat/say",
+        "data": name + "&" + msg
+    };
 
    $.ajax(settings).done(function(response) {
         $('#msgform').trigger("reset");
@@ -118,8 +118,9 @@ function login() {
    var settings = {
         "method": "POST",
         "crossDomain": true,
-        "url": "http://" + host + ":" + port + "/chat/login?"+name,
-    }
+        "url": "http://" + host + ":" + port + "/chat/login",
+        "data": name
+    };
 
    $.ajax(settings).done(function(response) {
         loadHistory();

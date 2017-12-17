@@ -2,10 +2,6 @@ dependencies {
     testCompile rootProject.libraries.junit
     compile rootProject.libraries.log4j
     compile rootProject.libraries.okhttp
-    compile rootProject.libraries.jetty_server
-    compile rootProject.libraries.jetty_servlet
-    compile rootProject.libraries.jersey_server
-    compile rootProject.libraries.jersey_containers
 }
 
 jar {
