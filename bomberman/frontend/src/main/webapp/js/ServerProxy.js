@@ -14,9 +14,11 @@ ServerProxy = Class.extend({
 
     getSessionIdFromMatchMaker: function () {
         var that = this;
-        var name = $('#name').serialize();
+        var name = "name=" + Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
         console.log(name);
-        if(!name){
+        if(!name) {
             alert("Please input login");
             console.log("Empty login, retry login");
         }
@@ -29,11 +31,11 @@ ServerProxy = Class.extend({
         $.ajax(settings).done(function(data){
             this.gameId=data;
             console.log("Matchmaker returned gameId=" + data);
-            that.connectToGameServer(this.gameId, name);
+            that.connectToGameServer(this.gameId);
         }).fail(function(){
             alert("Matchmaker request failed, use default gameId=" + this.gameId);
             console.log("Matchmaker request failed, use default gameId=" + this.gameId);
-            that.connectToGameServer(this.gameId, name);
+            that.connectToGameServer(this.gameId);
         });
     },
 
@@ -41,29 +43,28 @@ ServerProxy = Class.extend({
         var self = this;
         gInputEngine.subscribe('up', function () {
             console.log(gMessages.move('up'));
-            self.socket.send(gMessages.move('up'));
+            self.socket.send(gMessages.move('up'))
         });
         gInputEngine.subscribe('down', function () {
             console.log(gMessages.move('down'));
-            self.socket.send(gMessages.move('down'));
+            self.socket.send(gMessages.move('down'))
         });
         gInputEngine.subscribe('left', function () {
             console.log(gMessages.move('left'));
-            self.socket.send(gMessages.move('left'));
+            self.socket.send(gMessages.move('left'))
         });
         gInputEngine.subscribe('right', function () {
             console.log(gMessages.move('right'));
-            self.socket.send(gMessages.move('right'));
+            self.socket.send(gMessages.move('right'))
         });
         gInputEngine.subscribe('bomb', function () {
-            console.log(gMessages.plantBomb());
             self.socket.send(gMessages.plantBomb());
         });
     },
 
-    connectToGameServer : function(gameId, login) {
+    connectToGameServer : function(gameId) {
         var self = this;
-        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&" + login);
+        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&name=NKOHA");
         gGameEngine.menu.hide();
 
         gGameEngine.playing = true;
