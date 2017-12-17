@@ -79,7 +79,7 @@ public class Ticker extends Thread {
         for (Action action : inputQueue) {
             if (action.getAction().equals(Topic.PLANT_BOMB) && action.getActor().getBombCapacity() != 0) {
                 Bomb bomb = new Bomb(gameSession, closestPoint(action.getActor().getPosition()), action.getActor());
-                gameSession.addGameObject(bomb);
+                action.getActor().decBombCapacity();
                 gameSession.addGameObject(bomb);
             }
             if (action.getAction().equals(Topic.MOVE) && !movedGirls.contains(action.getActor())) {
@@ -155,151 +155,47 @@ public class Ticker extends Thread {
 
 
     public void detonationBomb() {
-        ArrayList<Bomb> bombList = new ArrayList<>();
-        ArrayList<Brick> brickList = new ArrayList<>();
-        ArrayList<Girl> girlList = new ArrayList<>();
-        ArrayList<Fire> fireList = new ArrayList<>();
-
-        boolean horizontalRight = true;
-        boolean verticalUp = true;
-        boolean horizontalLeft = true;
-        boolean verticalDown = true;
-        boolean notBonus = true;
+        ArrayList<GameObject> objectList = new ArrayList<>();
 
         for (Fire fire : gameSession.getFire()) {
             if (fire.dead())
-                fireList.add(fire);
+                objectList.add(fire);
         }
+
         for (Bomb bomb : gameSession.getBombs()) {
             if (bomb.dead()) {
-                bombList.add(bomb);
-                Bar barBombVerticalUp1 = new Bar(Point.getUp1Position(bomb.getPosition()));
-                Bar barBombVerticalUp2 = new Bar(Point.getUp2Position(bomb.getPosition()));
-                Bar barBombHorizontalRight1 = new Bar(Point.getRight1Position(bomb.getPosition()));
-                Bar barBombHorizontalRight2 = new Bar(Point.getRight2Position(bomb.getPosition()));
+                bomb.getOwner().incBombCapacity();
+                objectList.add(bomb);
 
-                Bar barBombVerticalDown1 = new Bar(Point.getDown1Position(bomb.getPosition()));
-                Bar barBombVerticalDown2 = new Bar(Point.getDown2Position(bomb.getPosition()));
-                Bar barBombHorizontalLeft1 = new Bar(Point.getLeft1Position(bomb.getPosition()));
-                Bar barBombHorizontalLeft2 = new Bar(Point.getLeft2Position(bomb.getPosition()));
+                ArrayList<ArrayList<Bar>> explosions = Bar.getExplosions(Point.getExplosions(bomb.getPosition(),
+                        bomb.getOwner().getBombRange()));
 
-                for (Wall wall : gameSession.getWalls()) {
-                    Bar barWall = wall.getBar();
-                    if (!barWall.isColliding(barBombHorizontalRight1)) {
-                        horizontalRight = false;
+                for (int i = 0; i < explosions.size(); i++) {
+                    for (int j = 0; j < explosions.get(i).size(); j++) {
+                        for (Girl girl: gameSession.getGirls()) {
+                            if (!girl.getBar().isColliding(explosions.get(i).get(j)))
+                                objectList.add(girl);
+                        }
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()) == null) {
+                            gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
+                            continue;
+                        }
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wall")) {
+                            break;
+                        }
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wood")) {
+                            objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
+                            gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
+                            break;
+                        }
+                        objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
+                        gameSession.addGameObject(new Fire(gameSession, explosions.get(i).get(j).getLeftPoint()));
                     }
-                    if (!barWall.isColliding(barBombVerticalUp1)) {
-                        verticalUp = false;
-                    }
-                    if (!barWall.isColliding(barBombHorizontalLeft1)) {
-                        horizontalLeft = false;
-                    }
-                    if (!barWall.isColliding(barBombVerticalDown1)) {
-                        verticalDown = false;
-                    }
-                }
-                for (Brick brick : gameSession.getBricks()) {
-                    Bar barBrick = brick.getBar();
-                    if (verticalUp && !barBrick.isColliding(barBombVerticalUp1)) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (horizontalRight &&  !barBrick.isColliding(barBombHorizontalRight1)) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (verticalDown && !barBrick.isColliding(barBombVerticalDown1)) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (horizontalLeft && !barBrick.isColliding(barBombHorizontalLeft1)) {
-                        brickList.add(brick);
-                    }
-                    /*if (verticalUp && (!barBrick.isColliding(barBombVerticalUp2)
-                            || !barBrick.isColliding(barBombVerticalUp1))) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (horizontalRight && (!barBrick.isColliding(barBombHorizontalRight2)
-                            || !barBrick.isColliding(barBombHorizontalRight1))) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (verticalDown && (!barBrick.isColliding(barBombVerticalDown2)
-                            || !barBrick.isColliding(barBombVerticalDown1))) {
-                        brickList.add(brick);
-                        continue;
-                    }
-                    if (horizontalLeft && (!barBrick.isColliding(barBombHorizontalLeft2)
-                            || !barBrick.isColliding(barBombHorizontalLeft1))) {
-                        brickList.add(brick);
-                    }*/
-                }
-                for (Girl girl : gameSession.getGirls()) {
-                    Bar barGirl = girl.getBar();
-                    /*if (verticalUp && (!barGirl.isColliding(barBombVerticalUp2)
-                            || !barGirl.isColliding(barBombVerticalUp1))) {
-                        girlList.add(girl);
-                        continue;
-                    }*/
-                    if (verticalUp && !barGirl.isColliding(barBombVerticalUp1)) {
-                        girlList.add(girl);
-                        continue;
-                    }
-                    if (horizontalRight &&  !barGirl.isColliding(barBombHorizontalRight1)) {
-                        girlList.add(girl);
-                        continue;
-                    }
-                    if (verticalDown &&  !barGirl.isColliding(barBombVerticalDown1)) {
-                        girlList.add(girl);
-                        continue;
-                    }
-                    if (horizontalLeft && !barGirl.isColliding(barBombHorizontalLeft1)) {
-                        girlList.add(girl);
-                    }
-                    /*if (horizontalRight && (!barGirl.isColliding(barBombHorizontalRight2)
-                            || !barGirl.isColliding(barBombHorizontalRight1))) {
-                        girlList.add(girl);
-                        continue;
-                    }
-                    if (verticalDown && (!barGirl.isColliding(barBombVerticalDown2)
-                            || !barGirl.isColliding(barBombVerticalDown1))) {
-                        girlList.add(girl);
-                        continue;
-                    }
-                    if (horizontalLeft && (!barGirl.isColliding(barBombHorizontalLeft2)
-                            || !barGirl.isColliding(barBombHorizontalLeft1))) {
-                        girlList.add(girl);
-                    }*/
                 }
             }
         }
-        for (Bomb bomb : bombList) {
-            notBonus = true;
-            gameSession.addGameObject(new Fire(gameSession, bomb.getPosition()));
-            if (verticalUp) {
-                gameSession.addGameObject(new Fire(gameSession, Point.getUp1Position(bomb.getPosition())));
-            }
-            if (verticalDown) {
-                gameSession.addGameObject(new Fire(gameSession, Point.getDown1Position(bomb.getPosition())));
-            }
-            if (horizontalRight) {
-                gameSession.addGameObject(new Fire(gameSession, Point.getRight1Position(bomb.getPosition())));
-            }
-            if (horizontalLeft) {
-                gameSession.addGameObject(new Fire(gameSession, Point.getLeft1Position(bomb.getPosition())));
-            }
-            gameSession.removeGameObject(bomb);
-        }
-
-        for (Brick brick : brickList) {
-            gameSession.removeGameObject(brick);
-        }
-        for (Girl girl : girlList) {
-            gameSession.removeGameObject(girl);
-        }
-        for (Fire fire : fireList) {
-            gameSession.removeGameObject(fire);
+        for (GameObject gameObject: objectList)  {
+            gameSession.removeGameObject(gameObject);
         }
     }
 

@@ -4,6 +4,8 @@ import gs.model.Bomb;
 import gs.model.GameObject;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 public class Bar implements Collider {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Bomb.class);
 
@@ -19,6 +21,23 @@ public class Bar implements Collider {
     public Bar(Point point) {
         this.leftPoint = point;
         this.rightPoint = new Point(point.getX() + GameObject.getWidthBox(), point.getY() + GameObject.getHeightBox());
+    }
+
+    public static ArrayList<ArrayList<Bar>> getExplosions(ArrayList<ArrayList<Point>> points) {
+        ArrayList<ArrayList<Bar>> allExplosions = new ArrayList<>();
+
+        System.out.println(points.size());
+        System.out.println(points.get(1).size());
+        for (int i = 0; i < points.size(); i++) {
+            ArrayList<Bar> explosion = new ArrayList<>();
+            for (int j = 0; j < points.get(i).size(); j++) {
+                Bar bar = new Bar(points.get(i).get(j));
+                explosion.add(bar);
+            }
+            allExplosions.add(explosion);
+        }
+
+        return allExplosions;
     }
 
     @Override
