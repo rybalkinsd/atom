@@ -10,7 +10,40 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
+    },
 
+    getSessionIdFromMatchMaker: function () {
+        var that = this;
+        var login = $("#loginInput").val();
+        if (!login) {
+            alert("Please input login");
+            console.log("Empty login, retry login");
+        }
+        $.ajax({
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                'name': login
+            },
+            body: {},
+            dataType: 'text',
+            success: function (data) {
+                that.gameId = data;
+                console.log("Matchmaker returned gameId=" + data);
+                that.connectToGameServer(that.gameId, login);
+            },
+            error: function () {
+                alert("Matchmaker request failed, use default gameId=" + that.gameId);
+                console.log("Matchmaker request failed, use default gameId=" + that.gameId);
+                that.connectToGameServer(that.gameId, login);
+            },
+            processData: true,
+            type: 'POST',
+            url: "http://" + that.matchMakerUrl
+        });
+        that.subscribeEvents();
+    },
+
+    subscribeEvents: function () {
         var self = this;
         gInputEngine.subscribe('up', function () {
             self.socket.send(gMessages.move('up'))
@@ -26,35 +59,6 @@ ServerProxy = Class.extend({
         });
         gInputEngine.subscribe('bomb', function () {
             self.socket.send(gMessages.plantBomb())
-        });
-    },
-
-    getSessionIdFromMatchMaker: function () {
-        var that = this;
-        var login = $("#loginInput").val();
-        if(!login){
-            alert("Please input login");
-            console.log("Empty login, retry login");
-        }
-        $.ajax({
-            contentType: 'application/x-www-form-urlencoded',
-            data: {
-                "name": login
-            },
-            dataType: 'text',
-            success: function(data){
-                that.gameId=data;
-                console.log("Matchmaker returned gameId=" + data);
-                that.connectToGameServer(that.gameId, login);
-            },
-            error: function(){
-                alert("Matchmaker request failed, use default gameId=" + that.gameId);
-                console.log("Matchmaker request failed, use default gameId=" + that.gameId);
-                that.connectToGameServer(that.gameId, login);
-            },
-            processData: false,
-            type: 'POST',
-            url: that.matchMakerUrl
         });
     },
 

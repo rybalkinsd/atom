@@ -1,0 +1,14 @@
+.gradle/**
+/gradle/**
+/out/**
+build/**
+.idea/**
+/*/classes
+/classes
+/gameserver/out/**
+/matchmaker/out/
+gameserver/build/
+gameserver/out/test/
+/frontend/build/
+/gradle/
+

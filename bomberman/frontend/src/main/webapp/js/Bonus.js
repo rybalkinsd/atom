@@ -1,11 +1,12 @@
 Bonus = Entity.extend({
-    types: ['speed', 'bomb', 'fire'],
+    types: ['Bonus_Speed', 'Bonus_Bomb', 'Bonus_Fire'],
 
     type: '',
     position: {},
     bmp: null,
 
-    init: function(position, typePosition) {
+    init: function(id, position, typePosition) {
+        this.id = id;
         this.type = this.types[typePosition];
 
         this.position = position;
