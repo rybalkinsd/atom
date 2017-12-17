@@ -22,15 +22,15 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
 
     @Column(name = "name", unique = true, nullable = false, length = 20)
     private String name;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @Column(name = "time", unique = false, nullable = false, length = 15)
@@ -45,11 +45,11 @@ public class Player {
         return this;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public Player setId(Integer id) {
+    public Player setId(long id) {
         this.id = id;
         return this;
     }

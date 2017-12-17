@@ -75,11 +75,19 @@ Menu = Class.extend({
         });
 
         var playButton = new createjs.Text("Play", "32px Helvetica", "#ff4444");
+
         var singleTitleWidth = playButton.getMeasuredWidth();
         var modeTitlesY = startButtonY + startButtonSize - playButton.getMeasuredHeight() - 20;
 
         playButton.x = startButtonX + (startButtonSize - singleTitleWidth) / 2;
         playButton.y = modeTitlesY;
+        if (text != null) {
+            var myText = new createjs.Text(text["text"], "32px Helvetica", text["color"]);
+            myText.x = gGameEngine.size.w / 2 - myText.getMeasuredWidth() / 2;
+            myText.y = playButton.y + 82;
+            gGameEngine.stage.addChild(myText);
+            this.views.push(myText);
+        }
         gGameEngine.stage.addChild(playButton);
         this.views.push(playButton);
 

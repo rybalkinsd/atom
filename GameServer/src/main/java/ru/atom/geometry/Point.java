@@ -32,7 +32,7 @@ public class Point implements GeomObject {
     @Override
     public int hashCode() {
         int result = 0;
-        result = (int)( 31 * result + y);
+        result = (int)(31 * result + y);
         return result;
     }
 

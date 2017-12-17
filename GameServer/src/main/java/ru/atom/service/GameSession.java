@@ -20,7 +20,7 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-public class GameSession implements GameObject, Tickable, Comparable<GameObject>{
+public class GameSession implements GameObject, Tickable, Comparable<GameObject> {
     private static final Logger log = LogManager.getLogger(GameSession.class);
     private static AtomicLong idGenerator = new AtomicLong();
 
@@ -28,7 +28,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
     private int playersAmount = 0;
     private ArrayList<Player> players = new ArrayList<>();
     private Ticker ticker = new Ticker();
-    private GameModel gameModel = new GameModel(ticker, 2);
+    private GameModel gameModel;
     private Message backGroundReplica;
 
     public long getId() {
@@ -37,24 +37,28 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
 
     public GameSession(int playersAmount) {
         this.playersAmount = playersAmount;
+        gameModel = new GameModel(ticker, playersAmount);
         backGroundReplica = Replicator.getBackGroundReplica(gameModel);
+
     }
 
 
 
 
-    public synchronized void add(String playerName) {
+    public synchronized boolean add(String playerName) {
         Player player = new Player(gameModel.getPlayerObjectId(players.size()), playerName);
-        if (players.size() != playersAmount) {
-            players.add(player);
-            Broker.getInstance().send(playerName, Topic.POSSESS, player.getId());
-            Broker.getInstance().send(playerName, backGroundReplica);
-            log.info("New player name: " + playerName + " playerId: " + player.getId());
-            if (players.size() == playersAmount) {
-                ticker.registerTickable(this);
-                ticker.start();
-            }
+        if (players.size() == playersAmount) {
+            return false;
         }
+        players.add(player);
+        Broker.getInstance().send(playerName, Topic.POSSESS, player.getId());
+        Broker.getInstance().send(playerName, backGroundReplica);
+        log.info("New player name: " + playerName + " playerId: " + player.getId());
+        if (players.size() == playersAmount) {
+            ticker.registerTickable(this);
+            ticker.start();
+        }
+        return true;
     }
 
     public void processInput(Player player, long elaspsed) {
@@ -75,6 +79,11 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
 
                 case MOVE: {
                     moveMessage = message;
+                }
+                break;
+
+                default: {
+
                 }
             }
         }
@@ -108,11 +117,25 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
         }
     }
 
+    public Player getPlayer(String playerName) {
+        return players.stream().filter(player -> player.getName().equals(playerName)).findFirst().get();
+    }
+
+    public void removePlayer(long playerId) {
+        gameModel.removePlayer(playerId);
+    }
+
     @Override
     public void tick(long elapsed) {
-        players.parallelStream().forEach(player -> {
+        players.stream().forEach(player -> {
             Broker.getInstance().send(player.getName(), Replicator.getReplica(gameModel));
-        } );
+        });
+        if (gameModel.isGameOver()) {
+            players.forEach(player -> ConnectionPool.getInstance().remove(player.getName()));
+            GameServerService.removeGameSession(id);
+            ticker.unregisterTickable(this);
+            return;
+        }
         gameModel.update();
         if (players.size() == playersAmount) {
             players.forEach(player -> {
@@ -126,10 +149,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
 
     @Override
     public int compareTo(GameObject that) {
-        if (this.id == that.getId()) {
-            return 0;
-        }
-        return -1;
+        return (int)(this.id - that.getId());
     }
 
 

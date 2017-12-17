@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionHandler implements Runnable {
     private static final Logger log = LogManager.getLogger(ru.atom.service.ConnectionHandler.class);
     private MatchMakerService matchMakerService;
-    private static int REQUIRED_PLAYERS_AMOUNT = 2;
 
     public ConnectionHandler(MatchMakerService matchMakerService) {
         this.matchMakerService = matchMakerService;
@@ -24,7 +23,7 @@ public class ConnectionHandler implements Runnable {
     @Override
     public void run() {
         log.info("Started");
-        List<Connection> candidates = new ArrayList<>(REQUIRED_PLAYERS_AMOUNT);
+        List<Connection> candidates = new ArrayList<>(matchMakerService.getRequiredPlayerAmount());
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 candidates.add(
@@ -34,9 +33,9 @@ public class ConnectionHandler implements Runnable {
                 log.warn("Timeout reached");
             }
 
-            if (candidates.size() == REQUIRED_PLAYERS_AMOUNT) {
-                Thread thread = new Thread(new GameIdBroker(REQUIRED_PLAYERS_AMOUNT,
-                        new ArrayList<>(candidates), matchMakerService));
+            if (candidates.size() == matchMakerService.getRequiredPlayerAmount()) {
+                Thread thread = new Thread(new GameIdBroker(new ArrayList<>(candidates),
+                        matchMakerService));
                 thread.start();
                 candidates.clear();
 

@@ -16,7 +16,8 @@ public class Replicator {
         ArrayList<String> grassTiles = new ArrayList<String>(map.getHeight() * map.getWidth());
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                grassTiles.add("{\"position\":{\"x\":" + i * map.getTileWidth() + ",\"y\":" + j * map.getTileHeight() + "}" +
+                grassTiles.add("{\"position\":{\"x\":" +
+                        i * map.getTileWidth() + ",\"y\":" + j * map.getTileHeight() + "}" +
                         ",\"id\":" + GameModel.generateGameObjectId() +
                         ",\"type\":\"Grass\"" +
                         "}");
@@ -32,13 +33,14 @@ public class Replicator {
 
     public static Message getReplica(GameModel gameModel) {
         String replica = "{\"objects\":[";
-
         replica = replica.concat(gameModel.changed.stream().map(girl ->
                 girl.toString()).collect(Collectors.joining(",")).toString());
         replica = replica.concat("],\"deleted\":[");
         replica = replica.concat(gameModel.deleted.stream().map(girl ->
                 girl.toString()).collect(Collectors.joining(",")).toString());
-        replica = replica.concat("],\"gameOver\":false}");
+        replica = replica.concat("],\"gameOver\":" +
+                gameModel.isGameOver() + ",\"winnerId\":" + gameModel.getWinner() + "}");
+
         return new Message(Topic.REPLICA, replica);
 
     }

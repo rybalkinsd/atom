@@ -38,35 +38,31 @@ public class Rectangle implements GeomObject {
         float dxr = extBar.leftTopCorner.getX() + extBar.getWidth() - this.leftTopCorner.getX();
         float dyt = extBar.leftTopCorner.getY() - this.leftTopCorner.getY();
         float dyd = extBar.leftTopCorner.getY() + extBar.getHeight() - this.leftTopCorner.getY();
-        float dx;
-        float dy;
+        float dx = 0;
+        float dy = 0;
 
-        if(-dxl > dxr) {
+        if (-dxl > dxr) {
             dx = dxr;
         } else {
             dx = dxl;
         }
 
-        if(-dyt > dyd) {
+        if (-dyt > dyd) {
             dy = dyd;
         } else {
             dy = dyt;
         }
 
 
-        if (dxl > 0 || dxr < 0){
+        if (dxl > 0 || dxr < 0) {
             dx = 0;
         }
-        if (dyt > 0 || dyd < 0){
+
+        if (dyt > 0 || dyd < 0) {
             dy = 0;
         }
 
-
-
-
-
-        return new IntersectionParams(dx, dy,
-                extBar.isColliding(this.leftTopCorner));
+        return new IntersectionParams(dx, dy);
     }
 
 
@@ -88,10 +84,10 @@ public class Rectangle implements GeomObject {
         } else if (other.getClass() == Point.class) {
 
             Point point = (Point)other;
-            return (this.leftTopCorner.getX() < point.getX() &&
-                    point.getX() < this.leftTopCorner.getX() + this.width &&
-                    this.leftTopCorner.getY() < point.getY() &&
-                    point.getY() < this.leftTopCorner.getY() + this.height);
+            return (this.leftTopCorner.getX() < point.getX()
+                    && point.getX() < this.leftTopCorner.getX() + this.width
+                    && this.leftTopCorner.getY() < point.getY()
+                    && point.getY() < this.leftTopCorner.getY() + this.height);
         } else
             return false;
     }

@@ -1,9 +1,9 @@
 package ru.atom.model;
 
 import ru.atom.geometry.GeomObject;
-import ru.atom.geometry.IntersectionParams;
 import ru.atom.geometry.Point;
 import ru.atom.geometry.Rectangle;
+import ru.atom.model.listners.MoveEventListener;
 
 
 public abstract class MovableFormedGameObject extends FormedGameObject implements Movable {
@@ -67,11 +67,20 @@ public abstract class MovableFormedGameObject extends FormedGameObject implement
 
             FormedGameObject newform = new FormedGameObject(newForm, this.getId());
             FormedGameObject oldform = new FormedGameObject(getForm(), this.getId());
-            if(moveEventListener != null &&
-                    !moveEventListener.getMovePermission(newform, this)) {
-                return super.getForm().getPosition();
+            Point point = null;
+            if (moveEventListener != null) {
+                point = moveEventListener.getMoveRecom(newform, this);
             }
-            super.geomObject = newForm;
+            if (point == null) {
+                return super.getForm().getPosition();
+            } else {
+                super.geomObject = new Rectangle(
+                        new Point(point.getX(),
+                                point.getY()),
+                        newForm.getWidth(),
+                        newForm.getHeight());
+            }
+
             moveEventListener.handleMoveEvent(oldform, this);
         }
         return super.getForm().getPosition();

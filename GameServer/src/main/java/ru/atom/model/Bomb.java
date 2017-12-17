@@ -4,6 +4,7 @@ import ru.atom.geometry.GeomObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atom.geometry.Rectangle;
+import ru.atom.model.listners.BombExplosListener;
 import ru.atom.tick.Tickable;
 
 import java.util.Vector;
@@ -14,9 +15,8 @@ public class Bomb extends FormedGameObject implements Tickable {
     private long explosDelay;
     Vector<BombExplosListener> listeners = new Vector<>();
 
-    public boolean addExplosEventListener(BombExplosListener explosEventLisetner) {
+    public void addExplosEventListener(BombExplosListener explosEventLisetner) {
         listeners.add(explosEventLisetner);
-        return true;
     }
 
     public Bomb(GeomObject geomObject, int explosRadius, long explosDelay) {
@@ -31,7 +31,9 @@ public class Bomb extends FormedGameObject implements Tickable {
     }
 
     void explode() {
-        listeners.forEach(bombExplosListener -> bombExplosListener.handleBombExplodeEvent(this));
+        listeners.forEach(bombExplosListener -> {
+            bombExplosListener.handleBombExplodeEvent(this);
+        });
     }
 
     @Override

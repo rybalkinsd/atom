@@ -12,9 +12,7 @@ public class Feed extends FormedGameObject {
     public Feed(GeomObject geomObject, FeedType type) {
         super(geomObject);
         this.type = type;
-        log.info(" [id = " + this.getId() + "] Created: Feed( " + geomObject.toString() +
-                ", feed = " + type.name() +
-                " )");
+        log.info(this.toString());
     }
 
     public FeedType getType() {

@@ -8,14 +8,14 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ru.atom.dao.PlayerDao;
 import ru.atom.dao.GameDao;
 
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class})
+@PropertySource("classpath:application.properties")
 public class MatchMakerApp {
     public static void main(String[] args) {
 

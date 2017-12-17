@@ -25,7 +25,7 @@ public class Broker {
     }
 
     public void receive(@NotNull WebSocketSession session, @NotNull String msg) {
-        log.info("RECEIVED: " + msg);
+        //log.info("RECEIVED: " + msg);
         Message message = JsonHelper.fromJson(msg, Message.class);
         String playerName = QueryProcessor.process(session.getUri().getQuery()).get("name");
         InputMessages.getInstance().get(playerName).add(message);

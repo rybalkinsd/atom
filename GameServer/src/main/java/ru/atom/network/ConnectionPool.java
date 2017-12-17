@@ -15,7 +15,7 @@ public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 2;
 
-    private final ConcurrentHashMap<WebSocketSession, String> pool;
+    private final ConcurrentHashMap<String, WebSocketSession> pool;
 
     public static ConnectionPool getInstance() {
         return instance;
@@ -35,14 +35,14 @@ public class ConnectionPool {
     }
 
     public void broadcast(@NotNull String msg) {
-        pool.forEachKey(PARALLELISM_LEVEL, session -> send(session, msg));
+        pool.entrySet().stream().forEach(sessionEntry -> send(sessionEntry.getValue(), msg));
     }
 
     public void shutdown() {
-        pool.forEachKey(PARALLELISM_LEVEL, session -> {
-            if (session.isOpen()) {
+        pool.entrySet().stream().forEach(sessionEntry -> {
+            if (sessionEntry.getValue().isOpen()) {
                 try {
-                    session.close();
+                    sessionEntry.getValue().close();
                 } catch (IOException ignored) {
                 }
             }
@@ -50,24 +50,41 @@ public class ConnectionPool {
     }
 
     public String getPlayer(WebSocketSession session) {
-        return pool.get(session);
+        return pool.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(session))
+                .map(Map.Entry::getKey)
+                .findFirst().orElse(null);
     }
 
     public WebSocketSession getSession(String player) {
-        return pool.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(player))
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElseGet(null);
+        return pool.get(player);
     }
 
-    public void add(WebSocketSession session, String player) {
-        if (pool.putIfAbsent(session, player) == null) {
+    public boolean add(WebSocketSession session, String player) {
+        if (getSession(player) != null) {
+            return false;
+        }
+        if (pool.putIfAbsent(player, session) == null) {
             log.info("{} joined", player);
         }
+        return true;
+    }
+
+    public void remove(String player) {
+        try {
+            pool.get(player).close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        pool.remove(player);
     }
 
     public void remove(WebSocketSession session) {
+        try {
+            session.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
         pool.remove(session);
     }
 }

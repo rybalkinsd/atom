@@ -15,23 +15,18 @@ public class GameIdBroker implements Runnable {
 
     private final MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
     private final OkHttpClient client = new OkHttpClient();
-    private final String protocol = "http://";
-    private final String host = "localhost";
-    private final String port = ":8090";
     private Request request;
     ArrayList<Connection> connections;
-    int requiredPlayerAmount = 0;
     MatchMakerService mmService;
 
 
-    public GameIdBroker(int requiredPlayerAmount, ArrayList<Connection> connections, MatchMakerService mmservice) {
+    public GameIdBroker(ArrayList<Connection> connections, MatchMakerService mmservice) {
         request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
-                .url(protocol + host + port + "/game/create?playerCount=" + requiredPlayerAmount)
+                .url(mmservice.getGameServerUrl() + "/game/create?playerCount=" + mmservice.getRequiredPlayerAmount())
                 .build();
 
         this.connections = connections;
-        this.requiredPlayerAmount = requiredPlayerAmount;
         this.mmService = mmservice;
 
     }
@@ -42,7 +37,7 @@ public class GameIdBroker implements Runnable {
             long gameId = Long.parseLong(client.newCall(request).execute().body().string());
 
             Game game = new Game().setId(gameId);
-            ArrayList<Player> players = new ArrayList<>(requiredPlayerAmount);
+            ArrayList<Player> players = new ArrayList<>(mmService.getRequiredPlayerAmount());
             for (Connection connection : connections) {
                 players.add(new Player().setGame(game));
             }

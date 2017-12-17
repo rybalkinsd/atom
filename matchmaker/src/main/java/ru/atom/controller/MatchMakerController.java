@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,7 @@ public class MatchMakerController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> join(@RequestParam("name") String name) {
-        /*Player alreadyInGame = mmService.getPlayerByName(name);
+        Player alreadyInGame = mmService.getPlayerByName(name);
         if (name == null || name == "") {
             return ResponseEntity.badRequest()
                     .body("Enter your name");
@@ -41,11 +42,25 @@ public class MatchMakerController {
         if (alreadyInGame != null) {
             return ResponseEntity.badRequest()
                     .body("Already in game");
-        }*/
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
         return ResponseEntity.ok().headers(headers).body(mmService.handleConnection(name).toString());
+    }
+
+
+    @RequestMapping(
+            path = "closegs",
+            method = RequestMethod.POST,
+            consumes = MediaType.TEXT_HTML_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> gameSessionClose(@RequestBody String gameId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        mmService.handleGameSessionClose(Long.parseLong(gameId));
+
+        return ResponseEntity.ok().headers(headers).body(gameId);
     }
 
 

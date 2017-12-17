@@ -13,7 +13,7 @@ public class InputMessages {
     }
 
     public static void addEntry(String name) {
-        instance.put(name, new Vector<Message>());
+        instance.putIfAbsent(name, new Vector<Message>());
     }
 
 

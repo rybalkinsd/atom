@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,26 @@ public class MatchMakerService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(MatchMakerService.class);
     private Thread connectionHandlerThread = new Thread(new ConnectionHandler(this));
 
-    /* @Autowired*/
+    @Value("${REQUIRED_PLAYER_AMOUNT}")
+    private volatile int requiredPlayerAmount;
+
+    @Value("${gameServerUrl}")
+    private volatile String gameServerUrl;
+
+
+    @Autowired
     private PlayerDao playerDao;
 
-    /* @Autowired*/
+    @Autowired
     private GameDao gameDao;
+
+    public int getRequiredPlayerAmount() {
+        return this.requiredPlayerAmount;
+    }
+
+    public String getGameServerUrl() {
+        return this.gameServerUrl;
+    }
 
     public MatchMakerService() {
         connectionHandlerThread.start();
@@ -44,15 +60,20 @@ public class MatchMakerService {
 
     @Transactional
     public Player getPlayerByName(@NotNull String name) {
-        //return playerDao.getByName(name);
-        return null;
+        return playerDao.getPlayerByName(name);
     }
+
+    public void handleGameSessionClose(long gameId) {
+        gameDao.delete(gameId);
+    }
+
 
     public Long handleConnection(String name) {
         Thread myThread = Thread.currentThread();
         Player player = new Player().setName(name);
         Connection connection = new Connection(myThread, player);
         ConnectionQueue.getInstance().offer(connection);
+        savePlayer(player);
         try {
             synchronized (myThread) {
                 myThread.wait();
@@ -67,12 +88,12 @@ public class MatchMakerService {
 
     @Transactional
     public void saveGame(Game game) {
-        //gameDao.save(game);
+        gameDao.save(game);
     }
 
     @Transactional
     public void savePlayer(Player player) {
-        //playerDao.save(player);
+        playerDao.save(player);
     }
 
 

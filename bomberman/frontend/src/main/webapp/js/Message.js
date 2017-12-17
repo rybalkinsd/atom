@@ -34,7 +34,9 @@ Messages = Class.extend({
     handleReplica: function (msg) {
         var gameObjects = JSON.parse(msg.data).objects;
         var survivors =  new Set();
-        var deleted= JSON.parse(msg.data).deleted;
+        var deleted = JSON.parse(msg.data).deleted;
+        var winnerId = JSON.parse(msg.data).winnerId;
+        var gameOver = JSON.parse(msg.data).gameOver;
 
         for (var i = 0; i < deleted.length; i++) {
             var deletedObj = deleted[i];
@@ -52,6 +54,9 @@ Messages = Class.extend({
             gMessages.handler[obj.type](obj);
         }
         gGameEngine.gc(survivors);
+        if (gameOver == true) {
+            gGameEngine.gameOver(winnerId);
+        }
     },
 
     handlePossess: function (msg) {

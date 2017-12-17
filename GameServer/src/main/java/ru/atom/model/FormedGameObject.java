@@ -4,7 +4,7 @@ import ru.atom.geometry.Collider;
 import ru.atom.geometry.GeomObject;
 import ru.atom.geometry.Point;
 
-public class FormedGameObject implements Positionable, Colliding, Comparable<GameObject>{
+public class FormedGameObject implements Positionable, Colliding, Comparable<GameObject> {
     protected GeomObject geomObject;
     private long id;
 
@@ -12,6 +12,7 @@ public class FormedGameObject implements Positionable, Colliding, Comparable<Gam
         this.geomObject = geomObject;
         id = GameModel.generateGameObjectId();
     }
+
     public FormedGameObject(GeomObject geomObject , long id) {
         this.geomObject = geomObject;
         this.id = id;
@@ -38,7 +39,7 @@ public class FormedGameObject implements Positionable, Colliding, Comparable<Gam
 
     @Override
     public int compareTo(GameObject that) {
-       return (int)(this.id - that.getId());
+        return (int)(this.id - that.getId());
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -27,7 +28,7 @@ public class Game {
     @Id
     private long id;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "game",  cascade = CascadeType.REMOVE)
     private List<Player> players;
 
     @Column(name = "time", unique = false, nullable = false, length = 15)

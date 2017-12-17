@@ -35,15 +35,15 @@ ServerProxy = Class.extend({
                 that.connectToGameServer(that.gameId, login);
             },
             error: function(){
-                alert("Matchmaker request failed, use default gameId=" + that.gameId);
-                console.log("Matchmaker request failed, use default gameId=" + that.gameId);
+                alert("Matchmaker request failed");
+                console.log("Matchmaker request failed");
+                gGameEngine.menu.show();
             }
         });
     },
 
-    connectToGameServer: function (gameId, login) {
+    subscribeEvents: function () {
         var self = this;
-        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
         gInputEngine.subscribe('up', function () {
             self.socket.send(gMessages.move('up'))
         });
@@ -59,7 +59,14 @@ ServerProxy = Class.extend({
         gInputEngine.subscribe('bomb', function () {
             self.socket.send(gMessages.plantBomb())
         });
+    },
 
+
+    connectToGameServer: function (gameId, login) {
+        var self = this;
+        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
+
+        self.subscribeEvents();
         this.socket.onopen = function () {
             console.log("Connection established.");
         };
@@ -71,10 +78,13 @@ ServerProxy = Class.extend({
                 console.log('alert close');
             }
             console.log('Code: ' + event.code + ' cause: ' + event.reason);
+            if (!gGameEngine.menu.visible) {
+                //gGameEngine.menu.show();
+            }
         };
 
         this.socket.onmessage = function (event) {
-            //console.log(event.data);
+            console.log(event.data);
             var msg = JSON.parse(event.data);
             if (self.handler[msg.topic] === undefined)
                 return;
@@ -83,6 +93,8 @@ ServerProxy = Class.extend({
         };
 
         this.socket.onerror = function (error) {
+            alert("Something went wrong on GameServer");
+            gGameEngine.menu.show();
             console.log("Error " + error.message);
         };
     }

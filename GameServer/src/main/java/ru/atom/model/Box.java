@@ -4,25 +4,20 @@ import ru.atom.geometry.GeomObject;
 import ru.atom.geometry.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.model.listners.BoxCollapseListener;
+
+import java.util.Vector;
 
 public class Box extends FormedGameObject {
     private static final Logger log = LogManager.getLogger(Box.class);
     private  Feed.FeedType feedType;
 
-    BoxCollapseListener listener = null;
+    Vector<BoxCollapseListener> listeners = new Vector<>();
 
-    public boolean addBoxCollapseListener(BoxCollapseListener boxCollapseListener) {
-        if (this.listener == null) {
-            this.listener = boxCollapseListener;
-            return true;
-        }
-        return false;
+    public void addBoxCollapseListener(BoxCollapseListener boxCollapseListener) {
+        this.listeners.add(boxCollapseListener);
+
     }
-
-    public void removeBoxCollapseListener() {
-        listener = null;
-    }
-
 
     public Box(GeomObject geomObject, Feed.FeedType feedType) {
         super(geomObject);
@@ -31,7 +26,9 @@ public class Box extends FormedGameObject {
     }
 
     public void collapse() {
-        listener.handleBoxCollapse(this);
+        listeners.forEach(boxCollapseListener -> {
+            boxCollapseListener.handleBoxCollapse(this);
+        });
     }
 
     public Feed.FeedType getFeedType() {

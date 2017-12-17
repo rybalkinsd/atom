@@ -1,6 +1,7 @@
 package ru.atom;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +48,11 @@ public class IntegrationTests {
         }
     }
 
+    @Ignore
     @Test
     public void connect() throws Exception {
 
-
-        /*FutureTask<MvcResult> reqest = new FutureTask<MvcResult>(new Request("a"));
+        FutureTask<MvcResult> reqest = new FutureTask<MvcResult>(new Request("a"));
         FutureTask<MvcResult> req = new FutureTask<MvcResult>(new Request("b"));
         Thread thr = new Thread(req);
         Thread thread = new Thread(reqest);
@@ -63,7 +64,7 @@ public class IntegrationTests {
         String asdf = mvcResult.getResponse().getContentAsString();
         assertTrue(mvcResult.getResponse().getStatus() == 200);
         assertTrue(mvcResult1.getResponse().getStatus() == 200);
-        assertTrue(asd.equals(asdf));*/
+        assertTrue(asd.equals(asdf));
         assertTrue(true);
 
     }

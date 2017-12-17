@@ -24,7 +24,7 @@ public class TileMap {
         this.height = height;
         this.tileHeight = tileHeight;
         this.tileWidth = tileWidth;
-        for(int i = 0; i < (width)*(height); i++ ) {
+        for (int i = 0; i < width * height; i++) {
             tiles.add(new Tile());
         }
     }
@@ -52,7 +52,7 @@ public class TileMap {
             Rectangle rectangle = (Rectangle) geomObject;
             int startColumn = (int)(rectangle.getPosition().getX() / tileWidth);
             int startRow = (int)(rectangle.getPosition().getY() / tileHeight);
-            int endRow = (int)((rectangle.getPosition().getY() + rectangle.getHeight() ) / tileHeight + 1);
+            int endRow = (int)((rectangle.getPosition().getY() + rectangle.getHeight()) / tileHeight + 1);
             int endColumn = (int)((rectangle.getPosition().getX() + rectangle.getWidth()) / tileWidth + 1);
             for (int row = startRow; row < endRow; row++) {
                 for (int column = startColumn; column < endColumn; column++) {
@@ -71,7 +71,6 @@ public class TileMap {
         for (Tile tile : tempTiles) {
             tile.geomObjects.put(gameObject.getId(), gameObject);
         }
-
     }
 
     public void removeGameObject(FormedGameObject gameObject) {
@@ -83,16 +82,14 @@ public class TileMap {
 
     public HashSet<FormedGameObject> getNearbyGameObjects(FormedGameObject gameObject) {
         List<Tile> tempTiles = getTilesUnderGeomObject(gameObject.getForm());
-        HashSet<FormedGameObject> gameObjects = new HashSet<FormedGameObject> ();
+        HashSet<FormedGameObject> gameObjects = new HashSet<FormedGameObject>();
 
         for (Tile tile : tempTiles) {
             tile.geomObjects.entrySet().forEach(geomEntry -> {
                 if (geomEntry.getValue().getId() != gameObject.getId()) {
-                    gameObjects.add( geomEntry.getValue());
+                    gameObjects.add(geomEntry.getValue());
                 }
-
             });
-
         }
         return gameObjects;
     }

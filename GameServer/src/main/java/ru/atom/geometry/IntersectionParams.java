@@ -3,12 +3,10 @@ package ru.atom.geometry;
 public class IntersectionParams {
     private float dxImpos = 0;
     private float dyImpos = 0;
-    private boolean collidFlag = false;
 
-    public IntersectionParams(float dxImpos, float dyImpos, boolean collidFlag) {
+    public IntersectionParams(float dxImpos, float dyImpos) {
         this.dxImpos = dxImpos;
-        this.dyImpos= dyImpos;
-        this.collidFlag = collidFlag;
+        this.dyImpos = dyImpos;
     }
 
     public float getDxImpos() {
@@ -19,7 +17,4 @@ public class IntersectionParams {
         return dyImpos;
     }
 
-    public boolean getCollideFlag() {
-        return collidFlag;
-    }
 }
