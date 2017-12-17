@@ -7,6 +7,9 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Speed'] = this.handleBonus;
+        this.handler['Bombs'] = this.handleBonus;
+        this.handler['Explosion'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -83,14 +86,7 @@ Messages = Class.extend({
         var tile = gGameEngine.tiles.find(function (el) {
             return el.id === obj.id;
         });
-<<<<<<< HEAD
-
-        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
         var position = Utils.getEntityPosition(obj.position);
-=======
-        var position = Utils.getEntityPosition(obj.position);
-        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
->>>>>>> b4d880e... minor fixes in front + type brick->wood for front
         if (tile) {
             tile.material = obj.type;
         } else {
@@ -98,6 +94,19 @@ Messages = Class.extend({
             gGameEngine.tiles.push(tile);
         }
     },
+
+     handleBonus: function (obj) {
+            var bonus = gGameEngine.bonuses.find(function (el) {
+                return el.id === obj.id;
+            });
+            var position = Utils.getEntityPosition(obj.position);
+            if (bonus) {
+                bonus.type = obj.type;
+            } else {
+                bonus = new Bonus(obj.id, obj.type, position);
+                gGameEngine.bonuses.push(bonus);
+            }
+        },
 
     hello: function (name) {
         var template = {

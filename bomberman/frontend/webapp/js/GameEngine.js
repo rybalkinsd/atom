@@ -21,7 +21,7 @@ GameEngine = Class.extend({
     tilesImgs: {},
     bombImg: null,
     fireImg: null,
-    bonusesImg: null,
+    bonusesImgs: {},
 
     playing: false,
     mute: false,
@@ -55,7 +55,9 @@ GameEngine = Class.extend({
             that.tilesImgs.wood = queue.getResult("tile_wood");
             that.bombImg = queue.getResult("bomb");
             that.fireImg = queue.getResult("fire");
-            that.bonusesImg = queue.getResult("bonuses");
+            that.bonusesImgs.speed = queue.getResult("bonus_speed");
+            that.bonusesImgs.bombs = queue.getResult("bonus_bomb");
+            that.bonusesImgs.explosion = queue.getResult("bonus_explosion");
             that.setup();
         });
         queue.loadManifest([
@@ -67,7 +69,9 @@ GameEngine = Class.extend({
             {id: "tile_wood", src: "img/tile_wood.png"},
             {id: "bomb", src: "img/bomb.png"},
             {id: "fire", src: "img/fire.png"},
-            {id: "bonuses", src: "img/bonuses.png"}
+            {id: "bonus_speed", src: "img/bonus_speed.png"},
+            {id: "bonus_bomb", src: "img/bonus_bombs.png"},
+            {id: "bonus_explosion", src: "img/bonus_explosion.png"},
         ]);
 
         createjs.Sound.addEventListener("fileload", this.onSoundLoaded);

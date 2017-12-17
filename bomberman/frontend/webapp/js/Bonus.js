@@ -1,21 +1,45 @@
 Bonus = Entity.extend({
-    types: ['speed', 'bomb', 'fire'],
-
-    type: '',
+    /**
+     * Entity position on map grid
+     */
     position: {},
+
+    /**
+     * Bitmap dimensions
+     */
+    size: {
+        w: 32,
+        h: 32
+    },
+
+    /**
+     * Bitmap animation
+     */
     bmp: null,
 
-    init: function(position, typePosition) {
-        this.type = this.types[typePosition];
+    type: '',
 
+    init: function(id, type, position) {
+        this.id = id;
+        this.type = type;
         this.position = position;
+        var img;
+        if (type == 'Speed') {
+            img = gGameEngine.tilesImgs.speed;
+        } else if (type === 'Bombs') {
+            img = gGameEngine.tilesImgs.bombs;
+        } else if (type === 'Explosion') {
+            img = gGameEngine.tilesImgs.explosion;
+        }
+        this.bmp = new createjs.Bitmap(img);
 
-        this.bmp = new createjs.Bitmap(gGameEngine.bonusesImg);
-        var pixels = Utils.convertToBitmapPosition(position);
-        this.bmp.x = pixels.x;
-        this.bmp.y = pixels.y;
-        this.bmp.sourceRect = new createjs.Rectangle(typePosition * 32, 0, 32, 32);
+        this.bmp.x = position.x;
+        this.bmp.y = position.y;
+
         gGameEngine.stage.addChild(this.bmp);
+    },
+
+    update: function() {
     },
 
     remove: function() {
