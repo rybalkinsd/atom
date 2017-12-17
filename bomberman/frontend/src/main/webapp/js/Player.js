@@ -31,6 +31,7 @@ Player = Entity.extend({
 
     deadTimer: 0,
 
+    direction: null,
 
 
     init: function(id, position) {
@@ -77,21 +78,6 @@ Player = Entity.extend({
         } else {
             this.animate('idle');
         }
-        /*if (gInputEngine.possessed !== this.id) {
-            return;
-        }
-        if (gInputEngine.actions[this.controls.up]) {
-            this.animate('up');
-        } else if (gInputEngine.actions[this.controls.down]) {
-            this.animate('down');
-        } else if (gInputEngine.actions[this.controls.left]) {
-            this.animate('left');
-        } else if (gInputEngine.actions[this.controls.right]) {
-            this.animate('right');
-        } else {
-            this.animate('idle');
-        }*/
-
     },
 
     /**

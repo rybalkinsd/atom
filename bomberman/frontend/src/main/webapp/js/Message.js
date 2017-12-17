@@ -61,10 +61,11 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-
+        var direction = obj.direction
         if (player) {
             player.bmp.x = position.x;
             player.bmp.y = position.y;
+            player.direction = direction;
         } else {
             console.log(new Date().getTime() + " handel new player " + obj.id);
             player = new Player(obj.id, position);

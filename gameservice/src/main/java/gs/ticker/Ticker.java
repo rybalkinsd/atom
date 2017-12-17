@@ -37,7 +37,7 @@ import static gs.message.Topic.GAME_OVER;
 import static gs.message.Topic.REPLICA;
 
 public class Ticker extends Thread {
-    public static final int PLAYERS_COUNT = 2;
+    public static final int PLAYERS_COUNT = 4;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(Ticker.class);
     private static final int FPS = 60;
     private static final int FRAME_TIME = 1000 / FPS;
@@ -72,6 +72,8 @@ public class Ticker extends Thread {
                 detonationBomb();
                 for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
                     broker.send(session, Topic.REPLICA, changedObjects);
+                    storage.getGirlBySocket(session).setDirection(Movable.Direction.IDLE);
+
                 }
                 long elapsed = System.currentTimeMillis() - started;
                 if (elapsed < FRAME_TIME) {
@@ -165,7 +167,6 @@ public class Ticker extends Thread {
                     girl.moveBack(FRAME_TIME);
             }
             changedObjects.add(girl);
-            girl.setDirection(Movable.Direction.IDLE);
         }
     }
 

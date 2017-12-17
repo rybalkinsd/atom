@@ -25,7 +25,7 @@ public class Action {
 
     public Movable.Direction getData() {
         Movable.Direction direction;
-        System.out.println("DATA = " + data);
+        //System.out.println("DATA = " + data);
         switch (data) {
             case "{\"direction\":\"UP\"}":
                 direction = Movable.Direction.UP;
