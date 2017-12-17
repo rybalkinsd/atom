@@ -9,7 +9,7 @@ springBoot {
 
 // constants declaration
 ext {
-    jdkVersion = 1.9
+    jdkVersion = 1.8
 
     junitVersion = "4.12"
     log4jVersion = "2.7"
@@ -27,6 +27,7 @@ allprojects {
     version = "1.0-SNAPSHOT"
 
     apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
     apply plugin: 'checkstyle'
     apply plugin: 'jacoco'
 
@@ -73,8 +74,8 @@ ext.libraries = [
 
         junit: "junit:junit:$junitVersion",
         log4j: [
-            "org.apache.logging.log4j:log4j-api:$log4jVersion",
-            "org.apache.logging.log4j:log4j-core:$log4jVersion"
+                "org.apache.logging.log4j:log4j-api:$log4jVersion",
+                "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
@@ -96,8 +97,8 @@ jacocoTestReport {
     }
 
     reports {
-            xml.enabled = true
-            html.enabled = true
+        xml.enabled = true
+        html.enabled = true
     }
     doFirst {
         executionData = files(executionData.findAll {
@@ -109,3 +110,4 @@ jacocoTestReport {
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
+

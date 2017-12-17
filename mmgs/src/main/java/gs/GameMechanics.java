@@ -251,9 +251,6 @@ public class GameMechanics implements Tickable, Runnable {
 
     private void handleBombDeath(Bomb bomb, Point p) {
         Wall rightWall = gs.getAllWalls().get(new Point(p.getX() + 1, p.getY()));
-        Wall leftWall = gs.getAllWalls().get(new Point(p.getX() - 1, p.getY()));
-        Wall topWall = gs.getAllWalls().get(new Point(p.getX(), p.getY() + 1));
-        Wall bottomWall = gs.getAllWalls().get(new Point(p.getX(), p.getY() - 1));
         if (rightWall.getType() == Wall.Type.Wood || rightWall.getType() == Wall.Type.Grass) {
             rightWall.setType(Wall.Type.Grass);
             gs.getAllFire().put(rightWall.getPosition(), new Fire(tileToPixel(rightWall.getPosition()).getX(),
@@ -272,6 +269,7 @@ public class GameMechanics implements Tickable, Runnable {
                 }
             }
         }
+        Wall leftWall = gs.getAllWalls().get(new Point(p.getX() - 1, p.getY()));
         if (leftWall.getType() == Wall.Type.Wood || leftWall.getType() == Wall.Type.Grass) {
             leftWall.setType(Wall.Type.Grass);
             gs.getAllFire().put(leftWall.getPosition(), new Fire(tileToPixel(leftWall.getPosition()).getX(),
@@ -290,6 +288,7 @@ public class GameMechanics implements Tickable, Runnable {
                 }
             }
         }
+        Wall topWall = gs.getAllWalls().get(new Point(p.getX(), p.getY() + 1));
         if (topWall.getType() == Wall.Type.Wood || topWall.getType() == Wall.Type.Grass) {
             topWall.setType(Wall.Type.Grass);
             gs.getAllFire().put(topWall.getPosition(), new Fire(tileToPixel(topWall.getPosition()).getX(),
@@ -308,6 +307,7 @@ public class GameMechanics implements Tickable, Runnable {
                 }
             }
         }
+        Wall bottomWall = gs.getAllWalls().get(new Point(p.getX(), p.getY() - 1));
         if (bottomWall.getType() == Wall.Type.Wood || bottomWall.getType() == Wall.Type.Grass) {
             bottomWall.setType(Wall.Type.Grass);
             gs.getAllFire().put(bottomWall.getPosition(), new Fire(tileToPixel(bottomWall.getPosition()).getX(),
