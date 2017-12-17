@@ -3,7 +3,17 @@ package gs.ticker;
 import gs.geometry.Bar;
 import gs.geometry.Point;
 import gs.message.Topic;
-import gs.model.*;
+import gs.model.GameObject;
+import gs.model.GameSession;
+import gs.model.Girl;
+import gs.model.Bomb;
+import gs.model.Wall;
+import gs.model.Fire;
+import gs.model.Bonus;
+import gs.model.Brick;
+import gs.model.Movable;
+
+import gs.model.Tickable;
 import gs.network.Broker;
 import gs.storage.SessionStorage;
 import org.slf4j.LoggerFactory;
@@ -23,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 import static gs.message.Topic.GAME_OVER;
+import static gs.message.Topic.REPLICA;
 
 public class Ticker extends Thread {
     public static final int PLAYERS_COUNT = 2;
@@ -51,7 +62,7 @@ public class Ticker extends Thread {
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            if(isRunning) {
+            if (isRunning) {
                 long started = System.currentTimeMillis();
                 changedObjects.clear();
                 handleQueue();
@@ -85,13 +96,16 @@ public class Ticker extends Thread {
     private void handleQueue() {
         movedGirls.clear();
         for (Action action : inputQueue) {
-            if (action.getAction().equals(Topic.PLANT_BOMB) && action.getActor().getBombCapacity() != 0) {
-                Bomb bomb = new Bomb(gameSession, closestPoint(action.getActor().getPosition()), action.getActor());
+            if (action.getAction().equals(Topic.PLANT_BOMB)
+                    && action.getActor().getBombCapacity() != 0) {
+                Bomb bomb = new Bomb(gameSession,
+                        closestPoint(action.getActor().getPosition()), action.getActor());
                 action.getActor().decBombCapacity();
                 gameSession.addGameObject(bomb);
                 changedObjects.add(bomb);
             }
-            if (action.getAction().equals(Topic.MOVE) && !movedGirls.contains(action.getActor())) {
+            if (action.getAction().equals(Topic.MOVE)
+                    && !movedGirls.contains(action.getActor())) {
                 action.getActor().setDirection(action.getData());
                 movedGirls.add(action.getActor());
             }
@@ -167,12 +181,16 @@ public class Ticker extends Thread {
         int divY = (int) point.getY() / (int) GameObject.getHeightBox();
         if (modX < GameObject.getWidthBox() / 2) {
             if (modY < GameObject.getHeightBox() / 2)
-                return new Point(divX * GameObject.getWidthBox(), divY * GameObject.getHeightBox());
+                return new Point(divX * GameObject.getWidthBox(),
+                        divY * GameObject.getHeightBox());
             else
-                return new Point(divX * GameObject.getWidthBox(), (divY + 1) * GameObject.getHeightBox());
+                return new Point(divX * GameObject.getWidthBox(),
+                        (divY + 1) * GameObject.getHeightBox());
         } else if (modY < 16)
-            return new Point((divX + 1) * GameObject.getWidthBox(), divY * GameObject.getWidthBox());
-        return new Point((divX + 1) * GameObject.getWidthBox(), (divY + 1) * GameObject.getHeightBox());
+            return new Point((divX + 1) * GameObject.getWidthBox(),
+                    divY * GameObject.getWidthBox());
+        return new Point((divX + 1) * GameObject.getWidthBox(),
+                (divY + 1) * GameObject.getHeightBox());
     }
 
 
@@ -189,55 +207,79 @@ public class Ticker extends Thread {
                 bomb.getOwner().incBombCapacity();
                 objectList.add(bomb);
                 changedObjects.add(bomb);
-                gameSession.addGameObject(new Fire(gameSession, bomb.getPosition()));
 
-                ArrayList<ArrayList<Bar>> explosions = Bar.getExplosions(Point.getExplosions(bomb.getPosition(),
-                        bomb.getOwner().getBombRange()));
+                Fire currentFire = new Fire(gameSession, bomb.getPosition());
+                changedObjects.add(currentFire);
+                gameSession.addGameObject(currentFire);
+
+                ArrayList<ArrayList<Bar>> explosions = Bar.getExplosions(
+                        Point.getExplosions(bomb.getPosition(), bomb.getOwner().getBombRange()));
 
                 for (int i = 0; i < explosions.size(); i++) {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
                         for (Girl girl: gameSession.getGirls()) {
                             if (!girl.getGirlBar().isColliding(explosions.get(i).get(j))) {
+                                for (int k = 0; k < objectList.size(); k++) {
+                                    System.out.println(objectList.get(k).getType());
+                                }
                                 objectList.add(girl);
+
                                 WebSocketSession session = storage.getWebsocketByGirl(girl);
-                                Broker.getInstance().send(session, GAME_OVER, "YOU LOSE, KAKASHI");
+                                for (int k = 0; k < objectList.size(); k++) {
+                                    System.out.println(objectList.get(k).getType());
+                                }
+
+                                Broker.getInstance().send(session, REPLICA, girl);
                                 storage.removeWebsocket(session);
                             }
                         }
-                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()) == null) {
+                        if (gameSession.getGameObjectByPosition(explosions
+                                .get(i).get(j).getLeftPoint()) == null) {
                             Fire fire = new Fire(gameSession, explosions.get(i).get(j).getLeftPoint());
                             changedObjects.add(fire);
                             gameSession.addGameObject(fire);
                             continue;
                         }
-                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Bonus") ||
-                                gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Bomb")) {
+                        if (gameSession.getGameObjectByPosition(explosions
+                                .get(i).get(j).getLeftPoint()).getType().equals("Bonus")
+                                || gameSession.getGameObjectByPosition(explosions
+                                        .get(i).get(j).getLeftPoint()).getType().equals("Bomb")
+                                || gameSession.getGameObjectByPosition(explosions
+                                            .get(i).get(j).getLeftPoint()).getType().equals("Pawn")) {
                             continue;
                         }
-                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wall")) {
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j)
+                                .getLeftPoint()).getType().equals("Wall")) {
                             break;
                         }
-                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()).getType().equals("Wood")) {
-                            objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
-                            changedObjects.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
+                        if (gameSession.getGameObjectByPosition(explosions.get(i).get(j)
+                                .getLeftPoint()).getType().equals("Wood")) {
+                            objectList.add(gameSession.getGameObjectByPosition(explosions
+                                    .get(i).get(j).getLeftPoint()));
+                            changedObjects.add(gameSession.getGameObjectByPosition(explosions
+                                    .get(i).get(j).getLeftPoint()));
                             Fire fire = new Fire(gameSession, explosions.get(i).get(j).getLeftPoint());
                             gameSession.addGameObject(fire);
                             changedObjects.add(fire);
                             if (isBonus()) {
-                                Bonus bonus = new Bonus(gameSession, explosions.get(i).get(j).getLeftPoint(), bonusType());
+                                Bonus bonus = new Bonus(gameSession, explosions.get(i).get(j).getLeftPoint(),
+                                        bonusType());
                                 changedObjects.add(bonus);
                                 gameSession.addGameObject(bonus);
                             }
                             break;
                         }
-                        objectList.add(gameSession.getGameObjectByPosition(explosions.get(i).get(j).getLeftPoint()));
-                        Fire fire = new Fire(gameSession, explosions.get(i).get(j).getLeftPoint());
+                        objectList.add(gameSession.getGameObjectByPosition(explosions
+                                .get(i).get(j).getLeftPoint()));
+                        Fire fire = new Fire(gameSession, explosions
+                                .get(i).get(j).getLeftPoint());
                         changedObjects.add(fire);
                         gameSession.addGameObject(fire);
                     }
                 }
             }
         }
+
         for (GameObject gameObject: objectList)  {
             gameSession.removeGameObject(gameObject);
         }

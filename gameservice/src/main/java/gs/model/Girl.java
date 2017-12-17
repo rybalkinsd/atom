@@ -127,6 +127,7 @@ public class Girl extends GameObject implements Movable, Tickable {
     public void decBombCapacity() {
         --this.bombCapacity;
     }
+
     public void incBombCapacity() {
         ++this.bombCapacity;
     }
