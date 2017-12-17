@@ -69,7 +69,6 @@ Authentication = Class.extend({
 			this.password = password1;
 			var result = serverProxy.registryFromMatchMaker(this.login, this.password);
 			if (result[0]) {
-				serverProxy.getSessionIdFromMatchMaker(this.login, this.password);
 				PopUpHide();
 				StartHide();
 				this.loggined = true;

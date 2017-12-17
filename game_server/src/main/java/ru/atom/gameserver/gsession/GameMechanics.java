@@ -165,7 +165,14 @@ public class GameMechanics implements Tickable, GarbageCollector, ModelsManager 
             gameObjects.remove(gameObject);
         }
         garbageIndexSet.clear();
+        if (pawns.size() < 2) {
+            gameOverFlag = true;
+            ticker.stopGameLoop();
+        }
         replicator.writeReplica(gameObjects, gameOverFlag);
+        if (gameOverFlag) {
+            replicator.writeWinner(pawns.isEmpty() ? -1 : pawns.keySet().stream().findFirst().get());
+        }
     }
 
     private Point indexToPoint(int i, int j) {

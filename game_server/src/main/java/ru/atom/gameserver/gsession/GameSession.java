@@ -57,4 +57,9 @@ public class GameSession {
         return loginOnIdMap.isEmpty();
     }
 
+    public String getPlayerLogin(int playerId) {
+        return loginOnIdMap.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(playerId))
+                .findFirst().get().getKey();
+    }
 }

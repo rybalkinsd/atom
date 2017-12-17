@@ -20,6 +20,10 @@ public class Replicator {
         this.connectionHandler = connectionHandler;
     }
 
+    public void writeWinner(Integer winnerId) {
+        connectionHandler.sendGameOver(gameId, winnerId);
+    }
+
     public void writePossess(int possess, String login) {
         connectionHandler.sendMessage(gameId, login,
                 new Message(Topic.POSSESS, JsonHelper.nodeFactory.numberNode(possess)));

@@ -114,7 +114,7 @@ Messages = Class.extend({
         var bonus = gGameEngine.bonuses.find(function (el) {
             return el.id === obj.id;
         });
-        var types = ['speed', 'power', 'capacity']
+        var types = ['speed', 'capacity', 'power'];
         var position = Utils.getEntityPosition(obj.position);
         var typePosition = types.findIndex(s => s == obj.buffType.toLowerCase())
         if (bonus) {

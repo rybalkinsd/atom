@@ -88,9 +88,9 @@ public class MatchmakerComponent {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void signout(@RequestParam("login") String login, @RequestParam("password") String password) {
+    public void signout(@RequestParam("login") String login) {
         logger.info("signout request has been received");
-        Player player = databaseService.login(login, password);
+        Player player = databaseService.getPlayer(login);
         if (player != null) {
             databaseService.logout(player);
         }
@@ -108,7 +108,6 @@ public class MatchmakerComponent {
         currentBuilder.putLogin(login);
         gameService.connect(login, currentBuilder.getGameId());
         if (currentBuilder.isReady()) {
-            databaseService.insertNewGame(currentBuilder.getGameId(), currentBuilder.getLogins());
             gameService.start(currentBuilder.getGameId());
             currentBuilder = null;
         }
@@ -132,4 +131,18 @@ public class MatchmakerComponent {
         logger.info("get online players");
         return ResponseEntity.ok().body(databaseService.getOnline());
     }
+
+    @RequestMapping(
+            path = "gameover",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> gameover(@RequestParam("login") String winner) {
+        logger.info("gameover request has been received");
+        if (!winner.isEmpty()) {
+            databaseService.incrementStatistic(winner);
+        }
+        return ResponseEntity.ok().body("ok");
+    }
+
 }

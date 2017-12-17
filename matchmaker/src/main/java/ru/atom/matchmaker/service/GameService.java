@@ -44,6 +44,7 @@ public class GameService {
             } else {
                 logger.info("smth wrong");
             }
+            response.close();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -69,6 +70,7 @@ public class GameService {
             } else {
                 logger.info("smth wrong");
             }
+            response.close();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

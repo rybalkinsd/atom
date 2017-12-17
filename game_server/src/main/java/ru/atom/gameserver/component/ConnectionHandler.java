@@ -47,12 +47,11 @@ public class ConnectionHandler extends TextWebSocketHandler implements WebSocket
         Long id = idLoginPair.getKey();
         GameSession gameSession = gameRepository.getGameById(id);
         if (gameSession.removePlayer(idLoginPair.getValue())) {
-            //if we are here gameSession is empty, so we should stop it
             gameRepository.deleteGame(id);
             gameSession.stop();
-            //matchMakerService.sendGameOver(id, "");
             logger.info("delete game with id=" + id);
         }
+        matchMakerService.disconnectionWithPlayer(idLoginPair.getValue());
         logger.info("ws connection has been closed with status code " + status.getCode());
     }
 
@@ -79,6 +78,13 @@ public class ConnectionHandler extends TextWebSocketHandler implements WebSocket
                 sendMessage(entry.getKey(), message);
                 return;
             }
+        }
+    }
+
+    public void sendGameOver(Long gameId, int playerId) {
+        if (playerId != -1) {
+            String winnerLogin = gameRepository.getGameById(gameId).getPlayerLogin(playerId);
+            matchMakerService.sendGameOver(winnerLogin);
         }
     }
 

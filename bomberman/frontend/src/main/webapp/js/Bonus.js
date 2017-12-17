@@ -1,5 +1,5 @@
 Bonus = Entity.extend({
-    types: ['speed', 'power', 'capacity'],
+    types: ['speed', 'capacity', 'power'],
 
     type: '',
     position: {},

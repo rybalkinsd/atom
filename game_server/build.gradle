@@ -2,6 +2,7 @@ dependencies {
     compile rootProject.libraries.jetbrainsAnnotations
     compile rootProject.libraries.spring_boot
     compile rootProject.libraries.spring_boot_websocket
+    compile rootProject.libraries.okhttp
 
     testCompile rootProject.libraries.junit
     testCompile rootProject.libraries.spring_boot_test
