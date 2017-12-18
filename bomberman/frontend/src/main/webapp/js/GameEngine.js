@@ -77,7 +77,7 @@ GameEngine = Class.extend({
         createjs.Sound.addEventListener("fileload", this.onSoundLoaded);
         createjs.Sound.alternateExtensions = ["mp3"];
         createjs.Sound.registerSound("sound/bomb.ogg", "bomb");
-        // createjs.Sound.registerSound("sound/game.ogg", "game");
+        createjs.Sound.registerSound("sound/game.ogg", "game");
 
         this.menu = new Menu();
     },
@@ -188,9 +188,11 @@ GameEngine = Class.extend({
      gameOver: function(msg) {
      //location.reload();
      if (msg.data == "\"YOU LOSE\"") {
+        createjs.Sound.stop("game");
         this.menu.showWithText("GAME OVER :(", "#ff4444");
      }
      else {
+        createjs.Sound.stop("game");
         this.menu.showWithText("YOU WON! :)", "#00FF00");
      }
      },
@@ -200,7 +202,9 @@ GameEngine = Class.extend({
         // gInputEngine.removeAllListeners();
         gGameEngine.stage.removeAllChildren();
         gGameEngine.setup();
+        createjs.Sound.play("game");
         this.serverProxy = new ServerProxy();
+
     },
 
     /**

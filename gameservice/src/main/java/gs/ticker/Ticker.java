@@ -96,17 +96,24 @@ public class Ticker extends Thread {
             broker.send(session, Topic.REPLICA, changedObjects);
             storage.getGirlBySocket(session).setDirection(Movable.Direction.IDLE);
         }
-        for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
+
+        ArrayList<WebSocketSession> sessions = storage.getWebsocketsByGameSession(gameSession);
+        ArrayList<WebSocketSession> closed = new ArrayList<>();
+        for (WebSocketSession session : sessions) {
             for (Girl girl : deadGirls) {
                 if (storage.getGirlBySocket(session) == girl) {
-                    try {
+                        closed.add(session);
                         System.out.println("SESSION " + storage.getWebsocketByGirl(girl));
                         Broker.getInstance().send(session, GAME_OVER, "YOU LOSE");
-                        session.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
+            }
+        }
+        for (WebSocketSession session: closed) {
+            try {
+                session.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
