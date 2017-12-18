@@ -99,11 +99,11 @@ public class SessionStorage {
     }
 
     public static WebSocketSession getWebsocketByGirl(Girl girl) {
-        for (Map.Entry e : girlToWebsocket.entrySet()) {
+        /*for (Map.Entry e : girlToWebsocket.entrySet()) {
             if (e.getKey().equals(girl)) {
                 return (WebSocketSession) e.getValue();
             }
-        }
+        }*/
         return girlToWebsocket.get(girl);
     }
 
@@ -124,7 +124,7 @@ public class SessionStorage {
     }
 
     public static void removeWebsocket(WebSocketSession session) {
-
+        System.out.println("SIZE " + storage.entrySet().size());
         for (Map.Entry e : storage.entrySet()) {
             ArrayList<WebSocketSession> tmp = (ArrayList<WebSocketSession>) e.getValue();
             if (tmp.contains(session)) {

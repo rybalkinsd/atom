@@ -79,6 +79,7 @@ public class Ticker extends Thread {
                 for (Girl girl : deadGirls) {
                     try {
                         WebSocketSession session = storage.getWebsocketByGirl(girl);
+                        System.out.println("SESSION " + storage.getWebsocketByGirl(girl));
                         Broker.getInstance().send(session, GAME_OVER, "YOU LOSE");
                         session.close();
                     } catch (IOException e) {
