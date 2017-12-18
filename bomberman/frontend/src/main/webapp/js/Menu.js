@@ -12,8 +12,13 @@ Menu = Class.extend({
     show: function (text) {
         this.visible = true;
 
-        this.draw(text);
+        this.draw();
     },
+
+    showWithText: function (text, color) {
+            this.visible = true;
+            this.draw(text, color);
+        },
 
     hide: function () {
         this.visible = false;
@@ -43,14 +48,10 @@ Menu = Class.extend({
     },
 
     start: function () {
-        this.hide();
-
-        gGameEngine.playing = true;
         gGameEngine.serverProxy.getSessionIdFromMatchMaker();
-        gGameEngine.restart();
     },
 
-    draw: function (text) {
+    draw: function (text, color) {
         var that = this;
 
         // semi-transparent black background
@@ -90,6 +91,17 @@ Menu = Class.extend({
         singleIcon.y = iconsY;
         gGameEngine.stage.addChild(singleIcon);
         this.views.push(singleIcon);
+
+        var gameText = new createjs.Text(text, "20px Helvetica", color);
+        if (text == "GAME OVER :(") {
+            gameText.x = playButton.x - 40;
+        }
+        else {
+            gameText.x = playButton.x - 30;
+        }
+        gameText.y =  playButton.y - 90;
+        gGameEngine.stage.addChild(gameText);
+        this.views.push(gameText);
     },
 
     showLoader: function () {
@@ -101,6 +113,7 @@ Menu = Class.extend({
         loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
         loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
         gGameEngine.stage.addChild(loadingText);
+
         gGameEngine.stage.update();
     }
 });

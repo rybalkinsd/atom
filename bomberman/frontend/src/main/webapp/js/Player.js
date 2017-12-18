@@ -11,7 +11,7 @@ Player = Entity.extend({
      * Bitmap animation
      */
     bmp: null,
-
+    direction: null,
     alive: true,
 
     bombs: [],
@@ -31,6 +31,7 @@ Player = Entity.extend({
 
     deadTimer: 0,
 
+    direction: null,
 
 
     init: function(id, position) {
@@ -61,22 +62,18 @@ Player = Entity.extend({
     },
 
 
-    update: function() {
+    update: function(id) {
         if (!this.alive) {
             return;
         }
 
-        if (gInputEngine.possessed !== this.id) {
-            return;
-        }
-
-        if (gInputEngine.actions[this.controls.up]) {
+        if (this.direction == "UP") {
             this.animate('up');
-        } else if (gInputEngine.actions[this.controls.down]) {
+        } else if (this.direction == "DOWN") {
             this.animate('down');
-        } else if (gInputEngine.actions[this.controls.left]) {
+        } else if (this.direction == "LEFT") {
             this.animate('left');
-        } else if (gInputEngine.actions[this.controls.right]) {
+        } else if (this.direction == "RIGHT") {
             this.animate('right');
         } else {
             this.animate('idle');
@@ -113,5 +110,9 @@ Player = Entity.extend({
             }
 
         }, 30);
-    }
+    },
+
+    remove: function() {
+            gGameEngine.stage.removeChild(this.bmp);
+        }
 });

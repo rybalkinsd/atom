@@ -495,7 +495,7 @@ this.createjs = this.createjs||{};
 		this.title = title;
 
 		/**
-		 * The verbose error message, containing details about the error.
+		 * The verbose error gs.message, containing details about the error.
 		 * @property message
 		 * @type String
 		 */
@@ -536,8 +536,8 @@ this.createjs = this.createjs||{};
 	 * You can either extend EventDispatcher or mix its methods into an existing prototype or instance by using the
 	 * EventDispatcher {{#crossLink "EventDispatcher/initialize"}}{{/crossLink}} method.
 	 * 
-	 * Together with the CreateJS Event class, EventDispatcher provides an extended event model that is based on the
-	 * DOM Level 2 event model, including addEventListener, removeEventListener, and dispatchEvent. It supports
+	 * Together with the CreateJS Event class, EventDispatcher provides an extended event gs.model that is based on the
+	 * DOM Level 2 event gs.model, including addEventListener, removeEventListener, and dispatchEvent. It supports
 	 * bubbling / capture, preventDefault, stopPropagation, stopImmediatePropagation, and handleEvent.
 	 * 
 	 * EventDispatcher also exposes a {{#crossLink "EventDispatcher/on"}}{{/crossLink}} method, which makes it easier
@@ -545,7 +545,7 @@ this.createjs = this.createjs||{};
 	 * {{#crossLink "EventDispatcher/off"}}{{/crossLink}} method is merely an alias to
 	 * {{#crossLink "EventDispatcher/removeEventListener"}}{{/crossLink}}.
 	 * 
-	 * Another addition to the DOM Level 2 model is the {{#crossLink "EventDispatcher/removeAllEventListeners"}}{{/crossLink}}
+	 * Another addition to the DOM Level 2 gs.model is the {{#crossLink "EventDispatcher/removeAllEventListeners"}}{{/crossLink}}
 	 * method, which can be used to listeners for all events, or listeners for a specific event. The Event object also 
 	 * includes a {{#crossLink "Event/remove"}}{{/crossLink}} method which removes the active listener.
 	 *
@@ -577,7 +577,7 @@ this.createjs = this.createjs||{};
 	 * scope.
 	 *
 	 * <b>Browser support</b>
-	 * The event model in CreateJS can be used separately from the suite in any project, however the inheritance model
+	 * The event gs.model in CreateJS can be used separately from the suite in any project, however the inheritance gs.model
 	 * requires modern browsers (IE9+).
 	 *      
 	 *
@@ -5674,7 +5674,7 @@ this.createjs = this.createjs || {};
 		this._updateProgress();
 
 		var newEvent = new createjs.ErrorEvent("FILE_LOAD_ERROR", null, loader.getItem());
-		// TODO: Propagate actual error message.
+		// TODO: Propagate actual error gs.message.
 
 		this._sendError(newEvent);
 

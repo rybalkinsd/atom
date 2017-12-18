@@ -399,8 +399,8 @@ this.createjs = this.createjs||{};
 	 * You can either extend EventDispatcher or mix its methods into an existing prototype or instance by using the
 	 * EventDispatcher {{#crossLink "EventDispatcher/initialize"}}{{/crossLink}} method.
 	 * 
-	 * Together with the CreateJS Event class, EventDispatcher provides an extended event model that is based on the
-	 * DOM Level 2 event model, including addEventListener, removeEventListener, and dispatchEvent. It supports
+	 * Together with the CreateJS Event class, EventDispatcher provides an extended event gs.model that is based on the
+	 * DOM Level 2 event gs.model, including addEventListener, removeEventListener, and dispatchEvent. It supports
 	 * bubbling / capture, preventDefault, stopPropagation, stopImmediatePropagation, and handleEvent.
 	 * 
 	 * EventDispatcher also exposes a {{#crossLink "EventDispatcher/on"}}{{/crossLink}} method, which makes it easier
@@ -408,7 +408,7 @@ this.createjs = this.createjs||{};
 	 * {{#crossLink "EventDispatcher/off"}}{{/crossLink}} method is merely an alias to
 	 * {{#crossLink "EventDispatcher/removeEventListener"}}{{/crossLink}}.
 	 * 
-	 * Another addition to the DOM Level 2 model is the {{#crossLink "EventDispatcher/removeAllEventListeners"}}{{/crossLink}}
+	 * Another addition to the DOM Level 2 gs.model is the {{#crossLink "EventDispatcher/removeAllEventListeners"}}{{/crossLink}}
 	 * method, which can be used to listeners for all events, or listeners for a specific event. The Event object also 
 	 * includes a {{#crossLink "Event/remove"}}{{/crossLink}} method which removes the active listener.
 	 *
@@ -440,7 +440,7 @@ this.createjs = this.createjs||{};
 	 * scope.
 	 *
 	 * <b>Browser support</b>
-	 * The event model in CreateJS can be used separately from the suite in any project, however the inheritance model
+	 * The event gs.model in CreateJS can be used separately from the suite in any project, however the inheritance gs.model
 	 * requires modern browsers (IE9+).
 	 *      
 	 *
@@ -13143,7 +13143,7 @@ this.createjs = this.createjs||{};
 	/**
 	 * Enables touch interaction for the specified EaselJS {{#crossLink "Stage"}}{{/crossLink}}. Currently supports iOS
 	 * (and compatible browsers, such as modern Android browsers), and IE10/11. Supports both single touch and
-	 * multi-touch modes. Extends the EaselJS {{#crossLink "MouseEvent"}}{{/crossLink}} model, but without support for
+	 * multi-touch modes. Extends the EaselJS {{#crossLink "MouseEvent"}}{{/crossLink}} gs.model, but without support for
 	 * double click or over/out events. See the MouseEvent {{#crossLink "MouseEvent/pointerId:property"}}{{/crossLink}}
 	 * for more information.
 	 * @method enable
@@ -13161,7 +13161,7 @@ this.createjs = this.createjs||{};
 		// inject required properties on stage:
 		stage.__touch = {pointers:{}, multitouch:!singleTouch, preventDefault:!allowDefault, count:0};
 
-		// note that in the future we may need to disable the standard mouse event model before adding
+		// note that in the future we may need to disable the standard mouse event gs.model before adding
 		// these to prevent duplicate calls. It doesn't seem to be an issue with iOS devices though.
 		if ('ontouchstart' in window) { Touch._IOS_enable(stage); }
 		else if (window.navigator['msPointerEnabled'] || window.navigator["pointerEnabled"]) { Touch._IE_enable(stage); }

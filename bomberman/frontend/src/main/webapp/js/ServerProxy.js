@@ -1,6 +1,6 @@
 ServerProxy = Class.extend({
     gameServerUrl: "localhost:8090",
-    matchMakerUrl: "localhost:8080/matchmaker/join",
+    matchMakerUrl: "http://localhost:8080",
     gameId: "1234",
 
     socket: null,
@@ -10,63 +10,74 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
-
-        var self = this;
-        gInputEngine.subscribe('up', function () {
-            self.socket.send(gMessages.move('up'))
-        });
-        gInputEngine.subscribe('down', function () {
-            self.socket.send(gMessages.move('down'))
-        });
-        gInputEngine.subscribe('left', function () {
-            self.socket.send(gMessages.move('left'))
-        });
-        gInputEngine.subscribe('right', function () {
-            self.socket.send(gMessages.move('right'))
-        });
-        gInputEngine.subscribe('bomb', function () {
-            self.socket.send(gMessages.plantBomb())
-        });
+        this.handler['GAME_OVER'] = gMessages.handleGameOver;
     },
 
     getSessionIdFromMatchMaker: function () {
         var that = this;
-        var login = $("#loginInput").val();
-        if(!login){
+        var name = "name=" + Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        console.log(name);
+        if(!name) {
             alert("Please input login");
             console.log("Empty login, retry login");
         }
-        $.ajax({
-            contentType: 'application/x-www-form-urlencoded',
-            data: {
-                "name": login
-            },
-            dataType: 'text',
-            success: function(data){
-                that.gameId=data;
-                console.log("Matchmaker returned gameId=" + data);
-                that.connectToGameServer(that.gameId, login);
-            },
-            error: function(){
-                alert("Matchmaker request failed, use default gameId=" + that.gameId);
-                console.log("Matchmaker request failed, use default gameId=" + that.gameId);
-                that.connectToGameServer(that.gameId, login);
-            },
-            //processData: false
-            type: 'POST',
-            url: that.matchMakerUrl
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": this.matchMakerUrl + "/matchmaker/join",
+            "data": name
+        }
+        $.ajax(settings).done(function(data){
+            this.gameId=data;
+            console.log("Matchmaker returned gameId=" + data);
+            that.connectToGameServer(this.gameId);
+        }).fail(function(){
+            alert("Matchmaker request failed, use default gameId=" + this.gameId);
+            console.log("Matchmaker request failed, use default gameId=" + this.gameId);
+            that.connectToGameServer(this.gameId);
         });
     },
 
-    connectToGameServer: function (gameId, login) {
+    subscribeEvents: function() {
         var self = this;
-        this.socket = new WebSocket("ws://" + this.gameServerUrl + "/game/connect?gameId=" + gameId + "&name=" + login);
+        gInputEngine.subscribe('up', function () {
+            console.log(gMessages.move('up'));
+            self.socket.send(gMessages.move('up'))
+        });
+        gInputEngine.subscribe('down', function () {
+            console.log(gMessages.move('down'));
+            self.socket.send(gMessages.move('down'))
+        });
+        gInputEngine.subscribe('left', function () {
+            console.log(gMessages.move('left'));
+            self.socket.send(gMessages.move('left'))
+        });
+        gInputEngine.subscribe('right', function () {
+            console.log(gMessages.move('right'));
+            self.socket.send(gMessages.move('right'))
+        });
+        gInputEngine.subscribe('bomb', function () {
+            self.socket.send(gMessages.plantBomb());
+        });
+    },
 
-        this.socket.onopen = function () {
+    connectToGameServer : function(gameId) {
+        var self = this;
+        self.socket = new WebSocket("ws://" + this.gameServerUrl + "/events/connect?gameId=" + gameId + "&name=NKOHA");
+        gGameEngine.menu.hide();
+
+        gGameEngine.playing = true;
+        gGameEngine.restart();
+
+        self.subscribeEvents();
+
+        self.socket.onopen = function () {
             console.log("Connection established.");
         };
 
-        this.socket.onclose = function (event) {
+        self.socket.onclose = function (event) {
             if (event.wasClean) {
                 console.log('closed');
             } else {
@@ -75,7 +86,7 @@ ServerProxy = Class.extend({
             console.log('Code: ' + event.code + ' cause: ' + event.reason);
         };
 
-        this.socket.onmessage = function (event) {
+        self.socket.onmessage = function (event) {
             var msg = JSON.parse(event.data);
             if (self.handler[msg.topic] === undefined)
                 return;

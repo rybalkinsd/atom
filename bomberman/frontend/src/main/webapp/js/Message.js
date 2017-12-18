@@ -7,6 +7,7 @@ Messages = Class.extend({
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Bonus'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -28,22 +29,17 @@ Messages = Class.extend({
         return JSON.stringify(template);
     },
 
-
     handleReplica: function (msg) {
-        //var gameObjects = JSON.parse(msg.data).objects
-        var gameObjects = msg.data.objects;
+        var gameObjects = JSON.parse(msg.data);
         var survivors = new Set();
 
-        for (var i = 0; i < gameObjects.length; i++) {
-            var obj = gameObjects[i];
-            if (gMessages.handler[obj.type] === undefined)
-                continue;
-
-            survivors.add(obj.id);
-            gMessages.handler[obj.type](obj);
-        }
-        gGameEngine.gc(survivors);
+        gGameEngine.gc(gameObjects);
     },
+
+     handleGameOver: function (msg) {
+            gGameEngine.gameOver(msg);
+            gGameEngine.clearPlayers();
+     },
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);
@@ -54,10 +50,11 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-
+        var direction = obj.direction;
         if (player) {
             player.bmp.x = position.x;
             player.bmp.y = position.y;
+            player.direction = direction;
         } else {
             console.log(new Date().getTime() + " handel new player " + obj.id);
             player = new Player(obj.id, position);
@@ -80,12 +77,25 @@ Messages = Class.extend({
         }
     },
 
+    handleBonus: function(obj) {
+        var bonus = gGameEngine.bonuses.find(function (el) {
+            return el.id === obj.id;
+        });
+        var position = Utils.getEntityPosition(obj.position);
+
+        if (bonus) {
+            bonus.bmp.x = position.x;
+            bonus.bmp.y = position.y;
+        } else {
+            bonus = new Bonus(obj.id, position, obj.bonusType);
+            gGameEngine.bonuses.push(bonus);
+        }
+    },
+
     handleTile: function (obj) {
         var tile = gGameEngine.tiles.find(function (el) {
             return el.id === obj.id;
         });
-
-        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
         var position = Utils.getEntityPosition(obj.position);
         if (tile) {
             tile.material = obj.type;
@@ -93,6 +103,15 @@ Messages = Class.extend({
             tile = new Tile(obj.id, obj.type, position);
             gGameEngine.tiles.push(tile);
         }
+    },
+
+    hello: function (name) {
+        var template = {
+            topic: "HELLO",
+            data: {}
+        };
+        template.data = name;
+        return JSON.stringify(template);
     },
 
     handleFire: function (obj) {

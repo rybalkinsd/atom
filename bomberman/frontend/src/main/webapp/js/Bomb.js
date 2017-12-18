@@ -47,8 +47,8 @@ Bomb = Entity.extend({
             frames: {
                 width: this.size.w,
                 height: this.size.h,
-                regX: 5,
-                regY: 5
+                regX: -1,
+                regY: -1
             },
             animations: {
                 idle: [0, 4, "idle", 0.2]
@@ -65,7 +65,17 @@ Bomb = Entity.extend({
         gGameEngine.stage.addChild(this.bmp);
     },
 
+    //remove: function() {
+      //  gGameEngine.stage.removeChild(this.bmp);
+    //}
     remove: function() {
-        gGameEngine.stage.removeChild(this.bmp);
+            gGameEngine.stage.removeChild(this.bmp);
+            for (var i = 0; i < gGameEngine.bombs.length; i++) {
+                var bomb = gGameEngine.bombs[i];
+                if (this == bomb) {
+                    gGameEngine.bombs.splice(i, 1);
+                }
+            }
+            createjs.Sound.play("bomb");
     }
 });

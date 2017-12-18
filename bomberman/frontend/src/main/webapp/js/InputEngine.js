@@ -1,7 +1,7 @@
 InputEngine = Class.extend({
 
     // move notification fps
-    fps: 60,
+    fps: 180,
 
     /**
      * A dictionary mapping ASCII key codes to string values describing
@@ -61,7 +61,7 @@ InputEngine = Class.extend({
             gInputEngine.actions[action] = true;
             var subscribers = gInputEngine.subscribers[action];
             if (subscribers) {
-                for (var i = 0; i < subscribers.length; i++ ) {
+                for (var i in subscribers) {
                     subscribers[i]()
                 }
             }
