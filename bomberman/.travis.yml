@@ -1,8 +1,0 @@
-language: java
-
-jdk:
-  - oraclejdk9
-
-after_success:
-  - ./gradlew jacocoTestReport coveralls
-

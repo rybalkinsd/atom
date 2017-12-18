@@ -1,7 +1,0 @@
-{
-  "topic":"MOVE",
-  "data":
-    {
-        "eventType":"DOWN"
-    }
-}

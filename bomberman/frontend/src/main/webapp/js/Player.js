@@ -92,6 +92,10 @@ Player = Entity.extend({
         }
     },
 
+    remove: function() {
+        gGameEngine.stage.removeChild(this.bmp);
+    },
+
     die: function() {
         this.alive = false;
 

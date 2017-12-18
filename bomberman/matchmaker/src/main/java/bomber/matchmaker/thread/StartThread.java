@@ -14,18 +14,16 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class StartThread extends Thread {
 
-    private final org.slf4j.Logger log = LoggerFactory.getLogger(StartThread.class);
-    private Integer gameId;
-    private boolean suspendFlag;
-    static final int TIMEOUT = 15;
-    static final int MAX_TIMEOUTS = 3;
-    private boolean isStarted;
-    private BomberService bomberService;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(StartThread.class);
+    private volatile Integer gameId;
+    private static final int TIMEOUT = 15;
+    private static final int MAX_TIMEOUTS = 3;
+    private volatile boolean isStarted;
+    private final BomberService bomberService;
 
 
     public StartThread(Integer gameId, BomberService bomberService) {
         super("StartThread_gameId=" + gameId);
-        suspendFlag = false;
         this.gameId = gameId;
         this.bomberService = bomberService;
         isStarted = false;
@@ -39,7 +37,10 @@ public class StartThread extends Thread {
         while (tryCounter <= MAX_TIMEOUTS + 1
                 && !isStarted) {
             try {
-                playersConnected = Integer.parseInt(MmRequests.checkStatus().body().string());
+                synchronized (gameId) {
+                    playersConnected = Integer.parseInt(MmRequests.checkStatus(gameId).body().string());
+                }
+
                 if (playersConnected == MAX_PLAYER_IN_GAME) {
                     bomberService.addToDb(gameId, new Date());
                     log.info("Sending a request to start the game with {} out of {} players in it, gameID = {}",
@@ -47,12 +48,14 @@ public class StartThread extends Thread {
                     MmRequests.start(this.gameId);
                     isStarted = true;
                 } else {
-                    if (tryCounter == MAX_TIMEOUTS + 1)
-                        break;
-                    log.info("Timeout for {} SECONDS, waiting for players to CONNECT. {} TIMEOUTS left. " +
-                                    "{} out of {} players connected",
-                            TIMEOUT, MAX_TIMEOUTS - tryCounter, playersConnected, MAX_PLAYER_IN_GAME);
-                    sleep(SECONDS.toMillis(TIMEOUT));
+                    synchronized (gameId) {
+                        if (tryCounter == MAX_TIMEOUTS + 1)
+                            break;
+                        log.info("Timeout for {} SECONDS, waiting for players to CONNECT. {} TIMEOUTS left. " +
+                                        "{} out of {} players connected",
+                                TIMEOUT, MAX_TIMEOUTS - tryCounter, playersConnected, MAX_PLAYER_IN_GAME);
+                        sleep(SECONDS.toMillis(TIMEOUT));
+                    }
                 }
             } catch (IOException e) {
                 log.info("failed to execute the start game request");
@@ -77,14 +80,6 @@ public class StartThread extends Thread {
             }
         }
 
-        while (suspendFlag) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                log.info("Wait of thread={} interrupted", currentThread());
-            }
-        }
-
         MmController.clear();
     }
 
@@ -92,12 +87,4 @@ public class StartThread extends Thread {
         this.gameId = gameId;
     }
 
-    public synchronized void suspendThread() throws InterruptedException {
-        suspendFlag = true;
-    }
-
-    public synchronized void resumeThread() throws InterruptedException {
-        suspendFlag = false;
-        notify();
-    }
 }

@@ -14,10 +14,8 @@ public class MmRequests {
 
     static final OkHttpClient client = new OkHttpClient();
     public static final String HTTP_PROTOCOL = "http://";
-    public static final String WEBS_PROTOCOL = "ws://";
     public static final String HOST = "localhost";
     public static final String PORT_GS = ":8090";
-    public static final String PORT_MM = ":8080";
 
 
     public static Response create(final int playerCounter) throws IOException {
@@ -38,11 +36,11 @@ public class MmRequests {
         return client.newCall(request).execute();
     }
 
-    public static Response checkStatus() throws IOException {
+    public static Response checkStatus(int gameId) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .get()
+                .post(RequestBody.create(mediaType, "gameId=" + gameId))
                 .url(HTTP_PROTOCOL + HOST + PORT_GS + "/game/checkstatus")
-                .addHeader("host", HOST + PORT_GS)
                 .build();
         return client.newCall(request).execute();
     }

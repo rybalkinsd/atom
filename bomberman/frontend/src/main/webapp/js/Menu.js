@@ -74,7 +74,7 @@ Menu = Class.extend({
             that.start();
         });
 
-        var playButton = new createjs.Text("Play", "32px Helvetica", "#ff4444");
+        var playButton = new createjs.Text("Join", "32px Helvetica", "#ff4444");
         var singleTitleWidth = playButton.getMeasuredWidth();
         var modeTitlesY = startButtonY + startButtonSize - playButton.getMeasuredHeight() - 20;
 
@@ -84,20 +84,25 @@ Menu = Class.extend({
         this.views.push(playButton);
 
         var iconsY = startButtonY + 13;
-        var singleIcon = new createjs.Bitmap("img/betty.png");
-        singleIcon.sourceRect = new createjs.Rectangle(0, 0, 48, 48);
-        singleIcon.x = startButtonX + (startButtonSize - 48) / 2;
-        singleIcon.y = iconsY;
-        gGameEngine.stage.addChild(singleIcon);
-        this.views.push(singleIcon);
+
     },
 
     showLoader: function () {
-        var bgGraphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, gGameEngine.size.w, gGameEngine.size.h);
+        var bgGraphics = new createjs.Graphics().beginFill("#7a7551").drawRect(0, 0, gGameEngine.size.w+1, gGameEngine.size.h);
+        //var bgGraphics = new createjs.Bitmap("img/Main_Frame.png").drawRect(0, 0, gGameEngine.size.w+1, gGameEngine.size.h);
         var bg = new createjs.Shape(bgGraphics);
         gGameEngine.stage.addChild(bg);
 
-        var loadingText = new createjs.Text("Loading...", "20px Helvetica", "#FFFFFF");
+
+        var singleIcon = new createjs.Bitmap("img/Main_Frame.png");
+        singleIcon.sourceRect = new createjs.Rectangle(0, 0, gGameEngine.size.w, gGameEngine.size.h);
+        singleIcon.x = 0//startButtonX + (startButtonSize - 48) / 2;
+        singleIcon.y = 0//iconsY;
+        gGameEngine.stage.addChild(singleIcon);
+        this.views.push(singleIcon);
+
+
+        var loadingText = new createjs.Text("Welcome! Press Join to connect", "20px Helvetica", "#FFFFFF");
         loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
         loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
         gGameEngine.stage.addChild(loadingText);

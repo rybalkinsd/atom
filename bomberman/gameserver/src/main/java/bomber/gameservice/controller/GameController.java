@@ -22,8 +22,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequestMapping("/game")
 public class GameController {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(GameController.class);
-    private static AtomicInteger connectedPlayerCount = new AtomicInteger(4);
-    static Map<Long, GameSession> gameSessionMap = new ConcurrentHashMap<>();
+
+    public static final Map<Long, GameSession> gameSessionMap = new ConcurrentHashMap<>();
 
     /**
      * curl -i localhost:8090/game/create
@@ -36,11 +36,15 @@ public class GameController {
 
     @RequestMapping(
             path = "/checkstatus",
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> checkStatus() {
-        return ResponseEntity.ok().body(Integer.toString(connectedPlayerCount.intValue()));//возращает gameId
+    public ResponseEntity<String> checkStatus(@RequestParam("gameId") String gameId) {
+        synchronized (this) {
+            return ResponseEntity.ok()
+                    .body(Integer.toString(gameSessionMap.get(Long.parseLong(gameId)).getConnectedPlayerCount()));
+            //возращает gameId
+        }
     }
 
     @RequestMapping(
@@ -52,7 +56,9 @@ public class GameController {
         final long gameId = add();
         // засовываем gameId с нулевым GameSession, т.е GameSession по логике не существует
         log.info("Game has been created playerCount={}", playerCount);
-        return ResponseEntity.ok().body(Long.toString(gameId));//возращает gameId
+        synchronized (this) {
+            return ResponseEntity.ok().body(Long.toString(gameId));//возращает gameId
+        }
     }
 
     @RequestMapping(
@@ -60,31 +66,23 @@ public class GameController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> start(@RequestParam("gameId") String gameIdString) {
+    public synchronized ResponseEntity<String> start(@RequestParam("gameId") String gameIdString) {
 
         long gameId = Long.parseLong(gameIdString);
         if (!gameSessionMap.containsKey(gameId)) {
             log.error("Don't have games to run gameId={}", gameId);
+
             return ResponseEntity.badRequest().body("");
         }
-        this.start(gameId);
+        start(gameId);
         return ResponseEntity.ok().body(gameIdString); //возращает gameId
     }
 
-    public static int getConnectedPlayerCount() {
-        return connectedPlayerCount.intValue();
-    }
-
-    public static synchronized void setConnectedPlayerCount(int value) {
-        connectedPlayerCount.set(value);
-    }
 
     private long add() {
         final long gameId;
-        synchronized (this) {
-            GeneratorIdSession.getAndIncrementId();
-            gameId = GeneratorIdSession.getIdGenerator();
-        }
+        GeneratorIdSession.getAndIncrementId();
+        gameId = GeneratorIdSession.getIdGenerator();
         gameSessionMap.put(gameId, new GameSession(0, null));
         return gameId;
     }

@@ -1,7 +1,0 @@
-rootProject.name = 'bomber'
-
-
-
-include 'gameserver'
-include 'matchmaker'
-include 'frontend'

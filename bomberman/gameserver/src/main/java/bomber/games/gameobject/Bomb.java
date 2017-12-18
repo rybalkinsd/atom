@@ -16,9 +16,10 @@ public final class Bomb implements Tickable, Positionable, Comparable {
     private Point position;
     private int id;
     private final String type = "Bomb";
-
     @JsonIgnore
-    private int lifeTime = 1000;//вообще тут знать бы сколько tick у нас происходит в одну секунду
+    private int playerId;
+    @JsonIgnore
+    private int lifeTime = 1500;//вообще тут знать бы сколько tick у нас происходит в одну секунду
     @JsonIgnore
     private int explosionRange;
     @JsonIgnore
@@ -30,12 +31,20 @@ public final class Bomb implements Tickable, Positionable, Comparable {
     public Bomb() {
     }
 
-    public Bomb(final int id, final Point position, final int explosionRange) {
+    public Bomb(final int id, final Point position, final int explosionRange, final int playerId) {
         this.id = id;
         this.position = position;
         this.explosionRange = explosionRange;
-
+        this.playerId = playerId;
         log.info("New Bomb: id={}, position({}, {})\n", id, position.getX(), position.getY());
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     @Override

@@ -1,7 +1,0 @@
-{
-  "topic":"PLANT_BOMB",
-  "data":
-    {
-
-    }
-}

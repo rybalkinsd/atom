@@ -62,9 +62,9 @@ GameEngine = Class.extend({
             {id: "playerBoy", src: "img/george.png"},
             {id: "playerGirl", src: "img/george.png"},
             {id: "playerGirl2", src: "img/betty2.png"},
-            {id: "tile_grass", src: "img/tile_grass.png"},
-            {id: "tile_wall", src: "img/tile_wall.png"},
-            {id: "tile_wood", src: "img/tile_wood.png"},
+            {id: "tile_grass", src: "img/tile_grass2.png"},
+            {id: "tile_wall", src: "img/tile_wall2.png"},
+            {id: "tile_wood", src: "img/tile_wood2.png"},
             {id: "bomb", src: "img/bomb.png"},
             {id: "fire", src: "img/fire.png"},
             {id: "bonuses", src: "img/bonus.png"}
@@ -146,20 +146,20 @@ GameEngine = Class.extend({
         gGameEngine.stage.update();
     },
 
-    // gameOver: function(status) {
-    //     if (gGameEngine.menu.visible) { return; }
-    //
-    //     if (status == 'win') {
-    //         var winText = "You won!";
-    //         if (gGameEngine.playersCount > 1) {
-    //             var winner = gGameEngine.getWinner();
-    //             winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
-    //         }
-    //         this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
-    //     } else {
-    //         this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
-    //     }
-    // },
+     gameOver: function(status) {
+         if (gGameEngine.menu.visible) { return; }
+
+         if (status == 'win') {
+             var winText = "You won!";
+             if (gGameEngine.playersCount > 1) {
+                  var winner = gGameEngine.getWinner();
+                  winText = winner == 0 ? "Player 1 won!" : "Player 2 won!";
+             }
+             this.menu.show([{text: winText, color: '#669900'}, {text: ' ;D', color: '#99CC00'}]);
+         } else {
+             this.menu.show([{text: 'Game Over', color: '#CC0000'}, {text: ' :(', color: '#FF4444'}]);
+         }
+     },
 
     restart: function() {
         // gInputEngine.removeAllListeners();

@@ -3,11 +3,12 @@ package bomber.games.gameobject;
 import bomber.games.geometry.Point;
 import bomber.games.model.Positionable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import bomber.games.model.Tickable;
 
 
-public final class Explosion implements Tickable, Positionable {
+public final class Explosion implements Tickable, Positionable, Comparable {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(Bomb.class);
 
@@ -20,7 +21,7 @@ public final class Explosion implements Tickable, Positionable {
     private boolean alive = true;
 
     @JsonIgnore
-    private int lifeTime = 1000;
+    private int lifeTime = 100;
 
 
     public Explosion(int id, final Point position) {
@@ -67,7 +68,7 @@ public final class Explosion implements Tickable, Positionable {
 
     @Override
     public boolean isAlive() {
-        return false;
+        return alive;
     }
 
     @Override
@@ -86,5 +87,13 @@ public final class Explosion implements Tickable, Positionable {
 
     public String getType() {
         return type;
+    }
+
+    @Override
+    public int compareTo(@NotNull Object o) {
+        if (this.id == o.hashCode())
+            return 0;
+        else
+            return -1;
     }
 }
