@@ -37,25 +37,9 @@ Messages = Class.extend({
     },
 
      handleGameOver: function (msg) {
-            console.log(msg);
             gGameEngine.gameOver(msg);
+            gGameEngine.clearPlayers();
      },
-
-    /*handleReplica: function (msg) {
-              var gameObjects = JSON.parse(msg.data);
-              var survivors = new Set();
-              for (var i = 0; i < gameObjects.length; i++) {
-                  var obj = gameObjects[i];
-
-                  if (gMessages.handler[obj.type] === undefined)
-                      continue;
-
-                  survivors.add(obj.id);
-                  gMessages.handler[obj.type](obj);
-              }
-              gGameEngine.gc(survivors);
-      },*/
-
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);
@@ -66,7 +50,7 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
         var position = Utils.getEntityPosition(obj.position);
-        var direction = obj.direction
+        var direction = obj.direction;
         if (player) {
             player.bmp.x = position.x;
             player.bmp.y = position.y;

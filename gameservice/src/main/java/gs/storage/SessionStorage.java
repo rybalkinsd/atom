@@ -3,6 +3,7 @@ package gs.storage;
 import gs.model.GameObject;
 import gs.model.GameSession;
 import gs.model.Girl;
+import gs.network.Broker;
 import gs.ticker.Action;
 import gs.ticker.Ticker;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static gs.message.Topic.GAME_OVER;
 
 @Component
 public class SessionStorage {
@@ -124,7 +127,6 @@ public class SessionStorage {
     }
 
     public static void removeWebsocket(WebSocketSession session) {
-        System.out.println("SIZE " + storage.entrySet().size());
         for (Map.Entry e : storage.entrySet()) {
             ArrayList<WebSocketSession> tmp = (ArrayList<WebSocketSession>) e.getValue();
             if (tmp.contains(session)) {
@@ -132,9 +134,11 @@ public class SessionStorage {
                 gameSession.removeGameObject(getGirlBySocket(session));
                 tmp.remove(session);
                 if (tmp.size() == 1) {
+                    Broker.getInstance().send(tmp.get(0), GAME_OVER, "YOU WIN!");
                     removeGameSession(gameSession);
                 }
                 if (tmp.isEmpty()) {
+                    Broker.getInstance().send(tmp.get(0), GAME_OVER, "YOU WIN!");
                     removeGameSession(gameSession);
                 }
             }

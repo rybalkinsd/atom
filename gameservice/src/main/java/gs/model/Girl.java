@@ -18,7 +18,6 @@ public class Girl extends GameObject implements Movable, Tickable {
         super(session, new Point(position.getX() * GameObject.getWidthBox(),
                         position.getY() * GameObject.getWidthBox()),
                 "Pawn", GIRL_WIDTH, GIRL_HEIGHT);
-        logger.info("New Girl id={}, position={}, session_ID = {}", id, position, session.getId());
     }
 
     public void plantBomb() {

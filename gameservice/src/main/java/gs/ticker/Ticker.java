@@ -72,20 +72,7 @@ public class Ticker extends Thread {
                 act(FRAME_TIME);
                 checkCollisions();
                 detonationBomb();
-                for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
-                    broker.send(session, Topic.REPLICA, changedObjects);
-                    storage.getGirlBySocket(session).setDirection(Movable.Direction.IDLE);
-                }
-                for (Girl girl : deadGirls) {
-                    try {
-                        WebSocketSession session = storage.getWebsocketByGirl(girl);
-                        System.out.println("SESSION " + storage.getWebsocketByGirl(girl));
-                        Broker.getInstance().send(session, GAME_OVER, "YOU LOSE");
-                        session.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                sendReplica();
                 long elapsed = System.currentTimeMillis() - started;
                 if (elapsed < FRAME_TIME) {
                     LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(FRAME_TIME - elapsed));
@@ -102,6 +89,26 @@ public class Ticker extends Thread {
 
     public void putAction(Action action) {
         inputQueue.offer(action);
+    }
+
+    private void sendReplica() {
+        for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
+            broker.send(session, Topic.REPLICA, changedObjects);
+            storage.getGirlBySocket(session).setDirection(Movable.Direction.IDLE);
+        }
+        for (WebSocketSession session : storage.getWebsocketsByGameSession(gameSession)) {
+            for (Girl girl : deadGirls) {
+                if (storage.getGirlBySocket(session) == girl) {
+                    try {
+                        System.out.println("SESSION " + storage.getWebsocketByGirl(girl));
+                        Broker.getInstance().send(session, GAME_OVER, "YOU LOSE");
+                        session.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private void handleQueue() {
@@ -124,28 +131,10 @@ public class Ticker extends Thread {
         inputQueue.clear();
     }
 
-    public void registerTickable(Tickable tickable) {
-        tickables.add(tickable);
-    }
-
-    public void unregisterTickable(Tickable tickable) {
-        tickables.remove(tickable);
-    }
-
     private void act(int elapsed) {
         for (GameObject object : gameSession.getGameObjects()) {
             if (object instanceof Tickable)
                 ((Tickable) object).tick(elapsed);
-        }
-    }
-
-    public long getTickNumber() {
-        return tickNumber;
-    }
-
-    public void doMechanic() {
-        for (GameObject object : gameSession.getGameObjects()) {
-
         }
     }
 
@@ -228,7 +217,6 @@ public class Ticker extends Thread {
                     for (int j = 0; j < explosions.get(i).size(); j++) {
                         for (Girl girl : gameSession.getGirls()) {
                             if (!girl.getGirlBar().isColliding(explosions.get(i).get(j))) {
-                                //objectList.add(girl);
                                 deadGirls.add(girl);
                                 changedObjects.remove(girl);
                             }

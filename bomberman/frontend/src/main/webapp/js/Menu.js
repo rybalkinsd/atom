@@ -15,9 +15,9 @@ Menu = Class.extend({
         this.draw();
     },
 
-    showWithText: function (text) {
+    showWithText: function (text, color) {
             this.visible = true;
-            this.draw(text);
+            this.draw(text, color);
         },
 
     hide: function () {
@@ -51,7 +51,7 @@ Menu = Class.extend({
         gGameEngine.serverProxy.getSessionIdFromMatchMaker();
     },
 
-    draw: function (text) {
+    draw: function (text, color) {
         var that = this;
 
         // semi-transparent black background
@@ -92,9 +92,14 @@ Menu = Class.extend({
         gGameEngine.stage.addChild(singleIcon);
         this.views.push(singleIcon);
 
-        var gameText = new createjs.Text(text, "20px Helvetica", "#ff4444");
-        gameText.x = playButton.x - 10;
-        gameText.y =  playButton.y - 100;
+        var gameText = new createjs.Text(text, "20px Helvetica", color);
+        if (text == "GAME OVER :(") {
+            gameText.x = playButton.x - 40;
+        }
+        else {
+            gameText.x = playButton.x - 30;
+        }
+        gameText.y =  playButton.y - 90;
         gGameEngine.stage.addChild(gameText);
         this.views.push(gameText);
     },

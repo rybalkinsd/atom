@@ -186,13 +186,13 @@ GameEngine = Class.extend({
     // },
 
      gameOver: function(msg) {
+     //location.reload();
      if (msg.data == "\"YOU LOSE\"") {
-        this.menu.showWithText("GAME OVER :(");
+        this.menu.showWithText("GAME OVER :(", "#ff4444");
      }
      else {
-        this.menu.showWithText("YOU WON! :)");
+        this.menu.showWithText("YOU WON! :)", "#00FF00");
      }
-
      },
 
 
@@ -232,6 +232,16 @@ GameEngine = Class.extend({
                 });
         return false;
         },
+
+    clearPlayers: function () {
+    [this.players, this.fires, this.bombs].forEach(function (it) {
+         var i = it.length;
+         while (i--) {
+                it[i].remove();
+                it.splice(i, 1);
+        }
+    });
+    },
 
     gc: function (gameObjects) {
         var survivors = new Set();

@@ -23,8 +23,6 @@ public class Bonus extends GameObject {
         super(session, new Point(position.getX(), position.getY()),
                 "Bonus", BONUS_WIDTH, BONUS_HEIGHT);
         this.bonusType = bonusType;
-        //logger.info("New Bonus id={}, position={}, type = {}, session_ID = {}",
-                //id, position, bonusType, session.getId());
     }
 
 }
