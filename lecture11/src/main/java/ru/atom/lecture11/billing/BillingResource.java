@@ -1,58 +1,78 @@
 package ru.atom.lecture11.billing;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-@Path("billing")
+/**
+ * Broken implementation of billing service
+ * Money are lost here
+ */
+@Controller
+@RequestMapping("billing")
 public class BillingResource {
-    private static Map<String, Integer> userToMoney = new HashMap<>();
-    
-    @POST
-    @Consumes("application/x-www-form-urlencoded")
-    @Path("/addUser")
-    public Response addUser(@FormParam("user") String user,
-                            @FormParam("money") Integer money) {
+    private Map<String, Integer> userToMoney = new HashMap<>();
+
+    /**
+     * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
+     * curl -XPOST localhost:8080/billing/addUser -d "user=sergey&money=100000"
+     */
+    @RequestMapping(
+            path = "addUser",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> addUser(@RequestParam("user") String user,
+                                          @RequestParam("money") Integer money) {
+
         if (user == null || money == null) {
-            return Response.status(405).build();
+            return ResponseEntity.badRequest().body("");
         }
         userToMoney.put(user, money);
-        return Response.ok("Successfully created user [" + user + "] with money " + userToMoney.get(user) + "\n")
-                .build();
+
+        return ResponseEntity.ok("Successfully created user [" + user + "] with money " + userToMoney.get(user) + "\n");
     }
 
-    @POST
-    @Consumes("application/x-www-form-urlencoded")
-    @Path("/sendMoney")
-    public Response sendMoney(@FormParam("from") String fromUser,
-                              @FormParam("to") String toUser,
-                              @FormParam("money") Integer money) {
+    @RequestMapping(
+            path = "sendMoney",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> sendMoney(@RequestParam("from") String fromUser,
+                                            @RequestParam("to") String toUser,
+                                            @RequestParam("money") Integer money) {
         if (fromUser == null || toUser == null || money == null) {
-            return Response.status(405).build();
+            return ResponseEntity.badRequest().body("");
         }
         if (!userToMoney.containsKey(fromUser) || !userToMoney.containsKey(toUser)) {
-            return Response.status(401).entity("No such user\n").build();
+            return ResponseEntity.badRequest().body("No such user\n");
         }
         if (userToMoney.get(fromUser) < money) {
-            return Response.status(401).entity("Not enough money to send\n").build();
+            return ResponseEntity.badRequest().body("Not enough money to send\n");
         }
-        userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
-        userToMoney.put(toUser, userToMoney.get(toUser) + money);
-        return Response.ok("Send success\n").build();
+        synchronized (this) {
+            userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
+            userToMoney.put(toUser, userToMoney.get(toUser) + money);
+        }
+        return ResponseEntity.ok("Send success\n");
     }
 
-    @GET
-    @Produces("text/plain")
-    @Path("/stat")
-    public Response getStat() {
-        return Response.ok(userToMoney.toString() + "\n").build();
+    /**
+     * curl localhost:8080/billing/stat
+     */
+    @RequestMapping(
+            path = "stat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> getStat() {
+        return ResponseEntity.ok(userToMoney + "\n");
     }
 }

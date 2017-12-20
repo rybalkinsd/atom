@@ -254,18 +254,19 @@ There are JVM implementations where GC is pauseless: https://www.azul.com/produc
 1. GC Theory
 1. Java Garbage Collection
 1. **[Troubleshooting]**
->see GarbageProducer
+    @see GarbageProducer
 
 #HSLIDE
 ## Docker
-Docker https://www.docker.com/
+[[Docker]](https://www.docker.com/)
+
 **Docker** - toolchain for lightweight customizable deployment
 (delivery of you code to production)
 
 #HSLIDE
 ## Docker basics
 **Image** - description of **minimal virtual machine** that will contain **application**, that we want to **deploy**.  
-It is provisioned via **Dockerfile**:  
+It is provisioned via **Dockerfile** :  
 - what is our application  
 - what we need for our application  
   
@@ -279,28 +280,108 @@ It is provisioned via **Dockerfile**:
 - docker toolchain allows many cool features
 
 #HSLIDE
-##Docker practice
->see lecture11/ru.atom.lecture11/Dockerfile
+## Docker practice
+
+@see **lecture05/Dockerfile**
+
+
 
 #HSLIDE
-## Deploy service to our docker could
+## Basic commands
+If these commands work, then Docker installed properly  
+  
+1. show local images
+    ```bash
+    > docker images 
+    ```
+
+1. show running containers
+    ```bash
+    > docker ps
+    ```
+
+#HSLIDE
+### Docker algorithm
+1. Build docker image
+1. Run docker container locally 
+1. Publish docker image
+1. Deploy docker container to container service
+
+
+#HSLIDE
+### 1) Build docker image
+1. Build project with gradle
+```bash
+gradlew clean lecture05:build
+```
+1. Build docker **image**
+```bash
+docker build --tag helloboot:1.0 lecture05
+```
+1. Check image is built
+```bash
+docker images
+```
+
+
+#HSLIDE
+### 2) Run docker container locally 
+1. Run **container** locally
+```bash
+docker run -p 80:8080 YOUR_DOCKER_HUB_NAME/helloboot:1.0
+```
+1. Check container started
+```bash
+docker ps
+```
+1. Check application works
+
+
+#HSLIDE
+### 3) Publish docker image
 1. login with your name on  
-> docker login
- 
-1. build image
-> docker build --tag yourname/servicename:version path/to/dir-with-Dockerfile
-  
+```bash
+docker login
+``` 
 1. push image to repository
-docker push yourname/servicename:version
-  
-1. go to http://docker.bmstu.cloud:8080/ in browser
-  
-1. Deploy container
+```bash
+docker push YOUR_DOCKER_HUB_NAME/helloboot:1.0
+```
 
 #HSLIDE
-## Docker howto
-Docker images - show local images
-Docker ps - show running containers
+### 4) Deploy docker container to AWS
+1. Find your credentials  
+https://docs.google.com/spreadsheets/d/1i-WoyUrpunxwmFYkUGTLqm6ue6J24V0Py4OkjCLCaVc/edit?usp=sharing
+1. login  
+https://302755701450.signin.aws.amazon.com/console  
+1. go to  
+Services -> EC2 Container Service
+1. Deploy
+
+#HSLIDE
+## Docker full example
+1. Build project
+```
+gradlew clean lecture05:build
+```
+1. Build docker **image**
+```
+docker build --tag YOUR_DOCKER_HUB_NAME/helloboot:1.0 lecture05
+```
+1. Run **container** from **image** locally
+```
+docker run -p 80:8080 YOUR_DOCKER_HUB_NAME/helloboot:1.0
+```
+1. login into docker hub (if not logged in already)
+```
+docker login
+```
+1. push image to docker hub
+```
+docker push YOUR_DOCKER_HUB_NAME/helloboot:1.0
+```
+1. go to **aws** web interface and deploy
+
 
 #HSLIDE
 **Оставьте обратную связь**
