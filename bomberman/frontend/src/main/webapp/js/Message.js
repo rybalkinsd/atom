@@ -6,7 +6,9 @@ Messages = Class.extend({
         this.handler['Bomb'] = this.handleBomb;
         this.handler['Wood'] = this.handleTile;
         this.handler['Wall'] = this.handleTile;
+        this.handler['Grass'] = this.handleTile;
         this.handler['Fire'] = this.handleFire;
+        this.handler['Buff'] = this.handleBonus;
     },
 
     move: function (direction) {
@@ -16,13 +18,14 @@ Messages = Class.extend({
         };
 
         template.data.direction = direction.toUpperCase();
+        template.data.possess = gInputEngine.possessed;
         return JSON.stringify(template);
     },
 
     plantBomb: function () {
         var template = {
             topic: "PLANT_BOMB",
-            data: {}
+            data: gInputEngine.possessed
         };
 
         return JSON.stringify(template);
@@ -30,8 +33,7 @@ Messages = Class.extend({
 
 
     handleReplica: function (msg) {
-        //var gameObjects = JSON.parse(msg.data).objects
-        var gameObjects = msg.data.objects;
+        var gameObjects = JSON.parse(msg.data).objects;
         var survivors = new Set();
 
         for (var i = 0; i < gameObjects.length; i++) {
@@ -69,8 +71,9 @@ Messages = Class.extend({
         var bomb = gGameEngine.bombs.find(function (el) {
             return el.id === obj.id;
         });
-        var position = Utils.getEntityPosition(obj.position);
-
+        var position = {};
+        position.x = obj.position.x + 6;
+        position.y = -obj.position.y + 12 * 33 - 6;
         if (bomb) {
             bomb.bmp.x = position.x;
             bomb.bmp.y = position.y;
@@ -85,8 +88,8 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
 
-        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
         var position = Utils.getEntityPosition(obj.position);
+
         if (tile) {
             tile.material = obj.type;
         } else {
@@ -104,6 +107,21 @@ Messages = Class.extend({
         if (!fire) {
             fire = new Fire(obj.id, position);
             gGameEngine.fires.push(fire);
+        }
+    },
+
+    handleBonus: function (obj) {
+        var bonus = gGameEngine.bonuses.find(function (el) {
+            return el.id === obj.id;
+        });
+        var types = ['speed', 'capacity', 'power'];
+        var position = Utils.getEntityPosition(obj.position);
+        var typePosition = types.findIndex(s => s == obj.buffType.toLowerCase())
+        if (bonus) {
+            bonus.type = types[typePosition];
+        } else {
+            bonus = new Bonus(obj.id, position, typePosition);
+            gGameEngine.bonuses.push(bonus);
         }
     }
 

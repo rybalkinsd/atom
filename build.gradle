@@ -27,6 +27,7 @@ allprojects {
     version = "1.0-SNAPSHOT"
 
     apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
     apply plugin: 'checkstyle'
     apply plugin: 'jacoco'
 
@@ -39,10 +40,6 @@ allprojects {
 }
 
 subprojects {
-    if (!project.name.equals('bomberman/frontend'))
-        apply plugin: 'org.springframework.boot'
-
-
     checkstyle {
         ignoreFailures = false
         toolVersion = '7.5'
@@ -62,8 +59,9 @@ subprojects {
 // common libraries declaration
 ext.libraries = [
         spring_boot : [
-            "org.springframework.boot:spring-boot-starter-web",
-            "org.springframework.boot:spring-boot-starter-actuator",
+                "org.springframework.boot:spring-boot-starter-web",
+                "org.springframework.boot:spring-boot-starter-actuator",
+                "org.springframework.boot:spring-boot-starter-data-jpa"
         ],
 
         spring_boot_test : "org.springframework.boot:spring-boot-starter-test",
@@ -73,8 +71,8 @@ ext.libraries = [
 
         junit: "junit:junit:$junitVersion",
         log4j: [
-            "org.apache.logging.log4j:log4j-api:$log4jVersion",
-            "org.apache.logging.log4j:log4j-core:$log4jVersion"
+                "org.apache.logging.log4j:log4j-api:$log4jVersion",
+                "org.apache.logging.log4j:log4j-core:$log4jVersion"
         ],
         jetbrainsAnnotations: "org.jetbrains:annotations:$jetbrainsAnnotationVersion",
         okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
@@ -96,8 +94,8 @@ jacocoTestReport {
     }
 
     reports {
-            xml.enabled = true
-            html.enabled = true
+        xml.enabled = true
+        html.enabled = true
     }
     doFirst {
         executionData = files(executionData.findAll {

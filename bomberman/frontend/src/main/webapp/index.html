@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
+
 <head>
+    <meta charset="utf-8" name="description" content="Go Java">
     <title>Bombergirl</title>
-    <meta name="description" content="Go Java">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
     <script src="js/lib/soundjs-NEXT.combined.js"></script>
@@ -23,38 +24,98 @@
     <script type="text/javascript" src="js/GameEngine.js"></script>
     <script type="text/javascript" src="js/Message.js"></script>
     <script type="text/javascript" src="js/ServerProxy.js"></script>
+    <script type="text/javascript" src="js/Auth.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <script type = "text/javascript" src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 </head>
 <body onload="gGameEngine.load()">
-    <div class="container">
-        <div class="page-header">
-            <h1>Bombergirl</h1>
-        </div>
-        <div id="game">
-            <canvas id="canvas" width="545" height="416" style="background-color: gray;"></canvas>
-            <input id="loginInput" name="loginInput"  size="81" type="text"  title="login" placeholder="login"/>
-        </div>
-        <h3>How to play</h3>
-        <ul>
-            <li><strong>arrow keys</strong> &hellip; move</li>
-            <li><strong>spacebar</strong> &hellip; plant the bomb</li>
-        </ul>
-        <i><strong>M</strong> &hellip; mute / unmute sound</i><br>
-        <i><strong>enter</strong> &hellip; restart</i><br>
-        <i><strong>escape</strong> &hellip; menu</i>
-
-        <hr>
-
-        <div class="footer">
-            <div class="alert alert-success">
-                <img src="img/github.png" width="25">
-              <a href="http://gojava.ru">  Contribute this game </a>
-            </div>
-            <p class="pull-left">&copy; 2017 Created by <a href="http://matousskala.cz">Sergey Rybalkin, Alexander Pomosov</a></p>
-                Credits: <a href="http://gojava.ru">Go Java</a> with us! Web client inspired by <a href="http://matousskala.cz">Matt Skala</a>
-        </div>
+<div class="container">
+    <div class="page-header">
+        <h1 style="text-align:center">Bombergirl</h1>
     </div>
+    <div id="game">
+        <canvas id="canvas" width="545" height="416" style="background-color: gray;"></canvas>
+        <!--<input id="loginInput" name="loginInput"  size="81" type="text"  title="login" placeholder="login"/>-->
+    </div>
+    <div class="b-container">
+        <button id="bt_logout" class="redbut" onclick="auth.Logout()" style="width:100px;" disabled>Logout</button>
+        <!--<button id="bt_login" class="greenbut" onclick="document.getElementById('popin').style.display='block'">Login</button>-->
+        <!--<button id="bt_registy" class="greenbut" onclick="document.getElementById('popup').style.display='block'" style="margin-left:238px;">Registry</button>-->
+    </div>
+    <h3>How to play</h3>
+    <ul>
+        <li><strong>arrow keys</strong> &hellip; move</li>
+        <li><strong>spacebar</strong> &hellip; plant the bomb</li>
+    </ul>
+    <i><strong>M</strong> &hellip; mute / unmute sound</i><br>
+    <i><strong>enter</strong> &hellip; restart</i><br>
+    <i><strong>escape</strong> &hellip; menu</i>
+
+    <hr>
+
+    <div class="footer">
+        <div class="alert alert-success">
+            <img src="img/github.png" width="25">
+            <a href="http://gojava.ru">  Contribute this game </a>
+        </div>
+        <p class="pull-left">&copy; 2017 Created by <a href="http://matousskala.cz">Sergey Rybalkin, Alexander Pomosov</a></p>
+        Credits: <a href="http://gojava.ru">Go Java</a> with us! Web client inspired by <a href="http://matousskala.cz">Matt Skala</a>
+    </div>
+</div>
+<div id="popin" class="modal">
+    <form class="b-popin-content">
+        <label><b>Login</b></label>
+        <input id="popinlog" type="text" placeholder="Enter login" name="login" required>
+        <label><b>Password</b></label>
+        <input id="popinpass" type="password" placeholder="Enter password" name="password" required>
+        <button class="cancelbut redbut" type="button" onclick="auth.CancelEvent()">Cancel</button>
+        <button class="submitbut greenbut" type="button" onclick="return auth.Login()">Sign In</button>
+    </form>
+</div>
+<div id="popup" class="modal">
+    <form class="b-popup-content">
+        <label><b>Login</b></label>
+        <input id="popreglog" type="text" placeholder="Enter login" name="login" required>
+        <label><b>Password</b></label>
+        <input id="popregpass1" type="password" placeholder="Enter password" name="password1" required>
+        <input id="popregpass2" type="password" placeholder="Confirm password" name="password2" required>
+        <button class="cancelbut redbut" type="button" onclick="auth.CancelEvent()">Cancel</button>
+        <button class="submitbut greenbut" type="button" onclick="return auth.Registry()">Sign Up</button>
+    </form>
+</div>
+<div id="popstart" class="modal">
+    <form class="b-start">
+        <button class="greenbut" type="button" onclick="auth.ShowLogin()" style="float:left">Sign In</button>
+        <button class="greenbut" type="button"  onclick="auth.ShowRegistry()" style="float:right">Sign Up</button>
+    </form>
+</div>
+
+<div class="toplist">
+    <table class="t1">
+        <caption>Top 10 of players</caption>
+        <thead>
+        <tr><th>Rank</th><th>Nick</th><th>Count Wins</th><tr>
+        </thead>
+        <tbody>
+        <script> serverProxy.TopPlayers() </script>
+        </tbody>
+    </table>
+</div>
+
+<div class="isonline">
+    <table class="t1">
+        <caption>Online players</caption>
+        <thead>
+        <tr><th>Rank</th><th>Nick</th><tr>
+        </thead>
+        <tbody>
+        <script> serverProxy.OnlinePlayers() </script>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

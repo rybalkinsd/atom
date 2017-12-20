@@ -5,5 +5,7 @@ build/
 
 .idea/
 /*/build/
+/*/out/
+*.DS_Store
 /*/classes
 /classes

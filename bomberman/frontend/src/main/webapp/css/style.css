@@ -1,5 +1,17 @@
- .container {
+.container {
     width: 545px;
+}
+
+.leaderboard {
+    float:left;
+}
+
+.leaderboard .board {
+    overflow: scroll;
+    width:200px;
+    height:375px;
+    padding:5px;
+    border: solid 1px black;
 }
 
 #game {
@@ -49,4 +61,154 @@ h1 strong {
 
 .credits a:hover {
     color: black;
+}
+
+* {
+    font-family: Areal;
+}
+.b-container {
+    width: 545px;
+}
+.greenbut {
+    width:100px;
+    background-color:#4CAF50;
+    color:#FFFFFF;
+}
+.redbut {
+    width:100px;
+    background-color:#F44336;
+    color:#FFFFFF;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+button:hover:enabled {
+    opacity: 0.8;
+}
+button {
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+}
+button:disabled {
+    background-color:#c5c5c5;
+}
+.submitbut {
+    float:right;
+}
+.cancelbut {
+    float:left;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+.b-popin-content {
+    margin:auto;
+    width:20%;
+    height: 250px;
+    padding:10px;
+    background-color: #FFFFFF;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+.b-popup-content {
+    margin:auto;
+    width:20%;
+    height: 310px;
+    padding:10px;
+    background-color: #FFFFFF;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.b-start {
+    margin-top:20%;
+    margin-left:40%;
+    width:20%;
+    height: 80px;
+    padding:10px;
+    background-color: #FFFFFF;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.toplist {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    padding: 10px;
+    border: 3px #95b3d7 solid;
+    background: #ffffff;
+}
+
+.isonline {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    bottom: 10px;
+    padding: 10px;
+    border: 3px #95b3d7 solid;
+    background: #ffffff;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+}
+
+
+table.t1 {
+    margin: 1em auto;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.t1 th, .t1 td {
+    padding: 4px 8px;
+}
+.t1 thead th {
+    background: #4f81bd;
+    text-align: left;
+    font-size: 15px;
+    color: #fff;
+}
+.t1 tr, .t1 tbody td  {
+    border-right: 1px solid #95b3d7;
+}
+.t1 tbody tr {
+    border-bottom: 1px solid #95b3d7;
+}
+.t1 tbody tr:nth-child(odd) {
+    background: #dbe5f0;
+}
+.t1 tbody th, .t1 tbody tr:nth-child(even) td {
+    border-right: 1px solid #95b3d7;
+}
+.t1 tfoot th {
+    background: #4f81bd;
+    text-align: left;
+    font-weight: normal;
+    font-size: 10px;
+    color: #fff;
+}
+.bt_login {
+    left: 1px;
+}
+.bt_registy {
+    right: 1px;
 }
