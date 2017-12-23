@@ -36,8 +36,6 @@ public class MatchMaker extends Thread {
                 logger.warn("Timeout reached");
             }
             if (candidates.size() == PLAYERS_IN_GAME) {
-                //client.start();
-                //logger.info("game started id={}", gameId);
                 candidates.clear();
                 gameId = Long.parseLong(client.createPost(PLAYERS_IN_GAME));
             }

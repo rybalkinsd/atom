@@ -3,8 +3,6 @@ package gs.model;
 import gs.geometry.Point;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-
 public class Girl extends GameObject implements Movable, Tickable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Girl.class);
     private static final int GIRL_WIDTH = 26;

@@ -22,20 +22,8 @@ public class Broker {
         return instance;
     }
 
-    public void receive(@NotNull WebSocketSession session, @NotNull String msg) {
-        log.info("RECEIVED: " + msg);
-        Message message = JsonHelper.fromJson(msg, Message.class);
-        //TODO TASK2 implement gs.message processing
-    }
-
     public void send(@NotNull WebSocketSession session, @NotNull Topic topic, @NotNull Object object) {
-        long time = System.currentTimeMillis();
         String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
         connectionPool.send(session, message);
-    }
-
-    public void broadcast(@NotNull Topic topic, @NotNull Object object) {
-        String message = JsonHelper.toJson(new Message(topic, JsonHelper.toJson(object)));
-        connectionPool.broadcast(message);
     }
 }

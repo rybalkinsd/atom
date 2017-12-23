@@ -60,16 +60,6 @@ public class GameSession implements Tickable {
         connectedPlayers++;
     }
 
-    public boolean removeById(int id) {
-        while (gameObjects.iterator().hasNext()) {
-            if (gameObjects.iterator().next().id == id) {
-                gameObjects.iterator().remove();
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean removeGameObject(GameObject object) {
         return gameObjects.remove(object);
     }

@@ -25,9 +25,6 @@ public class Bar implements Collider {
 
     public static ArrayList<ArrayList<Bar>> getExplosions(ArrayList<ArrayList<Point>> points) {
         ArrayList<ArrayList<Bar>> allExplosions = new ArrayList<>();
-
-        //System.out.println(points.size());
-        //System.out.println(points.get(1).size());
         for (int i = 0; i < points.size(); i++) {
             ArrayList<Bar> explosion = new ArrayList<>();
             for (int j = 0; j < points.get(i).size(); j++) {
@@ -72,9 +69,5 @@ public class Bar implements Collider {
 
     public Point getLeftPoint() {
         return leftPoint;
-    }
-
-    public Point getRightPoint() {
-        return rightPoint;
     }
 }

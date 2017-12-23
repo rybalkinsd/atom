@@ -21,21 +21,12 @@ import static gs.message.Topic.GAME_OVER;
 public class SessionStorage {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SessionStorage.class);
     private static ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>> storage
-            = new ConcurrentHashMap<GameSession, ArrayList<WebSocketSession>>();
-    private static ConcurrentHashMap<Long, GameSession> sessions = new ConcurrentHashMap<Long, GameSession>();
+            = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Long, GameSession> sessions = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<Girl, WebSocketSession> girlToWebsocket
-            = new ConcurrentHashMap<Girl, WebSocketSession>();
-    private static ConcurrentHashMap<GameSession, Ticker> tickers = new ConcurrentHashMap<GameSession, Ticker>();
-    private static long lastId = -1;
-
-    public static boolean containsGameSession(long gameId) {
-        for (ConcurrentHashMap.Entry<GameSession, ArrayList<WebSocketSession>> entry : storage.entrySet()) {
-            if (entry.getKey().getId() == gameId) {
-                return true;
-            }
-        }
-        return false;
-    }
+            = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<GameSession, Ticker> tickers = new ConcurrentHashMap<>();
+    private static volatile long lastId = -1;
 
     public static GameSession getByWebsocket(WebSocketSession session) {
         for (Map.Entry<GameSession, ArrayList<WebSocketSession>> i : storage.entrySet()) {
@@ -46,10 +37,6 @@ public class SessionStorage {
             }
         }
         return null;
-    }
-
-    public static boolean isGameReady(GameSession session) {
-        return session.isReady();
     }
 
     public static ArrayList<WebSocketSession> getWebsocketsByGameSession(GameSession session) {
@@ -64,23 +51,11 @@ public class SessionStorage {
         }
     }
 
-    public static long addSession(int playerCount) {
+    public static synchronized long addSession(int playerCount) {
         GameSession gameSession = new GameSession(playerCount, ++lastId);
-        storage.put(gameSession, new ArrayList<WebSocketSession>(playerCount));
         sessions.put(lastId, gameSession);
+        storage.put(gameSession, new ArrayList<>(playerCount));
         return lastId;
-    }
-
-    public static boolean removeSession(WebSocketSession session) {
-        for (ConcurrentHashMap.Entry<GameSession, ArrayList<WebSocketSession>> entry : storage.entrySet()) {
-            for (WebSocketSession i : entry.getValue()) {
-                if (i.equals(session)) {
-                    entry.getValue().remove(session);
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public static int getId(long gameId) {
@@ -102,11 +77,6 @@ public class SessionStorage {
     }
 
     public static WebSocketSession getWebsocketByGirl(Girl girl) {
-        /*for (Map.Entry e : girlToWebsocket.entrySet()) {
-            if (e.getKey().equals(girl)) {
-                return (WebSocketSession) e.getValue();
-            }
-        }*/
         return girlToWebsocket.get(girl);
     }
 
@@ -120,10 +90,6 @@ public class SessionStorage {
 
     public static void putAction(GameSession session, Action action) {
         tickers.get(session).putAction(action);
-    }
-
-    public static Ticker getTickerByGameSession(GameSession session) {
-        return tickers.get(session);
     }
 
     public static void removeWebsocket(WebSocketSession session) {

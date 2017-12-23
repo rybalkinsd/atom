@@ -5,7 +5,5 @@ public enum Topic {
     PLANT_BOMB,
     REPLICA,
     GAME_OVER,
-
-    START,
-    END_MATCH, POSSESS, FINISH
+    POSSESS
 }

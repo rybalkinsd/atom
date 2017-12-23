@@ -17,33 +17,23 @@ import gs.model.Tickable;
 import gs.network.Broker;
 import gs.storage.SessionStorage;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 import static gs.message.Topic.GAME_OVER;
-import static gs.message.Topic.REPLICA;
 
 public class Ticker extends Thread {
-    public static final int PLAYERS_COUNT = 4;
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(Ticker.class);
     private static final int FPS = 60;
     private static final int FRAME_TIME = 1000 / FPS;
     private final Broker broker = Broker.getInstance();
-    private final Set<String> players = new HashSet<>();
-    private final ConcurrentHashMap<Integer, String> girlsIdToPlayer = new ConcurrentHashMap<Integer, String>();
     private final Queue<Action> inputQueue = new LinkedBlockingQueue<Action>();
 
     @Autowired
@@ -51,8 +41,6 @@ public class Ticker extends Thread {
 
     private boolean isRunning;
     private GameSession gameSession;
-    private Set<Tickable> tickables = new ConcurrentSkipListSet<>();
-    private long tickNumber = 0;
     private ArrayList<Girl> movedGirls = new ArrayList<>(4);
     private ArrayList<GameObject> changedObjects = new ArrayList<>();
     private ArrayList<Girl> deadGirls = new ArrayList<>();
@@ -79,7 +67,6 @@ public class Ticker extends Thread {
                 } else {
                     log.warn("tick lag {} ms", elapsed - FRAME_TIME);
                 }
-                tickNumber++;
             } else {
                 log.info("THE END!");
                 return;

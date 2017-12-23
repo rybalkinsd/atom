@@ -33,7 +33,7 @@ public class GameController {
         long gameId = gameService.create(playerCount);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
-        return new ResponseEntity<Long>(gameId, headers, HttpStatus.OK);
+        return new ResponseEntity<>(gameId, headers, HttpStatus.OK);
     }
 
     @RequestMapping(

@@ -1,14 +1,10 @@
 package gs.model;
 
 import gs.geometry.Point;
-import java.util.Random;
 
 public final class Util {
     private Util() {
     }
-
-    private static int i = 1;
-    private static final Random random = new Random();
 
     public static void generateMap(GameSession session) {
         for (int x = 0; x < 17; x++) {
@@ -46,9 +42,4 @@ public final class Util {
     private static void addWall(GameSession session, Point position) {
         session.addGameObject(new Wall(session, position));
     }
-
-    private static void addBonus(GameSession session, Point position, Bonus.BonusType type) {
-        session.addGameObject(new Bonus(session, position, type));
-    }
-
 }

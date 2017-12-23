@@ -34,7 +34,6 @@
         </div>
         <div id="game">
             <canvas id="canvas" width="545" height="416" style="background-color: gray;"></canvas>
-            <input id="name" name="name"  size="81" type="text"  title="login" placeholder="login"/>
             <form method="POST" id="nameform" action="javascript:void(null);">
                 <input id="gamelink" name="gamelink"
                        size="81" type="text" placeholder="Player count to get link or link to connect">
@@ -67,7 +66,7 @@
 
 <script>
     function getLink() {
-        var url = "http://localhost:8080/";
+        var url = "http://localhost:8090/";
         var count = document.getElementById('gamelink').value;
         var settings = {
             "method": "POST",
