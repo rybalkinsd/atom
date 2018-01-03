@@ -64,7 +64,11 @@ public class MatchMakerService {
     }
 
     public void handleGameSessionClose(long gameId) {
-        gameDao.delete(gameId);
+        try {
+            gameDao.delete(gameId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
 

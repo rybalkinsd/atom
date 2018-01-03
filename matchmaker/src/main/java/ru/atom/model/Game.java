@@ -28,7 +28,7 @@ public class Game {
     @Id
     private long id;
 
-    @OneToMany(mappedBy = "game",  cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "game",  cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Player> players;
 
     @Column(name = "time", unique = false, nullable = false, length = 15)

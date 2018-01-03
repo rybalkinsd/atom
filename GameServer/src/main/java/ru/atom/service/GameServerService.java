@@ -37,7 +37,7 @@ public class GameServerService {
 
     public static long createGameSession(short playerAmount) {
         GameSession gameSession = new GameSession(playerAmount);
-        log.info("Game session with " + playerAmount + "players created, returned id - " + gameSession.getId());
+        log.info("Game session with " + playerAmount + " players created, returned id - " + gameSession.getId());
         gameSessionMap.put(gameSession.getId(), gameSession);
         return gameSession.getId();
     }

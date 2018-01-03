@@ -1,8 +1,8 @@
 package ru.atom.geometry;
 
 public class IntersectionParams {
-    private float dxImpos = 0;
-    private float dyImpos = 0;
+    private final float dxImpos;
+    private final float dyImpos;
 
     public IntersectionParams(float dxImpos, float dyImpos) {
         this.dxImpos = dxImpos;

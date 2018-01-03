@@ -1,7 +1,7 @@
 ServerProxy = Class.extend({
     gameServerUrl: "localhost:8090",
-    matchMakerUrl: "http://localhost:8080/matchmaker/join",
-    gameId: "1234",
+    matchMakerUrl: "http://localhost:8085/matchmaker/join",
+    gameId: "666",
 
     socket: null,
 
@@ -19,6 +19,7 @@ ServerProxy = Class.extend({
         if(!login){
             alert("Please input login");
             console.log("Empty login, retry login");
+            gGameEngine.menu.show();
         }
         $.ajax({
             type: 'POST',
@@ -79,7 +80,8 @@ ServerProxy = Class.extend({
             }
             console.log('Code: ' + event.code + ' cause: ' + event.reason);
             if (!gGameEngine.menu.visible) {
-                //gGameEngine.menu.show();
+                alert("Closed");
+                gGameEngine.menu.show();
             }
         };
 

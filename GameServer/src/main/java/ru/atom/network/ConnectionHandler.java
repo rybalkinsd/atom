@@ -59,7 +59,7 @@ public class ConnectionHandler extends TextWebSocketHandler implements WebSocket
         if (gameSession == null) {
             return;
         }
-        gameSession.removePlayer(gameSession.getPlayer(params.get("name")).getId());
+        gameSession.removePlayer(params.get("name"));
     }
 
 }

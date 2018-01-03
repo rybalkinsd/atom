@@ -8,6 +8,7 @@ import ru.atom.message.Message;
 import ru.atom.message.Topic;
 import ru.atom.model.GameModel;
 import ru.atom.model.GameObject;
+import ru.atom.model.GameServerParams;
 import ru.atom.model.Movable;
 import ru.atom.network.Broker;
 import ru.atom.network.ConnectionPool;
@@ -30,6 +31,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
     private Ticker ticker = new Ticker();
     private GameModel gameModel;
     private Message backGroundReplica;
+    private int waitingTime = 0;
 
     public long getId() {
         return this.id;
@@ -39,6 +41,8 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
         this.playersAmount = playersAmount;
         gameModel = new GameModel(ticker, playersAmount);
         backGroundReplica = Replicator.getBackGroundReplica(gameModel);
+        ticker.registerTickable(this);
+        ticker.start();
 
     }
 
@@ -54,10 +58,6 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
         Broker.getInstance().send(playerName, Topic.POSSESS, player.getId());
         Broker.getInstance().send(playerName, backGroundReplica);
         log.info("New player name: " + playerName + " playerId: " + player.getId());
-        if (players.size() == playersAmount) {
-            ticker.registerTickable(this);
-            ticker.start();
-        }
         return true;
     }
 
@@ -117,32 +117,43 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
         }
     }
 
-    public Player getPlayer(String playerName) {
+    private Player getPlayer(String playerName) {
         return players.stream().filter(player -> player.getName().equals(playerName)).findFirst().get();
     }
 
-    public void removePlayer(long playerId) {
-        gameModel.removePlayer(playerId);
+    public void removePlayer(String playerName) {
+        Player player = getPlayer(playerName);
+        if (player != null) {
+            gameModel.removePlayer(player.getId());
+        }
+    }
+
+    private void handleGameOver() {
+        ticker.unregisterTickable(this);
+        players.forEach(player -> ConnectionPool.getInstance().remove(player.getName()));
+        GameServerService.removeGameSession(id);
     }
 
     @Override
     public void tick(long elapsed) {
-        players.stream().forEach(player -> {
-            Broker.getInstance().send(player.getName(), Replicator.getReplica(gameModel));
-        });
-        if (gameModel.isGameOver()) {
-            players.forEach(player -> ConnectionPool.getInstance().remove(player.getName()));
-            GameServerService.removeGameSession(id);
-            ticker.unregisterTickable(this);
-            return;
-        }
-        gameModel.update();
-        if (players.size() == playersAmount) {
+        if (players.size() < playersAmount) {
+            waitingTime += elapsed;
+            if (waitingTime >= GameServerParams.getInstance().getTimeOut()) {
+                handleGameOver();
+                return;
+            }
+        } else if (players.size() == playersAmount) {
+            players.forEach(player -> {
+                Broker.getInstance().send(player.getName(), Replicator.getReplica(gameModel));
+            });
+            if (gameModel.isGameOver()) {
+                handleGameOver();
+                return;
+            }
+            gameModel.update();
             players.forEach(player -> {
                 processInput(player, elapsed);
             });
-        } else {
-            ticker.unregisterTickable(this);
         }
 
     }

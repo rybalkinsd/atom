@@ -185,22 +185,23 @@ public class GameModel implements MoveEventListener, BombExplosListener, BoxColl
         HashSet<FormedGameObject> gameObjects = tileMap.getNearbyGameObjects(newFormedGameObject);
         FormedGameObject collider = null;
         for (FormedGameObject formedGameObject : gameObjects) {
-            if (formedGameObject instanceof Box
+            if ((formedGameObject instanceof Box
                     || formedGameObject instanceof Wall
-                    || formedGameObject instanceof Girl) {
-                if (formedGameObject.getCollider().isColliding(newFormedGameObject.getCollider())) {
-                    if (collider == null) {
-                        collider = formedGameObject;
-                    } else {
-                        return null;
-                    }
+                    || formedGameObject instanceof Girl)
+                    && (formedGameObject.getCollider().isColliding(newFormedGameObject.getCollider()))) {
+                if (collider == null) {
+                    collider = formedGameObject;
+                } else {
+                    return null;
                 }
             }
         }
+
         if (collider == null) {
             return new Point(newFormedGameObject.getPosition().getX() ,
                     newFormedGameObject.getPosition().getY());
         }
+
         IntersectionParams params = ((Rectangle)newFormedGameObject.getForm())
                 .getIntersection(((Rectangle)collider.getForm()));
         if (Math.abs(params.getDxImpos()) < GameServerParams.getInstance().getCornerHelpFactor()
@@ -210,10 +211,19 @@ public class GameModel implements MoveEventListener, BombExplosListener, BoxColl
                             newFormedGameObject.getPosition().getY() + params.getDyImpos()),
                     ((Rectangle) newFormedGameObject.getForm()).getWidth(),
                     ((Rectangle) newFormedGameObject.getForm()).getHeight());
+            FormedGameObject newform = new FormedGameObject(newForm, gameObject.getId());
+            gameObjects = tileMap.getNearbyGameObjects(newform);
+            for (FormedGameObject formedGameObject : gameObjects) {
+                if ((formedGameObject instanceof Box
+                        || formedGameObject instanceof Wall
+                        || formedGameObject instanceof Girl)
+                        && (formedGameObject.getCollider().isColliding(newform.getCollider()))) {
+                    return null;
+                }
+            }
 
             return newForm.getPosition();
         }
-
         return null;
     }
 

@@ -38,6 +38,7 @@ public class GameServerParams {
                 cornerHelpFactor = Integer.parseInt(prop.getProperty("cornerHelpFactor"));
                 speedModifier = Float.parseFloat(prop.getProperty("speedModifier"));
                 matchMakerUrl = prop.getProperty("matchMakerUrl");
+                timeOut = Integer.parseInt(prop.getProperty("timeOut"));
                 inputStream.close();
             } catch (Exception e) {
                 log.error(e.getMessage());
@@ -51,6 +52,7 @@ public class GameServerParams {
         return instance;
     }
 
+    private int timeOut;
     private int explosDelay;
     private int cornerHelpFactor;
     private int tileMapHeight;
@@ -67,6 +69,10 @@ public class GameServerParams {
     private int maxExplosRadius;
     private float speedModifier;
     private String matchMakerUrl;
+
+    public int getTimeOut() {
+        return this.timeOut;
+    }
 
     public String getMatchMakerUrl() {
         return this.matchMakerUrl;
