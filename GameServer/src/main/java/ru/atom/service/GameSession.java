@@ -32,6 +32,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
     private GameModel gameModel;
     private Message backGroundReplica;
     private int waitingTime = 0;
+    boolean possessed = false;
 
     public long getId() {
         return this.id;
@@ -40,7 +41,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
     public GameSession(int playersAmount) {
         this.playersAmount = playersAmount;
         gameModel = new GameModel(ticker, playersAmount);
-        backGroundReplica = Replicator.getBackGroundReplica(gameModel);
+        //backGroundReplica = Replicator.getBackGroundReplica(gameModel);
         ticker.registerTickable(this);
         ticker.start();
 
@@ -55,8 +56,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
             return false;
         }
         players.add(player);
-        Broker.getInstance().send(playerName, Topic.POSSESS, player.getId());
-        Broker.getInstance().send(playerName, backGroundReplica);
+
         log.info("New player name: " + playerName + " playerId: " + player.getId());
         return true;
     }
@@ -142,7 +142,7 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
                 handleGameOver();
                 return;
             }
-        } else if (players.size() == playersAmount) {
+        } else if (players.size() == playersAmount && possessed) {
             players.forEach(player -> {
                 Broker.getInstance().send(player.getName(), Replicator.getReplica(gameModel));
             });
@@ -154,6 +154,17 @@ public class GameSession implements GameObject, Tickable, Comparable<GameObject>
             players.forEach(player -> {
                 processInput(player, elapsed);
             });
+        } else if (players.size() == playersAmount && !possessed) {
+            players.forEach(player -> {
+                Broker.getInstance().send(player.getName(), Topic.POSSESS, player.getId());
+                Broker.getInstance().send(player.getName(), Replicator.getReplicaWithBack(gameModel));
+            });
+            gameModel.update();
+            players.forEach(player -> {
+                processInput(player, elapsed);
+            });
+            possessed = true;
+
         }
 
     }

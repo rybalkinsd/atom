@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public class Replicator {
 
-    static Message getBackGroundReplica(GameModel gameModel) {
+    static String getBackGround(GameModel gameModel) {
         TileMap map = gameModel.getTileMap();
-        String replica = "{\"objects\":[";
+        String replica = "";
         ArrayList<String> grassTiles = new ArrayList<String>(map.getHeight() * map.getWidth());
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
@@ -24,10 +24,22 @@ public class Replicator {
             }
         }
         replica = replica.concat(grassTiles.stream().collect(Collectors.joining(", ")).toString());
-        replica = replica.concat("],\"deleted\":[");
-        replica = replica.concat("],\"gameOver\":false}");
-        return new Message(Topic.REPLICA, replica);
+        return new String(replica);
 
+    }
+
+    public static Message getReplicaWithBack(GameModel gameModel) {
+        String replica = "{\"objects\":[";
+        replica = replica.concat(getBackGround(gameModel) + ",");
+        replica = replica.concat(gameModel.changed.stream().map(girl ->
+                girl.toString()).collect(Collectors.joining(",")).toString());
+        replica = replica.concat("],\"deleted\":[");
+        replica = replica.concat(gameModel.deleted.stream().map(girl ->
+                girl.toString()).collect(Collectors.joining(",")).toString());
+        replica = replica.concat("],\"gameOver\":" +
+                gameModel.isGameOver() + ",\"winnerId\":" + gameModel.getWinner() + "}");
+
+        return new Message(Topic.REPLICA, replica);
     }
 
 

@@ -1,28 +1,47 @@
 Menu = Class.extend({
     visible: true,
 
+    bmp: null,
+
     views: [],
 
     init: function () {
+
         gGameEngine.playersCount = 0;
+
+        var spriteSheet = new createjs.SpriteSheet({
+            images: [gGameEngine.playerGirlImg],
+            frames: { width: 48, height: 48, regX: 10, regY: 12 },
+            animations: {
+                down: [0, 3, 'down', 0.1]
+            }
+        });
+        this.bmp = new createjs.Sprite(spriteSheet);
+        this.bmp.x = gGameEngine.size.w / 2 - 48 / 2;
+        this.bmp.y = gGameEngine.size.h / 2 - 48 / 2;
 
         this.showLoader();
     },
 
     show: function (text) {
         this.visible = true;
-
+        this.clear();
+        gGameEngine.stage.update();
         this.draw(text);
     },
 
-    hide: function () {
-        this.visible = false;
-
+    clear: function () {
         for (var i = 0; i < this.views.length; i++) {
             gGameEngine.stage.removeChild(this.views[i]);
         }
 
         this.views = [];
+    },
+
+    hide: function () {
+        this.visible = false;
+
+        this.clear();
     },
 
     update: function () {
@@ -43,11 +62,11 @@ Menu = Class.extend({
     },
 
     start: function () {
-        this.hide();
-
+        gGameEngine.menu.hide();
         gGameEngine.playing = true;
         gGameEngine.serverProxy.getSessionIdFromMatchMaker();
         gGameEngine.restart();
+        this.showPlayersWaiting();
     },
 
     draw: function (text) {
@@ -103,11 +122,47 @@ Menu = Class.extend({
         var bgGraphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, gGameEngine.size.w, gGameEngine.size.h);
         var bg = new createjs.Shape(bgGraphics);
         gGameEngine.stage.addChild(bg);
+        this.views.push(bg);
 
         var loadingText = new createjs.Text("Loading...", "20px Helvetica", "#FFFFFF");
         loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
         loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
         gGameEngine.stage.addChild(loadingText);
+        this.views.push(loadingText);
+        gGameEngine.stage.update();
+    },
+
+    showPlayersWaiting: function () {
+        var bgGraphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, gGameEngine.size.w, gGameEngine.size.h);
+        var bg = new createjs.Shape(bgGraphics);
+        gGameEngine.stage.addChild(bg);
+        this.views.push(bg);
+
+        var loadingText = new createjs.Text("Game searching...", "20px Helvetica", "#FFFFFF");
+        loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
+        loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
+        gGameEngine.stage.addChild(loadingText);
+        this.views.push(loadingText);
+
+        this.bmp.gotoAndPlay('down');
+        gGameEngine.stage.addChild(this.bmp);
+        this.views.push(this.bmp);
+        gGameEngine.stage.update();
+    },
+
+    showConnectionsWaiting: function () {
+        var bgGraphics = new createjs.Graphics().beginFill("#000000").drawRect(0, 0, gGameEngine.size.w, gGameEngine.size.h);
+        var bg = new createjs.Shape(bgGraphics);
+        gGameEngine.stage.addChild(bg);
+        this.views.push(bg);
+
+        var loadingText = new createjs.Text("Waiting for players...", "20px Helvetica", "#FFFFFF");
+        loadingText.x = gGameEngine.size.w / 2 - loadingText.getMeasuredWidth() / 2;
+        loadingText.y = gGameEngine.size.h / 2 - loadingText.getMeasuredHeight() / 2 - 150;
+        gGameEngine.stage.addChild(loadingText);
+        this.views.push(loadingText);
+        gGameEngine.stage.addChild(this.bmp);
+        this.views.push(this.bmp);
         gGameEngine.stage.update();
     }
 });

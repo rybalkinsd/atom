@@ -61,6 +61,11 @@ Messages = Class.extend({
 
     handlePossess: function (msg) {
         gInputEngine.possessed = parseInt(msg.data);
+        gGameEngine.menu.clear();
+    },
+
+    handleGameStart: function (msg) {
+        gGameEngine.menu.clear();
     },
 
     handlePawn: function(obj) {

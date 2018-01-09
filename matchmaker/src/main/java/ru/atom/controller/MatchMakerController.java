@@ -35,16 +35,17 @@ public class MatchMakerController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> join(@RequestParam("name") String name) {
         Player alreadyInGame = mmService.getPlayerByName(name);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+
         if (name == null || name == "") {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.badRequest().headers(headers)
                     .body("Enter your name");
         }
         if (alreadyInGame != null) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.badRequest().headers(headers)
                     .body("Already in game");
         }
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
         return ResponseEntity.ok().headers(headers).body(mmService.handleConnection(name).toString());
     }

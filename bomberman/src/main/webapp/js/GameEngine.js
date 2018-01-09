@@ -56,6 +56,7 @@ GameEngine = Class.extend({
             that.bombImg = queue.getResult("bomb");
             that.fireImg = queue.getResult("fire");
             that.bonusesImg = queue.getResult("bonuses");
+            that.menu = new Menu();
             that.setup();
         });
         queue.loadManifest([
@@ -75,7 +76,6 @@ GameEngine = Class.extend({
         createjs.Sound.registerSound("sound/bomb.ogg", "bomb");
         // createjs.Sound.registerSound("sound/game.ogg", "game");
 
-        this.menu = new Menu();
     },
 
     setup: function() {

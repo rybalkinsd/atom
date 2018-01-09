@@ -10,6 +10,7 @@ ServerProxy = Class.extend({
     init: function () {
         this.handler['REPLICA'] = gMessages.handleReplica;
         this.handler['POSSESS'] = gMessages.handlePossess;
+        this.handler['GAMESTART'] = gMessages.handleGameStart();
 
     },
 
@@ -26,17 +27,20 @@ ServerProxy = Class.extend({
             url: that.matchMakerUrl,
             contentType: 'application/x-www-form-urlencoded',
             dataType: 'text',
-            processData: true,
+            //processData: true,
             data: {
                 "name": login
             },
             success: function(data){
                 that.gameId=data;
-                console.log("Matchmaker returned gameId=" + data);
+                console.log("Matchmaker returned gameId= " + data);
+                /*waiting for connections*/
                 that.connectToGameServer(that.gameId, login);
+                gGameEngine.menu.showConnectionsWaiting();
+
             },
-            error: function(){
-                alert("Matchmaker request failed");
+            error: function(data){
+                alert(data.responseText);
                 console.log("Matchmaker request failed");
                 gGameEngine.menu.show();
             }

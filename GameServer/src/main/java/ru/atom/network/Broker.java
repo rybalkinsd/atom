@@ -37,7 +37,7 @@ public class Broker {
         connectionPool.send(session, message);
     }
 
-    public void send(@NotNull String playerName, @NotNull Message message) {
+    public synchronized void send(@NotNull String playerName, @NotNull Message message) {
         String msg = JsonHelper.toJson(message);
         WebSocketSession session = connectionPool.getSession(playerName);
         connectionPool.send(session, msg);

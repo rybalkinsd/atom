@@ -25,7 +25,7 @@ public class ConnectionPool {
         pool = new ConcurrentHashMap<>();
     }
 
-    public void send(@NotNull WebSocketSession session, @NotNull String msg) {
+    public void send(WebSocketSession session, String msg) {
         if (session.isOpen()) {
             try {
                 session.sendMessage(new TextMessage(msg));
