@@ -65,8 +65,7 @@ https://atom.mail.ru/
 [https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ)  
 
 **JDK9**  
-**RC:** [http://jdk.java.net/9/](http://jdk.java.net/9/)  
-**General Availability:** coming 21.09.2017 
+[http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  
   
 **Официальная документация Java**  
 [http://download.java.net/java/jdk9/docs/api/](http://download.java.net/java/jdk9/docs/api/)
@@ -171,7 +170,7 @@ https://atom.mail.ru/
 
 #HSLIDE
 # JDK Setup
-1. Download [**JDK9**](http://jdk.java.net/9/)  (and un-archive)
+1. Download [**JDK9**](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  (and un-archive)
 
 2. Look inside jdk directory
 **Linux/macOs:**
