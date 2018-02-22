@@ -58,8 +58,8 @@ https://atom.mail.ru/
 [http://gojava.ru](http://gojava.ru) (currently redirects on github)  
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
   
-**Блог в техноатоме**  
-[https://atom.mail.ru/blog/view/99/](https://atom.mail.ru/blog/view/99/)
+**Блог в техносфере**  
+[https://sphere.mail.ru/blog/view/200/](https://sphere.mail.ru/blog/view/200/)
   
 **!Чатик в Telegram!**  
 [https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ)  
@@ -700,7 +700,7 @@ Ask me if you have any problems
 3. Write your credentials in description for pull request
 4. Make sure **tests** and **checkstyle** are passing in **Travis**  
 
-**Deadline:** 27 September (before lecture)  
+**Deadline:** 28 February (before lecture)  
 **Mark:** 5 points
 
 #HSLIDE
