@@ -20,7 +20,6 @@ public class Util {
         for (int i = 1 ; i < values.length ; i++)
             if ( values[i] > max)
                 max = values[i];
-
         return max;
     }
 
@@ -34,7 +33,6 @@ public class Util {
         long sum = 0;
         for (int i = 0 ; i < values.length ; i++)
             sum += values[i];
-
         return sum;
     }
 
