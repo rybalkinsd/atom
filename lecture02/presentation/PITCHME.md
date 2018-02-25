@@ -41,8 +41,8 @@ open as new project
 
 #HSLIDE
 ## How gradlew works
-Our repository has many gragle projects    
-**build.gradle** - how to build concrete project  
+Our repository has many gradle projects    
+**build.gradle** - how to build specific project  
   
 
 #HSLIDE
@@ -52,11 +52,11 @@ Our repository has many gragle projects
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02.jar 
 Hello, World!
 
 # jar listing
-> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02.jar
 ...
 ```
 
@@ -70,11 +70,11 @@ to build **jar** with gradle
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02.jar
 Hello, World!
 
 # jar listing
-> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02.jar
 ...
 ```
 
