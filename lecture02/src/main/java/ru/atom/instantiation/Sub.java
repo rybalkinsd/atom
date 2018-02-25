@@ -4,10 +4,12 @@ public class Sub extends Base {
 
     private int willBeInited = 42;
 
+    // static init block
     static {
         System.out.println("Sub: static init block");
     }
 
+    // init block
     {
         System.out.println("Sub: init block");
         System.out.println("Sub: inited field `willBeInited` = " + willBeInited);

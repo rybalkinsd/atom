@@ -3,9 +3,11 @@
 lecture 2
 ## Basics
 
+
 #HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
+
 
 #HSLIDE
 ### get ready
@@ -15,19 +17,6 @@ https://atom.mail.ru/
 ```
 
 #HSLIDE
-## About me
-<img src="lecture01/presentation/assets/img/me.jpg" alt="me" style="width: 220px; float: left;"/>  
-
-  alpieex@gmail.com  
-  [https://github.com/Al-p-i](https://github.com/Al-p-i)  
-
-- Java 6+ years
-- MailRu, Headhunter
-- Currently engineer at AliExpress.com
-
-**Люблю смотреть, как другие работают**  
-
-#HSLIDE
 ### Agenda
 1. gradle
 1. Classes and objects
@@ -35,6 +24,7 @@ https://atom.mail.ru/
 1. Interface and abstract class
 1. Enum
 1. Practice
+
 
 #HSLIDE
 ### Gradle
@@ -107,6 +97,7 @@ To build fat jar @see lecture02/build.gradle
 > jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
 ```
 
+
 #HSLIDE
 ### Classes and objects
 1. gradle
@@ -160,6 +151,7 @@ class Player {
   
 Be simple, use public class in file
 
+
 #HSLIDE
 ### Instantiation
 ```java
@@ -173,6 +165,7 @@ Player myPlayer = new Player();
 **pOne != pTwo**
  
 **pTwo == winner**
+
 
 #HSLIDE
 ### `null` keyword
@@ -189,6 +182,7 @@ assertFalse(player instanceOf Player); // <-- OK
 assertThat(null, is(not(instanceOf(AnyClass.class)))); // <-- OK 
 ```
 
+
 #HSLIDE
 ### quiz
 
@@ -202,24 +196,9 @@ System.out.println(null == null);
 
 [Read more about `null`](http://javarevisited.blogspot.ru/2014/12/9-things-about-null-in-java.html)
 
-#HSLIDE
-### Constructor
-```java
-class Player {
-    private int id;
-    private String name;
-    
-    public Player(int paramId, String paramName) {
-        id = paramId;
-        name = paramName;
-    }
-}
-```
-
-Looks shitty
 
 #HSLIDE
-### `this` keyword
+### Constructor & `this` keyword
 ```java
 class Player {
     private int id;
@@ -229,9 +208,14 @@ class Player {
         this.id = id;
         this.name = name;
     }
+    
+    public Player(int id) {
+        this(id, "NO NAME");
+    }
 }
 ```
 [Read more about `this`](https://docs.oracle.com/javase/tutorial/java/javaOO/thiskey.html)
+
 
 #HSLIDE
 ### OK, now we have a constructor
@@ -289,7 +273,7 @@ Titled message **is a** Message
 
 
 #HSLIDE
-# Java does not support multiple inheritance
+## Java does not support multiple inheritance
 
 
 #HSLIDE
@@ -317,7 +301,7 @@ Titled message **is a** Message
 
 
 #HSLIDE
-### `instanceof` operator, miss me?
+### `instanceof` operator
 
 ```java
 Message message = new Message();
@@ -326,8 +310,6 @@ assertTrue(message instanceof Message); // <-- OK
 assertThat(message, is(instanceOf(Message.class))); // <-- OK
 ```
 
-`instanceof` **is not** slow	
-
 
 #HSLIDE
 ### `Object` class #1
@@ -335,8 +317,7 @@ Everything* is instance of `Object`.
 
 ```java
 // Informally
-class Message extends Object { 
-}
+class Message extends Object { }
 ```
 
 ```java
@@ -351,6 +332,7 @@ I want:
 TitlesMessage message = new TitledMessage(title, content);
 ```
 
+
 #HSLIDE
 ### Constructors and inheritance
 
@@ -364,6 +346,7 @@ class Message {
 }
 ```
 
+
 #HSLIDE
 ### Constructors and inheritance
 
@@ -372,7 +355,7 @@ class TitledMessage extends Message {
     private String title;
     
     public TitledMessage(String title, String content) {
-        // hmmmm
+        // ..........
     }
 }
 
@@ -388,7 +371,6 @@ class Message {
 
 #HSLIDE
 ### super
-
 ```java
 class TitledMessage extends Message {
     private String title;
@@ -534,13 +516,8 @@ and **return type** as an instance method in the superclass **overrides** the su
 ```java
 class Object {
     public boolean equals(Object obj)
-    public int hashCode()
     public String toString()
-
-    public final Class getClass()
-    protected Object clone() throws CloneNotSupportedException
-    protected void finalize() throws Throwable
-    // ...
+    // o
 }
 ```
 
@@ -725,12 +702,12 @@ public class Englishman extends AbstractHuman {
 #HSLIDE
 ### abstract class vs interface
 
-|                   | Interface             | Abstract class                |
-|:----------------- |:--------------------- | :-----------------------------|
-| Inheritance       | implement many        | extend one                    |
-| Fields            | public static only    | no limits                     |
-| Access modifiers  | public only           | no abstract private methods   |
-| Constructors      | no constructors       | no limits                     |
+|                   | Interface                 | Abstract class                |
+|:----------------- |:--------------------------| :-----------------------------|
+| Inheritance       | implement many            | extend one                    |
+| Fields            | public static only        | no limits                     |
+| Methods           | public / public static    | no abstract private methods   |
+| Constructors      | no constructors           | no limits                     |
 
 
 #HSLIDE

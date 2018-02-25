@@ -5,10 +5,12 @@ public class Base {
 
     private String baseClassFieldValue = "BaseClassFieldValue";
 
+    // static init block
     static {
         System.out.println("Base: static init block " + integer1);
     }
 
+    // init block
     {
         System.out.println("Base: init block");
         System.out.println("Base: inited field `baseClassFieldValue` = " + baseClassFieldValue);
