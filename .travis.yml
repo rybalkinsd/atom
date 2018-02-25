@@ -4,7 +4,6 @@ jdk:
   - oraclejdk9
 
 env:
-  - $PROJECT_DIR=lecture01
   - $PROJECT_DIR=lecture02
 
 script: cd $PROJECT_DIR && ./gradlew assemble && ./gradlew check
