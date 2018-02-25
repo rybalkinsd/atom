@@ -2,15 +2,13 @@ package ru.atom;
 
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class HelloWorldTest {
     @Test
     public void getHelloWorld() throws Exception {
-        assertThat(HelloWorld.getHelloWorld(), is(equalTo("Hello, World!")));
-        assertThat(HelloWorld.getHelloWorld(), is(not(equalTo("Some strange string"))));
+        assertEquals("Hello, World!", HelloWorld.getHelloWorld());
+        assertFalse("Some strange string".equals(HelloWorld.getHelloWorld()));
     }
 }
