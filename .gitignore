@@ -3,7 +3,13 @@
 /out/
 build/
 
+/*/.gradle/
+/*/gradle/
+/*/out/
+/*/build/
+
 .idea/
 /*/build/
 /*/classes
 /classes
+/*/.idea/
