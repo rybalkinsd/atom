@@ -177,9 +177,8 @@ String str = null;
 
 Player player = null;
 
-assertThat(player, is(not(instanceOf(Player.class)))); // <-- OK
 assertFalse(player instanceOf Player); // <-- OK
-assertThat(null, is(not(instanceOf(AnyClass.class)))); // <-- OK 
+assertFalse(null instanceOf AnyClass); // <-- OK 
 ```
 
 
@@ -307,7 +306,6 @@ Titled message **is a** Message
 Message message = new Message();
 
 assertTrue(message instanceof Message); // <-- OK
-assertThat(message, is(instanceOf(Message.class))); // <-- OK
 ```
 
 
@@ -321,7 +319,7 @@ class Message extends Object { }
 ```
 
 ```java
-assertThat(message, is(instanceOf(Object.class))); // <-- OK
+assertTrue(message instanceOf Object); // <-- OK
 ```
 
 #HSLIDE
@@ -419,7 +417,8 @@ Usage
 Message message = new Message("my content");
 message.getContent();
 
-assertThat(message.getContent(), is(equalTo("my content"))); // <-- OK
+assertTrue(message.getContent().equals("my content"))); // <-- OK
+assertEquals("my content", message.getContent())); // <-- OK
 ```
 
 
@@ -655,8 +654,8 @@ class Message implements Storable {
 Storable smthToSave = new Message("Perfect content");
 smthToSave.saveTo(new File("path to file"));
 
-assertThat(smthToSave, is(instanceOf(Message.class))); // <-- OK
-assertThat(smthToSave, is(instanceOf(Storable.class))); // <-- OK
+assertTrue(smthToSave instanceOf Message); // <-- OK
+assertTrue(smthToSave instanceOf Storable); // <-- OK
 ```
 
 #HSLIDE
