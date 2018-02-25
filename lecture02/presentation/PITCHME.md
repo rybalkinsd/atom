@@ -14,6 +14,9 @@ https://sphere.mail.ru/
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
+> cd lecture02
+
+open as new project
 ```
 
 #HSLIDE
@@ -38,28 +41,22 @@ https://sphere.mail.ru/
 
 #HSLIDE
 ## How gradlew works
-Our gradle project is multi-project  
-**settings.gradle** - which projects to build  
-**build.gradle** - how to build project  
+Our repository has many gragle projects    
+**build.gradle** - how to build concrete project  
   
-you can use gradle on specific subproject:
-```bash
-./gradlew :lecture02:clean
-```
-
 
 #HSLIDE
 ### gradlew clean build
 ```bash
-> ./gradlew :lecture02:clean :lecture02:clean
+> ./gradlew clean build
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
 Hello, World!
 
 # jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
 ...
 ```
 
@@ -68,33 +65,17 @@ Hello, World!
 **jar** - Java Archive (way to distribute project in one *executable*)
 to build **jar** with gradle
 ```bash
-# build fat jar @see build.gradle in lecture02 submodule 
-> ./gradlew :lecture02:jar
+# build fat jar @see build.gradle 
+> ./gradlew jar
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
 Hello, World!
 
 # jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
 ...
-```
-
-
-#HSLIDE
-### gradlew jar
-To build fat jar @see lecture02/build.gradle
-```bash
-> ./gradlew :lecture02:jar
-> blah-blah
-> BUILD SUCCESSFUL
-
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
-> Hello, World!
-
-# jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
 ```
 
 
