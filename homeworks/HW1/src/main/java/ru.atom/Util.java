@@ -15,7 +15,8 @@ public class Util {
      * @param values an argument. Assume values.length > 0.
      * @return the largest of values.
      */
-    public static int max(int[] values) {
+    public static int max(int[] values)  {
+        throw new UnsupportedOperationException();
         int Max=values[0];
         for (int i =0; i< values.length; i++) {
             if (values[i]>=Max) {
@@ -32,6 +33,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
+        throw new UnsupportedOperationException();
         long s = 0;
         for (int i=0; i< values.length; i++) {
             s = s + values[i];
