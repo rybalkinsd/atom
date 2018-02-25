@@ -19,9 +19,9 @@ public class Util {
         int _max=0;
         for (int i : values) {
 	    if (i > _max)
-		_max = i;
-	}
-	return _max;
+            _max = i;
+        }
+        return _max;
     }
 
     /**
@@ -32,9 +32,9 @@ public class Util {
      */
     public static long sum(int[] values) {
         int _sum=0;
-	for(int i : values){
-		_sum += i;
-	return _sum;
+        for(int i : values)
+            _sum += i;
+        return _sum;
     }
 
 
