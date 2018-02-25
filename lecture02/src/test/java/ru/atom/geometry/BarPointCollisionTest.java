@@ -3,8 +3,8 @@ package ru.atom.geometry;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @Ignore
 public class BarPointCollisionTest {
@@ -12,41 +12,41 @@ public class BarPointCollisionTest {
     public void pointInsideBar() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(50, 50);
-        assertThat(bar.isColliding(point), is(true));
+        assertTrue(bar.isColliding(point));
     }
 
     @Test
     public void pointOnCornerOfBar() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(0, 0);
-        assertThat(bar.isColliding(point), is(true));
+        assertTrue(bar.isColliding(point));
     }
 
     @Test
     public void pointOnBorderOfBar() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(0, 50);
-        assertThat(bar.isColliding(point), is(true));
+        assertTrue(bar.isColliding(point));
     }
 
     @Test
     public void pointOutsideOfBar1() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(0, 150);
-        assertThat(bar.isColliding(point), is(false));
+        assertFalse(bar.isColliding(point));
     }
 
     @Test
     public void pointOutsideOfBar2() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(150, 0);
-        assertThat(bar.isColliding(point), is(false));
+        assertFalse(bar.isColliding(point));
     }
 
     @Test
     public void pointOutsideOfBar3() {
         Collider bar = Geometry.createBar(0, 0, 100, 100);
         Collider point = Geometry.createPoint(150, 150);
-        assertThat(bar.isColliding(point), is(false));
+        assertFalse(bar.isColliding(point));
     }
 }
