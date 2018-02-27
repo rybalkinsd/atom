@@ -2,7 +2,7 @@ package ru.atom;
 
 /**
  * In this assignment you need to implement the following util methods.
- * Note:
+ * Note :
  *  throw new UnsupportedOperationException(); - is just a stub
  */
 public class Util {
