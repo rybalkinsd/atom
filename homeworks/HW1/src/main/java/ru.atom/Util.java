@@ -21,6 +21,8 @@ public class Util {
         
         for (int v:values)
             if (max < v) max = v;
+            
+        return max;
     }
 
     /**
@@ -35,6 +37,8 @@ public class Util {
         
         for (int v:values)
             sum += (long)(v);
+            
+        return sum;
     }
 
 
