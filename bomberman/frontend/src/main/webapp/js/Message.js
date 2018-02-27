@@ -30,7 +30,8 @@ Messages = Class.extend({
 
 
     handleReplica: function (msg) {
-        var gameObjects = JSON.parse(msg.data).objects;
+        //var gameObjects = JSON.parse(msg.data).objects
+        var gameObjects = msg.data.objects;
         var survivors = new Set();
 
         for (var i = 0; i < gameObjects.length; i++) {
@@ -84,7 +85,8 @@ Messages = Class.extend({
             return el.id === obj.id;
         });
 
-        var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
+        //var position = Utils.getEntityPosition(Utils.convertToBitmapPosition(obj.position));
+        var position = Utils.getEntityPosition(obj.position);
         if (tile) {
             tile.material = obj.type;
         } else {

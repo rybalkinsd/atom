@@ -1,7 +1,5 @@
 package ru.atom.geometry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * Template class for
  */
@@ -22,6 +20,6 @@ public class Point /* super class and interfaces here if necessary */ {
         Point point = (Point) o;
 
         // your code here
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 }
