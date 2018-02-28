@@ -38,8 +38,7 @@ public class Bar implements Collider{
         Bar bar = (Bar) o;
 
         // your code here
-        return getLeft().getX() == bar.getLeft().getX() && getLeft().getY() == bar.getLeft().getY() &&
-                getRight().getX()== bar.getRight().getX() && getRight().getY() == bar.getRight().getY();
+        return getLeft().equals(bar.getLeft()) && getRight().equals(bar.getRight().getX());
     }
 
     private boolean isIn(Point point) {
