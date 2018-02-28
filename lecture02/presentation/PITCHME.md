@@ -488,7 +488,7 @@ and **return type** as an instance method in the superclass **overrides** the su
 #HSLIDE
 ### Override vs overload note
 
-**Override** resolves method in **runtime**
+**Override** resolves method in **runtime**  
 **Overload** resolves method in **compile-time**
 
 #HSLIDE
