@@ -3,9 +3,18 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point /* super class and interfaces here if necessary */ {
-    // fields
-    // and methods
+public class Point implements Collider {
+    private final int x;
+    private final int y;
+
+    Point(int x,int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int[] getXy() {
+        return new int[]{this.x,this.y};
+    }
 
     /**
      * @param o - other object to check equality with
@@ -15,11 +24,23 @@ public class Point /* super class and interfaces here if necessary */ {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        // cast from Object to Point
         Point point = (Point) o;
+        return  (x == point.getXy()[0] && y == point.getXy()[1]);
+    }
 
-        // your code here
-        throw new UnsupportedOperationException();
+    @Override
+    public boolean isColliding(Collider other) {
+        if (other == null) {
+            return false;
+        }
+        if (other.getClass() ==  Point.class) {
+            Point point = (Point) other;
+            return this.equals(point);
+        }
+        if (other.getClass() == Bar.class) {
+            Bar bar = (Bar) other;
+            return bar.isColliding(this);
+        }
+        return false;
     }
 }

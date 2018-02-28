@@ -5,7 +5,8 @@ public class Base {
 
     private String baseClassFieldValue = "BaseClassFieldValue";
 
-    // static init block
+    // static init block - блок статической иниц - статич полей
+    //порядок иниц сверху вниз,  то есть в нем уже видно
     static {
         System.out.println("Base: static init block " + integer1);
     }
