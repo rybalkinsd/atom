@@ -1,5 +1,6 @@
 package ru.atom.geometry;
 
+
 /**
  *  ^ Y
  *  |
@@ -11,7 +12,8 @@ package ru.atom.geometry;
 
 public final class Geometry {
     
-    private Geometry() {
+    Geometry() {
+
     }
 
     /**
@@ -22,7 +24,8 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        throw new UnsupportedOperationException();
+        Bar example = new Bar(firstCornerX , firstCornerY , secondCornerX , secondCornerY);
+        return example;
     }
 
     /**
@@ -30,6 +33,7 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        throw new UnsupportedOperationException();
+        Point example = new Point(x , y) ;
+        return example;
     }
 }
