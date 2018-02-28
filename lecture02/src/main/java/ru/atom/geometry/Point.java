@@ -8,11 +8,11 @@ public class Point /* super class and interfaces here if necessary */ implements
     private int y;
     // and methods
 
-    public Point () {
+    public Point() {
         x = y = 0;
     }
 
-    public Point (int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }

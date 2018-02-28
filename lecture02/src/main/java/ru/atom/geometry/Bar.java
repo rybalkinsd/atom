@@ -1,6 +1,6 @@
 package ru.atom.geometry;
 
-public class Bar implements Collider{
+public class Bar implements Collider {
     private Point left;
     private Point right;
 

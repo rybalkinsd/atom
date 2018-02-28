@@ -11,7 +11,7 @@ package ru.atom.geometry;
 
 public final class Geometry {
     
-    private Geometry () {
+    private Geometry() {
     }
 
     /**
@@ -30,6 +30,6 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
-        return new Point (x,y);
+        return new Point(x,y);
     }
 }
