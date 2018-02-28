@@ -11,7 +11,7 @@ package ru.atom.geometry;
 
 public final class Geometry {
     
-    private Geometry() {
+    private Geometry () {
     }
 
     /**

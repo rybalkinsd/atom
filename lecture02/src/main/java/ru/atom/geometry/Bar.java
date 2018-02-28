@@ -1,16 +1,17 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider{
-    private Point left, right;
+    private Point left;
+    private Point right;
 
-    public Bar(){
-        this(0,0,0,0);
+    public Bar() {
+        this(0, 0, 0, 0);
     }
 
-    public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY){
+    public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
 
-        setLeft(new Point(Math.min(firstCornerX,secondCornerX),Math.min(firstCornerY,secondCornerY)));
-        setRight(new Point(Math.max(firstCornerX, secondCornerX),Math.max(firstCornerY,secondCornerY)));
+        setLeft(new Point(Math.min(firstCornerX, secondCornerX),Math.min(firstCornerY, secondCornerY)));
+        setRight(new Point(Math.max(firstCornerX, secondCornerX),Math.max(firstCornerY, secondCornerY)));
     }
 
     public Point getLeft() {
@@ -50,14 +51,14 @@ public class Bar implements Collider{
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other.getClass() == Bar.class) {
+        if (other.getClass() == Bar.class) {
             Bar bar = (Bar) other;
             if (bar.isIn(getLeft()) || bar.isIn(getRight()) || isIn(bar.getLeft()) || isIn(bar.getRight()))
                 return true;
             else
                 return false;
         }
-        if(other.getClass() == Point.class) {
+        if (other.getClass() == Point.class) {
             return isIn((Point)other);
         }
         return false;

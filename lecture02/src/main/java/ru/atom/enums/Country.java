@@ -7,8 +7,4 @@ public enum Country {
     Russia,
     USA,
     Netherlands;
-
-    int fun(){
-        return 0;
-    }
 }
