@@ -7,10 +7,7 @@ public class Point implements Collider {
     private int x;
     private int y;
 
-    /**
-     * @param o - other object to check equality with
-     * @return true if two points are equal and not null.
-     */
+
     Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -29,6 +26,10 @@ public class Point implements Collider {
             return false;
     }
 
+    /**
+     * @param o - other object to check equality with
+     * @return true if two points are equal and not null.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
