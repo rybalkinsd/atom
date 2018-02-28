@@ -23,26 +23,36 @@ public class Bar implements Collider {
         }
     }
 
-    public int getFirstCornerX() { return firstCornerX; }
+    public int getFirstCornerX() {
+        return firstCornerX;
+    }
 
-    public int getFirstCornerY() { return firstCornerY; }
+    public int getFirstCornerY() {
+        return firstCornerY;
+    }
 
-    public int getSecondCornerX() { return secondCornerX; }
+    public int getSecondCornerX() {
+        return secondCornerX;
+    }
 
-    public int getSecondCornerY() { return secondCornerY; }
+    public int getSecondCornerY() {
+        return secondCornerY;
+    }
 
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
-            Point p = (Point) other;
-            return p.getX() >= getFirstCornerX() && p.getX() <= getSecondCornerX() &&
-                   p.getY() >= getFirstCornerY() && p.getY() <= getSecondCornerY();
+            Point point = (Point) other;
+            return point.getX() >= getFirstCornerX()
+                    && point.getX() <= getSecondCornerX()
+                    && point.getY() >= getFirstCornerY()
+                    && point.getY() <= getSecondCornerY();
         } else if (other instanceof Bar) {
-            Bar b = (Bar) other;
-            return !(getSecondCornerX() < b.getFirstCornerX() ||
-                     b.getSecondCornerX() < getFirstCornerX() ||
-                     getSecondCornerY() < b.getFirstCornerY() ||
-                     b.getSecondCornerY() < getFirstCornerY());
+            Bar bar = (Bar) other;
+            return !(getSecondCornerX() < bar.getFirstCornerX()
+                      || bar.getSecondCornerX() < getFirstCornerX()
+                      || getSecondCornerY() < bar.getFirstCornerY()
+                      || bar.getSecondCornerY() < getFirstCornerY());
         } else
             return false;
     }
