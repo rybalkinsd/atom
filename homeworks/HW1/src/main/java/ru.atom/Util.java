@@ -34,7 +34,7 @@ public class Util {
      */
     public static long sum(int[] values) {
         int len = values.length;
-        int sum = 0;
+        long sum = 0;
         for (int i = 0; i < len; ++i) {
             sum += values[i];
         }
