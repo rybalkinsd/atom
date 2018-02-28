@@ -21,5 +21,6 @@ public class InstantiationTest {
     @Test
     public void testBaseClassInstantiation() throws Exception {
         Base base = new Base();
+        Base base2 = new Base();
     }
 }
