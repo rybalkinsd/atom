@@ -9,6 +9,10 @@ public class HelloWorld {
     }
 
     public static String getHelloWorld() {
+
+        if (null == null) {
+            return "false";
+        }
         return "Hello, World!";
     }
 }
