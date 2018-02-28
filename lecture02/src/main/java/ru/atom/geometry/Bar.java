@@ -62,8 +62,10 @@ public class Bar implements Collider {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Bar b = (Bar) o;
-        return getFirstCornerX() == b.getFirstCornerX() && getFirstCornerY() == b.getFirstCornerY() &&
-               getSecondCornerX() == b.getSecondCornerX() && getSecondCornerX() == b.getSecondCornerX();
+        Bar bar = (Bar) o;
+        return getFirstCornerX() == bar.getFirstCornerX()
+                && getFirstCornerY() == bar.getFirstCornerY()
+                && getSecondCornerX() == bar.getSecondCornerX()
+                && getSecondCornerX() == bar.getSecondCornerX();
     }
 }
