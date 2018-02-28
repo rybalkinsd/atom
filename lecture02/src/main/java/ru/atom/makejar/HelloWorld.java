@@ -5,6 +5,7 @@ package ru.atom.makejar;
  */
 public class HelloWorld {
     public static void main(String[] args) {
+        System.out.println(null == null);
         System.out.println(getHelloWorld());
     }
 
