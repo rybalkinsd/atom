@@ -6,9 +6,6 @@ package ru.atom;
  *  throw new UnsupportedOperationException(); - is just a stub
  */
 public class Util {
-
-
-
     /**
      * Returns the greatest of {@code int} values.
      *
