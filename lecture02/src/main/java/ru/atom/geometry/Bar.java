@@ -29,7 +29,8 @@ public class Bar implements Collider {
         }
         if(other.getClass() == Bar.class) {
             Bar temp = (Bar) other;
-            return !((minX > temp.getMaxX()) || (maxX < temp.getMinX()) || (minY > temp.getMaxY()) || (maxY < temp.getMinY()));
+            return !((minX > temp.getMaxX()) || (maxX < temp.getMinX())
+                    || (minY > temp.getMaxY()) || (maxY < temp.getMinY()));
         }
         return false;
     }
@@ -37,12 +38,15 @@ public class Bar implements Collider {
     public int getMinX() {
         return minX;
     }
+
     public int getMaxX() {
         return maxX;
     }
+
     public int getMinY() {
         return minY;
     }
+
     public int getMaxY() {
         return maxY;
     }

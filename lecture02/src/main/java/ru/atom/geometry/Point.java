@@ -1,13 +1,9 @@
 package ru.atom.geometry;
 
-/**
- * Template class for
- */
-public class Point implements Collider/* super class and interfaces here if necessary */ {
+public class Point implements Collider {
     private int x;
     private int y;
 
-     // and methods
     Point() {
         x = 0;
         y = 0;
@@ -35,6 +31,7 @@ public class Point implements Collider/* super class and interfaces here if nece
     public int getX() {
         return x;
     }
+
     public int getY() {
         return y;
     }
