@@ -16,11 +16,11 @@ public class Point implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other.getClass() == Point.class) {
+        if (other.getClass() == Point.class) {
             Point temp = (Point) other;
             return this.equals(temp);
         }
-        if(other.getClass() == Bar.class) {
+        if (other.getClass() == Bar.class) {
             Bar temp = (Bar) other;
             return (x >= temp.getMinX()) && (x <= temp.getMaxX())
                     && (y >= temp.getMinY()) && (y <= temp.getMaxY());

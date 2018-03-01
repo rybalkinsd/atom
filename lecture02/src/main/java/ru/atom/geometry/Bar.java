@@ -22,12 +22,12 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other.getClass() == Point.class) {
+        if (other.getClass() == Point.class) {
             Point temp = (Point) other;
             return (temp.getX() >= minX) && (temp.getX() <= maxX)
                     && (temp.getY() >= minY) && (temp.getY() <= maxY);
         }
-        if(other.getClass() == Bar.class) {
+        if (other.getClass() == Bar.class) {
             Bar temp = (Bar) other;
             return !((minX > temp.getMaxX()) || (maxX < temp.getMinX())
                     || (minY > temp.getMaxY()) || (maxY < temp.getMinY()));
