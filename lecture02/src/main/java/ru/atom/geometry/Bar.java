@@ -13,19 +13,19 @@ public class Bar implements Collider {
         maxY = 0;
     }
 
-    Bar(int X1, int Y1, int X2, int Y2) {
-        minX = Math.min(X1,X2);
-        maxX = Math.max(X1, X2);
-        minY = Math.min(Y1, Y2);
-        maxY = Math.max(Y1, Y2);
+    Bar(int x1, int y1, int x2, int y2) {
+        minX = Math.min(x1,x2);
+        maxX = Math.max(x1, x2);
+        minY = Math.min(y1, y2);
+        maxY = Math.max(y1, y2);
     }
 
     @Override
     public boolean isColliding(Collider other) {
         if(other.getClass() == Point.class) {
             Point temp = (Point) other;
-            return (temp.getX() >= minX) && (temp.getX() <= maxX) &&
-                    (temp.getY() >= minY) && (temp.getY() <= maxY);
+            return (temp.getX() >= minX) && (temp.getX() <= maxX)
+                    && (temp.getY() >= minY) && (temp.getY() <= maxY);
         }
         if(other.getClass() == Bar.class) {
             Bar temp = (Bar) other;
@@ -49,14 +49,18 @@ public class Bar implements Collider {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         // cast from Object to Point
         Bar bar = (Bar) o;
 
         // your code here
-        return (this.minX == bar.minX) && (this.maxX == bar.maxX) &&
-                (this.minY == bar.minY) && (this.maxY == bar.maxY);
+        return (this.minX == bar.minX) && (this.maxX == bar.maxX)
+                && (this.minY == bar.minY) && (this.maxY == bar.maxY);
     }
 }

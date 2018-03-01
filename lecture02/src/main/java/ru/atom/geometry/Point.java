@@ -26,8 +26,8 @@ public class Point implements Collider/* super class and interfaces here if nece
         }
         if(other.getClass() == Bar.class) {
             Bar temp = (Bar) other;
-            return (x >= temp.getMinX()) && (x <= temp.getMaxX()) &&
-                    (y >= temp.getMinY()) && (y <= temp.getMaxY());
+            return (x >= temp.getMinX()) && (x <= temp.getMaxX())
+                    && (y >= temp.getMinY()) && (y <= temp.getMaxY());
         }
         return false;
     }
@@ -46,8 +46,12 @@ public class Point implements Collider/* super class and interfaces here if nece
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         // cast from Object to Point
         Point point = (Point) o;
