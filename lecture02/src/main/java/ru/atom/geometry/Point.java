@@ -13,11 +13,15 @@ public class Point implements Collider/* super class and interfaces here if nece
         this.x = x;
         this.y = y;
     }
-    /**
-     * @param o - other object to check equality with
-     * @return true if two points are equal and not null.
-     */
-    
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,6 +38,10 @@ public class Point implements Collider/* super class and interfaces here if nece
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
             return equals(other);
+        }
+        if (other instanceof Bar) {
+            Bar bar = (Bar) other;
+            return (bar.isColliding(this));
         }
         return false;
     }
