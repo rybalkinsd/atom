@@ -6,7 +6,6 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-@Ignore
 public class PointPointCollisionTest {
     @Test
     public void pointSelfCollide() {
@@ -47,5 +46,21 @@ public class PointPointCollisionTest {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(200, 200);
         assertFalse(point1.isColliding(point2));
+    }
+
+    @Test
+    public void getX() {
+    }
+
+    @Test
+    public void getY() {
+    }
+
+    @Test
+    public void equals() {
+    }
+
+    @Test
+    public void isColliding() {
     }
 }
