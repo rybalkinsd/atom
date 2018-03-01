@@ -17,7 +17,7 @@ public class Point implements Collider/* super class and interfaces here if nece
     public int getX() {
         return this.x;
     }
-    
+
     public int getY() {
         return this.y;
     }
