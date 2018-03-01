@@ -4,8 +4,8 @@ package ru.atom.enums;
  * Created by sergey on 2/28/17.
  */
 public enum Gender {
-    Male,
     Female,
+    Male,
     Other;
 
     /**
