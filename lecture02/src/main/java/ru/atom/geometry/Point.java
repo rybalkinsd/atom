@@ -4,10 +4,8 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider {
-    // fields
-    // and methods
-    int x;
-    int y;
+    final int x;
+    final int y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -35,7 +33,7 @@ public class Point implements Collider {
         if (other instanceof Point) {
             return this.equals(other);
         } else if (other instanceof Bar) {
-            return ((Bar) other).containsPoint(this);
+            return ((Bar) other).containsPoint(x, y);
         } else {
             return false;
         }

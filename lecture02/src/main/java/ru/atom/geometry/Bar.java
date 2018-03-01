@@ -5,33 +5,35 @@ package ru.atom.geometry;
  */
 public class Bar implements Collider {
 
-    Point firstCorner;
-    Point secondCorner;
+    private final int lowerLeftCornerX;
+    private final int lowerLeftCornerY;
+    private final int upperRightCornerX;
+    private final int upperRightCornerY;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        firstCorner = new Point(firstCornerX, firstCornerY);
-        secondCorner = new Point(secondCornerX, secondCornerY);
+        upperRightCornerX = Math.max(firstCornerX, secondCornerX);
+        upperRightCornerY = Math.max(firstCornerY, secondCornerY);
+        lowerLeftCornerX = Math.min(firstCornerX, secondCornerX);
+        lowerLeftCornerY = Math.min(firstCornerY, secondCornerY);
     }
 
     @Override
     public boolean isColliding(Collider other) {
         if (other instanceof Point) {
-            return containsPoint((Point) other);
+            Point point = (Point) other;
+            return containsPoint(point.x, point.y);
         } else if (other instanceof Bar) {
-            Bar otherBar = (Bar) other;
-            return containsPoint(otherBar.firstCorner)
-                    || containsPoint(otherBar.secondCorner)
-                    || otherBar.containsPoint(firstCorner)
-                    || otherBar.containsPoint(secondCorner);
+            Bar bar = (Bar) other;
+            return containsPoint(bar.lowerLeftCornerX, bar.lowerLeftCornerY)
+                    || containsPoint(bar.upperRightCornerX, bar.upperRightCornerY)
+                    || bar.containsPoint(lowerLeftCornerX, lowerLeftCornerY)
+                    || bar.containsPoint(upperRightCornerX, upperRightCornerY);
         }
         return false;
     }
 
-    public boolean containsPoint(Point point) {
-        return point.x <= Math.max(firstCorner.x, secondCorner.x)
-                && point.x >= Math.min(firstCorner.x, secondCorner.x)
-                && point.y <= Math.max(firstCorner.y, secondCorner.y)
-                && point.y >= Math.min(firstCorner.y, secondCorner.y);
+    public boolean containsPoint(int x, int y) {
+        return x <= upperRightCornerX && x >= lowerLeftCornerX && y <= upperRightCornerY && y >= lowerLeftCornerY;
     }
 
     @Override
@@ -40,11 +42,7 @@ public class Bar implements Collider {
         if (o == null || getClass() != o.getClass()) return false;
 
         Bar bar = (Bar) o;
-        Point thirdCorner = new Point(bar.firstCorner.x, bar.secondCorner.y);
-        Point fourthCorner = new Point(bar.secondCorner.x, bar.firstCorner.y);
-        return firstCorner.equals(bar.firstCorner) && secondCorner.equals(bar.secondCorner)
-                || firstCorner.equals(bar.secondCorner) && secondCorner.equals(bar.firstCorner)
-                || firstCorner.equals(thirdCorner) && secondCorner.equals(fourthCorner)
-                || firstCorner.equals(fourthCorner) && secondCorner.equals(thirdCorner);
+        return lowerLeftCornerX == bar.lowerLeftCornerX && lowerLeftCornerY == bar.lowerLeftCornerY
+                && upperRightCornerX == bar.upperRightCornerX && upperRightCornerY == bar.upperRightCornerY;
     }
 }
