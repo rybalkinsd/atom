@@ -1,0 +1,308 @@
+[33mcommit b9a4c2be3fdccac00e2e4625f6be58312b562c73[m[33m ([m[1;36mHEAD -> [m[1;32mhomework1[m[33m, [m[1;31morigin/homework1[m[33m)[m
+Author: akayukova <33858712+akayukova@users.noreply.github.com>
+Date:   Tue Feb 27 19:22:36 2018 +0300
+
+    Fixed
+    
+    Tests are fixed now!
+
+[33mcommit a8759a6dc9e6afc376048398071b5b99e7463d21[m[33m ([m[1;31mupstream/homework1[m[33m)[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat Sep 23 15:36:01 2017 +0300
+
+    upd jdk
+
+[33mcommit a6c2d23235911c1330666cefb1e84d6c9dbbcdbc[m
+Author: a.pomosov <a.pomosov@alibaba-inc.com>
+Date:   Sat Sep 23 04:19:08 2017 +0800
+
+    gradle fix
+
+[33mcommit 2d23972c6cf3960f1b24a4f731d5d6f02b832eb8[m
+Author: a.pomosov <a.pomosov@alibaba-inc.com>
+Date:   Sat Sep 23 03:08:39 2017 +0800
+
+    fix2
+
+[33mcommit 5c52fde098b5b58c19646b47e48d2ee3cc4f2351[m
+Author: a.pomosov <a.pomosov@alibaba-inc.com>
+Date:   Fri Sep 22 18:53:59 2017 +0800
+
+    my fix
+
+[33mcommit bf2d9ac50734c1cc9589f7f806cf31044e4540f5[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed Feb 22 15:38:08 2017 +0300
+
+    Homework1 (Tests must fail)
+
+[33mcommit d47172f9786a238b2051d5416eb270ef663a44d2[m
+Author: a.pomosov <a.pomosov@alibaba-inc.com>
+Date:   Wed Sep 20 19:31:48 2017 +0800
+
+    lecture01 fix
+
+[33mcommit c159db5c74c9347d171cfb59991c705a98a5ab87[m
+Merge: c3a6e58 3124121
+Author: Alexander <Alpieex@gmail.com>
+Date:   Wed Sep 20 17:44:31 2017 +0800
+
+    Merge pull request #476 from rybalkinsd/lecture01
+    
+    lecture01 updates
+
+[33mcommit 3124121ba6234efed0696aeb6da9ec265bddcadb[m
+Author: a.pomosov <a.pomosov@alibaba-inc.com>
+Date:   Wed Sep 20 00:46:45 2017 +0800
+
+    lecture01 updates
+
+[33mcommit c3a6e58306a7667692b415c7d8c0a45c03f7b504[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat Aug 26 22:26:57 2017 +0300
+
+    course announcement video
+
+[33mcommit 0732afc328dc6d86388efe50891ebed8822f7a63[m
+Merge: 83c825c 49e708a
+Author: Alexander <Alpieex@gmail.com>
+Date:   Tue May 23 21:38:18 2017 +0300
+
+    Merge pull request #274 from GolovPavel/TestBranch
+    
+    Presentation fix
+
+[33mcommit 83c825c3b420454078605cc3654af29d6e7341eb[m
+Merge: dec0e2a 0bb6603
+Author: Alexander <Alpieex@gmail.com>
+Date:   Thu May 18 12:50:45 2017 +0300
+
+    Merge pull request #471 from rybalkinsd/interview
+    
+    Interview
+
+[33mcommit 0bb66034d2e76a81d6250de083a3d315339c6387[m[33m ([m[1;31mupstream/interview[m[33m, [m[1;31morigin/interview[m[33m)[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Wed May 17 20:00:46 2017 +0300
+
+    what is next?
+
+[33mcommit b124f78b140de3ccef8be3ada0ffa1f533ad17d1[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 18:11:01 2017 +0300
+
+    interview
+
+[33mcommit 6830578f5da952bd059dc0af52cbb7ad60fef6a2[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 18:10:26 2017 +0300
+
+    interview
+
+[33mcommit f2e0d37a735c22c5b6ff4ba9b3168dcce6576ca2[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 18:08:06 2017 +0300
+
+    interview
+
+[33mcommit eadb8a54949ed3e6bf9cae6e0b009ccef9338af3[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 18:04:13 2017 +0300
+
+    interview
+
+[33mcommit a077aef59a3146bde4eaf20eb19338c2bba148f1[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 18:00:52 2017 +0300
+
+    interview
+
+[33mcommit 77e07863e3f20f307f8974e4b9032d8636621d66[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 17:57:20 2017 +0300
+
+    interview
+
+[33mcommit dec0e2a90f3c8042a93f369bf4b50334b361555d[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Wed May 17 17:16:02 2017 +0300
+
+    settings.gradle
+
+[33mcommit 9bf39de26bd35fefe611567b721fdea59ab5b728[m
+Merge: f955bd8 a1f6ddc
+Author: Alexander <Alpieex@gmail.com>
+Date:   Wed May 17 17:14:07 2017 +0300
+
+    Merge pull request #470 from rybalkinsd/lecture12
+    
+    Lecture12
+
+[33mcommit a1f6ddcbba19aa09c3ebef6c61ae73663ae637a5[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sat May 13 20:18:16 2017 +0300
+
+    docker
+
+[33mcommit eb0c21292161262a81cbd49e05ab1bbc77ffc533[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sat May 13 20:14:19 2017 +0300
+
+    docker
+
+[33mcommit c5c9778f409289348dac1e047f22d6b95c02fbaa[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sat May 13 18:17:00 2017 +0300
+
+    need frontend in lecture
+
+[33mcommit c56a439c21022ec6c9d6847b5fb9cc46937d8f77[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat May 13 18:10:44 2017 +0300
+
+    lecture12 ++
+
+[33mcommit 78e69644cb16bcb181c49fe477744f9a3464e936[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat May 13 17:35:56 2017 +0300
+
+    lecture12 gc pic
+
+[33mcommit 52ab3a6a6a0eb7af52a9b2311ba3caf54a085c35[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat May 13 17:05:46 2017 +0300
+
+    lecture12
+
+[33mcommit 9155a003a46c920b48ffa11eb39157dc9cb7288b[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat May 13 16:13:25 2017 +0300
+
+    lecture12
+
+[33mcommit 05a00b4566e98cbfed2d23b067a95b302fd2282e[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sat May 13 15:47:52 2017 +0300
+
+    dockerize frontend
+
+[33mcommit f501bacf63eebeda35b216e4d511e2e1509e3006[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sat May 13 15:28:52 2017 +0300
+
+    dockerize lecture12,11
+
+[33mcommit 95600b993a9cef278e898943565431aab81c6710[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Fri May 12 20:37:22 2017 +0300
+
+    lecture12
+
+[33mcommit e5e93feb8b662747a4d3270d3c375e2816ddea4d[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Fri May 12 20:31:53 2017 +0300
+
+    lecture12
+
+[33mcommit a069ea17bafaa6622c8eb03f796c868b123fcd8b[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Mon May 8 13:16:07 2017 +0300
+
+    lecture12
+
+[33mcommit 3022f367f1f38eb4ae1cfd9aceaa8f87175da31c[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Mon May 8 12:20:24 2017 +0300
+
+    lecture12
+
+[33mcommit 6fa8ada388bd0562c48960856c963cf6abb81386[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Mon May 8 11:59:38 2017 +0300
+
+    lecture12
+
+[33mcommit f955bd83b78c05e39205af15b3b1eae3df68cd96[m
+Author: apomosov <a.pomosov@hh.ru>
+Date:   Thu May 4 20:49:46 2017 +0300
+
+    settings.gradle
+
+[33mcommit 4d6644120fed3782445897d04678debc1af7df43[m
+Merge: 539640d 241df58
+Author: Alexander <Alpieex@gmail.com>
+Date:   Thu May 4 20:47:48 2017 +0300
+
+    Merge pull request #462 from rybalkinsd/lecture11
+    
+    Lecture11
+
+[33mcommit 241df5843a6038e799e7a01bfcb2d8c902effaee[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Tue May 2 19:03:12 2017 +0300
+
+    lecture11
+
+[33mcommit 539640d3e1a891463d26c0c181217f469e9a4162[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Mon Apr 24 08:48:24 2017 +0300
+
+    Fire replication
+
+[33mcommit 70ae18349bd15d6f0db006cd6b80c301298cf6e1[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sun Apr 23 23:32:48 2017 +0300
+
+    gc in frontend
+
+[33mcommit abd644cc17d95a058d5f8c746c22e4601fa6ce3d[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sun Apr 30 18:02:10 2017 +0300
+
+    settings.gradle
+
+[33mcommit da5a2b3c61ba4117f1999c714c9fbc209281a25e[m
+Merge: 4ffb149 21b73bb
+Author: Alexander <Alpieex@gmail.com>
+Date:   Sun Apr 30 18:01:48 2017 +0300
+
+    Merge pull request #445 from rybalkinsd/homework3
+    
+    HW3
+
+[33mcommit 4ffb1495082fb7405f4316546fc450876722c8b5[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sun Apr 30 18:00:02 2017 +0300
+
+    settings.gradle
+
+[33mcommit d557cbd2ae5a0443f2cff615e4be6d208c535a38[m
+Merge: b9c9211 8842455
+Author: Alexander <Alpieex@gmail.com>
+Date:   Sun Apr 30 17:54:48 2017 +0300
+
+    Merge pull request #455 from rybalkinsd/lecture10
+    
+    Lecture10
+
+[33mcommit 88424550d769dfe18c2f9afec5bdd5814fc0716f[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sun Apr 30 17:52:28 2017 +0300
+
+    lecture10
+
+[33mcommit 0841815838350ea72982a2b848b9676f26037eda[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Sun Apr 30 17:26:56 2017 +0300
+
+    lecture10
+
+[33mcommit 21b73bb9ca980158bec9126f44f1d048fbbf98eb[m[33m ([m[1;31mupstream/homework3[m[33m, [m[1;31morigin/homework3[m[33m)[m
+Author: Alexey Kvasnyy <robingoodinvevo@gmail.com>
+Date:   Thu Apr 27 14:38:28 2017 +0300
+
+    Update readme.md
+
+[33mcommit 8dc19d06680e891c892168f2f777a99c4c5d3034[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   T
