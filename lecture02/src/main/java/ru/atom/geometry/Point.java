@@ -6,8 +6,8 @@ package ru.atom.geometry;
 public class Point implements Collider {
     // fields
     // and methods
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         this.x = x;
