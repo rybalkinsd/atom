@@ -10,7 +10,7 @@ public class Bar implements Collider {
         minX = Math.min(firstCoordX , secondCoordX);
         minY = Math.min(firstCoordY , secondCoordY);
         maxX = Math.max(secondCoordX , firstCoordX);
-        maxY = Math.min(secondCoordY , firstCoordY);
+        maxY = Math.max(secondCoordY , firstCoordY);
     }
 
     @Override
@@ -18,13 +18,14 @@ public class Bar implements Collider {
 
         if (other.getClass() != getClass()) {
             Point ptr = (Point) other;
-            return (minX <= ptr.x && maxX >= ptr.x && minY <= ptr.y && maxY >= ptr.y);
+            return minX <= ptr.x && maxX >= ptr.x && minY <= ptr.y && maxY >= ptr.y;
         } else {
             if (this == other) return true;
             if (other == null || getClass() != other.getClass()) return false;
 
             Bar ptr = (Bar) other;
-            return (minX == ptr.minX && maxX == ptr.maxX && minY == ptr.minY && maxY == ptr.maxY);
+            return (minX <= ptr.minX && maxX >= ptr.minX || minX <= ptr.maxX && maxX >= ptr.maxX)
+                    && (minY <= ptr.minY && maxY >= ptr.minY || minY <= ptr.maxY && maxY >= ptr.maxY);
 
         }
     }
