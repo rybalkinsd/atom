@@ -15,13 +15,12 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-
+        if (other == null) return false;
         if (other.getClass() != getClass()) {
             Point ptr = (Point) other;
             return minX <= ptr.x && maxX >= ptr.x && minY <= ptr.y && maxY >= ptr.y;
         } else {
             if (this == other) return true;
-            if (other == null || getClass() != other.getClass()) return false;
 
             Bar ptr = (Bar) other;
             return (minX <= ptr.minX && maxX >= ptr.minX || minX <= ptr.maxX && maxX >= ptr.maxX)

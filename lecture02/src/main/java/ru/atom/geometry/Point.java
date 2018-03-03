@@ -8,6 +8,7 @@ public class Point implements Collider {
     int y;
 
     public boolean isColliding(Collider other) {
+        if (other == null) return false;
         if (getClass() != other.getClass()) {
             Bar ptr = (Bar) other;
             return other.isColliding(this);
