@@ -16,7 +16,7 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        if (values == null || values.length == 0) throw new UnsupportedOperationException();
+        if (values.length == 0) throw new IllegalArgumentException();
         else {
             int maxVal = values[0];
             for (int v:values) {
@@ -34,7 +34,7 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        if (values == null || values.length == 0) throw new UnsupportedOperationException();
+        if (values.length == 0) throw new IllegalArgumentException();
         else {
             long sumOfValues = 0;
             for (int v:values) {
