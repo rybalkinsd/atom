@@ -16,8 +16,8 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        int max = -1;
-        for (int i = 0; i < values.length; i++) {
+        int max = values[0];
+        for (int i = 1; i < values.length; i++) {
             if (values[i] > max)
                 max = values[i];
         }
