@@ -9,7 +9,7 @@ springBoot {
 
 // constants declaration
 ext {
-    jdkVersion = 1.8
+    jdkVersion = 1.9
 
     junitVersion = "4.12"
     log4jVersion = "2.7"
