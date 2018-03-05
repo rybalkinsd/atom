@@ -19,7 +19,7 @@ public class ConnectionProducer implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             long newId = id.getAndIncrement();
 
-            ThreadSafeQueue.getInstance().offer(new Connection(newId, names[(int) (newId % names.length)]));
+            ConnectionQueue.getInstance().offer(new Connection(newId, names[(int) (newId % names.length)]));
             log.info("Connection {} added.", newId);
             try {
                 Thread.sleep(1_000);
