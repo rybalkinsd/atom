@@ -149,7 +149,7 @@ public class BarBarCollisionTest {
     }
 
     @Test
-    public void barIntersectsBar14() {
+    public void barIntersectsBar4() {
         Collider bar1 = Geometry.createBar(50, 0, 150, 100);
         Collider bar2 = Geometry.createBar(0, 0, 100, 100);
         assertTrue(bar1.isColliding(bar2));
@@ -167,6 +167,27 @@ public class BarBarCollisionTest {
         Collider bar1 = Geometry.createBar(50, 50, 150, 150);
         Collider bar2 = Geometry.createBar(0, 0, 100, 100);
         assertTrue(bar1.isColliding(bar2));
+    }
+
+    @Test
+    public void barIntersectsBar7() {
+        Collider bar1 = Geometry.createBar(-50, 50, 50, 150);
+        Collider bar2 = Geometry.createBar(0, 0, 100, 100);
+        assertTrue(bar1.isColliding(bar2));
+    }
+
+    @Test
+    public void barIntersectsBar8() {
+        Collider bar1 = Geometry.createBar(-50, 50, 50, 150);
+        Collider bar2 = Geometry.createBar(0, 0, 100, 100);
+        assertTrue(bar2.isColliding(bar1));
+    }
+
+    @Test
+    public void barIntersectsBar9() {
+        Collider bar1 = Geometry.createBar(50, 50, 150, 150);
+        Collider bar2 = Geometry.createBar(0, 0, 100, 100);
+        assertTrue(bar2.isColliding(bar1));
     }
 
     @Test
@@ -188,6 +209,13 @@ public class BarBarCollisionTest {
         Collider bar1 = Geometry.createBar(0, 0, 200, 200);
         Collider bar2 = Geometry.createBar(50, 50, 150, 150);
         assertTrue(bar1.isColliding(bar2));
+    }
+
+    @Test
+    public void barIncludesBar2() {
+        Collider bar1 = Geometry.createBar(0, 0, 200, 200);
+        Collider bar2 = Geometry.createBar(50, 50, 150, 150);
+        assertTrue(bar2.isColliding(bar1));
     }
 
     @Test
