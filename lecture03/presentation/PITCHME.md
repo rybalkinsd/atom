@@ -14,6 +14,7 @@ https://atom.mail.ru/
 ```bash
 > git fetch upstream
 > git checkout -b lecture03 upstream/lecture03
+> cd lecture03
 ```
 
 #HSLIDE
@@ -47,35 +48,6 @@ That is: **gradle** downloads libraries from repository and adds them to **CLASS
   
 The most famous public one is **maven central**:  
 [https://search.maven.org/](https://search.maven.org/)
-  
-How to add a library and choose a version?  
-Let's recall basic info about gradle:
-- gradle.settings
-- gradle.build
-
-
-#HSLIDE
-### settings.gradle
-Declares the configuration required to instantiate and configure the hierarchy of Project instances which are to participate in a build.
-
-```groovy
-rootProject.name = 'atom'
-// subprojects:
-include 'lecture01'
-include 'lecture02'
-include 'lecture03'
-```
-
-#HSLIDE
-### build.gradle
-Project(or subproject) build configuration
-  
-Look at *build.gradle* (root project):
-- **plugins** - for example, *coveralls* to count coverage during build
-- **ext** - set of global variables
-- **ext.libraries** - map of most common(for our project) libraries
-- **allprojects** block - instruction for all projects
-- **subprojects** block - instructions for all target's subprojects
 
 
 #HSLIDE
