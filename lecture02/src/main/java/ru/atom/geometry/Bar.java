@@ -24,9 +24,8 @@ public class Bar implements Collider {
             return containsPoint(point.x, point.y);
         } else if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            return containsPoint(bar.lowerLeftCornerX, bar.lowerLeftCornerY)
-                    || containsPoint(bar.upperRightCornerX, bar.upperRightCornerY)
-                    || bar.containsPoint(lowerLeftCornerX, lowerLeftCornerY)
+            return areBordersCrossing(bar)
+                    || containsPoint(bar.lowerLeftCornerX, bar.lowerLeftCornerY)
                     || bar.containsPoint(upperRightCornerX, upperRightCornerY);
         }
         return false;
@@ -44,5 +43,25 @@ public class Bar implements Collider {
         Bar bar = (Bar) o;
         return lowerLeftCornerX == bar.lowerLeftCornerX && lowerLeftCornerY == bar.lowerLeftCornerY
                 && upperRightCornerX == bar.upperRightCornerX && upperRightCornerY == bar.upperRightCornerY;
+    }
+
+    private boolean areBordersCrossing(Bar bar) {
+        return bar.doesLineCrossAnyBorder(lowerLeftCornerX, lowerLeftCornerY, lowerLeftCornerX, upperRightCornerY)
+                || bar.doesLineCrossAnyBorder(lowerLeftCornerX, upperRightCornerY, upperRightCornerX, upperRightCornerY)
+                || bar.doesLineCrossAnyBorder(upperRightCornerX, lowerLeftCornerY, upperRightCornerX, upperRightCornerY)
+                || bar.doesLineCrossAnyBorder(lowerLeftCornerX, lowerLeftCornerY, upperRightCornerX, lowerLeftCornerY);
+    }
+
+    private boolean doesLineCrossAnyBorder(int firstX, int firstY, int secondX, int secondY) {
+        if (firstX == secondX) {
+            return firstX >= lowerLeftCornerX && firstX <= upperRightCornerX
+                    && (firstY <= lowerLeftCornerY && secondY >= lowerLeftCornerY
+                    || firstY <= upperRightCornerY && secondY >= upperRightCornerY);
+        } else if (firstY == secondY) {
+            return firstY >= lowerLeftCornerY && firstY <= upperRightCornerY
+                    && (firstX <= lowerLeftCornerX && secondX >= lowerLeftCornerX
+                    || firstX <= upperRightCornerX && secondX >= upperRightCornerX);
+        }
+        return false;
     }
 }
