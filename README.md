@@ -4,10 +4,8 @@
 [![Build Status](https://travis-ci.org/rybalkinsd/atom.png?branch=master)](https://travis-ci.org/rybalkinsd/atom)
 
 
-[![](http://icons.iconarchive.com/icons/alecive/flatwoken/32/Apps-Telegram-icon.png) Join chat](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ) - feel free to contact us
-
-**Youtube channel:**  
-https://www.youtube.com/playlist?list=PLrCZzMib1e9pnFbVV3u4s7ki5NTnm7WgT
+[![](http://icons.iconarchive.com/icons/alecive/flatwoken/32/Apps-Telegram-icon.png) Join chat](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ) - feel free to contact us  
+[![](http://icons.iconarchive.com/icons/dakirby309/simply-styled/32/YouTube-icon.png) Youtube channel](https://www.youtube.com/playlist?list=PLrCZzMib1e9pnFbVV3u4s7ki5NTnm7WgT)  
   
 Course repository. All course lectures/sources/homeworks are available here.  
 
