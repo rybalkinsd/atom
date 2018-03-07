@@ -4,57 +4,57 @@ package ru.atom.geometry;
 //import static jdk.vm.ci.aarch64.AArch64.v3;
 
 public class Bar implements Collider {
-    int xLeft;
-    int yBarLeft;
-    int xBarRight;
-    int yBarRight;
+    int xleft;
+    int yleft;
+    int xright;
+    int yright;
 
-    Bar(int xLeft, int yBarLeft, int xBarRight, int yBarRight) {
-        this.xLeft = xLeft;
-        this.yBarLeft = yBarLeft;
-        this.xBarRight = xBarRight;
-        this.yBarRight = yBarRight;
+    Bar(int xleft, int yleft, int xright, int yright) {
+        this.xleft = xleft;
+        this.yleft = yleft;
+        this.xright = xright;
+        this.yright = yright;
     }
 
     @Override
     public boolean equals(Object o) {
         Bar bar = (Bar) o;
 
-        if (xBarRight < xLeft) {
-            int c = xLeft;
-            xLeft = xBarRight;
-            xBarRight = c;
+        if (xright < xleft) {
+            int c = xleft;
+            xleft = xright;
+            xright = c;
         }
-        if (yBarRight < yBarLeft) {
-            int c = yBarLeft;
-            yBarLeft = yBarRight;
-            yBarRight = c;
+        if (yright < yleft) {
+            int c = yleft;
+            yleft = yright;
+            yright = c;
         }
-        if (bar.xBarRight < bar.xLeft) {
-            int c = bar.xLeft;
-            bar.xLeft = bar.xBarRight;
-            bar.xBarRight = c;
+        if (bar.xright < bar.xleft) {
+            int c = bar.xleft;
+            bar.xleft = bar.xright;
+            bar.xright = c;
         }
-        if (bar.yBarRight < bar.yBarLeft) {
-            int c = bar.yBarLeft;
-            bar.yBarLeft = bar.yBarRight;
-            bar.yBarRight = c;
+        if (bar.yright < bar.yleft) {
+            int c = bar.yleft;
+            bar.yleft = bar.yright;
+            bar.yright = c;
         }
 
         if (this == o) return true;
         if (o == null) return false;
 
-        boolean a = (bar.xLeft <= xLeft && xLeft <= bar.xBarRight);
-        boolean b = (xLeft <= bar.xLeft && bar.xLeft <= xBarRight);
-        boolean c = (bar.yBarLeft <= yBarLeft && yBarLeft <= bar.yBarRight);
-        boolean d = (yBarLeft <= bar.yBarLeft && bar.yBarLeft <= yBarRight);
-        return (a || b) && (c || d);
+        boolean avar = (bar.xleft <= xleft && xleft <= bar.xright);
+        boolean bvar = (xleft <= bar.xleft && bar.xleft <= xright);
+        boolean cvar = (bar.yleft <= yleft && yleft <= bar.yright);
+        boolean dvar = (yleft <= bar.yleft && bar.yleft <= yright);
+        return (avar || bvar) && (cvar || dvar);
     }
 
     public boolean equals(Point o) {
         Point point = (Point) o;
-        boolean q = xLeft <= point.x && point.x <= xBarRight && yBarLeft <= point.y && point.y <= yBarRight;
-        return q;
+        boolean qvar = xleft <= point.x && point.x <= xright && yleft <= point.y && point.y <= yright;
+        return qvar;
     }
 
     @Override

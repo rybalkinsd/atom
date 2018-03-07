@@ -29,7 +29,7 @@ public final class Geometry {
      * 2D point
      * @return new Point
      */
-    
+
     public static Collider createPoint(int x, int y) {
         return new Point(x, y);
     }
