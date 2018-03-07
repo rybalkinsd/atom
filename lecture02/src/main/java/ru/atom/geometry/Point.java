@@ -13,6 +13,7 @@ public class Point /* super class and interfaces here if necessary */ {
      */
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
