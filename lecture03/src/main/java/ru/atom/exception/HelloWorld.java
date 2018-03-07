@@ -5,7 +5,7 @@ public class HelloWorld {
         System.out.println(getHelloWorld());
     }
 
-    public static String getHelloWorld() {
+    private static String getHelloWorld() {
         throw new NullPointerException("Ой всё");
     }
 }

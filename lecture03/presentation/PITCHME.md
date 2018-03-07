@@ -769,8 +769,8 @@ From official FAQ:
 
 #HSLIDE
 ### Notes
-1. HashSet is cutted HashMap
-1. TreeSet is cutted TreeMap 
+1. HashSet is a specific HashMap
+1. TreeSet is a specific TreeMap 
 
 
 #HSLIDE
@@ -798,10 +798,11 @@ TreeMap
 #HSLIDE
 ### Summary
 1. Generics are **compile-time**
-1. Do not use `System.out.println()` for logging
-1. Use logger
+1. Use **System.out.println()** for user interaction, do not use for logging
+1. Use logger for logging
 1. Use most appropriate data structure
-1. General contract
+1. Know your data structure's insides: ArrayList,LinkedList,HashSet,HashMap
+1. General contract (hashCode/equals)
 
 
 #HSLIDE
@@ -816,8 +817,8 @@ TreeMap
 #HSLIDE
 ### Bulls and Cows
 - Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
-- make pull request to homework2 branch  
-- use dictionary from homeworks/HW2/dictionary.txt  
+- make pull request to **homework2** branch  
+- use dictionary from **[homeworks/HW2/dictionary.txt](https://github.com/rybalkinsd/atom/blob/homework2/homeworks/HW2/dictionary.txt)**  
 - **deadline**: february 14  
 - **mark**: 7 balls max  
   
@@ -845,14 +846,18 @@ Cows: 0
 > java
 You won!                                //congratulatings
 Wanna play again? Y/N                   // suggest for new game
+> N
 ```
 
 #HSLIDE
 ### Implementation details
-1. You need to develop a standalone java application  
-2. Your application should work with console input/output  
-3. Application should be able to run from console with “java -jar BullsAndCows.jar dictionary.txt”  
-4. You need to check all the exceptional situations (wrong input/missing dictionary)
+0. You need to develop a standalone java application  
+0. Your application should work with console input/output  
+0. Application should be able to run from console with
+```bash
+> java -jar BullsAndCows.jar  
+```
+0. You need to check all the exceptional situations (wrong input/missing dictionary)
 
 #HSLIDE
 **Оставьте обратную связь**
