@@ -623,19 +623,6 @@ Linking
 
 
 #HSLIDE
-### Practice
-@See ru.atom.list
-
-1. Implement ListNode class
-1. Implement absent methods in CustomLinkedList
-1. Implement Iterator for CustomLinkedList
-1. Remove @Ignore in CustomLinkedListTest
-1. All CustomLinkedListTest tests should pass
-
-3 Points
-
-
-#HSLIDE
 ### Interface Set
 -  A collection that contains no duplicate elements.  More formally, sets
    contain no pair of elements **e1** and **e2** such that
@@ -797,6 +784,18 @@ TreeMap
 <img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
+### Practice
+@See ru.atom.list
+
+1. Implement ListNode class
+1. Implement absent methods in CustomLinkedList
+1. Implement Iterator for CustomLinkedList
+1. Remove @Ignore in CustomLinkedListTest
+1. All CustomLinkedListTest tests should pass
+
+3 Points
+
+#HSLIDE
 ### Summary
 1. Generics are **compile-time**
 1. Use **System.out.println()** for user interaction, do not use for logging
@@ -820,15 +819,15 @@ TreeMap
 - Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
 - make pull request to **homework2** branch  
 - use dictionary from **[homeworks/HW2/dictionary.txt](https://github.com/rybalkinsd/atom/blob/homework2/homeworks/HW2/dictionary.txt)**  
-- **deadline**: february 14  
+- **deadline**: march 14  
 - **mark**: 7 balls max  
   
 
 #HSLIDE
 ### Game stages
 1. Game prints **welcome text**
-2. Your gets random word from **dictionary.txt** and prints start game text with **word length**
-3. The game asks user his guess until user wins or **10 attempts** fail
+2. Game gets random word from **dictionary.txt** and prints **greeting with word length**
+3. The game asks user for guess until user wins or **10 attempts** looses
 4. If **win**, print congratulations; if **loose**, print loose text
 5. Player is suggested to **start new game**
 
@@ -837,7 +836,7 @@ TreeMap
 ### Example game:
 ```text
 Welcome to Bulls and Cows game!        //welcome text
-I guessed a 4-letter word, your guess? //hidden word is 'java'
+I offered a 4-letter word, your guess? //greeting, hidden word is 'java'
 > atom                                 //your guess
 Bulls: 0   
 Cows: 1
@@ -845,7 +844,7 @@ Cows: 1
 Bulls: 3
 Cows: 0
 > java
-You won!                                //congratulatings
+You won!                                // win text
 Wanna play again? Y/N                   // suggest for new game
 > N
 ```
@@ -858,7 +857,7 @@ Wanna play again? Y/N                   // suggest for new game
 ```bash
 > java -jar BullsAndCows.jar  
 ```
-0. You need to check all the exceptional situations (wrong input/missing dictionary)
+0. You need to check all the exceptional situations (wrong input...)
 
 #HSLIDE
 **Оставьте обратную связь**
