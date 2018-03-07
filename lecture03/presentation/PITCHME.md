@@ -52,71 +52,38 @@ The most famous public one is **maven central**:
 
 #HSLIDE
 ### dependencies
-Let's look how test library **junit** is plugged with **gradle**:  
-  
-We need tests(junit) only on testCompile stage.  
 **lecture03/build.gradle** :
 ```groovy
 dependencies {
-    testCompile rootProject.libraries.junit 
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.10.0'
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.4'
 }
 ```
 
 #HSLIDE
-### New dependency is configured in ext.libraries
-Now we want to add logging to our subproject lecture03.  
-The library will be used in all the subprojects so it is configured in root **build.gradle**.  
-There is **log4j** in our `ext.libraries`
-```groovy
-ext.libraries = [
-        //...
-        log4j: [
-            "org.apache.logging.log4j:log4j-api:$log4jVersion",
-            "org.apache.logging.log4j:log4j-core:$log4jVersion"
-        ]
-        //...
-```
-**org.apache.logging.log4j:log4j-core** is the name of artifact in [https://search.maven.org/](https://search.maven.org/)
-
-#HSLIDE
-### Then the library added to dependencies
-Lets use it in lecture03  
-**lecture03/build.gradle**:
-```groovy
-dependencies {
-    testCompile rootProject.libraries.junit
-    compile rootProject.libraries.log4j
-}
-```
-
-
-#HSLIDE
-### log4j
-log4j is one of standard libraries for logging in java. That's how we use it:
+### slf4j
+[slf4j](https://www.slf4j.org/) provide logging API. Developer can choose one of several implementations.  
+We only use **slf4j** API  
+  
+**slf4j** API usage example:
 ```java
-class A {
-    //the logger is registered by his class name, we can use any string as a name
-    private static final Logger log = LogManager.getLogger(A.class);
-    
-    public A() {
-        log.info("new A is initialized");
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger("LOGGER_NAME");
+
+    void someMethod(){
+        log.info("someMethod is called");
     }
-}
 ```
+
+
+#HSLIDE
+### log4j2
+For slf4j API implementation that we choose is **log4j2** 
 To customize logging you must create `log4j2.properties` in resources folder (in CLASSPATH)
 
-
-#HSLIDE
-### One line adding dependency:
-```groovy
-dependencies {
-    testCompile rootProject.libraries.junit
-    //this string is from https://search.maven.org/#artifactdetails%7Corg.twitter4j%7Ctwitter4j-core%7C4.0.6%7Cjar
-    compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
-}
-```
-
-**Tip**: extract versions to variables 
 
 
 #HSLIDE
@@ -188,7 +155,7 @@ Exception in thread "main" java.lang.NullPointerException: Ой всё
 
 Build and run jar with
 ```java
-package ru.atom.makejar;
+package ru.atom.exception;
 
 public class HelloWorld {
     public static void main(String[] args) {
