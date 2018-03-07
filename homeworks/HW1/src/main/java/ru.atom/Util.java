@@ -7,8 +7,6 @@ package ru.atom;
  */
 public class Util {
 
-
-
     /**
      * Returns the greatest of {@code int} values.
      *
@@ -16,7 +14,12 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int maxx = values[0];
+        int len = values.length;
+        for (int i = 1; i < len; ++i) {
+            maxx = Math.max(maxx, values[i]);
+        }
+        return maxx;
     }
 
     /**
@@ -26,7 +29,12 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long summ = values[0];
+        int len = values.length;
+        for (int i = 1; i < len; ++i) {
+            summ = summ + values[i];
+        }
+        return summ;
     }
 
 
