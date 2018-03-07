@@ -81,8 +81,8 @@ We only use **slf4j** API
 
 #HSLIDE
 ### log4j2
-For slf4j API implementation that we choose is **log4j2** 
-To customize logging you must create `log4j2.properties` in resources folder (in CLASSPATH)
+For slf4j API implementation that we choose is **log4j2**  
+To customize logging you must create **log4j2.properties** in resources folder (in CLASSPATH)
 
 
 
@@ -125,7 +125,7 @@ Java provide high-level mechanism for this situations called **Exceptions**
 
 
 #HSLIDE
-##Checked exceptions must be handled
+## Checked exceptions must be handled
 Compiler force you to check **checked exceptions**
 
 
@@ -815,11 +815,11 @@ TreeMap
 
 #HSLIDE
 ### Bulls and Cows
-Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
-make pull request to homework2 branch  
-use dictionary from homeworks/HW2/dictionary.txt  
-**deadline**: february 14  
-**mark**: 7 balls max  
+- Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
+- make pull request to homework2 branch  
+- use dictionary from homeworks/HW2/dictionary.txt  
+- **deadline**: february 14  
+- **mark**: 7 balls max  
   
 
 #HSLIDE
