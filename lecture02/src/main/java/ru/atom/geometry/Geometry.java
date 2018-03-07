@@ -22,14 +22,15 @@ public final class Geometry {
      * @return new Bar
      */
 
-    public static Collider createBar(int x1, int y1, int x2, int y2){
-         return new Bar(x1, y1, x2, y2);
+    public static Collider createBar(int x1, int y1, int x2, int y2) {
+        return new Bar(x1, y1, x2, y2);
     }
     /**
      * 2D point
      * @return new Point
      */
+    
     public static Collider createPoint(int x, int y) {
-        return new Point(x,y);
+        return new Point(x, y);
     }
 }
