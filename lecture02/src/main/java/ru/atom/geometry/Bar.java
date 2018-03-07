@@ -21,24 +21,24 @@ public class Bar implements Collider {
         Bar bar = (Bar) o;
 
         if (xright < xleft) {
-            int c = xleft;
+            int temp = xleft;
             xleft = xright;
-            xright = c;
+            xright = temp;
         }
         if (yright < yleft) {
-            int c = yleft;
+            int temp = yleft;
             yleft = yright;
-            yright = c;
+            yright = temp;
         }
         if (bar.xright < bar.xleft) {
-            int c = bar.xleft;
+            int temp = bar.xleft;
             bar.xleft = bar.xright;
-            bar.xright = c;
+            bar.xright = temp;
         }
         if (bar.yright < bar.yleft) {
-            int c = bar.yleft;
+            int temp = bar.yleft;
             bar.yleft = bar.yright;
-            bar.yright = c;
+            bar.yright = temp;
         }
 
         if (this == o) return true;
