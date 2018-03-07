@@ -3,8 +3,7 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point implements Collider
-{
+public class Point implements Collider {
     private int x;
     private int y;
 
@@ -23,10 +22,13 @@ public class Point implements Collider
     public void setY(int y) {
         this.y = y;
     }
+
     public Point() {
-        x = y = 0;
+        x = 0;
+        y = 0;
     }
-    public Point (int x, int y) {
+
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -48,8 +50,9 @@ public class Point implements Collider
         // your code here
         return x == point.getX() && y == point.getY();
     }
+
     @Override
-     public boolean isColliding(Collider other) {
+    public boolean isColliding(Collider other) {
         return equals(other);
     }
 }

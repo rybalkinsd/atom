@@ -1,8 +1,10 @@
 package ru.atom.geometry;
 
-public class Bar implements Collider
-{
-    private int firstCornerX,  firstCornerY,  secondCornerX,  secondCornerY;
+public class Bar implements Collider {
+    private int firstCornerX;
+    private int firstCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     public int getFirstCornerX() {
         return firstCornerX;
@@ -35,9 +37,11 @@ public class Bar implements Collider
     public void setSecondCornerY(int secondCornerY) {
         this.secondCornerY = secondCornerY;
     }
+
     public Bar() {
         firstCornerX = firstCornerY = secondCornerX = secondCornerY = 0;
     }
+
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstCornerX = Math.min(firstCornerX, secondCornerX);
         this.firstCornerY = Math.min(firstCornerY, secondCornerY);
@@ -51,10 +55,12 @@ public class Bar implements Collider
  +
  +        if (getClass() != o.getClass()) {
  +            Point point = (Point) o;
- +            return firstCornerX <= point.getX() && point.getX() <= secondCornerX && firstCornerY <= point.getY() && point.getY() <= secondCornerY;
+ +            return firstCornerX <= point.getX() && point.getX() <= secondCornerX &&
+ firstCornerY <= point.getY() && point.getY() <= secondCornerY;
  +        } else {
  +            Bar bar = (Bar) o;
- +            if(firstCornerX > bar.secondCornerX || secondCornerX < bar.firstCornerX || secondCornerY < bar.firstCornerY || firstCornerY > bar.secondCornerY) return false;
+ +            if(firstCornerX > bar.secondCornerX || secondCornerX < bar.firstCornerX ||
+ secondCornerY < bar.firstCornerY || firstCornerY > bar.secondCornerY) return false;
  +            return true;
  +        }
  +        // cast from Object to Point
@@ -68,20 +74,26 @@ public class Bar implements Collider
  +        return equals(other);
  +    }
  +    */
+
     public boolean equals(Object o) {
         if (this == o) return true;
+
         if (o == null || getClass() != o.getClass()) return false;
         Bar bar = (Bar) o;
-        return firstCornerX == bar.getFirstCornerX() && firstCornerY == bar.getFirstCornerY() && secondCornerX == bar.getSecondCornerX() && secondCornerY == bar.getSecondCornerY();
+        return firstCornerX == bar.getFirstCornerX() && firstCornerY == bar.getFirstCornerY()
+                && secondCornerX == bar.getSecondCornerX() && secondCornerY == bar.getSecondCornerY();
     }
+
     @Override
     public boolean isColliding(Collider other) {
         if (getClass() != other.getClass()) {
             Point point = (Point) other;
-            return firstCornerX <= point.getX() && point.getX() <= secondCornerX && firstCornerY <= point.getY() && point.getY() <= secondCornerY;
+            return firstCornerX <= point.getX() && point.getX() <= secondCornerX
+                    && firstCornerY <= point.getY() && point.getY() <= secondCornerY;
         } else {
             Bar bar = (Bar) other;
-            return !(firstCornerX > bar.secondCornerX || secondCornerX < bar.firstCornerX || secondCornerY < bar.firstCornerY || firstCornerY > bar.secondCornerY);
+            return !(firstCornerX > bar.secondCornerX || secondCornerX < bar.firstCornerX
+                    || secondCornerY < bar.firstCornerY || firstCornerY > bar.secondCornerY);
         }
     }
 }
