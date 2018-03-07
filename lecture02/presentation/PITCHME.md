@@ -11,7 +11,11 @@ https://sphere.mail.ru/
 
 #HSLIDE
 ### get ready
+<<<<<<< HEAD
 Course repo - [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
+=======
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
+>>>>>>> 6aa33e2... presentation fixes
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
