@@ -814,6 +814,47 @@ TreeMap
 
 
 #HSLIDE
+### Bulls and Cows
+Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
+make pull request to homework2 branch  
+use dictionary from homeworks/HW2/dictionary.txt  
+**deadline**: february 14  
+**mark**: 7 balls max  
+  
+
+#HSLIDE
+### Game stages
+1. Game prints **welcome text**
+2. Your gets random word from **dictionary.txt** and prints start game text with **word length**
+3. The game asks user his guess until user wins or **10 attempts** fail
+4. If **win**, print congratulations; if **loose**, print loose text
+5. Player is suggested to **start new game**
+
+
+#HSLIDE
+### Example game:
+```text
+Welcome to Bulls and Cows game!        //welcome text
+I guessed a 4-letter word, your guess? //hidden word is 'java'
+> atom                                 //your guess
+Bulls: 0   
+Cows: 1
+> lava
+Bulls: 3
+Cows: 0
+> java
+You won!                                //congratulatings
+Wanna play again? Y/N                   // suggest for new game
+```
+
+#HSLIDE
+### Implementation details
+1. You need to develop a standalone java application  
+2. Your application should work with console input/output  
+3. Application should be able to run from console with “java -jar BullsAndCows.jar dictionary.txt”  
+4. You need to check all the exceptional situations (wrong input/missing dictionary)
+
+#HSLIDE
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
