@@ -6,16 +6,15 @@
 
 [![](http://icons.iconarchive.com/icons/alecive/flatwoken/32/Apps-Telegram-icon.png) Join chat](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ) - feel free to contact us
 
-
-Course repository.  
-All course lectures/sources/homeworks are available here.  
-
 **Youtube channel:**  
 https://www.youtube.com/playlist?list=PLrCZzMib1e9pnFbVV3u4s7ki5NTnm7WgT
+  
+Course repository. All course lectures/sources/homeworks are available here.  
+
 
 [![Course announcement](https://img.youtube.com/vi/12Ur1brHHz8/0.jpg)](https://www.youtube.com/watch?v=12Ur1brHHz8&feature=youtu.be "Course announcement")
   
-**Lectures list:**  
+## Lectures list:
 [Lecture 1. Basics, git](https://gitpitch.com/rybalkinsd/atom/lecture01?grs=github&t=white&p=lecture01%2Fpresentation#/)  
 [Lecture 2. Classes, gradle](https://gitpitch.com/rybalkinsd/atom/lecture02?grs=github&t=white&p=lecture02%2Fpresentation#/)  
 [Lecture 3. Collections, Exceptions, Generics](https://gitpitch.com/rybalkinsd/atom/lecture03?grs=github&t=white&p=lecture03%2Fpresentation#/)  
