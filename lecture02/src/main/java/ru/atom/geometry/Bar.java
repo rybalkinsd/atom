@@ -4,13 +4,13 @@ package ru.atom.geometry;
 //import static jdk.vm.ci.aarch64.AArch64.v3;
 
 public class Bar implements Collider {
-    int xBarLeft;
+    int xLeft;
     int yBarLeft;
     int xBarRight;
     int yBarRight;
 
-    Bar(int xBarLeft, int yBarLeft, int xBarRight, int yBarRight) {
-        this.xBarLeft = xBarLeft;
+    Bar(int xLeft, int yBarLeft, int xBarRight, int yBarRight) {
+        this.xLeft = xLeft;
         this.yBarLeft = yBarLeft;
         this.xBarRight = xBarRight;
         this.yBarRight = yBarRight;
@@ -20,9 +20,9 @@ public class Bar implements Collider {
     public boolean equals(Object o) {
         Bar bar = (Bar) o;
 
-        if (xBarRight < xBarLeft) {
-            int c = xBarLeft;
-            xBarLeft = xBarRight;
+        if (xBarRight < xLeft) {
+            int c = xLeft;
+            xLeft = xBarRight;
             xBarRight = c;
         }
         if (yBarRight < yBarLeft) {
@@ -30,9 +30,9 @@ public class Bar implements Collider {
             yBarLeft = yBarRight;
             yBarRight = c;
         }
-        if (bar.xBarRight < bar.xBarLeft) {
-            int c = bar.xBarLeft;
-            bar.xBarLeft = bar.xBarRight;
+        if (bar.xBarRight < bar.xLeft) {
+            int c = bar.xLeft;
+            bar.xLeft = bar.xBarRight;
             bar.xBarRight = c;
         }
         if (bar.yBarRight < bar.yBarLeft) {
@@ -44,8 +44,8 @@ public class Bar implements Collider {
         if (this == o) return true;
         if (o == null) return false;
 
-        boolean a = (bar.xBarLeft <= xBarLeft && xBarLeft <= bar.xBarRight);
-        boolean b = (xBarLeft <= bar.xBarLeft && bar.xBarLeft <= xBarRight);
+        boolean a = (bar.xLeft <= xLeft && xLeft <= bar.xBarRight);
+        boolean b = (xLeft <= bar.xLeft && bar.xLeft <= xBarRight);
         boolean c = (bar.yBarLeft <= yBarLeft && yBarLeft <= bar.yBarRight);
         boolean d = (yBarLeft <= bar.yBarLeft && bar.yBarLeft <= yBarRight);
         return (a || b) && (c || d);
@@ -53,7 +53,7 @@ public class Bar implements Collider {
 
     public boolean equals(Point o) {
         Point point = (Point) o;
-        boolean q = xBarLeft <= point.x && point.x <= xBarRight && yBarLeft <= point.y && point.y <= yBarRight;
+        boolean q = xLeft <= point.x && point.x <= xBarRight && yBarLeft <= point.y && point.y <= yBarRight;
         return q;
     }
 

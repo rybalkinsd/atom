@@ -26,6 +26,7 @@ public class Point implements Collider {
         Point point = (Point) o;
         return point.x == x && point.y == y;
     }
+
     @Override
     public boolean isColliding(Collider other) {
         return this.equals(other);
