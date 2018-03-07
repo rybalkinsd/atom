@@ -7,15 +7,27 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    public int size;
+    public ListNode<E> head;
+    public ListNode<E> zer;
+
+    public CustomLinkedList(){
+        this.head= new ListNode<E>();
+        this.zer=new ListNode<E>();
+        this.size=0;
+    }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        if (size == 0){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -25,17 +37,45 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public E next() {
+                return null;
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (size == 0){
+            ListNode<E> nw = new ListNode<E>() ;
+            head.next=head;
+            head.prev=head;
+            zer.next=head;
+            zer.prev=head;
+            head.data=e;
+            size++;
+        }else {
+            ListNode<E> nw = new ListNode<E>() ;
+            nw.data=e;
+            nw.next=zer;
+            zer.prev=nw;
+            head.next=nw;
+            nw.prev=head;
+            head=nw;
+            size++;
+        }
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        return true;
     }
 
     @Override

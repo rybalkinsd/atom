@@ -52,10 +52,11 @@ public class ExceptionHandler {
         } catch (FileNotFoundException e) {
             log.warn("FileNotFoundException in readOneLineFromFile, filename = {}", filename);
             return null;
-        } catch (IOException e) {
-            log.warn("IOException in readOneLineFromFile, filename = {}", filename);
+        }catch (IOException e){
+            log.warn("IOExeption in readOneLineFromFile, filename ={}", filename);
             return null;
-        } finally {
+        }
+        finally {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
