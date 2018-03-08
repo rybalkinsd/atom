@@ -29,15 +29,11 @@ public class Point implements Collider/* super class and interfaces here if nece
             return this.equals(obj);
         }
 
-            if (obj.getClass() ==  Bar.class) {
-                //if obj is a Bar and we try check Colliding between point and Bar
-                return obj.isColliding(this);
-            } else {
-                //if obj isn't a Bar , and isn't a Point
-                return false;
-            }
-
-
+        if (obj.getClass() ==  Bar.class) {
+            return obj.isColliding(this);
+        } else {
+            return false;
+        }
     }
 
     @Override

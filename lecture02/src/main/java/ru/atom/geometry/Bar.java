@@ -29,8 +29,8 @@ public class Bar implements Collider {
         }
         if (obj.getClass() == Bar.class) {
             Bar br = (Bar) obj;
-            return (( xMin <= br.getMaxX()) && ( xMax >= br.getMinX())
-                    && ( yMin <= br.getMaxY()) && ( yMax >= br.getMinY()));
+            return ((xMin <= br.getMaxX()) && (xMax >= br.getMinX())
+                    && (yMin <= br.getMaxY()) && (yMax >= br.getMinY()));
         }
         return false;
     }
