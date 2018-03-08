@@ -6,16 +6,14 @@ lecture 3
 
 #HSLIDE
 ## Отметьтесь на портале
-https://sphere.mail.ru/
+https://atom.mail.ru/
 
 
 #HSLIDE
 ### get ready
-[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture03 upstream/lecture03
-> cd lecture03
 ```
 
 #HSLIDE
@@ -35,22 +33,6 @@ https://sphere.mail.ru/
 1. Collections
 1. Homework 2
 
-<<<<<<< HEAD
-
-#HSLIDE
-### adding library manually
-All the class and jar files must be in [CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
-It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
-
-#HSLIDE
-### gradle as dependency manager
-External libraries (**dependencies**) are managed with **gradle**.  
-  
-That is: **gradle** downloads libraries from repository and adds them to **CLASSPATH**  
-  
-The most famous public one is **maven central**:  
-[https://search.maven.org/](https://search.maven.org/)
-=======
 
 #HSLIDE
 ### adding library manually
@@ -94,42 +76,21 @@ Look at *build.gradle* (root project):
 - **ext.libraries** - map of most common(for our project) libraries
 - **allprojects** block - instruction for all projects
 - **subprojects** block - instructions for all target's subprojects
->>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
 
 
 #HSLIDE
 ### dependencies
-<<<<<<< HEAD
-=======
 Let's look how test library **junit** is plugged with **gradle**:  
   
 We need tests(junit) only on testCompile stage.  
->>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
 **lecture03/build.gradle** :
 ```groovy
 dependencies {
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.10.0'
-    // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.4'
+    testCompile rootProject.libraries.junit 
 }
 ```
 
 #HSLIDE
-<<<<<<< HEAD
-### slf4j
-[slf4j](https://www.slf4j.org/) provide logging API. Developer can choose one of several implementations.  
-We only use **slf4j** API  
-  
-**slf4j** API usage example:
-```java
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger("LOGGER_NAME");
-
-    void someMethod(){
-        log.info("someMethod is called");
-=======
 ### New dependency is configured in ext.libraries
 Now we want to add logging to our subproject lecture03.  
 The library will be used in all the subprojects so it is configured in root **build.gradle**.  
@@ -167,17 +128,9 @@ class A {
     
     public A() {
         log.info("new A is initialized");
->>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
     }
+}
 ```
-<<<<<<< HEAD
-
-
-#HSLIDE
-### log4j2
-For slf4j API implementation that we choose is **log4j2**  
-To customize logging you must create **log4j2.properties** in resources folder (in CLASSPATH)
-=======
 To customize logging you must create `log4j2.properties` in resources folder (in CLASSPATH)
 
 
@@ -190,8 +143,8 @@ dependencies {
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
 }
 ```
->>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
 
+**Tip**: extract versions to variables 
 
 
 #HSLIDE
@@ -233,11 +186,7 @@ Java provide high-level mechanism for this situations called **Exceptions**
 
 
 #HSLIDE
-<<<<<<< HEAD
-## Checked exceptions must be handled
-=======
 ##Checked exceptions must be handled
->>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
 Compiler force you to check **checked exceptions**
 
 
@@ -267,7 +216,7 @@ Exception in thread "main" java.lang.NullPointerException: Ой всё
 
 Build and run jar with
 ```java
-package ru.atom.exception;
+package ru.atom.makejar;
 
 public class HelloWorld {
     public static void main(String[] args) {
@@ -734,6 +683,19 @@ Linking
 
 
 #HSLIDE
+### Practice
+@See ru.atom.list
+
+1. Implement ListNode class
+1. Implement absent methods in CustomLinkedList
+1. Implement Iterator for CustomLinkedList
+1. Remove @Ignore in CustomLinkedListTest
+1. All CustomLinkedListTest tests should pass
+
+3 Points
+
+
+#HSLIDE
 ### Interface Set
 -  A collection that contains no duplicate elements.  More formally, sets
    contain no pair of elements **e1** and **e2** such that
@@ -868,8 +830,8 @@ From official FAQ:
 
 #HSLIDE
 ### Notes
-1. HashSet is a specific HashMap
-1. TreeSet is a specific TreeMap 
+1. HashSet is cutted HashMap
+1. TreeSet is cutted TreeMap 
 
 
 #HSLIDE
@@ -895,25 +857,12 @@ TreeMap
 <img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
 
 #HSLIDE
-### Practice
-@See ru.atom.list
-
-1. Implement ListNode class
-1. Implement absent methods in CustomLinkedList
-1. Implement Iterator for CustomLinkedList
-1. Remove @Ignore in CustomLinkedListTest
-1. All CustomLinkedListTest tests should pass
-
-3 Points
-
-#HSLIDE
 ### Summary
 1. Generics are **compile-time**
-1. Use **System.out.println()** for user interaction, do not use for logging
-1. Use logger for logging
+1. Do not use `System.out.println()` for logging
+1. Use logger
 1. Use most appropriate data structure
-1. Know your data structure's insides: ArrayList,LinkedList,HashSet,HashMap
-1. General contract (hashCode/equals)
+1. General contract
 
 
 #HSLIDE
@@ -924,51 +873,6 @@ TreeMap
 1. Collections
 1. **[Homework 2]**
 
-
-#HSLIDE
-### Bulls and Cows
-- Implement [Bulls and Cows game](https://en.wikipedia.org/wiki/Bulls_and_Cows)  
-- make pull request to **homework2** branch  
-- use dictionary from **[homeworks/HW2/dictionary.txt](https://github.com/rybalkinsd/atom/blob/homework2/homeworks/HW2/dictionary.txt)**  
-- **deadline**: march 14  
-- **mark**: 7 balls max  
-  
-
-#HSLIDE
-### Game stages
-1. Game prints **welcome text**
-2. Game gets random word from **dictionary.txt** and prints **greeting with word length**
-3. The game asks user for guess until user wins or **10 attempts** looses
-4. If **win**, print congratulations; if **loose**, print loose text
-5. Player is suggested to **start new game**
-
-
-#HSLIDE
-### Example game:
-```text
-Welcome to Bulls and Cows game!        //welcome text
-I offered a 4-letter word, your guess? //greeting, hidden word is 'java'
-> atom                                 //your guess
-Bulls: 0   
-Cows: 1
-> lava
-Bulls: 3
-Cows: 0
-> java
-You won!                                // win text
-Wanna play again? Y/N                   // suggest for new game
-> N
-```
-
-#HSLIDE
-### Implementation details
-0. You need to develop a standalone java application  
-0. Your application should work with console input/output  
-0. Application should be able to run from console with
-```bash
-> java -jar BullsAndCows.jar  
-```
-0. You need to check all the exceptional situations (wrong input...)
 
 #HSLIDE
 **Оставьте обратную связь**
