@@ -51,6 +51,7 @@ open as new project
 
 #HSLIDE
 ## How gradlew works
+<<<<<<< 75b01fef78313614970ab0d86822418778b95d64
 <<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 Our repository has many gradle projects    
 **build.gradle** - how to build specific project  
@@ -58,6 +59,10 @@ Our repository has many gradle projects
 Our repository has many gragle projects    
 **build.gradle** - how to build concrete project  
 >>>>>>> presentation gradle part changed
+=======
+Our repository has many gradle projects    
+**build.gradle** - how to build specific project  
+>>>>>>> presentation
   
 
 #HSLIDE
@@ -67,6 +72,7 @@ Our repository has many gragle projects
 blah-blah
 BUILD SUCCESSFUL
 
+<<<<<<< 75b01fef78313614970ab0d86822418778b95d64
 <<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 > java -jar build/libs/lecture02.jar 
 Hello, World!
@@ -80,6 +86,13 @@ Hello, World!
 # jar listing
 > jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
 >>>>>>> presentation gradle part changed
+=======
+> java -jar build/libs/lecture02.jar 
+Hello, World!
+
+# jar listing
+> jar -tfv  build/libs/lecture02.jar
+>>>>>>> presentation
 ...
 ```
 
@@ -93,6 +106,7 @@ to build **jar** with gradle
 blah-blah
 BUILD SUCCESSFUL
 
+<<<<<<< 75b01fef78313614970ab0d86822418778b95d64
 <<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 > java -jar build/libs/lecture02.jar
 Hello, World!
@@ -106,6 +120,13 @@ Hello, World!
 # jar listing
 > jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
 >>>>>>> presentation gradle part changed
+=======
+> java -jar build/libs/lecture02.jar
+Hello, World!
+
+# jar listing
+> jar -tfv  build/libs/lecture02.jar
+>>>>>>> presentation
 ...
 ```
 
