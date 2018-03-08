@@ -15,9 +15,12 @@ Course repo - https://github.com/rybalkinsd/atom
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
+<<<<<<< e1e9bb01c7360fde3bc05caff5836463aa4edc4b
 > cd lecture02
 
 open as new project
+=======
+>>>>>>> presentation fixes
 ```
 
 #HSLIDE
@@ -81,6 +84,25 @@ Hello, World!
 
 
 #HSLIDE
+<<<<<<< e1e9bb01c7360fde3bc05caff5836463aa4edc4b
+=======
+### gradlew jar
+To build fat jar @see lecture02/build.gradle
+```bash
+> ./gradlew :lecture02:jar
+> blah-blah
+> BUILD SUCCESSFUL
+
+> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> Hello, World!
+
+# jar listing
+> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+```
+
+
+#HSLIDE
+>>>>>>> presentation fixes
 ### Classes and objects
 1. gradle
 1. **[Classes and objects]**  
