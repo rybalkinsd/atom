@@ -15,12 +15,18 @@ Course repo - https://github.com/rybalkinsd/atom
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
+<<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 <<<<<<< e1e9bb01c7360fde3bc05caff5836463aa4edc4b
 > cd lecture02
 
 open as new project
 =======
 >>>>>>> presentation fixes
+=======
+> cd lecture02
+
+open as new project
+>>>>>>> presentation gradle part changed
 ```
 
 #HSLIDE
@@ -45,8 +51,13 @@ open as new project
 
 #HSLIDE
 ## How gradlew works
+<<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 Our repository has many gradle projects    
 **build.gradle** - how to build specific project  
+=======
+Our repository has many gragle projects    
+**build.gradle** - how to build concrete project  
+>>>>>>> presentation gradle part changed
   
 
 #HSLIDE
@@ -56,11 +67,19 @@ Our repository has many gradle projects
 blah-blah
 BUILD SUCCESSFUL
 
+<<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 > java -jar build/libs/lecture02.jar 
 Hello, World!
 
 # jar listing
 > jar -tfv  build/libs/lecture02.jar
+=======
+> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
+Hello, World!
+
+# jar listing
+> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
+>>>>>>> presentation gradle part changed
 ...
 ```
 
@@ -74,16 +93,25 @@ to build **jar** with gradle
 blah-blah
 BUILD SUCCESSFUL
 
+<<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 > java -jar build/libs/lecture02.jar
 Hello, World!
 
 # jar listing
 > jar -tfv  build/libs/lecture02.jar
+=======
+> java -jar build/libs/lecture02-1.0-SNAPSHOT.jar 
+Hello, World!
+
+# jar listing
+> jar -tfv  build/libs/lecture02-1.0-SNAPSHOT.jar
+>>>>>>> presentation gradle part changed
 ...
 ```
 
 
 #HSLIDE
+<<<<<<< aa1a1bca0542067f8d44e501d649e545f5626ff5
 <<<<<<< e1e9bb01c7360fde3bc05caff5836463aa4edc4b
 =======
 ### gradlew jar
@@ -103,6 +131,8 @@ To build fat jar @see lecture02/build.gradle
 
 #HSLIDE
 >>>>>>> presentation fixes
+=======
+>>>>>>> presentation gradle part changed
 ### Classes and objects
 1. gradle
 1. **[Classes and objects]**  
