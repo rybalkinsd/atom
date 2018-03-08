@@ -4,6 +4,10 @@ jdk:
   - oraclejdk9
 
 env:
+<<<<<<< 24e6352b834c811594dea4f2d7f7bf6c62ee0e0b
+=======
+  - $PROJECT_DIR=lecture01
+>>>>>>> changed .gitignores and travis
   - $PROJECT_DIR=lecture02
 
 script: cd $PROJECT_DIR && ./gradlew assemble && ./gradlew check
