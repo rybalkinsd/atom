@@ -8,54 +8,151 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private int listSize;
+
+    private ListNode<E> head;
+
+    CustomLinkedList() {
+        listSize = 0;
+        head = null;
+    }
+
+    class CustomListIterator<E> implements Iterator<E> {
+        private int index;
+        private CustomLinkedList<E> l;
+
+        CustomListIterator(CustomLinkedList<E> l) {
+            index = -1;
+            this.l = l;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if ((index + 1) < l.listSize) {
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public E next () {
+            return l.get(++index);
+        }
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return listSize;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return listSize == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return false;
+        } else if (listSize == 0) {
+            return false;
+        } else {
+            ListNode<E> temp = head;
+            for (int i = 0; i < listSize; i ++) {
+                if (temp.value.equals(o)) {
+                    return true;
+                }
+                temp = temp.next;
+            }
+            return false;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CustomListIterator<>(this);
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (listSize == 0) {
+            head = new ListNode<E>();
+            head.next = head;
+            head.prev = head;
+            head.value = e;
+            listSize++;
+            return true;
+        } else {
+            ListNode<E> temp = new ListNode<E>();
+            temp.value = e;
+            temp.next = head;
+            temp.prev = head.prev;
+            head.prev.next = temp;
+            head.prev = temp;
+            listSize++;
+            return true;
+        }
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return false;
+        }
+        ListNode<E> temp = head;
+        for(int i = 0; i < listSize; i++) {
+            if (temp.value.equals(o)) {
+                if (temp == head) {
+                    head = temp.next;
+                }
+                temp.prev.next = temp.next;
+                temp.next.prev = temp.prev;
+                temp.prev = null;
+                temp.next = null;
+                temp.value = null;
+                listSize--;
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        listSize = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+        }
+        return temp.value;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            return -1;
+        }
+        ListNode<E> temp = head;
+        for(int i = 0; i < listSize; i++) {
+            if (temp.value.equals(o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for(E o : c) {
+            add(o);
+        }
+        return true;
     }
 
 
