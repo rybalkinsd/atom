@@ -1,4 +1,4 @@
-    package ru.atom.exception;
+package ru.atom.exception;
 
 public class HelloWorld {
     public static void main(String[] args) {

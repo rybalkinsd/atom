@@ -11,10 +11,10 @@ public class CustomLinkedList<E> implements List<E> {
     public ListNode<E> head;
     public ListNode<E> zer;
 
-    public CustomLinkedList(){
-        this.head= new ListNode<E>();
-        this.zer=new ListNode<E>();
-        this.size=0;
+    public CustomLinkedList() {
+        this.head = new ListNode<E>();
+        this.zer = new ListNode<E>();
+        this.size = 0;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (size == 0){
+        if (size == 0) {
             return true;
         }
         return false;
@@ -32,70 +32,132 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        return indexOf(o) >= 0;
     }
+
+    private class MyIterator implements Iterator<E> {
+
+        ListNode<E> cur;
+        boolean f;
+
+        public MyIterator() {
+            this.cur = CustomLinkedList.this.zer;
+            f = false;// голова списка
+        }
+
+        @Override
+        public boolean hasNext() {
+            //return cur!=zer;
+            if (f) {
+                return cur != zer;
+            } else {
+                f = true;
+                return CustomLinkedList.this.size != 0;
+            }
+        }
+
+        @Override
+        public E next() {
+            E val = cur.data;
+            cur = cur.next;
+            return val;
+        }
+    }
+
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public E next() {
-                return null;
-            }
-        };
+        return new MyIterator();
     }
 
     @Override
     public boolean add(E e) {
-        if (size == 0){
-            ListNode<E> nw = new ListNode<E>() ;
-            head.next=head;
-            head.prev=head;
-            zer.next=head;
-            zer.prev=head;
-            head.data=e;
-            size++;
-        }else {
-            ListNode<E> nw = new ListNode<E>() ;
-            nw.data=e;
-            nw.next=zer;
-            zer.prev=nw;
-            head.next=nw;
-            nw.prev=head;
-            head=nw;
-            size++;
+        if (size == 0) {
+            ListNode<E> nw = new ListNode<E>();
+            nw.data = e;
+            nw.next = nw;
+            nw.prev = nw;
+            head = nw;
+            zer = nw;
+        } else {
+            ListNode<E> nw = new ListNode<E>();
+            nw.data = e;
+            nw.next = zer;
+            nw.prev = head;
+            zer.prev = nw;
+            if (size == 1) {
+                zer.next = nw;
+            }
+            head.next = nw;
+            head = nw;
         }
+        size++;
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        return true;
+        if (size == 0) return false;
+        ListNode<E> del = zer;
+        for (int i = 0; i < size; i++) {
+            if (del.data.equals(o)) {
+                del.prev.next = del.next;
+                del.next.prev = del.prev;
+                if (i == 0) {
+                    zer = del.next;
+
+                }
+                if (i == size - 1) {
+                    head = del.prev;
+                }
+                size--;
+                return true;
+            }
+            del = del.next;
+
+        }
+
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        zer = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        if (size == 0 || index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode<E> curr = zer;
+        for (int i = 0; i < index; i++) {
+            curr = curr.next;
+        }
+        return curr.data;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (size == 0) return -1;
+        ListNode<E> curr = zer;
+        for (int i = 0; i < size; i++) {
+            if (curr.data.equals(o)) {
+                return i;
+            }
+            curr = curr.next;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E el : c) {
+            add(el);
+        }
+        return true;
     }
 
 
@@ -206,4 +268,6 @@ public class CustomLinkedList<E> implements List<E> {
     public E set(int index, E element) {
         return null;
     }
+
+
 }
