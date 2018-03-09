@@ -1,34 +1,36 @@
 package bullsandcows;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class Opening {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Opening.class);
 
     public static void main(String[] args) {
         ArrayList<String> list = new ArrayList<String>();
         String path;
-        Scanner s;
+        Scanner dictScanner;
 
-        try{
+        try {
             path = Opening.class.getClassLoader().getResource("dictionary.txt").getPath();
-            s = new Scanner(new File(path));
-            while (s.hasNext()){
-                list.add(s.next());
+            dictScanner = new Scanner(new File(path));
+            while (dictScanner.hasNext()) {
+                list.add(dictScanner.next());
             }
-        } catch (FileNotFoundException ex) {
-            System.out.println("nof found!");
-            /*log.warn("File not found!Check your resources")*/
+        } catch (NullPointerException ex) {
+            log.warn("method invoked through null-pointer variable.Maybe,your dictionary is missing");
             return;
-        } catch (IOException ex) {
-            /*log.warn("IOException!Something's gone wrong")*/
+        } catch (FileNotFoundException ex) {
+            log.warn("File not found!Check your resources");
             return;
         }
 
-        MainGameCycle.Start(list);
+        MainGameCycle.start(list);
     }
 
 
