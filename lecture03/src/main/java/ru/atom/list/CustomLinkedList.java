@@ -7,47 +7,128 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private ListNode<E> header;
+
+    private static final org.slf4j.Logger log =
+            org.slf4j.LoggerFactory.getLogger(CustomLinkedList.class);
+
+    public void setHeader(ListNode header) {
+        this.header = header;
+    }
+
+    public ListNode getHeader() {
+        return header;
+    }
+
+    public CustomLinkedList() {
+        header = new ListNode<E>(null,null,null);
+        header.setPrev(header);
+        header.setNext(header);
+    }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        ListNode tmp = new ListNode(getHeader());
+        int size = 0;
+        while ((tmp != header.getPrev())) {
+            size++;
+            tmp  = tmp.getNext();
+        }
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return (this.size() == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        for (E currentElem : this) {
+            log.info("contains()- o : {}, currentElem : {}", o, currentElem);
+            if (currentElem.equals(o)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        Itr<E> it = new Itr();
+        return it;
     }
+
+    private class Itr<E> implements Iterator<E> {
+        ListNode<E> currentNode;
+
+        public Itr() {
+            currentNode = getHeader();
+
+        }
+
+        public ListNode getCurrentNode() {
+            return currentNode;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != header.getPrev();
+        }
+
+        @Override
+        public E next() {
+            currentNode = currentNode.getNext();
+            return currentNode.getElement();
+        }
+
+    }
+
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        try {
+            ListNode toCreate = new ListNode(e, header, header.getPrev());
+            header.getPrev().setNext(toCreate);
+            header.setPrev(toCreate);
+            log.info("add()- added {} succesfully", toCreate.getElement());
+            return true;
+        } catch (Exception any) {
+            log.error("add()- failed to add an element (caught exception)");
+            return false;
+        }
     }
 
+    /* Deletes only the first found element */
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> tmp = new ListNode<E>(getHeader());
+        while ((tmp != header.getPrev())) {
+            if (o.equals(tmp.getElement())) {
+                tmp.getPrev().setNext(tmp.getNext());
+                tmp.getNext().setPrev(tmp.getPrev());
+                log.info("remove()- removed {} succesfully", tmp.getElement());
+                return true;
+            }
+            tmp = tmp.getNext();
+        }
+        log.info("remove()- {} not found", tmp.getElement());
+        return false;
     }
 
+    /* No tests for this function. Wonder if it must be implemented? */
     @Override
     public void clear() {
         throw new UnsupportedOperationException();
     }
 
+    /* No tests for this function. Wonder if it must be implemented. */
     @Override
     public E get(int index) {
         throw new UnsupportedOperationException();
     }
 
+    /* No tests for this function. Wonder if it must be implemented. */
     @Override
     public int indexOf(Object o) {
         throw new UnsupportedOperationException();
@@ -55,8 +136,17 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        try {
+            for (E elem : c) {
+                this.add(elem);
+            }
+            return true;
+        } catch (Exception any) {
+            log.error("addAll()- failed to add elements (caught exception)");
+            return false;
+        }
     }
+
 
 
     /*
