@@ -8,12 +8,11 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
-    private ListNode<E> head;
-    private int size = 0;
+    int size = 0;
+    ListNode<E> head;
 
-    public class CommonListIterator<E> implements Iterator<E> {
-
-        private int cur = 0;
+    class CommonListIterator<E> implements Iterator<E> {
+        int cur = 0;
 
         @Override
         public boolean hasNext() {
@@ -22,18 +21,20 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public E next() {
-            E temp = (E) get(cur);
+            E tmp = (E) get(cur);
             cur++;
-            return temp;
+            return tmp;
         }
 
         @Override
         public void remove() {
-            ListNode<E> temp = (ListNode<E>) head;
+            ListNode<E> tmp = (ListNode<E>) head;
             for (int i = 0; i < cur - 1; i++)
-                temp = temp.getNext();
-            temp.getNext().setPrevious(temp.getPrevious());
-            temp.getPrevious().setNext(temp.getNext());
+                tmp = tmp.getNext();
+            tmp.getPrevious().setNext(tmp.getNext());
+            tmp.getNext().setPrevious(tmp.getPrevious());
+            cur--;
+            size--;
         }
     }
 
@@ -44,18 +45,16 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (size == 0) return true;
-        return false;
+        return (size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        E data = (E) o;
-        ListNode<E> cur = head;
-        if (cur.getDate().equals(data)) return true;
-        if (cur.getNext().equals(cur)) return false;
-        for (cur = cur.getNext(); cur != head; cur = cur.getNext()) {
-            if (cur.getDate().equals(data)) return true;
+        ListNode tmp = head;
+        for (int i = 0;i < size();i++) {
+            if (tmp.getDate().equals(o))
+                return true;
+            tmp = tmp.getNext();
         }
         return false;
     }
@@ -67,50 +66,45 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        ListNode<E> addable = new ListNode(e);
         if (size == 0) {
-            head = addable;
+            head = new ListNode<E>(e);
             head.setNext(head);
             head.setPrevious(head);
             size++;
             return true;
         }
-        ListNode<E> last = head.getPrevious();
-        last.setNext(addable);
-        addable.setNext(head);
-        head.setPrevious(addable);
+        ListNode<E> cur = head;
+        for (;cur.getNext() != head; cur = cur.getNext());
+        cur.setNext(new ListNode<E>(e));
+        cur.getNext().setPrevious(cur);
+        cur.getNext().setNext(head);
+        head.setPrevious(cur.getNext());
         size++;
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        if (size == 0) return false;
         if (contains(o)) {
-            E data = (E) o;
-            ListNode<E> cur = head;
-            ListNode<E> curNext;
-            ListNode<E> curPrevious;
-            if (cur.getDate() == data) {
-                curNext = cur.getNext();
-                curPrevious = cur.getPrevious();
-                curNext.setPrevious(curPrevious);
-                curPrevious.setNext(curNext);
-                head = curNext;
+            if (size == 0) {
+                head = null;
                 size--;
                 return true;
             }
-            for (;cur.getNext() != head; cur = cur.getNext()) {
-                if (cur.getDate() == data) {
-                    curNext = cur.getNext();
-                    curPrevious = cur.getPrevious();
-                    curNext.setPrevious(curPrevious);
-                    curPrevious.setNext(curNext);
-                    size--;
-                    return true;
-                }
+            ListNode<E> cur = head;
+            if (cur.getDate() == o) {
+                head.getPrevious().setNext(cur.getNext());
+                head.getNext().setPrevious(cur.getPrevious());
+                head = head.getNext();
+                size--;
+                return true;
             }
-
+            for (cur = cur.getNext(); cur.getNext() != head; cur = cur.getNext())
+                if (cur.getDate() == o) {
+                    cur.getPrevious().setNext(cur.getNext());
+                    cur.getNext().setPrevious(cur.getPrevious());
+                    size--;
+                }
         }
         return false;
     }
@@ -123,32 +117,32 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        ListNode<E> cur = head;
-        for (;index != 0;index--) {
-            cur = cur.getNext();
+        ListNode<E> temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.getNext();
         }
-        return cur.getDate();
+        return temp.getDate();
     }
 
     @Override
     public int indexOf(Object o) {
-        E data = (E) o;
-        int counter = 0;
-        ListNode<E> cur = head;
-        if (cur.getDate().equals(data)) return counter;
-        for (cur = cur.getNext(); cur != head; cur = cur.getNext()) {
-            if (cur.getDate().equals(data)) return counter + 1;
-            counter++;
+        if (contains(o)) {
+            int index = 0;
+            for (ListNode<E> temp = head; temp.getDate() == o; temp = temp.getNext()) {
+                index++;
+            }
+            return index;
         }
-        return -1;
+        return 0;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
         Object[] temp = c.toArray();
         if (temp.length == 0) return false;
-        for (int i = 0; i < temp.length; i++)
+        for (int i = 0; i < temp.length; i++) {
             add((E) temp[i]);
+        }
         return true;
     }
 
