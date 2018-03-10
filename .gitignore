@@ -1,4 +1,5 @@
 .gradle/
+.nb-gradle/
 /gradle/
 /out/
 build/
