@@ -41,6 +41,8 @@ public class CustomLinkedList<E> implements List<E> {
                 tmp = tmp.getNext();
             tmp.getPrev().setNext(tmp.getNext());
             tmp.getNext().setPrev(tmp.getPrev());
+            cur--;
+            length--;
         }
     }
 
