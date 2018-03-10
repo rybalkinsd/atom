@@ -1,12 +1,20 @@
 package ru.atom.geometry;
 
 public class Point implements Collider /* super class and interfaces here if necessary */ {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     @Override

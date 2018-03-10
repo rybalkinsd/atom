@@ -1,12 +1,12 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
-    Point firstCorner;
-    Point secondCorner;
+    private Point firstCorner;
+    private Point secondCorner;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
-        this.firstCorner = new Point(firstCornerX, firstCornerY);
-        this.secondCorner = new Point(secondCornerX, secondCornerY);
+        this.firstCorner = new Point(Math.min(firstCornerX, secondCornerX), Math.min(firstCornerY, secondCornerY));
+        this.secondCorner = new Point(Math.max(firstCornerX, secondCornerX), Math.max(firstCornerY, secondCornerY));
     }
 
     @Override
@@ -16,17 +16,10 @@ public class Bar implements Collider {
 
         Bar bar = (Bar) o;
 
-        Bar bar1 = new Bar(Math.min(this.firstCorner.x, this.secondCorner.x),
-                Math.min(this.firstCorner.y, this.secondCorner.y),
-                Math.max(this.firstCorner.x, this.secondCorner.x),
-                Math.max(this.firstCorner.y, this.secondCorner.y));
-        Bar bar2 = new Bar(Math.min(bar.firstCorner.x, bar.secondCorner.x),
-                Math.min(bar.firstCorner.y, bar.secondCorner.y),
-                Math.max(bar.firstCorner.x, bar.secondCorner.x),
-                Math.max(bar.firstCorner.y, bar.secondCorner.y));
-
-        if ((bar1.firstCorner.x == bar2.firstCorner.x) && (bar1.firstCorner.y == bar2.firstCorner.y)
-                && (bar1.secondCorner.x == bar2.secondCorner.x) && (bar1.secondCorner.y == bar2.secondCorner.y))
+        if ((this.firstCorner.getX() == bar.firstCorner.getX())
+                && (this.firstCorner.getY() == bar.firstCorner.getY())
+                && (this.secondCorner.getX() == bar.secondCorner.getX())
+                && (this.secondCorner.getY() == bar.secondCorner.getY()))
             return true;
         else
             return false;
@@ -34,39 +27,33 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider o) {
-        if (getClass() == o.getClass()) {
+        if (o instanceof Bar) {
             Bar bar = (Bar) o;
 
             if (this.equals(bar))
                 return true;
 
-            Bar bar1 = new Bar(Math.min(this.firstCorner.x, this.secondCorner.x),
-                    Math.min(this.firstCorner.y, this.secondCorner.y),
-                    Math.max(this.firstCorner.x, this.secondCorner.x),
-                    Math.max(this.firstCorner.y, this.secondCorner.y));
-            Bar bar2 = new Bar(Math.min(bar.firstCorner.x, bar.secondCorner.x),
-                    Math.min(bar.firstCorner.y, bar.secondCorner.y),
-                    Math.max(bar.firstCorner.x, bar.secondCorner.x),
-                    Math.max(bar.firstCorner.y, bar.secondCorner.y));
-
-            if ((((bar1.firstCorner.x >= bar2.firstCorner.x) && (bar1.firstCorner.x <= bar2.secondCorner.x))
-                    || ((bar2.firstCorner.x >= bar1.firstCorner.x) && (bar2.firstCorner.x <= bar1.secondCorner.x)))
-                    && (((bar1.firstCorner.y >= bar2.firstCorner.y) && (bar1.firstCorner.y <= bar2.secondCorner.y))
-                    || ((bar2.firstCorner.y >= bar1.firstCorner.y) && (bar2.firstCorner.y <= bar1.secondCorner.y))))
+            if ((((this.firstCorner.getX() >= bar.firstCorner.getX())
+                    && (this.firstCorner.getX() <= bar.secondCorner.getX()))
+                    || ((bar.firstCorner.getX() >= this.firstCorner.getX())
+                    && (bar.firstCorner.getX() <= this.secondCorner.getX())))
+                    && (((this.firstCorner.getY() >= bar.firstCorner.getY())
+                    && (this.firstCorner.getY() <= bar.secondCorner.getY()))
+                    || ((bar.firstCorner.getY() >= this.firstCorner.getY())
+                    && (bar.firstCorner.getY() <= this.secondCorner.getY()))))
                 return true;
 
             else
                 return false;
-        } else {
+        } else if (o instanceof Point) {
             Point point = (Point) o;
 
-            if ((point.x >= Math.min(this.firstCorner.x, this.secondCorner.x))
-                    && (point.x <= Math.max(this.firstCorner.x, this.secondCorner.x))
-                    && (point.y >= Math.min(this.firstCorner.y, this.secondCorner.y))
-                    && (point.y <= Math.max(this.firstCorner.y, this.secondCorner.y)))
+            if ((point.getX() >= this.firstCorner.getX()) && (point.getX() <= this.secondCorner.getX())
+                    && (point.getY() >= this.firstCorner.getY()) && (point.getY() <= this.secondCorner.getY()))
                 return true;
             else
                 return false;
         }
+        return false;
     }
 }
