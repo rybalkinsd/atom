@@ -8,15 +8,15 @@ public class ListNode<E> {
     private ListNode next;
     private ListNode prev;
 
-    public ListNode getNext(){
+    public ListNode getNext() {
         return next;
     }
 
-    public ListNode getPrev(){
+    public ListNode getPrev() {
         return prev;
     }
 
-    public E getElement(){
+    public E getElement() {
         return element;
     }
 
@@ -32,7 +32,7 @@ public class ListNode<E> {
         this.prev = prev;
     }
 
-    ListNode(){
+    ListNode() {
         element = null;
         next = this;
         prev = this;
