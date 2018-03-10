@@ -8,54 +8,148 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private ListNode<E> head;
+    private int size = 0;
+
+    public class CommonListIterator<E> implements Iterator<E> {
+
+        private int cur = 0;
+
+        @Override
+        public boolean hasNext() {
+            return cur < size;
+        }
+
+        @Override
+        public E next() {
+            E temp = (E) get(cur);
+            cur++;
+            return temp;
+        }
+
+        @Override
+        public void remove() {
+            ListNode<E> temp = (ListNode<E>) head;
+            for (int i = 0; i < cur - 1; i++)
+                temp = temp.getNext();
+            temp.getNext().setPrevious(temp.getPrevious());
+            temp.getPrevious().setNext(temp.getNext());
+        }
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        if (size == 0) return true;
+        return false;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        E data = (E) o;
+        ListNode<E> cur = head;
+        if (cur.getDate().equals(data)) return true;
+        if (cur.getNext().equals(cur)) return false;
+        for (cur = cur.getNext(); cur != head; cur = cur.getNext()) {
+            if (cur.getDate().equals(data)) return true;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CommonListIterator<E>();
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> addable = new ListNode(e);
+        if (size == 0) {
+            head = addable;
+            head.setNext(head);
+            head.setPrevious(head);
+            size++;
+            return true;
+        }
+        ListNode<E> last = head.getPrevious();
+        last.setNext(addable);
+        addable.setNext(head);
+        head.setPrevious(addable);
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (size == 0) return false;
+        if (contains(o)) {
+            E data = (E) o;
+            ListNode<E> cur = head;
+            ListNode<E> curNext;
+            ListNode<E> curPrevious;
+            if (cur.getDate() == data) {
+                curNext = cur.getNext();
+                curPrevious = cur.getPrevious();
+                curNext.setPrevious(curPrevious);
+                curPrevious.setNext(curNext);
+                head = curNext;
+                size--;
+                return true;
+            }
+            for (;cur.getNext() != head; cur = cur.getNext()) {
+                if (cur.getDate() == data) {
+                    curNext = cur.getNext();
+                    curPrevious = cur.getPrevious();
+                    curNext.setPrevious(curPrevious);
+                    curPrevious.setNext(curNext);
+                    size--;
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> cur = head;
+        for (;index != 0;index--) {
+            cur = cur.getNext();
+        }
+        return cur.getDate();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        E data = (E) o;
+        int counter = 0;
+        ListNode<E> cur = head;
+        if (cur.getDate().equals(data)) return counter;
+        for (cur = cur.getNext(); cur != head; cur = cur.getNext()) {
+            if (cur.getDate().equals(data)) return counter + 1;
+            counter++;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        Object[] temp = c.toArray();
+        if (temp.length == 0) return false;
+        for (int i = 0; i < temp.length; i++)
+            add((E) temp[i]);
+        return true;
     }
 
 
