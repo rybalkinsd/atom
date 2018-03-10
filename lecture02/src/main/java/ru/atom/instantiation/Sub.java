@@ -13,7 +13,7 @@ public class Sub extends Base {
     {
         System.out.println("Sub: init block");
         System.out.println("Sub: inited field `willBeInited` = " + willBeInited);
-        // Не можем получить значение willBeInitedLater в этом месте
+        // Cannot get value of willBeInitedLater at this point
     }
 
     private double willBeInitedLater = 40.4;
