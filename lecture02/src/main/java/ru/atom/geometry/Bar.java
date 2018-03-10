@@ -6,8 +6,8 @@ package ru.atom.geometry;
 public class Bar implements Collider {
     // fields
     // and methods
-    Point leftBottom;
-    Point rigthTop;
+    private Point leftBottom;
+    private Point rigthTop;
 
     public Bar(Point x, Point y) {
         this.leftBottom = x;
