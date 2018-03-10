@@ -1,5 +1,6 @@
 package ru.atom.list;
 
+
 import javax.swing.text.html.HTMLDocument;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,9 +10,10 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+
     private int length ;
     private ListNode<E> header;
-    Item iter;
+
 
     class Item<E> implements Iterator<E> {
         int cur;
@@ -34,11 +36,11 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public void remove() {
-            ListNode tmp = header.next;
+            ListNode tmp = header.getNext();
             for (int i = 0;i < cur;i++)
-                tmp = tmp.next;
-            tmp.prev.next = tmp.next;
-            tmp.next.prev = tmp.prev;
+                tmp = tmp.getNext();
+            tmp.getPrev().setNext(tmp.getNext());
+            tmp.getNext().setPrev(tmp.getPrev());
         }
     }
 
@@ -50,9 +52,6 @@ public class CustomLinkedList<E> implements List<E> {
     CustomLinkedList() {
         length = 0;
         header = new ListNode<>();
-        header.element = null;
-        header.next = header;
-        header.prev = header;
     }
 
     @Override
@@ -62,30 +61,29 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        ListNode tmp = header.next;
+        ListNode tmp = header.getNext();
         for (int i = 0;i < size();i++) {
-            if (tmp.element.equals(o))
+            if (tmp.getElement().equals(o))
                 return true;
-            tmp = tmp.next;
+            tmp = tmp.getNext();
         }
         return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        iter = new Item();
-        return iter;
+        return new Item<>();
 
     }
 
     @Override
     public boolean add(E e) {
         ListNode tmp = new ListNode();
-        tmp.element = e;
-        tmp.prev = header.prev;
-        tmp.next = header;
-        tmp.next.prev = tmp;
-        tmp.prev.next = tmp;
+        tmp.setElement(e);
+        tmp.setPrev(header.getPrev());
+        tmp.setNext(header);
+        tmp.getNext().setPrev(tmp);
+        tmp.getPrev().setNext(tmp);
         length++;
         return true;
     }
@@ -93,26 +91,26 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean remove(Object o) {
         if (o == null) {
-            ListNode ptr = header.next;
+            ListNode ptr = header.getNext();
             for (int i = 0; i < length ; i++) {
-                if (ptr.element == null) {
-                    ptr.prev.next = ptr.next;
-                    ptr.next.prev = ptr.prev;
+                if (ptr.getElement() == null) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
                     length--;
                     return true;
                 }
-                ptr = ptr.next;
+                ptr = ptr.getNext();
             }
         } else {
-            ListNode ptr = header.next;
+            ListNode ptr = header.getNext();
             for (int i = 0; i < length ; i++) {
-                if (o.equals(ptr.element)) {
-                    ptr.prev.next = ptr.next;
-                    ptr.next.prev = ptr.prev;
+                if (o.equals(ptr.getElement())) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
                     length--;
                     return true;
                 }
-                ptr = ptr.next;
+                ptr = ptr.getNext();
             }
         }
         return false;
@@ -120,39 +118,39 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-        header.prev = null;
-        header.next = null;
+        header.setNext(null);
+        header.setPrev(null);
     }
 
     @Override
     public E get(int index) {
-        ListNode ptr = header.next;
+        ListNode ptr = header.getNext();
         for (int i = 0;i < index;i++)
-            ptr = ptr.next;
-        return (E) ptr.element;
+            ptr = ptr.getNext();
+        return (E) ptr.getElement();
     }
 
     @Override
     public int indexOf(Object o) {
         if (o == null) {
-            ListNode ptr = header.next;
+            ListNode ptr = header.getNext();
             for (int i = 0; i < length ; i++) {
-                if (ptr.element == null) {
-                    ptr.prev.next = ptr.next;
-                    ptr.next.prev = ptr.prev;
+                if (ptr.getElement() == null) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
                     return i;
                 }
-                ptr = ptr.next;
+                ptr = ptr.getNext();
             }
         } else {
-            ListNode ptr = header.next;
+            ListNode ptr = header.getNext();
             for (int i = 0; i < length ; i++) {
-                if (o.equals(ptr.element)) {
-                    ptr.prev.next = ptr.next;
-                    ptr.next.prev = ptr.prev;
+                if (o.equals(ptr.getElement())) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
                     return i;
                 }
-                ptr = ptr.next;
+                ptr = ptr.getNext();
             }
         }
         return -1;
