@@ -1,4 +1,5 @@
+<<<<<<< HEAD
+=======
 rootProject.name = 'atom'
-include 'lecture01'
-include 'lecture02'
 include 'lecture03'
+>>>>>>> 16dad782f5d596ae50d0b39665b32df40da60c19
