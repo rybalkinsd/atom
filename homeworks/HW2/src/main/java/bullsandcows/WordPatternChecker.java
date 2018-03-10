@@ -1,7 +1,7 @@
 package bullsandcows;
 
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,14 +21,11 @@ public class WordPatternChecker {
 
     public static boolean wordCheck(String word) {
         m = p.matcher(word);
-        HashSet<String> tmp = new HashSet<String>();
-        for (int i = 0;i < word.length();i++)
-            tmp.add(word.substring(i,i + 1));
-        if (m.matches() && tmp.size() == word.length()) {
+        if (m.matches()) {
             return true;
         }
         System.out.println("Your word must match the pattern ^[a-z]{" + curLength +
-                "}$ and contain different letters! Try once more:");
+                "}$ Try once more:");
         return false;
     }
 
@@ -40,25 +37,35 @@ public class WordPatternChecker {
         return false;
     }
 
+    private static void containingChecker(HashMap<String,Integer> map , String key) {
+        if (map.containsKey(key))
+            map.put(key,map.get(key) + 1);
+        else
+            map.put(key,1);
+    }
 
     public static boolean ansComparer(String word , String ans) {
         if (word.equals(ans))
             return true;
+        String tmp1;
+        String tmp2;
         int cowsCtr = 0;
         int bullsCtr = 0;
-        HashSet<String> wordSet = new HashSet<String>();
-        HashSet<String> ansSet = new HashSet<String>();
+        HashMap<String,Integer> wordMap = new HashMap<>();
+        HashMap<String,Integer> ansMap = new HashMap<>();
         for (int i = 0;i < word.length();i++) {
-            if (word.substring(i,i + 1).equals(ans.substring(i,i + 1)))
+            tmp1 = word.substring(i,i + 1);
+            tmp2 = ans.substring(i,i + 1);
+            if (tmp1.equals(tmp2))
                 bullsCtr++;
             else {
-                wordSet.add(word.substring(i,i + 1));
-                ansSet.add(ans.substring(i,i + 1));
+                containingChecker(wordMap,tmp1);
+                containingChecker(ansMap,tmp2);
             }
         }
-        for (String str : ansSet)
-            if (wordSet.contains(str))
-                cowsCtr++;
+        for (String str : ansMap.keySet())
+            if (wordMap.containsKey(str))
+                cowsCtr += Math.min(ansMap.get(str),wordMap.get(str));
         System.out.println("Bulls:" + bullsCtr);
         System.out.println("Cows:" + cowsCtr);
         return false;

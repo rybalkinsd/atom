@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 public class CustomerInput {
-    public static Scanner inpStream = new Scanner(System.in);
+    private static Scanner inpStream = new Scanner(System.in);
 
     public static String wordInpTry() {
         String inp;
