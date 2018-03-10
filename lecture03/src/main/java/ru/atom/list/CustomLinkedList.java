@@ -8,54 +8,142 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    int size = 0;
+    ListNode<E> head;
+
+    class CommonListIterator<E> implements Iterator<E> {
+        int cur = 0;
+
+        @Override
+        public boolean hasNext() {
+            return cur < size;
+        }
+
+        @Override
+        public E next() {
+            E tmp = (E) get(cur);
+            cur++;
+            return tmp;
+        }
+
+        @Override
+        public void remove() {
+            ListNode<E> tmp = (ListNode<E>) head;
+            for (int i = 0; i < cur - 1; i++)
+                tmp = tmp.getNext();
+            tmp.getPrevious().setNext(tmp.getNext());
+            tmp.getNext().setPrevious(tmp.getPrevious());
+            cur--;
+            size--;
+        }
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return (size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode tmp = head;
+        for (int i = 0;i < size();i++) {
+            if (tmp.getDate().equals(o))
+                return true;
+            tmp = tmp.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new CommonListIterator<E>();
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            head = new ListNode<E>(e);
+            head.setNext(head);
+            head.setPrevious(head);
+            size++;
+            return true;
+        }
+        ListNode<E> cur = head;
+        for (;cur.getNext() != head; cur = cur.getNext());
+        cur.setNext(new ListNode<E>(e));
+        cur.getNext().setPrevious(cur);
+        cur.getNext().setNext(head);
+        head.setPrevious(cur.getNext());
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (contains(o)) {
+            if (size == 0) {
+                head = null;
+                size--;
+                return true;
+            }
+            ListNode<E> cur = head;
+            if (cur.getDate() == o) {
+                head.getPrevious().setNext(cur.getNext());
+                head.getNext().setPrevious(cur.getPrevious());
+                head = head.getNext();
+                size--;
+                return true;
+            }
+            for (cur = cur.getNext(); cur.getNext() != head; cur = cur.getNext())
+                if (cur.getDate() == o) {
+                    cur.getPrevious().setNext(cur.getNext());
+                    cur.getNext().setPrevious(cur.getPrevious());
+                    size--;
+                }
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.getNext();
+        }
+        return temp.getDate();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (contains(o)) {
+            int index = 0;
+            for (ListNode<E> temp = head; temp.getDate() == o; temp = temp.getNext()) {
+                index++;
+            }
+            return index;
+        }
+        return 0;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        Object[] temp = c.toArray();
+        if (temp.length == 0) return false;
+        for (int i = 0; i < temp.length; i++) {
+            add((E) temp[i]);
+        }
+        return true;
     }
 
 
