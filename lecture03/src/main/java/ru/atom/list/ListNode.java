@@ -9,7 +9,7 @@ import java.util.RandomAccess;
 public class ListNode<E> {
     private ListNode<E> next = null;
     private ListNode<E> prev = null;
-    E value;
+    private E value;
 
     ListNode(E value)  {
         this.value = value;
