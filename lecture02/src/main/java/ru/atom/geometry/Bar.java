@@ -4,15 +4,15 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Bar implements Collider {
-    private Point Left;
-    private Point Right;
+    private Point left;
+    private Point right;
 
     public Point getLeft() {
-        return Left;
+        return left;
     }
 
     public Point getRight() {
-        return Right;
+        return right;
     }
 
     /**
@@ -28,7 +28,7 @@ public class Bar implements Collider {
         // cast from Object to Bar
         Bar bar = (Bar) o;
 
-        return (Left.equals(bar.Left)) && (Right.equals(bar.Right));
+        return (left.equals(bar.left)) && (right.equals(bar.right));
     }
 
     @Override
@@ -36,24 +36,24 @@ public class Bar implements Collider {
         if (other instanceof Bar) {
             Bar bar = (Bar) other;
 
-            if ((Left.getX() > bar.Right.getX()) || (Right.getX() < bar.Left.getX())) {
+            if ((left.getX() > bar.right.getX()) || (right.getX() < bar.left.getX())) {
                 return false;
             }
 
-            if ((Left.getY() > bar.Right.getY()) || (Right.getY() < bar.Left.getY())) {
+            if ((left.getY() > bar.right.getY()) || (right.getY() < bar.left.getY())) {
                 return false;
             }
 
             return true;
         } else {
             Point point = (Point) other;
-            return ((point.getX() >= Left.getX()) && (point.getX() <= Right.getX())
-                    && (point.getY() >= Left.getY()) && (point.getY() <= Right.getY()));
+            return ((point.getX() >= left.getX()) && (point.getX() <= right.getX())
+                    && (point.getY() >= left.getY()) && (point.getY() <= right.getY()));
         }
     }
 
     public Bar(int xx1, int yy1, int xx2, int yy2) {
-        Left = new Point(Math.min(xx1, xx2), Math.min(yy1, yy2));
-        Right = new Point(Math.max(xx1, xx2), Math.max(yy1, yy2));
+        left = new Point(Math.min(xx1, xx2), Math.min(yy1, yy2));
+        right = new Point(Math.max(xx1, xx2), Math.max(yy1, yy2));
     }
 }
