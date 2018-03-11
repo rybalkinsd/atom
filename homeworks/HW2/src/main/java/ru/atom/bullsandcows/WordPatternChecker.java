@@ -1,4 +1,4 @@
-package bullsandcows;
+package ru.atom.bullsandcows;
 
 
 import java.util.HashMap;
