@@ -15,6 +15,8 @@ public class Bar implements Collider {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Bar bar = (Bar) o;
 
         if (xright < xleft) {
@@ -48,10 +50,9 @@ public class Bar implements Collider {
         return (avar || bvar) && (cvar || dvar);
     }
 
-    public boolean equals(Point o) {
-        Point point = (Point) o;
-        boolean qvar = xleft <= point.x && point.x <= xright && yleft <= point.y && point.y <= yright;
-        return qvar;
+    public boolean equals(Point point) {
+        return xleft <= point.x && point.x <= xright && yleft <= point.y && point.y <= yright;
+
     }
 
     @Override
