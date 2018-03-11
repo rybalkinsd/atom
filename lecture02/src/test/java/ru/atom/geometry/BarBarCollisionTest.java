@@ -6,7 +6,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-@Ignore
+
 public class BarBarCollisionTest {
     @Test
     public void barSelfCollide() {
@@ -230,5 +230,21 @@ public class BarBarCollisionTest {
         Collider bar1 = Geometry.createBar(150, 150, 200, 200);
         Collider bar2 = Geometry.createBar(0, 0, 100, 100);
         assertFalse(bar1.isColliding(bar2));
+    }
+
+    @Test
+    public void getLeftDownPoint() {
+    }
+
+    @Test
+    public void getRigthUpPoint() {
+    }
+
+    @Test
+    public void isColliding() {
+    }
+
+    @Test
+    public void equals() {
     }
 }
