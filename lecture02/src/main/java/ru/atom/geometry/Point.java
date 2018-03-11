@@ -4,13 +4,22 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider {
-    public int x;
-    public int y;
+    private int x;
+    private int y;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,8 +38,8 @@ public class Point implements Collider {
             return ((point.x == this.x) && (point.y == this.y));
         } else {
             Bar bar = (Bar) other;
-            return ((x >= Math.min(bar.x1, bar.x2)) && (x <= Math.max(bar.x1, bar.x2))
-                    && (y >= Math.min(bar.y1, bar.y2)) && (y <= Math.max(bar.y1, bar.y2)));
+            return ((x >= bar.getLeft().getX()) && (x <= bar.getRight().getX())
+                    && (y >= bar.getLeft().getY()) && (y <= bar.getRight().getY()));
         }
     }
 
