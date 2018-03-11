@@ -4,8 +4,8 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public boolean isColliding(Collider other) {
         if (other == null) return false;
@@ -35,5 +35,22 @@ public class Point implements Collider {
 
         return (point.x == this.x && point.y == this.y);
 
+    }
+
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
+    }
+
+    void setX(int val) {
+        x = val;
+    }
+
+    void setY(int val) {
+        y = val;
     }
 }

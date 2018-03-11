@@ -1,10 +1,10 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
-    int minX;
-    int minY;
-    int maxX;
-    int maxY;
+    private int minX;
+    private int minY;
+    private int maxX;
+    private int maxY;
 
     Bar(int firstCoordX, int firstCoordY, int secondCoordX, int secondCoordY) {
         minX = Math.min(firstCoordX , secondCoordX);
@@ -18,7 +18,7 @@ public class Bar implements Collider {
         if (other == null) return false;
         if (other.getClass() != getClass()) {
             Point ptr = (Point) other;
-            return minX <= ptr.x && maxX >= ptr.x && minY <= ptr.y && maxY >= ptr.y;
+            return minX <= ptr.getX() && maxX >= ptr.getX() && minY <= ptr.getY() && maxY >= ptr.getY();
         } else {
             if (this == other) return true;
 
