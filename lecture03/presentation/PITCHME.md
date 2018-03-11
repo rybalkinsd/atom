@@ -86,7 +86,6 @@ For slf4j API implementation that we choose is **log4j2**
 To customize logging you must create **log4j2.properties** in resources folder (in CLASSPATH)
 
 
-
 #HSLIDE
 ### Exceptions
 1. External libraries usage
