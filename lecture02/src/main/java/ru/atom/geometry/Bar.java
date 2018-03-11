@@ -1,13 +1,10 @@
 package ru.atom.geometry;
 
-//import static jdk.vm.ci.aarch64.AArch64.v1;
-//import static jdk.vm.ci.aarch64.AArch64.v3;
-
 public class Bar implements Collider {
-    int xleft;
-    int yleft;
-    int xright;
-    int yright;
+    private int xleft;
+    private int yleft;
+    private int xright;
+    private int yright;
 
     Bar(int xleft, int yleft, int xright, int yright) {
         this.xleft = xleft;
