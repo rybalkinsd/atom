@@ -7,10 +7,6 @@ public class Bar implements Collider {
     private Point Left;
     private Point Right;
 
-    private boolean intersection(int a1, int a2, int b1, int b2) {
-        return !((Math.min(a1,a2) > Math.max(b1,b2)) || (Math.min(b1,b2) > Math.max(a1,a2)));
-    }
-
     public Point getLeft() {
         return Left;
     }
