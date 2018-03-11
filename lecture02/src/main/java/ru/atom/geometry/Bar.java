@@ -3,12 +3,13 @@ package ru.atom.geometry;
 public class Bar implements Collider {
     private int firstCornerX;
     private int firstCornerY;
-    private int SecondCornerX;
-    private int SecondCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     public int lenX() {
         return Math.abs(this.getFirstCornerX() - this.getSecondCornerX());
     }
+
     public int lenY() {
         return Math.abs(this.getFirstCornerY() - this.getSecondCornerY());
     }
@@ -18,33 +19,34 @@ public class Bar implements Collider {
         this.setFirstCornerY(Math.min(firstCornerY, secondCornerY));
         this.setSecondCornerX(Math.max(firstCornerX, secondCornerX));
         this.setSecondCornerY(Math.max(firstCornerY, secondCornerY));
-
     }
+
     @Override
     public boolean isColliding(Collider other) {
-        if(other instanceof Point) {
+        if (other instanceof Point) {
             Point point = (Point) other;
             return (point.getX() >= this.getFirstCornerX() && point.getX() <= this.getSecondCornerX()
                     && point.getY() >= this.getFirstCornerY() && point.getY() <= this.getSecondCornerY());
-        } else if(other instanceof Bar) {
+        } else if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            Point a,b,c,d;
-            a = new Point(bar.getFirstCornerX(), bar.getFirstCornerY());
-            b = new Point(bar.getSecondCornerX(), bar.getFirstCornerY());
-            c = new Point(bar.getFirstCornerX(), bar.getSecondCornerY());
-            d = new Point(bar.getSecondCornerX(), bar.getSecondCornerY());
-            if(this.isColliding(a) || this.isColliding(b) || this.isColliding(c) || this.isColliding(d)) return true;
+            Point pointA = new Point(bar.getFirstCornerX(), bar.getFirstCornerY());
+            Point pointB = new Point(bar.getSecondCornerX(), bar.getFirstCornerY());
+            Point pointC = new Point(bar.getFirstCornerX(), bar.getSecondCornerY());
+            Point pointD = new Point(bar.getSecondCornerX(), bar.getSecondCornerY());
+            if (this.isColliding(pointA) || this.isColliding(pointB)
+                    || this.isColliding(pointC) || this.isColliding(pointD)) return true;
         } //else return false;
         return false;
     }
+
     @Override
     public boolean equals(Object other) {
-        if(other == this)
+        if (other == this)
             return true;
         else {
-            if(other instanceof Bar) {
+            if (other instanceof Bar) {
                 Bar bar = (Bar) other;
-                if(this.lenX() == bar.lenX() && this.lenY() == bar.lenY()
+                if (this.lenX() == bar.lenX() && this.lenY() == bar.lenY()
                         || this.lenX() == bar.lenY() && this.lenY() == bar.lenX())
                     return true;
             }
@@ -69,18 +71,18 @@ public class Bar implements Collider {
     }
 
     public int getSecondCornerX() {
-        return SecondCornerX;
+        return secondCornerX;
     }
 
     public void setSecondCornerX(int secondCornerX) {
-        SecondCornerX = secondCornerX;
+        this.secondCornerX = secondCornerX;
     }
 
     public int getSecondCornerY() {
-        return SecondCornerY;
+        return secondCornerY;
     }
 
     public void setSecondCornerY(int secondCornerY) {
-        SecondCornerY = secondCornerY;
+        this.secondCornerY = secondCornerY;
     }
 }

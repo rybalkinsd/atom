@@ -11,6 +11,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         this.setX(0);
         this.setY(0);
     }
+
     Point(int x, int y) {
         this.setX(x);
         this.setY(y);
@@ -50,7 +51,7 @@ public class Point implements Collider/* super class and interfaces here if nece
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other instanceof Point) {
+        if (other instanceof Point) {
             Point point = (Point) other;
             return this.equals(other);
         } else return false;
