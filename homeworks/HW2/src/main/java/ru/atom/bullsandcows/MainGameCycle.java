@@ -21,7 +21,6 @@ public class MainGameCycle {
         do {
             wordNum = generator.nextInt(listSize);
             word = list.get(wordNum);
-            System.out.println(word);
             wordLength = word.length();
             WordPatternChecker.setPattern(wordLength);
             System.out.println("I offered a " + wordLength + "-letter word, your guess?");
