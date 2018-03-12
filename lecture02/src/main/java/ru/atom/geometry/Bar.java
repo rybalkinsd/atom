@@ -2,8 +2,8 @@ package ru.atom.geometry;
 
 public class Bar implements Collider {
 
-    final private Point leftDown;
-    final private Point rightUp;
+    private final Point leftDown;
+    private final Point rightUp;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         int minX = (firstCornerX <= secondCornerX) ? firstCornerX : secondCornerX;
