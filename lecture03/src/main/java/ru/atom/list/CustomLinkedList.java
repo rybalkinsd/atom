@@ -84,19 +84,13 @@ public class CustomLinkedList<E> implements List<E> {
 
     }
 
-
     @Override
     public boolean add(E e) {
-        try {
-            ListNode toCreate = new ListNode(e, header, header.getPrev());
-            header.getPrev().setNext(toCreate);
-            header.setPrev(toCreate);
-            log.info("add()- added {} succesfully", toCreate.getElement());
-            return true;
-        } catch (Exception any) {
-            log.error("add()- failed to add an element (caught exception)");
-            return false;
-        }
+        ListNode toCreate = new ListNode(e, header, header.getPrev());
+        header.getPrev().setNext(toCreate);
+        header.setPrev(toCreate);
+        log.info("add()- added {} succesfully", toCreate.getElement());
+        return true;
     }
 
     /* Deletes only the first found element */
