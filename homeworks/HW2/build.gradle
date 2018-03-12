@@ -30,5 +30,5 @@ jar {
 }
 
 run {
-    standardInput = System.in;
+    standardInput = System.in
 }

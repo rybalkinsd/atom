@@ -15,7 +15,7 @@ public class Game {
         try {
             baC.setWords("dictionary.txt");
         } catch (IOException e) {
-            logger.debug(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
             return;
         } catch (NullPointerException e) {
             logger.error("Cannot load dictionary");
@@ -29,6 +29,7 @@ public class Game {
             Thread.sleep(1000);
             System.out.printf("I got a word for ya\nIt has %d letters. Go on!\n", length);
             do {
+                System.out.printf("%d tries left\n", tries);
                 String guess = scanner.nextLine();
                 Thread.sleep(500);
                 try {
@@ -36,11 +37,12 @@ public class Game {
                     if (overlap.getB() == length) {
                         System.out.println("Grats! You guessed it right!");
                         break;
-                    } else
-                        System.out.printf("Nah, %d bulls, %d cows\n%d tries left\n",
+                    } else {
+                        System.out.printf("Nah, %d bulls, %d cows\n",
                                 overlap.getB(),
-                                overlap.getC(),
-                                tries--);
+                                overlap.getC());
+                        tries--;
+                    }
 
                 } catch (IllegalArgumentException e) {
                     System.out.printf("%d letters actshually\n", length);
@@ -48,6 +50,6 @@ public class Game {
             } while (tries > 0);
             if (tries == 0) System.out.println("Better luck next time!");
             System.out.println("One more time? (Y)");
-        } while (scanner.nextLine().equals("Y"));
+        } while (scanner.nextLine().toUpperCase().equals("Y"));
     }
 }
