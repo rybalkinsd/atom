@@ -47,20 +47,4 @@ public class PointPointCollisionTest {
         Collider point2 = Geometry.createPoint(200, 200);
         assertFalse(point1.isColliding(point2));
     }
-
-    @Test
-    public void getX() {
-    }
-
-    @Test
-    public void getY() {
-    }
-
-    @Test
-    public void equals() {
-    }
-
-    @Test
-    public void isColliding() {
-    }
 }
