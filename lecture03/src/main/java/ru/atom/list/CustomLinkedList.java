@@ -16,7 +16,7 @@ public class CustomLinkedList<E> implements List<E> {
 
 
     class Item<E> implements Iterator<E> {
-        int cur;
+        private int cur;
 
         Item() {
             cur = 0;
@@ -41,7 +41,6 @@ public class CustomLinkedList<E> implements List<E> {
                 tmp = tmp.getNext();
             tmp.getPrev().setNext(tmp.getNext());
             tmp.getNext().setPrev(tmp.getPrev());
-            cur--;
             length--;
         }
     }
