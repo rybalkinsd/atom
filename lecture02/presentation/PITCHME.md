@@ -150,7 +150,7 @@ Player myPlayer = new Player();
 
 
 #HSLIDE
-### `null` keyword
+### `null` literal
 
 `null` is a default value for reference type.
 
