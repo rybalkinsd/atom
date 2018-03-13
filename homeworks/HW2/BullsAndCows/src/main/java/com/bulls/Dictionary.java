@@ -11,28 +11,33 @@ public class Dictionary {
         allWords = new ArrayList<>();
     }
 
+    // load words from dictionary
+    // loading little bit long
     void init() {
-        try(FileReader reader = new FileReader("C:\\Users\\Dev\\Desktop\\LinFolder\\java\\atom\\homeworks\\HW2\\BullsAndCows\\dictionary.txt"))
-        {
-            int c;
+        try (FileReader reader = new FileReader(
+                "C:\\Users\\Dev\\Desktop\\LinFolder\\java\\atom\\homeworks\\HW2\\BullsAndCows\\dictionary.txt")
+        ) {
+            int symbol;
             allWords.add(new ArrayList<>());
 
-            while((c=reader.read())!=-1){
-                if((char) c != '\n') {
-                    allWords.get(allWords.size() - 1).add((char) c);
-                } else {
+            while ((symbol = reader.read()) != -1) {
+                if ((char) symbol != '\n')
+                    allWords.get(allWords.size() - 1).add((char) symbol);
+                else
                     allWords.add(new ArrayList<>());
-                }
+
             }
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             allWords = null;
         }
     }
+
+    // get random word from dictionary
+    // or if we didn`t init it we generate random word
     public ArrayList<Character> getWord() {
-        if(allWords == null) {
+        if (allWords == null) {
             ArrayList<Character> randWord = new ArrayList<>();
-            for(int i = 0; i < 4; i ++)
+            for (int i = 0; i < 4; i ++)
                 randWord.add((char)('a' + ('z' - 'a') * Math.random()));
             return randWord;
         }
