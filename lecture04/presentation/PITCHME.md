@@ -48,13 +48,13 @@ https://sphere.mail.ru/
 ---
 
 ## Client - server architecture
----?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 70% 
+?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 70% 
 
 ---
 
 ## Which protocol to use?
 
----?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
+?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
 
 ---
 
@@ -63,7 +63,7 @@ The choice of protocol depends on **requirements**
 ---
 
 ## Bomberman architecture
----?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 70% 
+?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 70% 
 
 ---
 
@@ -78,7 +78,7 @@ The choice of protocol depends on **requirements**
 ---
 
 ## HTTP - Application layer client-server protocol
----?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
+?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
 
 ---
 
