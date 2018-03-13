@@ -5,6 +5,13 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'checkstyle'
 apply plugin: 'idea'
+apply plugin: 'application'
+
+mainClassName = "ru.atom.bullsncows.BullsAndCows"
+
+run{
+    standardInput = System.in
+}
 
 dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api

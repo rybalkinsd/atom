@@ -83,7 +83,7 @@ public class BullsAndCows {
         int attempt = 1;
 
         //other steps
-        while (attempt < 10 && !isCorrect(answer)) { // do-while impossible cause we don't have to print bulls&cows before
+        while (attempt < 10 && !isCorrect(answer)) {
             System.out.println(answer);
             System.out.println(word);
             System.out.println(letters);
