@@ -1,22 +1,24 @@
-#HSLIDE
 # Java
 lecture 4
 ## Web client
 
+---
 
-#HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
+---
 
-#HSLIDE
 ### get ready
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture04 upstream/lecture04
+> cd lecture04
 ```
 
-#HSLIDE
+---
+
 ### Agenda
 1. **[Collections]**
 1. Client - server architecture
@@ -25,7 +27,8 @@ https://atom.mail.ru/
 1. REST API
 1. Java HTTP Client
 
-#HSLIDE
+---
+
 ### Map 
 
 ```java
@@ -36,8 +39,8 @@ An object that maps **keys** to **values**.
 Cannot contain duplicate keys.
 Each key map to at most one value.
  
+---
 
-#HSLIDE
 ### Map methods
  ```java
 boolean containsKey(Object key);
@@ -46,32 +49,37 @@ V put(K key, V value);
 V remove(Object key);
 ```
 
-#HSLIDE
+---
+
 ### Why, Map?
 Why Map is not a Collection?
 
-#HSLIDE
+---
+
 ### Why, Map?
 From official FAQ:
 > This was by design.
 > We feel that mappings are not collections and collections are not mappings. 
 > If a Map is a Collection, what are the elements? 
 
-#HSLIDE
+---
+
 ### Map implementations
 - HashMap
 - TreeMap
 - LinkedHashMap
 - EnumMap
 
-#HSLIDE
+---
+
 ## HashMap
 **HashMap** - map where hashing is used to speedup search by key
 So **containsKey()** and **get(key)** are **O(1)**  
 To support this we must implement **hashCode()** for **keys**  
 **hashCode()** and **equals()** must hold contract
 
-#HSLIDE
+---
+
 ### HashMap. General contract
 For objects **a** and **b**:
 ```java
@@ -83,12 +91,14 @@ if a.key.hashCode() == b.key.hashCode()
 a.key.hashcode() is the same during object lifetime
 ```
 
-#HSLIDE
+---
+
 ### HashMap. Internals 
 <img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
 
 
-#HSLIDE
+---
+
 ### HashMap. Complexity
 
 |  containsKey  | get   | put   | remove | 
@@ -98,21 +108,24 @@ a.key.hashcode() is the same during object lifetime
 [Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
 
 
-#HSLIDE
+---
+
 ### TreeMap
 The keys are ordered using their **Comparable** natural 
 ordering, or by **Comparator** provided at set creation time, 
 depending on which constructor is used.
 
 
-#HSLIDE
+---
+
 ### TreeMap. Internals
 <img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
 
 [Read more (RU)](https://habrahabr.ru/post/65617/)
 
 
-#HSLIDE
+---
+
 ### Functional interface Comparable<T>
 
 ```java
@@ -123,7 +136,8 @@ public int compareTo(T o) {
 ```
 
 
-#HSLIDE
+---
+
 ### compareTo & equals
 Any type of contract?
 ```java
@@ -133,7 +147,8 @@ a.equals(b) == true => a.compareTo(b) == 0
 What about null?
 
 
-#HSLIDE
+---
+
 ### TreeMap. Complexity
 
 |  contains  | add   | get   | remove | 
@@ -143,7 +158,8 @@ What about null?
 [Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
 
 
-#HSLIDE
+---
+
 ### Interface Set
 -  A collection that contains no duplicate elements.  More formally, sets
    contain no pair of elements **e1** and **e2** such that
@@ -160,12 +176,14 @@ What about null?
     - LinkedHashSet
     - ...
 
-#HSLIDE
+---
+
 ### HashSet
 Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)  
 It makes no guarantees as to the iteration order of the set.
  
-#HSLIDE
+---
+
 ### General contract
 For objects **a** and **b**:
 ```java
@@ -177,19 +195,22 @@ if a.hashCode() == b.hashCode()
 a.hashcode() is the same during object lifetime
 ```
 
-#HSLIDE
+---
+
 ### HashSet. Complexity
 
 |  contains  | add   | get   | remove | 
 |:----------:|:-----:|:-----:|:------:|
 | O(1)       | O(1)  |  O(1) |  O(1)  |
 
-#HSLIDE
+---
+
 ### TreeSet
 Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)  
 Complexity is similar to **TreeMap**
 
-#HSLIDE
+---
+
 ### Agenda
 1. Collections
 1. **[Client - server architecture]**
@@ -198,24 +219,29 @@ Complexity is similar to **TreeMap**
 1. cURL
 1. Java HTTP Client
 
-#HSLIDE
+---
+
 ## Client - server architecture
 <img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
 Which protocol to use for client-server interaction?
 
-#HSLIDE
+---
+
 ## Network communication
 There exist numerous protocols for network communication. OSI:
 <img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
 
-#HSLIDE
+---
+
 The choice of protocol depends on **requirements**
 
-#HSLIDE
+---
+
 ## Bomberman architecture
 <img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
 
-#HSLIDE
+---
+
 ### Agenda
 1. Collections
 1. Client - server architecture
@@ -224,20 +250,23 @@ The choice of protocol depends on **requirements**
 1. REST API
 1. Java HTTP Client
 
-#HSLIDE
+---
+
 ## HTTP
 **Application layer client-server protocol**
 
 <img src="lecture04/presentation/assets/img/HTTP.png" alt="exception" style="width: 750px;"/>
 
-#HSLIDE
+---
+
 ## HTTP Basics
 [https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 - **Resource** - any entity
 - **URI** - (Universal Resource Identifiers)
 - **Method** - what to do with **resource**
 
-#HSLIDE
+---
+
 ## HTTP Server
 Aka **Web Server**.
 Serves HTTP requests. (By default on **80 TCP port**)
@@ -248,14 +277,16 @@ Serves HTTP requests. (By default on **80 TCP port**)
 Web servers have different functionality and can be extendible  
 For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
 
-#HSLIDE
+---
+
 ## HTTP Client
 - web browser
 - cURL
 - libraries (e.g. **libcurl**)
 - telnet
 
-#HSLIDE
+---
+
 ## HTTP via telnet
 ```bash
 > telnet example.org 80
@@ -285,7 +316,8 @@ Content-Length: 1270
     ...
 ```
 
-#HSLIDE
+---
+
 ## HTTP Request
 **Request consists of**
 1. Request header (starting with **method**)
@@ -302,7 +334,8 @@ Changes resource
 removes resource
 - ...
 
-#HSLIDE
+---
+
 ## HTTP Response
 **Responce consists of**
 1. Status code
@@ -312,13 +345,15 @@ removes resource
 [rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
-#HSLIDE
+---
+
 ## HTTP via browser
 When you enter adress line in browser, in creates **GET** request  
 So we can do previous example just by typing in browser:
 > example.org
 
-#HSLIDE
+---
+
 ### When to use HTTP for inter-program communication?
 **When we want:**
 - simplicity (easy to develop and test)
@@ -328,7 +363,8 @@ So we can do previous example just by typing in browser:
 - mediocre performance (not real time)
 - client-server only - no push requests from server
 
-#HSLIDE
+---
+
 ### Agenda
 1. Collections
 1. Client - server architecture
@@ -337,13 +373,15 @@ So we can do previous example just by typing in browser:
 1. REST API
 1. Java HTTP Client
 
-#HSLIDE
+---
+
 ## cURL
 Super popular command line tool for multiple protocols testing (including **HTTP**)   
 [https://curl.haxx.se/](https://curl.haxx.se/)  
 it wraps **libcurl** library, which is available for all major languages
 
-#HSLIDE
+---
+
 ## GET Example
 Request from cURL:
 ```bash
@@ -369,7 +407,8 @@ Content-Length: 1270
     ...
 ```
 
-#HSLIDE
+---
+
 ## POST Example
 Raw HTTP:
 ```http
@@ -394,7 +433,8 @@ Server: Jetty(9.4.z-SNAPSHOT)
 
 ```
 
-#HSLIDE
+---
+
 ### Agenda
 1. Collections
 1. Client - server architecture
@@ -403,31 +443,36 @@ Server: Jetty(9.4.z-SNAPSHOT)
 1. **[REST API]**
 1. Java HTTP Client
 
-#HSLIDE
+---
+
 ## REST
 **REST** (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
 There are also some restrictions on how services must use HTTP for communication
 
-#HSLIDE
+---
+
 ## Bomberman architecture
 Here client and account server communicate via **REST API**
 <img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
 
-#HSLIDE
+---
+
 ## REST API
 REST API is a common way for services to publish their functionality for other services.  
 ### REST API Examples:
 **Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)  
 **Github:** [https://developer.github.com/v3/](https://developer.github.com/v3/)
 
-#HSLIDE
+---
+
 ## HTTP Client Pracrice
 We got a chat REST service open for you on  
   
 Implement **chat client** and enjoy!  
 @see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
-#HSLIDE
+---
+
 ## Chat REST API. View Online
 online:
 ```
@@ -439,7 +484,8 @@ online:
       Success code: 200
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. Login
 login:
 ```
@@ -454,7 +500,8 @@ login:
         400 - Already logined
         400 - Too long name (longer than 30 symbols)
 ```
-#HSLIDE
+---
+
 ## Chat REST API. View chat
 online:
 ```
@@ -467,7 +514,8 @@ online:
 ```
 > implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
 
-#HSLIDE
+---
+
 ## Chat REST API. Say
 login:
 ```
@@ -487,7 +535,8 @@ login:
 
 > implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
 
-#HSLIDE
+---
+
 ### Agenda
 1. Collections
 1. Client - server architecture
@@ -496,13 +545,15 @@ login:
 1. REST API
 1. **[Java HTTP Client]**
 
-#HSLIDE
+---
+
 ## OkHTTP
 We use OkHTTP library as java HTTP Client
 [http://square.github.io/okhttp/](http://square.github.io/okhttp/)
 ### @see ru.atom.http.client
 
-#HSLIDE
+---
+
 ## GET example from Java
 ```java
   //GET host:port/chat/online
@@ -516,7 +567,8 @@ We use OkHTTP library as java HTTP Client
     return client.newCall(request).execute();
   }
 ```
-#HSLIDE
+---
+
 ## POST example from Java
 ```java
   //GET host:port/chat/online
@@ -531,7 +583,8 @@ We use OkHTTP library as java HTTP Client
   }
 ```
 
-#HSLIDE
+---
+
 ### Summary
 1. **Sets** contain unique values
 1. **Maps** contain pairs with unique keys
@@ -539,7 +592,8 @@ We use OkHTTP library as java HTTP Client
 1. **HTTP** is popular client-server protocol for inter-program communication  
 Learn it!
 
-#HSLIDE
+---
+
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 

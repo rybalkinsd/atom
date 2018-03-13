@@ -9,12 +9,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Sergey Rybalkin on 11/03/17.
@@ -34,13 +32,13 @@ public class ContactListCacheTest {
 
     @Test
     public void cache1() throws Exception {
-        assertThat(cache1.getSize(), is(equalTo(0)));
-        assertThat(cache1.getCapacity(), is(equalTo(1)));
+        assertEquals(0, cache1.getSize());
+        assertEquals(1, cache1.getCapacity());
 
         cache1.put(johnny, Collections.singletonList(johnny));
-        assertThat(cache1.getSize(), is(equalTo(cache1.getCapacity())));
+        assertEquals(cache1.getSize(), cache1.getCapacity());
 
-        assertThat(cache1.get(johnny).contains(johnny), is(true));
+        assertTrue(cache1.get(johnny).contains(johnny));
 
         Person newOne = new Person("new", "one");
         List<Person> contacts = Arrays.asList(
@@ -48,15 +46,15 @@ public class ContactListCacheTest {
                 new Person("2", "2")
         );
         cache1.put(newOne, contacts);
-        assertThat(cache1.getSize(), is(equalTo(cache1.getCapacity())));
-        assertThat(cache1.get(johnny), is(nullValue()));
-        assertThat(cache1.get(newOne), is(notNullValue()));
+        assertEquals(cache1.getSize(), cache1.getCapacity());
+        assertNull(cache1.get(johnny));
+        assertNotNull(cache1.get(newOne));
     }
 
     @Test
     public void cache1000() throws Exception {
-        assertThat(cache1000.getSize(), is(equalTo(0)));
-        assertThat(cache1000.getCapacity(), is(equalTo(1000)));
+        assertEquals(0, cache1000.getSize());
+        assertEquals(1000, cache1000.getCapacity());
 
         List<Person> contacts = Arrays.asList(
                 new Person("1", "1"),
@@ -67,11 +65,11 @@ public class ContactListCacheTest {
                 .map(Object::toString)
                 .forEach(x -> cache1000.put(new Person(x, x), contacts));
 
-        assertThat(cache1000.get(johnny), is(nullValue()));
-        assertThat(cache1000.get(new Person("50", "50")), is(notNullValue()));
+        assertNull(cache1000.get(johnny));
+        assertNotNull(cache1000.get(new Person("50", "50")));
 
         cache1000.put(johnny, Collections.singletonList(johnny));
-        assertThat(cache1000.get(johnny), is(notNullValue()));
+        assertNotNull(cache1000.get(johnny));
     }
 
 }
