@@ -1,5 +1,7 @@
 package ru.atom.list;
 
+
+import javax.swing.text.html.HTMLDocument;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -8,54 +10,160 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+
+    private int length ;
+    private ListNode<E> header;
+
+
+    class Item<E> implements Iterator<E> {
+        private int cur;
+
+        Item() {
+            cur = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cur < length ;
+        }
+
+        @Override
+        public E next() {
+            E tmp = (E) get(cur);
+            cur++;
+            return tmp;
+        }
+
+        @Override
+        public void remove() {
+            ListNode tmp = header.getNext();
+            for (int i = 0;i < cur;i++)
+                tmp = tmp.getNext();
+            tmp.getPrev().setNext(tmp.getNext());
+            tmp.getNext().setPrev(tmp.getPrev());
+            length--;
+        }
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return length;
+    }
+
+    CustomLinkedList() {
+        length = 0;
+        header = new ListNode<>();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return length == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode tmp = header.getNext();
+        for (int i = 0;i < size();i++) {
+            if (tmp.getElement().equals(o))
+                return true;
+            tmp = tmp.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Item<>();
+
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode tmp = new ListNode();
+        tmp.setElement(e);
+        tmp.setPrev(header.getPrev());
+        tmp.setNext(header);
+        tmp.getNext().setPrev(tmp);
+        tmp.getPrev().setNext(tmp);
+        length++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            ListNode ptr = header.getNext();
+            for (int i = 0; i < length ; i++) {
+                if (ptr.getElement() == null) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
+                    length--;
+                    return true;
+                }
+                ptr = ptr.getNext();
+            }
+        } else {
+            ListNode ptr = header.getNext();
+            for (int i = 0; i < length ; i++) {
+                if (o.equals(ptr.getElement())) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
+                    length--;
+                    return true;
+                }
+                ptr = ptr.getNext();
+            }
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        header.setNext(null);
+        header.setPrev(null);
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode ptr = header.getNext();
+        for (int i = 0;i < index;i++)
+            ptr = ptr.getNext();
+        return (E) ptr.getElement();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            ListNode ptr = header.getNext();
+            for (int i = 0; i < length ; i++) {
+                if (ptr.getElement() == null) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
+                    return i;
+                }
+                ptr = ptr.getNext();
+            }
+        } else {
+            ListNode ptr = header.getNext();
+            for (int i = 0; i < length ; i++) {
+                if (o.equals(ptr.getElement())) {
+                    ptr.getPrev().setNext(ptr.getNext());
+                    ptr.getNext().setPrev(ptr.getPrev());
+                    return i;
+                }
+                ptr = ptr.getNext();
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        Object[] tmp = c.toArray();
+        if (tmp.length == 0) return false;
+        for (int i = 0;i < tmp.length ; i++)
+            add((E) tmp[i]);
+        return true;
     }
 
 

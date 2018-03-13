@@ -12,7 +12,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 
-@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -45,6 +44,7 @@ public class CustomLinkedListTest {
     @Test
     public void forEachTest() throws Exception {
         long sum = 0;
+        System.out.print(intList.size());
         for (Integer integer : intList) {
             sum += integer;
         }
