@@ -48,14 +48,13 @@ https://sphere.mail.ru/
 ---
 
 ## Client - server architecture
----?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 90% 
-Which protocol to use for client-server interaction?
+---?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 80% 
 
 ---
 
-## Network communication
-There exist numerous protocols for network communication. OSI:
----?image=lecture04/presentation/assets/img/osi2.png&size=auto 90% 
+## Which protocol to use?
+
+---?image=lecture04/presentation/assets/img/osi2.png&size=auto 80% 
 
 ---
 
@@ -69,7 +68,7 @@ The choice of protocol depends on **requirements**
 ---
 
 ### Agenda
-1. Collections
+1. Quiz
 1. Client - server architecture
 1. **[HTTP]**
 1. cURL
@@ -78,10 +77,8 @@ The choice of protocol depends on **requirements**
 
 ---
 
-## HTTP
-**Application layer client-server protocol**
-
-<img src="lecture04/presentation/assets/img/HTTP.png" alt="exception" style="width: 750px;"/>
+## HTTP - Application layer client-server protocol
+---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 90% 
 
 ---
 
@@ -192,7 +189,7 @@ So we can do previous example just by typing in browser:
 ---
 
 ### Agenda
-1. Collections
+1. Quiz
 1. Client - server architecture
 1. HTTP
 1. **[cURL]**
@@ -262,7 +259,7 @@ Server: Jetty(9.4.z-SNAPSHOT)
 ---
 
 ### Agenda
-1. Collections
+1. Quiz
 1. Client - server architecture
 1. HTTP
 1. cURL
@@ -364,7 +361,7 @@ login:
 ---
 
 ### Agenda
-1. Collections
+1. Quiz
 1. Client - server architecture
 1. HTTP
 1. cURL
@@ -412,9 +409,6 @@ We use OkHTTP library as java HTTP Client
 ---
 
 ### Summary
-1. **Sets** contain unique values
-1. **Maps** contain pairs with unique keys
-1. We **must** hold equals-hashCode and eqals-compareTo contracts
 1. **HTTP** is popular client-server protocol for inter-program communication  
 Learn it!
 
