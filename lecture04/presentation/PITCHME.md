@@ -20,7 +20,7 @@ https://sphere.mail.ru/
 ---
 
 ### Agenda
-1. **[Collections]**
+1. **[Quiz]**
 1. Client - server architecture
 1. HTTP
 1. cURL
@@ -28,191 +28,17 @@ https://sphere.mail.ru/
 1. Java HTTP Client
 
 ---
-
-### Map 
-
-```java
-interface Map<K, V>
-``` 
-
-An object that maps **keys** to **values**.
-Cannot contain duplicate keys.
-Each key map to at most one value.
- 
----
-
-### Map methods
- ```java
-boolean containsKey(Object key);
-V get(Object key);
-V put(K key, V value);
-V remove(Object key);
-```
-
----
-
-### Why, Map?
-Why Map is not a Collection?
-
----
-
-### Why, Map?
-From official FAQ:
-> This was by design.
-> We feel that mappings are not collections and collections are not mappings. 
-> If a Map is a Collection, what are the elements? 
-
----
-
-### Map implementations
-- HashMap
-- TreeMap
-- LinkedHashMap
-- EnumMap
-
----
-
-## HashMap
-**HashMap** - map where hashing is used to speedup search by key
-So **containsKey()** and **get(key)** are **O(1)**  
-To support this we must implement **hashCode()** for **keys**  
-**hashCode()** and **equals()** must hold contract
-
----
-
-### HashMap. General contract
-For objects **a** and **b**:
-```java
-a.key.equals(b.key) => a.key.hashCode() == b.key.hashCode()
-
-if a.key.hashCode() == b.key.hashCode() 
-          a may be not equal b
-          
-a.key.hashcode() is the same during object lifetime
-```
-
----
-
-### HashMap. Internals 
-<img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
-
-
----
-
-### HashMap. Complexity
-
-|  containsKey  | get   | put   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) | O(1)  |
-
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
-
----
-
-### TreeMap
-The keys are ordered using their **Comparable** natural 
-ordering, or by **Comparator** provided at set creation time, 
-depending on which constructor is used.
-
-
----
-
-### TreeMap. Internals
-<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
-
-[Read more (RU)](https://habrahabr.ru/post/65617/)
-
-
----
-
-### Functional interface Comparable<T>
-
-```java
-@Override
-public int compareTo(T o) {
-  return this.field – o.field;
-}
-```
-
-
----
-
-### compareTo & equals
-Any type of contract?
-```java
-a.equals(b) == true => a.compareTo(b) == 0
-``` 
-
-What about null?
-
-
----
-
-### TreeMap. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
-
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
-
----
-
-### Interface Set
--  A collection that contains no duplicate elements.  More formally, sets
-   contain no pair of elements **e1** and **e2** such that
-    ```java
-       e1.equals(e2);
-    ```
-    
-- Implementations
-    - HashSet 
-    - TreeSet
-    - EnumSet 
-    - ConcurrentSkipListSet 
-    - CopyOnWriteArraySet 
-    - LinkedHashSet
-    - ...
-
----
-
-### HashSet
-Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)  
-It makes no guarantees as to the iteration order of the set.
- 
----
-
-### General contract
-For objects **a** and **b**:
-```java
-a.equals(b) => a.hashCode() == b.hashCode()
-
-if a.hashCode() == b.hashCode() 
-          a may be not equal b
-          
-a.hashcode() is the same during object lifetime
-```
-
----
-
-### HashSet. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) |  O(1)  |
-
----
-
-### TreeSet
-Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)  
-Complexity is similar to **TreeMap**
+## Quiz
+0. equals() vs ==
+0. What is inside ArrayList?
+0. What is inside LinkedList?
+0. What is inside HashMap?
+0. equals() hashCode() contract
 
 ---
 
 ### Agenda
-1. Collections
+1. Quiz
 1. **[Client - server architecture]**
 1. HTTP
 1. REST API
@@ -222,14 +48,14 @@ Complexity is similar to **TreeMap**
 ---
 
 ## Client - server architecture
-<img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
+---?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 90% 
 Which protocol to use for client-server interaction?
 
 ---
 
 ## Network communication
 There exist numerous protocols for network communication. OSI:
-<img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
+---?image=lecture04/presentation/assets/img/osi2.png&size=auto 90% 
 
 ---
 
@@ -238,7 +64,7 @@ The choice of protocol depends on **requirements**
 ---
 
 ## Bomberman architecture
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
+---?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 90% 
 
 ---
 
