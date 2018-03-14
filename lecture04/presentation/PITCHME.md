@@ -146,11 +146,11 @@ response:
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Fri, 10 Mar 2017 16:21:07 GMT
-Etag: "359670651+ident"
-Expires: Fri, 17 Mar 2017 16:21:07 GMT
+Date: Wed, 14 Mar 2018 11:27:16 GMT
+Etag: "1541025663+ident"
+Expires: Wed, 21 Mar 2018 11:27:16 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D60)
+Server: ECS (dca/53DB)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -193,7 +193,7 @@ removes resource
 ---
 
 ## HTTP via browser
-When you enter adress line in browser, in creates **GET** request  
+When you enter address line in browser, in creates **GET** request  
 So we can do previous example just by typing in browser:
 > example.org
 
@@ -235,13 +235,14 @@ Request from cURL:
 Response:
 ```http
 HTTP/1.1 200 OK
+Accept-Ranges: bytes
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Wed, 11 Oct 2017 14:17:54 GMT
-Etag: "359670651+ident"
-Expires: Wed, 18 Oct 2017 14:17:54 GMT
+Date: Wed, 14 Mar 2018 11:30:27 GMT
+Etag: "1541025663"
+Expires: Wed, 21 Mar 2018 11:30:27 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (dca/24D5)
+Server: ECS (dca/24A0)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -291,14 +292,8 @@ Server: Jetty(9.4.z-SNAPSHOT)
 ---
 
 ## REST
-**REST** (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
+**REST** (Representational State Transfer) architecture style, where services communicate over **HTTP**.  
 There are also some restrictions on how services must use HTTP for communication
-
----
-
-## Bomberman architecture
-Here client and account server communicate via **REST API**
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
 
 ---
 
@@ -310,7 +305,7 @@ REST API is a common way for services to publish their functionality for other s
 
 ---
 
-## HTTP Client Pracrice
+## HTTP Client Practice
 We got a chat REST service open for you on  
   
 Implement **chat client** and enjoy!  
@@ -348,7 +343,7 @@ login:
 ---
 
 ## Chat REST API. View chat
-online:
+chat:
 ```
     Protocol: HTTP
     Path: chat/chat
@@ -362,7 +357,7 @@ online:
 ---
 
 ## Chat REST API. Say
-login:
+say:
 ```
     Protocol: HTTP
     Path: chat/say
