@@ -1,3 +1,4 @@
+package bulls;
 import java.util.Scanner;
 
 public class BCInterface {

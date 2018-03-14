@@ -1,3 +1,4 @@
+package bulls;
 public class BCMain {
     public static void main(String[] args) {
         BCInterface cur_game = new BCInterface();

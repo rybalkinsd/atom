@@ -4,9 +4,6 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'checkstyle'
-apply plugin: 'application'
-
-mainClassName = 'BCMain'
 
 dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
@@ -25,5 +22,5 @@ checkstyle {
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'BCMain.java' }
+    manifest { attributes 'Main-Class': 'bulls.BCMain' }
 }

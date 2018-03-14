@@ -1,7 +1,8 @@
+package bulls;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
-import static java.lang.Character.isLowerCase;
 
 public class BCGame {
     private String word = null;
@@ -109,7 +110,6 @@ public class BCGame {
         }
 
         for (int i = 0; i < 26; i++) {
-            System.out.println("let:" + let[i] + "cur:" + table[i]);
             cows += Math.min(let[i], table[i]);
         }
         cows -= bulls;
