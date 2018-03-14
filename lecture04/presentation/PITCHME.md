@@ -506,7 +506,7 @@ Look at **ru.atom.chat.server** implementation of chat server
 - ChatApplication - starter
 - ChatController - handler of HTTP requests
   
-All the magic behind **Spring** 'comes via' **Annotations**
+All the magic behind **Spring** 'comes via' **Annotations**  
 **We have deeper description of Spring in further lectures**
 
 ---
