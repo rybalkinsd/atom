@@ -88,7 +88,6 @@ Bomberman is actually a **web application** with client-server architecture
 ### Agenda
 1. First part summary
 1. Bomberman project
-1. Client - server architecture
 1. **[HTTP]**
 1. cURL
 1. REST API
