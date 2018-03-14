@@ -62,7 +62,7 @@ Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs
 
 ---
 
-## Project - server for multiplayer game
+## Project - server for multi-player game
 **Original project by Matt Scala:**  
 https://github.com/MattSkala/html5-bombergirl  
 http://bombergirl.matousskala.cz/  
@@ -78,6 +78,13 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 
 ---
 
+## Bomberman stack
+Bomberman is actually a **web application** with client-server architecture
+- Front-end is HTML5 + js (is ready)
+- Back-end is java
+
+---
+
 ### Agenda
 1. First part summary
 1. Bomberman project
@@ -86,21 +93,6 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 1. REST API
 1. cURL
 1. Java HTTP Client
-
----
-
-## Client - server architecture
----?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 80% 
-
----
-
-## Which protocol to use?
-
----?image=lecture04/presentation/assets/img/osi2.png&size=auto 80% 
-
----
-
-The choice of protocol depends on **requirements**
 
 ---
 
@@ -115,8 +107,11 @@ The choice of protocol depends on **requirements**
 
 ---
 
+## OSI model
+---?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
+
 ## HTTP - Application layer client-server protocol
----?image=lecture04/presentation/assets/img/HTTP.png&size=auto 80% 
+---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
 
 ---
 
@@ -133,7 +128,7 @@ Aka **Web Server**.
 Serves HTTP requests. (By default on **80 TCP port**)
 - Apache
 - NGINX
-- libraries (Jetty in Java)
+- embedded (as a library) - Jetty/Embedded Tomcat
 
 Web servers have different functionality and can be extensible  
 For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
