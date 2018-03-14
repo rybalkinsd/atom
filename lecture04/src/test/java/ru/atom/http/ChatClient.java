@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "34.229.108.81";
+    private static final String HOST = "54.224.37.210";
     private static final String PORT = ":8080";
 
     //GET host:port/chat/online
@@ -41,7 +41,13 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new UnsupportedOperationException();
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, ""))
+                .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name + "&msg=" + msg)
+                .build();
+
+        return client.newCall(request).execute();
     }
 
     //GET host:port/chat/chat
