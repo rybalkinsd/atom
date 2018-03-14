@@ -1,4 +1,4 @@
-package ru.atom.http;
+package ru.atom.chat.client;
 
 import okhttp3.Response;
 import org.junit.Assert;

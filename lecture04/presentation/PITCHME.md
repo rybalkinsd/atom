@@ -311,11 +311,10 @@ REST API is a common way for services to publish their functionality for other s
 
 ---
 
-## HTTP Client Practice
-We got a chat REST service open for you on  
+## Chat REST API
+We got a chat REST service open for you on 54.224.37.210  
   
-Implement **chat client** and enjoy!  
-@see **test.ru.atom.chat.client.ChatClient** and **test.ru.atom.http.ChatClientTest**
+Further you have description of it's REST API
 
 ---
 
@@ -358,7 +357,7 @@ chat:
     Response:
       Success code: 200
 ```
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
+> implement it in test.ru.atom.chat.HttpClient and check in test.ru.atom.http.HttpClientTest
 
 ---
 
@@ -379,7 +378,7 @@ say:
         400 - Too long message (longer than 140 symbols)
 ```
 
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
+> implement it in test.ru.atom.chat.HttpClient and check in test.ru.atom.http.HttpClientTest
 
 ---
 
@@ -429,6 +428,15 @@ We use OkHTTP library as java HTTP Client
     return client.newCall(request).execute();
   }
 ```
+
+---
+
+## HTTP Client Practice
+Implement **chat client** for chat on 54.224.37.210 and login under your **family name**!  
+@see **ru.atom.chat.client.ChatClient**  
+@see **test.ru.atom.http.ChatClientTest**
+  
+Mark: 2balls
 
 ---
 
@@ -491,9 +499,18 @@ First version: **2014**
 
 ---
 
+## HTTP Server Practice
+Implement **chat server** for given REST API and make pull request!  
+@see **ru.atom.chat.client.ChatController**  
+  
+Mark: 3balls
+
+---
+
 ### Summary
-1. **HTTP** is popular client-server protocol for inter-program communication  
-2. Spring is a 
+0. Know java collections/exception
+0. **HTTP** is popular client-server protocol for inter-program communication  
+0. We use Spring MVC to develop web application (such as chat)
 
 ---
 
