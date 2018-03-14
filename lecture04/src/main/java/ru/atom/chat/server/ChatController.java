@@ -6,8 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 import java.util.Queue;
@@ -59,16 +60,47 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+
+        if (usersOnline.containsKey(name)) {
+            usersOnline.remove(name);
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.badRequest().body("No such username!");
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> say(@RequestBody String name, String msg) {
+
+        if (usersOnline.containsKey(name)) {
+            messages.add(msg);
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.badRequest().body("No such username!");
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
+    }
 }
