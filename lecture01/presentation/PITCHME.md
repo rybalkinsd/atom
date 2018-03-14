@@ -58,18 +58,17 @@ https://atom.mail.ru/
 [http://gojava.ru](http://gojava.ru) (currently redirects on github)  
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
   
-**Блог в техноатоме**  
-[https://atom.mail.ru/blog/view/99/](https://atom.mail.ru/blog/view/99/)
+**Блог в техносфере**  
+[https://sphere.mail.ru/blog/view/200/](https://sphere.mail.ru/blog/view/200/)
   
 **!Чатик в Telegram!**  
 [https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ](https://t.me/joinchat/AAAAAEF63F9PvqE4JDzYdQ)  
 
 **JDK9**  
-**RC:** [http://jdk.java.net/9/](http://jdk.java.net/9/)  
-**General Availability:** coming 21.09.2017 
+[http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  
   
 **Официальная документация Java**  
-[http://download.java.net/java/jdk9/docs/api/](http://download.java.net/java/jdk9/docs/api/)
+[https://docs.oracle.com/javase/9/docs/api/overview-summary.html](https://docs.oracle.com/javase/9/docs/api/overview-summary.html)
 
 #HSLIDE
 ## План курса
@@ -171,7 +170,7 @@ https://atom.mail.ru/
 
 #HSLIDE
 # JDK Setup
-1. Download [**JDK9**](http://jdk.java.net/9/)  (and un-archive)
+1. Download [**JDK9**](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  (and un-archive)
 
 2. Look inside jdk directory
 **Linux/macOs:**
@@ -701,7 +700,7 @@ Ask me if you have any problems
 3. Write your credentials in description for pull request
 4. Make sure **tests** and **checkstyle** are passing in **Travis**  
 
-**Deadline:** 27 September (before lecture)  
+**Deadline:** 28 February (before lecture)  
 **Mark:** 5 points
 
 #HSLIDE

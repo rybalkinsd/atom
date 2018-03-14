@@ -1,36 +1,40 @@
 package ru.atom.lecture08.websocket;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
-import org.eclipse.jetty.websocket.client.masks.ZeroMasker;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
-import java.net.URI;
-import java.util.concurrent.Future;
+import java.io.IOException;
 
 public class EventClient {
     public static void main(String[] args) {
-        URI uri = URI.create("ws://localhost:8090/events/");
+        // connection url
+        String uri = "ws://localhost:8090/events";
 
-        WebSocketClient client = new WebSocketClient();
-        //client.setMasker(new ZeroMasker());
+        StandardWebSocketClient client = new StandardWebSocketClient();
+        WebSocketSession session = null;
         try {
-            try {
-                client.start();
-                // The socket that receives events
-                EventHandler socket = new EventHandler();
-                // Attempt Connect
-                Future<Session> fut = client.connect(socket, uri);
-                // Wait for Connect
-                Session session = fut.get();
-                // Send a message
-                session.getRemote().sendString("Hello");
-                // Close session
-                session.close();
-            } finally {
-                client.stop();
-            }
+            // The socket that receives events
+            EventHandler socket = new EventHandler();
+            // Make a handshake with server
+            ListenableFuture<WebSocketSession> fut = client.doHandshake(socket, uri);
+            // Wait for Connect
+            session = fut.get();
+            // Send a message
+            session.sendMessage(new TextMessage("Hello"));
+            // Close session
+            session.close();
+
         } catch (Throwable t) {
             t.printStackTrace(System.err);
+        } finally {
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (IOException ignored) {
+            }
         }
     }
 }

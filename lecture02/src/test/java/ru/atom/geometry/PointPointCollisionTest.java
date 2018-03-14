@@ -3,49 +3,49 @@ package ru.atom.geometry;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @Ignore
 public class PointPointCollisionTest {
     @Test
     public void pointSelfCollide() {
         Collider point = Geometry.createPoint(100, 100);
-        assertThat(point.isColliding(point), is(true));
+        assertTrue(point.isColliding(point));
     }
 
     @Test
     public void pointsEquals() {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(100, 100);
-        assertThat(point1.equals(point2), is(true));
+        assertTrue(point1.equals(point2));
     }
 
     @Test
     public void equalPointsCollide() {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(100, 100);
-        assertThat(point1.isColliding(point2), is(true));
+        assertTrue(point1.isColliding(point2));
     }
 
     @Test
     public void pointsNotCollide1() {
         Collider point1 = Geometry.createPoint(200, 100);
         Collider point2 = Geometry.createPoint(100, 100);
-        assertThat(point1.isColliding(point2), is(false));
+        assertFalse(point1.isColliding(point2));
     }
 
     @Test
     public void pointsNotCollide2() {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(200, 100);
-        assertThat(point1.isColliding(point2), is(false));
+        assertFalse(point1.isColliding(point2));
     }
 
     @Test
     public void pointsNotCollide3() {
         Collider point1 = Geometry.createPoint(100, 100);
         Collider point2 = Geometry.createPoint(200, 200);
-        assertThat(point1.isColliding(point2), is(false));
+        assertFalse(point1.isColliding(point2));
     }
 }
