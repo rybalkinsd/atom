@@ -27,9 +27,11 @@ public class Dictionary {
                 if ((char) symbol != '\n')
                     allWords.get(allWords.size() - 1).add((char) symbol);
                 else
-                    allWords.add(new ArrayList<>());
-
+                    if(allWords.get(allWords.size() - 1).size() != 0)
+                        allWords.add(new ArrayList<>());
             }
+            if(allWords.get(allWords.size() - 1).size() == 0)
+                allWords.remove(allWords.size() - 1);
         } catch (IOException e) {
             if (allWords != null && allWords.size() == 0)
                 allWords = null;
