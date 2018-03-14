@@ -99,12 +99,10 @@ Bomberman is actually a **web application** with client-server architecture
 ## OSI model
 ---?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
 
----
 
 ## HTTP - Application layer client-server protocol
 ---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
 
----
 
 ## HTTP Basics
 [https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
@@ -170,7 +168,7 @@ Content-Length: 1270
 ## HTTP Request
 **Request consists of**
 1. Request header (starting with **method**)
-1. [Request body]
+1. Request body
 
 **Methods:**
 - **GET**
@@ -189,7 +187,7 @@ removes resource
 **Response consists of**
 1. Status code
 1. Response header
-1. [Response Body]
+1. Response Body
 
 [rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
@@ -434,7 +432,7 @@ Implement **chat client** for chat on 54.224.37.210 and login under your **famil
 @see **ru.atom.chat.client.ChatClient**  
 @see **test.ru.atom.chat.client.ChatClientTest**
   
-Mark: 2balls
+Mark: 2 points
 
 ---
 
@@ -513,7 +511,7 @@ All the magic behind **Spring** 'comes via' **Annotations**
 Implement **chat server** for given REST API and make pull request!  
 @see **ru.atom.chat.client.ChatController**  
   
-Mark: 3balls
+Mark: 3 points
 
 ---
 
