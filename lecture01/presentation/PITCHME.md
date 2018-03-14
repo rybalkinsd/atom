@@ -68,7 +68,7 @@ https://atom.mail.ru/
 [http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)  
   
 **Официальная документация Java**  
-[http://download.java.net/java/jdk9/docs/api/](http://download.java.net/java/jdk9/docs/api/)
+[https://docs.oracle.com/javase/9/docs/api/overview-summary.html](https://docs.oracle.com/javase/9/docs/api/overview-summary.html)
 
 #HSLIDE
 ## План курса
