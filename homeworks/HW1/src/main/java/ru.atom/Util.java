@@ -1,5 +1,7 @@
 package ru.atom;
 
+import java.lang.Math;
+
 /**
  * In this assignment you need to implement the following util methods.
  * Note:
@@ -16,7 +18,11 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int max = values[0];
+        for (int i = 1;i < values.length;++i) {
+            max = Math.max(max, values[i]);
+        }
+        return max;
     }
 
     /**
@@ -26,7 +32,11 @@ public class Util {
      * @return the sum of all values.
      */
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sumOfArr = 0;
+        for (int i = 0; i < values.length; ++i) {
+            sumOfArr += values[i];
+        }
+        return sumOfArr;
     }
 
 

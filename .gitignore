@@ -7,3 +7,7 @@ build/
 /*/build/
 /*/classes
 /classes
+ohter
+/other
+*.iml
+lecture06/
