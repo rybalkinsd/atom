@@ -20,7 +20,8 @@ https://sphere.mail.ru/
 ---
 
 ### Agenda
-1. **[Quiz]**
+1. **[First part summary]**
+1. Bomberman project
 1. Client - server architecture
 1. HTTP
 1. cURL
@@ -28,17 +29,52 @@ https://sphere.mail.ru/
 1. Java HTTP Client
 
 ---
-## Quiz
+
+## What we already know
+Know how to write and build stand-alone single-threaded app
+- git
+- gradle
+- java collections, exceptions, input/output
+Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs=github&t=white&p=lecture03%2Fpresentation#/74) to know this
+
+---
+
+## Make sure you know answers on these questions
 0. equals() vs ==
-0. What is inside ArrayList?
-0. What is inside LinkedList?
-0. What is inside HashMap?
+0. Exceptions 
+0. How ArrayList work/operations complexity?
+0. How LinkedList work/operations complexity?
+0. How HashMap work/operations complexity?
+0. How HashSet work/operations complexity?
 0. equals() hashCode() contract
 
 ---
 
 ### Agenda
-1. Quiz
+1. First part summary
+1. **[Bomberman project]**
+1. Client - server architecture
+1. HTTP
+1. REST API
+1. cURL
+1. Java HTTP Client
+
+---
+
+## Project - server for multiplayer game
+**Original project by Matt Scala:**  
+https://github.com/MattSkala/html5-bombergirl  
+http://bombergirl.matousskala.cz/  
+please turn off the sound :)
+  
+**Adopted version for our project:**
+https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
+
+---
+
+### Agenda
+1. First part summary
+1. Bomberman project
 1. **[Client - server architecture]**
 1. HTTP
 1. REST API
@@ -48,13 +84,13 @@ https://sphere.mail.ru/
 ---
 
 ## Client - server architecture
----?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 70% 
+---?image=lecture04/presentation/assets/img/Client-server-model.png&size=auto 80% 
 
 ---
 
 ## Which protocol to use?
 
----?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
+---?image=lecture04/presentation/assets/img/osi2.png&size=auto 80% 
 
 ---
 
@@ -63,12 +99,13 @@ The choice of protocol depends on **requirements**
 ---
 
 ## Bomberman architecture
----?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 70% 
+---?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 80% 
 
 ---
 
 ### Agenda
-1. Quiz
+1. First part summary
+1. Bomberman project
 1. Client - server architecture
 1. **[HTTP]**
 1. cURL
@@ -78,7 +115,7 @@ The choice of protocol depends on **requirements**
 ---
 
 ## HTTP - Application layer client-server protocol
----?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
+---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 80% 
 
 ---
 
@@ -97,7 +134,7 @@ Serves HTTP requests. (By default on **80 TCP port**)
 - NGINX
 - libraries (Jetty in Java)
 
-Web servers have different functionality and can be extendible  
+Web servers have different functionality and can be extensible  
 For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
 
 ---
@@ -160,7 +197,7 @@ removes resource
 ---
 
 ## HTTP Response
-**Responce consists of**
+**Response consists of**
 1. Status code
 1. Response header
 1. [Response Body]
@@ -189,7 +226,8 @@ So we can do previous example just by typing in browser:
 ---
 
 ### Agenda
-1. Quiz
+1. First part summary
+1. Bomberman project
 1. Client - server architecture
 1. HTTP
 1. **[cURL]**
@@ -259,7 +297,8 @@ Server: Jetty(9.4.z-SNAPSHOT)
 ---
 
 ### Agenda
-1. Quiz
+1. First part summary
+1. Bomberman project
 1. Client - server architecture
 1. HTTP
 1. cURL
@@ -361,7 +400,8 @@ login:
 ---
 
 ### Agenda
-1. Quiz
+1. First part summary
+1. Bomberman project
 1. Client - server architecture
 1. HTTP
 1. cURL
