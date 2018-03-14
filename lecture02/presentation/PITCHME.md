@@ -11,6 +11,7 @@ https://sphere.mail.ru/
 
 #HSLIDE
 ### get ready
+Course repo - https://github.com/rybalkinsd/atom
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
@@ -149,7 +150,7 @@ Player myPlayer = new Player();
 
 
 #HSLIDE
-### `null` keyword
+### `null` literal
 
 `null` is a default value for reference type.
 
@@ -488,7 +489,7 @@ and **return type** as an instance method in the superclass **overrides** the su
 #HSLIDE
 ### Override vs overload note
 
-**Override** resolves method in **runtime**
+**Override** resolves method in **runtime**  
 **Overload** resolves method in **compile-time**
 
 #HSLIDE
