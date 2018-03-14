@@ -60,6 +60,12 @@ public class ChatController {
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
     //TODO
+    /*@RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public
+    */
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
