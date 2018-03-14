@@ -312,7 +312,7 @@ REST API is a common way for services to publish their functionality for other s
 ---
 
 ## Chat REST API
-We got a chat REST service open for you on 54.224.37.210  
+We got a chat REST service open for you on **54.224.37.210**  
   
 Further you have description of it's REST API
 
@@ -449,10 +449,8 @@ Mark: 2balls
 1. Java HTTP Client (okhttp)
 1. **[Java HTTP Server (with Spring)]**
 
-
 ---
 
-#HSLIDE
 ### Spring
 <img src="lecture04/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 300px;"/>  
 is a universal open-source framework, used to develop web applications  
@@ -460,7 +458,8 @@ https://spring.io/
   
 First version - **2002**
 
-#HSLIDE
+---
+
 ### Spring modules
 It includes a number of modules for different functionality:
 - Spring MVC for building Web Applications
@@ -472,19 +471,22 @@ It includes a number of modules for different functionality:
   
 Today we will build web application with **Spring MVC** module
 
-#HSLIDE
+---
+
 ### MVC
 **MVC (Model-View-Controller)** - popular pattern used to build web apps
 <img src="lecture04/presentation/assets/img/MVC-Introduction2.jpg" style="width: 600px;"/>
 
 
-#HSLIDE
+---
+
 ### Spring MVC
 **Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
 <img src="lecture04/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
 
 
-#HSLIDE
+---
+
 ### Spring Boot
 Spring is a powerful tool and has a lot of configuration options.  
 **Spring Boot** is a project, that makes working with Spring easier:
@@ -496,6 +498,16 @@ https://projects.spring.io/spring-boot/
 First version: **2014**
   
 **With Spring Boot our life is much easier :)**
+
+---
+
+## Example: Chat server with Spring Boot
+Look at **ru.atom.chat.server** implementation of chat server
+- ChatApplication - starter
+- ChatController - handler of HTTP requests
+  
+All the magic behind **Spring** 'comes via' **Annotations**
+**We have deeper description of Spring in further lectures**
 
 ---
 
