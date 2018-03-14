@@ -357,7 +357,6 @@ chat:
     Response:
       Success code: 200
 ```
-> implement it in test.ru.atom.chat.HttpClient and check in test.ru.atom.http.HttpClientTest
 
 ---
 
@@ -378,7 +377,6 @@ say:
         400 - Too long message (longer than 140 symbols)
 ```
 
-> implement it in test.ru.atom.chat.HttpClient and check in test.ru.atom.http.HttpClientTest
 
 ---
 
@@ -396,7 +394,7 @@ say:
 ## OkHTTP
 We use OkHTTP library as java HTTP Client
 [http://square.github.io/okhttp/](http://square.github.io/okhttp/)
-### @see ru.atom.http.client
+### @see ru.atom.chat.client
 
 ---
 
@@ -434,7 +432,7 @@ We use OkHTTP library as java HTTP Client
 ## HTTP Client Practice
 Implement **chat client** for chat on 54.224.37.210 and login under your **family name**!  
 @see **ru.atom.chat.client.ChatClient**  
-@see **test.ru.atom.http.ChatClientTest**
+@see **test.ru.atom.chat.client.ChatClientTest**
   
 Mark: 2balls
 
