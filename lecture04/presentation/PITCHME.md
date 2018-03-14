@@ -1,6 +1,6 @@
 # Java
 lecture 4
-## Web client
+## Web applications
 
 ---
 
@@ -25,7 +25,8 @@ https://sphere.mail.ru/
 1. HTTP
 1. cURL
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -56,7 +57,8 @@ Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs
 1. HTTP
 1. REST API
 1. cURL
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -90,7 +92,8 @@ Bomberman is actually a **web application** with client-server architecture
 1. **[HTTP]**
 1. cURL
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -216,7 +219,8 @@ So we can do previous example just by typing in browser:
 1. HTTP
 1. **[cURL]**
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -287,7 +291,8 @@ Server: Jetty(9.4.z-SNAPSHOT)
 1. HTTP
 1. cURL
 1. **[REST API]**
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -309,7 +314,7 @@ REST API is a common way for services to publish their functionality for other s
 We got a chat REST service open for you on  
   
 Implement **chat client** and enjoy!  
-@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
+@see **test.ru.atom.chat.client.ChatClient** and **test.ru.atom.http.ChatClientTest**
 
 ---
 
@@ -337,7 +342,7 @@ login:
     Response:
       Success code: 200
       Fail code:
-        400 - Already logined
+        400 - Already logged in
         400 - Too long name (longer than 30 symbols)
 ```
 ---
@@ -369,7 +374,7 @@ say:
     Response:
       Success code: 200
       Fail code:
-        401 - Not logined
+        400 - User not online
         400 - Too long message (longer than 140 symbols)
 ```
 
@@ -383,7 +388,8 @@ say:
 1. HTTP
 1. cURL
 1. REST API
-1. **[Java HTTP Client]**
+1. **[Java HTTP Client (okhttp)]**
+1. Java HTTP Server (with Spring)
 
 ---
 
@@ -425,9 +431,68 @@ We use OkHTTP library as java HTTP Client
 
 ---
 
+### Agenda
+1. First part summary
+1. Bomberman project
+1. HTTP
+1. cURL
+1. REST API
+1. Java HTTP Client (okhttp)
+1. **[Java HTTP Server (with Spring)]**
+
+
+---
+
+#HSLIDE
+### Spring
+<img src="lecture04/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 300px;"/>  
+is a universal open-source framework, used to develop web applications  
+https://spring.io/  
+  
+First version - **2002**
+
+#HSLIDE
+### Spring modules
+It includes a number of modules for different functionality:
+- Spring MVC for building Web Applications
+- Working with Databases
+- Messaging
+- RPC
+- Security
+- Testing
+  
+Today we will build web application with **Spring MVC** module
+
+#HSLIDE
+### MVC
+**MVC (Model-View-Controller)** - popular pattern used to build web apps
+<img src="lecture04/presentation/assets/img/MVC-Introduction2.jpg" style="width: 600px;"/>
+
+
+#HSLIDE
+### Spring MVC
+**Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
+<img src="lecture04/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
+
+
+#HSLIDE
+### Spring Boot
+Spring is a powerful tool and has a lot of configuration options.  
+**Spring Boot** is a project, that makes working with Spring easier:
+- embedded tomcat included with servlet container
+- minimum configuration, sane defaults
+- metrics, health checks and externalized configuration
+https://projects.spring.io/spring-boot/  
+  
+First version: **2014**
+  
+**With Spring Boot our life is much easier :)**
+
+---
+
 ### Summary
 1. **HTTP** is popular client-server protocol for inter-program communication  
-Learn it!
+2. Spring is a 
 
 ---
 
