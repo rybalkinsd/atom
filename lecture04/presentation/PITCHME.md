@@ -110,6 +110,8 @@ Bomberman is actually a **web application** with client-server architecture
 ## OSI model
 ---?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
 
+---
+
 ## HTTP - Application layer client-server protocol
 ---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
 
