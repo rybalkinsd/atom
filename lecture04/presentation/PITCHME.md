@@ -22,7 +22,6 @@ https://sphere.mail.ru/
 ### Agenda
 1. **[First part summary]**
 1. Bomberman project
-1. Client - server architecture
 1. HTTP
 1. cURL
 1. REST API
@@ -54,7 +53,6 @@ Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs
 ### Agenda
 1. First part summary
 1. **[Bomberman project]**
-1. Client - server architecture
 1. HTTP
 1. REST API
 1. cURL
@@ -82,17 +80,6 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 Bomberman is actually a **web application** with client-server architecture
 - Front-end is HTML5 + js (is ready)
 - Back-end is java
-
----
-
-### Agenda
-1. First part summary
-1. Bomberman project
-1. **[Client - server architecture]**
-1. HTTP
-1. REST API
-1. cURL
-1. Java HTTP Client
 
 ---
 
@@ -226,7 +213,6 @@ So we can do previous example just by typing in browser:
 ### Agenda
 1. First part summary
 1. Bomberman project
-1. Client - server architecture
 1. HTTP
 1. **[cURL]**
 1. REST API
@@ -297,7 +283,6 @@ Server: Jetty(9.4.z-SNAPSHOT)
 ### Agenda
 1. First part summary
 1. Bomberman project
-1. Client - server architecture
 1. HTTP
 1. cURL
 1. **[REST API]**
@@ -400,7 +385,6 @@ login:
 ### Agenda
 1. First part summary
 1. Bomberman project
-1. Client - server architecture
 1. HTTP
 1. cURL
 1. REST API
