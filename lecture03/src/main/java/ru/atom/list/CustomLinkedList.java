@@ -44,8 +44,8 @@ class CustomLinkedList<E> implements List<E> {
             if (!hasNext()) {
                 throw new RuntimeException();
             }
-            E curItem = curElem.item;
-            curElem = curElem.next;
+            E curItem = curElem.getItem();
+            curElem = curElem.getNext();
             return curItem;
         }
     }
@@ -63,32 +63,32 @@ class CustomLinkedList<E> implements List<E> {
         if (l == null)
             first = newNode;
         else
-            l.next = newNode;
+            l.setNext(newNode);
         size++;
         return true;
     }
 
     E unlink(ListNode<E> x) {
         // assert x != null;
-        final E element = x.item;
-        final ListNode<E> next = x.next;
-        final ListNode<E> prev = x.prev;
+        final E element = x.getItem();
+        final ListNode<E> next = x.getNext();
+        final ListNode<E> prev = x.getPrev();
 
         if (prev == null) {
             first = next;
         } else {
-            prev.next = next;
-            x.prev = null;
+            prev.setNext(next);
+            x.setPrev(null);
         }
 
         if (next == null) {
             last = prev;
         } else {
-            next.prev = prev;
-            x.next = null;
+            next.setPrev(prev);
+            x.setNext(null);
         }
 
-        x.item = null;
+        x.setItem(null);
         size--;
         return element;
     }
@@ -96,15 +96,15 @@ class CustomLinkedList<E> implements List<E> {
     @Override
     public boolean remove(Object o) {
         if (o == null) {
-            for (ListNode<E> x = first; x != null; x = x.next) {
-                if (x.item == null) {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (x.getItem() == null) {
                     unlink(x);
                     return true;
                 }
             }
         } else {
-            for (ListNode<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item)) {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (o.equals(x.getItem())) {
                     unlink(x);
                     return true;
                 }
@@ -118,10 +118,10 @@ class CustomLinkedList<E> implements List<E> {
     @Override
     public void clear() {
         for (ListNode<E> x = first; x != null; ) {
-            ListNode<E> next = x.next;
-            x.item = null;
-            x.next = null;
-            x.prev = null;
+            ListNode<E> next = x.getNext();
+            x.setItem(null);
+            x.setNext(null);
+            x.setPrev(null);
             x = next;
         }
         first = last = null;
@@ -138,14 +138,14 @@ class CustomLinkedList<E> implements List<E> {
 
         int index = 0;
         if (o == null) {
-            for (ListNode<E> x = first; x != null; x = x.next) {
-                if (x.item == null)
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (x.getItem() == null)
                     return index;
                 index++;
             }
         } else {
-            for (ListNode<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item))
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (o.equals(x.getItem()))
                     return index;
                 index++;
             }
