@@ -72,6 +72,11 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 
 ---
 
+## Architecture overview
+---?image=lecture04/presentation/assets/img/Bomberman-arch.png&size=auto 80% 
+
+---
+
 ### Agenda
 1. First part summary
 1. Bomberman project
@@ -95,11 +100,6 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 ---
 
 The choice of protocol depends on **requirements**
-
----
-
-## Bomberman architecture
----?image=lecture04/presentation/assets/img/bomberman-architecture.png&size=auto 80% 
 
 ---
 
