@@ -8,12 +8,11 @@ import ru.atom.chat.client.ChatClient;
 
 import java.io.IOException;
 
-@Ignore
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
+    private static String MY_NAME_IN_CHAT = "denis";
     private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
 
-    @Test
+    @Ignore
     public void login() throws IOException {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);
         System.out.println("[" + response + "]");
