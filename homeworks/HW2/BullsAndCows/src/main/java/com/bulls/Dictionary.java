@@ -41,22 +41,6 @@ public class Dictionary {
         return Dictionary.class.getClassLoader().getResourceAsStream(Main.PATH_TO_DICTIONARY);
     }
 
-    public String addFolder(String path, String dirName) {
-        switch (Main.getOperatingSystem()) {
-            case Main.MAC:
-            case Main.UNIX:
-                path = path + "/";
-                break;
-
-            case Main.WINDOWS:
-            default:
-                path = path + "\\";
-                break;
-        }
-        path = path + dirName;
-        return path;
-    }
-
     // get random word from dictionary
     // or if we didn`t init it we generate random word
     public ArrayList<Character> getWord() {
