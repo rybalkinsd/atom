@@ -46,34 +46,9 @@ public class Bar implements Collider {
         this.firstCornerX = Math.min(firstCornerX, secondCornerX);
         this.firstCornerY = Math.min(firstCornerY, secondCornerY);
 
-        this.secondCornerX = Math.max(firstCornerX, secondCornerX);;
-        this.secondCornerY = Math.max(firstCornerY, secondCornerY);;
+        this.secondCornerX = Math.max(firstCornerX, secondCornerX);
+        this.secondCornerY = Math.max(firstCornerY, secondCornerY);
     }
-    /*public boolean equals(Object o) {
- +        if (this == o) return true;
- +        if (o == null) return false;
- +
- +        if (getClass() != o.getClass()) {
- +            Point point = (Point) o;
- +            return firstCornerX <= point.getX() && point.getX() <= secondCornerX &&
- firstCornerY <= point.getY() && point.getY() <= secondCornerY;
- +        } else {
- +            Bar bar = (Bar) o;
- +            if(firstCornerX > bar.secondCornerX || secondCornerX < bar.firstCornerX ||
- secondCornerY < bar.firstCornerY || firstCornerY > bar.secondCornerY) return false;
- +            return true;
- +        }
- +        // cast from Object to Point
- +        //Point point = (Point) o;
- +        //return x == point.getX() && y == point.getY();
- +        // your code here
- +    }
- +
- +    @Override
- +    public boolean isColliding(Collider other) {
- +        return equals(other);
- +    }
- +    */
 
     public boolean equals(Object o) {
         if (this == o) return true;
