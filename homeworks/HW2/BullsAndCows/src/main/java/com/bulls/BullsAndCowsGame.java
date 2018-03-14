@@ -87,7 +87,7 @@ public class BullsAndCowsGame {
         for (int tries = 0; tries < MAX_GUESS_AMOUNT; tries ++) {
             System.out.println("Your " + (tries + 1) + " try: ");
             guess = getPlayerInput();
-            if (roundStopped())
+            if (isRoundStopped())
                 return;
 
             guessResult = handleTry(guess);
@@ -186,7 +186,7 @@ public class BullsAndCowsGame {
     }
 
     // we check if player stopped round by some command
-    private boolean roundStopped() {
+    private boolean isRoundStopped() {
         return !playingRound;
     }
 
@@ -196,7 +196,7 @@ public class BullsAndCowsGame {
         setPlaying(false);
     }
 
-    // call if we wanna start new round
+    // call if we wanna start new round (stops onnly round, not game)
     private void stopRound() {
         playingRound = false;
     }
@@ -209,7 +209,7 @@ public class BullsAndCowsGame {
         return playing;
     }
 
-    public void setPlaying(boolean playing) {
+    private void setPlaying(boolean playing) {
         this.playing = playing;
     }
 
