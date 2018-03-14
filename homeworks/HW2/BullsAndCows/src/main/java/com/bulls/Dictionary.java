@@ -1,12 +1,15 @@
 package com.bulls;
 
-import java.io.FileReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Dictionary {
     private ArrayList<ArrayList<Character>> allWords;
+    private static final Logger log = LoggerFactory.getLogger(Dictionary.class);
 
     Dictionary() {
         allWords = new ArrayList<>();
@@ -33,8 +36,16 @@ public class Dictionary {
             if(allWords.get(allWords.size() - 1).size() == 0)
                 allWords.remove(allWords.size() - 1);
         } catch (IOException e) {
-            if (allWords != null && allWords.size() == 0)
-                allWords = null;
+            log.error("Could not read words from dictionary.txt;"
+                    + "But i would play with you with random words;"
+            );
+            allWords = null;
+        }
+        if (allWords != null && allWords.size() == 0) {
+            log.error("Dictionary is empty!"
+                    + "But i would play with you with random words;"
+            );
+            allWords = null;
         }
     }
 
