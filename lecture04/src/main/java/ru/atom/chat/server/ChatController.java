@@ -39,6 +39,7 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
+
         usersOnline.put(name, name);
         messages.add("[" + name + "] logged in");
         return ResponseEntity.ok().build();
@@ -59,16 +60,39 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity logout(@RequestParam("name") String name) {
+        usersOnline.remove(name);
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity say(@RequestParam("msg") String msg, @RequestParam("name") String name) {
+        messages.add("[" + name + "] " + msg);
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String ans = "";
+        for (String s: messages)
+            ans += s + "\n";
+        return ResponseEntity.ok(ans);
+    }
 }
