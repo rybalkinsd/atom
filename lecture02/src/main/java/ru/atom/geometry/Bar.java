@@ -103,6 +103,20 @@ public class Bar implements Collider/* super class and interfaces here if necess
                     || ((this.leftDownCornerX <= other.getRightUpCornerX())
                     && (this.rightUpCornerX >= other.getRightUpCornerX()))))
                 return true;
+            else if ((((this.rightUpCornerY >= other.getLeftDownCornerY())
+                    && (this.leftDownCornerY <= other.getLeftDownCornerY()))
+                    || ((this.rightUpCornerY >= other.getRightUpCornerY())
+                    && (this.leftDownCornerY <= other.getRightUpCornerY())))
+                    && ((this.leftDownCornerX >= other.getLeftDownCornerX())
+                    && (this.rightUpCornerX <= other.getRightUpCornerX())))
+                return true;
+            else if (((this.rightUpCornerY <= other.getRightUpCornerY())
+                    && (this.leftDownCornerY >= other.getLeftDownCornerY()))
+                    && (((this.leftDownCornerX <= other.getLeftDownCornerX())
+                    && (this.rightUpCornerX >= other.getLeftDownCornerX()))
+                    || ((this.leftDownCornerX <= other.getRightUpCornerX())
+                    && (this.rightUpCornerX >= other.getRightUpCornerX()))))
+                return true;
             else if (this.leftDownCornerX >= other.getLeftDownCornerX()
                     && this.leftDownCornerY >= other.getLeftDownCornerY()
                     && this.rightUpCornerX <= other.getRightUpCornerX()
