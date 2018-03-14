@@ -52,23 +52,55 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join(
+                "\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList())
+        ) + "\n";
         return ResponseEntity.ok(responseBody);
     }
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such user:(");
+        }
+        usersOnline.remove(name);
+        messages.add("[" + name + "] logout");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such user:(");
+        }
+        messages.add("[" + name + "]: " + msg);
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n",messages) + "\n";
+        return ResponseEntity.ok(responseBody);
+    }
 }
