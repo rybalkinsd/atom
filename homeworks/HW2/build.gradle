@@ -1,0 +1,29 @@
+group 'technosphere'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+apply plugin: 'application'
+apply plugin: 'checkstyle'
+
+mainClassName = 'Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '7.5'
+    configFile = new File('../../config/checkstyle/checkstyle.xml')
+}
+
+jar {
+    manifest { attributes 'Main-Class' : 'Main'}
+}
