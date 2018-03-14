@@ -59,16 +59,53 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "online",
+            method = RequestMethod.DELETE,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity logout(@RequestParam("name") String name) {
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("You weren't logged in:(");
+        }
+        usersOnline.remove(name, name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> say(@RequestParam("name")  String name, @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name))
+            return ResponseEntity.badRequest().body("You weren't logged in:(");
+
+        messages.add("[" + name + "] " + msg);
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> chat() {
+        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
+    }
 }
