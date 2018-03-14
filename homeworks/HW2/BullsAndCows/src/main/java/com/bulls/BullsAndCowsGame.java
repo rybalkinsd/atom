@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class BullsAndCowsGame {
     public static final int MAX_GUESS_AMOUNT = 10;
+    private static Scanner in = new Scanner(System.in);
     private static final String STOP_WORD = "QUIT";
     private static final String NEW_GAME = "WORD";
 
@@ -31,7 +32,14 @@ public class BullsAndCowsGame {
 
     // start our game
     public void play() {
-        init();
+        if(!init()) {
+            System.out.println("Error occurred, but it doesnt mean, that we cant play together");
+            System.out.println("Do you want to play with random words? (Y / N) ");
+            if(!wannaPlay()) {
+                leaving();
+                return;
+            }
+        }
 
         greeting(); // or maybe some menu
 
@@ -52,8 +60,8 @@ public class BullsAndCowsGame {
         System.out.println("If you want to get new word, just write: " + NEW_GAME);
     }
 
-    public void init() {
-        dictionary.init();
+    public boolean init() {
+        return dictionary.init();
     }
 
     // we init fields what we change every round before it starts
@@ -70,7 +78,6 @@ public class BullsAndCowsGame {
 
     // here we get players guesses ad handle them
     private void playRound() {
-        Scanner in = new Scanner(System.in);
         ArrayList<Character> guess;
         BullsAndCows guessResult;
         boolean won = false;
@@ -79,7 +86,7 @@ public class BullsAndCowsGame {
 
         for (int tries = 0; tries < MAX_GUESS_AMOUNT; tries ++) {
             System.out.println("Your " + (tries + 1) + " try: ");
-            guess = getPlayerInput(in);
+            guess = getPlayerInput();
             if (roundStopped())
                 return;
 
@@ -95,17 +102,19 @@ public class BullsAndCowsGame {
         } else {
             System.out.println("You will be lucky next time!");
         }
-        wannaPlayMore();
+
+        System.out.println("Wanna play again? Y/N");
+        setPlaying(wannaPlay());
+        if (isPlaying())
+            System.out.println("So lets start again!");
     }
 
     // we ask and get players wish (play more or stop)
     // if we don`t understand what he want, we play again
-    private void wannaPlayMore() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Wanna play again? Y/N");
+    private boolean wannaPlay() {
         String wish = in.nextLine();
         if (handleCommands(wish))
-            return;
+            return true;
 
         if (wish.length() == 0) {
             wish = "Y";
@@ -114,30 +123,25 @@ public class BullsAndCowsGame {
         switch (wish.charAt(0)) {
             case 'Y':
             case 'y':
-                break;
+                return true;
             case 'N':
             case 'n':
-                stopGame();
-                break;
+                return false;
             default:
                 if (wish.contains("Yes") || wish.contains("Yes"))
-                    break;
+                    return true;
                 if (wish.contains("No") || wish.contains("no")) {
-                    stopGame();
-                    break;
+                    return false;
                 }
                 System.out.println("I don`t understand you, but i think you wanna play more");
                 System.out.println("If you want to end this game, just write: " + STOP_WORD);
-                break;
+                return true;
         }
-
-        if (isPlaying())
-            System.out.println("So lets start again");
     }
 
     // we handle players input
     // we skip symbols what are not letters
-    private ArrayList<Character> getPlayerInput(Scanner in) {
+    private ArrayList<Character> getPlayerInput() {
         String string;
         ArrayList<Character> playersTry = new ArrayList<>();
 

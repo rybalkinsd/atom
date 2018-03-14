@@ -16,12 +16,12 @@ public class Dictionary {
     }
 
     // load words from dictionary
-    // loading little bit long
-    void init() {
+    boolean init() {
         try (InputStream reader = getDictionary()) {
             if (reader == null) {
                 allWords = null;
-                return;
+                log.error("Could not find dictionary.txt;");
+                return false;
             }
             int symbol;
             allWords.add(new ArrayList<>());
@@ -36,17 +36,14 @@ public class Dictionary {
             if(allWords.get(allWords.size() - 1).size() == 0)
                 allWords.remove(allWords.size() - 1);
         } catch (IOException e) {
-            log.error("Could not read words from dictionary.txt;"
-                    + "But i would play with you with random words;"
-            );
+            log.error("Could not read words from dictionary.txt;");
             allWords = null;
         }
         if (allWords != null && allWords.size() == 0) {
-            log.error("Dictionary is empty!"
-                    + "But i would play with you with random words;"
-            );
+            log.error("Dictionary is empty.");
             allWords = null;
         }
+        return allWords != null;
     }
 
     // here we get dictionary as resource
