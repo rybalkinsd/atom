@@ -34,12 +34,13 @@ https://sphere.mail.ru/
 Know how to write and build stand-alone single-threaded app
 - git
 - gradle
-- java collections, exceptions, input/output
+- java collections, exceptions, input/output  
+
 Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs=github&t=white&p=lecture03%2Fpresentation#/74) to know this
 
 ---
 
-## Make sure you know answers on these questions
+## Quiz
 0. equals() vs ==
 0. Exceptions 
 0. How ArrayList work/operations complexity?
@@ -73,7 +74,7 @@ https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 ---
 
 ## Architecture overview
----?image=lecture04/presentation/assets/img/Bomberman-arch.png&size=auto 80% 
+---?image=lecture04/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
 
 ---
 
