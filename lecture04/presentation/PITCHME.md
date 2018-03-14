@@ -122,7 +122,9 @@ Serves HTTP requests. (By default on **80 TCP port**)
 - embedded (as a library) - Jetty/Embedded Tomcat
 
 Web servers have different functionality and can be extensible  
-For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
+  
+We can extend server functionality by custom logic and respond with dynamic content  
+That's what we use to implement game
 
 ---
 
