@@ -2,6 +2,7 @@ package com.bulls;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Dictionary {
@@ -14,9 +15,11 @@ public class Dictionary {
     // load words from dictionary
     // loading little bit long
     void init() {
-        try (FileReader reader = new FileReader(
-                "C:\\Users\\Dev\\Desktop\\LinFolder\\java\\atom\\homeworks\\HW2\\BullsAndCows\\dictionary.txt")
-        ) {
+        try (InputStream reader = getDictionary()) {
+            if (reader == null) {
+                allWords = null;
+                return;
+            }
             int symbol;
             allWords.add(new ArrayList<>());
 
@@ -27,9 +30,31 @@ public class Dictionary {
                     allWords.add(new ArrayList<>());
 
             }
-        } catch (IOException ex) {
-            allWords = null;
+        } catch (IOException e) {
+            if (allWords != null && allWords.size() == 0)
+                allWords = null;
         }
+    }
+
+    // here we get dictionary as resource
+    private InputStream getDictionary() {
+        return Dictionary.class.getClassLoader().getResourceAsStream(Main.PATH_TO_DICTIONARY);
+    }
+
+    public String addFolder(String path, String dirName) {
+        switch (Main.getOperatingSystem()) {
+            case Main.MAC:
+            case Main.UNIX:
+                path = path + "/";
+                break;
+
+            case Main.WINDOWS:
+            default:
+                path = path + "\\";
+                break;
+        }
+        path = path + dirName;
+        return path;
     }
 
     // get random word from dictionary

@@ -152,8 +152,14 @@ public class BullsAndCowsGame {
                 if (character.compareTo('a') >= 0 && character.compareTo('z') <= 0)
                     playersTry.add(character);
             }
-            if (playersTry.size() == 0)
+            if (playersTry.size() == 0) {
                 System.out.println("I can`t use this word, write another one.");
+                continue;
+            }
+            if (playersTry.size() != word.size()) {
+                System.out.println("Write word with same size as i imagined.");
+                playersTry = new ArrayList<>();
+            }
         } while (playersTry.size() == 0);
 
         return playersTry;
