@@ -1,6 +1,6 @@
 # Java
 lecture 4
-## Web applications
+## Web basics
 
 ---
 
