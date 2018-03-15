@@ -13,14 +13,13 @@ dependencies {
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.4'
 }
-
 checkstyle {
     ignoreFailures = false
     toolVersion = '7.5'
-    configFile = new File('../config/checkstyle/checkstyle.xml')
+    configFile = new File('./config/checkstyle/checkstyle.xml')
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'bulls.BCMain' }
+    manifest { attributes 'Main-Class': 'bulls.Bcmain' }
 }
