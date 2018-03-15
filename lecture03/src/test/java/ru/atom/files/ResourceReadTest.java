@@ -17,8 +17,8 @@ public class ResourceReadTest {
         List<String> lines = ResourceReader.readFromResource("FileToRead.txt");
         lines.stream()
                 .filter(s -> !s.isEmpty())
-                .map(String::trim).
-                forEach(System.out::println);
+                .map(String::trim)
+                .forEach(System.out::println);
         assertEquals(2, lines.size());
     }
 }
