@@ -8,7 +8,6 @@ import ru.atom.chat.client.ChatClient;
 
 import java.io.IOException;
 
-@Ignore
 public class ChatClientTest {
     private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
     private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
@@ -19,7 +18,7 @@ public class ChatClientTest {
         System.out.println("[" + response + "]");
         String body = response.body().string();
         System.out.println();
-        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in"));
+        Assert.assertTrue(response.code() == 200 || body.equals("Already logged in:("));
     }
 
     @Test
