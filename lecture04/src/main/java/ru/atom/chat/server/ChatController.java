@@ -59,16 +59,52 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    //
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (usersOnline.containsKey(name)) {
+            usersOnline.remove(name);
+            messages.add("[" + name + "] logged out");
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("You are not logged in anyway :(");
+        }
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> login(@RequestParam("name") String name,
+                                        @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("You are not logged in:(");
+        }
+
+        messages.add("[" + name + "] said: "+msg);
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = "";
+        for (String cur: messages) {
+            responseBody+=cur+"\n";
+        }
+        return ResponseEntity.ok(responseBody);
+    }
 }
