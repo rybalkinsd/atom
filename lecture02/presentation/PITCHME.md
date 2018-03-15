@@ -12,6 +12,7 @@ https://sphere.mail.ru/
 #HSLIDE
 ### get ready
 Course repo - [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
+
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
