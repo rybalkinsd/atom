@@ -1,5 +1,7 @@
 package ru.atom.list;
 
+import org.w3c.dom.NodeList;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -7,35 +9,93 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    ListNode header;
+    int siz;
+
+    CustomLinkedList() {
+        header = new ListNode();
+        header.elem = null;
+        header.next = header;
+        header.prev = header;
+        siz = 0;
+    }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return siz;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return siz == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> cur = header.next;
+
+        E tmp = (E) o;
+
+        while (cur.elem != null) {
+            if (cur.elem == tmp) {
+                return true;
+            }
+            cur = cur.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+            private ListNode<E> current = header.next;
+
+            @Override
+            public boolean hasNext() {
+                return !(current.elem == null);
+            }
+
+            @Override
+            public E next() throws IndexOutOfBoundsException {
+                E result = current.elem;
+                if (current.elem == null) throw new IndexOutOfBoundsException("End of list.");
+                current = current.next;
+                return result;
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> cur = new ListNode<>();
+        cur.prev = header.prev;
+        cur.next = header;
+        cur.elem = e;
+
+        siz++;
+        cur.prev.next = cur;
+        header.prev = cur;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        E tmp = (E) o;
+
+        if (contains(o)) {
+            ListNode<E> cur = header.next;
+
+            while (cur.elem != tmp) {
+                cur = cur.next;
+            }
+            cur.prev.next = cur.next;
+            cur.next.prev = cur.prev;
+
+            siz--;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -55,7 +115,10 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E x:c) {
+            add(x);
+        }
+        return true;
     }
 
 
