@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -47,30 +46,32 @@ public class Game {
         secret = getNewWordFromDict();
     }
 
-    String getNewAnswer() {
+    String getNewAnswer(Scanner scanner) {
         String ans;
-        try (Scanner scanner = new Scanner(System.in)) {
 
+
+        ans = scanner.nextLine().toLowerCase();
+        Pattern p = Pattern.compile("^[a-z]{" + secret.length() + "}$");
+        Matcher m = p.matcher(ans);
+        while (!m.matches()) {
+            System.out.println("Your answer is incorrect (not in a - Z) try one more time" +
+                    " or have wrong length (correct =" + secret.length() + ")");
             ans = scanner.nextLine().toLowerCase();
-            Pattern p = Pattern.compile("^[a-z]{" + secret.length() + "}$");
-            Matcher m = p.matcher(ans);
-            while (!m.matches()) {
-                System.out.println("Your answer is incorrect (not in a - Z) try one more time" +
-                        " or have wrong length (correct =" + secret.length() + ")");
-                ans = scanner.nextLine().toLowerCase();
-                m = p.matcher(ans);
-            }
-            return ans;
+            m = p.matcher(ans);
         }
+        return ans;
+
     }
 
     private String getNewWordFromDict() {
         Random r = new Random();
         final int Max = 52975;
         int rline = r.nextInt(Max) - 1;
-        URL url = getClass().getResource("diсtionary.txt");
+        //URL url = getClass().getResource("diсtionary.txt");
+        String path = this.getClass().getResource("/dictionary.txt").getPath();
 
-        File file = new File(url.getPath());
+        File file = new File(path);
+
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             for (int i = 0; i < rline; i++)

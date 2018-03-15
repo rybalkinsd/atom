@@ -9,9 +9,9 @@ public class Main {
         System.out.println("Hello U want to play a game?");
         System.out.println("Y/N?:");
         String chr;
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
             chr = scanner.nextLine().toLowerCase();
-        }
+
         if (chr.toCharArray()[0] == 'n') {
             game.setStatus(Status.EXIT);
         }
@@ -20,15 +20,14 @@ public class Main {
             System.out.println("I have a word it consists of " + game.getSecretLen()
                     + " letters");
             System.out.println("Try to guess it with " + game.getCounts() + " attempts");
-            String ans; 
+            String ans;
             String sysAns;
             int attempt = game.getCounts();
             for (; attempt > 0; attempt--) {
 
                 System.out.println("U have " + attempt + " more attempts ");
                 System.out.println("What do u think about the word?");
-                System.out.println(game.getSecret());
-                ans = game.getNewAnswer();
+                ans = game.getNewAnswer(scanner);
                 sysAns = game.giveCowsnBulls(ans);
                 System.out.println(sysAns);
                 if (game.getStatus() == Status.WIN) {
@@ -36,14 +35,14 @@ public class Main {
                 }
             }
             if (attempt == 0) {
-                System.out.println("sorry, U loose");
+                System.out.println("sorry, U lose");
             }
 
             System.out.println("Do U want to play one more time?");
             System.out.println("Y/N?:");
-            try (Scanner scanner = new Scanner(System.in)) {
-                chr = scanner.nextLine().toLowerCase();
-            }
+
+            chr = scanner.nextLine().toLowerCase();
+
             if (chr.toCharArray()[0] == 'n') {
                 game.setStatus(Status.EXIT);
             }
