@@ -1,5 +1,6 @@
 package ru.atom.geometry;
 
+
 public class Bar implements Collider {
     private int firstCornerX;
     private int firstCornerY;
@@ -54,9 +55,10 @@ public class Bar implements Collider {
             if (this.equals(other)) {
                 return true;
             } else {
-                return this.isPointOnBorderOfBar(new Point(((Bar) other).getFirstCornerX(), ((Bar) other).getFirstCornerY()))
-                        ||
-                        this.isPointOnBorderOfBar(new Point(((Bar) other).getSecondCornerX(), ((Bar) other).getSecondCornerY()));
+                return this.isPointOnBorderOfBar(new Point(((Bar) other).getFirstCornerX(),
+                        ((Bar) other).getFirstCornerY()))
+                        || this.isPointOnBorderOfBar(new Point(((Bar) other).getSecondCornerX(),
+                        ((Bar) other).getSecondCornerY()));
             }
 
 
