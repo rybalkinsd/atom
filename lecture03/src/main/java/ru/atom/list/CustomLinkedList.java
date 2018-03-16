@@ -7,9 +7,9 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
-    public int size;
-    public ListNode<E> head;
-    public ListNode<E> zer;
+    private int size;
+    private ListNode<E> head;
+    private ListNode<E> zer;
 
     public CustomLinkedList() {
         this.head = new ListNode<E>();
@@ -58,8 +58,8 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public E next() {
-            E val = cur.data;
-            cur = cur.next;
+            E val = cur.getData();
+            cur = cur.getNext();
             return val;
         }
     }
@@ -74,21 +74,21 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean add(E e) {
         if (size == 0) {
             ListNode<E> nw = new ListNode<E>();
-            nw.data = e;
-            nw.next = nw;
-            nw.prev = nw;
+            nw.setData(e);
+            nw.setNext(nw);
+            nw.setPrev(nw);
             head = nw;
             zer = nw;
         } else {
             ListNode<E> nw = new ListNode<E>();
-            nw.data = e;
-            nw.next = zer;
-            nw.prev = head;
-            zer.prev = nw;
+            nw.setData(e);
+            nw.setNext(zer);
+            nw.setPrev(head);
+            zer.setPrev(nw);
             if (size == 1) {
-                zer.next = nw;
+                zer.setNext(nw);
             }
-            head.next = nw;
+            head.setNext(nw);
             head = nw;
         }
         size++;
@@ -100,20 +100,20 @@ public class CustomLinkedList<E> implements List<E> {
         if (size == 0) return false;
         ListNode<E> del = zer;
         for (int i = 0; i < size; i++) {
-            if (del.data.equals(o)) {
-                del.prev.next = del.next;
-                del.next.prev = del.prev;
+            if (del.getData().equals(o)) {
+                del.getPrev().setNext(del.getNext());
+                del.getNext().setPrev(del.getPrev());
                 if (i == 0) {
-                    zer = del.next;
+                    zer = del.getNext();
 
                 }
                 if (i == size - 1) {
-                    head = del.prev;
+                    head = del.getPrev();
                 }
                 size--;
                 return true;
             }
-            del = del.next;
+            del = del.getNext();
 
         }
 
@@ -134,9 +134,9 @@ public class CustomLinkedList<E> implements List<E> {
         }
         ListNode<E> curr = zer;
         for (int i = 0; i < index; i++) {
-            curr = curr.next;
+            curr = curr.getNext();
         }
-        return curr.data;
+        return curr.getData();
     }
 
     @Override
@@ -144,10 +144,10 @@ public class CustomLinkedList<E> implements List<E> {
         if (size == 0) return -1;
         ListNode<E> curr = zer;
         for (int i = 0; i < size; i++) {
-            if (curr.data.equals(o)) {
+            if (curr.getData().equals(o)) {
                 return i;
             }
-            curr = curr.next;
+            curr = curr.getNext();
         }
         return -1;
     }
