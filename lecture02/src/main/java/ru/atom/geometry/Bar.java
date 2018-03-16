@@ -50,23 +50,24 @@ public class Bar implements Collider {
 
         if (other instanceof Bar)
 
-            if (this.equals(other)){
+            if (this.equals(other)) {
                 return true;
-            }else {
+            } else {
                 return this.isPointOnBorderOfBar(new Point(((Bar) other).getFirstCornerX(), ((Bar) other).getFirstCornerY())) ||
-                this.isPointOnBorderOfBar(new Point(((Bar) other).getSecondCornerX(), ((Bar) other).getSecondCornerY()));
+                        this.isPointOnBorderOfBar(new Point(((Bar) other).getSecondCornerX(), ((Bar) other).getSecondCornerY()));
             }
 
 
-        if (other instanceof Point){
-           return  this.isPointOnBorderOfBar((Point) other) ||
-                   new Point(this.getFirstCornerX(), this.getFirstCornerY()).equals(other)||
-                   new Point(this.getSecondCornerX(), this.getSecondCornerY()).equals(other);        }
+        if (other instanceof Point) {
+            return this.isPointOnBorderOfBar((Point) other) ||
+                    new Point(this.getFirstCornerX(), this.getFirstCornerY()).equals(other) ||
+                    new Point(this.getSecondCornerX(), this.getSecondCornerY()).equals(other);
+        }
         return false;
     }
 
-    public boolean isPointOnBorderOfBar(Point point){
-        return  point.getX() >= this.getFirstCornerX() &&
+    public boolean isPointOnBorderOfBar(Point point) {
+        return point.getX() >= this.getFirstCornerX() &&
                 point.getX() <= this.getSecondCornerX() &&
                 point.getY() >= this.getFirstCornerY() &&
                 point.getY() <= this.getSecondCornerY();
@@ -78,7 +79,7 @@ public class Bar implements Collider {
         if (o == null || getClass() != o.getClass()) return false;
 
         Bar bar = (Bar) o;
-        return  (this.firstCornerX == bar.firstCornerX || this.firstCornerX == bar.secondCornerX) &&
+        return (this.firstCornerX == bar.firstCornerX || this.firstCornerX == bar.secondCornerX) &&
                 (this.firstCornerY == bar.firstCornerY || this.firstCornerY == bar.secondCornerY) &&
                 (this.secondCornerX == bar.secondCornerX || this.secondCornerX == bar.firstCornerX) &&
                 (this.secondCornerY == bar.secondCornerY || this.secondCornerY == bar.firstCornerY);
