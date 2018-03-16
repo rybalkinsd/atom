@@ -51,22 +51,22 @@ public class Game {
 
 
         ans = scanner.nextLine().toLowerCase();
-        Pattern p = Pattern.compile("^[a-z]{" + secret.length() + "}$");
-        Matcher m = p.matcher(ans);
-        while (!m.matches()) {
+        Pattern pattern = Pattern.compile("^[a-z]{" + secret.length() + "}$");
+        Matcher matcher = pattern.matcher(ans);
+        while (!matcher.matches()) {
             System.out.println("Your answer is incorrect (not in a - Z) try one more time" +
                     " or have wrong length (correct =" + secret.length() + ")");
             ans = scanner.nextLine().toLowerCase();
-            m = p.matcher(ans);
+            matcher = pattern.matcher(ans);
         }
         return ans;
 
     }
 
     private String getNewWordFromDict() {
-        Random r = new Random();
+        Random random = new Random();
         final int Max = 52975;
-        int rline = r.nextInt(Max) - 1;
+        int rline = random.nextInt(Max) - 1;
         //URL url = getClass().getResource("diсtionary.txt");
         String path = this.getClass().getResource("/dictionary.txt").getPath();
 
@@ -94,13 +94,13 @@ public class Game {
     }
 
     private boolean isinArrayChange(char sym, char[] truth) {
-        int i = 0;
+        int inc = 0;
         for (char el : truth) {
             if (el == sym) {
-                truth[i] = '1';
+                truth[inc] = '1';
                 return true;
             }
-            i++;
+            inc++;
         }
         return false;
     }
@@ -121,9 +121,9 @@ public class Game {
             setStatus(Status.WIN);
             return "Congratulations U Win!";
         }
-        char[] ans_ = ans.toCharArray();
-        int bulls = giveBulls(ans_);
-        int cows = giveCows(ans_) - bulls;
+        char[] ansChar = ans.toCharArray();
+        int bulls = giveBulls(ansChar);
+        int cows = giveCows(ansChar) - bulls;
         return "U got " + cows + " Cows and " + bulls + " Bulls";
     }
 

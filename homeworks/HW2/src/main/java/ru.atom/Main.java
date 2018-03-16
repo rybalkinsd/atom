@@ -1,5 +1,5 @@
 package ru.atom;
-import java.io.IOException;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,7 +10,7 @@ public class Main {
         System.out.println("Y/N?:");
         String chr;
         Scanner scanner = new Scanner(System.in);
-            chr = scanner.nextLine().toLowerCase();
+        chr = scanner.nextLine().toLowerCase();
 
         if (chr.toCharArray()[0] == 'n') {
             game.setStatus(Status.EXIT);
