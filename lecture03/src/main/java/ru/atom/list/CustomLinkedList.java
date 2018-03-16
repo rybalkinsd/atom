@@ -7,55 +7,157 @@ import java.util.ListIterator;
 
 
 public class CustomLinkedList<E> implements List<E> {
+    private int size;
+    private ListNode<E> head;
+    private ListNode<E> zer;
+
+    public CustomLinkedList() {
+        this.head = new ListNode<E>();
+        this.zer = new ListNode<E>();
+        this.size = 0;
+    }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        return indexOf(o) >= 0;
     }
+
+    private class MyIterator implements Iterator<E> {
+
+        ListNode<E> cur;
+        boolean f;
+
+        public MyIterator() {
+            this.cur = CustomLinkedList.this.zer;
+            f = false;// голова списка
+        }
+
+        @Override
+        public boolean hasNext() {
+            //return cur!=zer;
+            if (f) {
+                return cur != zer;
+            } else {
+                f = true;
+                return CustomLinkedList.this.size != 0;
+            }
+        }
+
+        @Override
+        public E next() {
+            E val = cur.getData();
+            cur = cur.getNext();
+            return val;
+        }
+    }
+
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new MyIterator();
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            ListNode<E> nw = new ListNode<E>();
+            nw.setData(e);
+            nw.setNext(nw);
+            nw.setPrev(nw);
+            head = nw;
+            zer = nw;
+        } else {
+            ListNode<E> nw = new ListNode<E>();
+            nw.setData(e);
+            nw.setNext(zer);
+            nw.setPrev(head);
+            zer.setPrev(nw);
+            if (size == 1) {
+                zer.setNext(nw);
+            }
+            head.setNext(nw);
+            head = nw;
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (size == 0) return false;
+        ListNode<E> del = zer;
+        for (int i = 0; i < size; i++) {
+            if (del.getData().equals(o)) {
+                del.getPrev().setNext(del.getNext());
+                del.getNext().setPrev(del.getPrev());
+                if (i == 0) {
+                    zer = del.getNext();
+
+                }
+                if (i == size - 1) {
+                    head = del.getPrev();
+                }
+                size--;
+                return true;
+            }
+            del = del.getNext();
+
+        }
+
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        zer = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        if (size == 0 || index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode<E> curr = zer;
+        for (int i = 0; i < index; i++) {
+            curr = curr.getNext();
+        }
+        return curr.getData();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        if (size == 0) return -1;
+        ListNode<E> curr = zer;
+        for (int i = 0; i < size; i++) {
+            if (curr.getData().equals(o)) {
+                return i;
+            }
+            curr = curr.getNext();
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E el : c) {
+            add(el);
+        }
+        return true;
     }
 
 
@@ -166,4 +268,6 @@ public class CustomLinkedList<E> implements List<E> {
     public E set(int index, E element) {
         return null;
     }
+
+
 }
