@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -101,7 +102,7 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE
     )
     public ResponseEntity<String> chat() {
-        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join("\n",messages);
         return ResponseEntity.ok(responseBody);
     }
 }
