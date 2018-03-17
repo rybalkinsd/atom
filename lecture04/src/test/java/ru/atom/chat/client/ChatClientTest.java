@@ -13,6 +13,15 @@ public class ChatClientTest {
     private static String MY_MESSAGE_TO_CHAT = "Foxes";
 
     @Test
+    public void logout() throws IOException {
+        Response response = ChatClient.logout(MY_NAME_IN_CHAT);
+        System.out.println("[" + response + "]");
+        String body = response.body().string();
+        System.out.println();
+        Assert.assertTrue(response.code() == 200 || body.equals("You weren't logged in:("));
+    }
+
+    @Test
     public void login() throws IOException {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);
         System.out.println("[" + response + "]");

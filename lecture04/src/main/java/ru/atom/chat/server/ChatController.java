@@ -60,8 +60,8 @@ public class ChatController {
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
     @RequestMapping(
-            path = "online",
-            method = RequestMethod.DELETE,
+            path = "logout",
+            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity logout(@RequestParam("name") String name) {
@@ -71,7 +71,7 @@ public class ChatController {
         if (name.length() > 20) {
             return ResponseEntity.badRequest().body("Too long name, sorry :(");
         }
-        if (usersOnline.containsKey(name)) {
+        if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("You weren't logged in:(");
         }
         usersOnline.remove(name, name);
