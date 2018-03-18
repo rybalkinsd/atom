@@ -27,5 +27,5 @@ checkstyle {
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'Bulls_and_Cows' }
+    manifest { attributes 'Main-Class': 'BullsAndCows' }
 }

@@ -1,0 +1,28 @@
+apply plugin: 'ivy-publish'
+
+group = 'org.gradle.sample'
+version = '1.0'
+
+publishing {
+    publications {
+        ivyCustom(IvyPublication) {
+            descriptor.withXml {
+                asNode().info[0].appendNode('description',
+                                            'A demonstration of ivy descriptor customization')
+            }
+        }
+    }
+    repositories {
+        ivy {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
+model {
+    tasks.generateDescriptorFileForIvyCustomPublication {
+        destination = file("$buildDir/generated-ivy.xml")
+    }
+}
+
+

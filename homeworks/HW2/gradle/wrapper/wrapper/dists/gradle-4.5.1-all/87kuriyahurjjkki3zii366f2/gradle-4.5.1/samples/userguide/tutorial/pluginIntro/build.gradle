@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+task show {
+    doLast {
+        println relativePath(compileJava.destinationDir)
+        println relativePath(processResources.destinationDir)
+    }
+}
+apply plugin: JavaPlugin
+apply plugin: 'java'
+apply plugin: 'groovy'

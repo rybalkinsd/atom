@@ -1,0 +1,66 @@
+apply plugin: 'cpp'
+apply plugin: 'visual-studio'
+
+model {
+    visualStudio {
+        projects.all {
+            projectFile.location = "vs/${name}.vcxproj"
+            filtersFile.location = "vs/${name}.vcxproj.filters"
+        }
+        solutions.all {
+            solutionFile.location = "vs/${name}.sln"
+        }
+    }
+}
+
+model {
+    visualStudio {
+        projects.all { project ->
+            projectFile.withXml {
+                asNode().appendNode('PropertyGroup', [Label: 'Custom'])
+                        .appendNode('ProjectDetails', "Project is named ${project.name}")
+            }
+        }
+    }
+}
+model {
+    visualStudio {
+        solutions.all { solution ->
+            solutionFile.withContent { content ->
+                def sourceControlSection = """
+    GlobalSection(SolutionNotes) = postSolution
+        NumNotes = 2
+        Name1 = FirstNote
+        Issue1 = N
+        Text1 = This is a shared note.
+        Name2 = SecondNote
+        Issue2 = N
+        Text2 = The projects in this solution are ${solution.projects*.name}.
+    EndGlobalSection
+"""
+                def insertPos = content.text.lastIndexOf("EndGlobal")
+                content.asBuilder().insert(insertPos, sourceControlSection)
+            }
+        }
+    }
+}
+
+model {
+    components {
+        main(NativeExecutableSpec) {
+            sources {
+                cpp.lib library: "hello"
+            }
+        }
+        hello(NativeLibrarySpec)
+    }
+
+    // For any shared library binaries built with Visual C++, define the DLL_EXPORT macro
+    binaries {
+        withType(SharedLibraryBinarySpec) {
+            if (toolChain in VisualCpp) {
+                cppCompiler.define "DLL_EXPORT"
+            }
+        }
+    }
+}

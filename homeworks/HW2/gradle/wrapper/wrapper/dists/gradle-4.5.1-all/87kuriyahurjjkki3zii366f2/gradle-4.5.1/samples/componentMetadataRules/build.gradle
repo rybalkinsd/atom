@@ -1,0 +1,98 @@
+import org.gradle.model.Mutate
+
+repositories {
+    ivy {
+        url "$projectDir/repo"
+    }
+}
+
+configurations {
+    config1
+    config2
+    config3
+    config4
+    config5
+    config6
+}
+
+dependencies {
+    config1 "org.sample:client:latest.integration"
+    config2 "org.sample:client:latest.release"
+}
+
+task listConfigs {
+    doLast {
+        configurations.config1.each { println it.name }
+        println()
+        configurations.config2.each { println it.name }
+    }
+}
+
+dependencies {
+    config3 "org.sample:api:latest.silver"
+    components {
+        all { ComponentMetadataDetails details ->
+            if (details.id.group == "org.sample" && details.id.name == "api") {
+                details.statusScheme = ["bronze", "silver", "gold", "platinum"]
+            }
+        }
+    }
+}
+
+task listApi {
+    doLast {
+        configurations.config3.each { println "Resolved: ${it.name}" }
+    }
+}
+
+dependencies {
+    config4 "org.sample:lib:latest.prod"
+    components {
+        withModule('org.sample:lib') { ComponentMetadataDetails details ->
+            details.statusScheme = ["int", "rc", "prod"]
+        }
+    }
+}
+
+task listLib {
+    doLast {
+        configurations.config4.each { println "Resolved: ${it.name}" }
+    }
+}
+
+dependencies {
+    config5 "org.sample:api:latest.gold"
+    components {
+        withModule('org.sample:api', new CustomStatusRule())
+    }
+}
+
+class CustomStatusRule {
+    @Mutate
+    void setStatusScheme(ComponentMetadataDetails details) {
+        details.statusScheme = ["bronze", "silver", "gold", "platinum"]
+    }
+}
+
+task listWithRule {
+    doLast {
+        configurations.config5.each { println "Resolved: ${it.name}" }
+    }
+}
+
+dependencies {
+    config6 "org.sample:lib:latest.rc"
+    components {
+        withModule("org.sample:lib") { ComponentMetadataDetails details, IvyModuleDescriptor ivyModule ->
+            if (ivyModule.branch == 'testing') {
+                details.status = "rc"
+            }
+        }
+    }
+}
+
+task listWithIvyRule {
+    doLast {
+        configurations.config6.each { println "Resolved: ${it.name}" }
+    }
+}

@@ -1,0 +1,7 @@
+task myCopy(type: Copy)
+
+myCopy {
+   from 'resources'
+   into 'target'
+   include('**/*.txt', '**/*.xml', '**/*.properties')
+}

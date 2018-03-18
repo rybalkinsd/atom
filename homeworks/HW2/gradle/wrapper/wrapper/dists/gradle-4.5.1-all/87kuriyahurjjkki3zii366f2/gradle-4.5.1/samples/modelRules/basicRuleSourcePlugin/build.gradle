@@ -1,0 +1,67 @@
+@Managed
+interface Person {
+  void setFirstName(String name)
+  String getFirstName()
+
+  void setLastName(String name)
+  String getLastName()
+
+  void setAge(int age)
+  int getAge()
+
+  void setEmployed(boolean isEmployed)
+  boolean isEmployed()
+
+  void setMother(Person mother)
+  Person getMother()
+
+  void setFather(Person father)
+  Person getFather()
+
+  ModelSet<Person> getChildren()
+
+  void setHomeDirectory(File homeDir)
+  File getHomeDirectory()
+
+  void setId(Long id)
+  Long getId()
+
+  void setMaritalStatus(MaritalStatus status)
+  MaritalStatus getMaritalStatus()
+
+   void setUserGroups(List<String> groups)
+   List<String> getUserGroups()
+
+
+}
+
+class PersonRules extends RuleSource {
+  @Model void person(Person p) {}
+
+  //Create a rule that modifies a Person and takes no other inputs
+  @Mutate void setFirstName(Person p) {
+    p.firstName = "John"
+  }
+
+  //Create a rule that modifies a ModelMap<Task> and takes as input a Person
+  @Mutate void createHelloTask(ModelMap<Task> tasks, Person p) {
+    tasks.create("hello") {
+      doLast {
+        println "Hello $p.firstName $p.lastName!"
+      }
+    }
+  }
+}
+
+apply plugin: PersonRules
+
+model {
+  person {
+    lastName = "Smith"
+  }
+}
+
+enum MaritalStatus {
+    SINGLE,
+    MARRIED
+}

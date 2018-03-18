@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.testng:testng:6.9.4'
+}
+
+test {
+    useTestNG {
+        preserveOrder true
+    }
+}
+
+test.testLogging {
+    showStandardStreams = true
+}

@@ -1,0 +1,5 @@
+task build(type: GradleBuild) {
+    buildFile = 'other.gradle'
+    tasks = ['hello']
+    startParameter.searchUpwards = false
+}

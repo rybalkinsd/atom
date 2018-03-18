@@ -1,0 +1,30 @@
+plugins {
+    id 'play'
+    id 'idea'
+}
+
+model {
+    components {
+        play {
+            platform play: '2.6.7', scala: '2.12', java: '1.8'
+            injectedRoutesGenerator = true
+        }
+    }
+}
+
+dependencies {
+    play "com.typesafe.play:play-guice_2.12:2.6.7"
+}
+
+repositories {
+    jcenter()
+    maven {
+        name "lightbend-maven-releases"
+        url "https://repo.lightbend.com/lightbend/maven-release"
+    }
+    ivy {
+        name "lightbend-ivy-release"
+        url "https://repo.lightbend.com/lightbend/ivy-releases"
+        layout "ivy"
+    }
+}

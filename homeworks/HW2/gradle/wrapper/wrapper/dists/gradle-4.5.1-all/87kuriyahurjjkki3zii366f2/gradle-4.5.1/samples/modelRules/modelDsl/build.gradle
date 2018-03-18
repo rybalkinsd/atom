@@ -1,0 +1,75 @@
+@Managed
+interface Address {
+    String getCity()
+    void setCity(String city)
+}
+
+@Managed
+interface Person {
+    String getFirstName()
+    void setFirstName(String n)
+
+    String getLastName()
+    void setLastName(String n)
+
+    Address getAddress()
+}
+
+class PersonRules extends RuleSource {
+    @Model
+    void people(ModelMap<Person> people) {
+    }
+}
+
+apply plugin: PersonRules
+
+model {
+    person {
+        lastName = "Smith"
+    }
+    person {
+        address {
+            city = "Melbourne"
+        }
+    }
+    person(Person) {
+        firstName = "John"
+    }
+    barry(Person)
+    tasks {
+        hello(Task) {
+            def p = $.person
+            doLast {
+                println "Hello $p.firstName $p.lastName!"
+            }
+        }
+    }
+}
+
+model {
+    people {
+        john {
+            lastName = "Smith"
+        }
+        john(Person) {
+            firstName = "John"
+        }
+        all {
+            println "configuring $it"
+        }
+        barry(Person) {
+            firstName = "Barry"
+            lastName = "Barry"
+        }
+    }
+    tasks {
+        listPeople(Task) {
+            doLast {
+                def p = $.people
+                p.each {
+                    println "Hello $it.firstName $it.lastName!"
+                }
+            }
+        }
+    }
+}

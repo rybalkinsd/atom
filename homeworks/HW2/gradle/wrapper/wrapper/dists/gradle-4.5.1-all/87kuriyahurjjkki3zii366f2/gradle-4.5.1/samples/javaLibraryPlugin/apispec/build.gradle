@@ -1,0 +1,43 @@
+plugins {
+    id 'jvm-component'
+    id 'java-lang'
+}
+
+model {
+    components {
+        main(JvmLibrarySpec) {
+            api {
+                exports 'org.gradle'
+                exports 'org.gradle.utils'
+            }
+        }
+    }
+}
+
+model {
+    components {
+        client(JvmLibrarySpec) {
+            sources {
+                java {
+                    dependencies {
+                        library 'main'
+                    }
+                }
+            }
+        }
+    }
+}
+
+model {
+    components {
+        brokenclient(JvmLibrarySpec) {
+            sources {
+                java {
+                    dependencies {
+                        library 'main'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+println name
+println project.name
+
+task check {
+    doLast {
+    }
+}

@@ -1,0 +1,42 @@
+apply plugin: 'java'
+
+// Iterable gets an each() method
+configurations.runtime.each { File f -> println f }
+
+// Using a getter method
+println project.buildDir
+println getProject().getBuildDir()
+
+// Using a setter method
+project.buildDir = 'target'
+getProject().setBuildDir('target')
+
+test.systemProperty 'some.prop', 'value'
+test.systemProperty('some.prop', 'value')
+
+// List literal
+test.includes = ['org/gradle/api/**', 'org/gradle/internal/**']
+
+List<String> list = new ArrayList<String>()
+list.add('org/gradle/api/**')
+list.add('org/gradle/internal/**')
+test.includes = list
+
+// Map literal.
+Map<String, String> map = [key1:'value1', key2: 'value2']
+
+// Groovy will coerce named arguments
+// into a single map argument
+apply plugin: 'java'
+
+repositories {
+    println "in a closure"
+}
+repositories() { println "in a closure" }
+repositories({ println "in a closure" })
+
+dependencies {
+    assert delegate == project.dependencies
+    testCompile('junit:junit:4.12')
+    delegate.testCompile('junit:junit:4.12')
+}

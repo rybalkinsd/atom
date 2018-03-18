@@ -1,0 +1,21 @@
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+eclipse.classpath.file {
+    beforeMerged { classpath ->
+        classpath.entries.removeAll { entry -> entry.kind == 'lib' || entry.kind == 'var' }
+    }
+    whenMerged { classpath ->
+        classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = false
+    }
+}
+
+eclipse.project.file.beforeMerged { project ->
+    project.natures.clear()
+}
+
+apply plugin: 'eclipse-wtp'
+
+eclipse.wtp.facet.file.withXml { provider ->
+    provider.asNode().fixed.find { it.@facet == 'jst.java' }.@facet = 'jst2.java'
+}

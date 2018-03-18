@@ -1,0 +1,9 @@
+<project>
+<echo>buildDir = ${buildDir}</echo>
+
+<property name="antProp" value="a property defined in an Ant build"/>
+
+<path refid="classpath"/>
+
+<path id="antPath" location="libs"/>
+</project>

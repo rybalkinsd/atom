@@ -1,0 +1,9 @@
+apply {
+  plugin 'announce'
+  plugin 'java'
+}
+
+announce {
+  announceTwitterUsername = 'AnnounceExampleTwitterAccount'
+  announceTwitterPassword = 'your-password'
+}

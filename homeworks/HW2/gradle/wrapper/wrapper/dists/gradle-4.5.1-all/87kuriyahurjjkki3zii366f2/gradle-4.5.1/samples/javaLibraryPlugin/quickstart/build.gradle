@@ -1,0 +1,28 @@
+plugins {
+    id 'jvm-component'
+    id 'java-lang'
+}
+
+model {
+    components {
+        main(JvmLibrarySpec)
+    }
+    components {
+        main {
+            sources {
+                java {
+                    // configure the "java" source set
+                }
+            }
+        }
+    }
+    components {
+        main {
+            sources {
+                mySourceSet(JavaSourceSet) {
+                    // configure the "mySourceSet" source set
+                }
+            }
+        }
+    }
+}

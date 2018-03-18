@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+task zipWithFileSet(type: Zip) {
+    from ('contentDir') {
+        include('**/*.txt')
+        exclude('**/*.gif')
+    }
+}
+
+task zipWithFiles(type: Zip) {
+    from 'path_to_file1', 'path_to_file2'
+}
+
+task zipWithZipFileSet(type: Zip) {
+    from('contentDir') {
+        include '**/*.txt'
+        exclude '**/*.gif'
+        into 'myprefix'
+    }
+}
+
+task tarWithFileSet(type: Tar) {
+    from('contentDir') {
+        include('**/*.txt')
+        exclude('**/*.gif')
+        uid = 'myuid'
+    }
+}

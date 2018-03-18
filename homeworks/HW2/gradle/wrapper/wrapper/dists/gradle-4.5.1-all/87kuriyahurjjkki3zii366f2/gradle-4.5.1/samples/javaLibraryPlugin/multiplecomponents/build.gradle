@@ -1,0 +1,72 @@
+plugins {
+    id 'jvm-component'
+    id 'java-lang'
+}
+
+model {
+    components {
+        server(JvmLibrarySpec) {
+            sources {
+                java {
+                    dependencies {
+                        library 'core'
+                    }
+                }
+            }
+        }
+
+        core(JvmLibrarySpec) {
+            dependencies {
+                library 'commons'
+            }
+        }
+
+        commons(JvmLibrarySpec) {
+            api {
+                dependencies {
+                    library 'collections'
+                }
+            }
+        }
+
+        collections(JvmLibrarySpec)
+    }
+}
+
+model {
+    components {
+        client(JvmLibrarySpec) {
+            sources {
+                java {
+                    dependencies {
+                        project ':util' library 'main'
+                    }
+                    dependencies {
+                        project ':util'
+                    }
+                }
+            }
+        }
+    }
+}
+
+model {
+    components {
+        verifier(JvmLibrarySpec) {
+            dependencies {
+                module 'asm'          group 'org.ow2.asm' version '5.0.4'
+                module 'asm-analysis' group 'org.ow2.asm'
+            }
+        }
+        verifier {
+            dependencies {
+                module 'org.ow2.asm:asm:5.0.4'
+                module 'org.ow2.asm:asm-analysis'
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}

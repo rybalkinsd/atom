@@ -1,0 +1,23 @@
+apply plugin: 'windows-resources'
+
+model {
+    components {
+        helloRes(NativeLibrarySpec) {
+            binaries.all {
+                rcCompiler.args "/v"
+                linker.args "/noentry", "/machine:x86"
+            }
+            sources {
+                rc {
+                    source {
+                        srcDirs "src/hello/rc"
+                    }
+                    exportedHeaders {
+                        srcDirs "src/hello/headers"
+                    }
+                }
+            }
+        }
+    }
+}
+

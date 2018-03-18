@@ -1,0 +1,22 @@
+repositories {
+    jcenter()
+    maven {
+        url "https://maven.springframework.org/release"
+    }
+    maven {
+        url "https://maven.restlet.org"
+    }
+}
+
+configurations {
+    libs
+}
+
+dependencies {
+    libs "com.restlet.client:commons:2.0.0"
+}
+
+task copyLibs(type: Copy) {
+    from configurations.libs
+    into "$buildDir/libs"
+}

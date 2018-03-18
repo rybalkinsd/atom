@@ -1,0 +1,33 @@
+@Managed
+interface Person {
+    void setFirstName(String n);
+
+    String getFirstName()
+
+    void setLastName(String n);
+
+    String getLastName()
+}
+
+model {
+    person {
+        println "configuring person"
+        println "last name is $lastName, should be Smythe"
+        lastName = "Smythe"
+    }
+    person(Person) {
+        println "creating person"
+        firstName = "John"
+        lastName = "Smith"
+    }
+}
+model {
+    tasks {
+        showPerson(Task) {
+            def p = $.person
+            doLast {
+                println "Hello $p.firstName $p.lastName!"
+            }
+        }
+    }
+}

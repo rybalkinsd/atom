@@ -1,0 +1,20 @@
+plugins {
+    id 'jvm-component'
+    id 'java-lang'
+}
+
+model {
+    components {
+        main(JvmLibrarySpec) {
+            targetPlatform 'java5'
+            targetPlatform 'java6'
+            sources {
+                java {
+                    dependencies {
+                        project ':core' library 'main'
+                    }
+                }
+            }
+        }
+    }
+}

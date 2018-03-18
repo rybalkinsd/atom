@@ -1,0 +1,16 @@
+repositories {
+    jcenter()
+}
+
+configurations {
+    libs
+}
+
+dependencies {
+    libs 'com.google.guava:guava:23.0'
+}
+
+task copyLibs(type: Copy) {
+    from configurations.libs
+    into "$buildDir/libs"
+}

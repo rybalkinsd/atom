@@ -1,0 +1,13 @@
+apply plugin: "groovy"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.10'
+}
+
+dependencies {
+    compile localGroovy()
+}

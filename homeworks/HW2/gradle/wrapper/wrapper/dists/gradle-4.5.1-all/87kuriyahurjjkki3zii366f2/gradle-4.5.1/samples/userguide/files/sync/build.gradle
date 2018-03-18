@@ -1,0 +1,6 @@
+configurations { runtime }
+
+task libs(type: Sync) {
+    from configurations.runtime
+    into "$buildDir/libs"
+}

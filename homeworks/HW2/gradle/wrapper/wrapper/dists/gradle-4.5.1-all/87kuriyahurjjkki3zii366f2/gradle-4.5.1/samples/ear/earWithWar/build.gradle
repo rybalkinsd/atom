@@ -1,0 +1,11 @@
+apply plugin: 'ear'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    deploy project(path: ':war', configuration: 'archives')
+
+    earlib group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
+}

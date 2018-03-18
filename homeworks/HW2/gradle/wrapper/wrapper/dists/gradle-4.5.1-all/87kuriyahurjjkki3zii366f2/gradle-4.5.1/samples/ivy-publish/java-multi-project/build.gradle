@@ -1,0 +1,54 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'ivy-publish'
+
+    version = '1.0'
+    group = 'org.gradle.sample'
+
+    repositories {
+        mavenCentral()
+    }
+    task sourceJar(type: Jar) {
+        from sourceSets.main.java
+        classifier "source"
+    }
+}
+
+project(":project1") {
+    description = "The first project"
+
+    dependencies {
+       compile 'junit:junit:4.12', project(':project2')
+    }
+}
+
+project(":project2") {
+    description = "The second project"
+
+    dependencies {
+       compile 'commons-collections:commons-collections:3.2.2'
+    }
+}
+
+subprojects {
+    publishing {
+        repositories {
+            ivy {
+                // change to point to your repo, e.g. http://my.org/repo
+                url "${rootProject.buildDir}/repo"
+            }
+        }
+        publications {
+            ivy(IvyPublication) {
+                from components.java
+                artifact(sourceJar) {
+                    type "source"
+                    conf "compile"
+                }
+                descriptor.withXml {
+                    asNode().info[0].appendNode('description', description)
+                }
+            }
+        }
+    }
+}

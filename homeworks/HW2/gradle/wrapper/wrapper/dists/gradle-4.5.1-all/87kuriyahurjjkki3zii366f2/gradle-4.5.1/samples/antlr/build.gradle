@@ -1,0 +1,17 @@
+
+apply plugin: 'antlr'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    antlr "org.antlr:antlr:3.5.2" // use ANTLR version 3
+    // antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
+    testCompile 'junit:junit:4.12'
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+}

@@ -1,0 +1,12 @@
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module("org.utils:api") with project(":api")
+        substitute module("org.utils:util:2.5") with project(":util")
+    }
+}
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute project(":api") with module("org.utils:api:1.3")
+    }
+}

@@ -1,0 +1,13 @@
+apply plugin: "scala"
+
+repositories {
+    mavenCentral()
+}
+
+configurations.all {
+    resolutionStrategy.force "org.scala-lang:scala-library:2.11.7"
+}
+
+configurations.zinc {
+    resolutionStrategy.force "org.scala-lang:scala-library:2.10.5"
+}

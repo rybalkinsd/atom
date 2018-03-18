@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+apply plugin: 'signing'
+
+group = 'gradle'
+version = '1.0'
+
+// Typically set in ~/.gradle/gradle.properties
+project['signing.keyId'] = "24875D73"
+project['signing.password'] = "gradle"
+project['signing.secretKeyRingFile'] = file("secKeyRingFile.gpg").absolutePath
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("${buildDir}/repo"))
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+        }
+    }
+}

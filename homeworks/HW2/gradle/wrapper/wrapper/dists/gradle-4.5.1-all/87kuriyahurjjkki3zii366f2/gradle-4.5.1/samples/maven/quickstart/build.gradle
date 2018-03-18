@@ -1,0 +1,16 @@
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'gradle'
+version = '1.0'
+
+// Configure the repository
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("pomRepo"))
+        }
+    }
+}

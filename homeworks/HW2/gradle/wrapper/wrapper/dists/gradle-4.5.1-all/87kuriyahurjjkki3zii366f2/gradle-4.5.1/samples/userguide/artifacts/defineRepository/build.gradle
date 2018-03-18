@@ -1,0 +1,232 @@
+repositories {
+    maven {
+        url "http://repo.mycompany.com/maven2"
+    }
+
+    ivy {
+        url "http://repo.mycompany.com/repo"
+    }
+}
+
+repositories {
+    maven {
+        url "sftp://repo.mycompany.com:22/maven2"
+        credentials {
+            username "user"
+            password "password"
+        }
+    }
+
+    ivy {
+        url "sftp://repo.mycompany.com:22/repo"
+        credentials {
+            username "user"
+            password "password"
+        }
+    }
+}
+
+repositories {
+    maven {
+        url "s3://myCompanyBucket/maven2"
+        credentials(AwsCredentials) {
+            accessKey "someKey"
+            secretKey "someSecret"
+            // optional
+            sessionToken "someSTSToken"
+        }
+    }
+
+    ivy {
+        url "s3://myCompanyBucket/ivyrepo"
+        credentials(AwsCredentials) {
+            accessKey "someKey"
+            secretKey "someSecret"
+            // optional
+            sessionToken "someSTSToken"
+        }
+    }
+}
+
+repositories {
+    maven {
+        url "s3://myCompanyBucket/maven2"
+        authentication {
+           awsIm(AwsImAuthentication) // load from EC2 role or env var
+        }
+    }
+
+    ivy {
+        url "s3://myCompanyBucket/ivyrepo"
+        authentication {
+           awsIm(AwsImAuthentication)
+        }
+    }
+}
+
+repositories {
+    maven {
+        url "gcs://myCompanyBucket/maven2"
+    }
+
+    ivy {
+        url "gcs://myCompanyBucket/ivyrepo"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    jcenter()
+}
+
+repositories {
+    google()
+}
+
+repositories {
+    mavenLocal()
+}
+
+repositories {
+    maven {
+        url "http://repo.mycompany.com/maven2"
+    }
+}
+
+repositories {
+    maven {
+        // Look for POMs and artifacts, such as JARs, here
+        url "http://repo2.mycompany.com/maven2"
+        // Look for artifacts here if not found at the above location
+        artifactUrls "http://repo.mycompany.com/jars"
+        artifactUrls "http://repo.mycompany.com/jars2"
+    }
+}
+
+repositories {
+    maven {
+        url "http://repo.mycompany.com/maven2"
+        credentials {
+            username "user"
+            password "password"
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+    flatDir {
+        dirs 'lib1', 'lib2'
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+    }
+}
+
+repositories {
+    ivy {
+        // URL can refer to a local directory
+        url "../local-repo"
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+        layout "maven"
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+        layout "pattern", {
+            artifact "[module]/[revision]/[type]/[artifact].[ext]"
+        }
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+        layout "pattern", {
+            artifact "[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+            m2compatible = true
+        }
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+        layout "pattern", {
+            artifact "3rd-party-artifacts/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+            artifact "company-artifacts/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+            ivy "ivy-files/[organisation]/[module]/[revision]/ivy.xml"
+        }
+    }
+}
+
+repositories {
+    ivy {
+        url "http://repo.mycompany.com"
+        credentials {
+            username "user"
+            password "password"
+        }
+    }
+}
+
+// Can enable dynamic resolve mode when you define the repository
+repositories {
+    ivy {
+        url "http://repo.mycompany.com/repo"
+        resolve.dynamicMode = true
+    }
+}
+
+// Can use a rule instead to enable (or disable) dynamic resolve mode for all repositories
+repositories.withType(IvyArtifactRepository) {
+    resolve.dynamicMode = true
+}
+
+task lookup {
+    doLast {
+        repositories.each { assert it.name }
+        assert repositories[0].name
+    }
+}
+
+repositories {
+    maven {
+        url 'https://repo.mycompany.com/maven2'
+        credentials {
+            username "user"
+            password "password"
+        }
+        authentication {
+            digest(DigestAuthentication)
+        }
+    }
+}
+
+repositories {
+    maven {
+        url 'https://repo.mycompany.com/maven2'
+        credentials {
+            username "user"
+            password "password"
+        }
+        authentication {
+            basic(BasicAuthentication)
+        }
+    }
+}

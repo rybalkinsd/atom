@@ -1,0 +1,69 @@
+apply plugin: 'java'
+
+task myJar(type: Jar)
+
+artifacts {
+    archives myJar
+}
+
+def someFile = file('build/somefile.txt')
+
+artifacts {
+    archives someFile
+}
+
+task myTask(type:  MyTaskType) {
+    destFile = file('build/somefile.txt')
+}
+
+artifacts {
+    archives(myTask.destFile) {
+        name 'my-artifact'
+        type 'text'
+        builtBy myTask
+    }
+}
+
+task generate(type:  MyTaskType) {
+    destFile = file('build/somefile.txt')
+}
+
+artifacts {
+    archives file: generate.destFile, name: 'my-artifact', type: 'text', builtBy: generate
+}
+
+class MyTaskType extends DefaultTask {
+    File destFile
+}
+
+repositories {
+    flatDir {
+        name "fileRepo"
+        dirs "repo"
+    }
+}
+
+uploadArchives {
+    repositories {
+        add project.repositories.fileRepo
+        ivy {
+            credentials {
+                username "username"
+                password "pw"
+            }
+            url "http://repo.mycompany.com"
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        ivy {
+            credentials {
+                username "username"
+                password "pw"
+            }
+            url "http://repo.mycompany.com"
+        }
+    }
+}

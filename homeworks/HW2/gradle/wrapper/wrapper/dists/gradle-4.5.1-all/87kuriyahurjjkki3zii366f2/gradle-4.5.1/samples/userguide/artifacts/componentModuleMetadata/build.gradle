@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+    modules {
+        module("com.google.collections:google-collections") {
+            replacedBy("com.google.guava:guava")
+        }
+    }
+}

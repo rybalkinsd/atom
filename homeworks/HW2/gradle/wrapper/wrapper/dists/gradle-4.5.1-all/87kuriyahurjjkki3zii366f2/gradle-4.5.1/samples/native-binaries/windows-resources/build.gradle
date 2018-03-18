@@ -1,0 +1,28 @@
+apply plugin: 'cpp'
+apply plugin: 'windows-resources'
+
+model {
+    components {
+        hello(NativeLibrarySpec)
+        main(NativeExecutableSpec) {
+            sources {
+                cpp {
+                    lib library: 'hello'
+                }
+            }
+        }
+    }
+
+    binaries {
+        all {
+            linker.args "user32.lib"
+        }
+
+        // For any shared library binaries built with Visual C++, define the DLL_EXPORT macro
+        withType(SharedLibraryBinarySpec) {
+            if (toolChain in VisualCpp) {
+                cppCompiler.define "DLL_EXPORT"
+            }
+        }
+    }
+}
