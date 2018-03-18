@@ -11,12 +11,9 @@ https://sphere.mail.ru/
 
 #HSLIDE
 ### get ready
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 Course repo - [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
-=======
-[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
->>>>>>> 6aa33e2... presentation fixes
+
 =======
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 >>>>>>> 44051d4e6214e88661dab698aa41ddee53e5a851
