@@ -6,41 +6,126 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-public class CustomLinkedList<E> implements List<E> {
+class CustomLinkedList<E> implements List<E> {
+    private int size = 0;
+    private ListNode<E> first;
+    private ListNode<E> last;
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        return indexOf(o) >= 0;
+    }
+
+    private class MyIterator implements Iterator<E> {
+
+        ListNode<E> curElem;
+
+        MyIterator(CustomLinkedList<E> list) {
+            curElem = list.first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return curElem != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new RuntimeException();
+            }
+            E curItem = curElem.getItem();
+            curElem = curElem.getNext();
+            return curItem;
+        }
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new MyIterator(this);
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        final ListNode<E> l = last;
+        final ListNode<E> newNode = new ListNode<>(l, e, null);
+        last = newNode;
+        if (l == null)
+            first = newNode;
+        else
+            l.setNext(newNode);
+        size++;
+        return true;
+    }
+
+    E unlink(ListNode<E> x) {
+        // assert x != null;
+        final E element = x.getItem();
+        final ListNode<E> next = x.getNext();
+        final ListNode<E> prev = x.getPrev();
+
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.setNext(next);
+            x.setPrev(null);
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.setPrev(prev);
+            x.setNext(null);
+        }
+
+        x.setItem(null);
+        size--;
+        return element;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (x.getItem() == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (o.equals(x.getItem())) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
+
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        for (ListNode<E> x = first; x != null; ) {
+            ListNode<E> next = x.getNext();
+            x.setItem(null);
+            x.setNext(null);
+            x.setPrev(null);
+            x = next;
+        }
+        first = last = null;
+        size = 0;
     }
 
     @Override
@@ -50,13 +135,37 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+
+        int index = 0;
+        if (o == null) {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (x.getItem() == null)
+                    return index;
+                index++;
+            }
+        } else {
+            for (ListNode<E> x = first; x != null; x = x.getNext()) {
+                if (o.equals(x.getItem()))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        int len = c.toArray().length;
+        if (len != 0) {
+            for (E e : c) {
+                add(e);
+            }
+            return true;
+        }
+        return false;
     }
+
+
 
 
     /*
@@ -143,9 +252,6 @@ public class CustomLinkedList<E> implements List<E> {
         return null;
     }
 
-    /**
-     * Do not implement
-     */
     @Override
     public Object[] toArray() {
         return new Object[0];
