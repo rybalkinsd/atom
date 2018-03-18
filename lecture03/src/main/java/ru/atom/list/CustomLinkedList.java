@@ -7,9 +7,9 @@ import java.util.ListIterator;
 
 
 class CustomLinkedList<E> implements List<E> {
-    int size = 0;
-    ListNode<E> first;
-    ListNode<E> last;
+    private int size = 0;
+    private ListNode<E> first;
+    private ListNode<E> last;
 
     @Override
     public int size() {
