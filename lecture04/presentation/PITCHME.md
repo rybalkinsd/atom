@@ -415,12 +415,12 @@ We use OkHTTP library as java HTTP Client
 
 ## POST example from Java
 ```java
-  //GET host:port/chat/online
-  public static Response viewOnline() throws IOException {
+  //POST host:port/chat/login?name=my_name
+  public static Response login(String name) throws IOException {
+    MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
     Request request = new Request.Builder()
-        .get()
-        .url(PROTOCOL + HOST + PORT + "/chat/online")
-        .addHeader("host", HOST + PORT)
+        .post(RequestBody.create(mediaType, ""))
+        .url(PROTOCOL + HOST + PORT + "/chat/login?name=" + name)
         .build();
 
     return client.newCall(request).execute();
