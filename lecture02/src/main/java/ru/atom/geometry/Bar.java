@@ -102,10 +102,9 @@ public class Bar implements Collider {
      * */
     private static boolean onSegment(Point p, Point q, Point r) {
         if (q.getX() <= Math.max(p.getX(), r.getX())
-                && q.getX() >= Math.min(p.getX(), r.getX())
-                && q.getY() <= Math.max(p.getY(), r.getY())
-                && q.getY() >= Math.min(p.getY(), r.getY())
-                ) {
+            && q.getX() >= Math.min(p.getX(), r.getX())
+            && q.getY() <= Math.max(p.getY(), r.getY())
+            && q.getY() >= Math.min(p.getY(), r.getY())) {
             return true;
         }
         return false;
@@ -155,14 +154,14 @@ public class Bar implements Collider {
 
     public static boolean barIncludesBar(Bar bar1, Bar bar2) {
         if (bar1.getFirstCornerX()
-                < Math.min(bar2.getFirstCornerX(), bar2.getSecondCornerX())
-                && bar1.getSecondCornerX()
-                > Math.max(bar2.getFirstCornerX(), bar2.getSecondCornerX())
-                && bar1.getFirstCornerY()
-                < Math.min(bar2.getFirstCornerY(), bar2.getSecondCornerY())
-                && bar1.getSecondCornerY()
-                > Math.min(bar2.getFirstCornerY(), bar2.getSecondCornerY())
-                ) {
+            < Math.min(bar2.getFirstCornerX(), bar2.getSecondCornerX())
+            && bar1.getSecondCornerX()
+            > Math.max(bar2.getFirstCornerX(), bar2.getSecondCornerX())
+            && bar1.getFirstCornerY()
+            < Math.min(bar2.getFirstCornerY(), bar2.getSecondCornerY())
+            && bar1.getSecondCornerY()
+            > Math.min(bar2.getFirstCornerY(), bar2.getSecondCornerY())) {
+
             return true;
         }
         return false;

@@ -169,6 +169,7 @@ public class BarBarCollisionTest {
         assertTrue(bar1.isColliding(bar2));
     }
 
+
     @Test
     public void barIntersectsBar7() {
         Collider bar1 = Geometry.createBar(50, 0, 150, 100);
