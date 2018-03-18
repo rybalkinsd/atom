@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.*;
+import java.util.Queue;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
@@ -63,8 +64,7 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> logout(@RequestParam("name") String name)
-    {
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
         if (!(usersOnline.containsKey(name))) {
             return ResponseEntity.badRequest().body("Already logged out:(");
         }
@@ -83,10 +83,8 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String message)
-    {
-        if(!(usersOnline.containsKey(name)))
-        {
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String message) {
+        if (!(usersOnline.containsKey(name))) {
             return ResponseEntity.badRequest().body("Sorry you are not logged in");
         }
         messages.add("[" + name + "]: " + message);
