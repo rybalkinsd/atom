@@ -1,7 +1,6 @@
 package ru.atom.list;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -10,9 +9,9 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
-@Ignore
 public class CustomLinkedListTest {
     private List<Integer> intList = new CustomLinkedList<>();
     private List<String> stringList = new CustomLinkedList<>();
@@ -70,5 +69,25 @@ public class CustomLinkedListTest {
         assertFalse(intList.contains(42));
         assertTrue(intList.contains(38));
         assertEquals(1, intList.size());
+    }
+
+    @Test
+    public void indexOfTest() throws Exception {
+        intList.add(42);
+        assertEquals(0, intList.indexOf(42));
+        assertEquals(1, intList.indexOf(38));
+        assertEquals(-1, intList.indexOf(15));
+    }
+
+    @Test
+    public void getTest() throws Exception {
+        assertEquals("Hello", stringList.get(0));
+        assertEquals((Integer) 38, intList.get(1));
+        try {
+            intList.get(23);
+            fail("Didn't throw");
+        } catch (IndexOutOfBoundsException exception) {
+            // It's ok
+        }
     }
 }
