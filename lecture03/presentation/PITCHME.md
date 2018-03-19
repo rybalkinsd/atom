@@ -11,7 +11,9 @@ https://sphere.mail.ru/
 
 #HSLIDE
 ### get ready
+
 [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
+
 ```bash
 > git fetch upstream
 > git checkout -b lecture03 upstream/lecture03
