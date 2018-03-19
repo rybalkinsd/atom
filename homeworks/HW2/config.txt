@@ -1,0 +1,2 @@
+DICT_PATH=dictionary.txt
+MAX_ATTEMPTS=10
