@@ -13,7 +13,10 @@ public class Point implements Collider {
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
-    public Point(int x_, int y_) { x = x_; y = y_; }
+    public Point(int px, int py) {
+        x = px;
+        y = py;
+    }
 
     public int getY() {
         return y;
@@ -29,6 +32,7 @@ public class Point implements Collider {
         }
         return true;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

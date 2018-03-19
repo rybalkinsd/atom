@@ -1,33 +1,22 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
-    private Point first_corner;
-    private Point second_corner;
+    private Point firstCorner;
+    private Point secondCorner;
 
-    public Point getFirst_corner() {
-        return first_corner;
-    }
-
-    public Point getSecond_corner() {
-        return second_corner;
-    }
-
-    public Bar (Point first_corner_, Point second_corner_) {
-        if (first_corner_.getX() < second_corner_.getX() && first_corner_.getY() < second_corner_.getY()) {
-            first_corner = first_corner_;
-            second_corner = second_corner_;
-        }
-        else if (first_corner_.getX() > second_corner_.getX() && first_corner_.getY() > second_corner_.getY()) {
-            first_corner = second_corner_;
-            second_corner = first_corner_;
-        }
-        else if (first_corner_.getX() < second_corner_.getX() && first_corner_.getY() > second_corner_.getY()) {
-            first_corner = new Point(first_corner_.getX(), second_corner_.getY());
-            second_corner = new Point(second_corner_.getX(), first_corner_.getY());
-        }
-        else if (first_corner_.getX() > second_corner_.getX() && first_corner_.getY() < second_corner_.getY()) {
-            first_corner = new Point(second_corner_.getX(), first_corner_.getY());
-            second_corner = new Point(first_corner_.getX(), second_corner_.getY());
+    public Bar(Point pfirstCorner, Point psecondCorner) {
+        if (pfirstCorner.getX() < psecondCorner.getX() && pfirstCorner.getY() < psecondCorner.getY()) {
+            firstCorner = pfirstCorner;
+            secondCorner = psecondCorner;
+        } else if (pfirstCorner.getX() > psecondCorner.getX() && pfirstCorner.getY() > psecondCorner.getY()) {
+            firstCorner = psecondCorner;
+            secondCorner = pfirstCorner;
+        } else if (pfirstCorner.getX() < psecondCorner.getX() && pfirstCorner.getY() > psecondCorner.getY()) {
+            firstCorner = new Point(pfirstCorner.getX(), psecondCorner.getY());
+            secondCorner = new Point(psecondCorner.getX(), pfirstCorner.getY());
+        } else if (pfirstCorner.getX() > psecondCorner.getX() && pfirstCorner.getY() < psecondCorner.getY()) {
+            firstCorner = new Point(psecondCorner.getX(), pfirstCorner.getY());
+            secondCorner = new Point(pfirstCorner.getX(), psecondCorner.getY());
         }
     }
 
@@ -35,31 +24,31 @@ public class Bar implements Collider {
         return x1 <= p && p <= x2;
     }
 
-    private boolean intersect_of_segments(int x1, int x2, int x_1, int x_2) {
-        if (point_in_segment(x1,x2,x_1) || point_in_segment(x1,x2,x_2) || point_in_segment(x_1, x_2, x1)
-                || point_in_segment(x_1, x_2, x2)) return true;
+    private boolean intersect_of_segments(int x11, int x12, int x21, int x22) {
+        if (point_in_segment(x11,x12,x21) || point_in_segment(x11,x12,x22) || point_in_segment(x21, x22, x11)
+                || point_in_segment(x21, x22, x12)) return true;
         return false;
     }
 
     public boolean isColliding(Collider other) {
         if (other.getClass() == Point.class) {
             Point point = (Point) other;
-            if (point.getY() < first_corner.getY() || point.getY() > second_corner.getY())
+            if (point.getY() < firstCorner.getY() || point.getY() > secondCorner.getY())
                 return false;
-            if (point.getX() < first_corner.getX() || point.getX() > second_corner.getX())
+            if (point.getX() < firstCorner.getX() || point.getX() > secondCorner.getX())
                 return false;
             return true;
-        }
-        else if (other.getClass() == getClass()) {
+        } else if (other.getClass() == getClass()) {
             Bar bar = (Bar) other;
-            if (intersect_of_segments(first_corner.getX(),second_corner.getX(),
-                bar.first_corner.getX(), bar.second_corner.getX()) &&
-                intersect_of_segments(first_corner.getY(), second_corner.getY(),
-                bar.first_corner.getY(), bar.second_corner.getY())) return true;
+            if (intersect_of_segments(firstCorner.getX(),secondCorner.getX(),
+                bar.firstCorner.getX(), bar.secondCorner.getX())
+                && intersect_of_segments(firstCorner.getY(), secondCorner.getY(),
+                bar.firstCorner.getY(), bar.secondCorner.getY())) return true;
             return false;
         }
         return false;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,6 +58,6 @@ public class Bar implements Collider {
         Bar bar = (Bar) o;
 
         // your code here
-        return bar.first_corner.equals(first_corner) && bar.second_corner.equals(second_corner);
+        return bar.firstCorner.equals(firstCorner) && bar.secondCorner.equals(secondCorner);
     }
 }
