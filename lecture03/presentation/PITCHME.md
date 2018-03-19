@@ -35,12 +35,48 @@ https://sphere.mail.ru/
 1. Collections
 1. Homework 2
 
+<<<<<<< HEAD
+=======
+
+#HSLIDE
+### adding library manually
+All the class and jar files must be in CLASSPATH  
+[CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
+It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
+
+#HSLIDE
+### gradle as dependency manager
+External libraries (**dependencies**) are managed with **gradle**.  
+  
+That is: **gradle** downloads libraries from repository and adds them to **CLASSPATH**  
+The most famous public one is **maven central**:  
+[https://search.maven.org/](https://search.maven.org/)
+  
+How to add a library and choose a version?  
+Let's recall basic info about gradle:
+- gradle.settings
+- gradle.build
+
+
+#HSLIDE
+### settings.gradle
+Declares the configuration required to instantiate and configure the hierarchy of Project instances which are to participate in a build.
+
+```groovy
+rootProject.name = 'atom'
+// subprojects:
+include 'lecture01'
+include 'lecture02'
+include 'lecture03'
+```
+>>>>>>> 1a9fbdf... lecture03 fixes
 
 #HSLIDE
 ### adding library manually
 All the class and jar files must be in [CLASSPATH](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html)  
 It is hard to control CLASSPATH manually, build tools may help (like **gradle**)
 
+<<<<<<< HEAD
 #HSLIDE
 ### gradle as dependency manager
 External libraries (**dependencies**) are managed with **gradle**.  
@@ -49,10 +85,23 @@ That is: **gradle** downloads libraries from repository and adds them to **CLASS
   
 The most famous public one is **maven central**:  
 [https://search.maven.org/](https://search.maven.org/)
+=======
+- **plugins** - for example, *coveralls* to count coverage during build
+- **ext** - set of global variables
+- **ext.libraries** - map of most common(for our project) libraries
+- **allprojects** block - instruction for all projects
+- **subprojects** block - instructions for all target's subprojects
+>>>>>>> 1a9fbdf... lecture03 fixes
 
 
 #HSLIDE
 ### dependencies
+<<<<<<< HEAD
+=======
+Let's look how test library **junit** is plugged in in gradle:  
+  
+We need tests(junit) only on testCompile stage:
+>>>>>>> 1a9fbdf... lecture03 fixes
 **lecture03/build.gradle** :
 ```groovy
 dependencies {
@@ -66,6 +115,7 @@ dependencies {
 ```
 
 #HSLIDE
+<<<<<<< HEAD
 ### slf4j
 [slf4j](https://www.slf4j.org/) provide logging API. Developer can choose one of several implementations.  
 We only use **slf4j** API  
@@ -76,14 +126,68 @@ We only use **slf4j** API
 
     void someMethod(){
         log.info("someMethod is called");
+=======
+### New dependency is configured in ext.libraries
+Now we want to add logging to our subproject lecture03.  
+The library will be used in all the subprojects so it is configured in root **build.gradle**.  
+There is **log4j** in our `ext.libraries`
+```groovy
+ext.libraries = [
+        //...
+        log4j: [
+            "org.apache.logging.log4j:log4j-api:$log4jVersion",
+            "org.apache.logging.log4j:log4j-core:$log4jVersion"
+        ]
+        //...
+```
+**org.apache.logging.log4j:log4j-core** is the name of artifact in [https://search.maven.org/](https://search.maven.org/)
+
+#HSLIDE
+### Then the library added to dependencies
+Lets use it in lecture03  
+**lecture03/build.gradle**:
+```groovy
+dependencies {
+    testCompile rootProject.libraries.junit
+    compile rootProject.libraries.log4j
+}
+```
+
+
+#HSLIDE
+### log4j
+log4j is one of standard libraries for logging in java. That's how we us it:
+```java
+class A {
+    //the logger is registered by his class name, we can use any string as a name
+    private static final Logger log = LogManager.getLogger(A.class);
+    
+    public A() {
+        log.info("new A is initialized");
+>>>>>>> 1a9fbdf... lecture03 fixes
     }
 ```
+<<<<<<< HEAD
 
 
 #HSLIDE
 ### log4j2
 For slf4j API implementation that we choose is **log4j2**  
 To customize logging you must create **log4j2.properties** in resources folder (in CLASSPATH)
+=======
+To customize logging you must create `log4j2.properties` in resources folder (in CLASSPATH)
+
+
+#HSLIDE
+### One line adding dependency:
+```groovy
+dependencies {
+    testCompile rootProject.libraries.junit
+    //this string is from https://search.maven.org/#artifactdetails%7Corg.twitter4j%7Ctwitter4j-core%7C4.0.6%7Cjar
+    compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
+}
+```
+>>>>>>> 1a9fbdf... lecture03 fixes
 
 
 
@@ -126,7 +230,11 @@ Java provide high-level mechanism for this situations called **Exceptions**
 
 
 #HSLIDE
+<<<<<<< HEAD
 ## Checked exceptions must be handled
+=======
+##Checked exceptions must be handled
+>>>>>>> 1a9fbdf... lecture03 fixes
 Compiler force you to check **checked exceptions**
 
 
