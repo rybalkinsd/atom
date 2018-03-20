@@ -1,7 +1,6 @@
 package ru.atom.annotation;
 
 import org.junit.Test;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
