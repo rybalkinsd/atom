@@ -16,12 +16,6 @@ public class AnnotationDemoTest {
     }
 
     @Test
-    public void countRequestMapping() throws Exception {
-        assertThat(AnnotationDemo.getNumberOfAnnotatedMethods(
-                ru.atom.boot.hw.HelloController.class, RequestMapping.class)).isEqualTo(1);
-    }
-
-    @Test
     public void countResponseStatus() throws Exception {
         assertThat(AnnotationDemo.getNumberOfAnnotatedMethods(
                 ru.atom.boot.mm.ConnectionController.class, ResponseStatus.class)).isEqualTo(1);
