@@ -21,12 +21,12 @@ public class Bar implements Collider {
     public boolean isColliding(Collider other) {
         if (other.getClass() == Point.class) {
             Point oth = (Point) other;
-            return (oth.x >= bot.x) && (oth.y >= bot.y) &&
-                    (oth.x <= top.x) && (oth.y <= top.y);
+            return (oth.x >= bot.x) && (oth.y >= bot.y)
+                    && (oth.x <= top.x) && (oth.y <= top.y);
         } else if (other.getClass() == Bar.class) {
             Bar oth = (Bar) other;
-            return !(top.y < oth.bot.y || bot.y > oth.top.y ||
-                      top.x < oth.bot.x || bot.x > oth.top.x);
+            return !(top.y < oth.bot.y || bot.y > oth.top.y
+                    || top.x < oth.bot.x || bot.x > oth.top.x);
         }
         throw new UnsupportedOperationException();
     }
@@ -41,9 +41,9 @@ public class Bar implements Collider {
         }
 
         Bar oth = (Bar) o;
-        return (bot.x == oth.bot.x || bot.x == oth.top.x) &&
-                (bot.y == oth.bot.y || bot.y == oth.top.y) &&
-                 (top.x == oth.bot.x || top.x == oth.top.x) &&
-                  (top.y == oth.bot.y || top.y == oth.top.y);
+        return (bot.x == oth.bot.x || bot.x == oth.top.x)
+                && (bot.y == oth.bot.y || bot.y == oth.top.y)
+                && (top.x == oth.bot.x || top.x == oth.top.x)
+                && (top.y == oth.bot.y || top.y == oth.top.y);
     }
 }
