@@ -8,10 +8,10 @@ import ru.atom.chat.client.ChatClient;
 
 import java.io.IOException;
 
-@Ignore
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_NAME_IN_CHAT = "Andrey Chupakhin";
+    private static String MY_MESSAGE_TO_CHAT = "hello world";
+
 
     @Test
     public void login() throws IOException {
@@ -30,7 +30,6 @@ public class ChatClientTest {
         Assert.assertEquals(200, response.code());
     }
 
-
     @Test
     public void viewOnline() throws IOException {
         Response response = ChatClient.viewOnline();
@@ -41,6 +40,12 @@ public class ChatClientTest {
 
     @Test
     public void say() throws IOException {
+        Response res = ChatClient.login(MY_NAME_IN_CHAT);
+        System.out.println("[" + res + "]");
+        String body = res.body().string();
+        System.out.println();
+        Assert.assertTrue(res.code() == 200 || body.equals("Already logged in:("));
+
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         System.out.println("[" + response + "]");
         System.out.println(response.body().string());
