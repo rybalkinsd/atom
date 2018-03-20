@@ -4,6 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ConnectionControllerTest {
@@ -12,13 +13,13 @@ public class ConnectionControllerTest {
     @Ignore
     public void connect() throws Exception {
         ConnectionController connectionHandler = new ConnectionController();
-        assertThat(connectionHandler.list()).isEmpty();
+        assertTrue(connectionHandler.list().isEmpty());
 
         connectionHandler.connect(1, "a");
         connectionHandler.connect(2, "b");
         connectionHandler.connect(3, "c");
 
-        assertThat(connectionHandler.list()).isNotEmpty();
+        assertFalse(connectionHandler.list().isEmpty());
     }
 
     @Test
