@@ -1,7 +1,8 @@
 ---
 # Java
 lecture 5
-## Web server
+## Spring, Threads, Annotations
+2018
 
 
 ---
@@ -11,9 +12,11 @@ https://atom.mail.ru/
 
 ---
 ### get ready
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture05 upstream/lecture05
+> cd lecture05
 ```
 
 Refresh gradle project
