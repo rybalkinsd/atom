@@ -3,6 +3,7 @@ package ru.atom.annotation;
 import org.junit.Test;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -10,13 +11,13 @@ public class AnnotationDemoTest {
 
     @Test
     public void countOverride() throws Exception {
-        assertThat(AnnotationDemo.getNumberOfAnnotatedMethods(
-                ru.atom.boot.mm.ConnectionController.class, Override.class)).isEqualTo(0);
+        assertEquals(0, AnnotationDemo.getNumberOfAnnotatedMethods(
+                ru.atom.boot.mm.ConnectionController.class, Override.class));
     }
 
     @Test
     public void countResponseStatus() throws Exception {
-        assertThat(AnnotationDemo.getNumberOfAnnotatedMethods(
-                ru.atom.boot.mm.ConnectionController.class, ResponseStatus.class)).isEqualTo(1);
+        assertEquals(1, AnnotationDemo.getNumberOfAnnotatedMethods(
+                ru.atom.boot.mm.ConnectionController.class, ResponseStatus.class));
     }
 }

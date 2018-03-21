@@ -23,28 +23,22 @@ Refresh gradle project
 
 
 ---
-### Поиграем в web-server
-Any questions on HTTP?
-  
-**You must understand HTTP!** 
-
-
----
 ### Agenda
 1. Threads
 1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
-1. HTTP Web Server
-1. Spring
-
 
 ---
-### Threads
+### Agenda
 1. **[Threads]**
 1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
-1. HTTP Web Server
-1. Spring
 
 ---
 ### Threads intro
@@ -198,11 +192,12 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 
 
 ---
-### Annotations
+### Agenda
 1. Threads
 1. **[Annotations]**
-1. HTTP Web Server
-1. Spring
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
 
 
@@ -229,80 +224,12 @@ in application runtime.
 
 
 ---
-### HTTP Web Server
+### Agenda
 1. Threads
 1. Annotations
-1. **[HTTP Web Server]**
-1. Spring
-1. Match-maker
-
-
----
-### Web server
-**Web server** - is a program that processes HTTP Requests and provide HTTP responses.
-  
-**Web server can be a separate application, like:**
-- Apache HTTP Server
-- NGINX
-  
-**Can be embedded into application:**
-- Jetty
-- Embedded Tomcat (**our choice**)
-
-
----
-### Alternative - application servers
-Alternatively large projects can use **Application Servers** to manage web application:  
- - Sun GlassFish
- - IBM WebSphere
- - RedHat JBoss  
-  
-**We will not go this way**
-
----
-### Servlet container
-Basic function of web server - to serve static content (html, css, images)  
-But most web servers provide some functionality to apply **custom logic on HTTP Request** and return **custom HTTP Response**.
-  
-This can be used to serve dynamic pages or for custom **web application** (that's how we will use it)
-  
-Custom server logic in java can be embedded into **servlet container** (part of web-server, that manages **Servlets**)
-
-
----
-### Servlet
-<img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
-
----
-### Servlet
-**Servlet** - is class that handles HTTP Requests.  
-Java provide low-level **Servlet API**
-
----
-### Web Server approximate behavior
-1. Start
-1. Initialize internal servlets
-1. Create a "mapping" **(request, /path)** -> handling servlet
-1. Apply mapping on incoming request
-1. Process **single request in single thread** but in parallel*
-1. Process routing of outgoing response
-
-
----
-### Modern way
-**Servlet API** (a part of java API) - is low-level API  
-People tend to use high-level frameworks to make web applications  
-This frameworks use servlet API under the hood  
-  
-The most famous web framework is **Spring**
-
-
----
-### Spring
-1. Threads
-1. Annotations
-1. HTTP Web Server
-1. **[Spring]**
+1. **[Spring, Spring Boot]**
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
 
 
@@ -357,8 +284,8 @@ First version: **2014**
 **@See ru.atom.boot.hw**  
 All the magic works via **annotations**
 
-1. Application entry point (HelloSpringBoot)  
-*@SpringBootApplication* auto-configures spring application
+1. Application entry point (HelloSpring Boot)  
+*@Spring BootApplication* auto-configures spring application
 1. Request controller - handles HTTP connections  
 *@Controller* - let Spring recognize this class  
 *@RequestMapping("hello")* - this class handles **HTTP Requests** to **/hello** url  
@@ -373,6 +300,50 @@ These notes are important to understand:
 1. Every request runs in **new thread** (actually backed by thread pool)  
    
 Here comes **multi-threading** with **shared memory** (concurrency) - topic for further discussion
+
+
+1. Inversion of Control, Dependency Injection
+
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. **[Inversion of Control, Dependency Injection]**
+1. Beans, ApplicationContext
+1. Match-maker
+
+---
+
+### Inversion of Control
+
+
+---
+
+### Spring provides IoC container
+
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans
+
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. **[Beans, ApplicationContext]**
+1. Match-maker
+
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
+1. **[Match-maker]**
 
 ---
 ### Match-maker practice
