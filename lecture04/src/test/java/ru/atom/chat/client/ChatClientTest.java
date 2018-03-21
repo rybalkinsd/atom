@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ChatClientTest {
     private static String MY_NAME_IN_CHAT = "Korneev Artyom";
-    private static String MY_MESSAGE_TO_CHAT = "Foxes";
+    private static String MY_MESSAGE_TO_CHAT = "Matan";
 
     @Test
     public void logout() throws IOException {

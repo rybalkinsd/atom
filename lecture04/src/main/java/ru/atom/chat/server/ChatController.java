@@ -105,7 +105,9 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> chat() {
-        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
-        return ResponseEntity.ok(responseBody);
+        String msg = "";
+        for(String e : messages)
+            msg = new String(msg + e + "\n");
+        return ResponseEntity.ok(msg);
     }
 }
