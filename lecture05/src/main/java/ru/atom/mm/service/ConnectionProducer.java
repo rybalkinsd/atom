@@ -1,7 +1,7 @@
 package ru.atom.mm.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.atom.mm.model.Connection;
@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service
 public class ConnectionProducer implements Runnable {
-    private static final Logger log = LogManager.getLogger(ConnectionProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(ConnectionProducer.class);
     private static final String[] names = {"John", "Paul", "George", "Someone else"};
 
     private static AtomicLong id = new AtomicLong();

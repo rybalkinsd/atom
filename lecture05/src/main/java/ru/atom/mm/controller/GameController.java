@@ -1,13 +1,14 @@
 package ru.atom.mm.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.atom.mm.service.ConnectionProducer;
 import ru.atom.mm.service.GameRepository;
 
 /**
@@ -17,7 +18,8 @@ import ru.atom.mm.service.GameRepository;
 @Controller
 @RequestMapping("/game")
 public class GameController {
-    private static final Logger log = LogManager.getLogger(GameController.class);
+    private static final Logger log = LoggerFactory.getLogger(GameController.class);
+
 
     @Autowired
     private GameRepository gameRepository;
