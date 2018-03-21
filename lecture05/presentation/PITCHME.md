@@ -306,6 +306,38 @@ Here comes **multi-threading** with **shared memory** (concurrency) - topic for 
 
 ---
 
+### Spring boot actuator
+Spring boot actuator - usefool dependency, providing web interface to meta data of application and even interact with it  
+**Actuator endpoints:**
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html  
+By default most endpoints are disabled. To enable them we need to enable them in **application.properties**
+
+### application.properties
+The standard way to configure java application - **application.properties** should appear in classpath  
+To enable actuator endpoints:
+```properties
+management.endpoints.web.exposure.include=*
+```
+We also can configure actuator and server ports there:
+```properties
+#server port:
+server.port = 8080
+#actuator port:
+management.server.port = 7001
+```
+
+---
+### Useful actuator endpoints
+**/actuator/health**  
+overall application status  
+  
+**/actuator/mappings**  
+available mappings  
+  
+**/actuator/beans**  
+all beans in context
+---
+
 ### Agenda
 1. Threads
 1. Annotations
@@ -317,13 +349,59 @@ Here comes **multi-threading** with **shared memory** (concurrency) - topic for 
 ---
 
 ### Inversion of Control
+**Principle:** control flow is transferred to external framework
+**Why:** decoupling, low-connectivity, easier to test
 
+---
+
+### Dependency Injection
+Objects lifecycle is managed by external framework
+- instantiation
+- wiring
+- removal
 
 ---
 
 ### Spring provides IoC container
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans  
+Interface of IoC Container in Spring:  
+**org.springframework.context.ApplicationContext**  
+It provides interface for accessing beans by name and type as far as basic functionality for 
 
-https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans
+---
+
+### Beans
+Beans are java objects, that are managed by **IoC Container**  
+How to make **bean** out of **POJO** (Plain Old Java Object)?  
+With configuration
+
+---
+### Spring configuration
+There are several options for beans configuration:
+- XML Description
+- Groovy Description
+- Annotations
+  
+We will use annotations as this is the cleanest one
+
+---
+
+### Beans Detection
+For spring to create and manage beans, we must provide bean definitions
+How to create bean definition with annotations:
+- mark class with **@Configuration**/**@Component**/**@Controller**/**@Service**/**@Repository** or annotations, inheriting their semantics
+- mark any method inside such class with **@Bean** (config method)
+
+---
+
+### Beans autowiring
+Once we have beans definitions, we can inject those beans with **@Autowired**  
+Possible targets:
+- constructor
+- field
+- setter method
+- config method
+
 
 ---
 
