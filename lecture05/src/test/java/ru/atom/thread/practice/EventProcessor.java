@@ -12,10 +12,10 @@ public class EventProcessor {
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();//TODO
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();//TODO
     }
 }
