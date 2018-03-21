@@ -6,10 +6,10 @@ import org.junit.Test;
 /**
  * Some annotations here
  */
+@Ignore
 public class GamesControllerIntegrationTest {
 
     @Test
-    @Ignore
     public void list() throws Exception {
     }
 
