@@ -203,7 +203,7 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 
 ---
 ### Annotations
-What annotations did you see before?
+Which annotations did you see before?
 
 
 ---
@@ -221,6 +221,11 @@ Reflection is an API to find information about classes/fields/methods
 in application runtime.
 
 @See ru.atom.annotation and tests
+
+---
+### Retention policy
+Annotation has **Retention policy**, which indicated, whether info about the annotation will be available at runtime  
+**RetentionPolicy.RUNTIME** guarantees that annotation will be available in **runtime**
 
 
 ---
@@ -254,18 +259,6 @@ It includes a number of modules for different functionality:
 Today we will build web application with **Spring MVC** module
 
 ---
-### MVC
-**MVC (Model-View-Controller)** - popular pattern used to build web apps
-<img src="lecture05/presentation/assets/img/MVC-Introduction2.jpg" style="width: 600px;"/>
-
-
----
-### Spring MVC
-**Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
-<img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
-
-
----
 ### Spring Boot
 Spring is a powerful tool and has a lot of configuration options.  
 **Spring Boot** is a project, that makes working with Spring easier:
@@ -280,29 +273,13 @@ First version: **2014**
 
 
 ---
-### Hello Spring Boot
-**@See ru.atom.boot.hw**  
-All the magic works via **annotations**
-
-1. Application entry point (HelloSpring Boot)  
-*@Spring BootApplication* auto-configures spring application
-1. Request controller - handles HTTP connections  
-*@Controller* - let Spring recognize this class  
-*@RequestMapping("hello")* - this class handles **HTTP Requests** to **/hello** url  
-*@RequestMapping("world")* - this method handles **HTTP Requests** to **/hello/world** url  
-*@ResponseBody* method returns result will be the **HTTP response body** 
-
-
----
-### Important notes
-These notes are important to understand:
-1. HelloController is **Singleton** (by default) - the same instance for all requests
-1. Every request runs in **new thread** (actually backed by thread pool)  
-   
-Here comes **multi-threading** with **shared memory** (concurrency) - topic for further discussion
-
-
-1. Inversion of Control, Dependency Injection
+### Spring boot distribution
+```groovy
+    // dependencies, necessary for building generic web applicaitons
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
+    // actuator
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.0.RELEASE'
+```
 
 ---
 
@@ -371,6 +348,7 @@ It provides interface for accessing beans by name and type as far as basic funct
 ---
 
 ### Beans
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-definition
 Beans are java objects, that are managed by **IoC Container**  
 How to make **bean** out of **POJO** (Plain Old Java Object)?  
 With configuration
@@ -402,6 +380,28 @@ Possible targets:
 - setter method
 - config method
 
+---
+
+## ByType and ByName autowiring
+
+```java
+
+```
+
+How do spring know
+
+---
+
+### Bean scopes
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-factory-scopes
+Beans can have different life span depending on requirements.  
+  
+**[Common scopes:]**  
+- Singleton (default)
+- Prototype: single bean definition to any number of object instances
+- request: single bean definition to the lifecycle of a single HTTP reques
+- websocket: single bean definition to the lifecycle of a WebSocket
+...
 
 ---
 

@@ -1,8 +1,13 @@
-package ru.atom.thread.mm;
+package ru.atom.mm.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.atom.mm.model.Connection;
+import ru.atom.mm.model.GameSession;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -10,9 +15,21 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by sergey on 3/14/17.
  */
+@Service
 public class MatchMaker implements Runnable {
     private static final Logger log = LogManager.getLogger(MatchMaker.class);
 
+    @Autowired
+    private ConnectionQueue connectionQueue;
+
+    @Autowired
+    private GameRepository gameRepository;
+
+
+    @PostConstruct
+    public void startThread() {
+        new Thread(this, "match-maker").start();
+    }
 
     @Override
     public void run() {
@@ -21,7 +38,7 @@ public class MatchMaker implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 candidates.add(
-                        ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
+                        connectionQueue.getQueue().poll(10_000, TimeUnit.SECONDS)
                 );
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
@@ -30,7 +47,7 @@ public class MatchMaker implements Runnable {
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
                 log.info(session);
-                GameRepository.put(session);
+                gameRepository.put(session);
                 candidates.clear();
             }
         }

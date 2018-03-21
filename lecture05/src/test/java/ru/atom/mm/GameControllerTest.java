@@ -1,4 +1,4 @@
-package ru.atom.boot.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
