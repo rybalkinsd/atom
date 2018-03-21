@@ -15,7 +15,7 @@ public class Bar implements Collider {
      */
     @Override
     public boolean equals(Object o) {
-        if(this == o) return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Bar bar = (Bar) o;
@@ -24,13 +24,13 @@ public class Bar implements Collider {
 
     @Override
     public boolean isColliding(Collider other) {
-        if(other instanceof Point) {
+        if (other instanceof Point) {
             Point point = (Point) other;
-            return (this.point1.getX() <= point.getX() && this.point2.getX() >= point.getX()) &&
-                    (this.point1.getY() <= point.getY() && this.point2.getY() >= point.getY());
+            return (this.point1.getX() <= point.getX() && this.point2.getX() >= point.getX())
+                    && (this.point1.getY() <= point.getY() && this.point2.getY() >= point.getY());
         }
         Bar bar = (Bar) other;
-        return (bar.point1.getX() <= this.point2.getX() && bar.point2.getX() >= this.point1.getX()) &&
-               (bar.point1.getY() <= this.point2.getY() && bar.point2.getY() >= this.point1.getY());
+        return (bar.point1.getX() <= this.point2.getX() && bar.point2.getX() >= this.point1.getX())
+                && (bar.point1.getY() <= this.point2.getY() && bar.point2.getY() >= this.point1.getY());
     }
 }
