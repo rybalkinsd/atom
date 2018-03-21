@@ -1,8 +1,8 @@
 package ru.atom.mm.controller;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +18,8 @@ import ru.atom.mm.service.ConnectionQueue;
 @Controller
 @RequestMapping("/connection")
 public class ConnectionController {
-    private static final Logger log = LogManager.getLogger(ConnectionController.class);
+    private static final Logger log = LoggerFactory.getLogger(ConnectionController.class);
+
 
     @Autowired
     private ConnectionQueue connectionQueue;
