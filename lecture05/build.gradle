@@ -8,6 +8,7 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'checkstyle'
+apply plugin: 'project-report'
 
 dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
