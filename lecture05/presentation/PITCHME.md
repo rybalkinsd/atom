@@ -353,7 +353,7 @@ Interface of **IoC Container** in Spring:
 ---
 
 ### Beans
-https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-definition
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-definition  
 Beans are java objects, that are managed by **IoC Container**  
 How to make **bean** out of **POJO** (Plain Old Java Object)?  
 With configuration
@@ -370,8 +370,8 @@ We will use annotations as this is the cleanest one
 ---
 
 ### Beans Detection
-For spring to create and manage beans, we must provide bean definitions
-How to create bean definition with annotations:
+For spring to create and manage beans, we must provide bean definitions  
+**How to create bean definition with annotations:**
 - mark class with **@Configuration**/**@Component**/**@Controller**/**@Service**/**@Repository** or annotations, inheriting their semantics
 - mark any method inside such class with **@Bean** (config method)
 
