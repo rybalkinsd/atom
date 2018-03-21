@@ -1,7 +1,8 @@
-package ru.atom.thread.mm;
+package ru.atom.mm.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.atom.mm.service.MatchMaker;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;

@@ -1,7 +1,8 @@
-package ru.atom.boot.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.atom.mm.controller.ConnectionController;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertFalse;

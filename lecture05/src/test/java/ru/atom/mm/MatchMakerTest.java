@@ -1,7 +1,9 @@
-package ru.atom.thread.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.atom.mm.service.ConnectionProducer;
+import ru.atom.mm.service.MatchMaker;
 
 import java.util.ArrayList;
 import java.util.List;
