@@ -345,10 +345,10 @@ Objects lifecycle is managed by external framework (**IoC container**)
 https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans  
 Interface of **IoC Container** in Spring:  
 **org.springframework.context.ApplicationContext**  
-- methods for accessing application components. Inherited from ListableBeanFactory.
-- methods to load file resources in a generic fashion. Inherited from the ResourceLoader interface.
-- methods to publish events to registered listeners. Inherited from the ApplicationEventPublisher interface.
-- methods to resolve messages, supporting internationalization. Inherited from the MessageSource interface.
+- methods for accessing application components. **ListableBeanFactory**
+- methods to load file resources in a generic fashion. **ResourceLoader**
+- methods to publish events to registered listeners. **ApplicationEventPublisher**
+- methods to resolve messages, supporting internationalization. **MessageSource**
 
 ---
 
