@@ -289,6 +289,8 @@ Spring boot actuator - usefool dependency, providing web interface to meta data 
 https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html  
 By default most endpoints are disabled. To enable them we need to enable them in **application.properties**
 
+---
+
 ### application.properties
 The standard way to configure java application - **application.properties** should appear in classpath  
 To enable actuator endpoints:
@@ -326,13 +328,13 @@ all beans in context
 ---
 
 ### Inversion of Control
-**Principle:** control flow is transferred to external framework
-**Why:** decoupling, low-connectivity, easier to test
+**Principle:** control flow is transferred to external framework  
+**Why:** loose coupling, easier to develop, easier to test
 
 ---
 
 ### Dependency Injection
-Objects lifecycle is managed by external framework
+Objects lifecycle is managed by external framework (**IoC container**)
 - instantiation
 - wiring
 - removal
@@ -341,9 +343,12 @@ Objects lifecycle is managed by external framework
 
 ### Spring provides IoC container
 https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans  
-Interface of IoC Container in Spring:  
+Interface of **IoC Container** in Spring:  
 **org.springframework.context.ApplicationContext**  
-It provides interface for accessing beans by name and type as far as basic functionality for 
+- methods for accessing application components. Inherited from ListableBeanFactory.
+- methods to load file resources in a generic fashion. Inherited from the ResourceLoader interface.
+- methods to publish events to registered listeners. Inherited from the ApplicationEventPublisher interface.
+- methods to resolve messages, supporting internationalization. Inherited from the MessageSource interface.
 
 ---
 

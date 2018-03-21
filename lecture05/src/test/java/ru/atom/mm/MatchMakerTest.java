@@ -2,6 +2,7 @@ package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.atom.mm.service.ConnectionProducer;
 import ru.atom.mm.service.MatchMaker;
 
@@ -13,6 +14,9 @@ import java.util.List;
  */
 @Ignore
 public class MatchMakerTest {
+
+    @Autowired
+    ConnectionProducer connectionProducer;
 
     @Test
     public void singleProducer() throws Exception {
