@@ -44,6 +44,7 @@ public class ChatClient {
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
                 .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name + "&msg=" + msg)
+                .addHeader("host", HOST + PORT)
                 .build();
 
         return client.newCall(request).execute();

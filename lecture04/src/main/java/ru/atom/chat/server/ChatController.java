@@ -83,9 +83,6 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        if (!(usersOnline.containsKey(name))) {
-            return ResponseEntity.badRequest().body("You are not logged in");
-        }
         messages.add("[" + name + "]: " + msg);
         return ResponseEntity.ok().build();
     }
