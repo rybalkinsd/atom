@@ -17,7 +17,7 @@ public class ChatClientTest {
         Response response = ChatClient.login(MY_NAME_IN_CHAT);
         //System.out.println("[" + response + "]");
         String body = response.body().string();
-        //System.out.println();
+        System.out.println();
         Assert.assertTrue(response.code() == 200 || body.equals("Already logged in:("));
     }
 
