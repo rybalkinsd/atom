@@ -352,11 +352,22 @@ Interface of **IoC Container** in Spring:
 
 ---
 
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. **[Beans, ApplicationContext]**
+1. Match-maker
+
+---
+
 ### Beans
 https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-definition  
 Beans are java objects, that are managed by **IoC Container**  
+  
 How to make **bean** out of **POJO** (Plain Old Java Object)?  
-With configuration
+With bean definition configuration
 
 ---
 ### Spring configuration
@@ -378,6 +389,7 @@ For spring to create and manage beans, we must provide bean definitions
 ---
 
 ### Beans autowiring
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation  
 Once we have beans definitions, we can inject those beans with **@Autowired**  
 Possible targets:
 - constructor
@@ -388,13 +400,16 @@ Possible targets:
 ---
 
 ## ByType and ByName autowiring
-
 ```java
-
+@Service
+public class MatchMaker implements Runnable {
+    @Autowired //How do spring know which bean to inject?
+    private ConnectionQueue connectionQueue;
+}
 ```
-
-How do spring know
-
+- ByType: it will search the bean with type **ConnectionQueue** or implementation in ApplicationContext
+- ByName: with **@Qualifier** annotation we can autowire bean by name  
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation-qualifiers
 ---
 
 ### Bean scopes
@@ -410,13 +425,9 @@ Beans can have different life span depending on requirements.
 
 ---
 
-### Agenda
-1. Threads
-1. Annotations
-1. Spring, Spring Boot
-1. Inversion of Control, Dependency Injection
-1. **[Beans, ApplicationContext]**
-1. Match-maker
+### Spring: see documentation
+Both basic concepts and details are fully covered in spring documentation.
+https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html
 
 ---
 
@@ -430,7 +441,7 @@ Beans can have different life span depending on requirements.
 
 ---
 ### Match-maker practice
-@See ru.atom.thread.mm and tests 
+@See ru.atom.mm and tests 
 
 ---
 ### Match-maker
