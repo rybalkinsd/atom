@@ -60,15 +60,38 @@ public class ChatController {
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
     //TODO
+    //@RequestMapping(path = "logout",method = RequestMethod.POST)
+    //public ResponseEntity logout(String name) {
+
+
+
+    //}
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST)
+    public ResponseEntity<String> say(String name, String msg) {
+        if (usersOnline.containsKey(name)) {
+            messages.add(name + ": " + msg);
+            return ResponseEntity.ok(msg);
+        } else {
+            return ResponseEntity.badRequest().body("Not logged in :(");
+        }
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
+    }
 }
