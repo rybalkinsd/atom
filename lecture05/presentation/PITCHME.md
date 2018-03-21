@@ -237,6 +237,13 @@ Annotation has **Retention policy**, which indicated, whether info about the ann
 1. Beans, ApplicationContext
 1. Match-maker
 
+---
+
+### Matchmaker example
+
+We will use MathMaker application to study basic concepts of Spring  
+  
+> @see MatchMakerApp
 
 ---
 ### Spring
@@ -285,6 +292,7 @@ First version: **2014**
 
 ### Spring boot actuator
 Spring boot actuator - usefool dependency, providing web interface to meta data of application and even interact with it  
+  
 **Actuator endpoints:**
 https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html  
 By default most endpoints are disabled. To enable them we need to enable them in **application.properties**
