@@ -58,26 +58,10 @@ public class Bar implements Collider {
                 return true;
             }
             Bar bar = (Bar) other;
-            if (bar.getSecondCornerX() >= this.getFirstCornerX()
-                    && bar.getFirstCornerX() <= this.getSecondCornerX()) {
-                bar.setFirstCornerX(this.getFirstCornerX());
-            }
-            if (bar.getFirstCornerX() <= this.getSecondCornerX()
-                    && bar.getSecondCornerX() >= this.getFirstCornerX()) {
-                bar.setSecondCornerX(this.getSecondCornerX());
-            }
-            if (bar.getSecondCornerY() >= this.getFirstCornerY()
-                    && bar.getFirstCornerY() <= this.getSecondCornerY()) {
-                bar.setFirstCornerY(this.getFirstCornerY());
-            }
-            if (bar.getFirstCornerY() <= this.getSecondCornerY()
-                    && bar.getSecondCornerY() >= this.getFirstCornerY()) {
-                bar.setSecondCornerY(this.getSecondCornerY());
-            }
-            return this.getFirstCornerX() == bar.getFirstCornerX()
-                    && this.getFirstCornerY() == bar.getFirstCornerY()
-                    && this.getSecondCornerX() == bar.getSecondCornerX()
-                    && this.getSecondCornerY() == bar.getSecondCornerY();
+            return bar.getSecondCornerX() >= this.getFirstCornerX()
+                    && bar.getFirstCornerX() <= this.getSecondCornerX()
+                    && bar.getSecondCornerY() >= this.getFirstCornerY()
+                    && bar.getFirstCornerY() <= this.getSecondCornerY();
 
         } else {
             if (other instanceof Point) {
