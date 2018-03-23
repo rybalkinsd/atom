@@ -84,7 +84,7 @@ public class ChatController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> say(@RequestBody String name, String msg) {
 
-        if (usersOnline.containsKey(name)) {
+        if (name != null && msg != null && usersOnline.containsKey(name)) {
             messages.add(msg);
             return ResponseEntity.ok().build();
         } else
@@ -100,7 +100,7 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity chat() {
-        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join("\n", messages.stream().collect(Collectors.toList()));
         return ResponseEntity.ok(responseBody);
     }
 }
