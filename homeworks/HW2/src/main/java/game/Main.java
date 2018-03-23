@@ -18,19 +18,20 @@ public class Main {
         log.info(word);
         Scanner s = new Scanner(System.in);
 
+        int wrong = 0;
+
         while (true) {
             String guess = s.nextLine();
             if(guess.equals(word)) {
                 System.out.println("You won!");
-                System.out.println("Wanna play again?(y/n)");
-                char q = s.nextLine().charAt(0);
-                if(q == 'n') {
-                    break;
-                } else {
-                    word = newWord(words);
-                }
             } else {
                 getHint(word, guess);
+                wrong++;
+                if(wrong == 10) {
+                    System.out.println("You Lose!");
+                    word = newGame(words);
+                    wrong = 0;
+                }
             }
         }
     }
@@ -81,5 +82,17 @@ public class Main {
         String word = words.get(random.nextInt(words.size()));
         System.out.println("I offered a " + word.length() + "-letter word, your guess?");
         return word;
+    }
+
+    public static String newGame(List<String> words) {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Wanna play again?(y/n)");
+        char q = s.nextLine().charAt(0);
+        if(q == 'n') {
+            System.exit(0);
+        } else {
+            return newWord(words);
+        }
+        return "";
     }
 }
