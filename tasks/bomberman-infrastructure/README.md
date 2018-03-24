@@ -1,7 +1,7 @@
 # Bomberman ifrastructure
 
 We are going to start our game development. 
-Now it's a part to create big part of our infrastructure, including landing page logic and, matchmaker.
+Now it's a part to create big part of our infrastructure, including matchmaker and landing page logic.
 **game server** will be implemented later
 
 ![](top_view.png)
