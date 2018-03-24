@@ -1,12 +1,14 @@
 # Bomberman ifrastructure
 
-We are going to continue our game development. Now it's a part to create big part of our infrastructure, including landing page logic, matchmaker and game server.
+We are going to start our game development. 
+Now it's a part to create big part of our infrastructure, including landing page logic and, matchmaker.
+**game server** will be implemented later
 
 ![](top_view.png)
 
 API that our user see:
     `join(name: String)`
-	User opens game webpage (localhost:8080) and see the landing page (index page)
+	User opens game web page (localhost:8080) and see the landing page (index page)
 	with the only button [Play] and a text form to enter his nickname.
 
 
@@ -45,7 +47,7 @@ Under the hood (**Implement this service**):
 		- Matchmaking based on leaderboard
 		- Start match with not full players in game when have to wait for a long time
 
-2. Game service
+2. Game service (for now it should a stub/mock only)
 
 	API:
 	```
@@ -61,7 +63,7 @@ Under the hood (**Implement this service**):
 	After that Matchmaker will provide this `gameId` to clients and clients will
 	`connect` to the exact game using `gameId` and `name`
 
-	At some poing Matchmaker starts the game with `gameId`.
+	At some point Matchmaker starts the game with `gameId`.
 	In general it should be when number of connected players equals to number of players that should play in one game.
 
 	Specification  
@@ -124,7 +126,7 @@ Each request will be processed in separate thread.
 
 ## Deadline and HowTo?
 - `git checkout -b matchmaker` and work in this branch
-- Deadline: **29.11** lecture.
+- Deadline: **09.04** lecture.
 - This is team task (3-2 persons, **single submissions are not aloud**) 
 - Procedure:
     1. show us PR with green build
