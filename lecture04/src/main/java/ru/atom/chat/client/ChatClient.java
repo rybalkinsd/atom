@@ -5,7 +5,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 
 
 import java.io.IOException;
@@ -14,12 +13,11 @@ import java.io.IOException;
 public class ChatClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "54.224.37.210";
+    private static final String HOST = "localhost";
     private static final String PORT = ":8080";
 
     //POST host:port/chat/login?name=my_name
     public static Response login(String name) throws IOException {
-        //for science
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
@@ -44,7 +42,7 @@ public class ChatClient {
     public static Response say(String name, String msg) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "name=evgeniy&msg=hahahaha" + new ChatClient()))
+                .post(RequestBody.create(mediaType, "name=" + name +"&msg="+ msg))
                 .url(PROTOCOL + HOST + PORT + "/chat/say")
                 .build();
         return client.newCall(request).execute();

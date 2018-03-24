@@ -52,9 +52,7 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join(
-                "\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList())
-        ) + "\n";
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
         return ResponseEntity.ok(responseBody);
     }
 
