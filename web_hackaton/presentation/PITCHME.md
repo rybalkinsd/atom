@@ -5,7 +5,7 @@
 
 ---
 
-Отметьтесь на портале
+Отметьтесь на портале  
 https://sphere.mail.ru/
 
 ---
@@ -39,11 +39,12 @@ cd web_hackaton
 1. hrefs highlighting - 2p
 1. anti-spam - 2p
 1. anti-injection - 2p
-1. pretty frontend - 2p
 1. test fixes - 2p
 1. deploy to aws - 3p
 1. test with server startup inside - 3p
+1. list of online users in side panel - 3p
 1. authentication - 3p
+1. pretty frontend - 2p each feature
 
 ---
 
