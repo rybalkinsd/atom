@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.chat.message.IMessage;
+import ru.atom.chat.message.Message;
+import ru.atom.chat.User.IUser;
+import ru.atom.chat.User.User;
+
 
 import java.util.Map;
 import java.util.Queue;
@@ -22,8 +27,8 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
-    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private Queue<IMessage> messages = new ConcurrentLinkedQueue<>();
+    private Map<String, User> usersOnline = new ConcurrentHashMap<>();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -43,8 +48,9 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        User newUser = new User(name, "qwerty");
+        usersOnline.put(name, newUser);
+        messages.add(new Message(name,"logged in"));
         return ResponseEntity.ok().build();
     }
 
@@ -63,6 +69,23 @@ public class ChatController {
     }
 
     /**
+     * curl -i localhost:8080/chat/chat
+     */
+    @RequestMapping(
+            path = "users",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> users() {
+        String users = "";
+        for(User user:usersOnline.values()){
+            users += user.getUserName() + "\n";
+        }
+        return new ResponseEntity<>(users,
+                HttpStatus.OK);
+    }
+
+
+    /**
      * curl -i localhost:8080/chat/online
      */
     @RequestMapping(
@@ -70,7 +93,8 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
     }
 
     /**
@@ -81,10 +105,14 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such user:(");
+        }
+        usersOnline.remove(name);
+        messages.add(new Message( name, "logout"));
+        return ResponseEntity.ok().build();
     }
-
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -94,7 +122,17 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such user:(");
+        }
+        Message newMsg = new Message(name, msg);
+
+        if (usersOnline.get(name).spamCheck(newMsg)) {
+            usersOnline.get(name).setLastDate(newMsg.getDate());
+            messages.add(new Message(name, msg));
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body("Spam");
     }
 }

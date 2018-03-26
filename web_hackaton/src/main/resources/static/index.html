@@ -10,7 +10,11 @@
     </form>
 </div>
 <div id="body">
-    <div id="history" class="chat form"></div>
+    <div id="history" class="chat form">
+        <ul id="chatHistory">
+        </ul>
+    </div>
+    <div id="users" class="users form"></div>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -28,6 +32,16 @@
 
 
     function loadHistory() {
+/*
+        fetch("/chat/chat")
+        .then(response => response.json())
+        .then(visits => {
+            visits.forEach(visit => {
+                const el = document.createElement('li');
+                el.innerText = "["+visit.userName+"]:"+visit.body+"      "+visit+"<br />";
+                document.querySelector('#visits').append(el);
+            });
+        });  */
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
@@ -37,6 +51,21 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/users",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"))
+            $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -56,6 +85,7 @@
         $.ajax(settings).done(function (response) {
             $('#msgform').trigger("reset");
             loadHistory();
+            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -64,7 +94,6 @@
 
     function login() {
         var name = $('#nameform').serialize();
-
         var settings = {
             "method": "POST",
             "crossDomain": true,
@@ -74,6 +103,7 @@
 
         $.ajax(settings).done(function (response) {
             loadHistory();
+            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -81,5 +111,7 @@
     }
 
     loadHistory();
+    loadUsers();
     setInterval(loadHistory, 10000);
+    setInterval(loadUsers, 10000);
 </script>

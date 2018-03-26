@@ -5,8 +5,17 @@
 .chat {
     background: #99CCCC;
     font-family: "Courier New", Courier, monospace;
+    width: 75%;
     padding: 7px;
     margin: 0 0 1em;
+    overflow: auto;
+}
+.users {
+    background: #99CCCC;
+    font-family: "Courier New", Courier, monospace;
+    width: 18%;
+    padding: 7px;
+    margin: 0 20px 1em;
     overflow: auto;
 }
 
@@ -29,6 +38,9 @@
 }
 
 #body {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
     padding: 10px;
     padding-top: 0;
     padding-bottom: 30px; /* Height of the footer */
