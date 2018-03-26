@@ -3,11 +3,12 @@
 }
 
 .chat {
-    background: #99CCCC;
+    background: #fafafa;
     font-family: "Courier New", Courier, monospace;
-    padding: 7px;
     margin: 0 0 1em;
     overflow: auto;
+    padding: 3rem 1.5rem;
+
 }
 
 .form {
@@ -23,7 +24,6 @@
 }
 
 #header {
-    background: #336666;
     padding: 10px;
     padding-bottom: 0;
 }

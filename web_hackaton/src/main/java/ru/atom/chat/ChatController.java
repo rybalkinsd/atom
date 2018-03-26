@@ -1,9 +1,6 @@
 package ru.atom.chat;
 
-import javafx.util.Pair;
 import org.javatuples.Triplet;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,6 +30,7 @@ public class ChatController {
     private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
     private Random r = new Random();
+    private String prevMassage = "";
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -120,6 +118,12 @@ public class ChatController {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
+            if (prevMassage.equals(msg)) {
+                messages.add(new Triplet<>("admin", new Date()," plz dont spam:" + "[" + name + "] " ));
+            } else {
+                messages.add(new Triplet<>(name, new Date(), msg));
+                prevMassage = msg;
+            } {
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
             messages.add(new Triplet<>(name, new Date(), msg));
             return ResponseEntity.ok().build();
