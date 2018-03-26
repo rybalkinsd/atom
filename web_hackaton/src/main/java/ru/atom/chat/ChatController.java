@@ -18,6 +18,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.util.regex.*;
+import java.util.*;
 
 @Controller
 @RequestMapping("chat")
@@ -118,7 +120,22 @@ public class ChatController {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         messages.add("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime())
-                + "</span> [<span style=\"color:#ffff00\">" + name + "</span>] " + msg);
+                + "</span> [<span style=\"color:#ffff00\">" + name + "</span>] " + handleMessage(msg));
         return ResponseEntity.ok().build();
+    }
+
+    private String handleMessage(String msg) {
+        String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+        Matcher m = Pattern.compile(regex).matcher(msg);
+        List<String> links = new ArrayList<>();
+        while (m.find()) {
+            links.add(m.group(0));
+        }
+        for (String s : links) {
+            System.out.println(s);
+            System.out.println("\\b" + s +  "\\b");
+            msg = msg.replaceFirst("\\b" + s +  "\\b", "<a href=\"" + s + "\">" + s + "</a>");
+        }
+        return msg;
     }
 }
