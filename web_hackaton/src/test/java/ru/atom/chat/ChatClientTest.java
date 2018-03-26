@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@Ignore
+
 public class ChatClientTest {
     private static final Logger log = LoggerFactory.getLogger(ChatClientTest.class);
 

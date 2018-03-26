@@ -39,7 +39,12 @@ public class ChatClient {
         throw new UnsupportedOperationException();
     }
 
-    public static Response say(String name, String msg) {
-        throw new UnsupportedOperationException();
+    public static Response say(String name, String msg) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, "name=" + name))
+                .url(PROTOCOL + HOST + PORT + "/chat/say")
+                .build();
+        return client.newCall(request).execute();
     }
 }
