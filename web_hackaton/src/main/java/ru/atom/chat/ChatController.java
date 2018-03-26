@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import java.util.regex.*;
 import java.util.*;
@@ -26,8 +24,8 @@ import java.util.*;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private HistorySaver historySaver = new HistorySaver();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -50,7 +48,7 @@ public class ChatController {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         usersOnline.put(name, name);
-        messages.add("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime()) +
+        historySaver.saveHistory("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime()) +
                 "</span> [<span style=\"color:#ffff00\">" + name + "</span>] logged in");
         return ResponseEntity.ok().build();
     }
@@ -61,12 +59,9 @@ public class ChatController {
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> chat() {
-        return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")),
-                HttpStatus.OK);
+        return new ResponseEntity<>(historySaver.getHistory(), HttpStatus.OK);
     }
 
     /**
@@ -92,7 +87,7 @@ public class ChatController {
     public ResponseEntity<String> logout(@RequestParam("name") String name) {
         if (usersOnline.containsKey(name)) {
             usersOnline.remove(name);
-            messages.add("[" + name + "] logged out");
+            historySaver.saveHistory("[" + name + "] logged out");
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body("This user is not logged in\n");
@@ -119,7 +114,7 @@ public class ChatController {
         }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        messages.add("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime())
+        historySaver.saveHistory("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime())
                 + "</span> [<span style=\"color:#ffff00\">" + name + "</span>] " + handleMessage(msg));
         return ResponseEntity.ok().build();
     }
