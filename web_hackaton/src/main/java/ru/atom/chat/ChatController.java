@@ -113,7 +113,7 @@ public class ChatController {
             this.spam = spam;
             if (spam) {
                 timer = new Timer();
-                timer.schedule(new ClearSpam(), 1000, 1000);
+                timer.schedule(new ClearSpam(), 1500, 1500);
             }
         }
 
