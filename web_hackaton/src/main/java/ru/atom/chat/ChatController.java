@@ -5,20 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import ru.atom.chat.models.Message;
+import ru.atom.chat.models.User;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("chat")
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
@@ -57,28 +56,19 @@ public class ChatController {
     /**
      * curl -i localhost:8080/chat/chat
      */
-    @RequestMapping(
-            path = "chat",
-            method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> chat() {
-        return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")),
-                HttpStatus.OK);
+    @RequestMapping(path = "chat", method = RequestMethod.GET)
+    public List<Message> chat() {
+        return new LinkedList<>(messages);
     }
 
     /**
      * curl -i localhost:8080/chat/online
      */
-    @RequestMapping(
-            path = "online",
-            method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity online() {
-        //StringBu
+    @RequestMapping(path = "online", method = RequestMethod.GET)
+    public List<User> online() {
+
         //String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
-        return ResponseEntity.ok().build();
+        return new LinkedList<>(usersOnline.keySet());
     }
 
     /**
@@ -90,11 +80,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        //if (!usersOnline.containsKey(name)) {
-         //   return ResponseEntity.badRequest().body("User already logged out");
-        //}
-        //usersOnline.remove(name);
-        //messages.add("[" + name + "] logged out");
+        User user = new User(name);
+        if (!usersOnline.containsKey(user)) {
+            return ResponseEntity.badRequest().body("User already logged out");
+        }
+        usersOnline.remove(user);
+        messages.add(new Message(LocalDateTime.now(), "[" + name + "] logged out", user));
         return ResponseEntity.ok().build();
     }
 
@@ -108,7 +99,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        //messages.add("[" + name + "]:  "  + msg);
+        messages.add(new Message(LocalDateTime.now(), "[" + name + "]:  "  + msg, new User(name)));
         return ResponseEntity.ok().build();
     }
 }

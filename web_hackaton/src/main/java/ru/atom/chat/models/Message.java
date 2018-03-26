@@ -1,7 +1,6 @@
-package ru.atom.chat;
+package ru.atom.chat.models;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class Message {
 
