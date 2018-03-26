@@ -11,17 +11,17 @@ public class FileUtils {
         this.list = list;
     }
 
-    public saveToFile()
-    {
-
-    }
-    List<String> clubNames = clubs.stream()
-            .map(Club::getName)
-            .collect(Collectors.toList())
-
-try {
-        Files.write(Paths.get(fileName), clubNames);
-    } catch (IOException e) {
-        log.error("Unable to write out names", e);
-    }
+//    public saveToFile()
+//    {
+//
+//    }
+//    List<String> clubNames = clubs.stream()
+//            .map(Club::getName)
+//            .collect(Collectors.toList())
+//
+//try {
+//        Files.write(Paths.get(fileName), clubNames);
+//    } catch (IOException e) {
+//        log.error("Unable to write out names", e);
+//    }
 }

@@ -5,9 +5,18 @@ import java.time.LocalTime;
 
 public class Message {
 
-    public Message(LocalDateTime timestamp, String message) {
+    public Message(LocalDateTime timestamp, String message, User user) {
         this.timestamp = timestamp;
         this.message = message;
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getTimestamp() {
@@ -28,4 +37,5 @@ public class Message {
 
     private LocalDateTime timestamp;
     private String message;
+    private User user;
 }

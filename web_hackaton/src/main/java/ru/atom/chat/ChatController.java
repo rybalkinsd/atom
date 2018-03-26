@@ -49,7 +49,7 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         usersOnline.put(user, "RED");
-        Message message = new Message(LocalDateTime.now(), , user, "[" + name + "] logged in");
+        Message message = new Message(LocalDateTime.now(), "[" + name + "] logged in" , user);
         messages.add(message);
         return ResponseEntity.ok().build();
     }
@@ -76,8 +76,9 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
-        return ResponseEntity.ok(responseBody);
+        //StringBu
+        //String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -89,11 +90,11 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        if (!usersOnline.containsKey(name)) {
-            return ResponseEntity.badRequest().body("User already logged out");
-        }
-        usersOnline.remove(name);
-        messages.add("[" + name + "] logged out");
+        //if (!usersOnline.containsKey(name)) {
+         //   return ResponseEntity.badRequest().body("User already logged out");
+        //}
+        //usersOnline.remove(name);
+        //messages.add("[" + name + "] logged out");
         return ResponseEntity.ok().build();
     }
 
@@ -107,7 +108,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        messages.add("[" + name + "]:  "  + msg);
+        //messages.add("[" + name + "]:  "  + msg);
         return ResponseEntity.ok().build();
     }
 }
