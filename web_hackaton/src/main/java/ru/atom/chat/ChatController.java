@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,7 +83,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("User is not online");
+        } else {
+            usersOnline.remove(name);;
+            return ResponseEntity.ok().build();
+        }
     }
 
 
@@ -95,6 +101,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("User is not online");
+        }
+        else {
+            messages.add(new Date() + " : " + "[" + name + "] " + msg);
+            return ResponseEntity.ok().build();
+        }
     }
 }
