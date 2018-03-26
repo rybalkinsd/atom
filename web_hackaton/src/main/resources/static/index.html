@@ -11,6 +11,7 @@
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
+    <div id="users_list" class="chat form"></div>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -40,7 +41,26 @@
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+
     }
+
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#users_list").html(response.replace(/\n/g, "<br />"));
+            $("#users_list").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
+    }
+
 
     function say() {
         var msg = $('#msgform').serialize();
@@ -81,5 +101,7 @@
     }
 
     loadHistory();
+    loadUsers();
     setInterval(loadHistory, 10000);
+    setInterval(loadUsers, 1000);
 </script>

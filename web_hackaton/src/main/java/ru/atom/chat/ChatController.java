@@ -55,6 +55,8 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
+
+
     /**
      * curl -i localhost:8080/chat/chat
      */
@@ -68,6 +70,7 @@ public class ChatController {
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
+
 
     /**
      * curl -i localhost:8080/chat/online
