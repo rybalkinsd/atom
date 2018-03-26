@@ -1,25 +1,35 @@
-#HSLIDE
+---
 # Java
 ## Web hackaton
 
-#HSLIDE
+---
+
+Отметьтесь на портале
+https://sphere.mail.ru/
+
+---
+
 ### get ready
 ```bash
-> git fetch upstream
-> git checkout -b web_hackaton upstream/web_hackaton
+git fetch upstream
+git checkout -b web_hackaton upstream/web_hackaton
+cd web_hackaton
 ```
 
-#HSLIDE
+---
+
 Разделитесь на группы по **3**
 
-#HSLIDE
+---
+
 - Реализуйте сервер для **чата**
 - Реализуйте как можно больше фич (следующий слайд)
 Подумайте, за какие фичи стоит взяться, а какие вам не под силу
 - 20.30 - заканчиваем реализацию и показываете нам **список фичей** и ссылку на сервер, по которой мы можем получить ваш **index.html**
 - группы с наибольшим количеством фичей показывают свой сервис
 
-#HSLIDE
+---
+
 **Features:**
 1. chat/say, chat/chat, chat/logout - 4p
 1. save history to file on server - 2p
@@ -34,7 +44,8 @@
 1. test with server startup inside - 3p
 1. authentication - 3p
 
-#HSLIDE
+---
+
 ## Chat REST API. Login
 login:
 ```
@@ -50,7 +61,8 @@ login:
         400 - Too long name (longer than 30 symbols)
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. View chat
 online:
 ```
@@ -62,7 +74,8 @@ online:
       Success code: 200
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. View online users
 online:
 ```
@@ -74,7 +87,8 @@ online:
       Success code: 200
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. Say
 say:
 ```
@@ -90,7 +104,8 @@ say:
         401 - Not logged in
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. Logout
 logout:
 ```
@@ -104,7 +119,8 @@ logout:
       Success code: 200
 ```
 
-#HSLIDE
+---
+
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
