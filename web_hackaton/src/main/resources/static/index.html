@@ -1,22 +1,36 @@
 <head>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <html>
 <body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
-    </form>
+<div id="header" class="col-xs-12">
+    <div class="form-group">
+        <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()" class="form-inline" id="login_form">
+            <input id="name" name="name" value="" style="font-size:medium" type="text" class="form-control " placeholder="Enter username">
+            <input value="Login" style="font-size:large" type="submit" class="btn btn-primary">
+            <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()" class="form-inline" id="logout_form">
+                <input value="Logout" class="btn btn-primary" style="font-size:large" type="submit">
+            </form>
+        </form>
+    </div>
+</div>
+<div id="footer" class="col-xs-12">
+    <div class="form-group">
+        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()" class="form-inline" id="msg_form">
+            <input id="msg" name="msg" value="" style="font-size:medium" type="text" class="form-control msginput" placeholder="Enter message">
+            <input value="Send" class="btn btn-primary" style="font-size:large" type="submit">
+        </form>
+    </div>
 </div>
 <div id="body">
-    <div id="history" class="chat form"></div>
-</div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+    <div id="history" class="chat form col-xs-7 ">
+        Chat<br>
+    </div>
+    <div id="space" class="chat form col-xs-1"></div>
+    <div id="users_online" class="chat form col-xs-4">
+        Users online<br>
+    </div>
 </div>
 </body>
 </html>
