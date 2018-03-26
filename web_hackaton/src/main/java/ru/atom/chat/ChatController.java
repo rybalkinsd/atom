@@ -16,6 +16,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.util.Date;
+import java.text.*;
 
 @Controller
 @RequestMapping("chat")
@@ -44,7 +46,9 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
+        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in");
         return ResponseEntity.ok().build();
     }
 
@@ -93,7 +97,9 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Not logged in:(");
         }
         usersOnline.remove(name, name);
-        messages.add("[" + name + "] logged out");
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
+        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged out");
         return ResponseEntity.ok().build();
     }
 
@@ -113,7 +119,9 @@ public class ChatController {
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Not logged in:(");
         }
-        messages.add("[" + name + "] " + msg);
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
+        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] " + msg);
         return ResponseEntity.ok().build();
     }
 }
