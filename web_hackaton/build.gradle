@@ -1,5 +1,10 @@
-plugins {
-    id 'org.springframework.boot' version '2.0.0.RELEASE'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
+    }
 }
 
 repositories {
@@ -8,6 +13,17 @@ repositories {
 
 apply plugin: 'java'
 apply plugin: 'checkstyle'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    baseName = 'hackaton-service'
+    version =  '0.1.0'
+}
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
@@ -20,8 +36,13 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.0.RELEASE'
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("com.h2database:h2")
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+
     // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.4'
+    testCompile group: 'junit', name: 'junit', version: '4.5'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }
