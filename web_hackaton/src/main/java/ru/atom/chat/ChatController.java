@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.regex.*;
 import java.util.*;
+
 
 @Controller
 @RequestMapping("chat")
@@ -48,6 +50,7 @@ public class ChatController {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         usersOnline.put(name, name);
+        name = HtmlUtils.htmlEscape(name);
         historySaver.saveHistory("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime()) +
                 "</span> [<span style=\"color:#ffff00\">" + name + "</span>] logged in");
         return ResponseEntity.ok().build();
@@ -75,7 +78,8 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join("\n", usersOnline.keySet().stream().map(HtmlUtils::htmlEscape).
+                sorted().collect(Collectors.toList()));
         return ResponseEntity.ok(responseBody);
     }
 
@@ -90,6 +94,7 @@ public class ChatController {
     public ResponseEntity<String> logout(@RequestParam("name") String name) {
         if (usersOnline.containsKey(name)) {
             usersOnline.remove(name);
+            name = HtmlUtils.htmlEscape(name);
             historySaver.saveHistory("[" + name + "] logged out");
             return ResponseEntity.ok().build();
         }
@@ -117,12 +122,14 @@ public class ChatController {
         }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        name = HtmlUtils.htmlEscape(name);
         historySaver.saveHistory("<span style=\"color:#ff00ff\">" + sdf.format(cal.getTime())
                 + "</span> [<span style=\"color:#ffff00\">" + name + "</span>] " + handleMessage(msg));
         return ResponseEntity.ok().build();
     }
 
     private String handleMessage(String msg) {
+        msg = HtmlUtils.htmlEscape(msg);
         String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
         Matcher m = Pattern.compile(regex).matcher(msg);
         List<String> links = new ArrayList<>();
