@@ -35,13 +35,13 @@ public class ChatController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
         if (name.length() < 1) {
-            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+            return ResponseEntity.badRequest().body("The name is too short, sorry\n");
         }
         if (name.length() > 20) {
-            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+            return ResponseEntity.badRequest().body("The name is too long, sorry\n");
         }
         if (usersOnline.containsKey(name)) {
-            return ResponseEntity.badRequest().body("Already logged in:(");
+            return ResponseEntity.badRequest().body("Already logged in");
         }
         usersOnline.put(name, name);
         messages.add("[" + name + "] logged in");
@@ -70,19 +70,25 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
     }
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
     @RequestMapping(
-            path = "logout",
+            path="logout",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (usersOnline.containsKey(name)) {
+            usersOnline.remove(name);
+            messages.add("[" + name + "] logged out");
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body("This user is not logged in\n");
     }
 
 
@@ -90,11 +96,21 @@ public class ChatController {
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
     @RequestMapping(
-            path = "say",
+            path="say",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("This user is not logged in\n");
+        }
+        if (msg.length() < 1) {
+            return ResponseEntity.badRequest().body("The message is too short\n");
+        }
+        if (msg.length() > 50) {
+            return ResponseEntity.badRequest().body("The message is too long\n");
+        }
+        messages.add("[" + name + "] " + msg);
+        return ResponseEntity.ok().build();
     }
 }
