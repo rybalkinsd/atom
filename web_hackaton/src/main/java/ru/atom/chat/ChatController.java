@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.util.HtmlUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,11 +51,11 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        int red = name.hashCode() % 256;
-        int green = r.nextInt(256);
-        int blue = green * red % 256;
+        int h = r.nextInt(360);
+        int s = r.nextInt(100);
+        int l = 80  + r.nextInt(20);
 
-        usersOnline.put(name, "rgb("+red+","+green+","+blue+")");
+        usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
         messages.add(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
         return ResponseEntity.ok().build();
     }
@@ -71,7 +72,6 @@ public class ChatController {
         return new ResponseEntity<>(messages.stream()
                 .map(triplet ->"<font color=\"grey\">" + dateFormat.format(triplet.getValue1()) + "</font>" +
                         " <font color=\" " +usersOnline.get(triplet.getValue0()) + "\">" + triplet.getValue0()+ "</font>: " + triplet.getValue2())
-          //      .map(string -> Jsoup.clean(string, Whitelist.basic()))
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
@@ -80,11 +80,13 @@ public class ChatController {
      * curl -i localhost:8080/chat/online
      */
     @RequestMapping(
-            path = "online",
+            path = "users",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        return new ResponseEntity<>(usersOnline.entrySet().stream()
+                .map(e -> " <font color=\" " +e.getValue() + "\">" + e.getKey() + "</font> ")
+                .collect(Collectors.joining("\n")), HttpStatus.OK);
     }
 
     /**
@@ -114,6 +116,8 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        name = HtmlUtils.htmlEscape(name);
+        msg = HtmlUtils.htmlEscape(msg);
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         }
