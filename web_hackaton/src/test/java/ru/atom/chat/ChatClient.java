@@ -1,10 +1,6 @@
 package ru.atom.chat;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 
@@ -36,10 +32,25 @@ public class ChatClient {
     }
 
     public static Response viewOnline() throws IOException {
-        throw new UnsupportedOperationException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/online")
+                .addHeader("host", HOST + PORT)
+                .build();
+        return client.newCall(request).execute();
     }
 
-    public static Response say(String name, String msg) {
-        throw new UnsupportedOperationException();
+    public static Response say(String name, String msg) throws IOException {
+        RequestBody formBody = new FormBody.Builder()
+                .add("name", name)
+                .add("msg", msg)
+                .build();
+
+        Request request = new Request.Builder()
+                .post(formBody)
+                .url(PROTOCOL + HOST + PORT + "/chat/say")
+                .addHeader("host", HOST + PORT)
+                .build();
+        return client.newCall(request).execute();
     }
 }
