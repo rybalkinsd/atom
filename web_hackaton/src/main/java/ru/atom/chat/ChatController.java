@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-import java.util.Date;
 import java.text.*;
+import java.util.Map;
 
 @Controller
 @RequestMapping("chat")
@@ -49,6 +48,7 @@ public class ChatController {
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
         messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in");
+        users_antispam.put(name, new Antispam(false));
         return ResponseEntity.ok().build();
     }
 
@@ -103,6 +103,29 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
+    public class Antispam {
+
+        boolean spam;
+
+        Timer timer;
+
+        Antispam(boolean spam) {
+            this.spam = spam;
+            if (spam) {
+                timer = new Timer();
+                timer.schedule(new ClearSpam(), 1500, 1500);
+            }
+        }
+
+        class ClearSpam extends TimerTask {
+            public void run() {
+                spam = false;
+            }
+        }
+
+    }
+
+    static HashMap< String, Antispam > users_antispam = new HashMap<>();
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -113,12 +136,19 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+
         if (msg.length() < 1) {
             return ResponseEntity.badRequest().body("Too short msg, sorry :(");
         }
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Not logged in:(");
         }
+
+        if (users_antispam.get(name).spam) {
+            return ResponseEntity.badRequest().body("Don't spam pls!");
+        }
+        users_antispam.put(name, new Antispam(true));
+
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
         messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] " + msg);
