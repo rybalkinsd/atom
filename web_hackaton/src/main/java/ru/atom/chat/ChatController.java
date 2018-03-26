@@ -123,9 +123,7 @@ public class ChatController {
             } else {
                 messages.add(new Triplet<>(name, new Date(), msg));
                 prevMassage = msg;
-            } {
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-            messages.add(new Triplet<>(name, new Date(), msg));
+            }
             return ResponseEntity.ok().build();
         }
     }
