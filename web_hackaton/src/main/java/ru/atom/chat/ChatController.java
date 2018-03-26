@@ -34,7 +34,7 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestParam("name") String name) {
+    public ResponseEntity<String> login(@RequestParam("name") String name, @RequestParam("password") String password) {
         if (name.length() < 1) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
@@ -44,7 +44,9 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        usersOnline.put(name, name);
+        if(password.isEmpty())
+            return ResponseEntity.badRequest().body("Enter password");
+        usersOnline.put(name, password);
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
         messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in");
@@ -135,7 +137,9 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+    public ResponseEntity say(@RequestParam("name") String name,
+                              @RequestParam("password") String password,
+                              @RequestParam("msg") String msg) {
 
         if (msg.length() < 1) {
             return ResponseEntity.badRequest().body("Too short msg, sorry :(");
@@ -147,6 +151,8 @@ public class ChatController {
         if (users_antispam.get(name).spam) {
             return ResponseEntity.badRequest().body("Don't spam pls!");
         }
+        if (!usersOnline.get(name).equals(password))
+            return ResponseEntity.badRequest().body("Wrong Password");
         users_antispam.put(name, new Antispam(true));
 
         Date dateNow = new Date();
