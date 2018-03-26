@@ -1,4 +1,6 @@
 package ru.atom.chat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +45,10 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in");
         }
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        messages.add(sdf.format(cal.getTime()) + " [<span style=\"color:#ffff00\">" + name + "<\\span>] logged in");
         return ResponseEntity.ok().build();
     }
 
@@ -110,7 +114,9 @@ public class ChatController {
         if (msg.length() > 50) {
             return ResponseEntity.badRequest().body("The message is too long\n");
         }
-        messages.add("[" + name + "] " + msg);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        messages.add(sdf.format(cal.getTime()) + " [" + name + "] " + msg);
         return ResponseEntity.ok().build();
     }
 }
