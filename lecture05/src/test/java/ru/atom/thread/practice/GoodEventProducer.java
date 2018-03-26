@@ -12,6 +12,11 @@ public class GoodEventProducer implements EventProducer {
     }
 
     @Override
+    public int getNumber() {
+        return numberOfEvents;
+    }
+
+    @Override
     public void run() {
         for (int i = 0; i < numberOfEvents; i++) {
             EventQueue.getInstance().offer(new Event(Event.EventType.GOOD));

@@ -7,15 +7,22 @@ import java.util.List;
  * @since 15.03.17
  */
 public class EventProcessor {
+    private static int good;
+    private static int bad;
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();//TODO eventProducers here
+        for (EventProducer e: eventProducers)
+        {
+            if (e instanceof BadEventProducer) bad += e.getNumber();
+            if (e instanceof GoodEventProducer) good += e.getNumber();
+            new Thread(e).start();
+        }
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();//TODO
+        return good;
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();//TODO
+        return bad;
     }
 }

@@ -47,8 +47,13 @@ public class ConnectionController {
      *
      * curl -i localhost:8080/connection/list'
      */
+    @RequestMapping(
+            path = "list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE
+    )
     public String list() {
-        throw new UnsupportedOperationException();
+        return connectionQueue.getQueue().toString();
     }
 
 

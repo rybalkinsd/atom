@@ -1,5 +1,9 @@
 package ru.atom.chat;
 
+import javafx.util.Pair;
+import org.javatuples.Triplet;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
@@ -23,8 +30,9 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
+    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private Random r = new Random();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -44,8 +52,12 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        int red = name.hashCode() % 256;
+        int green = r.nextInt(256);
+        int blue = green * red % 256;
+
+        usersOnline.put(name, "rgb("+red+","+green+","+blue+")");
+        messages.add(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
         return ResponseEntity.ok().build();
     }
 
@@ -55,10 +67,13 @@ public class ChatController {
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> chat() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
+                .map(triplet ->"<font color=\"grey\">" + dateFormat.format(triplet.getValue1()) + "</font>" +
+                        " <font color=\" " +usersOnline.get(triplet.getValue0()) + "\">" + triplet.getValue0()+ "</font>: " + triplet.getValue2())
+          //      .map(string -> Jsoup.clean(string, Whitelist.basic()))
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
@@ -105,7 +120,8 @@ public class ChatController {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
-            messages.add(new Date() + " : " + "[" + name + "] " + msg);
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            messages.add(new Triplet<>(name, new Date(), msg));
             return ResponseEntity.ok().build();
         }
     }

@@ -5,4 +5,5 @@ package ru.atom.thread.practice;
  * @since 15.03.17
  */
 public interface EventProducer extends Runnable {
+    int getNumber();
 }

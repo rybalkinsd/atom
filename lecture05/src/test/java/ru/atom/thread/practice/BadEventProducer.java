@@ -17,4 +17,9 @@ public class BadEventProducer implements EventProducer {
             EventQueue.getInstance().offer(new Event(Event.EventType.BAD));
         }
     }
+
+    @Override
+    public int getNumber() {
+        return numberOfEvents;
+    }
 }

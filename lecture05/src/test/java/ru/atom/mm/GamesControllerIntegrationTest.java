@@ -6,7 +6,6 @@ import org.junit.Test;
 /**
  * Some annotations here
  */
-@Ignore
 public class GamesControllerIntegrationTest {
 
     @Test

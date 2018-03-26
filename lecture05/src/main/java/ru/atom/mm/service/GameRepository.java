@@ -3,6 +3,7 @@ package ru.atom.mm.service;
 import org.springframework.stereotype.Repository;
 import ru.atom.mm.model.GameSession;
 
+import java.beans.BeanProperty;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,4 +21,5 @@ public class GameRepository {
     public Collection<GameSession> getAll() {
         return map.values();
     }
+
 }
