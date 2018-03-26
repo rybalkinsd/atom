@@ -8,14 +8,14 @@ import java.util.List;
  */
 public class EventProcessor {
     public static void produceEvents(List<EventProducer> eventProducers) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();//TODO eventProducers here
     }
 
     public static long countTotalNumberOfGoodEvents() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();//TODO
     }
 
     public static long countTotalNumberOfBadEvents() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();//TODO
     }
 }

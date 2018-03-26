@@ -1,13 +1,13 @@
 package ru.atom.thread.instantiation;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by sergey on 3/14/17.
  */
 public class NotifierImplementsRunnable implements Runnable {
-    private static final Logger log = LogManager.getLogger(NotifierImplementsRunnable.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(NotifierImplementsRunnable.class);
+
 
     @Override
     public void run() {

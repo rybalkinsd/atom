@@ -1,28 +1,28 @@
-package ru.atom.boot.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.atom.mm.controller.ConnectionController;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class ConnectionControllerTest {
 
     @Test
-    @Ignore
     public void connect() throws Exception {
         ConnectionController connectionHandler = new ConnectionController();
-        assertThat(connectionHandler.list()).isEmpty();
+        assertTrue(connectionHandler.list().isEmpty());
 
         connectionHandler.connect(1, "a");
         connectionHandler.connect(2, "b");
         connectionHandler.connect(3, "c");
 
-        assertThat(connectionHandler.list()).isNotEmpty();
+        assertFalse(connectionHandler.list().isEmpty());
     }
 
     @Test
-    @Ignore
     public void list() throws Exception {
         assertTrue(false);
     }

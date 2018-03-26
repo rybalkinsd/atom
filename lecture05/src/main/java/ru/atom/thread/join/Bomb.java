@@ -1,13 +1,14 @@
 package ru.atom.thread.join;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.atom.thread.instantiation.NotifierExtendsThread;
 
 /**
  * Created by sergey on 3/14/17.
  */
 public class Bomb implements Runnable {
-    private static final Logger log = LogManager.getLogger(Bomb.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Bomb.class);
+
 
     private int countdownFrom;
 
@@ -21,7 +22,7 @@ public class Bomb implements Runnable {
 
         while (!Thread.currentThread().isInterrupted()
                 && countdownFrom > 0) {
-            log.info(countdownFrom);
+            log.info(String.valueOf(countdownFrom));
             countdownFrom--;
 
             try {
