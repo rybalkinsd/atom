@@ -70,7 +70,8 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
     }
 
     /**
@@ -82,7 +83,18 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("Not logged in:(");
+        }
+        usersOnline.remove(name, name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
     }
 
 
@@ -95,6 +107,13 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (msg.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short msg, sorry :(");
+        }
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("Not logged in:(");
+        }
+        messages.add("[" + name + "] " + msg);
+        return ResponseEntity.ok().build();
     }
 }
