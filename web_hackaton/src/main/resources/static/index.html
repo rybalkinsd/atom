@@ -35,7 +35,13 @@
         }
 
         $.ajax(settings).done(function (response) {
-            $("#history").html(response.replace(/\n/g, "<br />"))
+            var str = "";
+            response.forEach(function (item, i, arr) {
+                str = str + item["timestamp"] + " "
+                    + item["message"] + " "  + "<br />";
+                $("#history").html(
+                    str)
+            })
             $("#history").scrollTop($("#history")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
