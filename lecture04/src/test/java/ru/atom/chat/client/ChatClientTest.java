@@ -4,14 +4,13 @@ import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.atom.chat.client.ChatClient;
 
 import java.io.IOException;
 
 @Ignore
 public class ChatClientTest {
-    private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_NAME_IN_CHAT = "Mikhail";
+    private static String MY_MESSAGE_TO_CHAT = "Java boys";
 
     @Test
     public void login() throws IOException {
