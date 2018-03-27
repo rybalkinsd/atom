@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
-    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private Queue<ChatMessage> messages = new ConcurrentLinkedQueue<>();
+    private Map<String, User> usersOnline = new ConcurrentHashMap<>();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -43,8 +43,9 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        usersOnline.put(name, new User(name));
+        messages.add(new ChatMessage("logged in",usersOnline.get(name)));
+        //messages.add("[" + User. + "] logged in");
         return ResponseEntity.ok().build();
     }
 
@@ -69,8 +70,14 @@ public class ChatController {
             path = "online",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> online() {
+        if (usersOnline.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body("No users online");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    String.join("\n", usersOnline.keySet()
+                            .stream().sorted().collect(Collectors.toList())));
+        }
     }
 
     /**
@@ -82,7 +89,16 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (usersOnline.containsKey(name)) {
+            messages.add(new ChatMessage("logged out",usersOnline.get(name)));
+            usersOnline.remove(name);
+            //messages.add("[" + name + "] logged out");
+            return ResponseEntity.ok().build();
+        } else {
+            //TODO
+            //needs msg to chat?
+            return ResponseEntity.badRequest().body("Not logged in");
+        }
     }
 
 
@@ -94,7 +110,17 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (usersOnline.containsKey(name)) {
+            messages.add(new ChatMessage(msg,usersOnline.get(name)));
+            // messages.add(name + ": " + msg + "    ( " +
+            //       LocalDateTime.now().format(DateTimeFormatter
+            // .ofPattern("dd-LLLL-yyyy HH:mm:ss")).toString() + " )");
+            return ResponseEntity.ok(msg);
+        } else {
+            //TODO
+            //needs msg in chat?
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
+        }
     }
 }

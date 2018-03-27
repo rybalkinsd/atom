@@ -2,15 +2,33 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <html>
-<body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
-    </form>
+<body >
+<div class="form_group">
+    <div id="header" class="login_form div_login_form">
+        <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <button style="font-size:medium" type="submit">Login</button>
+        </form>
+    </div>
+    <div id="logout" class="logout_form div_logout_form">
+        <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
+            <input id="logout_name" name="name" value="" style="font-size:medium" type="text">
+            <button style="font-size:medium" type="submit">Logout</button>
+        </form>
+    </div>
 </div>
+<div class="temp"></div>
 <div id="body">
-    <div id="history" class="chat form"></div>
+    <div class="div_history chat form">
+        <div>Chat</div>
+        <div id="history">
+        </div>
+    </div>
+    <div class="div_usr_online chat form">
+        <div>Online Users</div>
+        <div id="onlineUsers">
+        </div>
+    </div>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -26,6 +44,20 @@
     var host = "localhost";
     var port = 8080;
 
+    function loadOnlineUsr() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#onlineUsers").html(response.replace(/\n/g, "<br />"))
+            $("#onlineUsers").scrollTop($("#onlineUsers")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
 
     function loadHistory() {
         var settings = {
@@ -37,6 +69,7 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+            loadOnlineUsr();
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -69,6 +102,24 @@
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+     function logout() {
+        var name = $('#logoutform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
             "data": name
         };
 
