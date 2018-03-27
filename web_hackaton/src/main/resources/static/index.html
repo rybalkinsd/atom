@@ -1,23 +1,39 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"></head>
 <html>
 <body>
-<div id="header">
+<nav class="navbar navbar-default" style="padding-top: 15px;">
+<div class= "container-fluid">
+    <div class="nav navbar-nav">
+        <div class="form-inline">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <label class="mr-sm-2" for="name">Name: </label>
+        <input id="name"class="form-control" name="name" value="" style="font-size:medium" type="text">
+        <input class="btn btn-primary" value="Login" style="font-size:large" type="submit">
     </form>
+        </div>
+    </div>
 </div>
-<div id="body">
-    <div id="history" class="chat form"></div>
-</div>
-<div id="footer">
+</nav>
+<div id="body" class="row">
+    <div id="history" class="chat col-md-9 form"></div>
+    <div id="users" class="chat col-md-3 form"></div>
+</body>
+<footer class="footer">
+<div class="footer navbar-fixed-bottom" style="padding-left: 10px;">
+    <div class="form-inline">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        <label class="mr-sm-2" for="name">Message: </label>
+        <input id="msg" name="msg" class="msginput form-control" value="" style="font-size:medium; width:80%;" type="text">
+        <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
     </form>
+    </div>
 </div>
+</footer>
 </body>
 </html>
 
@@ -37,6 +53,21 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/users",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"))
+            $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -74,6 +105,7 @@
 
         $.ajax(settings).done(function (response) {
             loadHistory();
+            loadUsers()
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -82,4 +114,6 @@
 
     loadHistory();
     setInterval(loadHistory, 10000);
+    loadUsers()
+    setInterval(loadUsers(),5000)
 </script>
