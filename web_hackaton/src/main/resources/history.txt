@@ -1,27 +1,17 @@
-<span style="color: green">05:27:30</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:27:30</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:29:21</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">05:29:21</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:29:21</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:41:46</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">05:41:46</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:41:46</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:48:18</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">05:48:18</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:48:18</span>:<span style="color: orange">[I_AM_STUPID]</span> KILL_ME_SOMEONE
-<span style="color: green">05:48:47</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">05:53:09</span>:<span style="color: orange">[akk]</span> logged in
-<span style="color: green">06:53:04</span>:<span style="color: orange">[Abi]</span> logged in
-<span style="color: green">06:55:59</span>:<span style="color: orange">[abi]</span> logged in
-<span style="color: green">07:04:15</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">07:14:37</span>:<span style="color: orange">[I_AM_STUPID]</span> Signed up!
-<span style="color: green">07:14:37</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
-<span style="color: green">07:16:20</span>:<span style="color: orange">[abi]</span> Signed up!
-<span style="color: green">07:16:25</span>:<span style="color: orange">[abi]</span> logged in
-<span style="color: green">07:17:04</span>:<span style="color: orange">[abik]</span> Signed up!
-<span style="color: green">07:17:08</span>:<span style="color: orange">[abik]</span> logged in
-<span style="color: green">07:17:10</span>:<span style="color: orange">[abik]</span> sdf
-<span style="color: green">07:17:11</span>:<span style="color: orange">[abik]</span> dsf
-<span style="color: green">07:17:11</span>:<span style="color: orange">[abik]</span> 
-<span style="color: green">07:17:16</span>:<span style="color: orange">[abik]</span> sdf
-<span style="color: green">07:20:43</span>:<span style="color: orange">[abik]</span> Logged out!
+<span style="color: green">07:58:30</span>:<span style="color: orange">[abi]</span> Signed up!
+<span style="color: green">07:58:33</span>:<span style="color: orange">[abi]</span> logged in
+<span style="color: green">07:58:41</span>:<span style="color: orange">[abi]</span> sdfsfdwer
+<span style="color: green">08:05:51</span>:<span style="color: orange">[abi]</span> Signed up!
+<span style="color: green">08:05:53</span>:<span style="color: orange">[abi]</span> logged in
+<span style="color: green">08:08:00</span>:<span style="color: orange">[abik]</span> Signed up!
+<span style="color: green">08:08:00</span>:<span style="color: orange">[abik]</span> logged in
+<span style="color: green">08:09:15</span>:<span style="color: orange">[abi]</span> Signed up!
+<span style="color: green">08:09:33</span>:<span style="color: orange">[ab]</span> Signed up!
+<span style="color: green">08:09:36</span>:<span style="color: orange">[ab]</span> logged in
+<span style="color: green">08:09:57</span>:<span style="color: orange">[abi]</span> logged in
+<span style="color: green">08:10:18</span>:<span style="color: orange">[abi]</span> kek
+<span style="color: green">08:10:20</span>:<span style="color: orange">[abi]</span> fefe
+<span style="color: green">08:12:45</span>:<span style="color: orange">[abi]</span> Signed up!
+<span style="color: green">08:12:54</span>:<span style="color: orange">[abi]</span> logged in
+<span style="color: green">08:12:57</span>:<span style="color: orange">[abi]</span> gi!
+<span style="color: green">08:13:01</span>:<span style="color: orange">[abi]</span> hi!

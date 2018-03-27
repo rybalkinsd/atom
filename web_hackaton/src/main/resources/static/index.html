@@ -5,12 +5,12 @@
 <body>
 <div id="header">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <span style="color:#9CAFC9">Логин : </span>
+        <span style="color:#9CAFC9">login: </span>
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
     </form>
     <form method="POST" id="passwform" action="javascript:void(null);" onsubmit="signUp()">
-        <span style="color:#9CAFC9">Пароль:</span>
+        <span style="color:#9CAFC9">passwd:</span>
         <input id="passw" name="passw" value="" style="font-size:medium" type="password">
         <input value="Sign Up" style="font-size:large" type="submit">
     </form>
@@ -85,6 +85,7 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+        loadOnline();
     }
 
     function login() {
@@ -104,6 +105,7 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+        loadOnline();
     }
 
     function signUp() {
