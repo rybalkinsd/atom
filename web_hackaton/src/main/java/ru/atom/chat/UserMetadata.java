@@ -17,16 +17,16 @@ public class UserMetadata {
         this.lastMessageTime = System.nanoTime();
     }
 
-    public void setNumberOfMessagesToZero(){
+    public void setNumberOfMessagesToZero() {
         numberOfMessages = 0;
     }
 
-    UserMetadata(){
+    UserMetadata() {
         lastMessageTime = System.nanoTime();
         numberOfMessages = 0;
     }
 
-    void incNumberOfMesssages(){
+    void incNumberOfMesssages() {
         numberOfMessages++;
     }
 }

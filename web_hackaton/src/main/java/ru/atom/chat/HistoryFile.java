@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Repository
 public class HistoryFile {
@@ -15,7 +18,7 @@ public class HistoryFile {
     private FileWriter writer;
 
     @Bean
-    public HistoryFile getNewHistroryFile () {
+    public HistoryFile getNewHistroryFile() {
         return new HistoryFile();
     }
 
@@ -34,7 +37,7 @@ public class HistoryFile {
         return historyFile;
     }
 
-    public void write (String line) {
+    public void write(String line) {
         try {
             writer.write(line);
             writer.flush();

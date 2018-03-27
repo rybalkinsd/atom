@@ -20,7 +20,7 @@ public class ChatClient {
     public Response login(String name,String passw) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "name=" + name +"&passw=" + passw))
+                .post(RequestBody.create(mediaType, "name=" + name + "&passw=" + passw))
                 .url(PROTOCOL + HOST + PORT + "/chat/login")
                 .build();
         return client.newCall(request).execute();
@@ -53,7 +53,7 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
-    public Response logout(String name) throws IOException{
+    public Response logout(String name) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, "name=" + name))
@@ -62,7 +62,7 @@ public class ChatClient {
         return client.newCall(request).execute();
     }
 
-    public Response signUp(String name,String passw) throws IOException{
+    public Response signUp(String name,String passw) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, "name=" + name + "&passw=" + passw))
