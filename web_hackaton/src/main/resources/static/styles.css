@@ -19,13 +19,17 @@
     margin: 0 0 5 0;
 }
 
+.space {
+    width: 5%;
+}
+
 .online {
     background: #00FFFF;
         font-family: "Courier New", Courier, monospace;
         padding: 7px;
         margin: 0 0 ;
         overflow: auto;
-        width:  20%;
+        width:  15%;
 }
 
 .msginput {
