@@ -55,10 +55,7 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        if (password.containsKey(name)) {
-            if (pass.equals(password.get(name))) {
-                return ResponseEntity.ok().build();
-            }
+        if (password.containsKey(name) && !pass.equals(password.get(name))) {
             return ResponseEntity.badRequest().body("Incorrect password. Try again");
         }
         if (pass.length() < 1) {
@@ -68,7 +65,9 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Too long password, sorry :<");
         }
         usersOnline.put(name, name);
-        password.put(name, pass);
+        if (!password.containsKey(name)) {
+            password.put(name, pass);
+        }
         msgCount.put(name, 0);
         String msg = "[" + name + "] logged in";
         messages.add(msg);

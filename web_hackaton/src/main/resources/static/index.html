@@ -40,7 +40,7 @@
 <script>
     var host = "localhost";
     var port = 8080;
-
+    var curName = "admin";
 
     function loadHistory() {
         var settings = {
@@ -74,13 +74,12 @@
 
     function say() {
         var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
 
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/say",
-            "data": name + "&" + msg
+            "data": curName + "&" + msg
         };
 
         $.ajax(settings).done(function (response) {
@@ -96,7 +95,7 @@
     function login() {
         var name = $('#nameform').serialize();
         var pass = $('#passform').serialize();
-
+        curName = name;
         var settings = {
             "method": "POST",
             "crossDomain": true,
@@ -114,13 +113,11 @@
     }
 
     function logout() {
-        var name = $('#nameform').serialize();
-
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/logout",
-            "data": name
+            "data": curName
         };
 
         $.ajax(settings).done(function (response) {
