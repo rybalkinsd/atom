@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.*;
 import javax.annotation.PostConstruct;
-import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -101,8 +99,10 @@ public class ChatController {
             path = "online",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> online() {
+        return new ResponseEntity<>(usersOnline.values().stream()
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
 
     /**

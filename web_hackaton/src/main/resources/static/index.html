@@ -10,7 +10,11 @@
     </form>
 </div>
 <div id="body">
-    <div id="history" class="chat form"></div>
+    <div id="history" class="chat form box"></div>
+    <div id="kek" class="chat form box" align="center">
+        <div id="Title" align="center"> Users online:</div>
+        <div id="block" align="center"></div>
+    </div>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -37,6 +41,21 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadOnline(){
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#block").html(response.replace(/\n/g, "<br />"))
+            $("#block").scrollTop($("#block")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -81,5 +100,6 @@
     }
 
     loadHistory();
+    loadOnline();
     setInterval(loadHistory, 10000);
 </script>
