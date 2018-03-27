@@ -32,68 +32,8 @@
     padding-bottom: 30px; /* Height of the footer */
 }
 
-.chat {
-    background: #99CCCC;
-    font-family: "Courier New", Courier, monospace;
-    padding: 7px;
-    margin: 0 0 1em;
-    overflow: auto;
-}
-
-.form {
-    height: 85%;
-}
-
-
-
-.sendbutton {
-    width: 15%;
-}
-
-
-
-
-
-#space {
-    background-color:#FFFFFF;
-
-}
-
-#header {
-    background: #FFFFFF;
-    padding: 10px;
-    padding-bottom: 0;
-}
-
-#logout {
-    background: #FFFFFF;
-    padding: 10px;
-    padding-bottom: 0;
-}
-
-
-#history {
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    border-radius:5px;
-}
-
-#users_online {
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    border-radius:5px;
-}
-
 #footer {
-    background: #FFFFFF;
     padding: 10px;
-<<<<<<< HEAD
-
-
-}
-#body {
-    padding: 10px;
-    padding-top: 0;
-    /* Height of the footer */
-=======
     clear:both;
     bottom: 0;
     width: 100%;
@@ -129,5 +69,4 @@
 .temp {
     width:40%;
     float:right;
->>>>>>> 4e733631d34ae8283bb636d9ee7fc2c2dac9ca59
 }
