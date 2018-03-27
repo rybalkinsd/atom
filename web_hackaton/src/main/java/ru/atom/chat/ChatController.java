@@ -23,7 +23,8 @@ import java.util.Map;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
+    private DatabaseHandler History = new DatabaseHandler();
+    private Queue<String> messages = new ConcurrentLinkedQueue<>(History.toQueue());
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
 
     /**
@@ -49,7 +50,9 @@ public class ChatController {
         usersOnline.put(name, password);
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in");
+        String message = "[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in";
+        messages.add(message);
+        History.put(message);
         users_antispam.put(name, new Antispam(false));
         return ResponseEntity.ok().build();
     }
@@ -98,10 +101,12 @@ public class ChatController {
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Not logged in:(");
         }
-        usersOnline.remove(name, name);
+        usersOnline.remove(name);
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged out");
+        String message = "[" + name + "][" + formatForDateNow.format(dateNow) + "] logged out";
+        messages.add(message);
+        History.put(message);
         return ResponseEntity.ok().build();
     }
 
@@ -154,10 +159,11 @@ public class ChatController {
         if (!usersOnline.get(name).equals(password))
             return ResponseEntity.badRequest().body("Wrong Password");
         users_antispam.put(name, new Antispam(true));
-
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] " + msg);
+        String message = "[" + name + "][" + formatForDateNow.format(dateNow) + "] " + msg;
+        messages.add(message);
+        History.put(message);
         return ResponseEntity.ok().build();
     }
 }
