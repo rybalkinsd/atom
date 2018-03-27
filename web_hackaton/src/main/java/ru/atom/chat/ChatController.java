@@ -2,37 +2,29 @@ package ru.atom.chat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
-import ru.atom.chat.models.Message;
-import ru.atom.chat.models.User;
-import ru.atom.chat.repositories.MessageRepository;
-import ru.atom.chat.repositories.UserRepository;
 
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("chat")
 public class ChatController {
+
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private MessageRepository messageRepository;
-    private UserRepository userRepository;
-
-    @Autowired
-    public ChatController(MessageRepository messageRepository, UserRepository userRepository) {
-        this.messageRepository = messageRepository;
-        this.userRepository = userRepository;
-    }
+    private Queue<ChatMessage> messages = new ConcurrentLinkedQueue<>();
+    private Map<String, User> usersOnline = new ConcurrentHashMap<>();
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -43,42 +35,52 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
-
         if (name.length() < 1) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
         if (name.length() > 20) {
             return ResponseEntity.badRequest().body("Too long name, sorry :(");
         }
-
-        List<User> users = userRepository.findByName(name);
-        if (users.size() != 0) {
+        if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
-        User user = new User(name);
-        user.setOnline(true);
-        userRepository.save(user);
-        Message message = new Message(LocalDateTime.now(), "[" + name + "] logged in", user);
-        messageRepository.save(message);
+        usersOnline.put(name, new User(name));
+        ChatMessage msg = new ChatMessage("logged in",usersOnline.get(name));
+        messages.add(msg);
+        msg.saveInFile();
+        //messages.add("[" + User. + "] logged in");
         return ResponseEntity.ok().build();
     }
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    @RequestMapping(path = "chat", method = RequestMethod.GET)
-    public List<Message> chat() {
-        return messageRepository.findAll();
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> chat() {
+        return new ResponseEntity<>(messages.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
     }
 
     /**
      * curl -i localhost:8080/chat/online
      */
-    @RequestMapping(path = "online", method = RequestMethod.GET)
-    public List<User> online() {
-
-        //String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
-        return new LinkedList<>(userRepository.findAllByisOnline(true));
+    @RequestMapping(
+            path = "online",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> online() {
+        if (usersOnline.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body("No users online");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    String.join("\n", usersOnline.keySet()
+                            .stream().sorted().collect(Collectors.toList())));
+        }
     }
 
     /**
@@ -90,13 +92,18 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        User user = userRepository.findByName(name).get(0);
-        if (!user.isOnline()) {
-            return ResponseEntity.badRequest().body("User already logged out");
+        if (usersOnline.containsKey(name)) {
+            ChatMessage msg = new ChatMessage("logged out",usersOnline.get(name));
+            messages.add(msg);
+            msg.saveInFile();
+            usersOnline.remove(name);
+            //messages.add("[" + name + "] logged out");
+            return ResponseEntity.ok().build();
+        } else {
+            //TODO
+            //needs msg to chat?
+            return ResponseEntity.badRequest().body("Not logged in");
         }
-        userRepository.delete(user);
-        messageRepository.save(new Message(LocalDateTime.now(), "[" + name + "] logged out", user));
-        return ResponseEntity.ok().build();
     }
 
 
@@ -108,9 +115,19 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        User user = userRepository.findByName(name).get(0);
-        messageRepository.save(new Message(LocalDateTime.now(), "[" + name + "]:  " + msg, user));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (usersOnline.containsKey(name)) {
+            ChatMessage message = new ChatMessage(msg,usersOnline.get(name));
+            messages.add(message);
+            message.saveInFile();
+            // messages.add(name + ": " + msg + "    ( " +
+            //       LocalDateTime.now().format(DateTimeFormatter
+            // .ofPattern("dd-LLLL-yyyy HH:mm:ss")).toString() + " )");
+            return ResponseEntity.ok(msg);
+        } else {
+            //TODO
+            //needs msg in chat?
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
+        }
     }
 }

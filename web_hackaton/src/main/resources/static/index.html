@@ -1,36 +1,40 @@
 <head>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <html>
-<body>
-<div id="header" class="col-xs-12">
-    <div class="form-group">
-        <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()" class="form-inline" id="login_form">
-            <input id="name" name="name" value="" style="font-size:medium" type="text" class="form-control " placeholder="Enter username">
-            <input value="Login" style="font-size:large" type="submit" class="btn btn-primary">
-            <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()" class="form-inline" id="logout_form">
-                <input value="Logout" class="btn btn-primary" style="font-size:large" type="submit">
-            </form>
+<body >
+<div class="form_group">
+    <div id="header" class="login_form div_login_form">
+        <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <button style="font-size:medium" type="submit">Login</button>
+        </form>
+    </div>
+    <div id="logout" class="logout_form div_logout_form">
+        <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
+            <input id="logout_name" name="name" value="" style="font-size:medium" type="text">
+            <button style="font-size:medium" type="submit">Logout</button>
         </form>
     </div>
 </div>
-<div id="footer" class="col-xs-12">
-    <div class="form-group">
-        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()" class="form-inline" id="msg_form">
-            <input id="msg" name="msg" value="" style="font-size:medium" type="text" class="form-control msginput" placeholder="Enter message">
-            <input value="Send" class="btn btn-primary" style="font-size:large" type="submit">
-        </form>
-    </div>
-</div>
+<div class="temp"></div>
 <div id="body">
-    <div id="history" class="chat form col-xs-7 ">
-        Chat<br>
+    <div class="div_history chat form">
+        <div>Chat</div>
+        <div id="history">
+        </div>
     </div>
-    <div id="space" class="chat form col-xs-1"></div>
-    <div id="users_online" class="chat form col-xs-4">
-        Users online<br>
+    <div class="div_usr_online chat form">
+        <div>Online Users</div>
+        <div id="onlineUsers">
+        </div>
     </div>
+</div>
+<div id="footer">
+    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+    </form>
 </div>
 </body>
 </html>
@@ -39,40 +43,42 @@
 <script>
     var host = "localhost";
     var port = 8080;
-
-
+    function loadOnlineUsr() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+        $.ajax(settings).done(function (response) {
+            $("#onlineUsers").html(response.replace(/\n/g, "<br />"))
+            $("#onlineUsers").scrollTop($("#onlineUsers")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
     function loadHistory() {
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
             "method": "GET",
         }
-
         $.ajax(settings).done(function (response) {
-            var str = "";
-            response.forEach(function (item, i, arr) {
-                str = str + item["timestamp"] + " "
-                    + item["message"] + " "  + "<br />";
-                $("#history").html(
-                    str)
-            })
+            $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+            loadOnlineUsr();
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
     function say() {
         var msg = $('#msgform').serialize();
         var name = $('#nameform').serialize();
-
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/say",
             "data": name + "&" + msg
         };
-
         $.ajax(settings).done(function (response) {
             $('#msgform').trigger("reset");
             loadHistory();
@@ -81,17 +87,14 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
     function login() {
         var name = $('#nameform').serialize();
-
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/login",
             "data": name
         };
-
         $.ajax(settings).done(function (response) {
             loadHistory();
         }).fail(function (jqXHR, textStatus) {
@@ -99,7 +102,21 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
+    function logout() {
+        var name = $('#logoutform').serialize();
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
+            "data": name
+        };
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
     loadHistory();
     setInterval(loadHistory, 10000);
 </script>

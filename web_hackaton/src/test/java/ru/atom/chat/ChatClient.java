@@ -6,6 +6,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.RequestBody;
 import okhttp3.FormBody;
+
 import java.io.IOException;
 
 
@@ -41,20 +42,21 @@ public class ChatClient {
                 .url(PROTOCOL + HOST + PORT + "/chat/online")
                 .addHeader("host", HOST + PORT)
                 .build();
+
         return client.newCall(request).execute();
+
+        //throw new UnsupportedOperationException();
     }
 
     public static Response say(String name, String msg) throws IOException {
-        RequestBody formBody = new FormBody.Builder()
-                .add("name", name)
-                .add("msg", msg)
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, "name=" + name + "&msg=" + msg))
+                .url(PROTOCOL + HOST + PORT + "/chat/say")
                 .build();
 
-        Request request = new Request.Builder()
-                .post(formBody)
-                .url(PROTOCOL + HOST + PORT + "/chat/say")
-                .addHeader("host", HOST + PORT)
-                .build();
         return client.newCall(request).execute();
+
+        //throw new UnsupportedOperationException();
     }
 }
