@@ -49,7 +49,7 @@ public class ChatController {
         usersOnline.put(name, password);
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged in");
+        messages.add("[<font color=\"green\">" + name + "</font>][<font color=\"blue\">" + formatForDateNow.format(dateNow) + "</font>] logged in");
         users_antispam.put(name, new Antispam(false));
         return ResponseEntity.ok().build();
     }
@@ -60,7 +60,7 @@ public class ChatController {
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> chat() {
         return new ResponseEntity<>(messages.stream()
                 .map(Object::toString)
@@ -101,7 +101,7 @@ public class ChatController {
         usersOnline.remove(name, name);
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] logged out");
+        messages.add("[<font color=\"green\">" + name + "</font>][<font color=\"blue\">" + formatForDateNow.format(dateNow) + "</font>] logged out");
         return ResponseEntity.ok().build();
     }
 
@@ -157,7 +157,7 @@ public class ChatController {
 
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
-        messages.add("[" + name + "][" + formatForDateNow.format(dateNow) + "] " + msg);
+        messages.add("[<font color=\"green\">" + name + "</font>][<font color=\"blue\">" + formatForDateNow.format(dateNow) + "</font>] " + msg);
         return ResponseEntity.ok().build();
     }
 }
