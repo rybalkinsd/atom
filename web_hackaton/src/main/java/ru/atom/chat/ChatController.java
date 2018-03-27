@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,11 +59,9 @@ public class ChatController {
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
+            produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> chat() {
-        return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")),
+        return new ResponseEntity<>(painting(messages),
                 HttpStatus.OK);
     }
 
@@ -129,5 +128,21 @@ public class ChatController {
             //needs msg in chat?
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
         }
+    }
+
+    String painting(Queue<ChatMessage> messages){
+        StringBuilder str = new StringBuilder();
+        for (ChatMessage msg : messages) {
+            str.append("<span style=\"color:blue\">");
+            str.append(msg.getTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+            str.append(" </span>");
+            str.append("<span style=\"color:red\">");
+            str.append(msg.getUsr().getName());
+            str.append(" </span>");
+            str.append("<span style=\"color:black\">");
+            str.append(msg.getText());
+            str.append(" </span><br />");
+        }
+        return str.toString();
     }
 }
