@@ -54,3 +54,7 @@
     height: 30px; /* Height of the footer */
     background: #336666;
 }
+
+#history {
+    padding-bottom: 0px;
+}

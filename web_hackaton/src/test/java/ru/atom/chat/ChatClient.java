@@ -17,10 +17,10 @@ public class ChatClient {
     private static final String HOST = "localhost";
     private static final String PORT = ":8090";
 
-    public Response login(String name) throws IOException {
+    public Response login(String name,String passw) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "name=" + name))
+                .post(RequestBody.create(mediaType, "name=" + name +"&passw=" + passw))
                 .url(PROTOCOL + HOST + PORT + "/chat/login")
                 .build();
         return client.newCall(request).execute();
@@ -60,7 +60,14 @@ public class ChatClient {
                 .url(PROTOCOL + HOST + PORT + "/chat/logout")
                 .build();
         return client.newCall(request).execute();
-
     }
 
+    public Response signUp(String name,String passw) throws IOException{
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, "name=" + name + "&passw=" + passw))
+                .url(PROTOCOL + HOST + PORT + "/chat/signUp")
+                .build();
+        return client.newCall(request).execute();
+    }
 }

@@ -5,8 +5,14 @@
 <body>
 <div id="header">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+        <span style="color:#9CAFC9">Логин : </span>
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
+    </form>
+    <form method="POST" id="passwform" action="javascript:void(null);" onsubmit="signUp()">
+        <span style="color:#9CAFC9">Пароль:</span>
+        <input id="passw" name="passw" value="" style="font-size:medium" type="password">
+        <input value="Sign Up" style="font-size:large" type="submit">
     </form>
 </div>
 <div id="body">
@@ -83,12 +89,13 @@
 
     function login() {
         var name = $('#nameform').serialize();
+        var passw = $('#passwform').serialize();
 
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/login",
-            "data": name
+            "data": name + "&" + passw
         };
 
         $.ajax(settings).done(function (response) {
@@ -97,6 +104,26 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+    }
+
+    function signUp() {
+        var name = $('#nameform').serialize();
+        var passw = $('#passwform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/signUp",
+            "data": name + "&" + passw
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
     }
 
     loadHistory();
