@@ -38,6 +38,11 @@ public class MatchMaker implements Runnable {
         List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
         while (!Thread.currentThread().isInterrupted()) {
             try {
+                Thread.sleep(10_000);
+            } catch (InterruptedException e){
+
+            }
+            try {
                 candidates.add(
                         connectionQueue.getQueue().poll(10_000, TimeUnit.SECONDS)
                 );

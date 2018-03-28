@@ -15,6 +15,14 @@ public class Event {
         return eventType;
     }
 
+    public boolean isGood(){
+        return eventType == EventType.GOOD;
+    }
+
+    public boolean isBad(){
+        return eventType == EventType.BAD;
+    }
+
     enum EventType {
         GOOD, BAD
     }
