@@ -37,8 +37,6 @@ public class ChatController {
     @Autowired
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
 
-    @Autowired
-    private Pattern urlPattern;
     private Random r = new Random();
 
     /**
@@ -50,21 +48,24 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
-        if (name.length() < 1) {
+        String cleanName = HtmlUtils.htmlEscape(name);
+        if(!name.equals(cleanName)) {
+            return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
+        }
+        if (cleanName.length() < 3) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
-        if (name.length() > 20) {
+        if (cleanName.length() > 20) {
             return ResponseEntity.badRequest().body("Too long name, sorry :(");
         }
-        if (usersOnline.containsKey(name)) {
+        if (usersOnline.containsKey(cleanName)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         int h = r.nextInt(360);
         int s = r.nextInt(100);
         int l = 30  + r.nextInt(40);
-
-        usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
-        messages.add(new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged in"));
+        usersOnline.put(cleanName, "hsl("+h+","+s+"%,"+l+"%)");
+        messages.add(new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(cleanName) + ";\">" + cleanName + "</b>] logged in"));
         return ResponseEntity.ok().build();
     }
 
@@ -106,10 +107,11 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        if (!usersOnline.containsKey(name)) {
+        String cleanName = HtmlUtils.htmlEscape(name);
+        if (!usersOnline.containsKey(cleanName)) {
             return ResponseEntity.badRequest().body("User is not online");
         } else {
-            usersOnline.remove(name);;
+            usersOnline.remove(cleanName);
             return ResponseEntity.ok().build();
         }
     }
@@ -124,17 +126,15 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        name = HtmlUtils.htmlEscape(name);
-        msg = HtmlUtils.htmlEscape(msg);
-        if (!usersOnline.containsKey(name)) {
+        String cleanName = HtmlUtils.htmlEscape(name);
+        String cleanMsg = HtmlUtils.htmlEscape(msg);
+        if (!usersOnline.containsKey(cleanName)) {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
-            msg = msg.replaceAll("^(http://www\\.|https://www\\.|http://|https://)[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?",
+            cleanMsg = cleanMsg.replaceAll("^(http://www\\.|https://www\\.|http://|https://)[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?",
                     "<a href=\"$0\">$0</a>");
-            log.info(msg);
-            Matcher matcher = urlPattern.matcher(msg);
-            messages.add(new Triplet<>(name, new Date(), msg));
+            messages.add(new Triplet<>(cleanName, new Date(), cleanMsg));
             return ResponseEntity.ok().build();
         }
     }
