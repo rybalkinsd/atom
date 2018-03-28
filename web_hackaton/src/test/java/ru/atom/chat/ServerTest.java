@@ -2,11 +2,10 @@ package ru.atom.chat;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import okhttp3.*;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.Timeout;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,6 +115,18 @@ public class ServerTest {
             else
                 Assert.assertNotEquals(response.code(),200);
         }
+        logout(MY_NAME_IN_CHAT);
+    }
+
+
+    @Test
+    public void injectTest() throws IOException {
+        log.info("injectTest");
+        buildServer();
+        login(MY_NAME_IN_CHAT,"123");
+        String inject_text = "<script> function circle() { while(true) {} } circle() </script>";
+        Response response = say(MY_NAME_IN_CHAT,"123",inject_text);
+        Assert.assertEquals(200, response.code());
         logout(MY_NAME_IN_CHAT);
     }
 
