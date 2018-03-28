@@ -48,7 +48,8 @@ public class ChatController {
         usersOnline.put(name, name);
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        messages.add(sdf.format(cal.getTime()) + " [" + name + "] logged in");
+        messages.add("<p style=\"color:red\">" + sdf.format(cal.getTime()) + "</p> [" + name + "] logged in");
+
         return ResponseEntity.ok().build();
     }
 
@@ -93,7 +94,7 @@ public class ChatController {
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        messages.add("<font colour=>" + sdf.format(cal.getTime()) + "<font> [" + name + "] logged out");
+        messages.add("<p style=\"color:red\">" + sdf.format(cal.getTime()) + "</p> [" + name + "] logged out");
         return ResponseEntity.ok().build();
     }
 
@@ -112,7 +113,7 @@ public class ChatController {
         }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        messages.add(sdf.format(cal.getTime()) + " [" + name + "] " + msg);
+        messages.add("<p style=\"color:red\">" + sdf.format(cal.getTime()) + "</p> [" + name + "] " + msg);
         return ResponseEntity.ok().build();
     }
 }
