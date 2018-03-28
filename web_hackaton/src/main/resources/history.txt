@@ -15,3 +15,6 @@
 <span style="color: green">08:12:54</span>:<span style="color: orange">[abi]</span> logged in
 <span style="color: green">08:12:57</span>:<span style="color: orange">[abi]</span> gi!
 <span style="color: green">08:13:01</span>:<span style="color: orange">[abi]</span> hi!
+<span style="color: green">08:14:46</span>:<span style="color: orange">[I_AM_STUPID]</span> Signed up!
+<span style="color: green">08:14:59</span>:<span style="color: orange">[I_AM_STUPID]</span> Signed up!
+<span style="color: green">08:15:00</span>:<span style="color: orange">[I_AM_STUPID]</span> logged in
