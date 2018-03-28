@@ -5,17 +5,24 @@
 <body>
 <div id="header">
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <input border="2" id="name" name="name" value="" style="font-size:medium" type="text">
+        <input border="2" id="password" name="password" value="" style="font-size:medium" type="text">
+        <input border="2" value="Login" style="font-size:large" type="submit">
     </form>
 </div>
 <div id="body">
-    <div id="history" class="chat form"></div>
+    <table height="85%" width="100%">
+        <tr>
+            <td valign="top" align="left" id="history" class="chat form chatform" ></td>
+            <td valign="top" align="left" id="" class="space" ></td>
+            <td valign="top" align="left" id="online" class="online form"></td>
+        </tr>
+    </table>
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        <input border="2" id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+        <input border="2" value="Send" class="sendbutton" style="font-size:large" type="submit">
     </form>
 </div>
 </body>
@@ -37,6 +44,21 @@
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadOnline() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#online").html(response.replace(/\n/g, "<br />"))
+            $("#online").scrollTop($("#history")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -81,5 +103,7 @@
     }
 
     loadHistory();
+    loadOnline();
     setInterval(loadHistory, 10000);
+    setInterval(loadOnline, 10000);
 </script>

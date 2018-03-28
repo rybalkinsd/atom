@@ -1,9 +1,9 @@
 :root {
-    background: #336666;
+    background: url(index.jpeg);
 }
 
 .chat {
-    background: #99CCCC;
+    background: #00FFFF;
     font-family: "Courier New", Courier, monospace;
     padding: 7px;
     margin: 0 0 1em;
@@ -12,6 +12,24 @@
 
 .form {
     height: 85%;
+}
+
+.chatform {
+    width: 80%;
+    margin: 0 0 5 0;
+}
+
+.space {
+    width: 5%;
+}
+
+.online {
+    background: #00FFFF;
+        font-family: "Courier New", Courier, monospace;
+        padding: 7px;
+        margin: 0 0 ;
+        overflow: auto;
+        width:  15%;
 }
 
 .msginput {
@@ -23,7 +41,6 @@
 }
 
 #header {
-    background: #336666;
     padding: 10px;
     padding-bottom: 0;
 }
@@ -40,5 +57,4 @@
     bottom: 0;
     width: 100%;
     height: 30px; /* Height of the footer */
-    background: #336666;
 }
