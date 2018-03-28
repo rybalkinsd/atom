@@ -16,6 +16,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping("chat")
@@ -44,7 +46,11 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        messages.add("<span style=\"color:red\">" + sdf.format(cal.getTime()) + "</span>"
+                + "<span style=\"color:blue\"> [" + name + "]</span> logged in");
+
         return ResponseEntity.ok().build();
     }
 
@@ -82,7 +88,16 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such name  :(");
+        }
+        usersOnline.remove(name);
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        messages.add("<span style=\"color:red\">" + sdf.format(cal.getTime()) + "</span>"
+                + "<span style=\"color:blue\"> [" + name + "]</span> logged out");
+        return ResponseEntity.ok().build();
     }
 
 
@@ -95,6 +110,13 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such name  :(");
+        }
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        messages.add("<span style=\"color:red\">" + sdf.format(cal.getTime()) + "</span>"
+                     + "<span style=\"color:blue\"> [" + name + "]</span> " + msg);
+        return ResponseEntity.ok().build();
     }
 }
