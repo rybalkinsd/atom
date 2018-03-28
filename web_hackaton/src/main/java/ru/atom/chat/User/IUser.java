@@ -1,6 +1,8 @@
-package ru.atom.chat.User;
+package ru.atom.chat.user;
 
 public interface IUser {
+
     String getUserName();
+
     String getPassword();
 }

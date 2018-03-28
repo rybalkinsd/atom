@@ -1,0 +1,24 @@
+test0
+Registered
+07:18
+test0
+logout
+07:18
+test0
+logged in
+07:18
+test1
+Registered
+07:18
+test2
+Registered
+07:18
+test2
+logout
+07:18
+test4
+Registered
+07:18
+test4
+allo
+07:18

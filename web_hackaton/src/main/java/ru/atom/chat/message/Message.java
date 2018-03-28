@@ -1,4 +1,5 @@
 package ru.atom.chat.message;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -18,18 +19,18 @@ public class Message implements IMessage {
     public Message(String userName, String body, String time) {
         this.userName = userName;
         this.body = body;
-        SimpleDateFormat format = new SimpleDateFormat("dd.mm.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
         try {
             this.date = format.parse(time);
-        } catch (ParseException PE) {
+        } catch (ParseException passException) {
             this.date = new Date();
         }
     }
 
     @Override
     public String toString() {
-        String returnStr = new String();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+        String returnStr = "";
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
         String time = formatForDateNow.format(date);
         returnStr = "[" + this.userName + "]:" + this.body + "\t(" + time + ")";
         return returnStr;
@@ -52,7 +53,7 @@ public class Message implements IMessage {
 
     @Override
     public String getTime() {
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss a zzz");
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
         String time = formatForDateNow.format(date);
         return time;
     }
