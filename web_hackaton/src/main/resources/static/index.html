@@ -3,38 +3,40 @@
 </head>
 <html>
 <body >
-<div class="form_group">
+
+<div id="body">
+    <div class="div_history chat form">
+        <div class = "textContain"><p>Chat</p></div>
+        <div id="history" class="history_container"></div>
+        <div id="footer">
+            <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+                <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+                <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+            </form>
+        </div>
+    </div>
+    <div class="div_right">
+    <div class="form_group form1">
     <div id="header" class="login_form div_login_form">
         <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <input id="name" name="name"  style="font-size:medium" type="text" value = "">
             <button style="font-size:medium" type="submit">Login</button>
         </form>
     </div>
     <div id="logout" class="logout_form div_logout_form">
         <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
-            <input id="logout_name" name="name" value="" style="font-size:medium" type="text">
+            <input id="logout_name" name="name"  style="font-size:medium" type="text" value="" >
             <button style="font-size:medium" type="submit">Logout</button>
         </form>
     </div>
 </div>
-<div class="temp"></div>
-<div id="body">
-    <div class="div_history chat form">
-        <div>Chat</div>
-        <div id="history">
-        </div>
-    </div>
-    <div class="div_usr_online chat form">
-        <div>Online Users</div>
+
+    <div class="div_usr_online chat form2">
+        <div class = "textContain"><p>Online Users</p></div>
         <div id="onlineUsers">
         </div>
     </div>
-</div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+    </div>
 </div>
 </body>
 </html>

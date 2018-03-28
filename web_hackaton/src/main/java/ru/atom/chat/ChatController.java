@@ -1,5 +1,8 @@
 package ru.atom.chat;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -49,7 +52,6 @@ public class ChatController {
         ChatMessage msg = new ChatMessage("logged in",usersOnline.get(name));
         messages.add(msg);
         msg.saveInFile();
-        //messages.add("[" + User. + "] logged in");
         return ResponseEntity.ok().build();
     }
 
@@ -96,7 +98,6 @@ public class ChatController {
             messages.add(msg);
             msg.saveInFile();
             usersOnline.remove(name);
-            //messages.add("[" + name + "] logged out");
             return ResponseEntity.ok().build();
         } else {
             //TODO
@@ -119,9 +120,6 @@ public class ChatController {
             ChatMessage message = new ChatMessage(msg,usersOnline.get(name));
             messages.add(message);
             message.saveInFile();
-            // messages.add(name + ": " + msg + "    ( " +
-            //       LocalDateTime.now().format(DateTimeFormatter
-            // .ofPattern("dd-LLLL-yyyy HH:mm:ss")).toString() + " )");
             return ResponseEntity.ok(msg);
         } else {
             //TODO
@@ -130,9 +128,10 @@ public class ChatController {
         }
     }
 
-    String painting(Queue<ChatMessage> messages){
+    String painting(Queue<ChatMessage> messages) {
         StringBuilder str = new StringBuilder();
         for (ChatMessage msg : messages) {
+            //StringBuilder str = new StringBuilder();
             str.append("<span style=\"color:blue\">");
             str.append(msg.getTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
             str.append(" </span>");
@@ -140,8 +139,11 @@ public class ChatController {
             str.append(msg.getUsr().getName());
             str.append(" </span>");
             str.append("<span style=\"color:black\">");
-            str.append(msg.getText());
+            str.append(Jsoup.clean(msg.getText(),Whitelist.relaxed()));
             str.append(" </span><br />");
+            //Document doc = Jsoup.parse(str.toString());
+            //doc.getElementsByTag("a").addClass("link_color");
+            //str1.append(doc.toString());
         }
         return str.toString();
     }

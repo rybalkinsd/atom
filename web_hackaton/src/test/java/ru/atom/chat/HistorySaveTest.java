@@ -14,7 +14,7 @@ public class HistorySaveTest {
     ChatMessage msg = new ChatMessage("blabla", new User("LolKek"));
 
     @Test
-    public void historySave(){
+    public void historySave() {
         msg.saveInFile();
     }
 }

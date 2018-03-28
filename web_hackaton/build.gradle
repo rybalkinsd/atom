@@ -45,6 +45,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.5'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
+    // jsoup HTML parser library @ https://jsoup.org/
+    compile 'org.jsoup:jsoup:1.11.2'
 }
 
 checkstyle {

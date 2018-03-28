@@ -1,7 +1,10 @@
 package ru.atom.chat;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -9,6 +12,7 @@ public class ChatMessage {
     private String text;
     private User usr;
     private LocalDateTime time;
+    private final String path = "./src/main/resources/history.txt";
 
     public ChatMessage(String text, User usr) {
         this.text = text;
@@ -34,14 +38,12 @@ public class ChatMessage {
         return time;
     }
 
-    void saveInFile(){
-        String path = "./src/main/resources/history.txt";
+    void saveInFile() {
         String text = getTime().toString() + " " + getUsr().getName() +
                 ": " + getText() + "\n";
         try {
             Files.write(Paths.get(path), text.getBytes(), StandardOpenOption.APPEND);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
