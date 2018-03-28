@@ -31,3 +31,8 @@ checkstyle {
     toolVersion = '7.5'
     configFile = new File('../config/checkstyle/checkstyle.xml')
 }
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.chat.ChatApplication' }
+}

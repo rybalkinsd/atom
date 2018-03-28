@@ -64,9 +64,11 @@ public class ChatClientTest {
     
     @Test
     public void say() throws IOException {
+        client.login(myNameInChat,myAwesomePassword);
         Response response = client.say(myNameInChat, myMessageToChat);
         log.info("[" + response + "]");
         log.info(response.body().string());
         Assert.assertEquals(200, response.code());
+        client.logout(myNameInChat);
     }
 }
