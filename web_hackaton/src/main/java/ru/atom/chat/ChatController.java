@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.HtmlUtils;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +25,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -32,13 +35,14 @@ import java.util.Timer;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
-
     @Autowired
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
-    private Map<String, Integer> coutOfMassage = new ConcurrentHashMap<>();
-    private History history = new History();
-    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>(history.loadHistory());
+    private Map<String, Integer> countOfMessages = new ConcurrentHashMap<>();
+
+    @Autowired
+    private Queue<Triplet<String, Date, String>> messages;
+
+
     private Random r = new Random();
 
     /**
@@ -50,7 +54,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
-        if(!name.equals(HtmlUtils.htmlEscape(name))) {
+        if(!name.equals(HtmlUtils.htmlEscape(name)) || name.contains(":")) {
             return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
         }
         if (name.length() < 3) {
@@ -67,12 +71,24 @@ public class ChatController {
         int l = 30  + r.nextInt(40);
 
         usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
-        coutOfMassage.put(name,0);
-        Triplet<String,Date,String> log = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged in");
-        messages.add(log);
-        history.writeHistory(log);
+        countOfMessages.put(name,0);
+        Triplet<String,Date,String> msg = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged in");
+        messages.add(msg);
+        toHistory(msg);
 
         return ResponseEntity.ok().build();
+    }
+
+    private void toHistory(Triplet<String, Date, String> msg) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(ChatController.class.getClassLoader()
+                .getResource("history.txt").getPath(),true))) {
+            bufferedWriter.write(dateFormat.format(msg.getValue1()) + " " + msg.getValue0() + ": " + msg.getValue2() +"\n");
+        } catch(IOException e){
+            log.error(e.getLocalizedMessage());
+        } catch(NullPointerException e) {
+            log.error("can`t load 'history.txt'");
+        }
     }
 
     /**
@@ -116,10 +132,10 @@ public class ChatController {
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         } else {
-            Triplet<String,Date,String> log = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + cleanName + "</b>] logged out");
-            messages.add(log);
-            history.writeHistory(log);
-            coutOfMassage.remove(name);
+            Triplet<String,Date,String> msg = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged out");
+            messages.add(msg);
+            toHistory(msg);
+            countOfMessages.remove(name);
             usersOnline.remove(name);
             return ResponseEntity.ok().build();
         }
@@ -146,19 +162,19 @@ public class ChatController {
             new Timer().schedule(
                     new TimerTask() {
                         public void run() {
-                            coutOfMassage.forEach((s,e) -> e = 0);
+                            countOfMessages.forEach((s, e) -> e = 0);
                         }
                     },
                     10000);
-            if (coutOfMassage.get(name) > 3) {
+            if (countOfMessages.get(name) > 3) {
                 messages.add(new Triplet<>("admin", new Date(), " plz dont spam:" + "[" + name + "] " + " you was banned for 10 sec\n"));
                 return ResponseEntity.badRequest().body("User is banned\n 10 sec");
             }
 
-            coutOfMassage.put(name, coutOfMassage.get(name) + 1);
+            countOfMessages.put(name, countOfMessages.get(name) + 1);
 
             messages.add(new Triplet<>(name, new Date(), cleanMsg));
-            history.writeHistory(new Triplet<>(name, new Date(), cleanMsg));
+            toHistory(new Triplet<>(name, new Date(), cleanMsg));
             return ResponseEntity.ok().build();
         }
     }
