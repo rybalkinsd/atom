@@ -116,7 +116,7 @@
         else {
             document.getElementById('loginForm').style.display = "none";
             document.getElementById('onlineForm').style.display = "";
-            document.getElementById('userLogin').innerHTML = userName.substr(5);
+            document.getElementById('userLogin').innerHTML = decodeURI(userName.substr(5));
         }
     }
 
