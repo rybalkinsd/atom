@@ -1,37 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Flat disign chat</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
-<html>
 <body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
-    </form>
-</div>
-<div id="body">
-    <div id="history" class="chat form"></div>
-</div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+
+<div class="body">
+
+    <div id="loginForm" class="loginBox">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Login Form:</p>
+                </div>
+                <input id="name" name="name" value="" style="font-size:medium" type="text"><br>
+                <input id="pwd" name="password" value="" style="font-size:medium" type="password"><br>
+                <button class="sendbutton" style="font-size:large" onclick="login()" >Login</button><br>
+                <button class="sendbutton" style="font-size:large" onclick="openRegister()" >Register</button><br>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerForm" class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Register Form:</p>
+                </div>
+                <input id="newName" name="name" value="" style="font-size:medium" type="text"><br>
+                <input id="pass" name="password" value="" style="font-size:medium" type="password"><br>
+                <input id="applyPass" name="passCopy" value="" style="font-size:medium" type="password"><br>
+                <button class="sendbutton" style="font-size:large" onclick="register()" >Register</button><br>
+                <button class="sendbutton" style="font-size:large" onclick="closeRegister(null, null)">Login</button><br>
+            </div>
+        </div>
+    </div>
+
+    <div id="onlineForm"class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Loggined User:</p>
+                </div>
+                <div class="userNameHeader">
+                    <p id="userLogin"></p>
+                </div>
+                <button class="sendbutton" style="font-size:large" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatBox">
+        <div id="mesList" class="chatLogs">
+
+            <div id="history" class="chat form">
+
+            </div>
+
+        </div>
+
+        <div class="chatForm">
+            <input id="msgform" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+            <button class="sendbutton" onclick="say()">Send</button>
+        </div>
+    </div>
+
+    <div class="userBox">
+        <div class="userLogs">
+            <div id="users" class="users form"></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+
+<!--
+-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
     var host = "localhost";
     var port = 8080;
 
+    //string contains "name=" used in get/post http services
+    var curUserName     = null;
+    //string contains "password=" used in get/post http services
+    var curUserPassword = null;
+
+    openRegister();
+
+    function openRegister() {
+        curUserName = null;
+        curUserPassword = null;
+        document.getElementById('registerForm').style.display = "";
+        document.getElementById('loginForm').style.display = "none";
+        document.getElementById('onlineForm').style.display = "none";
+    }
+
+    function closeRegister(userName, userPassword) {
+        document.getElementById('registerForm').style.display = "none";
+        changeUser(userName, userPassword);
+    }
+
+    function changeUser(userName, userPassword) {
+        document.getElementById('registerForm').style.display = "none";
+        curUserName = userName;
+        curUserPassword = userPassword;
+        if (userName == null) {
+            document.getElementById('loginForm').style.display = "";
+            document.getElementById('onlineForm').style.display = "none";
+        }
+        else {
+            document.getElementById('loginForm').style.display = "none";
+            document.getElementById('onlineForm').style.display = "";
+            document.getElementById('userLogin').innerHTML = decodeURI(userName.substr(5));
+        }
+    }
 
     function loadHistory() {
+        var name;
+        if ( curUserName == null )
+            name = "name=";
+        else
+            name = curUserName;
+
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
             "method": "GET",
+            "data": name
         }
 
         $.ajax(settings).done(function (response) {
@@ -42,20 +142,39 @@
         });
     }
 
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/users",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"))
+            $("#users").scrollTop($("#users")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        if(curUserName == null)
+            return;
+        var msg  = $('#msgform').serialize();
+        var name = curUserName;
+        var password = curUserPassword;
 
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/say",
-            "data": name + "&" + msg
+            "data": name + "&" + password + "&" + msg
         };
 
         $.ajax(settings).done(function (response) {
-            $('#msgform').trigger("reset");
+            document.getElementById('msgform').value= "";
             loadHistory();
+            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -63,17 +182,64 @@
     }
 
     function login() {
-        var name = $('#nameform').serialize();
-
+        var name = $('#name').serialize();
+        var password = $('#pwd').serialize();
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name + "&" + password
+        };
+
+        $.ajax(settings).done(function (response) {
+            document.getElementById('name').value= "";
+            document.getElementById('pwd').value= "";
+            changeUser(name, password);
+            loadHistory();
+            loadUsers();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function register() {
+        var name = $('#newName').serialize();
+        var password = $('#pass').serialize();
+        var passAgain = $('#applyPass').serialize();
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/register",
+            "data": name + "&" + password + "&" + passAgain
+        };
+
+        $.ajax(settings).done(function (response) {
+            document.getElementById('newName').value= "";
+            document.getElementById('pass').value= "";
+            document.getElementById('applyPass').value= "";
+            changeUser(name, password);
+            loadHistory();
+            loadUsers();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function logout() {
+        var name = curUserName;
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
             "data": name
         };
 
         $.ajax(settings).done(function (response) {
+            changeUser(null, null);
             loadHistory();
+            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -81,5 +247,7 @@
     }
 
     loadHistory();
+    loadUsers();
     setInterval(loadHistory, 10000);
+    setInterval(loadUsers, 10000);
 </script>
