@@ -14,7 +14,7 @@
 }
 
 .form {
-    height: 85%;
+    height: 84%;
 }
 
 .msginput {
@@ -38,6 +38,7 @@
     float:left;
     margin-left:30px;
     width: 25%;
+    padding-bottom: 0px;
 
 }
 

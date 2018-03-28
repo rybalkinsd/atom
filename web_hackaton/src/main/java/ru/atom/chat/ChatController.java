@@ -181,11 +181,9 @@ public class ChatController {
             if (antiSpamArchive.get(name).getNumberOfMessages() == 2)
                 return ResponseEntity.ok().build();
             else {
-                System.out.println("fail1");
                 antiSpamArchive.get(name).incNumberOfMesssages();
             }
         } else {
-            System.out.println("fail2");
             antiSpamArchive.get(name).setLastMessageTime();
             antiSpamArchive.get(name).setNumberOfMessagesToZero();
         }
