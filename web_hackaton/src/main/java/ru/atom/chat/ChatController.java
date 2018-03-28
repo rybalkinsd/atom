@@ -4,7 +4,6 @@ import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,10 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.TimerTask;
+import java.util.Timer;
+
 
 @Controller
 @RequestMapping("chat")
@@ -36,7 +36,9 @@ public class ChatController {
 
     @Autowired
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
-
+    private Map<String, Integer> coutOfMassage = new ConcurrentHashMap<>();
+    private History history = new History();
+    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>(history.loadHistory());
     private Random r = new Random();
 
     /**
@@ -48,24 +50,28 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name) {
-        String cleanName = HtmlUtils.htmlEscape(name);
-        if(!name.equals(cleanName)) {
+        if(!name.equals(HtmlUtils.htmlEscape(name))) {
             return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
         }
-        if (cleanName.length() < 3) {
+        if (name.length() < 3) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
-        if (cleanName.length() > 20) {
+        if (name.length() > 20) {
             return ResponseEntity.badRequest().body("Too long name, sorry :(");
         }
-        if (usersOnline.containsKey(cleanName)) {
+        if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         int h = r.nextInt(360);
         int s = r.nextInt(100);
         int l = 30  + r.nextInt(40);
-        usersOnline.put(cleanName, "hsl("+h+","+s+"%,"+l+"%)");
-        messages.add(new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(cleanName) + ";\">" + cleanName + "</b>] logged in"));
+
+        usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
+        coutOfMassage.put(name,0);
+        Triplet<String,Date,String> log = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged in");
+        messages.add(log);
+        history.writeHistory(log);
+
         return ResponseEntity.ok().build();
     }
 
@@ -107,11 +113,14 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        String cleanName = HtmlUtils.htmlEscape(name);
-        if (!usersOnline.containsKey(cleanName)) {
+        if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         } else {
-            usersOnline.remove(cleanName);
+            Triplet<String,Date,String> log = new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + cleanName + "</b>] logged out");
+            messages.add(log);
+            history.writeHistory(log);
+            coutOfMassage.remove(name);
+            usersOnline.remove(name);
             return ResponseEntity.ok().build();
         }
     }
@@ -126,15 +135,30 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        String cleanName = HtmlUtils.htmlEscape(name);
         String cleanMsg = HtmlUtils.htmlEscape(msg);
-        if (!usersOnline.containsKey(cleanName)) {
+        if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
             cleanMsg = cleanMsg.replaceAll("^(http://www\\.|https://www\\.|http://|https://)[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?",
                     "<a href=\"$0\">$0</a>");
-            messages.add(new Triplet<>(cleanName, new Date(), cleanMsg));
+
+            new Timer().schedule(
+                    new TimerTask() {
+                        public void run() {
+                            coutOfMassage.forEach((s,e) -> e = 0);
+                        }
+                    },
+                    10000);
+            if (coutOfMassage.get(name) > 3) {
+                messages.add(new Triplet<>("admin", new Date(), " plz dont spam:" + "[" + name + "] " + " you was banned for 10 sec\n"));
+                return ResponseEntity.badRequest().body("User is banned\n 10 sec");
+            }
+
+            coutOfMassage.put(name, coutOfMassage.get(name) + 1);
+
+            messages.add(new Triplet<>(name, new Date(), cleanMsg));
+            history.writeHistory(new Triplet<>(name, new Date(), cleanMsg));
             return ResponseEntity.ok().build();
         }
     }
