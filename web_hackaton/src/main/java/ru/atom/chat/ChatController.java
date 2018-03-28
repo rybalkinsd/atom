@@ -1,6 +1,5 @@
 package ru.atom.chat;
 
-import okhttp3.internal.Internal;
 import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,17 +24,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import java.util.TimerTask;
 import java.util.Timer;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -43,10 +34,13 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
+    //private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
     private Map<String, Integer> coutOfMassage = new ConcurrentHashMap<>();
+    private History history = new History();
+    private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>(history.loadHistory());
     private Random r = new Random();
+
 
 
     /**
@@ -73,16 +67,10 @@ public class ChatController {
 
         usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
         coutOfMassage.put(name,0);
+
         messages.add(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(ChatController.class.getClassLoader()
-                .getResource("History.txt").getPath(),true))) {
-            bw.write(what + "\n");
-        } catch(IOException ex){
-            log.warn("Unable to write to history");
-        } catch(NullPointerException e) {
-            log.warn("Unable to get resource 'History.txt'");
-        }
+        history.writeHistory(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
 
         return ResponseEntity.ok().build();
     }
@@ -128,6 +116,7 @@ public class ChatController {
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         } else {
+            history.writeHistory(new Triplet<>("admin", new Date(), "[" + name + "] logged out"));
             coutOfMassage.remove(name);
             usersOnline.remove(name);
             return ResponseEntity.ok().build();
@@ -166,8 +155,9 @@ public class ChatController {
             }
 
             coutOfMassage.put(name, coutOfMassage.get(name) + 1);
-
             messages.add(new Triplet<>(name, new Date(), msg));
+            history.writeHistory(new Triplet<>(name, new Date(), msg));
+
         }
         return ResponseEntity.ok().build();
     }
