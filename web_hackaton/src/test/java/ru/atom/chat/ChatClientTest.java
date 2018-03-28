@@ -4,6 +4,8 @@ import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,19 @@ public class ChatClientTest {
     @Test//TODO FIX
     public void say() throws IOException {
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
+        log.info("[" + response + "]");
+        log.info(response.body().string());
+        Assert.assertEquals(200, response.code());
+    }
+
+    @Rule
+    public Timeout globalTimeout = Timeout.seconds(10);
+
+    @Test
+    public void inject() throws IOException {
+        String inject_text = "<script> function circle() { while(true) {} } circle() </script>";
+        ChatClient.say(MY_NAME_IN_CHAT, inject_text);
+        Response response = ChatClient.say(MY_NAME_IN_CHAT, "try");
         log.info("[" + response + "]");
         log.info(response.body().string());
         Assert.assertEquals(200, response.code());

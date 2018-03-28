@@ -161,6 +161,13 @@ public class ChatController {
         users_antispam.put(name, new Antispam(true));
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss dd.MM");
+
+        //anti-injection
+        name = name.replace("<", "&lt;");
+        name = name.replace(">", "&gt;");
+        msg = msg.replace("<", "&lt;");
+        msg = msg.replace(">", "&gt;");
+
         String message = "[<font color=\"green\">" + name + "</font>][<font color=\"blue\">" + formatForDateNow.format(dateNow) + "</font>] " + msg;
         messages.add(message);
         History.put(message);
