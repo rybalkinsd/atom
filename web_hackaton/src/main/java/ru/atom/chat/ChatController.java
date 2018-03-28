@@ -1,5 +1,6 @@
 package ru.atom.chat;
 
+import okhttp3.internal.Internal;
 import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,20 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
+import java.util.TimerTask;
+import java.util.Timer;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Writer;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("chat")
@@ -30,8 +45,9 @@ public class ChatController {
 
     private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private Map<String, Integer> coutOfMassage = new ConcurrentHashMap<>();
     private Random r = new Random();
-    private String prevMassage = "";
+
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -56,7 +72,18 @@ public class ChatController {
         int l = 80  + r.nextInt(20);
 
         usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
+        coutOfMassage.put(name,0);
         messages.add(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(ChatController.class.getClassLoader()
+                .getResource("History.txt").getPath(),true))) {
+            bw.write(what + "\n");
+        } catch(IOException ex){
+            log.warn("Unable to write to history");
+        } catch(NullPointerException e) {
+            log.warn("Unable to get resource 'History.txt'");
+        }
+
         return ResponseEntity.ok().build();
     }
 
@@ -101,7 +128,8 @@ public class ChatController {
         if (!usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("User is not online");
         } else {
-            usersOnline.remove(name);;
+            coutOfMassage.remove(name);
+            usersOnline.remove(name);
             return ResponseEntity.ok().build();
         }
     }
@@ -122,13 +150,25 @@ public class ChatController {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
-            if (prevMassage.equals(msg)) {
-                messages.add(new Triplet<>("admin", new Date()," plz dont spam:" + "[" + name + "] " ));
-            } else {
-                messages.add(new Triplet<>(name, new Date(), msg));
-                prevMassage = msg;
+
+            new Timer().schedule(
+                    new TimerTask() {
+                        public void run() {
+                            for (Map.Entry<String, Integer> entry : coutOfMassage.entrySet()) {
+                                entry.setValue(0);
+                            }
+                        }
+                    },
+                    10000);
+            if (coutOfMassage.get(name) > 3) {
+                messages.add(new Triplet<>("admin", new Date(), " plz dont spam:" + "[" + name + "] " + " you was banned for 10 sec\n"));
+                return ResponseEntity.badRequest().body("User is banned\n 10 sec");
             }
-            return ResponseEntity.ok().build();
+
+            coutOfMassage.put(name, coutOfMassage.get(name) + 1);
+
+            messages.add(new Triplet<>(name, new Date(), msg));
         }
+        return ResponseEntity.ok().build();
     }
 }
