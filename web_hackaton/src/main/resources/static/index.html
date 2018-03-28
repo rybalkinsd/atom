@@ -19,10 +19,7 @@
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
         <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
         <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-        <input id="day" name="day" class="msginput" value="" style="font-size:medium" type="text">
-        <input id="month" name="month" class="msginput" value="" style="font-size:medium" type="text">
-        <input id="year" name="year" class="msginput" value="" style="font-size:medium" type="text">
-
+        <input type="time">
     </form>
 </div>
 </body>
@@ -52,16 +49,12 @@
     function say() {
         var msg = $('#msgform').serialize();
         var name = $('#nameform').serialize();
-        var d = new Date();
-        var year = d.getFullYear();
-        var month = d.getMonth();
-        var day = d.getDate();
 
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/say",
-            "data": name + "&" + msg + "&" + day + "&" + month + "&" + year
+            "data": name + "&" + msg
         };
 
         $.ajax(settings).done(function (response) {
