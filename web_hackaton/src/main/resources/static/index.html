@@ -19,11 +19,13 @@
     </div>
 </div>
 </nav>
-<div id="body" class="row">
+<div id="body">
     <div id="history" class="chat col-md-9 form"></div>
-    <div id="users" class="chat col-md-3 form"></div>
+    <div class="chat col-md-3 form">
+        <ul class="list-group list-group-flush" id="users">
+        </ul>
+    </div>
 </body>
-<footer class="footer">
 <div class="footer navbar-fixed-bottom" style="padding-left: 10px;">
     <div class="form-inline">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
@@ -33,7 +35,6 @@
     </form>
     </div>
 </div>
-</footer>
 </body>
 </html>
 
@@ -66,7 +67,7 @@
         }
 
         $.ajax(settings).done(function (response) {
-            $("#users").html(response.replace(/\n/g, "<br />"))
+            $("#users").html(response.replace(/\n/g, ""))
             $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);

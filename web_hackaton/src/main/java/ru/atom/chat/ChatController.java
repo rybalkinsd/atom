@@ -3,6 +3,8 @@ package ru.atom.chat;
 import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,9 +33,13 @@ public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
     private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
+
+    @Autowired
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+
+    @Autowired
+    private Pattern urlPattern;
     private Random r = new Random();
-    private String prevMassage = "";
 
     /**
      * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
@@ -53,10 +61,10 @@ public class ChatController {
         }
         int h = r.nextInt(360);
         int s = r.nextInt(100);
-        int l = 80  + r.nextInt(20);
+        int l = 30  + r.nextInt(40);
 
         usersOnline.put(name, "hsl("+h+","+s+"%,"+l+"%)");
-        messages.add(new Triplet<>("admin", new Date(), "[" + name + "] logged in"));
+        messages.add(new Triplet<>("admin", new Date(), "[<b style=\" color:" +usersOnline.get(name) + ";\">" + name + "</b>] logged in"));
         return ResponseEntity.ok().build();
     }
 
@@ -71,7 +79,7 @@ public class ChatController {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         return new ResponseEntity<>(messages.stream()
                 .map(triplet ->"<font color=\"grey\">" + dateFormat.format(triplet.getValue1()) + "</font>" +
-                        " <font color=\" " +usersOnline.get(triplet.getValue0()) + "\">" + triplet.getValue0()+ "</font>: " + triplet.getValue2())
+                        " <b style=\" color:" +usersOnline.get(triplet.getValue0()) + ";\">" + triplet.getValue0()+ "</b>: " + triplet.getValue2())
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
@@ -85,7 +93,7 @@ public class ChatController {
             produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity online() {
         return new ResponseEntity<>(usersOnline.entrySet().stream()
-                .map(e -> " <font color=\" " +e.getValue() + "\">" + e.getKey() + "</font> ")
+                .map(e -> "<li class=\"list-group-item\" style=\"color:"+ e.getValue() +";\">" + e.getKey() + "</li>")
                 .collect(Collectors.joining("\n")), HttpStatus.OK);
     }
 
@@ -122,12 +130,11 @@ public class ChatController {
             return ResponseEntity.badRequest().body("User is not online");
         }
         else {
-            if (prevMassage.equals(msg)) {
-                messages.add(new Triplet<>("admin", new Date()," plz dont spam:" + "[" + name + "] " ));
-            } else {
-                messages.add(new Triplet<>(name, new Date(), msg));
-                prevMassage = msg;
-            }
+            msg = msg.replaceAll("^(http://www\\.|https://www\\.|http://|https://)[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?",
+                    "<a href=\"$0\">$0</a>");
+            log.info(msg);
+            Matcher matcher = urlPattern.matcher(msg);
+            messages.add(new Triplet<>(name, new Date(), msg));
             return ResponseEntity.ok().build();
         }
     }
