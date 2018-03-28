@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class TestConfig {
     @Bean
-    public ChatController chatController(){ return new ChatController(); }
+    public ChatController chatController() {
+        return new ChatController();
+    }
 
     @Bean
-    public HistoryFile historyFile(){ return new HistoryFile(); }
-
+    public HistoryFile historyFile() {
+        return new HistoryFile();
+    }
 }

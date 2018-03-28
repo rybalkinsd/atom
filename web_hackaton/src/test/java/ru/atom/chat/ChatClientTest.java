@@ -1,9 +1,8 @@
 package ru.atom.chat;
 
 import okhttp3.Response;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,16 +21,16 @@ public class ChatClientTest {
     private  ChatController controller;
 
 
-    private  String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private  String MY_MESSAGE_TO_CHAT = "KILL_ME_SOMEONE";
-    private  String MY_AWESOME_PASSWORD = "PLEASE!";
+    private final String myNameInChat = "I_AM_STUPID";
+    private final String myMessageToChat = "KILL_ME_SOMEONE";
+    private final String myAwesomePassword = "PLEASE!";
 
     @Autowired
     private ChatClient client;
 
     @Test
-    public void signUp() throws IOException{
-        Response response = client.signUp(MY_NAME_IN_CHAT,MY_AWESOME_PASSWORD);
+    public void signUp() throws IOException {
+        Response response = client.signUp(myNameInChat, myAwesomePassword);
         log.info("[" + response + "]");
         String body = response.body().string();
         log.info(body);
@@ -40,7 +39,7 @@ public class ChatClientTest {
 
     @Test
     public void login() throws IOException {
-        Response response = client.login(MY_NAME_IN_CHAT,MY_AWESOME_PASSWORD);
+        Response response = client.login(myNameInChat, myAwesomePassword);
         log.info("[" + response + "]");
         String body = response.body().string();
         log.info(body);
@@ -62,10 +61,10 @@ public class ChatClientTest {
         log.info(response.body().toString());
         Assert.assertEquals(200, response.code());
     }
-
+    
     @Test
     public void say() throws IOException {
-        Response response = client.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
+        Response response = client.say(myNameInChat, myMessageToChat);
         log.info("[" + response + "]");
         log.info(response.body().string());
         Assert.assertEquals(200, response.code());

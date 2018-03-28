@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.io.*;
+import java.io.File;
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
@@ -49,7 +53,7 @@ public class ChatController {
             reader = new Scanner(file);
             while (reader.hasNext())
                 messages.add(reader.nextLine());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info("Fail!");
         }
 
@@ -60,20 +64,23 @@ public class ChatController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> signUp(@RequestParam("name") String name,@RequestParam("passw") String passw){
+    public ResponseEntity<String> signUp(@RequestParam("name") String name,@RequestParam("passw") String passw) {
         if (name.length() < 1)
             return ResponseEntity.badRequest().body("too short name!");
         if (name.length() > 20)
             return ResponseEntity.badRequest().body("too long name!");
-        if(profiles.containsKey(name))
+        if (profiles.containsKey(name))
             return ResponseEntity.badRequest().body("User with this name already exists!");
-        else if(passw.matches("\\s") || passw.matches(".{0,6}"))
-            return ResponseEntity.badRequest().body("Password must contain more that 6 symbols and doesn't contain whitespaces!");
+        else if (passw.matches("\\s") || passw.matches(".{0,6}"))
+            return ResponseEntity.badRequest().body("Password must contain more that 6 symbols " +
+                    "and doesn't contain whitespaces!");
         else {
+            name = escapeHtml(name);
             antiSpamArchive.put(name,new UserMetadata());
             profiles.put(name,passw);
             date = new Date();
-            String str = "<span style=\"color: green\">" + formatForDateNow.format(date) + "</span>:<span style=\"color: orange\">[" + name + "]</span> Signed up!";
+            String str = "<span style=\"color: green\">" + formatForDateNow.format(date) +
+                    "</span>:<span style=\"color: orange\">[" + name + "]</span> Signed up!";
             messages.add(str);
             historyFile.write(str + '\n');
             return ResponseEntity.ok().build();
@@ -86,6 +93,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name,@RequestParam("passw") String passw)  {
+        name = escapeHtml(name);
         if (!profiles.containsKey(name)) {
             return ResponseEntity.badRequest().body("You are not signed up!Sign up, please.");
         }
@@ -97,7 +105,8 @@ public class ChatController {
         }
         usersOnline.put(name, name);
         date = new Date();
-        String str = "<span style=\"color: green\">" + formatForDateNow.format(date) + "</span>:<span style=\"color: orange\">[" + name + "]</span> logged in";
+        String str = "<span style=\"color: green\">" + formatForDateNow.format(date) +
+                "</span>:<span style=\"color: orange\">[" + name + "]</span> logged in";
         messages.add(str);
         historyFile.write(str + '\n');
         return ResponseEntity.ok().build();
@@ -112,7 +121,7 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
         return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
+                .map(msg -> String.format("<div class=\"msg\">%s</div>", msg.toString()))
                 .collect(Collectors.joining("\n")),
                 HttpStatus.OK);
     }
@@ -145,7 +154,8 @@ public class ChatController {
             usersOnline.remove(name);
 
             date = new Date();
-            String str = "<span style=\"color: green\">" + formatForDateNow.format(date) + "</span>:<span style=\"color: orange\">[" + name + "]</span> " + "Logged out!";
+            String str = "<span style=\"color: green\">" + formatForDateNow.format(date) +
+                    "</span>:<span style=\"color: orange\">[" + name + "]</span> " + "Logged out!";
             messages.add(str);
             historyFile.write(str + "\n");
             return ResponseEntity.ok().build();
@@ -167,7 +177,7 @@ public class ChatController {
             return ResponseEntity.badRequest().body("sign in,please!");
 
 
-        if ( ( System.nanoTime() - antiSpamArchive.get(name).getLastMessageTime() ) / 1000000000.0  < 4 ){
+        if ((System.nanoTime() - antiSpamArchive.get(name).getLastMessageTime()) / 1000000000.0  < 4) {
             if (antiSpamArchive.get(name).getNumberOfMessages() == 2)
                 return ResponseEntity.ok().build();
             else {
@@ -180,7 +190,7 @@ public class ChatController {
             antiSpamArchive.get(name).setNumberOfMessagesToZero();
         }
 
-        msg = msg.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        msg = escapeHtml(msg);
 
         StringBuilder sb = new StringBuilder();
         Matcher matcher = pattern.matcher(msg);
@@ -196,9 +206,14 @@ public class ChatController {
 
 
         date = new Date();
-        String str = "<span style=\"color: green\">" + formatForDateNow.format(date) + "</span>:<span style=\"color: orange\">[" + name + "]</span> " + sb.toString();
+        String str = "<span style=\"color: green\">" + formatForDateNow.format(date) +
+                "</span>:<span style=\"color: orange\">[" + name + "]</span> " + sb.toString();
         messages.add(str);
         historyFile.write(str + '\n');
         return ResponseEntity.ok().build();
+    }
+
+    private String escapeHtml(String msg) {
+        return msg.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 }
