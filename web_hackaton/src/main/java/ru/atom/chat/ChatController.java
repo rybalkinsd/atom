@@ -24,9 +24,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 import java.util.TimerTask;
 import java.util.Timer;
-import java.io.IOException;
-import java.io.*;
-import java.io.BufferedWriter;
 
 
 @Controller
@@ -34,7 +31,6 @@ import java.io.BufferedWriter;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    //private Queue<Triplet<String, Date, String>> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
     private Map<String, Integer> coutOfMassage = new ConcurrentHashMap<>();
     private History history = new History();

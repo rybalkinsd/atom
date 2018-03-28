@@ -33,8 +33,8 @@ class History {
                 .getResource("history.txt").getPath()))) {
             String s;
             while((s = bufferedReader.readLine()) != null)
-                s += "\n";
-                //messages.add(new Triplet<>("s", new Date(), " try \n"));
+                messages.add(new Triplet<>(s , new Date(), "\n"));
+            messages.add(new Triplet<>("admin", new Date(), "all history load \n"));
         } catch(IOException e){
             log.error(e.getLocalizedMessage());
         } catch(NullPointerException e) {
