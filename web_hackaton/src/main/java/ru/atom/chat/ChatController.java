@@ -162,12 +162,12 @@ public class ChatController {
             new Timer().schedule(
                     new TimerTask() {
                         public void run() {
-                            countOfMessages.forEach((s, e) -> e = 0);
+                            countOfMessages.put( name, 0);
                         }
                     },
                     10000);
             if (countOfMessages.get(name) > 3) {
-                messages.add(new Triplet<>("admin", new Date(), " plz dont spam:" + "[" + name + "] " + " you was banned for 10 sec\n"));
+                messages.add(new Triplet<>("admin", new Date(), " plz dont spam:" + "[" + name + "] " + " you were banned for 10 sec\n"));
                 return ResponseEntity.badRequest().body("User is banned\n 10 sec");
             }
 
