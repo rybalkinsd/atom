@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.HtmlUtils;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -81,12 +78,13 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
+
     private void toHistory(Triplet<String, Date, String> msg) {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        try (FileWriter fileWriter = new FileWriter(ChatController.class.getClassLoader()
-                .getResource("history.txt").getPath(),true)
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(ChatController.class
+                .getClassLoader()
+                .getResource("history.txt").getPath(),true))
         ) {
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(dateFormat.format(msg.getValue1()) + " "
                     + msg.getValue0() + ": " + msg.getValue2() + "\n");
         } catch (IOException e) {
