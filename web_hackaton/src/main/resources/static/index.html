@@ -1,41 +1,4 @@
 <head>
-<<<<<<< HEAD
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css"></head>
-<html>
-<body>
-<nav class="navbar navbar-default" style="padding-top: 15px;">
-<div class= "container-fluid">
-    <div class="nav navbar-nav">
-        <div class="form-inline">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <label class="mr-sm-2" for="name">Name: </label>
-        <input id="name"class="form-control" name="name" value="" style="font-size:medium" type="text">
-        <input class="btn btn-primary" value="Login" style="font-size:large" type="submit">
-    </form>
-        </div>
-    </div>
-</div>
-</nav>
-<div id="body" class="row">
-    <div id="history" class="chat col-md-9 form"></div>
-    <div id="users" class="chat col-md-3 form"></div>
-</body>
-<footer class="footer">
-<div class="footer navbar-fixed-bottom" style="padding-left: 10px;">
-    <div class="form-inline">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <label class="mr-sm-2" for="name">Message: </label>
-        <input id="msg" name="msg" class="msginput form-control" value="" style="font-size:medium; width:80%;" type="text">
-        <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
-    </form>
-    </div>
-</div>
-</footer>
-=======
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -52,30 +15,29 @@
     </form>
 </nav>
 <div class="container-fluid" style="padding-top: 15px;">
-<div class="row">
-    <div id="history" class="chat col-9 form"></div>
-    <div class="chat col-3 form chat">
-        <ul class="list-group list-group-flush" id="users">
-        </ul>
+    <div class="row">
+        <div id="history" class="chat col-9 form"></div>
+        <div class="chat col-3 form chat">
+            <ul class="list-group list-group-flush" id="users">
+            </ul>
+        </div>
     </div>
-</div>
 </div>
 <div class="footer bg-light" style="padding-left: 10px;">
     <div class="container-fluid" style="padding-top: 15px;">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <div class="form-row">
-            <div class = "col-10">
-                <input id="msg" class="msginput form-control" name="msg" style="font-size:medium" type="text" placeholder="message">
+        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+            <div class="form-row">
+                <div class = "col-10">
+                    <input id="msg" class="msginput form-control" name="msg" style="font-size:medium" type="text" placeholder="message">
+                </div>
+                <div class = "col-2">
+                    <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
+                </div>
             </div>
-            <div class = "col-2">
-                <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
-            </div>
-        </div>
-    </form>
+        </form>
     </div>
 </div>
 
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
 </body>
 </html>
 
@@ -83,15 +45,12 @@
 <script>
     var host = "localhost";
     var port = 8080;
-
-
     function loadHistory() {
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
             "method": "GET",
         }
-
         $.ajax(settings).done(function (response) {
             $("#history").html(response.replace(/\n/g, "<br />"))
             $("#history").scrollTop($("#history")[0].scrollHeight);
@@ -99,37 +58,28 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
     function loadUsers() {
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/users",
             "method": "GET",
         }
-
         $.ajax(settings).done(function (response) {
-<<<<<<< HEAD
-            $("#users").html(response.replace(/\n/g, "<br />"))
-=======
             $("#users").html(response.replace(/\n/g, ""))
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
             $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
     function say() {
         var msg = $('#msgform').serialize();
         var name = $('#nameform').serialize();
-
         var settings = {
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/say",
             "data": name + "&" + msg
         };
-
         $.ajax(settings).done(function (response) {
             $('#msgform').trigger("reset");
             loadHistory();
@@ -138,7 +88,6 @@
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
-
     function login() {
         var name = $('#nameform').serialize();
         var map;
@@ -156,7 +105,6 @@
                 "url": "http://" + host + ":" + port + "/chat/" + map,
                 "data": name
             };
-
             $.ajax(settings).done(function (response) {
                 loadHistory();
                 loadUsers();
@@ -167,26 +115,9 @@
                 alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
                 console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             });
-
-<<<<<<< HEAD
-        $.ajax(settings).done(function (response) {
-            loadHistory();
-            loadUsers()
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-=======
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
     }
-
     loadHistory();
     setInterval(loadHistory, 10000);
-<<<<<<< HEAD
-    loadUsers()
-    setInterval(loadUsers(),5000)
-=======
     loadUsers();
     setInterval(loadUsers,5000);
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
 </script>

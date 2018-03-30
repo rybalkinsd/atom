@@ -1,11 +1,11 @@
+:root {
+    background: #336666;
+}
+
 .chat {
-<<<<<<< HEAD
     background: #fafafa;
     font-family: "Courier New", Courier, monospace;
     margin: 0 0 1em;
-=======
-    font-family: "Courier New", Courier, monospace;
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
     overflow: auto;
     padding: 3rem 1.5rem;
 
@@ -15,26 +15,30 @@
     height: 85%;
 }
 
+.msginput {
+    width: 80%;
+}
+
 .sendbutton {
-<<<<<<< HEAD
     width: 15%;
 }
 
 #header {
     padding: 10px;
     padding-bottom: 0;
-=======
-    width: 100%;
->>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
 }
 
 #body {
     padding: 10px;
     padding-top: 0;
+    padding-bottom: 30px; /* Height of the footer */
 }
 
-.footer {
+#footer {
+    padding: 10px;
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 30px; /* Height of the footer */
+    background: #336666;
 }
