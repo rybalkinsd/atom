@@ -65,14 +65,8 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> logout(@RequestParam("name") String name) {
-        if (name.length() < 1) {
-            return ResponseEntity.badRequest().body("Too short name, sorry :(");
-        }
-        if (name.length() > 20) {
-            return ResponseEntity.badRequest().body("Too long name, sorry :(");
-        }
-        if (usersOnline.containsKey(name)) {
-            return ResponseEntity.badRequest().body("Already logged in:(");
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("This user isn't logged in");
         }
         usersOnline.remove(name, name);
         messages.add("[" + name + "] logged out");
