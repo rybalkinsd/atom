@@ -4,9 +4,9 @@ import java.lang.Math;
 
 public class Bar implements Collider {
 
-    Point bot;
+    private Point bot;
 
-    Point top;
+    private Point top;
 
     Bar(int x1, int y1, int x2, int y2) {
         if (Math.sqrt(x1 * x1 + y1 * y1) > Math.sqrt(x2 * x2 + y2 * y2)) {
