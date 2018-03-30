@@ -1,0 +1,30 @@
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '7.5'
+    configFile = new File('./config/checkstyle/checkstyle.xml')
+}
+
+configurations {
+    jar.archiveName = 'BullsAndCows.jar'
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'ru.atom.game.Main' }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
