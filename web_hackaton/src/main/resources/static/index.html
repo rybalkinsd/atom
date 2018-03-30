@@ -1,4 +1,5 @@
 <head>
+<<<<<<< HEAD
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -34,6 +35,47 @@
     </div>
 </div>
 </footer>
+=======
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"></head>
+<html>
+<body>
+<nav class="navbar bg-light">
+    <form class="form-inline mb-1" method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+        <div class="form-group mx-sm-3">
+            <input id="name" class="form-control" name="name" style="font-size:medium" type="text" placeholder="Name">
+        </div>
+        <input class="btn btn-primary" value="Login" style="font-size:large" type="submit" id="loginBtn">
+    </form>
+</nav>
+<div class="container-fluid" style="padding-top: 15px;">
+<div class="row">
+    <div id="history" class="chat col-9 form"></div>
+    <div class="chat col-3 form chat">
+        <ul class="list-group list-group-flush" id="users">
+        </ul>
+    </div>
+</div>
+</div>
+<div class="footer bg-light" style="padding-left: 10px;">
+    <div class="container-fluid" style="padding-top: 15px;">
+    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+        <div class="form-row">
+            <div class = "col-10">
+                <input id="msg" class="msginput form-control" name="msg" style="font-size:medium" type="text" placeholder="message">
+            </div>
+            <div class = "col-2">
+                <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+
+>>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
 </body>
 </html>
 
@@ -66,7 +108,11 @@
         }
 
         $.ajax(settings).done(function (response) {
+<<<<<<< HEAD
             $("#users").html(response.replace(/\n/g, "<br />"))
+=======
+            $("#users").html(response.replace(/\n/g, ""))
+>>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
             $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -95,14 +141,34 @@
 
     function login() {
         var name = $('#nameform').serialize();
+        var map;
+        var out;
+        if ($('#loginBtn').length === 0) {
+            map = "logout";
+            out = true;
+        } else {
+            map = "login"
+            out = false;
+        }
+            var settings = {
+                "method": "POST",
+                "crossDomain": true,
+                "url": "http://" + host + ":" + port + "/chat/" + map,
+                "data": name
+            };
 
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/login",
-            "data": name
-        };
+            $.ajax(settings).done(function (response) {
+                loadHistory();
+                loadUsers();
+                $('#name').prop('readonly', !out);
+                $(out ? '#logoutBtn' : '#loginBtn').attr('value', out ? 'Login' : 'Logout');
+                $(out ? '#logoutBtn' : '#loginBtn').attr('id', !out ? 'logoutBtn' : 'loginBtn');
+            }).fail(function (jqXHR, textStatus) {
+                alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+                console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            });
 
+<<<<<<< HEAD
         $.ajax(settings).done(function (response) {
             loadHistory();
             loadUsers()
@@ -110,10 +176,17 @@
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
+=======
+>>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
     }
 
     loadHistory();
     setInterval(loadHistory, 10000);
+<<<<<<< HEAD
     loadUsers()
     setInterval(loadUsers(),5000)
+=======
+    loadUsers();
+    setInterval(loadUsers,5000);
+>>>>>>> 3bcd48c1d56c974e23b66197c0f922b39502cbd9
 </script>
