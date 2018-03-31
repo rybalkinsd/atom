@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Created by sergey on 3/14/17.
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @WebMvcTest
 @Import(Config.class)

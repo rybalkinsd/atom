@@ -7,6 +7,7 @@ import ru.atom.mm.controller.ConnectionController;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class ConnectionControllerTest {
 
     @Test
@@ -23,7 +24,7 @@ public class ConnectionControllerTest {
 
     @Test
     public void list() throws Exception {
-        assertTrue(true);
+        assertTrue(false);
     }
 
 }
