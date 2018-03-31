@@ -2,8 +2,6 @@ plugins {
     id 'org.springframework.boot' version '2.0.0.RELEASE'
 }
 
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 
 sourceCompatibility = 1.8

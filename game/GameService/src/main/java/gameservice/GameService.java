@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("game")
 public class GameService {
 
-    private static long numOfGame = 0;
+    private static Long numOfGame = 0L;
     private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
 
     @RequestMapping(
@@ -23,7 +23,7 @@ public class GameService {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity create(@RequestParam("playerCount") int playerCount){
         gamesRep.put(++numOfGame,playerCount);
-        return ResponseEntity.ok(numOfGame);
+        return ResponseEntity.ok(numOfGame.toString());
     }
 
 }

@@ -2,16 +2,20 @@ package matchmaker;
 
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-@Component
+@Configuration
 public class MatchMakerConfig {
     @Bean
-    public BlockingQueue getBlockingQueue(){ return new LinkedBlockingQueue<>();}
+    public BlockingQueue<String> getBlockingQueue(){ return new LinkedBlockingQueue<String>(); }
 
     @Bean
     public OkHttpClient getClient(){ return new OkHttpClient(); }
+
+    @Bean
+    public ConcurrentHashMap<String,Long> getConcurrentHashMap(){ return new ConcurrentHashMap<String,Long>(); }
 }
