@@ -8,7 +8,7 @@ public class TestClient implements Runnable{
 
     private static String PROTOCOL = "http://";
     private static String HOST = "localhost";
-    private static String PORT = "8080";
+    private static String PORT = ":8080";
     private OkHttpClient client = new OkHttpClient();
 
     /*
@@ -17,8 +17,7 @@ public class TestClient implements Runnable{
 
     @Override
     public void run()  {
-        String name = StringGenerator.generateString();
-        System.out.println(name);
+        String name = StringGenerator.generateString();;
         Response response;
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
@@ -27,9 +26,9 @@ public class TestClient implements Runnable{
                 .build();
         try {
             response = client.newCall(request).execute();
-            Assert.assertTrue(response.code() == 200);
             System.out.println(name);
-            System.out.println(response.body().toString());
+            Assert.assertTrue(response.code() == 200);
+            System.out.println(response.body().string());
         } catch (Exception e){
 
         }

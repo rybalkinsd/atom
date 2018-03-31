@@ -38,36 +38,42 @@ public class MatchMakerDaemon implements Runnable {
 
         while (!Thread.interrupted()){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             } catch (Exception e){
                 return;
             }
             if (!playersQueue.isEmpty()){
-                System.out.println("I am here! - 2");
                 try {
                     players[index++] = playersQueue.poll(10_000, TimeUnit.SECONDS);
                 } catch (InterruptedException e){
                     return;
                 }
                 numberOfPlayers++;
-                System.out.println(Thread.currentThread().getId());
-                System.out.println(numberOfPlayers);
             }
             if(numberOfPlayers == MAX_NUMBER_OF_PLAYERS){
                 System.out.println("kek");
                 request = new Request.Builder()
                         .post(RequestBody.create(mediaType , "playerCount=" + numberOfPlayers))
-                        .url(PROTOCOL + HOST + PORT + "/game/create").build();
+                        .url(PROTOCOL + HOST + PORT + "/game/create")
+                        .build();
                 try {
                     response = client.newCall(request).execute();
                 } catch (IOException e){
                     return;
                 }
-                id = new Long(response.body().toString());
+                try {
+                    /*System.out.println(response.body().string());*/
+                    id = Long.parseLong(response.body().string());
+                    System.out.println(id);
+                } catch (Exception e){
+                    return;
+                }
                 index = 0;
                 numberOfPlayers = 0;
-                for(String names: players)
-                    playersId.put(names,id);
+                for(String names: players) {
+                    System.out.println("Player:" + names + " id:" + id);
+                    playersId.put(names, id);
+                }
             }
         }
     }
