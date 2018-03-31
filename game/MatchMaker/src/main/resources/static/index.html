@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bomberman</title>
+</head>
+<body style="background-color:#2F4F4F">
+<div id="box">
+    <form method="post" id="nameform" action="javascript:void(null);" onsubmit="join()">
+        <span style="color: #fff">Введите свой никнейм</span>
+        <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <button class="color blue button" type="submit">Играть</button>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var host = "localhost";
+    var port = 8080;
+
+    function join(){
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/matchmaker/join",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+plugins {
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+}
+
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.0.RELEASE'
+
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.10.0'
+
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc' , version: '2.0.0.RELEASE'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+group 'MatchMaker'
+
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'matchmaker.MatchMakerApp' }
+}

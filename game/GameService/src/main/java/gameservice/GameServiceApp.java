@@ -1,0 +1,11 @@
+package gameservice;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class GameServiceApp {
+    public static void main(String []args){
+        SpringApplication.run(GameServiceApp.class,args);
+    }
+}
