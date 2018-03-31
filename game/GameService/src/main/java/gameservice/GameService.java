@@ -16,6 +16,10 @@ public class GameService {
     private static Long numOfGame = 0L;
     private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
 
+    /*
+     *  curl -X POST -i http://localhost:8090/game/create -d "playerCount=test"
+     * */
+
     @RequestMapping(
             path = "create",
             method = RequestMethod.POST,

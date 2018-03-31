@@ -20,10 +20,12 @@ public class MatchMaker {
     @Autowired
     private ConcurrentHashMap<String,Long> playersId;
 
-    @Autowired
-    MatchMakerDaemon daemon;
 
     private static boolean enabled = false;
+
+    /*
+     *   curl -X POST -i http://localhost:8080/matchmaker/join -d "name=test"
+     * */
 
     @RequestMapping(
             path = "join",
@@ -31,12 +33,8 @@ public class MatchMaker {
             consumes = org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity join(@RequestParam("name") String name) throws InterruptedException{
         playersQueue.offer(name);
-        if (!enabled){
-            enabled = true;
-            daemon.run();
-        }
         while (!playersId.containsKey(name))
-            Thread.sleep(1000);
+            Thread.sleep(10);
         Long id = playersId.get(name);
         return ResponseEntity.ok(id);
     }

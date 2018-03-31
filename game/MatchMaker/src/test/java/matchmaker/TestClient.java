@@ -3,6 +3,8 @@ package matchmaker;
 import okhttp3.*;
 import org.junit.Assert;
 
+import java.io.IOException;
+
 
 public class TestClient implements Runnable{
 
@@ -17,7 +19,8 @@ public class TestClient implements Runnable{
 
     @Override
     public void run()  {
-        String name = StringGenerator.generateString();;
+        System.out.println("Began running!");
+        String name = StringGenerator.generateString();
         Response response;
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
@@ -26,11 +29,10 @@ public class TestClient implements Runnable{
                 .build();
         try {
             response = client.newCall(request).execute();
-            System.out.println(name);
             Assert.assertTrue(response.code() == 200);
             System.out.println(response.body().string());
-        } catch (Exception e){
-
+        } catch (IOException e){
+            System.out.println("I mam here!");
         }
     }
 }
