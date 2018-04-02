@@ -19,6 +19,8 @@ public class MatchMakerDaemon implements Runnable {
     private OkHttpClient client;
     @Autowired
     private ConcurrentHashMap<String,Long> playersId;
+    @Autowired
+    private MatchMakerRepository repository;
 
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
@@ -73,6 +75,8 @@ public class MatchMakerDaemon implements Runnable {
                 numberOfPlayers = 0;
                 for(String names: players)
                     playersId.put(names, id);
+
+                repository.saveGameSession(id, players);
             }
         }
     }

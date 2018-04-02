@@ -20,6 +20,9 @@ public class MatchMaker {
     @Autowired
     private ConcurrentHashMap<String,Long> playersId;
 
+    @Autowired
+    private MatchMakerRepository repository;
+
 
     private static boolean enabled = false;
 
@@ -33,6 +36,7 @@ public class MatchMaker {
             consumes = org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity join(@RequestParam("name") String name) throws InterruptedException{
         playersQueue.offer(name);
+        int rank = repository.getUserRank(name);
         while (!playersId.containsKey(name))
             Thread.sleep(10);
         Long id = playersId.get(name);
