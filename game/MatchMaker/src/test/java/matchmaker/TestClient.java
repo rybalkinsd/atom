@@ -19,8 +19,8 @@ public class TestClient implements Runnable{
 
     @Override
     public void run()  {
-        System.out.println("Began running!");
         String name = StringGenerator.generateString();
+        System.out.println(Thread.currentThread().getId() + " " + name);
         Response response;
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
@@ -32,7 +32,6 @@ public class TestClient implements Runnable{
             Assert.assertTrue(response.code() == 200);
             System.out.println(response.body().string());
         } catch (IOException e){
-            System.out.println("I mam here!");
         }
     }
 }
