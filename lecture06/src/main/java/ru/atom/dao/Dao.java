@@ -1,4 +1,4 @@
-package ru.atom.lecture06.server.dao;
+package ru.atom.dao;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ru.atom.lecture06.server;
+package ru.atom;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

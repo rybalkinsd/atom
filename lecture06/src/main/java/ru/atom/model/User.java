@@ -1,4 +1,4 @@
-package ru.atom.lecture06.server.model;
+package ru.atom.model;
 
 /**
  * Created by sergey on 3/25/17.
