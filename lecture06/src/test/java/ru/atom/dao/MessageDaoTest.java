@@ -1,11 +1,10 @@
-package ru.atom.lecture07.server.dao;
+package ru.atom.dao;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.atom.lecture06.server.dao.MessageDao;
-import ru.atom.lecture06.server.model.Message;
-import ru.atom.lecture06.server.model.User;
+import ru.atom.model.Message;
+import ru.atom.model.User;
 
 import java.util.Random;
 
