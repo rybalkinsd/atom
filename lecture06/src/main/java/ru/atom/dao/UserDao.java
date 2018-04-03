@@ -1,6 +1,5 @@
 package ru.atom.dao;
 
-import org.intellij.lang.annotations.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.atom.model.User;
@@ -19,18 +18,15 @@ import java.util.List;
 public class UserDao implements Dao<User> {
     private static final Logger log = LoggerFactory.getLogger(UserDao.class);
 
-    @Language("sql")
     private static final String SELECT_ALL_USERS =
             "select * " +
                     "from chat.user";
 
-    @Language("sql")
     private static final String SELECT_ALL_USERS_WHERE =
             "select * " +
                     "from chat.user " +
                     "where ";
 
-    @Language("sql")
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";
