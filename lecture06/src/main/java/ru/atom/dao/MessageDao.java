@@ -1,6 +1,5 @@
 package ru.atom.dao;
 
-import org.intellij.lang.annotations.Language;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.atom.model.Message;
@@ -20,7 +19,6 @@ import java.util.List;
 public class MessageDao implements Dao<Message> {
     private static final Logger log = LoggerFactory.getLogger(MessageDao.class);
 
-    @Language("sql")
     private static final String SELECT_ALL_MESSAGES =
             "select m.time, m.value, u.* " +
                     "from chat.message as m " +
@@ -28,7 +26,6 @@ public class MessageDao implements Dao<Message> {
                     "  on m.user = u.id " +
                     "order by m.time";
 
-    @Language("sql")
     private static final String INSERT_MESSAGE_TEMPLATE =
             "insert into chat.message (\"user\", time, value) " +
                     "values (%d, now(), '%s')";
