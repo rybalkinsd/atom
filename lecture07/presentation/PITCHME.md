@@ -5,13 +5,14 @@ lecture 7
 
 #HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
 #HSLIDE
 ### get ready
 ```bash
 > git fetch upstream
 > git checkout -b lecture07 upstream/lecture07
+> cd lecture07
 ```
 Refresh gradle project
 

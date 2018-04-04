@@ -73,6 +73,7 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
+
         List<User> online = chatService.getOnlineUsers();
         String responseBody = online.stream()
                 .map(User::getLogin)

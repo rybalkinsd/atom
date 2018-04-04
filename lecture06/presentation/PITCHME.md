@@ -6,7 +6,7 @@ lecture 6
 
 #HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
 
 #HSLIDE
@@ -14,6 +14,7 @@ https://atom.mail.ru/
 ```bash
 > git fetch upstream
 > git checkout -b lecture06 upstream/lecture06
+> cd lecture06
 
 Refresh gradle project
 ```
