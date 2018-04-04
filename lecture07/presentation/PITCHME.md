@@ -9,6 +9,7 @@ https://sphere.mail.ru/
 
 ---
 ### get ready
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture07 upstream/lecture07
