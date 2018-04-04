@@ -330,7 +330,7 @@ Implement chat server with persistence via **hibernate**
 ### Practice hints
 1. update schema
 ```bash
-> psql -h http://34.229.108.81/ -U atom0 -a -d atom0 -f lecture07/src/main/resources/sql/schema/chat-schema.sql
+> psql -h http://54.224.37.210/ -U atomN -a -d atomN -f lecture07/src/main/resources/sql/schema/chat-schema.sql
 ```
 1. Change user and password in **application.properties**
 1. Implement methods in **ChatService**, add new if necessary
