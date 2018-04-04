@@ -63,10 +63,6 @@ select * from pg_catalog.pg_tables;
 
 
 ---
-<img src="lecture06/presentation/assets/img/retrospective.png" alt="process" style="width: 500px;"/>
-
-
----
 ### Storage comparison
 **RAM** vs **File**  
 - Capacity
