@@ -11,6 +11,7 @@ https://sphere.mail.ru/
 
 ---
 ### get ready #1
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture06 upstream/lecture06
@@ -42,7 +43,7 @@ mac
 ---
 ### get ready #3
 ```bash
-> psql -h 54.224.37.210 -U atomN -d atomN
+> psql -h 54.224.37.210 -U atomN -d chatdb_atomN
 > enter your password
 >> psql (9.6.2, server 9.2.18)
 >> Type "help" for help.
@@ -51,16 +52,33 @@ mac
 select * from pg_catalog.pg_tables;
 ```
 
-`\q to exit :)`
+---
+### psql commands
+```bash
+#exit
+\q 
+#list all schemas
+\dn
+#list all tables in all schemas
+\dt *.
+#describe table
+\d+ tablename
+```
+
 
 ---
 ### Agenda
-1. Retrospective
 1. DB or not DB
 1. Database baseline
 1. SQL baseline
 1. Java + DB
 
+
+### Agenda
+1. **[DB or not DB]**
+1. Database baseline
+1. SQL baseline
+1. Java + DB
 
 ---
 ### Storage comparison
