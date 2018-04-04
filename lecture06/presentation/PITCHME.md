@@ -28,7 +28,7 @@ PostgreSQL client
 
 linux
 ```bash
-apt-get install postgresql-9.4
+apt-get install postgresql-9.5
 ```
 
 windows [[Download page]](https://www.postgresql.org/download/windows/)
