@@ -331,11 +331,17 @@ Implement chat server with persistence via **hibernate**
 ### Practice hints
 1. update schema
 ```bash
-> psql -h http://54.224.37.210/ -U atomN -a -d atomN -f lecture07/src/main/resources/sql/schema/chat-schema.sql
+> psql -h http://54.224.37.210/ -U atomN -a -d chatdb_atomN -f lecture07/src/main/resources/sql/schema/chat-schema.sql
 ```
 1. Change user and password in **application.properties**
 1. Implement methods in **ChatService**, add new if necessary
 1. Implement methods in **MessageDao** and **UserDao**, add new if necessary
+1. If running java9, add VM option:
+```bash
+--add-modules java.xml.bind
+```
+which means that we need to see **java.xml.bind** module, which is not part of java SE
+
 
 ---
 ### Hibernate
