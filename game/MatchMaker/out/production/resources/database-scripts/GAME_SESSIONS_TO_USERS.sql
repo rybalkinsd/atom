@@ -1,0 +1,1 @@
+CREATE TABLE game_sessions_to_users (game_session_id bigint, user_login varchar);

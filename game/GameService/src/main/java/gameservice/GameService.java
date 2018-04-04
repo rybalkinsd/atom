@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("game")
 public class GameService {
 
-    private static Long numOfGame = 0L;
+    private static volatile Long numOfGame = 0L;
     private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
 
     /*

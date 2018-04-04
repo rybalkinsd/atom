@@ -2,6 +2,7 @@ package matchmaker;
 
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Scope("prototype")
 public class MatchMakerDaemon implements Runnable {
 
-    @Autowired
+
     private BlockingQueue<String> playersQueue;
     @Autowired
     private OkHttpClient client;
@@ -27,10 +29,8 @@ public class MatchMakerDaemon implements Runnable {
     private static final String PORT = ":8090";
     private static int MAX_NUMBER_OF_PLAYERS = 4;
 
-    @PostConstruct
-    public void activation(){
-        Thread thread = new Thread(this);
-        thread.start();
+    public void setPlayersQueue(BlockingQueue<String> playersQueue) {
+        this.playersQueue = playersQueue;
     }
 
     @Override
@@ -75,7 +75,6 @@ public class MatchMakerDaemon implements Runnable {
                 numberOfPlayers = 0;
                 for(String names: players)
                     playersId.put(names, id);
-
                 repository.saveGameSession(id, players);
             }
         }

@@ -12,7 +12,8 @@ public class TestClient implements Runnable{
     private static String HOST = "localhost";
     private static String PORT = ":8080";
     private OkHttpClient client = new OkHttpClient();
-    
+    static volatile int count = 0;
+
     /*
     *   curl -X POST -i http://localhost:8080/matchmaker/join -d "name=test"
     * */
@@ -28,6 +29,7 @@ public class TestClient implements Runnable{
                 .url(PROTOCOL + HOST + PORT + "/matchmaker/join")
                 .build();
         try {
+            System.out.println("#" + ++count);
             response = client.newCall(request).execute();
             Assert.assertTrue(response.code() == 200);
             System.out.println(response.body().string());
