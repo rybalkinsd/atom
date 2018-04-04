@@ -17,7 +17,7 @@ class DbConnector {
 
     private static final String URL_TEMPLATE = "jdbc:postgresql://%s:%d/%s";
     private static final String URL;
-    private static final String HOST = "34.229.108.81";
+    private static final String HOST = "54.224.37.210";
     private static final int PORT = 5432;
     private static final String DB_NAME = "atomN";
     private static final String USER = "atomN";

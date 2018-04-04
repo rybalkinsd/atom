@@ -42,7 +42,7 @@ mac
 ---
 ### get ready #3
 ```bash
-> psql -h 34.229.108.81 -U <your user> -d atomN
+> psql -h 54.224.37.210 -U atomN -d atomN
 > enter your password
 >> psql (9.6.2, server 9.2.18)
 >> Type "help" for help.
