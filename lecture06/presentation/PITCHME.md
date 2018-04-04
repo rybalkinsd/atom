@@ -73,7 +73,7 @@ select * from pg_catalog.pg_tables;
 1. SQL baseline
 1. Java + DB
 
-
+---
 ### Agenda
 1. **[DB or not DB]**
 1. Database baseline
@@ -112,11 +112,10 @@ Within
 
 
 ---
-### DB types
-- SQL
-- NoSQL
-- In-memory
-- embedded
+### Many different types of DBs
+- SQL/[NoSQL](https://en.wikipedia.org/wiki/NoSQL)
+- In-memory/disk storage
+- stand-alone/embedded
 
 ---
 ### Transaction
@@ -140,7 +139,7 @@ Transaction is a unit of work
 ```postgresql
 create table user (
   id    serial             not null,
-  login varchar(20) unique not null,
+  login varchar(20) unique not null
 );
 ```
 **There is an error in create query**
@@ -265,7 +264,7 @@ values ('admin', now(), 'super message')
 
 
 ---
-### Transation
+### Transaction
 ```postgresql
 begin;
 {statements}
