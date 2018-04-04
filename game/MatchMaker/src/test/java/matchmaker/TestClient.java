@@ -1,8 +1,6 @@
 package matchmaker;
 
 import okhttp3.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -14,7 +12,7 @@ public class TestClient implements Runnable{
     private static String HOST = "localhost";
     private static String PORT = ":8080";
     private OkHttpClient client = new OkHttpClient();
-
+    
     /*
     *   curl -X POST -i http://localhost:8080/matchmaker/join -d "name=test"
     * */
@@ -32,8 +30,7 @@ public class TestClient implements Runnable{
         try {
             response = client.newCall(request).execute();
             Assert.assertTrue(response.code() == 200);
-            Document document = Jsoup.parse(response.body().string());
-            System.out.println(document.getElementById("id").text());
+            System.out.println(response.body().string());
         } catch (IOException e){
         }
     }
