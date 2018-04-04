@@ -12,6 +12,8 @@ repositories {
 
 dependencies {
 
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.0.RELEASE'

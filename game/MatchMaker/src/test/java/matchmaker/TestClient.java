@@ -1,6 +1,8 @@
 package matchmaker;
 
 import okhttp3.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -30,7 +32,8 @@ public class TestClient implements Runnable{
         try {
             response = client.newCall(request).execute();
             Assert.assertTrue(response.code() == 200);
-            System.out.println(response.body().string());
+            Document document = Jsoup.parse(response.body().string());
+            System.out.println(document.getElementById("id").text());
         } catch (IOException e){
         }
     }

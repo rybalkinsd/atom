@@ -44,3 +44,11 @@
 .button.blue:active{
   background: #269CE9;
 }
+
+#loading {
+    visibility: hidden;
+    display: flex;
+    justify-content: center; /*Центрирование по горизонтали*/
+    align-items: center;
+    padding: 10px;
+}
