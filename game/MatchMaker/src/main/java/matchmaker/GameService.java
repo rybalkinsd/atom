@@ -1,7 +1,8 @@
-package gameservice;
+package matchmaker;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
+@Controller
 @RequestMapping("game")
 public class GameService {
 
@@ -17,7 +18,7 @@ public class GameService {
     private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
 
     /*
-     *  curl -X POST -i http://localhost:8090/game/create -d "playerCount=test"
+     *  curl -X POST -i http://localhost:8080/game/create -d "playerCount=4"
      * */
 
     @RequestMapping(

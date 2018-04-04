@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.swing.plaf.TableHeaderUI;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +27,7 @@ public class MatchMakerDaemon implements Runnable {
 
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
-    private static final String PORT = ":8090";
+    private static final String PORT = ":8080";
     private static int MAX_NUMBER_OF_PLAYERS = 4;
 
     public void setPlayersQueue(BlockingQueue<String> playersQueue) {
@@ -48,6 +49,7 @@ public class MatchMakerDaemon implements Runnable {
         while (!Thread.interrupted()){
 
             if (!playersQueue.isEmpty()){
+                System.out.println("YET ANPTHER USER,QID:" + Thread.currentThread().getName());
                 try {
                     players[index++] = playersQueue.poll(10_000, TimeUnit.SECONDS);
                 } catch (InterruptedException e){

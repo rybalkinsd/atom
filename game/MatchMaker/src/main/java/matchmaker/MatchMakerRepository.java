@@ -52,4 +52,5 @@ public class MatchMakerRepository {
         Object[] param = {login};
         jdbcTemplate.update("INSERT INTO users (login) VALUES (?)", param);
     }
+
 }
