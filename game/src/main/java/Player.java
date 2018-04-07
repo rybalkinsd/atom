@@ -1,4 +1,3 @@
-
 public class Player {
     private final long rating;
     private final String name;

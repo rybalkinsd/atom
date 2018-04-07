@@ -50,7 +50,11 @@ public class MatchMaker {
         /*need to implement collection or database playersRepository of all registered players.
             LeaderBoards and stats also should be there.
          */
-        Player currentPlayer = playersRepository.getPlayer(name);
+        try {
+            Player currentPlayer = playersRepository.get(name);
+        } catch (NoSuchFieldException e) {
+            log.error(e.getMessage());
+        }
         int ratingRange = 30;
         GameSession result = null;
         while (((result = gameSessionsRepository.get(
@@ -65,8 +69,8 @@ public class MatchMaker {
             GameService.create(result.getID());//need some implemetation
         }
         GameService.connect(currentPlayer, result.getID());//needs implemetation
-        if (result.numberOfConnectedPlayers() == maxPlayersInSession)
-            GameService.start(currentID);//need some implementation
+        if (result.numberOfConnectedPlayers() == result.getMaxPlayers())
+            GameService.start(result.getID);//need some implementation
         return currentID;
     }
 }

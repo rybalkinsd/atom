@@ -22,12 +22,13 @@ public class GameSession {
     public int getAverageRating() {
         return averageRating;
     }
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     public void add(Player player) {
-        if (numberOfConnectedPlayers() < maxPlayers)
             playersInSession.add(player);
             averageRating = getAverageRating();
-            else
     }
 
     public int numberOfConnectedPlayers() {
