@@ -1,12 +1,13 @@
 
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +23,15 @@ import java.util.concurrent.TimeUnit;
 
 import static com.sun.security.ntlm.NTLMException.PROTOCOL;
 
-@Service
+@Controller
 @RequestMapping("/matchmaker")
 public class MatchMaker {
+    private static final OkHttpClient client = new OkHttpClient();
+    private static final String PROTOCOL = "http://";
+    private static final String HOST = "localhost";
+    private static final String PORT = ":8080";
+
     private static final int maxPlayersInSession = 4;
-    private long currentID = 0;
 
     /* need to add logging to database*/
     private static final Logger log = LoggerFactory.getLogger(MatchMaker.class);
@@ -43,17 +48,19 @@ public class MatchMaker {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public long join(@RequestParam("name") String name) {
+    public ResponseEntity<String> join(@RequestParam("name") String name) {
         /*Maybe instead of calling functions of Game Service we need to create HTTP requests.
             Looks strange to make requests from server to itself.
          */
         /*need to implement collection or database playersRepository of all registered players.
             LeaderBoards and stats also should be there.
          */
+        Player currentPlayer;
         try {
-            Player currentPlayer = playersRepository.get(name);
+            currentPlayer = playersRepository.get(name);
         } catch (NoSuchFieldException e) {
             log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         int ratingRange = 30;
         GameSession result = null;
@@ -64,8 +71,6 @@ public class MatchMaker {
             ratingRange += 10;
         }
         if (result == null) {
-            currentID++;
-            gameSessionsRepository.put(result = new GameSession(currentID, maxPlayersInSession));
             GameService.create(result.getID());//need some implemetation
         }
         GameService.connect(currentPlayer, result.getID());//needs implemetation
@@ -73,4 +78,6 @@ public class MatchMaker {
             GameService.start(result.getID);//need some implementation
         return currentID;
     }
+
+
 }

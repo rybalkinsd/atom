@@ -2,24 +2,26 @@ import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.Null;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Repository
 public class GameSessionsRepository {
-    private ArrayList<GameSession> gameSessionsList = new ArrayList<>();
+    private BlockingQueue<GameSession> gameSessionsList = new LinkedBlockingQueue<>();
 
     public void put(GameSession gameSession) {
-        gameSessionsList.add(gameSession);
+        gameSessionsList.offer(gameSession);
     }
 
     public void remove(GameSession gameSession) {
         gameSessionsList.remove(gameSession);
     }
 
-    public GameSession get(long ID) throws NullPointerException {
+    public GameSession get(long ID) throws NoSuchFieldException{
         for (GameSession game: gameSessionsList)
             if(game.getID() == ID)
                 return game;
-        throw new NullPointerException("Game session ID: " + ID + " not found");
+        throw new NoSuchFieldException("Game session ID: " + ID + " not found");
     }
 
     public GameSession get(long minRating, long maxRating) {
