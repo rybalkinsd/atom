@@ -1,8 +1,8 @@
+package mm;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.Null;
-import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
