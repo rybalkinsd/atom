@@ -33,10 +33,10 @@ public class MatchMaker {
     private static final Logger log = LoggerFactory.getLogger(MatchMaker.class);
 
     @Autowired
-    private GameSessionsRepository gameSessionsRepository = new GameSessionsRepository();
+    private GameSessionsRepository gameSessionsRepository = GameSessionsRepository.createGameSessionsRepository();
 
     @Autowired
-    private PlayersRepository playersRepository = new PlayersRepository();
+    private PlayersRepository playersRepository = PlayersRepository.createPlayersRepository();
 
     /* After pressing 'START' button Matchmaker puts player in a game session via /matchmaker/join*/
     @RequestMapping(
@@ -45,12 +45,7 @@ public class MatchMaker {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> join(@RequestParam("name") String name) {
-        /*Maybe instead of calling functions of Game Service we need to create HTTP requests.
-            Looks strange to make requests from server to itself.
-         */
-        /*need to implement collection or database playersRepository of all registered players.
-            LeaderBoards and stats also should be there.
-         */
+        log.info("Join request. name={}",name);
         try {
             Player currentPlayer;
             try {
@@ -67,12 +62,20 @@ public class MatchMaker {
                     && (ratingRange < 200)) {
                 ratingRange += 10;
             }
+            /*Не создается сессия номер 2(всегда игроки добавляются в первую).Пофиксил это
+            удалением игры из репозитория. Мне не нравится это решение т.к. это планировалось как база данных всех игр,
+            а не как очередь незаполненных.Вопрос нормального перескока на следующий ID открыт. Скорее всего, надо трогать
+            GameService.
+             */
             if (result == null) {
-                result = new GameSession(create(),maxPlayersInSession);//need some implemetation
+                result = new GameSession(create(),maxPlayersInSession);
             }
-            connect(result.getID(),currentPlayer.getName());//needs implemetation
-            if (result.numberOfConnectedPlayers() == result.getMaxPlayers())
-                start(result.getID());//need some implementation
+            result.add(currentPlayer);
+            if (result.isFull()) {
+                start(result.getID());
+                gameSessionsRepository.remove(result);
+            }
+            log.info(gameSessionsRepository.toString());
             return new ResponseEntity<String>(String.valueOf(result.getID()),HttpStatus.OK);
         } catch (IOException e) {
             log.error(e.getMessage());

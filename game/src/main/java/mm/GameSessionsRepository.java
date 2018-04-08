@@ -11,7 +11,7 @@ public class GameSessionsRepository {
     private BlockingQueue<GameSession> gameSessionsList = new LinkedBlockingQueue<>();
 
     @Bean
-    public GameSessionsRepository createGameSessionsRepository() {
+    public static GameSessionsRepository createGameSessionsRepository() {
         return new GameSessionsRepository();
     }
 
@@ -36,5 +36,13 @@ public class GameSessionsRepository {
                 return game;
         }
         return null; //no such game
+    }
+
+    public String toString() {
+        String result= "";
+        for (GameSession g:gameSessionsList) {
+            result = result.concat(g.toString() + '\n');
+        }
+        return result;
     }
 }

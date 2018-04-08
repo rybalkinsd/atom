@@ -13,6 +13,7 @@ public class GameSession {
     private ArrayList<Player> playersInSession= new ArrayList<Player>();
 
     public GameSession(long ID,int maxPlayers) {
+        this.averageRating = 1000;
         this.ID = ID;
         this.maxPlayers = maxPlayers;
     }
@@ -24,9 +25,8 @@ public class GameSession {
     public int getAverageRating() {
         return averageRating;
     }
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
+    public boolean isFull() { return (playersInSession.size() == maxPlayers);  }
+
 
     public void add(Player player) {
             playersInSession.add(player);
@@ -42,6 +42,14 @@ public class GameSession {
         for(Player p: playersInSession)
             sum += p.getRating();
         return sum / playersInSession.size();
+    }
+
+    public String toString() {
+        String result = "Session " + ID + ": ";
+        for (Player p: playersInSession) {
+            result = result.concat(p.getName() + ", ");
+        }
+        return result;
     }
 
 }
