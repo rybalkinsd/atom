@@ -1,3 +1,4 @@
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.Null;
@@ -8,6 +9,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Repository
 public class GameSessionsRepository {
     private BlockingQueue<GameSession> gameSessionsList = new LinkedBlockingQueue<>();
+
+    @Bean
+    public GameSessionsRepository createGameSessionsRepository() {
+        return new GameSessionsRepository();
+    }
 
     public void put(GameSession gameSession) {
         gameSessionsList.offer(gameSession);

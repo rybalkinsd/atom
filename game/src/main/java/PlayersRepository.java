@@ -1,7 +1,16 @@
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 
+@Repository
 public class PlayersRepository {
     private ArrayList<Player> playersRegistered = new ArrayList<>();
+
+    @Bean
+    public PlayersRepository createPlayersRepository() {
+        return new PlayersRepository();
+    }
 
     public void add(Player player) {
         playersRegistered.add(player);

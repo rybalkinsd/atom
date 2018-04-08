@@ -51,7 +51,7 @@ public class GameService {
             path = "start",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<String> start(@RequestParam("gameID") long gameID ) {
+    public ResponseEntity<String> start(@RequestParam("gameId") long gameID ) {
         GameSession result;
         try {
             result = gameSessionsRepository.get(gameID);
@@ -64,8 +64,11 @@ public class GameService {
     }
 
     @RequestMapping(
-            path = "connect")
-    public ResponseEntity<String> connect(@RequestParam("gameID") long gameID,
+            path = "connect",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    /* For now we use HTTP. Replace with WebSocket later */
+    public ResponseEntity<String> connect(@RequestParam("gameId") long gameID,
                                           @RequestParam("name") String name) {
         GameSession result;
         try {
