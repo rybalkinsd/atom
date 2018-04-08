@@ -10,7 +10,7 @@ public class PlayersRepository {
     private ArrayList<Player> playersRegistered = new ArrayList<>();
 
     @Bean
-    public PlayersRepository createPlayersRepository() {
+    public static PlayersRepository createPlayersRepository() {
         return new PlayersRepository();
     }
 
@@ -23,7 +23,7 @@ public class PlayersRepository {
             if (player.getName().equals(name))
                 return player;
         }
-        throw new NoSuchFieldException("Player " + name + "not registered");
+        throw new NoSuchFieldException("Player " + name + " not registered");
     }
 
 
