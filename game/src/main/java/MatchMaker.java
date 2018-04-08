@@ -20,13 +20,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 
-import javax.xml.ws.ServiceMode;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import static com.sun.security.ntlm.NTLMException.PROTOCOL;
 
 @Controller
 @RequestMapping("/matchmaker")
@@ -106,7 +103,7 @@ public class MatchMaker {
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType,
                         "gameId=" + GameID + "&name=" + name))
-                .url(PROTOCOL + HOST + PORT + "/game/create")
+                .url(PROTOCOL + HOST + PORT + "/game/connect")
                 .build();
         client.newCall(request).execute();
     }
