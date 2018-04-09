@@ -47,7 +47,7 @@ public class MatchMakerDaemon implements Runnable {
         Response response;
 
         String[] players = new String[MAX_NUMBER_OF_PLAYERS];
-
+        System.out.println(Thread.currentThread().getName() + " Started!");
         while (!Thread.interrupted()){
 
             if (!playersQueue.isEmpty()){

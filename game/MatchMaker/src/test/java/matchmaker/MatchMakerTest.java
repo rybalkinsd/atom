@@ -5,16 +5,19 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@EnableAutoConfiguration
+@ComponentScan
 public class MatchMakerTest {
 
     @Autowired
@@ -24,7 +27,7 @@ public class MatchMakerTest {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private ConcurrentHashMap<Long,Integer> returnedRequests;
+    private Hashtable<Long,Integer> returnedRequests;
 
     private static final int NUMBER_OF_REQESTS = 16;
 
@@ -41,12 +44,13 @@ public class MatchMakerTest {
             list.add(thread);
             thread.start();
         }
+        int ctr2 = 0;
         for (Thread thread:list)
             thread.join();
-        int ctr = 0;
         for (Long key: returnedRequests.keySet())
-            ctr += returnedRequests.get(key);
-        Assert.assertTrue(ctr == NUMBER_OF_REQESTS);
+            ctr2 += returnedRequests.get(key);
+        System.out.println(ctr2);
+        Assert.assertTrue(ctr2 == NUMBER_OF_REQESTS);
     }
 
     @Test

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -17,7 +18,7 @@ public class TestClient implements Runnable{
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private ConcurrentHashMap<Long,Integer> returnedRequests;
+    private Hashtable<Long,Integer> returnedRequests;
 
     private   int rank ;
     private static String PROTOCOL = "http://";
@@ -56,6 +57,7 @@ public class TestClient implements Runnable{
             else
                 returnedRequests.put(id,returnedRequests.get(id) + 1);
         } catch (IOException e){
+            e.printStackTrace();
         }
     }
 }

@@ -1,1 +1,0 @@
-CREATE TABLE game_sessions (id bigint, start_date_time timestamp);
