@@ -1,21 +1,31 @@
 package matchmaker;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 @RequestMapping("game")
 public class GameService {
 
+    @Autowired
+    MatchMakerRepository repository;
+
     private static volatile Long numOfGame = 0L;
     private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
+
+    @PostConstruct
+    private void init(){
+        numOfGame = repository.getLastSessionId() + 1;
+    }
+
 
     /*
      *  curl -X POST -i http://localhost:8080/game/create -d "playerCount=4"

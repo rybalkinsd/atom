@@ -30,13 +30,15 @@ public class MatchMakerDaemon implements Runnable {
     private static final String PORT = ":8080";
     private static int MAX_NUMBER_OF_PLAYERS = 4;
 
+    private int numberOfPlayers;
+
     public void setPlayersQueue(BlockingQueue<String> playersQueue) {
         this.playersQueue = playersQueue;
     }
 
     @Override
     public void run() {
-        int numberOfPlayers = 0;
+        numberOfPlayers = 0;
         int index = 0;
         Long id;
 
@@ -49,7 +51,6 @@ public class MatchMakerDaemon implements Runnable {
         while (!Thread.interrupted()){
 
             if (!playersQueue.isEmpty()){
-                System.out.println("YET ANPTHER USER,QID:" + Thread.currentThread().getName());
                 try {
                     players[index++] = playersQueue.poll(10_000, TimeUnit.SECONDS);
                 } catch (InterruptedException e){
@@ -80,5 +81,9 @@ public class MatchMakerDaemon implements Runnable {
                 repository.saveGameSession(id, players);
             }
         }
+    }
+
+    int getNumberOfWaitingPlayers() {
+        return numberOfPlayers + playersQueue.size();
     }
 }
