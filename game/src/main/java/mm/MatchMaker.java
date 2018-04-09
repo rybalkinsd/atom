@@ -68,7 +68,12 @@ public class MatchMaker {
             GameService.
              */
             if (result == null) {
-                result = new GameSession(create(),maxPlayersInSession);
+                try {
+                    result = gameSessionsRepository.get(create());
+                } catch (NoSuchFieldException e) {
+                    log.error(e.getMessage());
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
             }
             result.add(currentPlayer);
             if (result.isFull()) {
