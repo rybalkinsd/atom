@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>Bomberman Monitoring</title>
+</head>
+<body style="background-color:#2F4F4F;color:#FFFFFF">
+<h1>Мониторинг</h1>
+<div>
+    <ul>
+        <li onclick="getData('queue')">Состояние очередей</li>
+        <li onclick="getData('players')">Список игроков</li>
+        <li onclick="getData('sessions')">Список сессий</li>
+    </ul>
+</div>
+<div id="wrapper">
+</div>
+<div id="loading">
+    <img src="load.gif" alt="Ваш запрос выполняется" height="32" width="32">
+</div>
+<a href="/">На главную</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var host = "localhost";
+    var port = 8080;
+    var loading = document.getElementById("loading");
+
+    function getData(path){
+
+        loading.style.visibility = "visible";
+
+        var settings = {
+            "method": "GET",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/monitoring/" + path
+        };
+
+        $.ajax(settings).done(function (response) {
+            loading.style.visibility = "hidden";
+            $('#wrapper').html(response);
+        }).fail(function (jqXHR, textStatus) {
+            loading.style.visibility = "hidden";
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+</script>
+</body>
+</html>

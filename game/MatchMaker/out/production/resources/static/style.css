@@ -1,0 +1,64 @@
+#box {
+        display: flex;
+        justify-content: center; /*Центрирование по горизонтали*/
+        align-items: center;
+}
+
+#nameform {
+    margin-top : 20%;
+    height:150px;
+    padding : 10px;
+    padding-top: 15px;
+    text-align: center;
+    width:300px;
+    background-color: #483D8B;
+    border-radius : 25px;
+    border-color: #269CE9;
+}
+
+#name {
+    display : block;
+    margin:0 auto;
+    margin-top: 20px;
+}
+
+.button.color{
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  background-image: linear-gradient(top, rgba(255,255,255,.3),
+  					 rgba(255,255,255,0)),
+                    url(data:image/png;base64,iVBORw0KGg[...]QmCC);
+}
+
+
+li {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+li:hover {
+  color: #fff8ba;
+}
+
+/* */
+
+.button.blue{
+  margin-top:30px;
+  background-color: #1272b1;
+}
+
+.button.blue:hover{
+  background-color: #70B9E8;
+}
+
+.button.blue:active{
+  background: #269CE9;
+}
+
+#loading {
+    visibility: hidden;
+    display: flex;
+    justify-content: center; /*Центрирование по горизонтали*/
+    align-items: center;
+    padding: 10px;
+}

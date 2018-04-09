@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>Bomberman</title>
+</head>
+<body style="background-color:#2F4F4F">
+<div class="wrapper">
+    <div id="box">
+        <form method="post" id="nameform" action="javascript:void(null);" onsubmit="join()">
+            <span style="color: #fff">Введите свой никнейм</span>
+            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <button class="color blue button" type="submit">Играть</button>
+        </form>
+    </div>
+</div>
+<div id="loading">
+    <img src="load.gif" alt="Идет поиск игроков" height="32" width="32">
+</div>
+<a href="monitoring">Мониторинг</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var host = "localhost";
+    var port = 8080;
+
+    var innerHtml = '<div id="box"><div id="nameform"><span style="color: #fff">Номер вашей игровой сессии:</span>'+
+    '<span id="id" style="color:#00FF00"></span>' +
+    '<button class="color blue button" type="submit" onsubmit="">подключиться</button></div></div>';
+
+    function join(){
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/matchmaker/join",
+            "data": name
+        };
+
+        var loading = document.getElementById("loading");
+        loading.style.visibility = "visible";
+
+        $.ajax(settings).done(function (response) {
+            loading.style.visibility = "hidden";
+            $('.wrapper').html(innerHtml);
+            $('#id').html(response);
+        }).fail(function (jqXHR, textStatus) {
+            loading.style.visibility = "hidden";
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
+    }
+</script>
+</body>
+</html>
