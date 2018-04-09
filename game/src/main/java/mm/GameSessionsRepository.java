@@ -1,8 +1,12 @@
 package mm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -38,6 +42,16 @@ public class GameSessionsRepository {
         return null; //no such game
     }
 
+    public ArrayList <GameSession> returnIdleSessions() {
+        ArrayList<GameSession> idleGames = new ArrayList<>();
+        Date now = new Date();
+        for (GameSession game: gameSessionsList) {
+            if ((now.getTime() - game.getTimeOfLastAction().getTime()) > 30000) {
+                idleGames.add(game);
+            }
+        }
+        return idleGames;
+    }
     public String toString() {
         String result = "";
         for (GameSession g:gameSessionsList) {

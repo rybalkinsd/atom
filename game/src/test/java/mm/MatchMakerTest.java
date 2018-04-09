@@ -69,5 +69,25 @@ public class MatchMakerTest {
         }
     }
 
+    @Test
+    public void delayedLaunchTest() throws IOException {
+        for (int i = 0; i < 3; i++) {
+            okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/x-www-form-urlencoded");
+            Request request = new Request.Builder()
+                    .post(RequestBody.create(mediaType, "name=" + names[i]))
+                    .url(PROTOCOL + HOST + PORT + "/matchmaker/join")
+                    .build();
+            Response response = client.newCall(request).execute();
+            log.info("Matchmaker responded with body: " + response.body().string());
+            Assert.assertEquals(200, response.code());
+        }
+        log.info("Waiting 30 seconds");
+        try {
+            Thread.currentThread().sleep(35000);
+            log.info("Check server logs");
+        } catch (InterruptedException e) {
+            log.info(e.getMessage());
+        }
+    }
 
 }

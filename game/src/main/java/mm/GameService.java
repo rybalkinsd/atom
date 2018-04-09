@@ -46,6 +46,7 @@ public class GameService {
         GameSession result;
         try {
             result = gameSessionsRepository.get(gameId);
+            gameSessionsRepository.remove(result);//questionable
         } catch (NoSuchFieldException e) {
             log.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -1,6 +1,8 @@
 package mm;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GameSession {
     private long id;
@@ -8,6 +10,8 @@ public class GameSession {
     private int maxPlayers;
 
     private int averageRating;
+
+    private Date timeOfLastAction = new Date();
 
 
     private ArrayList<Player> playersInSession = new ArrayList<Player>();
@@ -26,6 +30,8 @@ public class GameSession {
         return averageRating;
     }
 
+    public Date getTimeOfLastAction() { return timeOfLastAction; }
+
     public boolean isFull() {
         return (playersInSession.size() == maxPlayers);
     }
@@ -34,6 +40,7 @@ public class GameSession {
     public void add(Player player) {
         playersInSession.add(player);
         averageRating = calculateAverageRating();
+        timeOfLastAction.setTime(timeOfLastAction.getTime());
     }
 
     public int numberOfConnectedPlayers() {

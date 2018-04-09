@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
+@EnableScheduling
 public class MatchMakerApp {
     public static void main(String[] args) {
         SpringApplication.run(MatchMakerApp.class, args);
