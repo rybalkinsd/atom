@@ -62,11 +62,6 @@ public class MatchMaker {
                     && (ratingRange < 200)) {
                 ratingRange += 10;
             }
-            /*Не создается сессия номер 2(всегда игроки добавляются в первую).Пофиксил это
-            удалением игры из репозитория. Мне не нравится это решение т.к. это планировалось как база данных всех игр,
-            а не как очередь незаполненных.Вопрос нормального перескока на следующий ID открыт. Скорее всего, надо трогать
-            GameService.
-             */
             if (result == null) {
                 try {
                     result = gameSessionsRepository.get(create());
@@ -77,11 +72,11 @@ public class MatchMaker {
             }
             result.add(currentPlayer);
             if (result.isFull()) {
-                start(result.getID());
+                start(result.getId());
                 gameSessionsRepository.remove(result);
             }
             log.info(gameSessionsRepository.toString());
-            return new ResponseEntity<String>(String.valueOf(result.getID()),HttpStatus.OK);
+            return new ResponseEntity<String>(String.valueOf(result.getId()),HttpStatus.OK);
         } catch (IOException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>("Unable to find a game",HttpStatus.TOO_MANY_REQUESTS);
@@ -90,7 +85,7 @@ public class MatchMaker {
 
 
     /*returns ID of a created game*/
-    private long create() throws IOException{
+    private long create() throws IOException {
         okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, "playerCount=" + maxPlayersInSession))
@@ -100,20 +95,20 @@ public class MatchMaker {
         return  Long.parseLong(response.body().string());
     }
 
-    private void connect(long GameID,String name) throws IOException{
+    private void connect(long gameId,String name) throws IOException {
         okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType,
-                        "gameId=" + GameID + "&name=" + name))
+                        "gameId=" + gameId + "&name=" + name))
                 .url(PROTOCOL + HOST + PORT + "/game/connect")
                 .build();
         client.newCall(request).execute();
     }
 
-    private void start(long GameID) throws IOException{
+    private void start(long gameId) throws IOException {
         okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
-                .post(RequestBody.create(mediaType, "gameId=" + GameID))
+                .post(RequestBody.create(mediaType, "gameId=" + gameId))
                 .url(PROTOCOL + HOST + PORT + "/game/start")
                 .build();
         client.newCall(request).execute();

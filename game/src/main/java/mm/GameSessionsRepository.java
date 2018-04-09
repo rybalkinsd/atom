@@ -23,11 +23,11 @@ public class GameSessionsRepository {
         gameSessionsList.remove(gameSession);
     }
 
-    public GameSession get(long ID) throws NoSuchFieldException{
+    public GameSession get(long id) throws NoSuchFieldException {
         for (GameSession game: gameSessionsList)
-            if(game.getID() == ID)
+            if (game.getId() == id)
                 return game;
-        throw new NoSuchFieldException("Game session ID: " + ID + " not found");
+        throw new NoSuchFieldException("Game session ID: " + id + " not found");
     }
 
     public GameSession get(long minRating, long maxRating) {
@@ -39,7 +39,7 @@ public class GameSessionsRepository {
     }
 
     public String toString() {
-        String result= "";
+        String result = "";
         for (GameSession g:gameSessionsList) {
             result = result.concat(g.toString() + '\n');
         }

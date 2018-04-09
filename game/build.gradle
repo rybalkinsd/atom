@@ -27,7 +27,7 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }
 
-springBoot {
+/*springBoot {
     mainClass = "mm.MatchMakerApp"
 }
 sourceSets {
@@ -41,7 +41,7 @@ sourceSets {
             srcDirs = ['src/test/java']
         }
     }
-}
+}*/
 checkstyle {
     ignoreFailures = false
     toolVersion = '7.5'

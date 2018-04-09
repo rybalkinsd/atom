@@ -18,7 +18,7 @@ public class GameService {
 
     private static final Logger log = LoggerFactory.getLogger(GameService.class);
 
-    private long currentGameSessionID = 0;
+    private long currentGameSessionId = 0;
 
     @Autowired
     private GameSessionsRepository gameSessionsRepository;
@@ -32,26 +32,26 @@ public class GameService {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> create(@RequestParam("playerCount") int playerCount) {
         GameSession result;
-        currentGameSessionID++;
-        gameSessionsRepository.put(result = new GameSession(currentGameSessionID,playerCount));
-        log.info("Game session ID{} created", result.getID());
-        return new ResponseEntity<>(String.valueOf(result.getID()),HttpStatus.OK);
+        currentGameSessionId++;
+        gameSessionsRepository.put(result = new GameSession(currentGameSessionId,playerCount));
+        log.info("Game session ID{} created", result.getId());
+        return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
     @RequestMapping(
             path = "start",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<String> start(@RequestParam("gameId") long gameID ) {
+    public ResponseEntity<String> start(@RequestParam("gameId") long gameId) {
         GameSession result;
         try {
-            result = gameSessionsRepository.get(gameID);
+            result = gameSessionsRepository.get(gameId);
         } catch (NoSuchFieldException e) {
             log.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        log.info("Game session ID{} started", result.getID());
-        return new ResponseEntity<>(String.valueOf(result.getID()),HttpStatus.OK);
+        log.info("Game session ID{} started", result.getId());
+        return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -59,18 +59,18 @@ public class GameService {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     /* For now we use HTTP. Replace with WebSocket later */
-    public ResponseEntity<String> connect(@RequestParam("gameId") long gameID,
+    public ResponseEntity<String> connect(@RequestParam("gameId") long gameId,
                                           @RequestParam("name") String name) {
         GameSession result;
         try {
-            result = gameSessionsRepository.get(gameID);
+            result = gameSessionsRepository.get(gameId);
             result.add(playersRepository.get(name));
         } catch (NoSuchFieldException e) {
             log.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        log.info("Game session ID{} started", result.getID());
-        return new ResponseEntity<>(String.valueOf(result.getID()),HttpStatus.OK);
+        log.info("Game session ID{} started", result.getId());
+        return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
 }
