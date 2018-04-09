@@ -21,13 +21,13 @@ public class MessageDao implements Dao<Message> {
 
     private static final String SELECT_ALL_MESSAGES =
             "select m.time, m.value, u.* " +
-                    "from chat.message as m " +
-                    "join chat.user as u " +
+                    "from message as m " +
+                    "join user as u " +
                     "  on m.user = u.id " +
                     "order by m.time";
 
     private static final String INSERT_MESSAGE_TEMPLATE =
-            "insert into chat.message (\"user\", time, value) " +
+            "insert into message (\"user\", time, value) " +
                     "values (%d, now(), '%s')";
 
     @Override
