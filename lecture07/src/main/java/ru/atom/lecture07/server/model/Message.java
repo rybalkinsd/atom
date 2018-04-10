@@ -1,14 +1,29 @@
 package ru.atom.lecture07.server.model;
 
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
+@Table(name = "message",schema = "chat")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne
     private User user;
 
+    @Column(name = "time",unique = false,nullable = false)
     private Date time = new Date();
 
+    @Column(name = "value",unique = false,nullable = false,length = 140)
     private String value;
 
     public User getUser() {
@@ -48,10 +63,6 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "user=" + user +
-                ", timestamp=" + time +
-                ", value='" + value + '\'' +
-                '}';
+        return "[" + user.getLogin() + "]: " + getValue();
     }
 }

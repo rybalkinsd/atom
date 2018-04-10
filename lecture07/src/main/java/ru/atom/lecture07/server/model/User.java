@@ -35,6 +35,10 @@ public class User {
         return this;
     }
 
+    public OnlineState toOnlineState() {
+        return new OnlineState().setId(getId()).setLogin(getLogin());
+    }
+
     @Override
     public String toString() {
         return "User{" +
