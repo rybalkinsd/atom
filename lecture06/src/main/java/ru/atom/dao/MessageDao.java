@@ -64,6 +64,11 @@ public class MessageDao implements Dao<Message> {
         }
     }
 
+    @Override
+    public void delete(Message message) {
+        // now we can`t delete messages
+    }
+
     private static Message mapToMessage(ResultSet rs) throws SQLException {
         return new Message()
                 .setTimestamp(rs.getDate("time"))
