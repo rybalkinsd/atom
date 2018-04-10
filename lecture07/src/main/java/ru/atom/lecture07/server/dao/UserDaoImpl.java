@@ -45,4 +45,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAll() {
         return em.createQuery("Select t from " + User.class.getSimpleName() + " t").getResultList();
     }
+
+    @Override
+    public void delete(User user){ em.remove(user); }
 }
