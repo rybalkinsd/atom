@@ -5,7 +5,7 @@ lecture 8
 
 ---
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
 ---
 ### get ready
