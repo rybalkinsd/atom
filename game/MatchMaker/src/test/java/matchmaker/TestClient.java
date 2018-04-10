@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Scope("prototype")
@@ -18,13 +18,16 @@ public class TestClient implements Runnable{
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private Hashtable<Long,Integer> returnedRequests;
+    private ConcurrentHashMap<Long,Integer> returnedRequests;
 
     private   int rank ;
     private static String PROTOCOL = "http://";
     private static String HOST = "localhost";
     private static String PORT = ":8080";
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient eagerClient = new OkHttpClient();
+    OkHttpClient client = eagerClient.newBuilder()
+            .readTimeout(15_000, TimeUnit.MILLISECONDS)
+            .build();
 
     /*
     *   curl -X POST -i http://localhost:8080/matchmaker/join -d "name=test"
@@ -52,6 +55,7 @@ public class TestClient implements Runnable{
             response = client.newCall(request).execute();
             Assert.assertTrue(response.code() == 200);
             id = Long.parseLong(response.body().string());
+            System.out.println(id);
             if (!returnedRequests.containsKey(id))
                 returnedRequests.put(id,1);
             else

@@ -29,6 +29,7 @@ public class MatchMakerDaemon implements Runnable {
     private static final String HOST = "localhost";
     private static final String PORT = ":8080";
     private static int MAX_NUMBER_OF_PLAYERS = 4;
+    private static final long WAIT_TIME = 10_000_000_000L;
 
     private int numberOfPlayers;
 
@@ -40,6 +41,8 @@ public class MatchMakerDaemon implements Runnable {
     public void run() {
         numberOfPlayers = 0;
         int index = 0;
+        long lastTime = Long.MAX_VALUE;
+        long curTime = System.nanoTime();
         Long id;
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
@@ -57,9 +60,17 @@ public class MatchMakerDaemon implements Runnable {
                     return;
                 }
                 numberOfPlayers++;
+
+                if (numberOfPlayers == 1) {
+                    lastTime = System.nanoTime();
+                }
             }
 
-            if(numberOfPlayers == MAX_NUMBER_OF_PLAYERS){
+            if ((numberOfPlayers == MAX_NUMBER_OF_PLAYERS) || (numberOfPlayers > 1) && (((curTime = System.nanoTime()) - lastTime) > WAIT_TIME)) {
+                String[] playersInThisSession = new String[numberOfPlayers];
+                for (int i = 0; i < numberOfPlayers; i++) {
+                    playersInThisSession[i] = players[i];
+                }
                 request = new Request.Builder()
                         .post(RequestBody.create(mediaType , "playerCount=" + numberOfPlayers))
                         .url(PROTOCOL + HOST + PORT + "/game/create")
@@ -76,9 +87,10 @@ public class MatchMakerDaemon implements Runnable {
                 }
                 index = 0;
                 numberOfPlayers = 0;
-                for(String names: players)
+                for(String names: playersInThisSession)
                     playersId.put(names, id);
-                repository.saveGameSession(id, players);
+                repository.saveGameSession(id, playersInThisSession);
+
             }
         }
     }

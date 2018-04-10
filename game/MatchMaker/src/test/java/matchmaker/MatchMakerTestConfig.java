@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MatchMakerTestConfig {
 
     @Bean
-    public Hashtable<Long,Integer> returnedRequests(){ return new Hashtable<>(); }
+    public ConcurrentHashMap<Long,Integer> returnedRequests(){ return new ConcurrentHashMap<>(); }
 
     @Bean
     public JdbcTemplate getJdbcTemplate(){
