@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
@@ -77,7 +78,7 @@ public class ChatController {
         List<User> online = chatService.getOnlineUsers();
         String responseBody = online.stream()
                 .map(User::getLogin)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n")) + "\n";
 
         return ResponseEntity.ok().body(responseBody);
     }
@@ -92,7 +93,9 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        chatService.say(name, msg);
+
+        return ResponseEntity.ok().build();
     }
 
 
@@ -104,6 +107,12 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+
+        List<Message> messages = chatService.getChat();
+        String responseBody = messages.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")) + "\n";
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }
