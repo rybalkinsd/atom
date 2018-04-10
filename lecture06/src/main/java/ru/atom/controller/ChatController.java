@@ -1,7 +1,7 @@
-package ru.atom.lecture06.server.controller;
+package ru.atom.controller;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.atom.lecture06.server.model.Message;
-import ru.atom.lecture06.server.model.User;
-import ru.atom.lecture06.server.dao.MessageDao;
-import ru.atom.lecture06.server.dao.UserDao;
+import ru.atom.dao.MessageDao;
+import ru.atom.dao.UserDao;
+import ru.atom.model.Message;
+import ru.atom.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("chat")
 public class ChatController {
-    private static final Logger log = LogManager.getLogger(ChatController.class);
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
     private final UserDao userDao = new UserDao();
     private final MessageDao messageDao = new MessageDao();
