@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.lecture07.server.model.Message;
+import ru.atom.lecture07.server.model.OnlineState;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
@@ -43,7 +44,7 @@ public class ChatController {
                     .body("Too long name");
         }
 
-        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        OnlineState alreadyLoggedIn = chatService.getLoggedIn(name);
         if (alreadyLoggedIn != null) {
             return ResponseEntity.badRequest()
                     .body("Already logged in");
@@ -62,7 +63,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        OnlineState alreadyLoggedIn = chatService.getLoggedIn(name);
         if (alreadyLoggedIn == null) {
             return ResponseEntity.badRequest()
                     .body("You are not logged in!");
@@ -99,7 +100,7 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        User alreadyLoggedIn = chatService.getLoggedIn(name);
+        OnlineState alreadyLoggedIn = chatService.getLoggedIn(name);
         if (alreadyLoggedIn == null) {
             return ResponseEntity.badRequest()
                     .body("log in,please");
@@ -118,7 +119,7 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
         List<Message> history = chatService.getMsgHistory();
-        if(history == null)
+        if (history == null)
             return ResponseEntity.ok("");
         String response = String.join("\n",history.stream().map(Message::toString).collect(Collectors.toList()));
         return ResponseEntity.ok().body(response);

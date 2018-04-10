@@ -2,6 +2,7 @@ package ru.atom.lecture07.server.dao;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.atom.lecture07.server.model.OnlineState;
 import ru.atom.lecture07.server.model.User;
 
 import javax.persistence.EntityManager;
@@ -37,8 +38,30 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void save(User user) {
+    public OnlineState getStateByLogin(String login) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<OnlineState> criteria = builder.createQuery(OnlineState.class);
+        Root<OnlineState> from = criteria.from(OnlineState.class);
+        criteria.select(from);
+        criteria.where(builder.equal(from.get("login"), login));
+        TypedQuery<OnlineState> typed = em.createQuery(criteria);
+        OnlineState state;
+        try {
+            state = typed.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return state;
+    }
+
+    @Override
+    public void saveUser(User user) {
         em.persist(user);
+    }
+
+    @Override
+    public void saveState(OnlineState state) {
+        em.persist(state);
     }
 
     @Override
@@ -47,5 +70,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(User user){ em.remove(user); }
+    public void delete(User user) {
+        em.remove(user);
+    }
+
+    @Override
+    public void leave(OnlineState state) {
+        em.remove(state);
+    }
 }

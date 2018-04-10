@@ -9,6 +9,7 @@ import ru.atom.lecture07.server.controller.ChatController;
 import ru.atom.lecture07.server.dao.MessageDao;
 import ru.atom.lecture07.server.dao.UserDao;
 import ru.atom.lecture07.server.model.Message;
+import ru.atom.lecture07.server.model.OnlineState;
 import ru.atom.lecture07.server.model.User;
 
 import javax.transaction.Transactional;
@@ -26,35 +27,41 @@ public class ChatService {
 
     @Nullable
     @Transactional
-    public User getLoggedIn(@NotNull String name) {
-        return userDao.getByLogin(name);
+    public OnlineState getLoggedIn(@NotNull String name) {
+        return userDao.getStateByLogin(name);
     }
 
     @Transactional
     public void login(@NotNull String login) {
-        User user = new User();
-        userDao.save(user.setLogin(login));
+        User user = userDao.getByLogin(login);
+        if (user == null) {
+            user = new User();
+            user.setLogin(login);
+            userDao.saveUser(user.setLogin(login));
+            user = userDao.getByLogin(login);
+        }
+        userDao.saveState(user.toOnlineState());
         log.info("[" + login + "] logged in");
     }
 
     @Transactional
-    public void logout(@NotNull String name){
-        User user = userDao.getByLogin(name);
-        userDao.delete(user);
+    public void logout(@NotNull String name) {
+        OnlineState state = userDao.getStateByLogin(name);
+        userDao.leave(state);
         log.info("[" + name + "] logged out");
 
     }
 
     @Transactional
-    public List<Message> getMsgHistory(){
+    public List<Message> getMsgHistory() {
         List<Message> tmp = messageDao.findAll();
-        if(tmp == null)
+        if (tmp == null)
             return null;
         return  new ArrayList<>(tmp);
     }
 
     @Transactional
-    public void say(String name,String message){
+    public void say(String name,String message) {
         Message msg = new Message();
         msg.setUser(userDao.getByLogin(name));
         messageDao.save(msg.setValue(message));

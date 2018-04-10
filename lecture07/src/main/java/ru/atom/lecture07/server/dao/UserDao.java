@@ -1,5 +1,6 @@
 package ru.atom.lecture07.server.dao;
 
+import ru.atom.lecture07.server.model.OnlineState;
 import ru.atom.lecture07.server.model.User;
 
 import java.util.List;
@@ -12,9 +13,15 @@ public interface UserDao {
      */
     User getByLogin(String login);
 
-    void save(User user);
+    void saveUser(User user);
+
+    void saveState(OnlineState state);
+
+    OnlineState getStateByLogin(String login);
 
     List<User> findAll();
 
     void delete(User user);
+
+    void leave(OnlineState state);
 }

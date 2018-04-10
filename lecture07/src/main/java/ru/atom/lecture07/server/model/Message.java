@@ -1,6 +1,13 @@
 package ru.atom.lecture07.server.model;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
@@ -16,7 +23,7 @@ public class Message {
     @Column(name = "time",unique = false,nullable = false)
     private Date time = new Date();
 
-    @Column(name = "value",unique = false,nullable=false,length = 140)
+    @Column(name = "value",unique = false,nullable = false,length = 140)
     private String value;
 
     public User getUser() {
