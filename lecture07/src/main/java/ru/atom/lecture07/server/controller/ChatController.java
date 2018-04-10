@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
@@ -92,7 +93,23 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
+        if (msg.length() < 1) {
+            return ResponseEntity.badRequest()
+                    .body("Too short message");
+        }
+        if (msg.length() > 140) {
+            return ResponseEntity.badRequest()
+                    .body("Too long message");
+        }
+
+        User user = chatService.getLoggedIn(name);
+        if (user == null) {
+            return ResponseEntity.badRequest()
+                    .body("Not logged in");
+        }
+
+        chatService.addMessage(msg, user);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -104,6 +121,11 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> msgs = chatService.getMessages();
+        String responseBody = msgs.stream()
+                .map(Message::toString)
+                .collect(Collectors.joining("\n"));
+
+        return ResponseEntity.ok().body(responseBody);
     }
 }
