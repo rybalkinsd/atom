@@ -23,6 +23,11 @@ public interface Dao<T> {
     void insert(T t);
 
     /**
+     * INSERT INTO ...
+     */
+    void delete(T t);
+
+    /**
      * SELECT * from ... WHERE id=
      * @return Optional.empty() if nothing found
      */

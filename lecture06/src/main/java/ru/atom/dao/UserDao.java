@@ -31,6 +31,10 @@ public class UserDao implements Dao<User> {
             "insert into chat.user (login) " +
                     "values ('%s');";
 
+    private static final String DELETE_USER_TEMPLATE =
+            "delete from chat.user " +
+                    "where login='%s';";
+
     @Override
     public List<User> getAll() {
         List<User> persons = new ArrayList<>();
@@ -77,6 +81,17 @@ public class UserDao implements Dao<User> {
             stm.execute(String.format(INSERT_USER_TEMPLATE, user.getLogin()));
         } catch (SQLException e) {
             log.error("Failed to create user {}", user.getLogin(), e);
+        }
+    }
+
+    @Override
+    public void delete(User user) {
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            stm.execute(String.format(DELETE_USER_TEMPLATE, user.getLogin()));
+        } catch (SQLException e) {
+            log.error("Failed to delete user {}", user.getLogin(), e);
         }
     }
 

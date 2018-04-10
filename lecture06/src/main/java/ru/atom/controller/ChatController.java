@@ -57,6 +57,12 @@ public class ChatController {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        List<User> authors = userDao.getAllWhere("chat.user.login = '" + name + "'");
+
+        Message message = new Message()
+                .setUser(authors.get(0))
+                .setValue("logined");
+        messageDao.insert(message);
         log.info("[" + name + "] logined");
 
         return ResponseEntity.ok().build();
@@ -71,7 +77,12 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        throw new UnsupportedOperationException();
+        List<User> alreadyLogined = userDao.getAllWhere("chat.user.login = '" + name + "'");
+        if (alreadyLogined.size() == 0)
+            return ResponseEntity.badRequest()
+                    .body("Nobody to logout");
+        userDao.delete(alreadyLogined.get(0));
+        return ResponseEntity.ok().body("Logouted");
     }
 
 
@@ -86,7 +97,7 @@ public class ChatController {
         List<User> all = userDao.getAll();
         String responseBody = all.stream()
                 .map(User::getLogin)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n")) + "\n";
 
         return ResponseEntity.ok().body(responseBody);
     }
@@ -146,7 +157,7 @@ public class ChatController {
         List<Message> chatHistory = messageDao.getAll();
         String responseBody = chatHistory.stream()
                 .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n")) + "\n";
 
         return ResponseEntity.ok(responseBody);
     }
