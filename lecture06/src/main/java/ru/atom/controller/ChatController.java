@@ -57,6 +57,9 @@ public class ChatController {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        newUser = userDao.getByName(name);
+        Message msg = new Message().setUser(newUser).setValue(name + " logined");
+        messageDao.insert(msg);
         log.info("[" + name + "] logined");
 
         return ResponseEntity.ok().build();

@@ -31,6 +31,9 @@ public class UserDao implements Dao<User> {
             "insert into chat.user (login) " +
                     "values ('%s');";
 
+    private static final String SELECT_USER_TEMPLATE =
+            "select * from chat.user where login = '%s'";
+
     @Override
     public List<User> getAll() {
         List<User> persons = new ArrayList<>();
@@ -81,7 +84,18 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new UnsupportedOperationException();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            ResultSet res = stm.executeQuery(String.format(SELECT_USER_TEMPLATE, name));
+            if (res.next())
+                return mapToUser(res);
+            else
+                throw new SQLException();
+        } catch (SQLException e) {
+            log.error("Failed to create user {}", name, e);
+            return null;
+        }
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
