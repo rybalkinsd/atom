@@ -1,8 +1,6 @@
 package mm;
 
-import mm.MatchMaker;
-import mm.Player;
-import mm.PlayersRepository;
+import mm.Service.MatchMaker;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -12,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
@@ -21,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 public class MatchMakerTest {
 
-    MockMvc mockMvc;
     private static int ThreadID = 0;
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";

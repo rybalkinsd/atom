@@ -1,4 +1,4 @@
-package mm;
+package playerdb;
 
 public class Player {
     private long rating;

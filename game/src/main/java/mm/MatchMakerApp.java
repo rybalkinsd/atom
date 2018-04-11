@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
-@ComponentScan
+@ComponentScan("playerdb")
+@ComponentScan("mm")
 @EnableAutoConfiguration
 @EnableScheduling
 public class MatchMakerApp {

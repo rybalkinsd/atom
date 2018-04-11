@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Game Page</title>
+</head>
+<body>
+    <div id="button">
+        <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="joinGame()">
+            <input border="2" id="name" name="name" value="" style="font-size:medium" type="text">
+            <input border="2" value="Join" style="font-size:large" type="submit">
+        </form>
+    </div>>
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var host = "localhost";
+    var port = 8080;
+
+    function joinGame() {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/matchmaker/join",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            connect(parseInt(response));
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function connect(id) {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/game/connect",
+            "data": name + "&" + id
+        };
+    }
+</script>

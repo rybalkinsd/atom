@@ -1,11 +1,12 @@
-package mm;
+package playerdb;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
-@Repository
+@Component
 public class PlayersRepository {
     private ArrayList<Player> playersRegistered = new ArrayList<>();
 

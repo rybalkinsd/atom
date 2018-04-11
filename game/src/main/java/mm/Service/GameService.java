@@ -1,5 +1,8 @@
-package mm;
+package mm.Service;
 
+import mm.Repo.GameSession;
+import mm.Repo.GameSessionsRepository;
+import playerdb.PlayersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,7 @@ public class GameService {
         GameSession result;
         currentGameSessionId++;
         gameSessionsRepository.put(result = new GameSession(currentGameSessionId,playerCount));
-        log.info("Game session ID{} created", result.getId());
+        log.info("Created: Game ID{}", result.getId());
         return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
@@ -51,7 +54,7 @@ public class GameService {
             log.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        log.info("Game session ID{} started", result.getId());
+        log.info("Started: Game ID{}", result.getId());
         return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
@@ -70,7 +73,7 @@ public class GameService {
             log.info(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        log.info("Game session ID{} started", result.getId());
+        log.info("Connected: Player={} to GameId={}",name, result.getId());
         return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }
 
