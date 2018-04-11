@@ -28,7 +28,9 @@ Refresh gradle project
 1. Practice
 
 ---
+
 ## Architecture overview
+
 ---?image=lecture08/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
 
 
