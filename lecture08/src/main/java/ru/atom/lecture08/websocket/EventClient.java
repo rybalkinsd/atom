@@ -3,15 +3,17 @@ package ru.atom.lecture08.websocket;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import ru.atom.lecture08.websocket.message.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-
 import java.io.IOException;
+import ru.atom.lecture08.websocket.util.*;
 
 public class EventClient {
     public static void main(String[] args) {
         // connection url
-        String uri = "ws://localhost:8090/events";
-
+        String uri = "ws://54.224.37.210:8090/events";
+        Message msg = new Message(Topic.HELLO,"fibersell");
+        String message = JsonHelper.toJson(msg);
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketSession session = null;
         try {
@@ -22,7 +24,7 @@ public class EventClient {
             // Wait for Connect
             session = fut.get();
             // Send a message
-            session.sendMessage(new TextMessage("Hello"));
+            session.sendMessage(new TextMessage(message));
             // Close session
             session.close();
 
