@@ -1,7 +1,7 @@
 ---
 # Java
 lecture 8
-## WebSocket. The Game
+## WebSocket
 
 ---
 ## Отметьтесь на портале
@@ -24,17 +24,12 @@ Refresh gradle project
 
 ---
 ## Agenda
-1. WebSocket
-1. Practice
-
----
-## Agenda
 1. **[WebSocket]**
 1. Practice
 
 ---
 ## Architecture overview
----?image=lecture04/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
+---?image=lecture08/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
 
 
 ---
