@@ -42,8 +42,11 @@ https://github.com/sockjs/sockjs-client
 
         var msgData = JSON.stringify(
         {
-           "sender": name,
-           "msg": msg
+            "topic": "message",
+            "data": {
+                "sender": name,
+                "msg": msg
+            }
         });
 
         sock.send(msgData);
@@ -65,7 +68,6 @@ https://github.com/sockjs/sockjs-client
 //            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
 //        });
 //
-
     }
 
     function initSock() {
