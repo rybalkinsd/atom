@@ -1,14 +1,27 @@
 package ru.atom.lecture07.server.model;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
+@Table(name = "message", schema = "chat")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @ManyToOne(cascade=CascadeType.REMOVE)
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "time", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date time = new Date();
 
+    @Column(name = "value", nullable = false, length = 140)
     private String value;
 
     public User getUser() {
@@ -48,10 +61,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "user=" + user +
-                ", timestamp=" + time +
-                ", value='" + value + '\'' +
-                '}';
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        return "[" + formatter.format(time) + " " + user.getLogin() + "] " + value;
     }
 }
