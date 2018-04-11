@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.atom.model.User;
 
+import javax.validation.constraints.Null;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +31,12 @@ public class UserDao implements Dao<User> {
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";
+
+    private static final String SELECT_USER_TEMPLATE =
+            "select * " +
+                    "from chat.user " +
+                    "where " +
+                    "login = '%s'";
 
     @Override
     public List<User> getAll() {
@@ -81,7 +88,17 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new UnsupportedOperationException();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            ResultSet rs = stm.executeQuery(String.format(SELECT_USER_TEMPLATE, name));
+            if (rs.next()) {
+                return mapToUser(rs);
+            }
+        } catch (SQLException e) {
+            log.error("Failed to found user {}", e);
+        }
+        return null;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
