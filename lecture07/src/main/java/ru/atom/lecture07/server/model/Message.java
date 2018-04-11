@@ -20,7 +20,7 @@ public class Message {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user", nullable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     //@Column(name = "user", unique = true, nullable = false, length = 20)
     private User user;
 

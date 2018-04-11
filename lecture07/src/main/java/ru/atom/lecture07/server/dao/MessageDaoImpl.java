@@ -18,8 +18,6 @@ public class MessageDaoImpl implements MessageDao {
     @Override
     public void save(Message message) {
         em.persist(message);
-        System.out.println("++++++++++++++++++++++++   " + message.getUser());
-        System.out.println(findAll());
     }
 
     @Override

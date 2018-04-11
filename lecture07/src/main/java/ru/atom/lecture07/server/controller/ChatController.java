@@ -62,7 +62,11 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        User user = chatService.getLoggedIn(name);
+        if (user == null)
+            return ResponseEntity.badRequest().build();
+        chatService.logout(user);
+        return ResponseEntity.ok().body("Logouted\n");
     }
 
 
@@ -93,6 +97,16 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        User user = chatService.getLoggedIn(name);
+
+        if (msg.length() > 140)
+            return ResponseEntity.badRequest()
+                    .body("Too long image\n");
+
+        if (user == null)
+            return ResponseEntity.badRequest()
+                    .body("You must write under logined username\n");
+
         chatService.say(name, msg);
 
         return ResponseEntity.ok().build();
@@ -108,11 +122,8 @@ public class ChatController {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
 
-        List<Message> messages = chatService.getChat();
-        String responseBody = messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")) + "\n";
+        String messages = chatService.getChat();
 
-        return ResponseEntity.ok().body(responseBody);
+        return ResponseEntity.ok().body(messages);
     }
 }

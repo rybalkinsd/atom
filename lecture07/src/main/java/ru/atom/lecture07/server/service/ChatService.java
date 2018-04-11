@@ -34,17 +34,20 @@ public class ChatService {
     public void login(@NotNull String login) {
         User user = new User();
         userDao.save(user.setLogin(login));
+        Message message = new Message()
+                .setUser(userDao.getByLogin(login))
+                .setValue("Logined in");
+        messageDao.save(message);
         log.info("[" + login + "] logged in");
     }
 
     @Transactional
     public void say(@NotNull String name, @NotNull String msg) {
-        Message message = new Message();
-        System.out.println("-------------------=====   " + name);
-        message.setUser(userDao.getByLogin(name));
-        message.setValue(msg);
-        System.out.println("==========================  " + message.getUser());
+        Message message = new Message()
+                .setUser(userDao.getByLogin(name))
+                .setValue(msg);
 
+        System.out.println();
         messageDao.save(message);
         log.info("[" + name + "] added a message");
     }
@@ -57,7 +60,18 @@ public class ChatService {
 
     @NotNull
     @Transactional
-    public List<Message> getChat() {
-        return new ArrayList<>(messageDao.findAll());
+    public void logout(@NotNull User user) {
+        userDao.delete(user);
+        log.info("[" + user.getLogin() + "] logouted");
+    }
+
+    @NotNull
+    @Transactional
+    public String getChat() {
+        String res = "";
+        for (Message message : messageDao.findAll()) {
+            res = res + "[" + message.getUser().getLogin() + "]: " + message.getValue() + "\n";
+        }
+        return res;
     }
 }
