@@ -136,46 +136,10 @@ Look as Message class. It represents structured data and it can be converted to 
 ## What we can do now
 Ok, now we can send structured messages via **websocket** with arbitrary **data** and defined **type**
 
----
-## Task 2. Implement MOVE and PLANT_BOMB messages processing
-### What we get
-1. Game frontend is able to communicate via websocket with server
-1. Frontend connects to 8090 port
-1. Frontend sends commands **MOVE** and **PLANT_BOMB**
 
 ---
-## MOVE
-client -> server
-```json
-{
-  "topic":"MOVE",
-  "data":
-    {
-      "direction":"UP"
-    }
-}
-```
-direction values: UP/DOWN/RIGHT/LEFT
-
----
-## PLANT_BOMB
-client -> server
-```json
-{
-   "topic": "PLANT_BOMB",
-   "data": {}
-}
-```
-
----
-## Networking task
-**Broker** is able to send and receive messages.
-1. connect Broker.receive() to **Handler**
-1. Log receiving **MOVE** and **PLANT_BOMB** messages, fail if other message is sent. Here later you will add processing logic
-
----
-## What is next?
-At home you will merge your code with game model (from HW2) and networking from this lecture and implement logic for movement and bomb planting  
+## Task 2
+Implement chat with WebSocket
 
 ---
 **Оставьте обратную связь**
