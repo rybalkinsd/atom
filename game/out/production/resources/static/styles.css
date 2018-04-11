@@ -1,0 +1,19 @@
+:root {
+    background: #76BCBC;
+}
+
+label {
+    float: left;
+}
+
+button {
+    margin-left: 10px;
+}
+
+
+.container {
+    width: 400px;
+    padding: 10px;
+    margin: auto;
+}
+
