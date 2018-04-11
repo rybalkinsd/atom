@@ -25,11 +25,11 @@ public class EventClient {
             // Wait for Connect
             session = fut.get();
 
-            Message m = new Message(Topic.HELLO, "Saraykin Daniil");
-            ObjectMapper objectMapper = new ObjectMapper();
-            String  jsonString = objectMapper.writeValueAsString(m);
+           // Message m = new Message(Topic.HELLO, "Saraykin Daniil");
+            //ObjectMapper objectMapper = new ObjectMapper();
+            //String  jsonString = objectMapper.writeValueAsString(m);
             // Send a message
-            session.sendMessage(new TextMessage(jsonString));
+            //session.sendMessage(new TextMessage(jsonString));
             // Close session
             session.close();
 

@@ -62,13 +62,11 @@ https://github.com/sockjs/sockjs-client
 
         var msgData = JSON.stringify(
         {
-            "topic": "message",
-            "data": {
-                "sender": name,
-                "msg": msg
-            }
+            "topic": "MESSAGE",
+            "login": name,
+            "msg": msg
         });
-
+        console.log("yep");
         sock.send(msgData);
     }
 
@@ -99,7 +97,7 @@ https://github.com/sockjs/sockjs-client
         };
 
         sock.onmessage = function (e) {
-            console.log(e.data)
+            console.log(e.data);
             // check topic if you will provide other than "history"
             setHistory(e.data)
         }
@@ -108,7 +106,7 @@ https://github.com/sockjs/sockjs-client
     function updateHistory() {
         var history = JSON.stringify(
             {
-                "topic" : "history"
+                "topic" : "HISTORY"
             }
         );
         sock.send(history)
