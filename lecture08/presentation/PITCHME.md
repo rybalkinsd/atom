@@ -19,73 +19,23 @@ Refresh gradle project
 
 ---
 ## Agenda
-1. Game architecture
 1. WebSocket
 1. Practice
 
 ---
 ## Agenda
-1. **[Game architecture]**
 1. WebSocket
 1. Practice
 
 ---
-### Game architecture
-1. Logic - java
-1. Render - js Canvas
-1. Input - js onkeydown, onmouse*
-1. Connection - webSocket
-1. Assets - png, mp3, ...
-
-
----
-### Logic
-<img src="lecture08/presentation/assets/img/gameloop.png" alt="exception" style="width: 600px;"/>
-
-
----
-### Logic
-1. Many threads - get user input
-1. One thread - Game mechanics
-1. Many threads broadcast replica
-
-
----
-### Services
-<img src="lecture08/presentation/assets/img/Game-architecture.png" alt="exception" style="width: 600px;"/>
-
-
----
-### JS components
-1. bootstrap - common purpose [link](http://getbootstrap.com/)
-1. PreloadJS - assets upload [link](http://www.createjs.com/preloadjs)
-1. EaselJS - canvas operating [link](http://www.createjs.com/easeljs)
-1. SoundJS - sound operation [link](http://www.createjs.com/soundjs)
-
-
----
-### Canvas
-<img src="lecture08/presentation/assets/img/canvas.png" alt="exception" style="width: 600px;"/> 
-
- 
----
-### Front instances
-- Player
-- Bomb
-- Fire
-- Tile
-
----
-### Front infrastructure
-- core and Entity - an approach to be OOP
-- GameEngine - basic mechanics and render
-- Input engine - input handling 
-
----
 ## Agenda
-1. Game architecture
 1. **[WebSocket]**
 1. Practice
+
+---
+## Architecture overview
+---?image=lecture04/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
+
 
 ---
 ## Client-server communication
@@ -172,7 +122,6 @@ Of course, we can also send structured data (like **JSON**)
 
 ---
 ## Agenda
-1. Game architecture
 1. WebSocket
 1. **[Practice]**
 
