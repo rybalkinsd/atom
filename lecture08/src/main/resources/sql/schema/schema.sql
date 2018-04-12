@@ -7,7 +7,8 @@ drop table if exists chat.user;
 create table chat.user (
   id    serial             not null,
   login varchar(20) unique not null,
-  online integer           not null,
+  password varchar(20)     not null,
+  online smallint           not null,
 
   primary key (id)
 );
@@ -15,10 +16,10 @@ create table chat.user (
 drop table if exists chat.message;
 create table if not exists chat.message (
   id     serial       not null,
-  user_id integer      not null references chat.user on delete cascade,
+  user_id integer      not null references chat.user,
   time   timestamp    not null,
   value  varchar(140) not null,
-  topic varchar(15) not null
+  topic varchar(15) not null,
 
   primary key (id)
 );

@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.message;
+package ru.atom.lecture08.websocket.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,22 +8,26 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "message",schema = "chat")
 public class Message {
-
-    private Topic topic = Topic.START;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "topic")
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
+
     @Column(name = "value",unique = false, nullable = false)
     private String data;
 
-    @Column(name = "topic")
-    private String topicDB;
-
     @Column(name = "time")
     private final Date time = new Date();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Message(Topic topic, String data) {
         this.topic = topic;
@@ -33,27 +37,44 @@ public class Message {
     @JsonCreator
     public Message(@JsonProperty("topic") Topic topic, @JsonProperty("data") JsonNode data) {
         this.topic = topic;
-        this.topicDB = topic.toString();
         this.data = data.toString();
     }
 
-    Topic getTopic() {
+    public Topic getTopic() {
         return topic;
     }
 
-    String getData() {
+    public String getData() {
         return data;
     }
 
-    public void setId(Integer id) {
+    public User getUser() {
+        return user;
+    }
+
+    public Message setId(Integer id) {
         this.id = id;
+        return this;
     }
 
-    public void setTopicDB(String topicDB) {
-        this.topicDB = topicDB;
+    public Message setTopicDB(Topic topic) {
+        this.topic = topic;
+        return this;
     }
 
-    public void setData(String data) {
+    public Message setData(String data) {
         this.data = data;
+        return this;
     }
+
+    public Message setUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Message setTopic(Topic topic) {
+        this.topic = topic;
+        return this;
+    }
+
 }
