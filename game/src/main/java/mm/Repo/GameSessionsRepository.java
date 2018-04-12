@@ -25,11 +25,11 @@ public class GameSessionsRepository {
         gameSessionsList.remove(gameSession);
     }
 
-    public GameSession get(long id) throws NoSuchFieldException {
+    public GameSession get(long id) {
         for (GameSession game: gameSessionsList)
             if (game.getId() == id)
                 return game;
-        throw new NoSuchFieldException("Game session ID: " + id + " not found");
+        return null;
     }
 
     public GameSession get(long minRating, long maxRating) {

@@ -3,8 +3,7 @@ package mm.Service;
 
 import mm.Repo.GameSession;
 import mm.Repo.GameSessionsRepository;
-import playerdb.Player;
-import playerdb.PlayersRepository;
+import mm.playerdb.dao.Player;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -35,13 +34,13 @@ public class MatchMaker {
     @Autowired
     private GameSessionsRepository gameSessionsRepository = GameSessionsRepository.createGameSessionsRepository();
 
-    public GameSession getSession(Player currentPlayer) throws IOException,NoSuchFieldException {
+    public GameSession getSession(Player currentPlayer) throws IOException {
         int ratingRange = 30;
         GameSession result = null;
         while (((result = gameSessionsRepository.get(
                 currentPlayer.getRating() - ratingRange,
                 currentPlayer.getRating() + ratingRange)) == null)
-                && (ratingRange < 200)) {
+                && (ratingRange < 50)) {
             ratingRange += 10;
         }
         if (result == null) {

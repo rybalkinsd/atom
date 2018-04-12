@@ -1,6 +1,6 @@
 package mm.Repo;
 
-import playerdb.Player;
+import mm.playerdb.dao.Player;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,7 +58,7 @@ public class GameSession {
     public String toString() {
         String result = "Session " + id + " avg=" + averageRating + ": ";
         for (Player p: playersInSession) {
-            result = result.concat(p.getName() + ", ");
+            result = result.concat(p.getName() + p.getRating() + ", ");
         }
         return result;
     }
