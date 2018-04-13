@@ -1,0 +1,192 @@
+package ru.atom.lecture08.websocket;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.util.HtmlUtils;
+import ru.atom.lecture08.websocket.message.Message;
+import ru.atom.lecture08.websocket.message.Topic;
+
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
+import java.util.TimerTask;
+import java.util.Timer;
+
+
+@Controller
+@RequestMapping("chat")
+public class ChatController {
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+
+    @Autowired
+    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    private Map<String, Integer> countOfMessages = new ConcurrentHashMap<>();
+
+    private Queue<Message> messages = new ConcurrentLinkedQueue<>();
+
+
+    private Random r = new Random();
+
+    /**
+     * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
+     */
+    @RequestMapping(
+            path = "login",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> login(@RequestParam("name") String name) {
+        if (!name.equals(HtmlUtils.htmlEscape(name)) || name.contains(":")) {
+            return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
+        }
+        if (name.length() < 3) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("Already logged in:(");
+        }
+        int hh = r.nextInt(360);
+        int ss = r.nextInt(100);
+
+        int ll = 30 + r.nextInt(40);
+
+        usersOnline.put(name, "hsl(" + hh + "," + ss + "%," + ll + "%)");
+        countOfMessages.put(name,0);
+        Message msg = new Message(Topic.MESSAGE, "admin", "[<b style=\" color:"
+                + usersOnline.get(name) + ";\">" + name + "</b>] logged in");
+        messages.add(msg);
+        toHistory(msg);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    private void toHistory(Message msg) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(ChatController.class
+                .getClassLoader()
+                .getResource("history.txt").getPath(),true))
+        ) {
+            bufferedWriter.write(dateFormat.format(msg.getDate()) + " "
+                    + msg.getLogin() + ": " + msg.getMsg() + "\n");
+        } catch (IOException e) {
+            log.error(e.getLocalizedMessage());
+        } catch (NullPointerException e) {
+            log.error("can`t load 'history.txt'");
+        }
+    }
+
+    /**
+     * curl -i localhost:8080/chat/chat
+     */
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> chat() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        return new ResponseEntity<>(messages.stream()
+                .map(triplet -> "<font color=\"grey\">" + dateFormat.format(triplet.getDate()) + "</font>"
+                        + " <b style=\" color:" + usersOnline.get(triplet.getLogin()) + ";\">"
+                        + triplet.getLogin() + "</b>: " + triplet.getMsg())
+                .collect(Collectors.joining("\n")), HttpStatus.OK);
+    }
+
+    /**
+     * curl -i localhost:8080/chat/online
+     */
+    @RequestMapping(
+            path = "users",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity online() {
+        return new ResponseEntity<>(usersOnline.entrySet().stream()
+
+                .map(e -> "<li class=\"list-group-item\" style=\"color:" + e.getValue() + ";\">" + e.getKey() + "</li>")
+
+                .collect(Collectors.joining("\n")), HttpStatus.OK);
+    }
+
+    /**
+     * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
+     */
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity logout(@RequestParam("name") String name) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("User is not online");
+        } else {
+
+            Message msg = new Message(Topic.MESSAGE, "admin", "[<b style=\" color:"
+                    + usersOnline.get(name) + ";\">" + name + "</b>] logged out");
+            messages.add(msg);
+            toHistory(msg);
+            countOfMessages.remove(name);
+            usersOnline.remove(name);
+            return ResponseEntity.ok().build();
+        }
+    }
+
+
+    /**
+     * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
+     */
+    /*
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+
+        String cleanMsg = HtmlUtils.htmlEscape(msg);
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("User is not online");
+        } else {
+            cleanMsg = cleanMsg.replaceAll("^(http://www\\.|https://www\\.|http://|https://)[a-z0-9]+([\\-.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?",
+                    "<a href=\"$0\">$0</a>");
+
+            new Timer().schedule(
+                    new TimerTask() {
+                        public void run() {
+                            countOfMessages.put(name, 0);
+                        }
+                    },
+                    10000);
+            if (countOfMessages.get(name) > 3) {
+                messages.add(new Message(Topic.MESSAGE, "admin", " plz dont spam:"
+                        + "[" + name + "] " + " you were banned for 10 sec\n"));
+                return ResponseEntity.badRequest().body("User is banned\n 10 sec");
+            }
+
+            countOfMessages.put(name, countOfMessages.get(name) + 1);
+
+            messages.add(new Message(Topic.MESSAGE, name, cleanMsg));
+            toHistory(new Message(Topic.MESSAGE, name, cleanMsg));
+            return ResponseEntity.ok().build();
+        }
+    }
+    */
+}

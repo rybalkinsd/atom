@@ -53,12 +53,12 @@ https://github.com/sockjs/sockjs-client
 <script>
     var host = 'localhost';
     var port = 8090;
-    var path = 'events';
+    var path = 'chat';
     var sock;
 
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        var msg = $('#msg').val();
+        var name = $('#name').val();
 
         var msgData = JSON.stringify(
         {
@@ -66,38 +66,43 @@ https://github.com/sockjs/sockjs-client
             "login": name,
             "msg": msg
         });
-        console.log("yep");
         sock.send(msgData);
     }
 
     function login() {
         var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/" + path + "/login",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
         initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
 //
     }
 
     function initSock() {
+        var name = $('#name').val();
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
         sock.onopen = function() {
             console.log('open');
-            updateHistory();
-            setInterval(updateHistory, 10000);
+            var login = JSON.stringify(
+                {
+                    "topic" : "LOGIN",
+                    "login" : name
+                }
+            );
+            sock.send(login);
+//            updateHistory();
+//            setInterval(updateHistory, 10000);
         };
-
         sock.onmessage = function (e) {
-            console.log(e.data);
             // check topic if you will provide other than "history"
             setHistory(e.data)
         }

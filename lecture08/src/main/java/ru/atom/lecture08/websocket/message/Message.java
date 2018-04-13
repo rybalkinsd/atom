@@ -14,20 +14,14 @@ public class Message {
     private final Date date;
     private final String msg;
 
-    public Message(Topic topic, String login, Date date, String msg) {
+    @JsonCreator
+    public Message(@JsonProperty("topic") Topic topic, @JsonProperty("login") String login, @JsonProperty("msg") String msg) {
         this.topic = topic;
         this.login = login;
-        this.date = date;
+        this.date = new Date();
         this.msg = msg;
     }
 
-    @JsonCreator
-    public Message(@JsonProperty("topic") Topic topic, @JsonProperty("login") JsonNode login, @JsonProperty("msg") JsonNode msg) {
-        this.topic = topic;
-        this.login = login.toString();
-        this.date = new Date();
-        this.msg = msg.toString();
-    }
 
     public Topic getTopic() {
         return topic;
@@ -43,5 +37,29 @@ public class Message {
 
     public String getMsg() {
         return msg;
+    }
+
+    public String format() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        String out = "";
+        switch (topic)
+        {
+            case MESSAGE:
+                out = "<font color=\"grey\">" + dateFormat.format(date) + "</font>"
+                    + " <b style=\" color:" + "grey" + ";\">"
+                    + login + "</b>: " + msg;
+                break;
+            case LOGIN:
+                out = "<font color=\"grey\">" + dateFormat.format(date) + "</font>"
+                        + " <b style=\" color:" + "grey" + ";\">"
+                        + "admin" + "</b>: " + login + " logged in";
+                break;
+            case LOGOUT:
+                out = "<font color=\"grey\">" + dateFormat.format(date) + "</font>"
+                        + " <b style=\" color:" + "grey" + ";\">"
+                        + "admin" + "</b>: " + login + " logged out";
+                break;
+        }
+        return out;
     }
 }
