@@ -1,23 +1,55 @@
 <head>
+    <meta charset="UTF-8">
+    <title>WS Chat</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <html>
 <body>
-<div id="header">
+
+<div id="signup">
+    <span>Пожалуйста, зарегистрируйтесь</span>
+    <form method="POST" id="signupform" action="javascript:void(null);" onsubmit="signUp()">
+        <input id="signup-name" name="name" value="" style="font-size:medium" type="text">
+        <input id="signup-pwd" name="passw" value="" style="font-size:medium" type="password">
+        <input value="Sign Up" style="font-size:large" type="submit">
+    </form>
+    <a href="javascript:showLoginForm();">Я уже зарегистрирован</a>
+</div>
+
+<div id="login" class="hidden">
+    <span>Пожалуйста, залогиньтесь</span>
     <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input id="pass" name="passw" value="" style="font-size:medium" type="password">
         <input value="Login" style="font-size:large" type="submit">
     </form>
 </div>
-<div id="body">
-    <div id="history" class="chat form"></div>
+
+<!--<div id="body" class='hidden'>-->
+    <!--<div id="history" class="chat form"></div>-->
+<!--</div>-->
+<!--<div id="footer" class='hidden'>-->
+    <!--<form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">-->
+        <!--<input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">-->
+        <!--<input value="Send" class="sendbutton" style="font-size:large" type="submit">-->
+    <!--</form>-->
+<!--</div>-->
+
+
+<div id="body" class="hidden">
+    <div id="history" class="chat form box"></div>
+    <div id="kek" class="chat form box" align="center">
+        <div id="Title" align="center"> Users online:</div>
+        <div id="block" align="center"></div>
+    </div>
 </div>
-<div id="footer">
+<div id="footer" class="hidden">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
         <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
         <input value="Send" class="sendbutton" style="font-size:large" type="submit">
     </form>
 </div>
+
 </body>
 </html>
 
@@ -35,14 +67,11 @@ https://github.com/sockjs/sockjs-client
     var port = 8090;
     var path = 'events';
     var sock;
+    var name;
 
     function say() {
         var msg = document.getElementById('msg').value;
-        var name = document.getElementById('name').value;
-
-        //initSock();
-
-
+        //var name = document.getElementById('name').value;
 
         var msgData = JSON.stringify(
         {
@@ -61,22 +90,41 @@ https://github.com/sockjs/sockjs-client
         updateHistory();
     }
 
+    function signUp() {
+        //var name = $('#signupform').serialize();
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/signUp",
+            "data": $('#signupform').serialize()
+        };
+
+        $.ajax(settings).done(function (response) {
+            showLoginForm();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
+    }
+
     function login() {
-        var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
-        initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
+        name = document.getElementById('name').value;
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/login",
+            "data": $('#nameform').serialize()
+        };
+
+        $.ajax(settings).done(function (response) {
+            showChat();
+            initSock();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
     }
 
     function initSock() {
@@ -88,9 +136,9 @@ https://github.com/sockjs/sockjs-client
         };
 
         sock.onmessage = function (e) {
-            console.log(e.data)
+            console.log(e.data);
             // check topic if you will provide other than "history"
-            setHistory(e.data)
+            setHistory(e.data);
         }
     }
 
@@ -105,21 +153,33 @@ https://github.com/sockjs/sockjs-client
                 }
             }
         );
-        sock.send(history)
+        sock.send(history);
         sock.onmessage = function (e) {
-            setHistory(e.data)
+            setHistory(e.data);
         }
+        console.log('histury updated');
 
     }
 
     function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"))
+        $("#history").html(data.replace(/\n/g, "<br />"));
         $("#history").scrollTop($("#history")[0].scrollHeight);
     }
 
 
-    sock = new SockJS('http://' + host + ':' + port + '/' + path);
-    sock.onmessage = function (e) {
-            setHistory(e.data);
+    <!--sock = new SockJS('http://' + host + ':' + port + '/' + path);-->
+    <!--sock.onmessage = function (e) {-->
+            <!--setHistory(e.data);-->
+    <!--}-->
+
+    function showLoginForm() {
+        $('#signup').hide();
+        $('#login').show();
+    }
+
+    function showChat() {
+        $('#login').hide();
+        $('#body').show();
+        $('#footer').show();
     }
 </script>

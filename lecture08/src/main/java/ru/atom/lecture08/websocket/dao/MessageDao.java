@@ -19,12 +19,12 @@ public class MessageDao {
     @PersistenceContext
     private EntityManager em;
 
-    public void save(Message msg){
+    public void save(Message msg) {
         em.persist(msg);
     }
 
 
-    public List<Message> loadHistory(Date date){
+    public List<Message> loadHistory(Date date) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
         Root<Message> messageRoot = messageCriteria.from(Message.class);
@@ -32,20 +32,20 @@ public class MessageDao {
         messageCriteria.where(cb.greaterThan(messageRoot.get("time"),date));
         messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
         List<Message> result = em.createQuery(messageCriteria).getResultList();
-        if(result.size() == 0)
+        if (result.size() == 0)
             return null;
         else return result;
     }
 
 
-    public List<Message> loadHistory(){
+    public List<Message> loadHistory() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
         Root<Message> messageRoot = messageCriteria.from(Message.class);
         messageCriteria.select(messageRoot);
         messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
         List<Message> result = em.createQuery(messageCriteria).getResultList();
-        if(result.size() == 0)
+        if (result.size() == 0)
             return null;
         else return result;
     }

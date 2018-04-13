@@ -37,7 +37,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         session.getAttributes().put("time",new Date());
         String result = messageDao.loadHistory().stream()
                 .map(Message::getData)
-                .reduce("", (e1,e2)->e1 + "\n" + e2);
+                .reduce("", (e1,e2) -> e1 + "\n" + e2);
         session.sendMessage(new TextMessage(result));
     }
 
@@ -46,7 +46,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         Response response = JsonHelper.fromJson(message.getPayload(),Response.class);
         System.out.println(message.getPayload());
         User user;
-        if(session.getAttributes().containsKey("user")){
+        if (session.getAttributes().containsKey("user")) {
             user = (User) session.getAttributes().get("user");
         } else {
             user = userDao.getByLogin(response.getData().get("sender"));
@@ -54,9 +54,16 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         }
         switch (response.getTopic().toString()) {
             case "History":
+                String result = messageDao.loadHistory().stream()
+                        .map(Message::getData)
+                        .reduce("", (e1,e2) -> e1 + "\n" + e2);
+                session.sendMessage(new TextMessage(result));
                 break;
             case "Say":
-                messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: " + response.getData().get("msg")).setUser(user));
+                messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: "
+                        + response.getData().get("msg")).setUser(user));
+                break;
+            default:
                 break;
         }
     }

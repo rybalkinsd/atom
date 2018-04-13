@@ -4,8 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.web.socket.WebSocketSession;
-import ru.atom.lecture08.websocket.model.*;
-import ru.atom.lecture08.websocket.util.*;
+import ru.atom.lecture08.websocket.model.Topic;
+import ru.atom.lecture08.websocket.model.Message;
+import ru.atom.lecture08.websocket.util.JsonHelper;
 
 public class Broker {
     private static final Logger log = LogManager.getLogger(Broker.class);

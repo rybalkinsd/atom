@@ -35,11 +35,11 @@ public class UserDao {
     }
 
 
-    public void refresh(User user){
+    public void refresh(User user) {
         em.merge(user);
     }
 
-    public void save(User user){
+    public void save(User user) {
         em.persist(user);
     }
 

@@ -8,10 +8,12 @@
     padding: 7px;
     margin: 0 0 1em;
     overflow: auto;
+    box-shadow: inset 0 0 8px grey;
+    border-radius: 10px 10px 10px 10px;
 }
 
 .form {
-    height: 85%;
+    height: 84%;
 }
 
 .msginput {
@@ -22,7 +24,41 @@
     width: 15%;
 }
 
+.msg {
+    background-color: #f7f2de;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 7px 7px 7px 1px;
+    box-shadow: 3px 3px 5px grey;
+}
+
+#kek {
+    float:left;
+    margin-left:30px;
+    width: 25%;
+    padding-bottom: 0px;
+
+}
+
+#history {
+    width: 70%;
+    float:left;
+}
+
 #header {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+#signup {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+#login {
     background: #336666;
     padding: 10px;
     padding-bottom: 0;
@@ -41,4 +77,12 @@
     width: 100%;
     height: 30px; /* Height of the footer */
     background: #336666;
+}
+
+#history {
+    padding-bottom: 0px;
+}
+
+.hidden {
+       display:none;
 }
