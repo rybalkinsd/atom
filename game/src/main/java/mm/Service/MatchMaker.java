@@ -21,7 +21,7 @@ public class MatchMaker {
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
     private static final String PORT = ":8080";
-
+    private static final int RATINGRANGE = 200;
     private static final int maxPlayersInSession = 4;
 
     /* need to add logging to database*/
@@ -40,7 +40,7 @@ public class MatchMaker {
         while (((result = gameSessionsRepository.get(
                 currentPlayer.getRating() - ratingRange,
                 currentPlayer.getRating() + ratingRange)) == null)
-                && (ratingRange < 50)) {
+                && (ratingRange < RATINGRANGE)) {
             ratingRange += 10;
         }
         if (result == null) {

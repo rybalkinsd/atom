@@ -23,7 +23,7 @@ public class TestRegistration {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> register(@RequestParam("name") String name, @RequestParam("pwd") String password) {
-        if (playerDbDao.get(name) == null)
+        if (playerDbDao.get(name) != null)
             return new ResponseEntity<>("Already registered",HttpStatus.BAD_REQUEST);
         playerDbDao.add(new Player(name,password));
         return new ResponseEntity<>(HttpStatus.OK);

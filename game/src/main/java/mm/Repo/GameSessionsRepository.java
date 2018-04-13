@@ -25,6 +25,8 @@ public class GameSessionsRepository {
         gameSessionsList.remove(gameSession);
     }
 
+    public boolean isEmpty() { return gameSessionsList.isEmpty(); }
+
     public GameSession get(long id) {
         for (GameSession game: gameSessionsList)
             if (game.getId() == id)
@@ -51,7 +53,7 @@ public class GameSessionsRepository {
         return idleGames;
     }
     public String toString() {
-        String result = "";
+        String result = "Current game sessions queue:\n";
         for (GameSession g:gameSessionsList) {
             result = result.concat(g.toString() + '\n');
         }

@@ -18,6 +18,8 @@ import java.util.Date;
 
 @Component
 public class IdleGamesCheck {
+    private static final long CHECKRATE = 15000; // in milis
+
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
@@ -28,13 +30,14 @@ public class IdleGamesCheck {
     @Autowired
     private GameSessionsRepository gameSessionsRepository;
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = CHECKRATE)
     public void checkIdleGames() {
         log.info("Idle games check");
         ArrayList<GameSession> idleSessions = gameSessionsRepository.returnIdleSessions();
         Date now = new Date();
         for (GameSession game : idleSessions) {
-            if ((now.getTime() - game.getTimeOfLastAction().getTime()) > 25000) {
+            if (((now.getTime() - game.getTimeOfLastAction().getTime()) > 25000)
+                && (game.numberOfConnectedPlayers() > 1)) {
                 try {
                     start(game.getId());
                 } catch (IOException e) {

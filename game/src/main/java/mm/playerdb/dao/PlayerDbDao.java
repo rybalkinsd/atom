@@ -4,6 +4,7 @@ package mm.playerdb.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class PlayerDbDao {
 
     private static final Logger log = LoggerFactory.getLogger(PlayerDbDao.class);
 
+    @Transactional
     public Player get(String login) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Player> criteria = builder.createQuery(Player.class);
@@ -42,15 +44,18 @@ public class PlayerDbDao {
         return player;
     }
 
+    @Transactional
     public void add(Player player) {
         log.info("{} Registered", player.getName());
         em.persist(player);
     }
 
+
+    @Transactional
     public void changeRating(Player player,int ratingChange) {
-        em.createQuery("UPDATE players_db SET rating = "
-                + (player.getRating() - ratingChange) + " WHERE login = "
-                + player.getName() + ";");
+        Player fromDb = get(player.getName());
+        fromDb.changeRating(ratingChange);
+        em.flush();
     }
 
 }

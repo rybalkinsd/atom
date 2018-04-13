@@ -1,5 +1,6 @@
 package mm;
 
+import mm.Repo.GameSessionsRepository;
 import mm.Service.MatchMaker;
 import mm.playerdb.dao.PlayerDbDao;
 import okhttp3.OkHttpClient;
@@ -8,12 +9,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,17 +27,21 @@ import java.io.IOException;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MatchMakerApp.class)
+@SpringBootTest(classes = MatchMakerApp.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,properties = "server_port=8080")
 public class MatchMakerTest {
+
+
+    @Autowired
+    GameSessionsRepository gameSessionsRepository;
 
     @Autowired
     private PlayerDbDao playerDbDao;
 
     private static final OkHttpClient client = new OkHttpClient();
     private static final String PROTOCOL = "http://";
-    private static final String HOST = "localhost";
-    private static final String PORT = ":8080";
-    private static final Logger log = LoggerFactory.getLogger(MatchMaker.class);
+    private static final String HOST = "localhost:";
+    private final String PORT = "8080";
+    private static final Logger log = LoggerFactory.getLogger(MatchMakerTest.class);
 
     private String[] names = {
         "PlayerOne",
@@ -45,6 +54,7 @@ public class MatchMakerTest {
         "PlayerEight"
     };
 
+
     @Before
     public void registerPlayers() throws IOException {
         for (int i = 0; i < 8; i++) {
@@ -54,10 +64,7 @@ public class MatchMakerTest {
                     .url(PROTOCOL + HOST + PORT + "/register/player")
                     .build();
             client.newCall(request).execute();
-            try {
-             Thread.currentThread().sleep(1000); }
-             catch (InterruptedException e) {}
-            playerDbDao.get(names[i]).changeRating(-200 + (int) (400*(Math.random())));
+            playerDbDao.changeRating(playerDbDao.get(names[i]), -200 + (int) (400*(Math.random())));
         }
     }
 
@@ -73,6 +80,12 @@ public class MatchMakerTest {
             log.info("Matchmaker responded with body: " + response.body().string());
             Assert.assertEquals(200, response.code());
         }
+        try {
+            Thread.sleep(45000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertTrue(gameSessionsRepository.isEmpty());
     }
 
 }
