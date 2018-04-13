@@ -34,6 +34,7 @@ public class UserDao {
         }
     }
 
+
     public void refresh(User user){
         em.merge(user);
     }

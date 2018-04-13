@@ -12,7 +12,7 @@ public class EventClient {
     public static void main(String[] args) {
         // connection url
         String uri = "ws://54.224.37.210:8090/events";
-        Message msg = new Message(Topic.LOGIN,"fibersell");
+        Message msg = new Message(Topic.Login,"fibersell");
         String message = JsonHelper.toJson(msg);
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketSession session = null;

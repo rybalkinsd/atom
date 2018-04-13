@@ -21,10 +21,10 @@ import ru.atom.lecture08.websocket.model.User;
 public class Authorizer {
 
     @Autowired
-    UserDao dao;
+    private UserDao dao;
 
     @Autowired
-    MessageDao msgDao;
+    private MessageDao msgDao;
     /**
      * curl -X POST -i localhost:8090/signUp -d "name=Abi&passw=201998"
      */
@@ -68,12 +68,15 @@ public class Authorizer {
         else if(user.getOnline() == 1){
             return ResponseEntity.badRequest().body("User is already loggined!");
         } else {
-            msgDao.save(new Message(Topic.LOGIN,"[" + name +"] logged in").setUser(user));
-            dao.refresh(user.setOnline((short)1));
+            msgDao.save(new Message(Topic.Login,"[" + name +"]: logged in").setUser(user));
+            user.setOnline((short)1);
             return ResponseEntity.ok().build();
         }
     }
 
+    /**
+     * curl -X POST -i localhost:8090/logout -d "name=Abi"
+     */
 
     @RequestMapping(
             path = "logout",
@@ -85,8 +88,8 @@ public class Authorizer {
         if(user == null)
             return ResponseEntity.badRequest().body("Not online");
         else {
-            msgDao.save(new Message(Topic.LOGOUT,"[" + name +"] logged out").setUser(user));
-            dao.refresh(user.setOnline((short)1));
+            msgDao.save(new Message(Topic.Logout,"[" + name +"]:  logged out").setUser(user));
+            user.setOnline((short)0);
             return ResponseEntity.ok("logged out");
         }
     }

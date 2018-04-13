@@ -25,9 +25,11 @@ public class Message {
     @Column(name = "time")
     private final Date time = new Date();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Message(){}
 
     public Message(Topic topic, String data) {
         this.topic = topic;
@@ -52,15 +54,6 @@ public class Message {
         return user;
     }
 
-    public Message setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Message setTopicDB(Topic topic) {
-        this.topic = topic;
-        return this;
-    }
 
     public Message setData(String data) {
         this.data = data;

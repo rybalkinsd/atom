@@ -37,19 +37,28 @@ https://github.com/sockjs/sockjs-client
     var sock;
 
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        var msg = document.getElementById('msg').value;
+        var name = document.getElementById('name').value;
+
+        //initSock();
+
+
 
         var msgData = JSON.stringify(
         {
-            "topic": "message",
+            "topic": "Say",
             "data": {
                 "sender": name,
                 "msg": msg
             }
         });
 
+        sock.onopen = function() {
+
+        };
+
         sock.send(msgData);
+        updateHistory();
     }
 
     function login() {
@@ -86,12 +95,21 @@ https://github.com/sockjs/sockjs-client
     }
 
     function updateHistory() {
+        var name = document.getElementById('name').value;
+
         var history = JSON.stringify(
             {
-                "topic" : "history"
+                "topic" : "History",
+                "data": {
+                    "sender": name
+                }
             }
         );
         sock.send(history)
+        sock.onmessage = function (e) {
+            setHistory(e.data)
+        }
+
     }
 
     function setHistory(data) {
@@ -99,4 +117,9 @@ https://github.com/sockjs/sockjs-client
         $("#history").scrollTop($("#history")[0].scrollHeight);
     }
 
+
+    sock = new SockJS('http://' + host + ':' + port + '/' + path);
+    sock.onmessage = function (e) {
+            setHistory(e.data);
+    }
 </script>
