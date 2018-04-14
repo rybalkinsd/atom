@@ -64,6 +64,9 @@ public class Message {
         return user;
     }
 
+    public boolean isLaterThan(Date time){
+        return this.time.compareTo(time) < 0;
+    }
 
     public Message setData(String data) {
         this.data = data;

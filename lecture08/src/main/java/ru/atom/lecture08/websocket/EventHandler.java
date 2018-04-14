@@ -15,10 +15,9 @@ import ru.atom.lecture08.websocket.model.Topic;
 import ru.atom.lecture08.websocket.model.User;
 import ru.atom.lecture08.websocket.util.JsonHelper;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+
 import java.util.Date;
+import java.util.List;
 
 
 @Component
@@ -35,7 +34,12 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         session.getAttributes().put("time",new Date());
-        String result = messageDao.loadHistory().stream()
+        List<Message> list = messageDao.loadHistory();
+        if (list == null) {
+            session.sendMessage(new TextMessage(""));
+            return;
+        }
+        String result = list.stream()
                 .map(Message::getData)
                 .reduce("", (e1,e2) -> e1 + "\n" + e2);
         session.sendMessage(new TextMessage(result));
@@ -54,9 +58,15 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         }
         switch (response.getTopic().toString()) {
             case "History":
-                String result = messageDao.loadHistory().stream()
+                List<Message> list = messageDao.loadHistory((Date) session.getAttributes().get("time"));
+                if (list == null) {
+                    session.sendMessage(new TextMessage(""));
+                    return;
+                }
+                String result = list.stream()
                         .map(Message::getData)
                         .reduce("", (e1,e2) -> e1 + "\n" + e2);
+                session.getAttributes().put("time",new Date());
                 session.sendMessage(new TextMessage(result));
                 break;
             case "Say":

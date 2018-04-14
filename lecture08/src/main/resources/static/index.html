@@ -132,7 +132,7 @@ https://github.com/sockjs/sockjs-client
         sock.onopen = function() {
             console.log('open');
             updateHistory();
-            setInterval(updateHistory, 10000);
+            setInterval(updateHistory, 2000);
         };
 
         sock.onmessage = function (e) {
@@ -162,7 +162,7 @@ https://github.com/sockjs/sockjs-client
     }
 
     function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"));
+        $("#history").append(data.replace(/\n/g, "<br />"));
         $("#history").scrollTop($("#history")[0].scrollHeight);
     }
 
