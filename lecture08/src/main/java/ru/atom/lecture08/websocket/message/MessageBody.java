@@ -10,22 +10,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Message {
-    private String topic = "";
+public class MessageBody {
     private String sender = "";
     private String msg = "";
 
     @JsonCreator
-    public Message(@JsonProperty(value = "topic", required = true) String topic,
-                   @JsonProperty(value = "sender", required = true) String sender,
-                   @JsonProperty(value = "msg", required = true) String msg) {
-        this.msg = msg.substring(4);
-        this.sender = sender.substring(5);
-        this.topic = topic;
-    }
-
-    public String getTopic() {
-        return topic;
+    public MessageBody(@JsonProperty(value = "sender", required = true) String sender,
+                          @JsonProperty(value = "msg", required = true) String msg) {
+        this.msg = msg;
+        this.sender = sender;
     }
 
     public String getMsg() {
@@ -39,12 +32,15 @@ public class Message {
     @Override
     public String toString() {
         sender = HtmlUtils.htmlEscape(sender);
-        try {
-            msg = java.net.URLDecoder.decode(msg, "UTF-8");
-        } catch(Exception e){
+        msg = HtmlUtils.htmlEscape(msg);
+
+        /*if (!usersOnline.containsKey(sender)) {
+            return ResponseEntity.badRequest().body("You are not logged in:(");
         }
 
-        msg = HtmlUtils.htmlEscape(msg);
+        if (msgCount.get(sender) > 10) {
+            return ResponseEntity.badRequest().body("You are banned:(\n 10 seconds cooldown");
+        }*/
 
         if (msg.contains("http")) {
             int linkEnd = msg.indexOf("http");
@@ -55,6 +51,7 @@ public class Message {
             msg = msg.replace(link,  "<a href=\"" + link +"\" target=\"_blank\">" + link + "</a>" );
         }
 
+        //msgCount.put(sender, msgCount.get(sender) + 1);
         Date date = new Date();
         SimpleDateFormat tFormat = new SimpleDateFormat("HH:mm:ss");
         String msgg = "<span style=\"color:#999999\">{" + tFormat.format(date) + "}</span>" + " [" + sender + "]: "+msg;

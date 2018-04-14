@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket;
+package ru.atom.lecture08.websocket.queues;
 
 import org.springframework.stereotype.Repository;
 

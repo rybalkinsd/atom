@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket;
+package ru.atom.lecture08.websocket.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,26 +11,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.HtmlUtils;
+import ru.atom.lecture08.websocket.queues.MessagesQueue;
+import ru.atom.lecture08.websocket.queues.UsersOnline;
 
-import java.awt.event.ActionListener;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
-import javax.swing.Timer;
-import java.util.TimerTask;
 
 @Controller
 @RequestMapping("chat")
 public class EventController {
     private static final Logger log = LoggerFactory.getLogger(EventController.class);
 
-    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
-    private Map<String, Integer> msgCount = new ConcurrentHashMap<>();
     private Map<String, String> password = new ConcurrentHashMap<>();
 
     /**
@@ -42,16 +37,28 @@ public class EventController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestParam("name") String name, @RequestParam("pass") String pass) {
+        if (MessagesQueue.getMessages().isEmpty()) {
+            try{
+                FileReader hFile = new FileReader("hist.txt");
+                Scanner scan = new Scanner(hFile);
+                while (scan.hasNextLine()) {
+                    MessagesQueue.getMessages().add(scan.nextLine());
+                }
+                hFile.close();
+            }
+            catch (IOException e) {
+            }
+        }
+
         name = HtmlUtils.htmlEscape(name);
         pass = HtmlUtils.htmlEscape(pass);
-        System.out.println("HHHHH");
         if (name.length() < 1) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
         if (name.length() > 20) {
             return ResponseEntity.badRequest().body("Too long name, sorry :(");
         }
-        if (usersOnline.containsKey(name)) {
+        if (UsersOnline.getUsersOnline().contains(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
         if (password.containsKey(name) && !pass.equals(password.get(name))) {
@@ -63,11 +70,10 @@ public class EventController {
         if (pass.length() > 20) {
             return ResponseEntity.badRequest().body("Too long password, sorry :<");
         }
-        usersOnline.put(name, name);
+        UsersOnline.getUsersOnline().offer(name);
         if (!password.containsKey(name)) {
             password.put(name, pass);
         }
-        msgCount.put(name, 0);
         String msg = "[" + name + "] logged in";
         MessagesQueue.getMessages().add(msg);
         try{
@@ -83,17 +89,6 @@ public class EventController {
     }
 
     /**
-     * curl -i localhost:8080/chat/online
-     */
-    @RequestMapping(
-            path = "online",
-            method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
-        return ResponseEntity.ok(responseBody);
-    }
-    /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
     @RequestMapping(
@@ -103,9 +98,8 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> logout(@RequestParam("name") String name) {
         name = HtmlUtils.htmlEscape(name);
-        if (usersOnline.containsKey(name)) {
-            usersOnline.remove(name);
-            msgCount.remove(name);
+        if (UsersOnline.getUsersOnline().contains(name)) {
+            UsersOnline.getUsersOnline().remove(name);
             String msg = "[" + name + "] logged out";
             MessagesQueue.getMessages().add(msg);
             try{

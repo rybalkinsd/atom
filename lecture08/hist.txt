@@ -1,0 +1,2 @@
+[admin] logged in
+[admin] logged out
