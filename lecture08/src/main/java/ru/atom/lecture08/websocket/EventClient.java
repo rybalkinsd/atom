@@ -9,8 +9,6 @@ import ru.atom.lecture08.websocket.util.JsonHelper;
 
 import java.io.IOException;
 
-import static ru.atom.lecture08.websocket.message.Topic.HELLO;
-
 public class EventClient {
     public static void main(String[] args) {
         // connection url
@@ -28,7 +26,7 @@ public class EventClient {
             // Send a message
 
             //session.sendMessage(new TextMessage("Hello"));
-            Message my = new Message(HELLO, "ArtemTashevtsev");
+            Message my = new Message("HELLO", "ArtemTashevtsev");
             session.sendMessage(new TextMessage(JsonHelper.toJson(my)));
             // Close session
             session.close();

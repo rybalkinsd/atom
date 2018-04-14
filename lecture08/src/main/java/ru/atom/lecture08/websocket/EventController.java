@@ -29,7 +29,6 @@ import java.util.TimerTask;
 public class EventController {
     private static final Logger log = LoggerFactory.getLogger(EventController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
     private Map<String, String> usersOnline = new ConcurrentHashMap<>();
     private Map<String, Integer> msgCount = new ConcurrentHashMap<>();
     private Map<String, String> password = new ConcurrentHashMap<>();
@@ -45,6 +44,7 @@ public class EventController {
     public ResponseEntity<String> login(@RequestParam("name") String name, @RequestParam("pass") String pass) {
         name = HtmlUtils.htmlEscape(name);
         pass = HtmlUtils.htmlEscape(pass);
+        System.out.println("HHHHH");
         if (name.length() < 1) {
             return ResponseEntity.badRequest().body("Too short name, sorry :(");
         }
@@ -69,7 +69,7 @@ public class EventController {
         }
         msgCount.put(name, 0);
         String msg = "[" + name + "] logged in";
-        messages.add(msg);
+        MessagesQueue.getMessages().add(msg);
         try{
             FileWriter hFile = new FileWriter("hist.txt", true);
             hFile.append(msg);
@@ -80,33 +80,6 @@ public class EventController {
         }
 
         return ResponseEntity.ok().build();
-    }
-
-    /**
-     * curl -i localhost:8080/chat/chat
-     */
-    @RequestMapping(
-            path = "chat",
-            method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> chat() {
-        if (messages.isEmpty()) {
-            try{
-                FileReader hFile = new FileReader("hist.txt");
-                Scanner scan = new Scanner(hFile);
-                while (scan.hasNextLine()) {
-                    messages.add(scan.nextLine());
-                }
-                hFile.close();
-            }
-            catch (IOException e) {
-            }
-        }
-
-        return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")),
-                HttpStatus.OK);
     }
 
     /**
@@ -134,7 +107,7 @@ public class EventController {
             usersOnline.remove(name);
             msgCount.remove(name);
             String msg = "[" + name + "] logged out";
-            messages.add(msg);
+            MessagesQueue.getMessages().add(msg);
             try{
                 FileWriter hFile = new FileWriter("hist.txt", true);
                 hFile.append(msg);
@@ -149,4 +122,30 @@ public class EventController {
         }
     }
 
+    /**
+     * curl -i localhost:8080/chat/chat
+     */
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> chat() {
+        if (MessagesQueue.getMessages().isEmpty()) {
+            try{
+                FileReader hFile = new FileReader("hist.txt");
+                Scanner scan = new Scanner(hFile);
+                while (scan.hasNextLine()) {
+                    MessagesQueue.getMessages().add(scan.nextLine());
+                }
+                hFile.close();
+            }
+            catch (IOException e) {
+            }
+        }
+
+        return new ResponseEntity<>(MessagesQueue.getMessages().stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n")),
+                HttpStatus.OK);
+    }
 }

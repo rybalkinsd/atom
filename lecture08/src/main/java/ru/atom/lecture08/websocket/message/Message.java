@@ -5,25 +5,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Message {
-    private final Topic topic;
+    private final String topic;
     private final String data;
 
-    public Message(Topic topic, String data) {
+    public Message(String topic, String data) {
         this.topic = topic;
         this.data = data;
     }
 
     @JsonCreator
-    public Message(@JsonProperty("topic") Topic topic, @JsonProperty("data") JsonNode data) {
+    public Message(@JsonProperty("topic") String topic, @JsonProperty("data") JsonNode data) {
         this.topic = topic;
         this.data = data.toString();
     }
 
-    Topic getTopic() {
+    public String getTopic() {
         return topic;
     }
 
-    String getData() {
+    public String getData() {
         return data;
     }
 }
