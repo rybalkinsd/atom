@@ -8,16 +8,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import ru.atom.lecture08.websocket.message.Message;
+import ru.atom.lecture08.websocket.message.SocketMessage;
 import ru.atom.lecture08.websocket.message.Topic;
+import ru.atom.lecture08.websocket.model.Message;
+import ru.atom.lecture08.websocket.service.ChatService;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -26,11 +22,8 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
 
-    private Queue<Message> messages = new ConcurrentLinkedDeque<>();
     @Autowired
-    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
-
-
+    private ChatService chatService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -41,13 +34,11 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
-        System.out.println(message.getPayload());
         ObjectMapper objectMapper = new ObjectMapper();
-        Message m = objectMapper.readValue(message.getPayload(), Message.class);
-        messages.add(m);
-
-        TextMessage msg = new TextMessage(messages.stream()
+        SocketMessage m = objectMapper.readValue(message.getPayload(), SocketMessage.class);
+        if(m.getTopic() == Topic.MESSAGE)
+            chatService.putMessage(m);
+        TextMessage msg = new TextMessage(chatService.getAllMessages().stream()
                 .map(Message::format)
                 .collect(Collectors.joining("\n")));
         for (WebSocketSession webSocketSession : sessions) {
