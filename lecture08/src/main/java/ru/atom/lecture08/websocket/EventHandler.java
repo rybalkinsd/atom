@@ -54,6 +54,10 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 user = (User)session.getAttributes().get("sender");
                 messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: "
                         + response.getData().get("msg")).setUser(user));
+                result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
+                session.getAttributes().put("time",new Date());
+                session.sendMessage(new TextMessage(result));
+                break;
 
             case "History":
                 result = messageDao.loadHistory((Date) session.getAttributes().get("time"));

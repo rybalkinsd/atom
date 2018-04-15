@@ -25,29 +25,26 @@
     </form>
 </div>
 
-<!--<div id="body" class='hidden'>-->
-    <!--<div id="history" class="chat form"></div>-->
-<!--</div>-->
-<!--<div id="footer" class='hidden'>-->
-    <!--<form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">-->
-        <!--<input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">-->
-        <!--<input value="Send" class="sendbutton" style="font-size:large" type="submit">-->
-    <!--</form>-->
-<!--</div>-->
-
-
-<div id="body" class="hidden">
-    <div id="history" class="chat form box"></div>
-    <div id="kek" class="chat form box" align="center">
-        <div id="Title" align="center"> Users online:</div>
-        <div id="block" align="center"></div>
+<div id="chat" class="hidden">
+        <div id="logout">
+                <div class="float-right">
+                        <div>Вы залогинились как <span id="display-name"></span></div>
+                        <button type="button" onclick="logout()">Logout</button>
+                </div>
+        </div>
+    <div id="body">
+        <div id="history" class="chat form box"></div>
+        <div id="kek" class="chat form box" align="center">
+            <div id="Title" align="center"> Users online:</div>
+            <div id="block" align="center"></div>
+        </div>
     </div>
-</div>
-<div id="footer" class="hidden">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+    <div id="footer">
+        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+            <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+            <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        </form>
+    </div>
 </div>
 
 </body>
@@ -68,6 +65,7 @@ https://github.com/sockjs/sockjs-client
     var path = 'events';
     var sock;
     var name;
+    var loggedIn = false;
 
     function say() {
         var msg = document.getElementById('msg').value;
@@ -120,6 +118,8 @@ https://github.com/sockjs/sockjs-client
         };
 
         $.ajax(settings).done(function (response) {
+            loggedIn = true;
+            $("#display-name").html(name);
             showChat();
             initSock();
         }).fail(function (jqXHR, textStatus) {
@@ -170,32 +170,52 @@ https://github.com/sockjs/sockjs-client
             }
         );
         sock.send(history);
-        sock.onmessage = function (e) {
-            setHistory(e.data);
-        }
-        console.log('histury updated');
+        //sock.onmessage = function (e) {
+        //    setHistory(e.data);
+        //}
+        console.log('history updated');
 
     }
 
     function setHistory(data) {
-        $("#history").append(data.replace(/\n/g, "<br />"));
-        $("#history").scrollTop($("#history")[0].scrollHeight);
+        if (data != "") {
+            $("#history").append(data.replace(/\n/g, "<br />"));
+            $("#history").scrollTop($("#history")[0].scrollHeight);
+        }
     }
-
-
-    <!--sock = new SockJS('http://' + host + ':' + port + '/' + path);-->
-    <!--sock.onmessage = function (e) {-->
-            <!--setHistory(e.data);-->
-    <!--}-->
 
     function showLoginForm() {
         $('#signup').hide();
+        $('#chat').hide();
         $('#login').show();
     }
 
     function showChat() {
         $('#login').hide();
-        $('#body').show();
-        $('#footer').show();
+        $('#chat').show();
+    }
+
+    function logout() {
+        if (loggedIn) {
+            var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/logout",
+            "data": $('#nameform').serialize()
+            };
+
+        $.ajax(settings).done(function (response) {
+            loggedIn = false;
+            sock.close();
+            showLoginForm();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });           
+        }
+    }
+
+    function onScroll() {
+
     }
 </script>

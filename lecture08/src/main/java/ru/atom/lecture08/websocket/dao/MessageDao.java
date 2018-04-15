@@ -37,11 +37,11 @@ public class MessageDao {
 
 
     public String loadHistory(Date date) {
-        if(!msgQueue.peek().isLaterThan(date)){
+        if (!msgQueue.peek().isLaterThan(date)) {
             return msgQueue.stream()
-                    .filter(e->e.isLaterThan(date))
+                    .filter(e -> e.isLaterThan(date))
                     .map(Message::getData)
-                    .reduce("",(e1,e2)->e1 + "\n" + e2);
+                    .reduce("",(e1,e2) -> e1 + "\n" + e2);
         }
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
@@ -52,15 +52,15 @@ public class MessageDao {
         List<Message> result = em.createQuery(messageCriteria).getResultList();
         if (result.size() == 0)
             return "";
-        else return result.stream().filter(e->e.isLaterThan(date))
+        else return result.stream().filter(e -> e.isLaterThan(date))
                 .map(Message::getData)
-                .reduce("",(e1,e2)->e1 + "\n" + e2);
+                .reduce("", (e1,e2) -> e1 + "\n" + e2);
     }
 
 
     public String loadHistory() {
         return msgQueue.stream().map(Message::getData)
-                .reduce("",(e1,e2)->e1 + "\n" + e2);
+                .reduce("", (e1,e2) -> e1 + "\n" + e2);
     }
 
     /*CriteriaBuilder cb = em.getCriteriaBuilder();
