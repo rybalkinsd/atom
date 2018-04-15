@@ -68,6 +68,10 @@ public class Message {
         return user;
     }
 
+    public Date getTime() {
+        return time;
+    }
+
     public boolean isLaterThan(Date time) {
         return this.time.compareTo(time) > 0;
     }

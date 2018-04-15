@@ -36,7 +36,7 @@ public class MessageDao {
     }
 
 
-    public String loadHistory(Date date) {
+    public String update(Date date) {
         if (!msgQueue.peek().isLaterThan(date)) {
             return msgQueue.stream()
                     .filter(e -> e.isLaterThan(date))
@@ -58,9 +58,8 @@ public class MessageDao {
     }
 
 
-    public String loadHistory() {
-        return msgQueue.stream().map(Message::getData)
-                .reduce("", (e1,e2) -> e1 + "\n" + e2);
+    public BlockingQueue<Message> loadHistory() {
+        return msgQueue;
     }
 
     /*CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -72,5 +71,15 @@ public class MessageDao {
         if (result.size() == 0)
             return null;
         else return result; - Method for getting the whole history in chat*/
+
+    public List<Message> getHistory(Date date){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
+        Root<Message> messageRoot = messageCriteria.from(Message.class);
+        messageCriteria.select(messageRoot);
+        messageCriteria.where(cb.lessThan(messageRoot.get("time"),date));
+        messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
+        return em.createQuery(messageCriteria).getResultList();
+    }
 
 }

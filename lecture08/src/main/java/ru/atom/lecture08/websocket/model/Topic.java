@@ -10,7 +10,6 @@ public enum Topic {
     Say,
     Logout,
     History,
-    Updates,
     Users,
     Top
 }

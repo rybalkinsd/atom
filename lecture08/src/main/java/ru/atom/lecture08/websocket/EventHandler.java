@@ -14,11 +14,14 @@ import ru.atom.lecture08.websocket.model.Response;
 import ru.atom.lecture08.websocket.model.Topic;
 import ru.atom.lecture08.websocket.model.User;
 import ru.atom.lecture08.websocket.util.JsonHelper;
+
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
 
 
 @Component
@@ -35,11 +38,14 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         session.getAttributes().put("time",new Date());
-        String result = messageDao.loadHistory();
+        BlockingQueue<Message> queue = messageDao.loadHistory();
+        String result = queue.stream().map(Message::getData)
+                .reduce("", (e1,e2) -> e1 + "\n" + e2);
         if (result == null) {
+            session.getAttributes().put("topBorder",null);
             return;
         }
-
+        session.getAttributes().put("topBorder",queue.peek().getTime());
         Map<String,String> msg = new HashMap<>(4);
         msg.put("topic", Topic.History.toString());
         msg.put("data", result);
@@ -61,7 +67,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 user = (User)session.getAttributes().get("sender");
                 messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: "
                         + response.getData().get("msg")).setUser(user));
-                result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
+                result = messageDao.update((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
 
                 Map<String,String> msg = new HashMap<>(4);
@@ -72,7 +78,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 break;
 
             case "History":
-                result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
+                result = messageDao.update((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
 
                 Map<String,String> mssg = new HashMap<>(4);
@@ -90,9 +96,23 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 break;
 
             case "Top":
+                Date border = (Date)session.getAttributes().get("topBorder");
                 Map<String,String> top = new HashMap<>(4);
                 top.put("topic", Topic.Top.toString());
-                top.put("data", "You reached top\n");
+                if (border == null)
+                    top.put("data", "You reached top\n");
+                else {
+                    List<Message> res = messageDao.getHistory(border);
+                    if (res.size() == 0)
+                        top.put("data", "You reached top\n");
+                    else {
+                        int batch = Math.min(res.size(),100);
+                        res = res.subList(res.size() - batch , res.size());
+                        session.getAttributes().put("topBorder",res.get(0).getTime());
+                        top.put("data",res.stream().map(Message::getData)
+                                .reduce("", (e1,e2) -> e1 + "\n" + e2));
+                    }
+                }
                 session.sendMessage(new TextMessage(JsonHelper.toJson(top)));
                 System.out.println("User scrolled to top");
                 break;
