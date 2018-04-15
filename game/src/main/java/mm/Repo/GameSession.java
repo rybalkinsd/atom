@@ -14,13 +14,12 @@ public class GameSession {
 
     private Date timeOfLastAction = new Date();
 
+    private ArrayList<Player> playersInSession = new ArrayList<>();
 
-    private ArrayList<Player> playersInSession = new ArrayList<Player>();
-
-    public GameSession(long id,int maxPlayers) {
+    public GameSession(long id, int playerCount) {
         this.averageRating = 1000;
         this.id = id;
-        this.maxPlayers = maxPlayers;
+        this.maxPlayers = playerCount;
     }
 
     public long getId() {

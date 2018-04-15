@@ -21,7 +21,7 @@ public class MatchMaker {
     private static final String PROTOCOL = "http://";
     private static final String HOST = "localhost";
     private static final String PORT = ":8080";
-    private static final int RATINGRANGE = 200;
+    private static final int RATINGRANGE = 100;
     private static final int maxPlayersInSession = 4;
 
     /* need to add logging to database*/

@@ -1,4 +1,4 @@
-package mm.playerdb;
+package mm.playerdb.Controller;
 
 import mm.playerdb.dao.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,8 @@ public class TestRegistration {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> register(@RequestParam("name") String name, @RequestParam("pwd") String password) {
+        if (name.length() > 20)
+            return new ResponseEntity<>("Name is too long",HttpStatus.BAD_REQUEST);
         if (playerDbDao.get(name) != null)
             return new ResponseEntity<>("Already registered",HttpStatus.BAD_REQUEST);
         playerDbDao.add(new Player(name,password));

@@ -4,8 +4,8 @@ package mm.playerdb.dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "playersDb")
-public class Player {
+@Table(schema = "game", name = "players")
+public class Player implements Comparable<Player> {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -15,7 +15,7 @@ public class Player {
     private String login;
 
     @Column(name = "pwd", length = 20, nullable = false)
-    public String pwd;
+    private String pwd;
 
     @Column(name = "rating",nullable = false)
     private int rating;
@@ -28,11 +28,15 @@ public class Player {
         this.pwd = password;
     }
 
+    public int compareTo(Player p){
+        return Integer.compare(this.rating, p.getRating());
+    }
+
     public void changeRating(int ratingChange) {
         rating += ratingChange;
     }
 
-    public long getRating() {
+    public int getRating() {
         return rating;
     }
 

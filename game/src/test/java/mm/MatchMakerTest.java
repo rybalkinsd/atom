@@ -64,7 +64,7 @@ public class MatchMakerTest {
                     .url(PROTOCOL + HOST + PORT + "/register/player")
                     .build();
             client.newCall(request).execute();
-            playerDbDao.changeRating(playerDbDao.get(names[i]), -200 + (int) (400*(Math.random())));
+            playerDbDao.changeRating(playerDbDao.get(names[i]), -100 + (int) (200*(Math.random())));
         }
     }
 
@@ -85,7 +85,18 @@ public class MatchMakerTest {
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(gameSessionsRepository.isEmpty());
+    }
+
+    @Test
+    public void testLeaderBoards() throws IOException {
+        okhttp3.MediaType mediaType = okhttp3.MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/leaderboards/get")
+                .build();
+        Response response = client.newCall(request).execute();
+        log.info(response.body().string());
+        Assert.assertEquals(200, response.code());
     }
 
 }

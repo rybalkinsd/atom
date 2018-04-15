@@ -1,0 +1,17 @@
+begin;
+
+drop schema if exists game cascade;
+create schema game;
+
+drop table if exists game.players;
+create table game.players (
+  id    serial             not null,
+  login varchar(20) unique not null,
+  pwd varchar(20) not null,
+  rating integer not null,
+
+  primary key (id)
+);
+
+
+commit;
