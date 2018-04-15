@@ -9,5 +9,6 @@ public enum Topic {
     Enter,
     Say,
     Logout,
-    History
+    History,
+    Updates
 }

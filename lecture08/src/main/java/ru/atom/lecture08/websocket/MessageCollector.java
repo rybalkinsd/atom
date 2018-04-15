@@ -1,16 +1,15 @@
 package ru.atom.lecture08.websocket;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.atom.lecture08.websocket.model.Message;
 
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
 import java.util.concurrent.BlockingQueue;
 
 @Component
@@ -19,7 +18,9 @@ public class MessageCollector implements Runnable{
     @Resource(name = "saveQueue")
     private BlockingQueue<Message> queue;
 
-    @Autowired
+    @PersistenceUnit
+    private EntityManagerFactory factory;
+
     private EntityManager em;
 
     @PostConstruct
@@ -28,14 +29,22 @@ public class MessageCollector implements Runnable{
         thread.start();
     }
 
+    private EntityTransaction utx;
 
     @Override
-    @Transactional
     public void run() {
-        EntityTransaction tx;
+        em = factory.createEntityManager();
+
         while (!Thread.currentThread().isInterrupted()) {
             if (queue.size() > 30) {
-                write(queue);
+                try {
+                    utx = em.getTransaction();
+                    utx.begin();
+                    write(queue);
+                    utx.commit();
+                } catch (Exception e){
+                    System.out.println("Fail!");
+                }
             }
             try {
                 Thread.sleep(10_000);
@@ -46,20 +55,21 @@ public class MessageCollector implements Runnable{
         }
     }
 
-    @Transactional
+
     private void write(BlockingQueue<Message> queue){
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 30; i++) {
             em.persist(queue.poll());
+            System.out.println("persisted!");
+        }
     }
 
 
     @PreDestroy
     public void endCollecting(){
-        EntityTransaction tx;
-        tx = em.getTransaction();
-        tx.begin();
+        utx = em.getTransaction();
+        utx.begin();
         for (int i = 0; i < 30; i++)
             em.persist(queue.poll());
-        tx.commit();
+        utx.commit();
     }
 }

@@ -69,7 +69,7 @@ public class Authorizer {
             return ResponseEntity.badRequest().body("User is already loggined!");
         } else {
             msgDao.save(new Message(Topic.Login,"[" + name + "]: logged in").setUser(user));
-            user.setOnline((short)1);
+            dao.refresh(user.setOnline((short)1));
             return ResponseEntity.ok().build();
         }
     }
@@ -89,7 +89,7 @@ public class Authorizer {
             return ResponseEntity.badRequest().body("Not online");
         else {
             msgDao.save(new Message(Topic.Logout,"[" + name + "]:  logged out").setUser(user));
-            user.setOnline((short)0);
+            dao.refresh(user.setOnline((short)0));
             return ResponseEntity.ok("logged out");
         }
     }
