@@ -17,7 +17,6 @@ import ru.atom.lecture08.websocket.util.JsonHelper;
 
 
 import java.util.Date;
-import java.util.List;
 
 
 @Component
@@ -34,44 +33,33 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         session.getAttributes().put("time",new Date());
-        List<Message> list = messageDao.loadHistory();
-        if (list == null) {
-            session.sendMessage(new TextMessage(""));
+        String result = messageDao.loadHistory();
+        if (result == null) {
             return;
         }
-        String result = list.stream()
-                .map(Message::getData)
-                .reduce("", (e1,e2) -> e1 + "\n" + e2);
         session.sendMessage(new TextMessage(result));
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Response response = JsonHelper.fromJson(message.getPayload(),Response.class);
-        System.out.println(message.getPayload());
         User user;
-        if (session.getAttributes().containsKey("user")) {
-            user = (User) session.getAttributes().get("user");
-        } else {
-            user = userDao.getByLogin(response.getData().get("sender"));
-            session.getAttributes().put("user",user);
-        }
+        String result;
         switch (response.getTopic().toString()) {
-            case "History":
-                List<Message> list = messageDao.loadHistory((Date) session.getAttributes().get("time"));
-                if (list == null) {
-                    session.sendMessage(new TextMessage(""));
-                    return;
-                }
-                String result = list.stream()
-                        .map(Message::getData)
-                        .reduce("", (e1,e2) -> e1 + "\n" + e2);
-                session.getAttributes().put("time",new Date());
-                session.sendMessage(new TextMessage(result));
+            case "Enter":
+                session.getAttributes().put("sender",userDao.getByLogin(response.getData().get("sender")));
                 break;
+
             case "Say":
+                user = (User)session.getAttributes().get("sender");
                 messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: "
                         + response.getData().get("msg")).setUser(user));
+
+            case "History":
+                result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
+                session.getAttributes().put("time",new Date());
+                session.sendMessage(new TextMessage(result));
+
                 break;
             default:
                 break;

@@ -87,7 +87,9 @@ https://github.com/sockjs/sockjs-client
         };
 
         sock.send(msgData);
-        updateHistory();
+        sock.onmessage = function (e) {
+            setHistory(e.data);
+        }
     }
 
     function signUp() {
@@ -128,12 +130,26 @@ https://github.com/sockjs/sockjs-client
     }
 
     function initSock() {
+        var name = document.getElementById('name').value;
+
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
         sock.onopen = function() {
+
+            var enter = JSON.stringify(
+            {
+                "topic" : "Enter",
+                "data": {
+                    "sender": name
+                }
+            });
+
+            sock.send(enter);
+
             console.log('open');
             updateHistory();
-            setInterval(updateHistory, 2000);
+            setInterval(updateHistory, 1000);
         };
+
 
         sock.onmessage = function (e) {
             console.log(e.data);

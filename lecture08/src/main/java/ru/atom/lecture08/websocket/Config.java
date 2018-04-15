@@ -40,7 +40,7 @@ public class Config implements WebSocketConfigurer {
     }
 
 
-    @Bean(name = "queue")
+    @Bean(name = "msgQueue")
     public BlockingQueue getArrayList(){
         LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -53,6 +53,11 @@ public class Config implements WebSocketConfigurer {
         for(int i = 0;i < num ;i++)
             queue.offer(response.get(response.size() - num + i));
         return queue;
+    }
+
+    @Bean(name = "saveQueue")
+    public BlockingQueue<Message> getSaveQueue(){
+        return new LinkedBlockingQueue();
     }
 
 }

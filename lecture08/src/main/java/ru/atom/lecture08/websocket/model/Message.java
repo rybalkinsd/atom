@@ -15,11 +15,15 @@ import javax.persistence.EnumType;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Table(name = "message",schema = "chat")
 public class Message {
+
+    public static DateFormat format = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,7 +69,7 @@ public class Message {
     }
 
     public boolean isLaterThan(Date time){
-        return this.time.compareTo(time) < 0;
+        return this.time.compareTo(time) > 0;
     }
 
     public Message setData(String data) {

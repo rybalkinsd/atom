@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.stream.Collectors;
+
 
 @Transactional
 @Repository
@@ -22,21 +22,27 @@ public class MessageDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Resource(name = "queue")
+    @Resource(name = "msgQueue")
     private BlockingQueue<Message> msgQueue;
 
+    @Resource(name = "saveQueue")
+    private BlockingQueue<Message> saveQueue;
+
     public void save(Message msg) {
-        em.persist(msg);
+        saveQueue.offer(msg);
         msgQueue.offer(msg);
         if (msgQueue.size() > 100)
             msgQueue.poll();
     }
 
 
-    public List<Message> loadHistory(Date date) {
-        if(msgQueue.peek().isLaterThan(date))
-            return msgQueue.stream().filter(e->e.isLaterThan(date))
-                    .collect(Collectors.toList());
+    public String loadHistory(Date date) {
+        if(!msgQueue.peek().isLaterThan(date)){
+            return msgQueue.stream()
+                    .filter(e->e.isLaterThan(date))
+                    .map(Message::getData)
+                    .reduce("",(e1,e2)->e1 + "\n" + e2);
+        }
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
         Root<Message> messageRoot = messageCriteria.from(Message.class);
@@ -45,13 +51,16 @@ public class MessageDao {
         messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
         List<Message> result = em.createQuery(messageCriteria).getResultList();
         if (result.size() == 0)
-            return null;
-        else return result;
+            return "";
+        else return result.stream().filter(e->e.isLaterThan(date))
+                .map(Message::getData)
+                .reduce("",(e1,e2)->e1 + "\n" + e2);
     }
 
 
-    public List<Message> loadHistory() {
-        return msgQueue.stream().collect(Collectors.toList());
+    public String loadHistory() {
+        return msgQueue.stream().map(Message::getData)
+                .reduce("",(e1,e2)->e1 + "\n" + e2);
     }
 
     /*CriteriaBuilder cb = em.getCriteriaBuilder();

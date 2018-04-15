@@ -6,6 +6,7 @@ package ru.atom.lecture08.websocket.model;
  */
 public enum Topic {
     Login,
+    Enter,
     Say,
     Logout,
     History
