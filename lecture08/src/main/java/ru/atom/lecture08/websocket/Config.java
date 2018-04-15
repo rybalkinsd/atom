@@ -41,7 +41,7 @@ public class Config implements WebSocketConfigurer {
 
 
     @Bean(name = "msgQueue")
-    public BlockingQueue getArrayList(){
+    public BlockingQueue getArrayList() {
         LinkedBlockingQueue<Message> queue = new LinkedBlockingQueue<>();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
@@ -50,13 +50,13 @@ public class Config implements WebSocketConfigurer {
         messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
         List<Message> response = em.createQuery(messageCriteria).getResultList();
         int num = Math.min(100,response.size());
-        for(int i = 0;i < num ;i++)
+        for (int i = 0; i < num; i++)
             queue.offer(response.get(response.size() - num + i));
         return queue;
     }
 
     @Bean(name = "saveQueue")
-    public BlockingQueue<Message> getSaveQueue(){
+    public BlockingQueue<Message> getSaveQueue() {
         return new LinkedBlockingQueue();
     }
 

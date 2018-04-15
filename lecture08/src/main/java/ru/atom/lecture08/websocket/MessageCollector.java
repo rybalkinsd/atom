@@ -14,7 +14,7 @@ import javax.persistence.EntityTransaction;
 import java.util.concurrent.BlockingQueue;
 
 @Component
-public class MessageCollector implements Runnable{
+public class MessageCollector implements Runnable {
 
     @Resource(name = "saveQueue")
     private BlockingQueue<Message> queue;
@@ -23,7 +23,7 @@ public class MessageCollector implements Runnable{
     private EntityManager em;
 
     @PostConstruct
-    public void startCollecting(){
+    public void startCollecting() {
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -47,14 +47,14 @@ public class MessageCollector implements Runnable{
     }
 
     @Transactional
-    private void write(BlockingQueue<Message> queue){
+    private void write(BlockingQueue<Message> queue) {
         for (int i = 0; i < 30; i++)
             em.persist(queue.poll());
     }
 
 
     @PreDestroy
-    public void endCollecting(){
+    public void endCollecting() {
         EntityTransaction tx;
         tx = em.getTransaction();
         tx.begin();
