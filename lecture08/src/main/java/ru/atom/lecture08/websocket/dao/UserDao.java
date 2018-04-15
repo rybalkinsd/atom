@@ -9,6 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 @Transactional
@@ -18,6 +20,7 @@ public class UserDao {
     @PersistenceContext
     private EntityManager em;
 
+    private Set<String> loginsOnline = new HashSet<>();
 
     public User getByLogin(String login) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -34,6 +37,11 @@ public class UserDao {
         }
     }
 
+    public String getUsersOnline() {
+        return loginsOnline.stream()
+                .reduce("", (e1,e2) -> e1 + "\n" + e2);
+    }
+
 
     public void refresh(User user) {
         em.merge(user);
@@ -43,5 +51,13 @@ public class UserDao {
         em.persist(user);
     }
 
+    public void setLoggedIn(User user) {
+        loginsOnline.add(user.getLogin());
+        refresh(user.setOnline((short)1));
+    }
 
+    public void setLoggedOut(User user) {
+        loginsOnline.remove(user.getLogin());
+        refresh(user.setOnline((short)0));
+    }
 }

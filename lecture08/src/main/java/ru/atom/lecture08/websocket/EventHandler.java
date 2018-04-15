@@ -14,6 +14,8 @@ import ru.atom.lecture08.websocket.model.Response;
 import ru.atom.lecture08.websocket.model.Topic;
 import ru.atom.lecture08.websocket.model.User;
 import ru.atom.lecture08.websocket.util.JsonHelper;
+import java.util.Map;
+import java.util.HashMap;
 
 
 import java.util.Date;
@@ -37,7 +39,12 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         if (result == null) {
             return;
         }
-        session.sendMessage(new TextMessage(result));
+
+        Map<String,String> msg = new HashMap<>(4);
+        msg.put("topic", Topic.History.toString());
+        msg.put("data", result);
+
+        session.sendMessage(new TextMessage(JsonHelper.toJson(msg)));
     }
 
     @Override
@@ -56,15 +63,40 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                         + response.getData().get("msg")).setUser(user));
                 result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
-                session.sendMessage(new TextMessage(result));
+
+                Map<String,String> msg = new HashMap<>(4);
+                msg.put("topic", Topic.History.toString());
+                msg.put("data", result);
+
+                session.sendMessage(new TextMessage(JsonHelper.toJson(msg)));
                 break;
 
             case "History":
                 result = messageDao.loadHistory((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
-                session.sendMessage(new TextMessage(result));
+
+                Map<String,String> mssg = new HashMap<>(4);
+                mssg.put("topic", Topic.History.toString());
+                mssg.put("data", result);
+
+                //session.sendMessage(new TextMessage(result));
+                session.sendMessage(new TextMessage(JsonHelper.toJson(mssg)));
+
+                Map<String,String> online = new HashMap<>(4);
+                online.put("topic", Topic.Users.toString());
+                online.put("data", userDao.getUsersOnline());
+                session.sendMessage(new TextMessage(JsonHelper.toJson(online)));
 
                 break;
+
+            case "Top":
+                Map<String,String> top = new HashMap<>(4);
+                top.put("topic", Topic.Top.toString());
+                top.put("data", "You reached top\n");
+                session.sendMessage(new TextMessage(JsonHelper.toJson(top)));
+                System.out.println("User scrolled to top");
+                break;
+
             default:
                 break;
         }
@@ -73,6 +105,8 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
+        User user = (User)session.getAttributes().get("sender");
+        userDao.setLoggedOut(user);
         super.afterConnectionClosed(session, closeStatus);
     }
 

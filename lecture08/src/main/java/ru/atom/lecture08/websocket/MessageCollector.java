@@ -9,7 +9,10 @@ import ru.atom.lecture08.websocket.model.Message;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.persistence.*;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import java.util.concurrent.BlockingQueue;
 
 @Component
@@ -42,7 +45,7 @@ public class MessageCollector implements Runnable {
                     utx.begin();
                     write(queue);
                     utx.commit();
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("Fail!");
                 }
             }
@@ -56,7 +59,7 @@ public class MessageCollector implements Runnable {
     }
 
 
-    private void write(BlockingQueue<Message> queue){
+    private void write(BlockingQueue<Message> queue) {
         for (int i = 0; i < 30; i++) {
             em.persist(queue.poll());
             System.out.println("persisted!");
@@ -65,7 +68,7 @@ public class MessageCollector implements Runnable {
 
 
     @PreDestroy
-    public void endCollecting(){
+    public void endCollecting() {
         utx = em.getTransaction();
         utx.begin();
         for (int i = 0; i < 30; i++)
