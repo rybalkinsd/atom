@@ -4,8 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 @SpringBootApplication
@@ -21,4 +23,8 @@ public class EventServer {
         return users;
     }
 
+    @Bean
+    public List<WebSocketConfiguration> sessions() {
+        return  new CopyOnWriteArrayList<>();
+    }
 }

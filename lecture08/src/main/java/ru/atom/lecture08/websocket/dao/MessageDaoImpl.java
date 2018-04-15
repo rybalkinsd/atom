@@ -47,6 +47,12 @@ public class MessageDaoImpl implements MessageDao {
 
     }
 
+    @Override
+    public Message getLast() {
+        return (Message)em.createQuery("Select t from " + Message.class.getSimpleName() + " t order by time desc").setMaxResults(1).getSingleResult();
+
+    }
+
 }
 
 

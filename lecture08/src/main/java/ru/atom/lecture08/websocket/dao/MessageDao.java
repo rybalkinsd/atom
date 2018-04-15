@@ -10,4 +10,6 @@ public interface MessageDao {
     void putMessage(String login, String msg, Date date);
 
     List<Message> getAll();
+
+    Message getLast();
 }

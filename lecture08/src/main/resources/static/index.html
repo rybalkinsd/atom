@@ -1,8 +1,5 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css"></head>
 <html>
 <body>
@@ -41,6 +38,9 @@
 </body>
 </html>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <!--
@@ -70,6 +70,7 @@ https://github.com/sockjs/sockjs-client
     }
 
     function login() {
+        logout()
         var name = $('#nameform').serialize();
         var settings = {
             "method": "POST",
@@ -90,36 +91,26 @@ https://github.com/sockjs/sockjs-client
     function initSock() {
         var name = $('#name').val();
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
+        sock.onmessage = function (e) {
+            console.log(e.data);
+            setHistory(e.data)
+        };
         sock.onopen = function() {
             console.log('open');
-            var login = JSON.stringify(
-                {
-                    "topic" : "LOGIN",
-                    "login" : name
-                }
-            );
-            sock.send(login);
-//            updateHistory();
-//            setInterval(updateHistory, 10000);
         };
-        sock.onmessage = function (e) {
-            // check topic if you will provide other than "history"
-            setHistory(e.data)
+        sock.onclose = function () {
+
+            console.log('close');
         }
     }
 
-    function updateHistory() {
-        var history = JSON.stringify(
-            {
-                "topic" : "HISTORY"
-            }
-        );
-        sock.send(history)
+    function setHistory(data) {
+        $("#history").append(data.replace(/\n/g, "<br />"))
+        $("#history").scrollTop($("#history")[0].scrollHeight);
     }
 
-    function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"))
-        $("#history").scrollTop($("#history")[0].scrollHeight);
+    function logout() {
+        if(sock != null) sock.close();
     }
 
 </script>

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.util.HtmlUtils;
+import ru.atom.lecture08.websocket.SessionNotifier;
 import ru.atom.lecture08.websocket.model.User;
 import ru.atom.lecture08.websocket.service.ChatService;
 
@@ -28,7 +31,9 @@ import java.util.stream.Collectors;
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Map<String, Integer> countOfMessages = new ConcurrentHashMap<>();
+
+    @Autowired
+    private SessionNotifier sessionNotifier;
 
     @Autowired
     private ChatService chatService;
@@ -36,22 +41,22 @@ public class ChatController {
     private Random r = new Random();
 
     /**
-     * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
+     * curl -X POST -i localhost:8090/chat/login -d "name=I_AM_STUPID"
      */
     @RequestMapping(
             path = "login",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestParam("name") String name) {
+    public ResponseEntity<String> login(@RequestParam("name") String name) throws Exception{
         if (!name.equals(HtmlUtils.htmlEscape(name)) || name.contains(":")) {
             return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
         }
         if (name.length() < 3) {
-            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+            return ResponseEntity.badRequest().body("Your name is too short, sorry :(");
         }
         if (name.length() > 20) {
-            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+            return ResponseEntity.badRequest().body("Your name is too long, sorry :(");
         }
         User alreadyLoggedIn = chatService.getLoggedIn(name);
         if (alreadyLoggedIn != null) {
@@ -64,10 +69,12 @@ public class ChatController {
         int ll = 30 + r.nextInt(40);
 
         chatService.login(name, "hsl(" + hh + "," + ss + "%," + ll + "%)");
-        countOfMessages.put(name,0);
         chatService.putMessage("admin", "[<b style=\" color:"
                 + chatService.getUserColor(name) + ";\">" + name + "</b>] logged in", new Date());
 
+        String auth = chatService.getLastMessage().format();
+        sessionNotifier.notifyAllSessions(new TextMessage("\n" + auth));
+        log.info(name + " post login");
         return ResponseEntity.ok().build();
     }
 
@@ -104,7 +111,6 @@ public class ChatController {
             chatService.logout(name);
             chatService.putMessage("admin", "[<b style=\" color:"
                     + chatService.getUserColor(name) + ";\">" + name + "</b>] logged out", new Date());
-            countOfMessages.remove(name);
 
             return ResponseEntity.ok().build();
         }

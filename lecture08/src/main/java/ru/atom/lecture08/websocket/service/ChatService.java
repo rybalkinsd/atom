@@ -56,6 +56,12 @@ public class ChatService {
         return new ArrayList<>(messageDao.getAll());
     }
 
+    @NotNull
+    @Transactional
+    public Message getLastMessage() {
+        return messageDao.getLast();
+    }
+
     @Transactional
     public void logout(String login) {
         userDao.delete(login);
