@@ -1,60 +1,85 @@
 package ru.atom.chat.message;
 
-import java.text.ParseException;
+import ru.atom.chat.user.User;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+@Entity
+@Table(name = "message", schema = "chat")
 public class Message implements IMessage {
-    private String userName;
-    private String body;
-    private Date date;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
 
-    public Message(String userName, String body) {
-        this.userName = userName;
-        this.body = body;
-        this.date = new Date();
+    //@ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private User user;
+
+    @Column(name = "time", nullable = false, length = 20)
+    private String time;
+
+    @Column(name = "value", nullable = false, length = 140)
+    private String value;
+
+    public Message() {
     }
 
-    public Message(String userName, String body, String time) {
-        this.userName = userName;
-        this.body = body;
+    public Message(User user, String body) {
+        this.user = user;
+        this.value = body;
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-        try {
-            this.date = format.parse(time);
-        } catch (ParseException passException) {
-            this.date = new Date();
-        }
+        this.time = format.format(new Date());
     }
 
     @Override
-    public String toString() {
-        String returnStr = "";
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
-        String time = formatForDateNow.format(date);
-        returnStr = "[" + this.userName + "]:" + this.body + "\t(" + time + ")";
-        return returnStr;
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public String getUserName() {
-        return this.userName;
-    }
-
-    @Override
-    public String getMessageBody() {
-        return this.body;
-    }
-
-    @Override
-    public Date getDate() {
-        return this.date;
+    public Message setUser(User user) {
+        this.user = user;
+        return this;
     }
 
     @Override
     public String getTime() {
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm");
-        String time = formatForDateNow.format(date);
         return time;
+    }
+
+    public Message setTime(String timestamp) {
+        this.time = timestamp;
+        return this;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public Message setValue(String value) {
+        this.value = value;
+        return this;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

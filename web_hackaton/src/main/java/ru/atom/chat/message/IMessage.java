@@ -1,14 +1,14 @@
 package ru.atom.chat.message;
 
+import ru.atom.chat.user.User;
+
 import java.util.Date;
 
 public interface IMessage {
 
-    Date getDate();
+    User getUser();
 
-    String getUserName();
-
-    String getMessageBody();
+    String getValue();
 
     String getTime();
 }

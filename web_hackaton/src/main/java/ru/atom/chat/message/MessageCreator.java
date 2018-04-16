@@ -51,10 +51,10 @@ public class MessageCreator {
     }
      */
 
-    public static String messageInHtml(Iterable<IMessage> messages, String processingUser) {
+    public static String messageInHtml(Iterable<Message> messages, String processingUser) {
         StringBuilder str = new StringBuilder();
         for (IMessage message : messages) {
-            boolean isProcUser = processingUser.equals(message.getUserName());
+            boolean isProcUser = processingUser.equals(message.getUser().getLogin());
             str.append(
                     "<div class=\"chatMessage " + (isProcUser ? "me" : "notMe") + "\">" +
                             "   <div class=\"timeAndPhoto\">" +
@@ -67,10 +67,10 @@ public class MessageCreator {
                             "   </div>" +
                             "   <div class=\"userLetter\">" +
                             "       <p class=\"userName\">" +
-                            (isProcUser ? ":You" : message.getUserName() + ":") +
+                            (isProcUser ? ":You" : message.getUser().getLogin() + ":") +
                             "       </p>" +
                             "       <p class=\"messageBody\">" +
-                            message.getMessageBody() +
+                            message.getValue() +
                             "       </p>" +
                             "   </div>" +
                             "</div>"

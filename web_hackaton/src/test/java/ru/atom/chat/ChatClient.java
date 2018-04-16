@@ -53,9 +53,9 @@ public class ChatClient {
 
     //POST host:port/chat/say?name=my_name&password=my_pass&msg=my_message
     //Body: "msg='my_message'"
-    public static Response say(String name, String pass,  String msg) throws IOException {
+    public static Response say(String name, String pass, String msg) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        Request request =  new Request.Builder()
+        Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
                 .url(PROTOCOL + HOST + PORT + "/chat/say?name=" + name + "&password=" + pass + "&msg=" + msg)
                 .build();
@@ -73,11 +73,11 @@ public class ChatClient {
     }
 
     //POST host:port/chat/logout?name=my_name
-    public static Response logout(String name) throws IOException {
+    public static Response logout(String name, String pass) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         Request request = new Request.Builder()
                 .post(RequestBody.create(mediaType, ""))
-                .url(PROTOCOL + HOST + PORT + "/chat/logout?name=" + name)
+                .url(PROTOCOL + HOST + PORT + "/chat/logout?name=" + name + "&password=" + pass)
                 .build();
 
         return client.newCall(request).execute();

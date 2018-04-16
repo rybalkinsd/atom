@@ -18,8 +18,10 @@
                 </div>
                 <input id="name" name="name" value="" style="font-size:medium" type="text"><br>
                 <input id="pwd" name="password" value="" style="font-size:medium" type="password"><br>
-                <button class="sendbutton" style="font-size:large" onclick="login()" >Login</button><br>
-                <button class="sendbutton" style="font-size:large" onclick="openRegister()" >Register</button><br>
+                <button class="sendbutton" style="font-size:large" onclick="login()">Login</button>
+                <br>
+                <button class="sendbutton" style="font-size:large" onclick="openRegister()">Register</button>
+                <br>
             </div>
         </div>
     </div>
@@ -33,13 +35,15 @@
                 <input id="newName" name="name" value="" style="font-size:medium" type="text"><br>
                 <input id="pass" name="password" value="" style="font-size:medium" type="password"><br>
                 <input id="applyPass" name="passCopy" value="" style="font-size:medium" type="password"><br>
-                <button class="sendbutton" style="font-size:large" onclick="register()" >Register</button><br>
-                <button class="sendbutton" style="font-size:large" onclick="closeRegister(null, null)">Login</button><br>
+                <button class="sendbutton" style="font-size:large" onclick="register()">Register</button>
+                <br>
+                <button class="sendbutton" style="font-size:large" onclick="closeRegister(null, null)">Login</button>
+                <br>
             </div>
         </div>
     </div>
 
-    <div id="onlineForm"class="loginBox" style="display: none">
+    <div id="onlineForm" class="loginBox" style="display: none">
         <div class="loginLogs">
             <div class="header">
                 <div class="formHeader">
@@ -78,7 +82,10 @@
 </html>
 
 <!--
+We are using SockJS lib
+https://github.com/sockjs/sockjs-client
 -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
@@ -89,6 +96,128 @@
     var curUserName     = null;
     //string contains "password=" used in get/post http services
     var curUserPassword = null;
+
+    var host = 'localhost';
+    var port = 8080;
+    var path = 'events';
+    var sock;
+    var messageList = [];
+    var userList = [];
+
+    initSock();
+
+    function initSock() {
+        sock = new SockJS('http://' + host + ':' + port + '/' + path);
+        sock.onopen = function() {
+            console.log('open');
+            console.log(sock.id);
+        };
+
+        sock.onmessage = function (e) {
+            var response = JSON.parse(e.data);
+            console.log(response);
+            handleResponse(response);
+        }
+
+        sock.onclose = function () {
+            if (curUserName != null)
+                logout();
+            console.log('close');
+        }
+    }
+
+    function handleResponse(response) {
+        data = JSON.parse(response.data);
+        switch (response.topic) {
+            case 'MESSAGE':
+                switch (data.topic) {
+                    case 'ERROR':
+                        alert(ERROR + " " + data.data);
+                        console.log(ERROR + " " + data.data);
+                        break;
+                    case 'OK':
+                        document.getElementById('msgform').value= "";
+                        break;
+                    default:
+                        alert("Unexpected message response topic, please call the developers");
+                        break;
+                }
+                break;
+
+            case 'NEW_MESSAGE':
+                var htmlMessage = buildMessage(data);
+                messageList.push(data);
+                $("#history").append(htmlMessage);
+                break;
+            case 'NEW_USER':
+                var htmlNewUser = buildUser(data);
+                userList.push(data);
+                $("#users").append(htmlNewUser);
+                break;
+            default:
+                alert("Unexpected topic - " + response.topic + ", please call the developers");
+                break;
+        }
+    }
+
+    function rebuildHistory() {
+        var newHistory = "";
+        messageList.forEach(
+            function (message) {
+                newHistory = newHistory + buildMessage(message);
+            }
+        )
+        $("#history").html(newHistory.replace(/\n/g, "<br />"));
+    }
+
+    function buildMessage(message) {
+        var name;
+        if ( curUserName == null )
+            name = "";
+        else
+            name = curUserName.substr(5);
+        var isCurUser = (name === message.sender);
+        var builtMessage =  "<div class=\"chatMessage " + (isCurUser ? "me" : "notMe") + "\">" +
+                            "   <div class=\"timeAndPhoto\">" +
+                            "       <div class=\"userPhoto\">" +
+                            "           <img src=\"img/user" + (isCurUser ? "2" : "1") + ".png\">" +
+                            "       </div>" +
+                            "       <div class=\"time\">" +
+                            message.time +
+                            "       </div>" +
+                            "   </div>" +
+                            "   <div class=\"userLetter\">" +
+                            "       <p class=\"userName\">" +
+                            (isCurUser ? ":You" : message.sender + ":") +
+                            "       </p>" +
+                            "       <p class=\"messageBody\">" +
+                            message.msg +
+                            "       </p>" +
+                            "   </div>" +
+                            "</div>"
+        return builtMessage;
+    }
+
+    function rebuildUsers() {
+        var outgoingUsers = "";
+        userList.forEach(
+            function (user) {
+                outgoingUsers = outgoingUsers + buildUser(user);
+            }
+        )
+        $("#users").html(outgoingUsers.replace(/\n/g, "<br />"));
+    }
+
+    function buildUser(user) {
+        var name;
+        if ( curUserName == null )
+            name = "";
+        else
+            name = curUserName.substr(5);
+        var isCurUser = (name === user.sender);
+        var builtUser =  user.sender + "<br>";
+        return builtUser;
+    }
 
     openRegister();
 
@@ -116,9 +245,13 @@
         else {
             document.getElementById('loginForm').style.display = "none";
             document.getElementById('onlineForm').style.display = "";
-            document.getElementById('userLogin').innerHTML = decodeURI(userName.substr(5));
+            document.getElementById('userLogin').innerHTML = userName.substr(5);
         }
+        rebuildHistory();
+        rebuildUsers();
     }
+
+    // now this is web functions
 
     function loadHistory() {
         var name;
@@ -130,12 +263,22 @@
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
-            "method": "GET",
-            "data": name
+            "method": "GET"
         }
 
         $.ajax(settings).done(function (response) {
-            $("#history").html(response.replace(/\n/g, "<br />"))
+            var prevMessages = [];
+            if (messageList.length > 0) {
+                prevMessages = messageList
+            }
+
+            messageList = JSON.parse(response);
+            prevMessages.forEach(
+                function (message) {
+                    messageList.push(message);
+                }
+            )
+            rebuildHistory();
             $("#history").scrollTop($("#history")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -150,7 +293,8 @@
         }
 
         $.ajax(settings).done(function (response) {
-            $("#users").html(response.replace(/\n/g, "<br />"))
+            userList = JSON.parse(response);
+            rebuildUsers();
             $("#users").scrollTop($("#users")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -160,30 +304,27 @@
     function say() {
         if(curUserName == null)
             return;
-        var msg  = $('#msgform').serialize();
+        var msg = decodeURI($('#msgform').serialize());
+        alert(msg);
+        alert(decodeURI(msg));
         var name = curUserName;
         var password = curUserPassword;
 
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/say",
-            "data": name + "&" + password + "&" + msg
-        };
-
-        $.ajax(settings).done(function (response) {
-            document.getElementById('msgform').value= "";
-            loadHistory();
-            loadUsers();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        var msgData = JSON.stringify(
+        {
+            "topic": "MESSAGE",
+            "data": {
+                "sender": name.substr(5),
+                "msg": msg.substr(4),
+                "password": password.substr(9)
+            }
         });
+        sock.send(msgData);
     }
 
     function login() {
-        var name = $('#name').serialize();
-        var password = $('#pwd').serialize();
+        var name = decodeURI($('#name').serialize());
+        var password = decodeURI($('#pwd').serialize());
         var settings = {
             "method": "POST",
             "crossDomain": true,
@@ -195,8 +336,6 @@
             document.getElementById('name').value= "";
             document.getElementById('pwd').value= "";
             changeUser(name, password);
-            loadHistory();
-            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -204,9 +343,9 @@
     }
 
     function register() {
-        var name = $('#newName').serialize();
-        var password = $('#pass').serialize();
-        var passAgain = $('#applyPass').serialize();
+        var name = decodeURI($('#newName').serialize());
+        var password = decodeURI($('#pass').serialize());
+        var passAgain = decodeURI($('#applyPass').serialize());
         var settings = {
             "method": "POST",
             "crossDomain": true,
@@ -219,8 +358,6 @@
             document.getElementById('pass').value= "";
             document.getElementById('applyPass').value= "";
             changeUser(name, password);
-            loadHistory();
-            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -233,13 +370,11 @@
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/logout",
-            "data": name
+            "data": name + "&" + curUserPassword
         };
 
         $.ajax(settings).done(function (response) {
             changeUser(null, null);
-            loadHistory();
-            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -248,6 +383,6 @@
 
     loadHistory();
     loadUsers();
-    setInterval(loadHistory, 10000);
-    setInterval(loadUsers, 10000);
+
+
 </script>

@@ -1,27 +1,50 @@
 package ru.atom.chat.user;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
+@Table(name = "user", schema = "chat")
 public class User implements IUser {
 
-    private String userName;
-    private String password = "";
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "login", unique = true, nullable = false, length = 20)
+    private String login;
+
+    @Column(name = "password", nullable = false, length = 20)
+    private String password;
+
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
+    // TODO create OneToMany with messages
+
     private Date lastDate;
-    private boolean isActive;
+
+    public User() {
+    }
 
     public User(String userName, String password) {
-        this.userName = userName;
+        this.login = userName;
         this.password = password;
         if (!this.password.equals(password)) {
             throw new RuntimeException("wrong password");
         }
-        this.isActive = true;
+        this.active = true;
         this.lastDate = new Date();
     }
 
     public boolean login(String password) {
         boolean checking = passCheck(password);
-        this.isActive = checking;
+        this.active = checking;
         return checking;
     }
 
@@ -33,20 +56,50 @@ public class User implements IUser {
     }
 
     public void logout() {
-        this.isActive = false;
+        this.active = false;
     }
 
-    public boolean getIsActive() {
-        return this.isActive;
+    public Integer getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public User setLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public User setActive(Boolean active) {
+        this.active = active;
+        return this;
     }
 
     public Date getLastDate() {
-        return this.lastDate;
+        return lastDate;
     }
 
-    public void setLastDate(Date msgDate) {
-        this.lastDate = msgDate;
+    public User setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
+        return this;
     }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
 
     public boolean spamCheck() {
         // если прошло < 1 секунды, спам
@@ -57,14 +110,8 @@ public class User implements IUser {
         return true;
     }
 
-
     @Override
-    public String getUserName() {
-        return userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
+    public String toString() {
+        return "name:" + login + " id:" + id;
     }
 }
