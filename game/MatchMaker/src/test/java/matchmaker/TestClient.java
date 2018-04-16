@@ -1,24 +1,26 @@
 package matchmaker;
 
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.RequestBody;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Component
 @Scope("prototype")
-public class TestClient implements Runnable{
+public class TestClient implements Runnable {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private ConcurrentHashMap<Long,Integer> returnedRequests;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(TestClient.class);
+
 
     private   int rank ;
     private static String PROTOCOL = "http://";
@@ -38,7 +40,7 @@ public class TestClient implements Runnable{
     }
 
     @Override
-    public void run()  {
+    public void run() {
         String name = StringGenerator.generateString();
         Object[] param = {name,rank};
         Long id;
@@ -55,13 +57,11 @@ public class TestClient implements Runnable{
             response = client.newCall(request).execute();
             Assert.assertTrue(response.code() == 200);
             id = Long.parseLong(response.body().string());
-            System.out.println(id);
-            if (!returnedRequests.containsKey(id))
-                returnedRequests.put(id,1);
-            else
-                returnedRequests.put(id,returnedRequests.get(id) + 1);
-        } catch (IOException e){
-            e.printStackTrace();
+            log.info("id: " + id);
+            MatchMakerTest.Start.countDown();
+            MatchMakerTest.Start.await();
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 }

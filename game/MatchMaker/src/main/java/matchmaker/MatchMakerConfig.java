@@ -13,11 +13,17 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class MatchMakerConfig {
     @Bean
     @Scope("prototype")
-    public BlockingQueue<String> getBlockingQueue(){ return new LinkedBlockingQueue<String>(); }
+    public BlockingQueue<String> getBlockingQueue() {
+        return new LinkedBlockingQueue<String>();
+    }
 
     @Bean
-    public OkHttpClient getClient(){ return new OkHttpClient(); }
+    public OkHttpClient getClient() {
+        return new OkHttpClient();
+    }
 
     @Bean
-    public ConcurrentHashMap<String,Long> getConcurrentHashMap(){ return new ConcurrentHashMap<String,Long>(); }
+    public ConcurrentHashMap<String,Long> getConcurrentHashMap() {
+        return new ConcurrentHashMap<String,Long>();
+    }
 }

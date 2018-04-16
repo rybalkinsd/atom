@@ -34,7 +34,7 @@ public class MatchMakerRepository {
     int getUserRank(String userName) {
         Object[] param = {userName};
         List<Integer> resultList = jdbcTemplate.query("SELECT rank FROM mm.users WHERE login = ?", param,
-                (rs, rowNum) -> rs.getInt("rank"));
+            (rs, rowNum) -> rs.getInt("rank"));
         if (resultList.size() == 0) {
             saveLogin(userName);
             return 0;
@@ -64,7 +64,7 @@ public class MatchMakerRepository {
 
     long getLastSessionId() {
         return jdbcTemplate.query("SELECT max(s.id) as res FROM mm.game_sessions s",
-                (rs, num) -> rs.getLong("res")).get(0);
+            (rs, num) -> rs.getLong("res")).get(0);
     }
 
     public List<SessionData> getSessionDataList() {
@@ -80,7 +80,7 @@ public class MatchMakerRepository {
                 "select u.id, u.login, u.rank, 0 as games from mm.users u left join mm.game_sessions_to_users su " +
                 "on u.id = su.user_id where su.game_session_id is null " +
                 "order by id",
-                (rs, num) -> new UserData(rs.getInt("id"), rs.getString("login"),
+            (rs, num) -> new UserData(rs.getInt("id"), rs.getString("login"),
                 rs.getInt("rank"), rs.getLong("games")));
     }
 
@@ -98,8 +98,8 @@ public class MatchMakerRepository {
                     result.add(sd);
                 } else {
                     long id = rs.getLong("id");
-                    if (id == result.get(result.size()-1).getSessionId()) {
-                        result.get(result.size()-1).addPlayer(rs.getString("login"));
+                    if (id == result.get(result.size() - 1).getSessionId()) {
+                        result.get(result.size() - 1).addPlayer(rs.getString("login"));
                     } else {
                         SessionData sd = new SessionData(id, rs.getDate("start_date_time"),
                                 new ArrayList<>());

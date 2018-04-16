@@ -39,7 +39,7 @@ public class MatchMaker {
     private static final int[] RANK_BORDERS = {10, 20, 30, 40, 50};
 
     @PostConstruct
-    private void PreProcessing(){
+    private void preProcessing() {
         playersQueue = new ArrayList<BlockingQueue<String>>();
         for (int i = 0; i < RANK_NUMBER; i++) {
             playersQueue.add((BlockingQueue<String> )context.getBean("getBlockingQueue"));
@@ -59,7 +59,7 @@ public class MatchMaker {
             path = "join",
             method = RequestMethod.POST,
             consumes = org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity join(@RequestParam("name") String name) throws InterruptedException{
+    public ResponseEntity join(@RequestParam("name") String name) throws InterruptedException {
         int rank = repository.getUserRank(name);
         for (int i = 0; i < RANK_NUMBER; i++) {
             if (rank < RANK_BORDERS[i]) {

@@ -19,10 +19,10 @@ public class GameService {
     MatchMakerRepository repository;
 
     private static volatile Long numOfGame = 0L;
-    private static volatile ConcurrentHashMap<Long,Integer> gamesRep= new ConcurrentHashMap<>();
+    private static volatile ConcurrentHashMap<Long,Integer> gamesRep = new ConcurrentHashMap<>();
 
     @PostConstruct
-    private void init(){
+    private void init() {
         numOfGame = repository.getLastSessionId() + 1;
     }
 
@@ -36,7 +36,7 @@ public class GameService {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity create(@RequestParam("playerCount") int playerCount){
+    public ResponseEntity create(@RequestParam("playerCount") int playerCount) {
         gamesRep.put(++numOfGame,playerCount);
         return ResponseEntity.ok(numOfGame.toString());
     }

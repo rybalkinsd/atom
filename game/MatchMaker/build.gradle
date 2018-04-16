@@ -1,8 +1,8 @@
-plugins {
-    id 'org.springframework.boot' version '2.0.0.RELEASE'
-}
+group 'MatchMaker'
+
 
 apply plugin: 'java'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 
@@ -13,6 +13,7 @@ repositories {
 dependencies {
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
@@ -32,8 +33,12 @@ dependencies {
     // https://mvnrepository.com/artifact/com.h2database/h2
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
 }
-group 'MatchMaker'
 
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '7.5'
+    configFile = new File('../../config/checkstyle/checkstyle.xml')
+}
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }

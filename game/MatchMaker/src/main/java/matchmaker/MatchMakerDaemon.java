@@ -1,12 +1,14 @@
 package matchmaker;
 
-import okhttp3.*;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.swing.plaf.TableHeaderUI;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Scope("prototype")
 public class MatchMakerDaemon implements Runnable {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MatchMakerDaemon.class);
 
     private BlockingQueue<String> playersQueue;
     @Autowired
@@ -50,13 +53,14 @@ public class MatchMakerDaemon implements Runnable {
         Response response;
 
         String[] players = new String[MAX_NUMBER_OF_PLAYERS];
-        System.out.println(Thread.currentThread().getName() + " Started!");
-        while (!Thread.interrupted()){
+        log.info(Thread.currentThread().getName() + " Started!");
+        while (!Thread.interrupted()) {
 
-            if (!playersQueue.isEmpty()){
+            if (!playersQueue.isEmpty()) {
                 try {
                     players[index++] = playersQueue.poll(10_000, TimeUnit.SECONDS);
-                } catch (InterruptedException e){
+                } catch (InterruptedException e) {
+                    log.error(e.getMessage());
                     return;
                 }
                 numberOfPlayers++;
@@ -66,28 +70,31 @@ public class MatchMakerDaemon implements Runnable {
                 }
             }
 
-            if ((numberOfPlayers == MAX_NUMBER_OF_PLAYERS) || (numberOfPlayers > 1) && (((curTime = System.nanoTime()) - lastTime) > WAIT_TIME)) {
+            if ((numberOfPlayers == MAX_NUMBER_OF_PLAYERS) || (numberOfPlayers > 1)
+                    && (((curTime = System.nanoTime()) - lastTime) > WAIT_TIME)) {
                 String[] playersInThisSession = new String[numberOfPlayers];
-                for (int i = 0; i < numberOfPlayers; i++) {
+                for (int i = 0; i < numberOfPlayers; i++)
                     playersInThisSession[i] = players[i];
-                }
+
                 request = new Request.Builder()
                         .post(RequestBody.create(mediaType , "playerCount=" + numberOfPlayers))
                         .url(PROTOCOL + HOST + PORT + "/game/create")
                         .build();
                 try {
                     response = client.newCall(request).execute();
-                } catch (IOException e){
+                } catch (IOException e) {
+                    log.error(e.getMessage());
                     return;
                 }
                 try {
                     id = Long.parseLong(response.body().string());
-                } catch (Exception e){
+                } catch (Exception e) {
+                    log.error(e.getMessage());
                     return;
                 }
                 index = 0;
                 numberOfPlayers = 0;
-                for(String names: playersInThisSession)
+                for (String names: playersInThisSession)
                     playersId.put(names, id);
                 repository.saveGameSession(id, playersInThisSession);
 

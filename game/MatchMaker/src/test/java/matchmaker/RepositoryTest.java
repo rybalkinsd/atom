@@ -36,7 +36,7 @@ public class RepositoryTest {
         Assert.assertTrue(rank == 0);
         Object[] param = {newLogin};
         Integer userCount = jdbcTemplate.query("SELECT count(*) as count FROM mm.users WHERE login = ?", param,
-                (rs, num) -> rs.getInt("count"))
+            (rs, num) -> rs.getInt("count"))
                 .get(0);
         Assert.assertTrue(userCount.equals(1));
         jdbcTemplate.update("DELETE from mm.users u WHERE u.login = 'NEW_USER'");
