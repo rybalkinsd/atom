@@ -7,22 +7,38 @@
 <body>
 
 <div id="signup">
-    <span>Пожалуйста, зарегистрируйтесь</span>
+    <!-- <span>Пожалуйста, зарегистрируйтесь</span>
     <form method="POST" id="signupform" action="javascript:void(null);" onsubmit="signUp()">
         <input id="signup-name" name="name" value="" style="font-size:medium" type="text">
         <input id="signup-pwd" name="passw" value="" style="font-size:medium" type="password">
         <input value="Sign Up" style="font-size:large" type="submit">
     </form>
-    <a href="javascript:showLoginForm();">Я уже зарегистрирован</a>
+    <a href="javascript:showLoginForm();">Я уже зарегистрирован</a> -->
+    <div id="box">
+        <form method="post" id="signupform" action="javascript:void(null);" onsubmit="signUp()">
+            <span style="color: #fff">Пожалуйста, зарегистрируйтесь</span>
+            <input id="signup-name" name="name" value="" style="font-size:medium" type="text">
+            <input id="signup-pwd" name="passw" value="" style="font-size:medium" type="password">
+            <button class="color blue button" type="submit">Sign Up</button>
+            <a href="javascript:showLoginForm();">Я уже зарегистрирован</a>
+        </form>
+    </div>    
 </div>
 
 <div id="login" class="hidden">
-    <span>Пожалуйста, залогиньтесь</span>
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+    <div id="box">
+        <form method="post" id="nameform" action="javascript:void(null);" onsubmit="login()">
+            <span style="color: #fff">Пожалуйста, залогиньтесь</span>
+            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <input id="pass" name="passw" value="" style="font-size:medium" type="password">
+            <button class="color blue button" type="submit">Login</button>
+        </form>
+    </div>
+    <!-- <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input id="pass" name="passw" value="" style="font-size:medium" type="password">
         <input value="Login" style="font-size:large" type="submit">
-    </form>
+    </form> -->
 </div>
 
 <div id="chat" class="hidden">
