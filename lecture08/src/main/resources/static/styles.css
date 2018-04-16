@@ -91,11 +91,18 @@
        display:none;
 }
 
-#box {
+#box-1 {
     display: flex;
     justify-content: center; /*Центрирование по горизонтали*/
     align-items: center;
 }
+
+#box-2 {
+    display: flex;
+    justify-content: center; /*Центрирование по горизонтали*/
+    align-items: center;
+}
+
 
 #nameform {
 margin-top : 20%;
