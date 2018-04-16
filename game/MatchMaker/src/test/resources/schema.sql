@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS mm CASCADE;
 CREATE SCHEMA mm;
 
 CREATE TABLE mm.users (id integer auto_increment primary key,
