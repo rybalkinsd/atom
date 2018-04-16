@@ -32,7 +32,6 @@ public class UserDao {
         if (list.size() == 0)
             return null;
         else {
-            System.out.println(list.get(0).getLogin());
             return list.get(0);
         }
     }

@@ -26,6 +26,8 @@ public class MessageCollector implements Runnable {
 
     private EntityManager em;
 
+    private org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MessageCollector.class);
+
     @PostConstruct
     public void startCollecting() {
         Thread thread = new Thread(this);
@@ -46,7 +48,7 @@ public class MessageCollector implements Runnable {
                     write(queue);
                     utx.commit();
                 } catch (Exception e) {
-                    System.out.println("Fail!");
+                    log.error("Fail!");
                 }
             }
             try {
@@ -60,10 +62,9 @@ public class MessageCollector implements Runnable {
 
 
     private void write(BlockingQueue<Message> queue) {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; i++)
             em.persist(queue.poll());
-            System.out.println("persisted!");
-        }
+
     }
 
 

@@ -33,10 +33,11 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     @Autowired
     private UserDao userDao;
 
-
+    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EventHandler.class);
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        log.info("Socket opened: " + session.getId());
         session.getAttributes().put("time",new Date());
         BlockingQueue<Message> queue = messageDao.loadHistory();
         String result = queue.stream().map(Message::getData)
@@ -114,7 +115,6 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                     }
                 }
                 session.sendMessage(new TextMessage(JsonHelper.toJson(top)));
-                System.out.println("User scrolled to top");
                 break;
 
             default:
@@ -124,7 +124,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
+        log.info("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
         User user = (User)session.getAttributes().get("sender");
         userDao.setLoggedOut(user);
         super.afterConnectionClosed(session, closeStatus);

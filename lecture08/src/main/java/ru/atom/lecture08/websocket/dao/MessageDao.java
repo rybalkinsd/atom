@@ -72,7 +72,7 @@ public class MessageDao {
             return null;
         else return result; - Method for getting the whole history in chat*/
 
-    public List<Message> getHistory(Date date){
+    public List<Message> getHistory(Date date) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
         Root<Message> messageRoot = messageCriteria.from(Message.class);
