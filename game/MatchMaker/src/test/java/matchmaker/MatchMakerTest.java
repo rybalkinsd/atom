@@ -1,13 +1,11 @@
 package matchmaker;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collection;
@@ -16,9 +14,7 @@ import java.util.concurrent.CountDownLatch;
 
 
 @RunWith(SpringRunner.class)
-@EnableAutoConfiguration
-@ComponentScan
-@Ignore
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class MatchMakerTest {
 
     @Autowired
