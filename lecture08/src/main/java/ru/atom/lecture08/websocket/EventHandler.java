@@ -16,12 +16,14 @@ import ru.atom.lecture08.websocket.model.User;
 import ru.atom.lecture08.websocket.util.JsonHelper;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
-
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collections;
+
+
 import java.util.concurrent.BlockingQueue;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -40,16 +42,20 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
         log.info("Socket opened: " + session.getId());
         session.getAttributes().put("time",new Date());
         BlockingQueue<Message> queue = messageDao.loadHistory();
+        /*
         String result = queue.stream().map(Message::getData)
                 .reduce("", (e1,e2) -> e1 + "\n" + e2);
-        if (result == null) {
+        */
+        if (queue.isEmpty()) {
             session.getAttributes().put("topBorder",null);
             return;
         }
         session.getAttributes().put("topBorder",queue.peek().getTime());
-        Map<String,String> msg = new HashMap<>(4);
+        Map<String,Object> msg = new HashMap<>(4);
         msg.put("topic", Topic.History.toString());
-        msg.put("data", result);
+        msg.put("data", queue.stream()
+                .map(Message::getData)
+                .collect(Collectors.toList()));
 
         session.sendMessage(new TextMessage(JsonHelper.toJson(msg)));
     }
@@ -58,7 +64,7 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Response response = JsonHelper.fromJson(message.getPayload(),Response.class);
         User user;
-        String result;
+        List<String> result;
         switch (response.getTopic().toString()) {
             case "Enter":
                 session.getAttributes().put("sender",userDao.getByLogin(response.getData().get("sender")));
@@ -68,10 +74,10 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 user = (User)session.getAttributes().get("sender");
                 messageDao.save(new Message(Topic.Say,"[" + user.getLogin() + "]: "
                         + response.getData().get("msg")).setUser(user));
-                result = messageDao.update((Date) session.getAttributes().get("time"));
+                result = messageDao.updateGetList((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
 
-                Map<String,String> msg = new HashMap<>(4);
+                Map<String,Object> msg = new HashMap<>(4);
                 msg.put("topic", Topic.History.toString());
                 msg.put("data", result);
 
@@ -79,10 +85,10 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
                 break;
 
             case "History":
-                result = messageDao.update((Date) session.getAttributes().get("time"));
+                result = messageDao.updateGetList((Date) session.getAttributes().get("time"));
                 session.getAttributes().put("time",new Date());
 
-                Map<String,String> mssg = new HashMap<>(4);
+                Map<String,Object> mssg = new HashMap<>(4);
                 mssg.put("topic", Topic.History.toString());
                 mssg.put("data", result);
 
@@ -98,20 +104,21 @@ public class EventHandler extends TextWebSocketHandler implements WebSocketHandl
 
             case "Top":
                 Date border = (Date)session.getAttributes().get("topBorder");
-                Map<String,String> top = new HashMap<>(4);
+                Map<String,Object> top = new HashMap<>(4);
                 top.put("topic", Topic.Top.toString());
                 if (border == null)
-                    top.put("data", "You reached top\n");
+                    top.put("data", Collections.EMPTY_LIST);
                 else {
                     List<Message> res = messageDao.getHistory(border);
                     if (res.size() == 0)
-                        top.put("data", "You reached top\n");
+                        top.put("data", Collections.EMPTY_LIST);
                     else {
                         int batch = Math.min(res.size(),100);
                         res = res.subList(res.size() - batch , res.size());
                         session.getAttributes().put("topBorder",res.get(0).getTime());
-                        top.put("data",res.stream().map(Message::getData)
-                                .reduce("", (e1,e2) -> e1 + "\n" + e2));
+                        top.put("data",res.stream()
+                                .map(Message::getData)
+                                .collect(Collectors.toList()));
                     }
                 }
                 session.sendMessage(new TextMessage(JsonHelper.toJson(top)));

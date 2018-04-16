@@ -10,9 +10,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.stream.Collectors;
 
 
 @Transactional
@@ -55,6 +57,25 @@ public class MessageDao {
         else return result.stream().filter(e -> e.isLaterThan(date))
                 .map(Message::getData)
                 .reduce("", (e1,e2) -> e1 + "\n" + e2);
+    }
+
+    public List<String> updateGetList(Date date) {
+        if (!msgQueue.peek().isLaterThan(date)) {
+            return msgQueue.stream()
+                    .filter(e -> e.isLaterThan(date))
+                    .map(Message::getData)
+                    .collect(Collectors.toList());
+        }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Message> messageCriteria = cb.createQuery(Message.class);
+        Root<Message> messageRoot = messageCriteria.from(Message.class);
+        messageCriteria.select(messageRoot);
+        messageCriteria.where(cb.greaterThan(messageRoot.get("time"),date));
+        messageCriteria.orderBy(cb.asc(messageRoot.get("time")));
+        return em.createQuery(messageCriteria).getResultList().stream()
+                .filter(e -> e.isLaterThan(date))
+                .map(Message::getData)
+                .collect(Collectors.toList());
     }
 
 

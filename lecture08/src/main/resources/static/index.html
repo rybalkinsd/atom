@@ -82,33 +82,25 @@ https://github.com/sockjs/sockjs-client
     var sock;
     var name;
     var loggedIn = false;
+    var endOfHistory = false;
 
     function say() {
         var msg = document.getElementById('msg').value;
-        //var name = document.getElementById('name').value;
-
-        var msgData = JSON.stringify(
-        {
-            "topic": "Say",
-            "data": {
-                "sender": name,
-                "msg": msg
-            }
-        });
-
-        sock.onopen = function() {
-
-        };
-
-        sock.send(msgData);
-        document.getElementById('msg').value = "";
-        //sock.onmessage = function (e) {
-        //    setHistory(e.data);
-        //}
+        if ("" != $.trim(msg)) {
+            var msgData = JSON.stringify(
+            {
+                "topic": "Say",
+                "data": {
+                    "sender": name,
+                    "msg": msg
+                }
+            });
+            sock.send(msgData);
+            document.getElementById('msg').value = "";
+        }
     }
 
     function signUp() {
-        //var name = $('#signupform').serialize();
         var settings = {
             "method": "POST",
             "crossDomain": true,
@@ -122,7 +114,6 @@ https://github.com/sockjs/sockjs-client
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
-
     }
 
     function login() {
@@ -143,7 +134,6 @@ https://github.com/sockjs/sockjs-client
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
-
     }
 
     function initSock() {
@@ -187,23 +177,28 @@ https://github.com/sockjs/sockjs-client
             }
         );
         sock.send(history);
-        //sock.onmessage = function (e) {
-        //    setHistory(e.data);
-        //}
         console.log('history updated');
-
     }
 
     function setHistory(data) {
         var dataObj = JSON.parse(data);
         if ("History" == dataObj.topic) {
-            if ("" != dataObj.data) {
-                $("#history").append(dataObj.data.replace(/\n/g, "<br />"));
+            if (0 != dataObj.data.length) {
+                $.each(dataObj.data, function(i,val) {
+                    $("#history").append("<span>" + val + "</span><br/>");
+                });
                 $("#history").scrollTop($("#history")[0].scrollHeight);
             }
         } else if ("Top" == dataObj.topic) {
-            if ("" != dataObj.data) {
-                $("#history").prepend(dataObj.data.replace(/\n/g, "<br />"));
+            if (0 != dataObj.data.length) {
+                $.each(dataObj.data, function(i,val) {
+                    $("#history").prepend("<span>" + val + "</span><br/>");
+                });
+            } else {
+                if (!endOfHistory) {
+                    $("#history").prepend("В истории больше нет сообщений<br />");
+                }
+                endOfHistory = true;
             }
         } else if ("Users" == dataObj.topic) {
             $("#kek").html("Сейчас онлайн<br />")
@@ -243,17 +238,19 @@ https://github.com/sockjs/sockjs-client
     }
 
     function onScroll() {
-        var scrollTop = $('#history').scrollTop()
-        if (scrollTop == 0) {
-            var top = JSON.stringify(
-            {
-                "topic" : "Top",
-                "data": {
-                    "sender": name
-                }
-            });
-            sock.send(top);
-        console.log('Scrolled to top');
+        if (!endOfHistory) {
+            var scrollTop = $('#history').scrollTop()
+            if (scrollTop == 0) {
+                var top = JSON.stringify(
+                {
+                    "topic" : "Top",
+                    "data": {
+                        "sender": name
+                    }
+                });
+                sock.send(top);
+            console.log('Scrolled to top');
+            }
         }
     }
 </script>
