@@ -8,10 +8,13 @@
     padding: 7px;
     margin: 0 0 1em;
     overflow: auto;
+    box-shadow: inset 0 0 8px grey;
+    border-radius: 10px 10px 10px 10px;
+    background-image: url("tile.jpg");
 }
 
 .form {
-    height: 85%;
+    height: 84%;
 }
 
 .msginput {
@@ -22,11 +25,48 @@
     width: 15%;
 }
 
+#history span {
+    background-color: #f7f2de;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 7px 7px 7px 1px;
+    box-shadow: 3px 3px 5px grey;
+}
+
+#kek {
+    float:left;
+    margin-left:30px;
+    width: 25%;
+    padding-bottom: 0px;
+
+}
+
+#history {
+    width: 70%;
+    float:left;
+}
+
 #header {
     background: #336666;
     padding: 10px;
     padding-bottom: 0;
 }
+
+/*
+#signup {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}
+*/
+
+/*
+#login {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}*/
 
 #body {
     padding: 10px;
@@ -41,4 +81,96 @@
     width: 100%;
     height: 30px; /* Height of the footer */
     background: #336666;
+}
+
+#history {
+    padding-bottom: 0px;
+}
+
+.hidden {
+       display:none;
+}
+
+#box-1 {
+    display: flex;
+    justify-content: center; /*Центрирование по горизонтали*/
+    align-items: center;
+}
+
+#box-2 {
+    display: flex;
+    justify-content: center; /*Центрирование по горизонтали*/
+    align-items: center;
+}
+
+
+#nameform {
+margin-top : 20%;
+height:150px;
+padding : 10px;
+padding-top: 15px;
+text-align: center;
+width:300px;
+background-color: #483D8B;
+border-radius : 25px;
+border-color: #269CE9;
+}
+
+#name {
+display : block;
+margin:0 auto;
+margin-top: 20px;
+}
+
+#pass {
+    display : block;
+    margin:0 auto;
+    margin-top: 20px;
+    }
+
+#signupform {
+    margin-top : 20%;
+    height:150px;
+    padding : 10px;
+    padding-top: 15px;
+    text-align: center;
+    width:300px;
+    background-color: #483D8B;
+    border-radius : 25px;
+    border-color: #269CE9;
+    }
+    
+    #signup-name {
+    display : block;
+    margin:0 auto;
+    margin-top: 20px;
+    }
+
+    #signup-pwd {
+        display : block;
+        margin:0 auto;
+        margin-top: 20px;
+        }
+
+.button.color{
+color: #fff;
+text-shadow: 0 1px 0 rgba(0,0,0,.2);
+background-image: linear-gradient(top, rgba(255,255,255,.3),
+                   rgba(255,255,255,0)),
+                url(data:image/png;base64,iVBORw0KGg[...]QmCC);
+}
+
+/* */
+
+.button.blue{
+margin-top:30px;
+background-color: #1272b1;
+}
+
+.button.blue:hover{
+background-color: #70B9E8;
+}
+
+.button.blue:active{
+background: #269CE9;
 }

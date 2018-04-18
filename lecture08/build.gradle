@@ -23,9 +23,22 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '1.5.9.RELEASE'
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
-
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core/2.9.5
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.4'
+    // https://mvnrepository.com/artifact/postgresql/postgresql
+    //compile group: 'postgresql', name: 'postgresql', version: '9.3-1102.jdbc41'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.16.Final'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    //compile group: 'org.postgresql', name: 'postgresql', version: '42.'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.0.RELEASE'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }

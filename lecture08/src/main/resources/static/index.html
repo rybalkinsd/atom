@@ -1,23 +1,68 @@
 <head>
+    <meta charset="UTF-8">
+    <title>WS Chat</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <html>
 <body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+
+<div id="signup">
+    <!-- <span>Пожалуйста, зарегистрируйтесь</span>
+    <form method="POST" id="signupform" action="javascript:void(null);" onsubmit="signUp()">
+        <input id="signup-name" name="name" value="" style="font-size:medium" type="text">
+        <input id="signup-pwd" name="passw" value="" style="font-size:medium" type="password">
+        <input value="Sign Up" style="font-size:large" type="submit">
+    </form>
+    <a href="javascript:showLoginForm();">Я уже зарегистрирован</a> -->
+    <div id="box-1">
+        <form method="post" id="signupform" action="javascript:void(null);" onsubmit="signUp()">
+            <span style="color: #fff">Пожалуйста, зарегистрируйтесь</span>
+            <input id="signup-name" name="name" value="" style="font-size:medium" type="text">
+            <input id="signup-pwd" name="passw" value="" style="font-size:medium" type="password">
+            <button class="color blue button" type="submit">Sign Up</button>
+            <a href="javascript:showLoginForm();">Я уже зарегистрирован</a>
+        </form>
+    </div>    
+</div>
+
+<div id="login" class="hidden">
+    <div id="box-2">
+        <form method="post" id="nameform" action="javascript:void(null);" onsubmit="login()">
+            <span style="color: #fff">Пожалуйста, залогиньтесь</span>
+            <input id="name" name="name" value="" style="font-size:medium" type="text">
+            <input id="pass" name="passw" value="" style="font-size:medium" type="password">
+            <button class="color blue button" type="submit">Login</button>
+        </form>
+    </div>
+    <!-- <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
+        <input id="pass" name="passw" value="" style="font-size:medium" type="password">
         <input value="Login" style="font-size:large" type="submit">
-    </form>
+    </form> -->
 </div>
-<div id="body">
-    <div id="history" class="chat form"></div>
+
+<div id="chat" class="hidden">
+        <div id="logout">
+                <div class="float-right">
+                        <div>Вы залогинились как <span id="display-name"></span></div>
+                        <button type="button" onclick="logout()">Logout</button>
+                </div>
+        </div>
+    <div id="body">
+        <div id="history" class="chat form box" onscroll="onScroll()"></div>
+        <div id="kek" class="chat form box" align="center">
+            <div id="Title" align="center"> Users online:</div>
+            <div id="block" align="center"></div>
+        </div>
+    </div>
+    <div id="footer">
+        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+            <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+            <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        </form>
+    </div>
 </div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
-</div>
+
 </body>
 </html>
 
@@ -35,68 +80,177 @@ https://github.com/sockjs/sockjs-client
     var port = 8090;
     var path = 'events';
     var sock;
+    var name;
+    var loggedIn = false;
+    var endOfHistory = false;
 
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        var msg = document.getElementById('msg').value;
+        if ("" != $.trim(msg)) {
+            var msgData = JSON.stringify(
+            {
+                "topic": "Say",
+                "data": {
+                    "sender": name,
+                    "msg": msg
+                }
+            });
+            sock.send(msgData);
+            document.getElementById('msg').value = "";
+        }
+    }
 
-        var msgData = JSON.stringify(
-        {
-            "topic": "message",
-            "data": {
-                "sender": name,
-                "msg": msg
-            }
+    function signUp() {
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/signUp",
+            "data": $('#signupform').serialize()
+        };
+
+        $.ajax(settings).done(function (response) {
+            showLoginForm();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
-
-        sock.send(msgData);
     }
 
     function login() {
-        var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
-        initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
+        name = document.getElementById('name').value;
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/login",
+            "data": $('#nameform').serialize()
+        };
+
+        $.ajax(settings).done(function (response) {
+            loggedIn = true;
+            $("#display-name").html(name);
+            showChat();
+            initSock();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
     }
 
     function initSock() {
+        var name = document.getElementById('name').value;
+
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
         sock.onopen = function() {
+
+            var enter = JSON.stringify(
+            {
+                "topic" : "Enter",
+                "data": {
+                    "sender": name
+                }
+            });
+
+            sock.send(enter);
+
             console.log('open');
             updateHistory();
-            setInterval(updateHistory, 10000);
+            setInterval(updateHistory, 1000);
         };
 
+
         sock.onmessage = function (e) {
-            console.log(e.data)
+            console.log(e.data);
             // check topic if you will provide other than "history"
-            setHistory(e.data)
+            setHistory(e.data);
         }
     }
 
     function updateHistory() {
+        var name = document.getElementById('name').value;
+
         var history = JSON.stringify(
             {
-                "topic" : "history"
+                "topic" : "History",
+                "data": {
+                    "sender": name
+                }
             }
         );
-        sock.send(history)
+        sock.send(history);
+        console.log('history updated');
     }
 
     function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"))
-        $("#history").scrollTop($("#history")[0].scrollHeight);
+        var dataObj = JSON.parse(data);
+        if ("History" == dataObj.topic) {
+            if (0 != dataObj.data.length) {
+                $.each(dataObj.data, function(i,val) {
+                    $("#history").append("<span>" + val + "</span><br/>");
+                });
+                $("#history").scrollTop($("#history")[0].scrollHeight);
+            }
+        } else if ("Top" == dataObj.topic) {
+            if (0 != dataObj.data.length) {
+                $.each(dataObj.data, function(i,val) {
+                    $("#history").prepend("<span>" + val + "</span><br/>");
+                });
+            } else {
+                if (!endOfHistory) {
+                    $("#history").prepend("В истории больше нет сообщений<br />");
+                }
+                endOfHistory = true;
+            }
+        } else if ("Users" == dataObj.topic) {
+            $("#kek").html("Сейчас онлайн<br />")
+            $("#kek").append(dataObj.data.replace(/\n/g, "<br />"));
+        }
     }
 
+    function showLoginForm() {
+        $('#signup').hide();
+        $('#chat').hide();
+        $('#login').show();
+    }
+
+    function showChat() {
+        $('#login').hide();
+        $('#chat').show();
+    }
+
+    function logout() {
+        if (loggedIn) {
+            var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/logout",
+            "data": $('#nameform').serialize()
+            };
+
+        $.ajax(settings).done(function (response) {
+            loggedIn = false;
+            sock.close();
+            showLoginForm();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });           
+        }
+    }
+
+    function onScroll() {
+        if (!endOfHistory) {
+            var scrollTop = $('#history').scrollTop()
+            if (scrollTop == 0) {
+                var top = JSON.stringify(
+                {
+                    "topic" : "Top",
+                    "data": {
+                        "sender": name
+                    }
+                });
+                sock.send(top);
+            console.log('Scrolled to top');
+            }
+        }
+    }
 </script>
