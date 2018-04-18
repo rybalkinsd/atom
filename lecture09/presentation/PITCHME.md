@@ -22,12 +22,7 @@ Refresh gradle project
 ---
 ## Agenda
 0. Game architecture
-0. Time model
-0. Client-server protocol
-
----
-## Summary
-0. **[Game architecture]**
+0. Game client
 0. Time model
 0. Client-server protocol
 0. Project task
@@ -44,15 +39,30 @@ Game Server is a separate application that do in cycle:
 
 
 ---
-<img src="lecture09/presentation/assets/img/GameServerArchitecture.png" alt="exception" style="width: 800px;"/>
+<img src="lecture09/presentation/assets/img/GameServerArchitecture.svg" alt="exception" style="width: 800px;"/>
 
 
 ---
 ## Agenda
 0. Game architecture
+0. **[Game client]**
+0. Time model
+0. Client-server protocol
+0. Project task
+
+---
+## Game client
+Game client is a separate HTML5 project (js+canvas)  
+https://github.com/rybalkinsd/atom-bomberman-frontend  
+Check it out
+
+---
+## Agenda
+0. Game architecture
+0. Game client
 0. **[Time model]**
 0. Client-server protocol
-
+0. Project task
 ---
 ## Time model with variable tick time
 > @see ru.atom.lecture09.tick.Ticker
@@ -69,6 +79,7 @@ We will discuss details when talk about game mechanics
 ---
 ## Agenda
 0. Game architecture
+0. Game client
 0. Time model
 0. **[Client-server protocol]**
 0. Project task
@@ -145,6 +156,7 @@ server -> client
 ---
 ## Agenda
 0. Game architecture
+0. Game client
 0. Time model
 0. Client-server protocol
 0. **[Project task]**
