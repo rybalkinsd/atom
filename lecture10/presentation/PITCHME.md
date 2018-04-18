@@ -192,6 +192,7 @@ This simple example shows how you can loose money when using bad synchronization
 Billing service allow to transfer money between users  
 ```bash
 curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
+curl -XPOST localhost:8080/billing/addUser -d "user=sergey&money=100000"
 curl localhost:8080/billing/stat
 curl -XPOST localhost:8080/billing/sendMoney -d "from=sergey&to=sasha&money=1"
 ```
