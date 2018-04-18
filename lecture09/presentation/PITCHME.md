@@ -215,16 +215,6 @@ create a directory for game server
 Call it **game_server**  
 In this directory you will create game server from scratch
 
----
-## Game Server Hackaton
-Implement the skeleton of the game server.
-Everything on picture except:
-- GameMechanics (Next Lectures)  
-create stub for it
-- ConnectionHandler (Homework)  
-create stub for it
-- Connect with MatchMaker  
-
 
 ---
 **Оставьте обратную связь**
