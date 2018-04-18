@@ -273,9 +273,9 @@ Some just avoid concurrency
 - Ruby (GIL, Introduced Guild Locks)
 
 ---
-## What about Memory Model in Java
+## Java Memory Model
 Java Provide low-level powerful **Memory Model**, that allows threads freely communicate via shared mutable state.  
-With JMM one can create highly-concurrent high-performance system.
+Based on JMM one can create highly-concurrent high-performance system.
 The power is gained at cost of complexity.  
 **JMM** sacrifices some basic guaranties: **guaranties** that are obvious in single-threaded environment **does not work** in multithreaded environment.
 
