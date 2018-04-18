@@ -128,7 +128,7 @@ Util to observe java process stack state.
 
 ---
 ### How different threads can communicate?
-As usual - they can communicate via public variables, via mutable objects.  
+Nothing new - they can communicate via public variables, via mutable objects.  
 ### How threads communicate in our game  
 0. **Only game-mechanics thread** communicate with **GameSession** (so game mechanics is single-threaded)
 0. WS threads communicate with game mechanics via **thread-safe queue**
@@ -183,7 +183,23 @@ Is it **shared mutable state**?
 ---
 ## What if we just write concurrent program as single-threaded?
 **Many things will go wrong**
+> @see ru.atom.lecture10.billing
 
+
+---
+## Billing example
+This simple example shows how you can loose money when using bad synchronization Oo  
+Billing service allow to transfer money between users  
+```bash
+curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
+curl localhost:8080/billing/stat
+curl -XPOST localhost:8080/billing/sendMoney -d "from=sergey&to=sasha&money=1"
+```
+Start server and emulate fast money transfer with **jmeter**. Then look at stat again:
+```bash
+curl localhost:8080/billing/stat
+```
+> @see ru.atom.lecture10.billing
 
 ---
 ## 1. Race condition
