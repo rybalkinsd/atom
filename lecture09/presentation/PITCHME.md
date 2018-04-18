@@ -27,6 +27,9 @@ Refresh gradle project
 0. Client-server protocol
 0. Project task
 
+---
+## Architecture overview architecture
+<img src="lecture09/presentation/assets/img/Bomberman-arch.png" alt="exception" style="width: 900px;"/>
 
 ---
 ## Game Server
@@ -39,8 +42,17 @@ Game Server is a separate application that do in cycle:
 
 
 ---
-<img src="lecture09/presentation/assets/img/GameServerArchitecture.png" alt="exception" style="width: 800px;"/>
+<img src="lecture09/presentation/assets/img/GameServerArchitecture.png" alt="exception" style="width: 900px;"/>
 
+---
+
+### Multithreading
+Game server is a multithreaded application
+1. Many threads - get user input
+1. One thread - Game mechanics
+1. Many threads broadcast replica
+  
+More details in the next lecture
 
 ---
 ## Agenda
@@ -55,6 +67,30 @@ Game Server is a separate application that do in cycle:
 Game client is a separate HTML5 project (js+canvas)  
 https://github.com/rybalkinsd/atom-bomberman-frontend  
 Check it out
+
+---
+### JS components
+1. bootstrap - common purpose [link](http://getbootstrap.com/)
+1. PreloadJS - assets upload [link](http://www.createjs.com/preloadjs)
+1. EaselJS - canvas operating [link](http://www.createjs.com/easeljs)
+
+---
+### Canvas
+<img src="lecture08/presentation/assets/img/canvas.png" alt="exception" style="width: 600px;"/> 
+
+ 
+---
+### Front instances
+- Player
+- Bomb
+- Fire
+- Tile
+
+---
+### Front infrastructure
+- core and Entity - an approach to be OOP
+- GameEngine - basic mechanics and render
+- InputEngine - input handling 
 
 ---
 ## Agenda
