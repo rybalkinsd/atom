@@ -39,7 +39,7 @@ Game Server is a separate application that do in cycle:
 
 
 ---
-<img src="lecture09/presentation/assets/img/GameServerArchitecture.svg" alt="exception" style="width: 800px;"/>
+<img src="lecture09/presentation/assets/img/GameServerArchitecture.png" alt="exception" style="width: 800px;"/>
 
 
 ---
@@ -67,14 +67,13 @@ Check it out
 ## Time model with variable tick time
 > @see ru.atom.lecture09.tick.Ticker
 
-In our model tick lasts until all messages from InoutQueue are handled  
+In our model tick lasts until all messages from InputQueue are handled  
 So every time tick time is different  
 **Advantages/Disadvantages?**
 
 ---
 ## Time model with variable tick time
 So game mechanics should take **elapsed** as a parameter and use it internally  
-We will discuss details when talk about game mechanics
 
 ---
 ## Agenda
