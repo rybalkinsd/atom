@@ -203,11 +203,11 @@ curl localhost:8080/billing/stat
 > @see ru.atom.lecture10.billing
 
 ---
-## You've lost your money
+## You've lost your money (or gained)
 Technically, the invariant was broken:
 > Total amount of money in system must be preserved during **sendMoney**
 
-Why we lost money?  
+Why we loose money?  
 Because in multithreaded systems **guarantees are weaker** than in single-threaded.  
 Multithreaded systems **without proper synchronization** have some problems.
 
