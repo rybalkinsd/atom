@@ -264,7 +264,7 @@ There are 3 reasons for data races according to JMM. The following guaranties ar
 
 ---
 ## Concurrency in different languages
-First let's look at how MM is implemented in other languages and in Java.  
+Let's look at how MM is implemented in other languages and in Java.  
 Many languages have no default concurrency support (does not have **Memory Model**)
 - c (concurrency provided by **pthreads** library)
 - c++ (before C++11)
