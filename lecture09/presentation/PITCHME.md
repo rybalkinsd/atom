@@ -70,7 +70,7 @@ Check it out
 
 ---
 ## Fork game client
-<img src="lecture09/presentation/assets/img/client-actions.jpg" alt="exception" style="width: 600px;"/> 
+<img src="lecture09/presentation/assets/img/client-actions.jpg" alt="exception" style="width: 800px;"/> 
 
 
 ---
