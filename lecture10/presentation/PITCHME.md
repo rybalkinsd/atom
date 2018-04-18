@@ -203,6 +203,15 @@ curl localhost:8080/billing/stat
 > @see ru.atom.lecture10.billing
 
 ---
+## You've lost your money
+Technically, the invariant was broken:
+> Total amount of money in system must be preserved during **sendMoney**
+
+Why we lost money?  
+Because in multithreaded systems **guarantees are weaker** than in single-threaded.  
+Multithreaded systems **without proper synchronization** have some problems.
+
+---
 ## 1. Race condition
 Race condition (состояние гони, гонка)
 program behaviour where the output is dependent on the
