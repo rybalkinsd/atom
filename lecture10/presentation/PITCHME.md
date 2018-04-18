@@ -24,7 +24,7 @@ Refresh gradle project
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 ---
 ## Agenda
@@ -33,7 +33,7 @@ Refresh gradle project
 1. Parallelism and Concurrency
 1. What can go wrong with concurrency?
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 ---
 ## Parallelism
@@ -120,7 +120,7 @@ Util to observe java process stack state.
 1. What can go wrong with concurrency?
 1. Concurrency and data races
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 ---
 ## Game Server threads in Bomberman
@@ -129,10 +129,15 @@ Util to observe java process stack state.
 ---
 ### How different threads can communicate?
 As usual - they can communicate via public variables, via mutable objects.  
-### Look how our threads communicates:  
-0. Only game mechanics communicate with GameSession (so game mechanics is single-threaded)
+### How game threads communicate:  
+0. **Only game-mechanics thread** communicate with **GameSession** (so game mechanics is single-threaded)
 0. WS threads communicate with game mechanics via **thread-safe queue**
 
+---
+## Game state
+**GameSession** - mechanics state (players, position)  
+**InputQueue** - input data from users  
+**ConnectionPool** - connected players  
 
 ---
 ## Agenda
@@ -142,7 +147,7 @@ As usual - they can communicate via public variables, via mutable objects.
 1. What can go wrong with concurrency?
 1. Concurrency and data races
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 ---
 ## What does it mean that threads share memory?
@@ -161,7 +166,7 @@ Any examples of task that can be executed in parallel without concurrency?
 ---
 ## Bomberman server is concurrent
 Different threads change and read game state  
-What is game state in Bomberman?  
+Examples of game state in Bomberman?  
 Is it **shared mutable state**?
 
 ---
@@ -172,7 +177,7 @@ Is it **shared mutable state**?
 1. **[What can go wrong with concurrency?]**
 1. Concurrency and data races
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 
 ---
@@ -189,7 +194,7 @@ sequence or timing of other uncontrollable events
 Behaviour of multithreaded program is (inter alia) dependent on **OS scheduling**  
   
 **Uncontrollable races are almost always erroneous**  
-> @see ru.atom.lecture10.races
+> @see ru.atom.lecture10.racesconditions
 
 ---
 ## 2. Data races
@@ -197,11 +202,13 @@ Behaviour of multithreaded program is (inter alia) dependent on **OS scheduling*
  (Not the same as race conditions)
 
 Is **Bomberman** prone to data races?  
+> @see ru.atom.lecture10.dataraces
+> @see ru.atom.lecture10.volatileexample
 
 ---
 ## 3. Locking problems
 Standard way to handle multi-threaded problems is using critical sections (on locks)
-Inproper usage can lead to common problems:
+Locking misuse can lead to common problems:
 - deadlocks
 - livelocks
 
@@ -218,7 +225,7 @@ Reasoning about performance of concurrent programs is tricky
 1. What can go wrong with concurrency?
 1. **[Concurrency and data races]**
 1. Synchronization. Critical section
-1. Practice
+1. Game threading scheme
 
 ---
 ## Concurrency and data races
@@ -227,7 +234,6 @@ There are 3 reasons for data races according to JMM. The following guaranties ar
 - Atomicity
 - Visibility
 - Ordering
-> @see ru.atom.lecture10.dataraces
 
 
 ---
@@ -294,7 +300,7 @@ It actually depends on cache [**coherence protocol**](https://en.wikipedia.org/w
 
 ---
 ## Ordering
-In sake of performance **javac**, **jit** and **JVM** may change your code whenever it is accepted by **Java Memory Model**, that is it can reorder instructions.
+To achieve high performance **javac**, **jit** and **runtime** may change your code whenever it is accepted by **Java Memory Model**, that is it can reorder instructions.
 After all, **processor** reorders instructions by himself.  
 JMM restrict some reorderings.
 > @see ru.atom.lecture10.ordering 
@@ -313,7 +319,7 @@ JMM restrict some reorderings.
 1. What can go wrong with concurrency?
 1. Concurrency and data races
 1. **[Synchronization. Critical section]**
-1. Practice
+1. Game threading scheme
 
 ---
 ## Critical section
@@ -379,15 +385,11 @@ class java.lang.Object {
 1. What can go wrong with concurrency?
 1. Concurrency and data races
 1. Synchronization. Critical section
-1. **[Practice]**
+1. **[Game threading scheme]**
 
 ---
-## Implement threading scheme in game server
+## Threading scheme in game server
 <img src="lecture10/presentation/assets/img/GameThreads.png" alt="exception" style="width: 850px;"/>
----
-### Monitors
-<img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 400px;"/>
-
 
 ---
 ## Summary
