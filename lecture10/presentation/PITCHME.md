@@ -129,7 +129,7 @@ Util to observe java process stack state.
 ---
 ### How different threads can communicate?
 As usual - they can communicate via public variables, via mutable objects.  
-### How game threads communicate:  
+### How threads communicate in our game  
 0. **Only game-mechanics thread** communicate with **GameSession** (so game mechanics is single-threaded)
 0. WS threads communicate with game mechanics via **thread-safe queue**
 
