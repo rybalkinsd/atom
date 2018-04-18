@@ -30,8 +30,7 @@ Refresh gradle project
 ---
 
 ## Architecture overview
-
----?image=lecture08/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
+<img src="lecture08/presentation/assets/img/Game-architecture.png" alt="exception" style="width: 750px;"/>  
 
 
 ---
