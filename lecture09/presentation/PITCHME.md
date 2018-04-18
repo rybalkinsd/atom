@@ -1,38 +1,39 @@
-#HSLIDE
+---
 # Java
 lecture 9
 ## Game Server architecture.
 ## Client-server protocol
 
-#HSLIDE
+---
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
-#HSLIDE
+---
 ### get ready
+https://github.com/rybalkinsd/atom
 ```bash
 > git fetch upstream
 > git checkout -b lecture09 upstream/lecture09
+> cd lecture09
 ```
 Refresh gradle project
 
 
-#HSLIDE
+---
 ## Agenda
-0. Game Server architecture
+0. Game architecture
 0. Time model
-0. Game Server Hackaton
 0. Client-server protocol
 
-#HSLIDE
+---
 ## Summary
-0. **[Game Server architecture]**
+0. **[Game architecture]**
 0. Time model
-0. Game Server Hackaton
 0. Client-server protocol
+0. Project task
 
 
-#HSLIDE
+---
 ## Game Server
 Game Server is a separate application that do in cycle:
 0. get's input from multiple clients
@@ -42,18 +43,17 @@ Game Server is a separate application that do in cycle:
 **On the next picture green components are already developed**
 
 
-#HSLIDE
+---
 <img src="lecture09/presentation/assets/img/GameServerArchitecture.png" alt="exception" style="width: 800px;"/>
 
 
-#HSLIDE
+---
 ## Agenda
-0. Game Server architecture
+0. Game architecture
 0. **[Time model]**
-0. Game Server Hackaton
 0. Client-server protocol
 
-#HSLIDE
+---
 ## Time model with variable tick time
 > @see ru.atom.lecture09.tick.Ticker
 
@@ -61,51 +61,20 @@ In our model tick lasts until all messages from InoutQueue are handled
 So every time tick time is different  
 **Advantages/Disadvantages?**
 
-#HSLIDE
+---
 ## Time model with variable tick time
 So game mechanics should take **elapsed** as a parameter and use it internally  
 We will discuss details when talk about game mechanics
 
-#HSLIDE
+---
 ## Agenda
-0. Game Server architecture
+0. Game architecture
 0. Time model
-0. **[Game Server Hackaton]**
-0. Client-server protocol
-
-#HSLIDE
-## Create a branch for game server
-Create the branch from branch lecture09, where you will develop the game server:
-```bash
-> git checkout -b game-server
-```
-
-#HSLIDE
-## create a directory for game server
-create a directory for game server  
-Call it **game_server**  
-In this directory you will create game server from scratch
-
-#HSLIDE
-## Game Server Hackaton
-Implement the skeleton of the game server.
-Everything on picture except:
-- GameMechanics (Next Lectures)  
-create stub for it
-- ConnectionHandler (Homework)  
-create stub for it
-- Connect with MatchMaker  
-
-
-#HSLIDE
-## Agenda
-0. Game Server architecture
-0. Time model
-0. Game Server Hackaton
 0. **[Client-server protocol]**
+0. Project task
 
 
-#HSLIDE
+---
 ## Client-server communication
 Client and server talk via **websocket**  
 We use **JSON** for messages  
@@ -117,7 +86,7 @@ We use **JSON** for messages
 - REPLICA
 - POSSESS
 
-#HSLIDE
+---
 ## MOVE
 client -> server
 ```json
@@ -131,7 +100,7 @@ client -> server
 ```
 direction values: UP/DOWN/RIGHT/LEFT
 
-#HSLIDE
+---
 ## PLANT_BOMB
 client -> server
 ```json
@@ -142,7 +111,7 @@ client -> server
 ```
 
 
-#HSLIDE
+---
 ## POSSESS
 server -> client  
 (returns player pawn id, once on the start of game)
@@ -154,7 +123,7 @@ server -> client
 ```
 
 
-#HSLIDE
+---
 ## REPLICA
 ```json
 {
@@ -167,12 +136,44 @@ server -> client
 }
 ```
 
-#HSLIDE
+---
 ## Network implementation ideas
 > @see ru.atom.lecture09.network
 
 
-#HSLIDE
+
+---
+## Agenda
+0. Game architecture
+0. Time model
+0. Client-server protocol
+0. **[Project task]**
+
+---
+## Create a branch for game server
+Create the branch from branch lecture09, where you will develop the game server:
+```bash
+> git checkout -b game-server
+```
+
+---
+## create a directory for game server
+create a directory for game server  
+Call it **game_server**  
+In this directory you will create game server from scratch
+
+---
+## Game Server Hackaton
+Implement the skeleton of the game server.
+Everything on picture except:
+- GameMechanics (Next Lectures)  
+create stub for it
+- ConnectionHandler (Homework)  
+create stub for it
+- Connect with MatchMaker  
+
+
+---
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
