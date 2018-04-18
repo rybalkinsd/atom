@@ -27,7 +27,7 @@ Refresh gradle project
 0. Project task
 
 ---
-## Architecture overview architecture
+## Architecture overview
 <img src="lecture09/presentation/assets/img/Bomberman-arch.png" alt="exception" style="width: 900px;"/>
 
 ---
@@ -46,7 +46,8 @@ Game Server is a separate application that do in cycle:
 ---
 
 ### Multithreading
-Game server is a multithreaded application
+Game server is a multithreaded application  
+For each game:  
 1. Many threads - get user input
 1. One thread - Game mechanics
 1. Many threads broadcast replica
