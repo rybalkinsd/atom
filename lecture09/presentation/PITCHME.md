@@ -69,6 +69,11 @@ https://github.com/rybalkinsd/atom-bomberman-frontend
 Check it out
 
 ---
+## Fork game client
+<img src="lecture09/presentation/assets/img/client-actions.jpg" alt="exception" style="width: 600px;"/> 
+
+
+---
 ### JS components
 1. bootstrap - common purpose [link](http://getbootstrap.com/)
 1. PreloadJS - assets upload [link](http://www.createjs.com/preloadjs)
