@@ -1,8 +1,7 @@
 ---
 # Java
 lecture 9
-## Game Server architecture.
-## Client-server protocol
+## Game architecture
 
 ---
 ## Отметьтесь на портале
@@ -85,12 +84,13 @@ Check it out
 - Bomb
 - Fire
 - Tile
+- Bonus
 
 ---
 ### Front infrastructure
-- core and Entity - an approach to be OOP
 - GameEngine - basic mechanics and render
 - InputEngine - input handling 
+- ClusterSettings - infrastructure settings
 
 ---
 ## Agenda
