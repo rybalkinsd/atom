@@ -30,6 +30,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.0.RELEASE'
 // https://mvnrepository.com/artifact/org.postgresql/postgresql
     compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
