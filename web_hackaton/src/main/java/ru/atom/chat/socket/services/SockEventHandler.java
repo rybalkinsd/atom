@@ -9,8 +9,13 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import ru.atom.chat.socket.message.request.SocketMessage;
-import ru.atom.chat.socket.message.response.OutcomingMessage;
-import ru.atom.chat.socket.message.response.messagedata.ResponseData;
+import ru.atom.chat.socket.message.request.messagedata.LoginUser;
+import ru.atom.chat.socket.message.request.messagedata.LogoutUser;
+import ru.atom.chat.socket.message.request.messagedata.RegisterUser;
+import ru.atom.chat.socket.message.response.Mail;
+import ru.atom.chat.socket.message.response.ResponseData;
+import ru.atom.chat.socket.message.response.ResponseMessage;
+import ru.atom.chat.socket.message.response.OperationResponse;
 import ru.atom.chat.socket.topics.IncomingTopic;
 import ru.atom.chat.socket.topics.OutgoingTopic;
 import ru.atom.chat.socket.topics.ResponseTopic;
@@ -44,10 +49,32 @@ public class SockEventHandler extends TextWebSocketHandler {
 
         try {
             switch (socketMessage.getTopic()) {
+                case REGISTER:
+                    RegisterUser registerUser = JsonHelper.fromJson(socketMessage.getData(), RegisterUser.class);
+                    response = chatService.register(registerUser);
+                    if (response.getStatus() == ResponseTopic.OK)
+                        SessionsList.matchSessionWithName(session, registerUser.getSender());
+                    handleResponse(session, response);
+                    break;
+                case LOGIN:
+                    LoginUser loginUser = JsonHelper.fromJson(socketMessage.getData(), LoginUser.class);
+                    response = chatService.login(loginUser);
+                    if (response.getStatus() == ResponseTopic.OK)
+                        SessionsList.matchSessionWithName(session, loginUser.getSender());
+
+                    handleResponse(session, response);
+                    break;
                 case MESSAGE:
                     IncomingMessage messageBody = JsonHelper.fromJson(socketMessage.getData(), IncomingMessage.class);
                     response = chatService.say(messageBody);
-                    handleResponse(session, IncomingTopic.MESSAGE, response);
+                    handleResponse(session, response);
+                    break;
+                case LOGOUT:
+                    LogoutUser logoutUser = JsonHelper.fromJson(socketMessage.getData(), LogoutUser.class);
+                    response = chatService.logout(logoutUser);
+                    if (response.getStatus() == ResponseTopic.OK)
+                        SessionsList.unfastenSessionWithName(logoutUser.getSender());
+                    handleResponse(session, response);
                     break;
                 default:
                     log.warn("Unexpected message type: " + socketMessage.getTopic());
@@ -55,25 +82,38 @@ public class SockEventHandler extends TextWebSocketHandler {
             }
         } catch (IllegalArgumentException exception) {
             log.error("Message was not properly prepared, watch logs for more information.");
+            response = new ResponseData(socketMessage.getTopic());
+            response.addSenderError(
+                    "Message was not properly created, please contact the developers");
+            handleResponse(session, response);
         }
     }
 
-    private void handleResponse(WebSocketSession session, IncomingTopic topic, ResponseData response)
+    private void handleResponse(WebSocketSession session, ResponseData response)
             throws IOException {
-        SocketMessage responseMessage;
-        if (response.getTopic() == ResponseTopic.OK) {
-            ResponseData responseOnTopic;
-            OutcomingMessage messageToAll;
+        for (Mail mail : response) {
+            sendMail(session, mail);
+        }
+    }
 
-            responseOnTopic = new ResponseData(ResponseTopic.OK, "");
-            responseMessage = new SocketMessage(topic, JsonHelper.toJson(responseOnTopic));
-
-            session.sendMessage(new TextMessage(JsonHelper.toJson(responseMessage)));
-            messageToAll = new OutcomingMessage(OutgoingTopic.NEW_MESSAGE, response.getData());
-            SessionsList.sendAll(JsonHelper.toJson(messageToAll));
-        } else {
-            responseMessage = new SocketMessage(topic, JsonHelper.toJson(response));
-            session.sendMessage(new TextMessage(JsonHelper.toJson(responseMessage)));
+    private void sendMail(WebSocketSession sender, Mail mail)
+            throws IOException {
+        switch (mail.getType()) {
+            case TO_ALL:
+                SessionsList.sendAll(mail.getData());
+                break;
+            case BACK_TO_SENDER:
+                sender.sendMessage(new TextMessage(mail.getData()));
+                break;
+            case TO_USER:
+                // TODO
+                break;
+            case TO_GROUP:
+                // TODO
+                break;
+            default:
+                log.error("Unexpected mail type, pls add it.");
+                break;
         }
     }
 

@@ -22,9 +22,6 @@ public class User implements IUser {
     @Column(name = "password", nullable = false, length = 20)
     private String password;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active;
-
     // TODO create OneToMany with messages
 
     private Date lastDate;
@@ -38,13 +35,11 @@ public class User implements IUser {
         if (!this.password.equals(password)) {
             throw new RuntimeException("wrong password");
         }
-        this.active = true;
         this.lastDate = new Date();
     }
 
     public boolean login(String password) {
         boolean checking = passCheck(password);
-        this.active = checking;
         return checking;
     }
 
@@ -53,10 +48,6 @@ public class User implements IUser {
             return false;
         }
         return true;
-    }
-
-    public void logout() {
-        this.active = false;
     }
 
     public Integer getId() {
@@ -69,15 +60,6 @@ public class User implements IUser {
 
     public User setLogin(String login) {
         this.login = login;
-        return this;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public User setActive(Boolean active) {
-        this.active = active;
         return this;
     }
 

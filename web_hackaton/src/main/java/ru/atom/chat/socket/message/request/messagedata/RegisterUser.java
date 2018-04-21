@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NewUser {
-    private static Logger log = LoggerFactory.getLogger(NewUser.class);
+public class RegisterUser {
+    private static Logger log = LoggerFactory.getLogger(RegisterUser.class);
     private final String sender;
     private final String password;
     private final String passCopy;
 
 
     @JsonCreator
-    public NewUser(
+    public RegisterUser(
             @JsonProperty("sender") String sender,
             @JsonProperty("password") String password,
             @JsonProperty("passCopy") String passCopy)

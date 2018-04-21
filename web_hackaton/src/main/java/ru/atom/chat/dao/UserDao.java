@@ -12,7 +12,7 @@ public interface UserDao {
      */
     User getByLogin(String login);
 
-    List<User> getByActive(Boolean login);
+    // List<User> getByActive(Boolean login);
 
     void save(User user);
 

@@ -1,5 +1,7 @@
 package ru.atom.chat.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.atom.chat.user.User;
@@ -20,6 +22,9 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager em;
 
+    private static Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
+
+
     @Override
     public User getByLogin(String login) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -37,6 +42,7 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /*
     @Override
     public List<User> getByActive(Boolean active) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -53,6 +59,7 @@ public class UserDaoImpl implements UserDao {
         }
         return onlineUsers;
     }
+    */
 
     @Override
     public void save(User user) {
@@ -66,7 +73,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(User user) {
-        em.remove(user);
+        // em.remove(user);
+        log.warn("I dont want to delete users");
     }
 
     @Override

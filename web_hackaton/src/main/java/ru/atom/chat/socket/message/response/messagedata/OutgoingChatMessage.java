@@ -6,15 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.atom.chat.message.Message;
 
-public class OutgoingMessage {
-    private static Logger log = LoggerFactory.getLogger(OutgoingMessage.class);
+public class OutgoingChatMessage {
+    private static Logger log = LoggerFactory.getLogger(OutgoingChatMessage.class);
     private final String sender;
     private final String time;
     private final String msg;
 
 
     @JsonCreator
-    public OutgoingMessage(
+    public OutgoingChatMessage(
             @JsonProperty("sender") String sender,
             @JsonProperty("time") String time,
             @JsonProperty("msg") String msg)
@@ -32,7 +32,7 @@ public class OutgoingMessage {
         this.msg = msg;
     }
 
-    public OutgoingMessage(Message message) throws IllegalArgumentException {
+    public OutgoingChatMessage(Message message) throws IllegalArgumentException {
         this.sender = message.getUser().getLogin();
         this.time = message.getTime();
         this.msg = message.getValue();
