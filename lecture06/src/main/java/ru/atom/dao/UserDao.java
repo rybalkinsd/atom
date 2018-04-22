@@ -18,6 +18,11 @@ import java.util.List;
 public class UserDao implements Dao<User> {
     private static final Logger log = LoggerFactory.getLogger(UserDao.class);
 
+    private static final  String SELECT_USER_WHERE =
+            "select * " +
+                    "from chat.user " +
+                    "where login = '%s'";
+
     private static final String SELECT_ALL_USERS =
             "select * " +
                     "from chat.user";
@@ -81,7 +86,19 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new UnsupportedOperationException();
+        User us = null;
+        try (Connection con = DbConnector.getConnection();
+            Statement stm = con.createStatement()
+        ) {
+            ResultSet rs = stm.executeQuery(String.format(SELECT_USER_WHERE, name));
+            rs.next();
+            us = mapToUser(rs);
+        }
+        catch (SQLException exc) {
+            log.error("Failed to get user by name");
+        }
+
+        return us;
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {
