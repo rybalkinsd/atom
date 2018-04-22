@@ -1,85 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Flat disign chat</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
 </head>
-<html>
 <body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
-    </form>
-</div>
-<div id="body">
-    <div id="history" class="chat form"></div>
-</div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+
+<div class="body">
+
+    <div id="loginForm" class="loginBox">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Login Form:</p>
+                </div>
+                <input id="name" name="sender" value="" style="font-size:medium" type="text"><br>
+                <input id="pwd" name="password" value="" style="font-size:medium" type="password"><br>
+                <button class="sendbutton" style="font-size:large" onclick="login()">Login</button>
+                <br>
+                <button class="sendbutton" style="font-size:large" onclick="openRegister()">Register</button>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerForm" class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Register Form:</p>
+                </div>
+                <input id="newName" name="sender" value="" style="font-size:medium" type="text"><br>
+                <input id="pass" name="password" value="" style="font-size:medium" type="password"><br>
+                <input id="passCopy" name="passCopy" value="" style="font-size:medium" type="password"><br>
+                <button class="sendbutton" style="font-size:large" onclick="register()">Register</button>
+                <br>
+                <button class="sendbutton" style="font-size:large" onclick="closeRegister(null, null)">Login</button>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div id="onlineForm" class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Loggined User:</p>
+                </div>
+                <div class="userNameHeader">
+                    <p id="userLogin"></p>
+                </div>
+                <button class="sendbutton" style="font-size:large" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatBox">
+        <div id="mesList" class="chatLogs">
+
+            <div id="history" class="chat form">
+
+            </div>
+
+        </div>
+
+        <div class="chatForm">
+            <input id="msgform" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+            <button class="sendbutton" onclick="say()">Send</button>
+        </div>
+    </div>
+
+    <div class="userBox">
+        <div class="userLogs">
+            <div id="users" class="users form"></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
 
+<!--
+We are using SockJS lib
+https://github.com/sockjs/sockjs-client
+-->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-    var host = "localhost";
-    var port = 8080;
 
+    //string contains "sender=" used in get/post http services
+    var curUserName = null;
+    //string contains "password=" used in get/post http services
+    var curUserPassword = null;
+
+    var host = 'localhost';
+    var port = 8080;
+    var path = 'events';
+    var sock;
+    var messageList = [];
+    var userList = [];
+
+    initSock();
+
+    function initSock() {
+        sock = new SockJS('http://' + host + ':' + port + '/' + path);
+        sock.onopen = function () {
+            console.log('open');
+        };
+
+        sock.onmessage = function (e) {
+            var response = JSON.parse(e.data);
+            console.log(response);
+            handleResponse(response);
+        };
+
+        sock.onclose = function () {
+            console.log('closed');
+        };
+    }
+
+    function handleResponse(response) {
+        data = JSON.parse(response.data);
+        switch (response.topic) {
+            case 'MESSAGE':
+                sayResponse(data);
+                break;
+            case 'REGISTER':
+                registerResponse(data);
+                break;
+            case 'LOGIN':
+                loginResponse(data);
+                break;
+            case 'LOGOUT':
+                logoutResponse(data);
+                break;
+
+            case 'NEW_MESSAGE':
+                var htmlMessage = buildMessage(data);
+                messageList.push(data);
+                var historyBlock = $("#history");
+                historyBlock.append(htmlMessage);
+                historyBlock.scrollTop(historyBlock.scrollHeight - historyBlock.clientHeight);
+                break;
+
+            case 'NEW_USER':
+                var htmlNewUser = buildUser(data);
+                userList.push(data);
+                var usersBlock = $("#users");
+                usersBlock.append(htmlNewUser);
+                usersBlock.scrollTop(usersBlock.scrollHeight - usersBlock.clientHeight);
+                break;
+
+            default:
+                alert("Unexpected topic - " + response.topic + ", please call the developers");
+                break;
+        }
+    }
+
+    function rebuildHistory() {
+        var newHistory = "";
+        messageList.forEach(
+            function (message) {
+                newHistory = newHistory + buildMessage(message);
+            }
+        );
+        $("#history").html(newHistory.replace(/\n/g, "<br />"));
+    }
+
+    function buildMessage(message) {
+        var name;
+        if (curUserName == null)
+            name = "";
+        else
+            name = curUserName;
+        var isCurUser = (name === message.sender);
+        var builtMessage = "<div class=\"chatMessage " + (isCurUser ? "me" : "notMe") + "\">" +
+            "   <div class=\"timeAndPhoto\">" +
+            "       <div class=\"userPhoto\">" +
+            "           <img src=\"img/user" + (isCurUser ? "2" : "1") + ".png\">" +
+            "       </div>" +
+            "       <div class=\"time\">" +
+            message.time +
+            "       </div>" +
+            "   </div>" +
+            "   <div class=\"userLetter\">" +
+            "       <p class=\"userName\">" +
+            (isCurUser ? ":You" : message.sender + ":") +
+            "       </p>" +
+            "       <p class=\"messageBody\">" +
+            message.msg +
+            "       </p>" +
+            "   </div>" +
+            "</div>";
+        return builtMessage;
+    }
+
+    function rebuildUsers() {
+        var outgoingUsers = "";
+        userList.forEach(
+            function (user) {
+                outgoingUsers = outgoingUsers + buildUser(user);
+            }
+        );
+        $("#users").html(outgoingUsers.replace(/\n/g, "<br />"));
+    }
+
+    function buildUser(user) {
+        var name;
+        if (curUserName == null)
+            name = "";
+        else
+            name = curUserName;
+        var isCurUser = (name === user.sender);
+        var builtUser = user.sender + "<br>";
+        return builtUser;
+    }
+
+    openRegister();
+
+    function openRegister() {
+        curUserName = null;
+        curUserPassword = null;
+        document.getElementById('registerForm').style.display = "";
+        document.getElementById('loginForm').style.display = "none";
+        document.getElementById('onlineForm').style.display = "none";
+    }
+
+    function closeRegister(userName, userPassword) {
+        document.getElementById('registerForm').style.display = "none";
+        changeUser(userName, userPassword);
+    }
+
+    function changeUser(userName, userPassword) {
+        document.getElementById('registerForm').style.display = "none";
+        curUserName = userName;
+        curUserPassword = userPassword;
+        if (userName == null) {
+            document.getElementById('loginForm').style.display = "";
+            document.getElementById('onlineForm').style.display = "none";
+        }
+        else {
+            document.getElementById('loginForm').style.display = "none";
+            document.getElementById('onlineForm').style.display = "";
+            document.getElementById('userLogin').innerHTML = userName;
+        }
+        rebuildHistory();
+        rebuildUsers();
+    }
+
+    // now this is web functions --------------------------------------------------------
 
     function loadHistory() {
         var settings = {
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/chat",
-            "method": "GET",
-        }
+            "method": "GET"
+        };
 
         $.ajax(settings).done(function (response) {
-            $("#history").html(response.replace(/\n/g, "<br />"))
-            $("#history").scrollTop($("#history")[0].scrollHeight);
+            var prevMessages = [];
+            if (messageList.length > 0) {
+                prevMessages = messageList
+            }
+
+            messageList = JSON.parse(response);
+            prevMessages.forEach(
+                function (message) {
+                    messageList.push(message);
+                }
+            );
+            rebuildHistory();
+            var historyBlock = $("#history");
+            historyBlock.scrollTop(historyBlock.scrollHeight - historyBlock.clientHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/users",
+            "method": "GET"
+        };
+
+        $.ajax(settings).done(function (response) {
+            userList = JSON.parse(response);
+            rebuildUsers();
+            var usersBlock = $("#users");
+            usersBlock.scrollTop(usersBlock.scrollHeight - usersBlock.clientHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
     }
 
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        if (curUserName == null)
+            return;
+        var msg = $('#msgform').val();
+        var sender = curUserName;
+        var password = curUserPassword;
 
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/say",
-            "data": name + "&" + msg
-        };
+        var msgData = JSON.stringify(
+            {
+                "topic": "MESSAGE",
+                "data": {
+                    "sender": sender,
+                    "msg": msg,
+                    "password": password
+                }
+            });
+        sock.send(msgData);
+    }
 
-        $.ajax(settings).done(function (response) {
-            $('#msgform').trigger("reset");
-            loadHistory();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
+    function sayResponse(data){
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                break;
+            case 'OK':
+                document.getElementById('msgform').value = "";
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
     }
 
     function login() {
-        var name = $('#nameform').serialize();
+        curUserName = $('#name').val();
+        curUserPassword = $('#pwd').val();
 
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/login",
-            "data": name
-        };
+        var msgData = JSON.stringify(
+            {
+                "topic": "LOGIN",
+                "data": {
+                    "sender": curUserName,
+                    "password": curUserPassword
+                }
+            });
+        sock.send(msgData);
+    }
 
-        $.ajax(settings).done(function (response) {
-            loadHistory();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
+    function loginResponse(data){
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                curUserName = null;
+                curUserPassword = null;
+                break;
+            case 'OK':
+                document.getElementById('name').value = "";
+                document.getElementById('pwd').value = "";
+                changeUser(curUserName, curUserPassword);
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
+    }
+
+    function register() {
+        curUserName = $('#newName').val();
+        curUserPassword = $('#pass').val();
+        var sender = curUserName;
+        var password = curUserPassword;
+        var passCopy = $('#passCopy').val();
+
+        var msgData = JSON.stringify(
+            {
+                "topic": "REGISTER",
+                "data": {
+                    "sender": sender,
+                    "password": password,
+                    "passCopy": passCopy
+                }
+            });
+        sock.send(msgData);
+    }
+
+    function registerResponse(data){
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                curUserName = null;
+                curUserPassword = null;
+                break;
+            case 'OK':
+                document.getElementById('newName').value = "";
+                document.getElementById('pass').value = "";
+                document.getElementById('passCopy').value = "";
+                changeUser(curUserName, curUserPassword);
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
+    }
+
+    function logout() {
+        var sender = curUserName;
+        var password = curUserPassword;
+
+        var msgData = JSON.stringify(
+            {
+                "topic": "LOGOUT",
+                "data": {
+                    "sender": sender,
+                    "password": password
+                }
+            });
+        sock.send(msgData);
+    }
+
+    function logoutResponse(data){
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                break;
+            case 'OK':
+                changeUser(null, null);
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
     }
 
     loadHistory();
-    setInterval(loadHistory, 10000);
+    loadUsers();
+
+
 </script>

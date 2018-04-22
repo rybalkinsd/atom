@@ -2,6 +2,7 @@ package ru.atom.chat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,91 +11,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
+import org.springframework.web.util.HtmlUtils;
+import ru.atom.chat.dao.MessageDao;
+import ru.atom.chat.dao.UserDao;
+import ru.atom.chat.message.Message;
+import ru.atom.chat.socket.message.response.ResponseMessage;
+import ru.atom.chat.socket.message.response.messagedata.OutgoingChatMessage;
+import ru.atom.chat.socket.message.response.messagedata.OutgoingUser;
+import ru.atom.chat.socket.services.ChatService;
+import ru.atom.chat.socket.topics.OutgoingTopic;
+import ru.atom.chat.socket.util.JsonHelper;
+import ru.atom.chat.socket.util.SessionsList;
+import ru.atom.chat.user.User;
 
 @Controller
 @RequestMapping("chat")
 public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 
-    private Queue<String> messages = new ConcurrentLinkedQueue<>();
-    private Map<String, String> usersOnline = new ConcurrentHashMap<>();
+    @Autowired
+    private ChatService chatService;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private MessageDao messageDao;
 
     /**
-     * curl -X POST -i localhost:8080/chat/login -d "name=I_AM_STUPID"
-     */
-    @RequestMapping(
-            path = "login",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestParam("name") String name) {
-        if (name.length() < 1) {
-            return ResponseEntity.badRequest().body("Too short name, sorry :(");
-        }
-        if (name.length() > 20) {
-            return ResponseEntity.badRequest().body("Too long name, sorry :(");
-        }
-        if (usersOnline.containsKey(name)) {
-            return ResponseEntity.badRequest().body("Already logged in:(");
-        }
-        usersOnline.put(name, name);
-        messages.add("[" + name + "] logged in");
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * curl -i localhost:8080/chat/chat
+     * curl -X GET -i localhost:8080/chat/chat
      */
     @RequestMapping(
             path = "chat",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return new ResponseEntity<>(messages.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n")),
-                HttpStatus.OK);
+        String messageList = chatService.allMessages();
+        log.info(messageList);
+        return new ResponseEntity<>(messageList, HttpStatus.OK);
     }
 
     /**
-     * curl -i localhost:8080/chat/online
+     * curl -i localhost:8080/chat/users
      */
     @RequestMapping(
-            path = "online",
+            path = "users",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity online() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
-    }
-
-    /**
-     * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
-     */
-    @RequestMapping(
-            path = "logout",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity logout(@RequestParam("name") String name) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
-    }
-
-
-    /**
-     * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
-     */
-    @RequestMapping(
-            path = "say",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//TODO
+    public ResponseEntity<String> users() {
+        String userList = chatService.allUsers();
+        log.info(userList);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 }
