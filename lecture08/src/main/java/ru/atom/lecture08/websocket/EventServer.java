@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,10 +19,11 @@ public class EventServer {
 
     @Bean
     public Map<String, String> setUsersOnlineBean() {
-        Map<String,String> users = new ConcurrentHashMap<>();
-        users.put("admin","hsl(0,100%,50%)");
+        Map<String, String> users = new ConcurrentHashMap<>();
+        users.put("admin", "hsl(0,100%,50%)");
         return users;
     }
+
 
     @Bean
     public List<WebSocketConfiguration> sessions() {

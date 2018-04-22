@@ -20,10 +20,14 @@ import java.util.List;
 public class ChatService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(ChatService.class);
 
+    private final UserDao userDao;
+    private final MessageDao messageDao;
+
     @Autowired
-    private UserDao userDao;
-    @Autowired
-    private MessageDao messageDao;
+    public ChatService(UserDao userDao, MessageDao messageDao) {
+        this.userDao = userDao;
+        this.messageDao = messageDao;
+    }
 
     @Nullable
     @Transactional

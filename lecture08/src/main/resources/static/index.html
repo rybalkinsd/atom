@@ -56,6 +56,7 @@ https://github.com/sockjs/sockjs-client
     var path = 'chat';
     var sock;
 
+    initSock();
     function say() {
         var msg = $('#msg').val();
         var name = $('#name').val();
@@ -70,30 +71,30 @@ https://github.com/sockjs/sockjs-client
     }
 
     function login() {
-        logout()
-        var name = $('#nameform').serialize();
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/" + path + "/login",
-            "data": name
-        };
-
-        $.ajax(settings).done(function (response) {
-        initSock();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        // logout();
+        var name = $('#name').val();
+        var settings = JSON.stringify({
+            "topic": "LOGIN",
+            "login": name
         });
-//
+        sock.send(settings);
     }
 
     function initSock() {
-        var name = $('#name').val();
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
         sock.onmessage = function (e) {
-            console.log(e.data);
-            setHistory(e.data)
+            var event  = JSON.parse(e.data);
+            switch (event.topic) {
+                case 'FAIL':
+                    alert(event.msg);
+                    break;
+                case 'SUCCESS':
+                    setHistory(event.msg);
+                    //TODO: add class
+                    break;
+                case 'MESSAGE' :
+                    setHistory(event.msg);
+            }
         };
         sock.onopen = function() {
             console.log('open');

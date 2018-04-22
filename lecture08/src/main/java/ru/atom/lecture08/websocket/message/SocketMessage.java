@@ -9,10 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SocketMessage {
-    private final Topic topic;
+    private Topic topic;
     private final String login;
     private final Date date;
-    private final String msg;
+    private String msg;
 
     @JsonCreator
     public SocketMessage(@JsonProperty("topic") Topic topic, @JsonProperty("login") String login, @JsonProperty("msg") String msg) {
@@ -22,7 +22,10 @@ public class SocketMessage {
         this.msg = msg;
     }
 
-
+    public SocketMessage setMsg(String msg) {
+        this.msg = msg;
+        return this;
+    }
     public Topic getTopic() {
         return topic;
     }
@@ -37,5 +40,10 @@ public class SocketMessage {
 
     public String getMsg() {
         return msg;
+    }
+
+    public SocketMessage setTopic(Topic topic) {
+        this.topic = topic;
+        return this;
     }
 }

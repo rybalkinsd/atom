@@ -40,43 +40,6 @@ public class ChatController {
 
     private Random r = new Random();
 
-    /**
-     * curl -X POST -i localhost:8090/chat/login -d "name=I_AM_STUPID"
-     */
-    @RequestMapping(
-            path = "login",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> login(@RequestParam("name") String name) throws Exception{
-        if (!name.equals(HtmlUtils.htmlEscape(name)) || name.contains(":")) {
-            return ResponseEntity.badRequest().body("Bad symbols in your name, sorry :(");
-        }
-        if (name.length() < 3) {
-            return ResponseEntity.badRequest().body("Your name is too short, sorry :(");
-        }
-        if (name.length() > 20) {
-            return ResponseEntity.badRequest().body("Your name is too long, sorry :(");
-        }
-        User alreadyLoggedIn = chatService.getLoggedIn(name);
-        if (alreadyLoggedIn != null) {
-            return ResponseEntity.badRequest()
-                    .body("Already logged in");
-        }
-        int hh = r.nextInt(360);
-        int ss = r.nextInt(100);
-
-        int ll = 30 + r.nextInt(40);
-
-        chatService.login(name, "hsl(" + hh + "," + ss + "%," + ll + "%)");
-        chatService.putMessage("admin", "[<b style=\" color:"
-                + chatService.getUserColor(name) + ";\">" + name + "</b>] logged in", new Date());
-
-        String auth = chatService.getLastMessage().format();
-        sessionNotifier.notifyAllSessions(new TextMessage("\n" + auth));
-        log.info(name + " post login");
-        return ResponseEntity.ok().build();
-    }
 
     /**
      * curl -i localhost:8080/chat/online
