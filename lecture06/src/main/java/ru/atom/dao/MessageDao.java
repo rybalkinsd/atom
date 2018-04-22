@@ -32,6 +32,7 @@ public class MessageDao implements Dao<Message> {
 
     @Override
     public List<Message> getAll() {
+
         List<Message> messages = new ArrayList<>();
         try (Connection con = DbConnector.getConnection();
              Statement stm = con.createStatement()

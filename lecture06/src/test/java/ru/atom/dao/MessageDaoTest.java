@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sergey on 3/25/17.
  */
-@Ignore
+
 public class MessageDaoTest {
     private MessageDao messageDao;
     private String msg ;
@@ -31,6 +31,7 @@ public class MessageDaoTest {
                 .setValue(msg);
 
         messageDao.insert(message);
+
     }
 
     @Test

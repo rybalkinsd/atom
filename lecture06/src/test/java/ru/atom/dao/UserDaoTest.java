@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sergey on 3/25/17.
  */
-@Ignore
+
 public class UserDaoTest {
     private UserDao userDao;
     private String login;
@@ -50,6 +50,11 @@ public class UserDaoTest {
                         .map(User::getLogin)
                         .anyMatch(s -> s.startsWith(login))
         );
+    }
+
+    @Test
+    public void getByNameTest() throws Exception {
+        assertTrue(userDao.getByName("semipyat").getId() > 0);
     }
 
 }

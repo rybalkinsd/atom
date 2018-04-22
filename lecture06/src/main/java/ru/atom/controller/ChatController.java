@@ -15,6 +15,8 @@ import ru.atom.dao.UserDao;
 import ru.atom.model.Message;
 import ru.atom.model.User;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +59,14 @@ public class ChatController {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        newUser = userDao.getByName(newUser.getLogin());
         log.info("[" + name + "] logined");
+        String newMsg = "[" + name + "] logined";
+        Message message = new Message()
+                .setUser(newUser)
+                .setValue(newMsg);
+        messageDao.insert(message);
+
 
         return ResponseEntity.ok().build();
     }
@@ -143,8 +152,13 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
+        List<Message> resultHistory = new ArrayList<>();
         List<Message> chatHistory = messageDao.getAll();
-        String responseBody = chatHistory.stream()
+        for (Message m : chatHistory) {
+            if (userDao.getByName(m.getUser().getLogin()) != null)
+                resultHistory.add(m);
+        }
+        String responseBody = resultHistory.stream()
                 .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
                 .collect(Collectors.joining("\n"));
 
