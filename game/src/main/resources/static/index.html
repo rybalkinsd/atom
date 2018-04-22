@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flat disign chat</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+
+<div class="body">
+
+    <div id="registerForm" class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Register Form:</p>
+                </div>
+                <input id="newName" name="sender" value="" style="font-size:medium" type="text"><br>
+                <button class="sendbutton" style="font-size:large" onclick="register()">Register</button>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <div id="onlineForm" class="loginBox" style="display: none">
+        <div class="loginLogs">
+            <div class="header">
+                <div class="formHeader">
+                    <p class="headerText">Loggined User:</p>
+                </div>
+                <div class="userNameHeader">
+                    <p id="userLogin"></p>
+                </div>
+                <button class="sendbutton" style="font-size:large" onclick="play()">Play</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatBox">
+        <div id="mesList" class="chatLogs">
+
+            <div id="history" class="chat form">
+
+            </div>
+
+        </div>
+
+        <div class="chatForm">
+            <input id="msgform" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+            <button class="sendbutton" onclick="say()">Send</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<!--
+We are using SockJS lib
+https://github.com/sockjs/sockjs-client
+-->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+    //string contains "sender=" used in get/post http services
+    var curUserName = null;
+
+    var host = 'localhost';
+    var port = 8080;
+    var path = 'events';
+    var sock;
+    var userList = [];
+
+    initSock();
+
+    function initSock() {
+        sock = new SockJS('http://' + host + ':' + port + '/' + path);
+        sock.onopen = function () {
+            console.log('open');
+        };
+
+        sock.onmessage = function (e) {
+            var response = JSON.parse(e.data);
+            console.log(response);
+            handleResponse(response);
+        };
+
+        sock.onclose = function () {
+            console.log('closed');
+        };
+    }
+
+    function handleResponse(response) {
+        data = JSON.parse(response.data);
+        switch (response.topic) {
+            case 'PLAY':
+                playResponse(data);
+                break;
+            case 'REGISTER':
+                registerResponse(data);
+                break;
+
+            case 'LOBBY_PLAYERS':
+                userList = data;
+                rebuildUsers();
+                break;
+
+            case 'NEW_USER':
+                var htmlNewUser = buildUser(data);
+                userList.push(data);
+                var usersBlock = $("#history");
+                usersBlock.append(htmlNewUser);
+                usersBlock.scrollTop(usersBlock.scrollHeight - usersBlock.clientHeight);
+                break;
+
+            default:
+                alert("Unexpected topic - " + response.topic + ", please call the developers");
+                break;
+        }
+    }
+
+    function rebuildUsers() {
+        var newHistory = "";
+        userList.forEach(
+            function (user) {
+                newHistory = newHistory + buildUser(user);
+            }
+        );
+        $("#history").html(newHistory.replace(/\n/g, "<br />"));
+    }
+
+    function buildUser(user) {
+        var name;
+        if (curUserName == null)
+            name = "";
+        else
+            name = curUserName;
+        var isCurUser = (name === user);
+        var builtUser = "<div class=\"chatMessage " + (isCurUser ? "me" : "notMe") + "\">" +
+            "   <div class=\"timeAndPhoto\">" +
+            "       <div class=\"userPhoto\">" +
+            "           <img src=\"img/user" + (isCurUser ? "2" : "1") + ".png\">" +
+            "       </div>" +
+            "   </div>" +
+            "   <div class=\"userLetter\">" +
+            "       <p class=\"userName\">" +
+            (isCurUser ? ":You" : user + ":") +
+            "       </p>" +
+            "       <p class=\"messageBody\">" +
+            "READY" +
+            "       </p>" +
+            "   </div>" +
+            "</div>";
+        return builtUser;
+    }
+
+    openRegister();
+
+    function openRegister() {
+        curUserName = null;
+        document.getElementById('registerForm').style.display = "";
+        document.getElementById('onlineForm').style.display = "none";
+    }
+
+    function closeRegister(userName) {
+        document.getElementById('registerForm').style.display = "none";
+        changeUser(userName);
+    }
+
+    function changeUser(userName) {
+        document.getElementById('registerForm').style.display = "none";
+        if (userName == null) {
+            openRegister();
+        } else {
+            curUserName = userName;
+            document.getElementById('onlineForm').style.display = "";
+            document.getElementById('userLogin').innerHTML = userName;
+        }
+    }
+
+    // now this is web functions --------------------------------------------------------
+
+    function register() {
+        curUserName = $('#newName').val();
+        var sender = curUserName;
+
+        var msgData = JSON.stringify(
+            {
+                "topic": "REGISTER",
+                "data": {
+                    "sender": sender
+                }
+            });
+        sock.send(msgData);
+    }
+
+    function registerResponse(data){
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                curUserName = null;
+                break;
+            case 'OK':
+                document.getElementById('newName').value = "";
+                changeUser(curUserName);
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
+    }
+
+    function play() {
+        var sender = curUserName;
+
+        var msgData = JSON.stringify(
+            {
+                "topic": "PLAY",
+                "data": {
+                }
+            });
+        sock.send(msgData);
+    }
+
+    function playResponse(data) {
+        switch (data.topic) {
+            case 'ERROR':
+                alert("ERROR" + " " + data.data);
+                console.log("ERROR" + " " + data.data);
+                break;
+            case 'OK':
+                break;
+            default:
+                alert("Unexpected message response topic, please call the developers");
+                break;
+        }
+    }
+
+
+</script>
