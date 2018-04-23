@@ -1,22 +1,24 @@
-#HSLIDE
+---
 # Java
 lecture 11
-## Practical Concurrency 2
+## Practical Concurrency
 
-#HSLIDE
+---
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
-#HSLIDE
+---
 ### get ready
+https://github.com/rybalkinsd/atom
 ```bash
 > git fetch upstream
 > git checkout -b lecture11 upstream/lecture11
+> cd lecture11
 ```
 Refresh gradle project
 
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -26,7 +28,7 @@ Refresh gradle project
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## Agenda
 1. **[concurrency revisited]**
 1. final and ThreadLocal
@@ -36,7 +38,7 @@ Refresh gradle project
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## Quiz
 1. **thread-safety** - ?
 1. **concurrency** - ?
@@ -47,26 +49,26 @@ Refresh gradle project
 1. What **problems** will we have without proper synchronization?
 1. What is **proper synchronization**?
 
-#HSLIDE
+---
 ## Thread-safety
 A class is thread-safe if it behaves correctly when accessed from multiple threads, regardless of the scheduling or interleaving of the execution of those threads by the runtime environment, and with no additional synchronization or other coordination on the part of the calling code
 (from JCiP)  
 https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601
 
-#HSLIDE
+---
 ## Proper synchronization
 1. synchronized
 1. reads and writes to volatile variables
 1. java.util.concurrent
 
-#HSLIDE
+---
 ## Problems
 - Data races (caused by weak atomicity, visibility and ordering guaranties of JMM)
 - Deadlocks
 - Livelocks
 - Performance problems
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. **[final and ThreadLocal]**
@@ -76,12 +78,12 @@ https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## No state
 No state - no concurrency
 > stateless objects are always thread-safe
 
-#HSLIDE
+---
 ## Final (immutable) state
 immutable objects are thread-safe if properly constructed
 ```java
@@ -90,7 +92,7 @@ public final List<Player> players = new ArrayList<>();
 ```
 > Make final as much shared variables as possible
 
-#HSLIDE
+---
 ## ThreadLocal (unshared) state
 ```java
 public class SomeClass {
@@ -105,13 +107,13 @@ public class SomeClass {
 As with **final** - ThreadLocal only guarantees, that the reference, that is accessed via **ThreadLocal** variable (‘locals’ in example) is thread local, no in-depth thread locality.  
 > @see thread_local
 
-#HSLIDE
+---
 ## Avoid concurrency if possible
 - be stateless
 - use final
 - use ThreadLocal
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -121,7 +123,7 @@ As with **final** - ThreadLocal only guarantees, that the reference, that is acc
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## Easiest solution - synchronized
 ```java
 public void someMethod(Object someLock) {
@@ -138,13 +140,13 @@ Concurrency is actually about **data**, not **code**
 We must protect data from concurrent access, not code blocks  
 That is we must synchronize all accesses to **data**, else we have **data races**
 
-#HSLIDE
+---
 ## Synchronize all accesses
 > @see ru.atom.lecture11.volatileexample  
 
 Fix VolatileExample with **synchronized**
 
-#HSLIDE
+---
 ## synchronized guarantees
 ```java
 public Object l1; //Use as lock
@@ -156,7 +158,7 @@ thread2 -> |||||||||||||||||||||||||||||||||||||||||||**[acq l1]** sync on l1 **
 [acquire l1] **publishes** everything before previous [release l1]  
 they say [release l1] **synchronizes with** [acquire l1] 
 
-#HSLIDE
+---
 ## What does it mean?
 To see changes in shared variable you **must**:
 1. synchronize **both** reads and writes of variable
@@ -169,7 +171,7 @@ To see changes in shared variable you **must**:
 **Other myths that are not true**:  
 https://shipilev.net/blog/2016/close-encounters-of-jmm-kind/#_wishful_thinking_hold_my_beer_while_i_am
 
-#HSLIDE
+---
 ## Deadlock
 <img src="lecture11/presentation/assets/img/deadlock.jpg" alt="monitor" style="width: 500px;"/>
 
@@ -177,7 +179,7 @@ https://shipilev.net/blog/2016/close-encounters-of-jmm-kind/#_wishful_thinking_h
 
 > @see ru.atom.lecture11.deadlock
 
-#HSLIDE
+---
 ## Detect deadlock with jstack
 **jstack** prints Java stack traces of Java threads for a given Java process or core file or a remote debug server.  
 http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
@@ -185,7 +187,7 @@ http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
 > jstack <pid>
 ```
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -195,7 +197,7 @@ http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## volatile
 ```java
 volatile long money;
@@ -206,7 +208,7 @@ volatile long money;
 1. guaranteed **ordering** of **volatile read/writes** 
 1. **happens-before** guarantee
 
-#HSLIDE
+---
 ## volatile
 Practically **volatile** means (first three points) that there will be **no data races** over given field.  
 i.e. everything will be **OK** with this variable.  
@@ -215,28 +217,28 @@ and specific guaranties of publication of other variables
 
 Fix VolatileExample with volatile
 
-#HSLIDE
+---
 ## Only reference is volatile
 ```java
 //only reference players is volatile. Writing to players from different threads still lead to data races
 private volatile List<Player> players;
 ```
 
-#HSLIDE
+---
 ## Why not all variables volatile
 In sake of **performance**  
 https://shipilev.net/blog/2014/all-accesses-are-atomic/  
 10x average speedup for Intel x64
 
-#HSLIDE
+---
 ## Latency numbers every programmer should know
 https://gist.github.com/jboner/2841832
 
-#HSLIDE
+---
 ## Try fix data races with volatile
 > @see ru.atom.lecture11.dataraces
 
-#HSLIDE
+---
 ## volatile guarantees
 volatile int v1;//shared variable  
 thread1 --> **[write v1 (v1=42)]**-------------------------------->    
@@ -244,7 +246,7 @@ thread2 --> ||||||||||||||||||||||||||||||**[read v1 (someVar=v1)]**->
 [read v1] **publishes** everything before previous [write v1]  
 they say [write v1] **synchronizes with** [read v1]  
 
-#HSLIDE
+---
 ## Volatile r/w is like synchronized
 **write** of volatile variable = **unlock** monitor  
 **read** of volatile variable = **lock** monitor  
@@ -252,11 +254,11 @@ they say [write v1] **synchronizes with** [read v1]
 **Deep idea:**  
 In this sense volatile r/w is the same as **synchronized** but **with** concurrency
 
-#HSLIDE
+---
 ## JMM is about [acquire] and [release] synchronization
 Mostly
 
-#HSLIDE
+---
 ## High-level synchronization
 Basic synchronization primitives in Java are **synchronized** and **volatile**.
 JDK provide high-level API for concurrency
@@ -264,7 +266,7 @@ JDK provide high-level API for concurrency
 - Atomics
 - Synchronizers
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -274,30 +276,30 @@ JDK provide high-level API for concurrency
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## Atomics
 Atomics provide **non-blocking** operations on common objects. Also provides methods for atomic **‘check then act’** operations (compareAndSet, incrementAndGet)
 > @see ru.atom.lecture11.dataraces/Stopper.java
 > @see javaConcurrentAnimated.jar  
 (AtomicInteger)
 
-#HSLIDE
+---
 ## Future
 > @see javaConcurrentAnimated.jar  
 (Future) 
 
-#HSLIDE
+---
 ## ForkJoinPool
 > @see javaConcurrentAnimated.jar  
 (Fork/Join)
 
-#HSLIDE
+---
 ## Synchronizers
 > @see javaConcurrentAnimated.jar  
 (CyclicBarrier, Phaser, BlinkingPhaser)
 
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -307,7 +309,7 @@ Atomics provide **non-blocking** operations on common objects. Also provides met
 1. **[ConcurrentHashMap]**
 1. Practice
 
-#HSLIDE
+---
 ## ConcurrentHashMap
 A hash table supporting **full concurrency of retrievals** and **high expected concurrency for updates**.  
 Separate locks on each part of map (**segment**)  
@@ -315,14 +317,14 @@ Iteration performed over copy of collection at some point
 https://habrahabr.ru/post/132884/  
 https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html
 
-#HSLIDE
+---
 ## ConcurrentHashMap
 <img src="lecture11/presentation/assets/img/concurrenthashmap.png" alt="monitor" style="width: 600px;"/>  
 
 > @see javaConcurrentAnimated.jar  
 (ConcurrentHashMap)
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -332,7 +334,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 1. ConcurrentHashMap
 1. Practice
 
-#HSLIDE
+---
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
@@ -343,13 +345,13 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 1. Atomics
 1. **[Practice]**
 
-#HSLIDE
+---
 ## Practice
 > @see ru.atom.lecture11.billing
 
 In this example we have billing service that can send money from user to user
 
-#HSLIDE
+---
 ## Billing API
 Create user with money
 ```bash
@@ -368,7 +370,7 @@ One-liner to reset default users
 > curl -X POST localhost:8080/billing/addUser -d 'user=sergey&money=100000'; curl -X POST localhost:8080/billing/addUser -d 'user=sasha&money=100000'; curl localhost:8080/billing/stat
 ```
 
-#HSLIDE
+---
 ## Task
 The implementation is **not thread safe**. Make it correct any way you like  
 When you are done, ask for check and name your **IP address**  
@@ -377,7 +379,7 @@ http://jmeter.apache.org/
 (you can use it too, testing scenario is located at **lecture11/Test_billing.jmx**)
 
 
-#HSLIDE
+---
 ## References
 [Java concurrency in practice (signature book for Java Developer)](https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601)   
 [Alexey Shipilev blog (JMM, concurrency, performance, benchmarks for people, JDK contributor)](https://shipilev.net/)  
@@ -387,7 +389,7 @@ http://jmeter.apache.org/
 [What Every Dev Must Know About Multithreaded Apps (Common knowledge)](https://lyle.smu.edu/~coyle/cse8313/handouts.fall06/s04.msdn.multithreading.pdf)  
   
 
-#HSLIDE
+---
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
