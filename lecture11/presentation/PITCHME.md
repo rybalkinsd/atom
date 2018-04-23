@@ -445,6 +445,28 @@ http://jmeter.apache.org/
   
 
 ---
+## Practice 2. Billing problem
+> @see ru.atom.lecture11.billing
+
+Need to solve a classic task about money transfer sync.
+
+API:
+```
+curl -X POST 
+     -H "Content-Type: application/x-www-form-urlencoded" 
+     -d 'user=bob&money=42' 
+ "http://localhost:8080/billing/addUser"
+ 
+curl -X POST 
+    -H "Content-Type: application/x-www-form-urlencoded" 
+    -d 'from=alice&to=bob&money=12' 
+ "http://localhost:8080/billing/sendMoney" 
+ 
+curl -X GET 
+ "http://localhost:8080/billing/stat" 
+```
+
+---
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
