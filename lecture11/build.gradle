@@ -28,12 +28,6 @@ dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.0.RELEASE'
 }
 
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.lecture11.billing.BillingServer' }
-}
-
-
 checkstyle {
     ignoreFailures = false
     toolVersion = '7.5'
