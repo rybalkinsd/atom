@@ -22,7 +22,7 @@ Refresh gradle project
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
@@ -32,7 +32,7 @@ Refresh gradle project
 ## Agenda
 1. **[concurrency revisited]**
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
@@ -72,7 +72,7 @@ https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601
 ## Agenda
 1. concurrency revisited
 1. **[final and ThreadLocal]**
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
@@ -87,10 +87,10 @@ No state - no concurrency
 ## Final (immutable) state
 immutable objects are thread-safe if properly constructed
 ```java
-//Only referene to players is immutable. Concurrent access to list still lead to data races
+//Only reference to 'players' is immutable. Concurrent access to list still lead to data races
 public final List<Player> players = new ArrayList<>();
 ```
-> Make final as much shared variables as possible
+> Make *final* as much shared variables as possible
 
 ---
 ## ThreadLocal (unshared) state
@@ -117,16 +117,24 @@ As with **final** - ThreadLocal only guarantees, that the reference, that is acc
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. **[more on synchronized]**
+1. **[synchronized - critical section]**
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
 1. Practice
 
 ---
-## Easiest solution - synchronized
+## Critical section
+In Java we can declare code block as **synchronized** on some **object**.  
+The object will protect the code block and allow only single thread to enter the **code block** simultaneously  
+This is possible because in Java **every object** has **internal monitor**
+
+
+---
+## synchronized
+synchronization on custom object
 ```java
-public void someMethod(Object someLock) {
+public void some someMethod(Object someLock) {
     //...
     //this code is protected by someLock internal monitor
     synchronized(someLock){ 
@@ -135,10 +143,49 @@ public void someMethod(Object someLock) {
     //...
 }
 ```
+synchronization on **this**
+```java
+public void synchronized otherMethod(){
+    ...
+}
+```
+synchronization on **SomeClass.class** object
+```java
+public class SomeClass{
+    public static void synchronized otherMethod(){
+        //...
+    }   
+}
+```
+
+---
+## Easiest solution - synchronized
 With **synchronized** we **avoid concurrency** in a block of code (if choose lock properly)  
 Concurrency is actually about **data**, not **code**  
 We must protect data from concurrent access, not code blocks  
 That is we must synchronize all accesses to **data**, else we have **data races**
+
+---
+## Every object has internal monitor
+Every object has **internal monitor**  
+Monitor consists of:
+- mutex
+- with ability to wait (block) for a certain condition to become true
+
+---
+## Internal monitor internals
+<img src="lecture10/presentation/assets/img/monitor.png" alt="monitor" style="width: 500px;"/>
+
+---
+## wait()/notify()
+Class **Object** has API for internal monitor:
+```java
+class java.lang.Object {
+    public final native void wait(long timeout) throws InterruptedException;
+    public final native void notify();
+    public final native void notifyAll();
+}
+```
 
 ---
 ## Synchronize all accesses
@@ -171,6 +218,7 @@ To see changes in shared variable you **must**:
 **Other myths that are not true**:  
 https://shipilev.net/blog/2016/close-encounters-of-jmm-kind/#_wishful_thinking_hold_my_beer_while_i_am
 
+
 ---
 ## Deadlock
 <img src="lecture11/presentation/assets/img/deadlock.jpg" alt="monitor" style="width: 500px;"/>
@@ -191,7 +239,7 @@ http://docs.oracle.com/javase/7/docs/technotes/tools/share/jstack.html
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. **[volatile]**
 1. java.util.concurrent
 1. ConcurrentHashMap
@@ -206,7 +254,7 @@ volatile long money;
 1. read/write **atomicity**
 1. guaranteed **visibility** of writes
 1. guaranteed **ordering** of **volatile read/writes** 
-1. **happens-before** guarantee
+1. **happens-before** semantics
 
 ---
 ## volatile
@@ -270,7 +318,7 @@ JDK provide high-level API for concurrency
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. **[java.util.concurrent]**
 1. ConcurrentHashMap
@@ -303,7 +351,7 @@ Atomics provide **non-blocking** operations on common objects. Also provides met
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. **[ConcurrentHashMap]**
@@ -328,7 +376,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
@@ -338,7 +386,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap
 ## Agenda
 1. concurrency revisited
 1. final and ThreadLocal
-1. more on synchronized
+1. synchronized - critical section
 1. volatile
 1. java.util.concurrent
 1. ConcurrentHashMap
