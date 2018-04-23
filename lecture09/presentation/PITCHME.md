@@ -107,7 +107,7 @@ Check it out
 0. Project task
 ---
 ## Time model with variable tick time
-> @see ru.atom.lecture09.tick.Ticker
+> @see tick.Ticker
 
 In our model tick lasts until all messages from InputQueue are handled  
 So every time tick time is different  

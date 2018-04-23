@@ -1,4 +1,4 @@
-package ru.atom.lecture09.tick;
+package gs.tick;
 
 
 import org.slf4j.LoggerFactory;

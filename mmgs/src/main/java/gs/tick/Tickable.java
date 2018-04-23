@@ -1,4 +1,4 @@
-package ru.atom.lecture09.tick;
+package gs.tick;
 
 /**
  * Any game object that changes with time
