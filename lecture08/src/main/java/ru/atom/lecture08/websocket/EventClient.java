@@ -4,13 +4,16 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import ru.atom.lecture08.websocket.message.Message;
+import ru.atom.lecture08.websocket.message.Topic;
+import ru.atom.lecture08.websocket.util.JsonHelper;
 
 import java.io.IOException;
 
 public class EventClient {
     public static void main(String[] args) {
         // connection url
-        String uri = "ws://localhost:8090/events";
+        String uri = "localhost:8090";
 
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketSession session = null;
@@ -24,7 +27,6 @@ public class EventClient {
             // Send a message
             session.sendMessage(new TextMessage("Hello"));
             // Close session
-            session.close();
 
         } catch (Throwable t) {
             t.printStackTrace(System.err);

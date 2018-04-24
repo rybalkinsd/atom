@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jboss</groupId>
+    <artifactId>jboss-parent</artifactId>
+    <version>20</version>
+  </parent>
+
+  <groupId>org.jboss.spec.javax.transaction</groupId>
+  <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+  <version>1.0.1.Final</version>
+  <packaging>jar</packaging>
+
+  <name>Java Transaction API</name>
+  <description>The Java Transaction 1.2 API classes</description>
+
+  <licenses>
+    <license>
+      <name>Common Development and Distribution License</name>
+      <url>http://repository.jboss.org/licenses/cddl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>GNU General Public License, Version 2 with the Classpath Exception</name>
+      <url>http://repository.jboss.org/licenses/gpl-2.0-ce.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:jboss/jboss-transaction-api_spec.git</connection>
+    <developerConnection>scm:git:git@github.com:jboss/jboss-transaction-api_spec.git</developerConnection>
+    <url>https://github.com/jboss/jboss-transaction-api_spec</url>
+    <tag>jboss-transaction-api_1.2_spec-1.0.1.Final</tag>
+  </scm>
+
+  <properties>
+    <!-- 
+        Don't automatically push the tag when using Maven release plugin.
+        The release build needs to be staged and verified before the tag is pushed.
+    <pushChanges>false</pushChanges>
+    -->
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+  </properties>
+
+  <build>
+    <plugins>
+      <!-- Include LICENSE.txt in the META-INF directory -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <resources>          
+                <resource>
+                  <directory>${basedir}</directory>
+                  <includes>
+                    <include>LICENSE.txt</include>
+                    <include>README</include>
+                  </includes>
+                </resource>
+              </resources>              
+              <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generate the OSGi jar Manifest. -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+          <instructions>
+            <Specification-Title>JSR 907: Java Transaction API (JTA)</Specification-Title>
+            <Specification-Vendor>Oracle, Inc.</Specification-Vendor>
+            <Specification-Version>1.2</Specification-Version>
+            <Import-Package>
+                javax.enterprise.context;resolution:=optional,
+                javax.enterprise.util;resolution:=optional,
+                *
+            </Import-Package>
+            <!-- Set the package version to match the spec version -->
+            <Export-Package>
+              javax.transaction*;version=1.2
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+      <!-- Add the OSGi Manifest to the main jar -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+      <version>1.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.interceptor</groupId>
+      <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+      <version>1.0.0.Final</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

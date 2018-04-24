@@ -21,7 +21,6 @@ public class ThreadLocalExample {
         }
     }
 
-
     public static void main(String[] args) throws InterruptedException {
         MyRunnable sharedRunnableInstance = new MyRunnable();
 

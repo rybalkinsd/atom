@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.hibernate.javax.persistence</groupId>
+  <artifactId>hibernate-jpa-2.1-api</artifactId>
+  <version>1.0.0.Final</version>
+  <name>Java Persistence API, Version 2.1</name>
+  <description>Clean-room definition of JPA APIs intended for use in developing Hibernate JPA implementation.  See README.md for details</description>
+  <url>http://hibernate.org</url>
+  <issueManagement>
+    <system>jira</system>
+    <url>http://opensource.atlassian.com/projects/hibernate/browse/JPA</url>
+  </issueManagement>
+  <scm>
+    <url>http://github.com/hibernate/hibernate-jpa-api</url>
+    <connection>scm:git:http://github.com/hibernate/hibernate-jpa-api.git</connection>
+    <developerConnection>scm:git:git@github.com:hibernate/hibernate-jpa-api.git</developerConnection>
+  </scm>
+  <licenses>
+    <license>
+      <name>Eclipse Public License (EPL), Version 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>Eclipse Distribution License (EDL), Version 1.0</name>
+      <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>epbernard</id>
+      <name>Emmanuel Bernard</name>
+      <email>emmanuel@hibernate.org</email>
+      <organization>Red Hat, Inc.</organization>
+      <url>http://in.relation.to/Bloggers/Emmanuel</url>
+    </developer>
+    <developer>
+      <id>hardy.ferentschik</id>
+      <name>Hardy Ferentschik</name>
+      <email>hferents@redhat.com</email>
+      <organization>Red Hat, Inc.</organization>
+      <url>http://in.relation.to/Bloggers/Hardy</url>
+    </developer>
+    <developer>
+      <id>sebersole</id>
+      <name>Steve Ebersole</name>
+      <email>steve@hibernate.org</email>
+      <organization>Red Hat, Inc.</organization>
+      <url>http://in.relation.to/Bloggers/Steve</url>
+    </developer>
+  </developers>
+</project>
