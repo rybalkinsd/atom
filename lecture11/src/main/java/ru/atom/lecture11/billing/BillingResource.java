@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Controller
 @RequestMapping("billing")
 public class BillingResource {
-    volatile private Map<String, Account> userToMoney = new ConcurrentHashMap<>();
+    private volatile Map<String, Account> userToMoney = new ConcurrentHashMap<>();
 
     /**
      * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
