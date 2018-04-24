@@ -54,20 +54,20 @@ https://github.com/sockjs/sockjs-client
 
     function login() {
         var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
+        var settings = {
+            "method": "POST",
+           "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
         initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+
     }
 
     function initSock() {
