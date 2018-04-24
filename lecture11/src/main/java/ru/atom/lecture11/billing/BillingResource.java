@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Broken implementation of billing service
@@ -19,7 +20,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("billing")
 public class BillingResource {
-    private Map<String, Account> userToMoney = new HashMap<>();
+    volatile private Map<String, Account> userToMoney = new ConcurrentHashMap<>();
 
     /**
      * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
@@ -58,12 +59,15 @@ public class BillingResource {
         }
 
         Account fromUserAcc = userToMoney.get(fromUser);
+        Account toUserAcc = userToMoney.get(toUser);
         if (fromUserAcc.getMoney() < money) {
             return ResponseEntity.badRequest().body("Not enough money to send\n");
         }
-        synchronized (this) {
-            fromUserAcc.setMoney(fromUserAcc.getMoney() - money);
-            userToMoney.get(toUser).setMoney(userToMoney.get(toUser).getMoney() + money);
+        synchronized (fromUserAcc.getId() > toUserAcc.getId() ? fromUserAcc : toUserAcc) {
+            synchronized (fromUserAcc.getId() > toUserAcc.getId() ? toUserAcc : fromUserAcc) {
+                fromUserAcc.setMoney(fromUserAcc.getMoney() - money);
+                userToMoney.get(toUser).setMoney(userToMoney.get(toUser).getMoney() + money);
+            }
         }
         return ResponseEntity.ok("Send success\n");
     }
