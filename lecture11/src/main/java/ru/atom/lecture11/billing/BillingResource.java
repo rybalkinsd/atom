@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +26,8 @@ public class BillingResource {
     private Map<String, Account> userToMoney = new HashMap<>();
 
     /**
-     * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
-     * curl -XPOST localhost:8080/billing/addUser -d "user=sergey&money=100000"
+     curl -X POST localhost:8080/billing/addUser -d "user=sasha&money=100000"
+     curl -X POST localhost:8080/billing/addUser -d "user=sergey&money=100000"
      */
     @RequestMapping(
             path = "addUser",
@@ -36,11 +40,13 @@ public class BillingResource {
         if (user == null) {
             return ResponseEntity.badRequest().body("");
         }
-        userToMoney.put(user, new Account(user, money));
-
-        return ResponseEntity.ok("Successfully created user [" + user + "] with money "
-                + userToMoney.get(user).getMoney() + "\n");
+        synchronized (userToMoney) {
+            userToMoney.put(user, new Account(user, money));
+            return ResponseEntity.ok("Successfully created user [" + user + "] with money "
+                    + userToMoney.get(user).getMoney() + "\n");
+        }
     }
+
 
     @RequestMapping(
             path = "sendMoney",
@@ -53,29 +59,44 @@ public class BillingResource {
         if (fromUser == null || toUser == null) {
             return ResponseEntity.badRequest().body("");
         }
-        if (!userToMoney.containsKey(fromUser) || !userToMoney.containsKey(toUser)) {
-            return ResponseEntity.badRequest().body("No such user\n");
+
+        synchronized (userToMoney) {
+            if (!userToMoney.containsKey(fromUser) || !userToMoney.containsKey(toUser)) {
+                return ResponseEntity.badRequest().body("No such user\n");
+            }
         }
 
+        List<Account> list = new ArrayList<>();
         Account fromUserAcc = userToMoney.get(fromUser);
-        if (fromUserAcc.getMoney() < money) {
-            return ResponseEntity.badRequest().body("Not enough money to send\n");
-        }
-        synchronized (this) {
-            fromUserAcc.setMoney(fromUserAcc.getMoney() - money);
-            userToMoney.get(toUser).setMoney(userToMoney.get(toUser).getMoney() + money);
+        Account toUserAcc = userToMoney.get(toUser);
+        list.add(fromUserAcc);
+        list.add(toUserAcc);
+        list.sort(Comparator.comparing(Account::getId));
+        synchronized (list.get(0)) {
+            synchronized (list.get(1)) {
+                if (fromUserAcc.getMoney() < money) {
+                    return ResponseEntity.badRequest().body("Not enough money to send\n");
+                }
+                fromUserAcc.setMoney(fromUserAcc.getMoney() - money);
+                userToMoney.get(toUser).setMoney(userToMoney.get(toUser).getMoney() + money);
+            }
         }
         return ResponseEntity.ok("Send success\n");
     }
 
     /**
-     * curl localhost:8080/billing/stat
+     curl localhost:8080/billing/stat
      */
     @RequestMapping(
             path = "stat",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getStat() {
-        return ResponseEntity.ok(userToMoney + "\n");
+        String res;
+        synchronized (userToMoney) {
+            res = userToMoney.keySet().stream().map(e -> e + "  " + userToMoney
+                    .get(e).getMoney().toString()).reduce("",(e1,e2) -> e1 + "\n" + e2);
+            return ResponseEntity.ok(res + "\n");
+        }
     }
 }
