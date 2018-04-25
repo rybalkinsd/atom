@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.*;
+;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Broken implementation of billing service
@@ -62,7 +67,8 @@ public class BillingResource {
         }
 
         List<Account> list = new ArrayList<>();
-        Account fromUserAcc = userToMoney.get(fromUser) , toUserAcc = userToMoney.get(toUser);
+        Account fromUserAcc = userToMoney.get(fromUser);
+        Account toUserAcc = userToMoney.get(toUser);
         list.add(fromUserAcc);
         list.add(toUserAcc);
         list.sort(Comparator.comparing(Account::getId));
@@ -87,8 +93,9 @@ public class BillingResource {
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getStat() {
         String res;
-        synchronized (userToMoney){
-            res = userToMoney.keySet().stream().map(e->e + "  " + userToMoney.get(e).getMoney().toString()).reduce("",(e1,e2)->e1 + "\n" + e2);
+        synchronized (userToMoney) {
+            res = userToMoney.keySet().stream().map(e -> e + "  " + userToMoney
+                    .get(e).getMoney().toString()).reduce("",(e1,e2) -> e1 + "\n" + e2);
             return ResponseEntity.ok(res + "\n");
         }
     }
