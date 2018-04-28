@@ -159,11 +159,7 @@ server -> client
 ```json
 {
    "topic": "REPLICA",
-   "data":
-   {
-       "objects":[{"position":{"x":16.0,"y":12.0},"id":16,"type":"Wall"},{"position":{"x":32.0,"y":32.0},"id":213,"velocity":0.05,"maxBombs":1,"bombPower":1,"speedModifier":1.0,"type":"Pawn"},{"position":{"x":32.0,"y":352.0},"id":214,"velocity":0.05,"maxBombs":1,"bombPower":1,"speedModifier":1.0,"type":"Pawn"}],
-       "gameOver":false
-   }
+   "data": "[{\"position\":{\"x\":16.0,\"y\":12.0},\"id\":16,\"type\":\"Wall\"},{\"position\":{\"x\":32.0,\"y\":32.0},\"id\":213,\"velocity\":0.05,\"maxBombs\":1,\"bombPower\":1,\"speedModifier\":1.0,\"type\":\"Pawn\"},{\"position\":{\"x\":32.0,\"y\":352.0},\"id\":214,\"velocity\":0.05,\"maxBombs\":1,\"bombPower\":1,\"speedModifier\":1.0,\"type\":\"Pawn\"}]"
 }
 ```
 
