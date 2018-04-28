@@ -124,7 +124,7 @@ Example for x64 system with [**-XX:+UseCompressedOops**](http://docs.oracle.com/
 <img src="lecture12/presentation/assets/img/layout.png" alt="layout" style="width: 600px;"/>  
 
 ---
-##jol
+## jol
 Good tool for object layout analysis - **Java Object Layout** (jol)  
 http://openjdk.java.net/projects/code-tools/jol/  
 [mvnrepository](https://mvnrepository.com/artifact/org.openjdk.jol/jol-core)  
