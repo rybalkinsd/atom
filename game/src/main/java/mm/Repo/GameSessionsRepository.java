@@ -12,11 +12,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GameSessionsRepository {
     private BlockingQueue<GameSession> gameSessionsList = new LinkedBlockingQueue<>();
 
-    @Bean
-    public static GameSessionsRepository createGameSessionsRepository() {
-        return new GameSessionsRepository();
-    }
-
     public void put(GameSession gameSession) {
         gameSessionsList.offer(gameSession);
     }

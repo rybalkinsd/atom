@@ -4,6 +4,7 @@ package mm.playerdb.dao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 
 
@@ -17,8 +18,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+@Repository
 @Transactional
-@Component
 public class PlayerDbDao {
     @PersistenceContext
     private EntityManager em;

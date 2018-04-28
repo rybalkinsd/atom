@@ -1,7 +1,10 @@
 package mm.playerdb.dao;
 
 
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(schema = "game", name = "players")

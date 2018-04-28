@@ -12,6 +12,8 @@ public class GameSession {
 
     private int averageRating;
 
+    private boolean hasStarted;
+
     private Date timeOfLastAction = new Date();
 
     private ArrayList<Player> playersInSession = new ArrayList<>();
@@ -20,7 +22,10 @@ public class GameSession {
         this.averageRating = 1000;
         this.id = id;
         this.maxPlayers = playerCount;
+        this.hasStarted = false;
     }
+
+    public void setHasStarted(boolean hasStarted) { this.hasStarted = hasStarted; }
 
     public long getId() {
         return id;
@@ -55,7 +60,7 @@ public class GameSession {
     }
 
     public String toString() {
-        String result = "Session " + id + " avg=" + averageRating + ": ";
+        String result = "Session#" + id + " hasStarted=" + hasStarted + " avg=" + averageRating + ": ";
         for (Player p: playersInSession) {
             result = result.concat(p.getName() + p.getRating() + ", ");
         }

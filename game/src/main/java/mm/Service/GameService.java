@@ -48,7 +48,7 @@ public class GameService {
     public ResponseEntity<String> start(@RequestParam("gameId") long gameId) {
         GameSession result;
         result = gameSessionsRepository.get(gameId);
-        gameSessionsRepository.remove(result);//questionable
+        result.setHasStarted(true);
         log.info("Started: Game ID{}", result.getId());
         return new ResponseEntity<>(String.valueOf(result.getId()),HttpStatus.OK);
     }

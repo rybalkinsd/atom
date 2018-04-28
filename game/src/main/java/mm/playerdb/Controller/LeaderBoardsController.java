@@ -23,7 +23,7 @@ public class LeaderBoardsController {
             path = "get",
             method = RequestMethod.GET)
     public ResponseEntity<String> getLeaderBoards() {
-        String result = "\n";
+        String result = "Leaderboards:\n";
         for(Player player: playerDbDao.getAll()) {
             result = result.concat("" + player.getRating() + " " + player.getName() + "\n");
         }

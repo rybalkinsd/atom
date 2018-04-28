@@ -7,10 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +94,11 @@ public class MatchMakerTest {
         Response response = client.newCall(request).execute();
         log.info(response.body().string());
         Assert.assertEquals(200, response.code());
+    }
+
+    @After
+    public void printGameSessionsList() {
+        log.info(gameSessionsRepository.toString());
     }
 
 }

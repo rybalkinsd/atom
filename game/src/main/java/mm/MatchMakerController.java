@@ -27,10 +27,10 @@ public class MatchMakerController {
     private static final Logger log = LoggerFactory.getLogger(MatchMaker.class);
 
     @Autowired
-    private MatchMaker matchMaker = MatchMaker.getInstance();
+    private MatchMaker matchMaker;
 
     @Autowired
-    private PlayerDbDao playerDbDao = PlayerDbDao.getInstance();
+    private PlayerDbDao playerDbDao;
 
     /* After pressing 'START' button Matchmaker puts player in a game session via /matchmaker/join*/
     @RequestMapping(
