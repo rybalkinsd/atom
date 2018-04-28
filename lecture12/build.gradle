@@ -18,19 +18,16 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
-
     // jol
     compile group: 'org.openjdk.jol', name: 'jol-core', version: '0.8'
     // jol samples
     compile group: 'org.openjdk.jol', name: 'jol-samples', version: '0.8'
 
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
+
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.4'
-}
-
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.lecture12.GarbageProducer' }
 }
 
 checkstyle {
