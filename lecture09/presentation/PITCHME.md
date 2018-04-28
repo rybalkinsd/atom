@@ -164,6 +164,15 @@ server -> client
 ```
 
 #HSLIDE
+## GAME_OVER
+```json
+{
+   "topic": "GAME_OVER",
+   "data": "You win!"
+}
+```
+
+#HSLIDE
 ## Network implementation ideas
 > @see ru.atom.lecture09.network
 
