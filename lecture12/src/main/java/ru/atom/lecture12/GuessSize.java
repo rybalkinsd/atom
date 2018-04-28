@@ -2,21 +2,20 @@ package ru.atom.lecture12;
 
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.vm.VM;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.lang.System.out;
-
 public class GuessSize {
     private static final Logger log = LoggerFactory.getLogger(GuessSize.class);
     
     public static void guess() throws Exception {
-        out.info(VM.current().details());
+        log.info(VM.current().details());
         int[] intArray = new int[1000];
         Integer[] integerArray = new Integer[1000];
         ArrayList<Integer> arrayList = new ArrayList<>();
