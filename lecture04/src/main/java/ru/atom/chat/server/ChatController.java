@@ -59,16 +59,43 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity logout(@RequestParam("name") String name) {
+
+        usersOnline.remove(name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+
+
+        messages.add("[" + name + "]: " + msg);
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n", messages.stream().sorted().collect(Collectors.toList()));
+        return ResponseEntity.ok(responseBody);
+    }
 }
+
