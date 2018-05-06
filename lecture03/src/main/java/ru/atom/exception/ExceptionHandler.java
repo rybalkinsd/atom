@@ -9,16 +9,6 @@ import java.io.IOException;
 public class ExceptionHandler {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExceptionHandler.class);
 
-    int someMethod() {
-        try {
-            return 2;
-        } catch (Exception e) {
-
-        } finally {
-            return 0;
-        }
-    }
-
 
     public static void simpleHandle() {
         try {

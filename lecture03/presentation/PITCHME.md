@@ -707,7 +707,7 @@ What about null?
 
 
 #HSLIDE
-### HashSet. Complexity
+### TreeSet. Complexity
 
 |  contains  | add   | get   | remove | 
 |:----------:|:-----:|:-----:|:------:|
