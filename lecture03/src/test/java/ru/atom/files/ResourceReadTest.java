@@ -15,10 +15,7 @@ public class ResourceReadTest {
     @Test
     public void testReadResource() throws Exception {
         List<String> lines = ResourceReader.readFromResource("FileToRead.txt");
-        lines.stream()
-                .filter(s -> !s.isEmpty())
-                .map(String::trim).
-                forEach(System.out::println);
+        lines.stream().filter(s -> !s.isEmpty()).map(String::trim).forEach(System.out::println);
         assertEquals(2, lines.size());
     }
 }
