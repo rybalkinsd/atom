@@ -22,5 +22,5 @@ checkstyle {
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.exception.HelloWorld' }
+    manifest { attributes 'Main-Class': 'ru.atom.game.BullsAndCows' }
 }
