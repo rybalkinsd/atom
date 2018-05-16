@@ -1,12 +1,12 @@
-#HSLIDE
+---
 # Java
 ## Interview questions
 
-#HSLIDE
+---
 ## Отметьтесь на портале
 https://atom.mail.ru/
 
-#HSLIDE
+---
 ## General question
 1. какие есть в java базовые типы и каков их размер?
 1. как в java передаются значения в функцию?
@@ -19,7 +19,7 @@ https://atom.mail.ru/
 1. в чем разница сравнения по == и equals()
 1. Контракт eqals()/hashcode()/compareTo()
 
-#HSLIDE
+---
 ## Collections
 1. Нарисуйте иерархию классов коллекций
 1. ArrayList - устройство и асимптотика
@@ -29,7 +29,7 @@ https://atom.mail.ru/
 1. какие требования предъявляются к объектам, помещаемым в treemap
 1. Какой размер ArrayList из 10 элементов?
 
-#HSLIDE
+---
 ## Exceptions
 1. Нарисуйте иерархию исключений
 1. checked и unchecked exceptions
@@ -37,51 +37,63 @@ https://atom.mail.ru/
 1. что такое try-with-resources?
 1. что будет с исключением, выкинутым при закрытии ресурса?
 
-#HSLIDE
+---
+## Spring
+Spring - ?
+Inversion of Control - ?
+Dependency Injection - ?
+Dependency Injection Container - ?
+bean - ?
+Как создать bean?
+Чем bean отличается от обычного объекта?
+
+---
+## ORM
+1. ORM - ?
+1. JPA - ?
+1. Зачем нужен Hibernate?
+
+---
 ## Threads
 1. Как создать поток в java?
 1. как остановить поток в java?
+
+---
+## Concurrency
+1. Shared mutable state - в чем с ним проблема?
 1. ключевое слово final
+1. ThreadLocal - ?
 1. ключевое слово volatile
 1. ключевое слово synchronized
 1. как понять, что случился deadlock?
 
-#HSLIDE
+---
 ## Other
 #### Strings
 1. как сравнивать строки?
 1. Как склеивать большое клоичество строк?
-#### Сериализация
-1. как сериализовать и десеарилизовать объект в java?
-1. ключевое слово transient
+
 ####  GC
 1. как увеличить размер кучи в java?
 1. как работает GC в java?
 
-#HSLIDE
-## Do you know...
-Hibernate?  
-Spring?
-Spring Boot?
 
-
-#HSLIDE
+---
 ## Whats next?
-**JDK 9**  
-http://openjdk.java.net/projects/jdk9/  
-Expected **General Availability** at 2017/07/27
+**JDK 10 is already in General Availability**  
+http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
 
-#HSLIDE
-### Whats next?
-Contribute our project!
+---
+### Contribute to our project
+Contribute to our project!
 
 
-#HSLIDE
+---
 ## References
 **Conferences**  
-https://www.oracle.com/javaone/index.html  
-http://jpoint.ru/  
-http://jug.ru/  
+https://www.oracle.com/code-one/index.html  
+https://jpoint.ru/  
+https://jug.ru/  
 **Community**  
 http://razbor-poletov.com/  
 https://gitter.im/razbor-poletov/razbor-poletov.github.com  
@@ -92,12 +104,12 @@ https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601 (deep
 https://shipilev.net/
 
 
-#HSLIDE
+---
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
 **Это важно!**
 
 
-#HSLIDE
+---
 <img src="interview/presentation/assets/img/final.png" alt="final" style="width: 1000px;"/>
