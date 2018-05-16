@@ -4,7 +4,7 @@
 
 ---
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
 ---
 ## General question
