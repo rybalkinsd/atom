@@ -20,7 +20,7 @@ https://sphere.mail.ru/
 1. какие есть методы у класса Object?
 1. Для чего каждый из них нужен?
 1. в чем разница сравнения по == и equals()
-1. Контракт eqals()/hashcode()/compareTo()
+1. Контракт equals()/hashCode()/compareTo()
 
 ---
 ## Collections
