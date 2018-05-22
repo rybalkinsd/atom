@@ -1,4 +1,4 @@
-package ru.atom.lecture08.websocket.network;
+/*package ru.atom.lecture08.websocket.network;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,4 +39,4 @@ public class Broker {
         connectionPool.broadcast(message);
     }
 
-}
+}*/

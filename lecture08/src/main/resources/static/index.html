@@ -2,21 +2,37 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <html>
-<body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
-    </form>
-</div>
+<body >
+
 <div id="body">
-    <div id="history" class="chat form"></div>
-</div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
+    <div class="div_history chat form">
+        <div class = "textContain"><p>Chat</p></div>
+        <div id="history" class="history_container"></div>
+        <div id="footer">
+            <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+                <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
+                <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+            </form>
+        </div>
+    </div>
+    <div class="div_right">
+        <div class="form_group form1">
+            <div id="header" class="login_form div_login_form">
+                <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+                    <input id="name" name="name"  style="font-size:medium" type="text" value="" placeholder="Login">
+                    <input id="pass" name="pass"  style="font-size:medium" type="text" value="" placeholder="Password">
+                    <button style="font-size:medium" type="submit" data-action="login_action">Login</button>
+                    <button style="font-size:medium" type="submit" data-action="logout_action">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="div_usr_online chat form2">
+            <div class = "textContain"><p>Online Users</p></div>
+            <div id="onlineUsers">
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
@@ -31,44 +47,65 @@ https://github.com/sockjs/sockjs-client
 
 
 <script>
-    var host = 'localhost';
+    var host = "localhost";
     var port = 8090;
-    var path = 'events';
+    var path = "events";
     var sock;
+    var curName = "";
 
     function say() {
         var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        var name = curName;
 
         var msgData = JSON.stringify(
-        {
-            "topic": "message",
-            "data": {
+            {
+                "topic": "message",
                 "sender": name,
                 "msg": msg
-            }
-        });
+            });
 
         sock.send(msgData);
     }
 
     function login() {
-        var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
-        initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
+        var name = $('#name').serialize();
+        var pass = $('#pass').serialize();
+        var action_type = $(this).data('action');
+        var settings;
+        curName = name;
+
+        if (action_type == "login_action"){
+            settings = {
+                "method": "POST",
+                "crossDomain": true,
+                "url": "http://" + host + ":" + port + "/chat/login",
+                "data": name + "&" + pass
+            };
+
+
+            $.ajax(settings).done(function (response) {
+                initSock();
+                updateHistory();
+            }).fail(function (jqXHR, textStatus) {
+                alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+                console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            });
+        } else {
+            settings = {
+                "method": "POST",
+                "crossDomain": true,
+                "url": "http://" + host + ":" + port + "/chat/logout",
+                "data": curName
+            };
+            $.ajax(settings).done(function (response) {
+                updateHistory();
+            }).fail(function (jqXHR, textStatus) {
+                alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+                console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            });
+        }
     }
+
 
     function initSock() {
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
@@ -79,7 +116,7 @@ https://github.com/sockjs/sockjs-client
         };
 
         sock.onmessage = function (e) {
-            console.log(e.data)
+            console.log(e.data);
             // check topic if you will provide other than "history"
             setHistory(e.data)
         }
@@ -88,7 +125,8 @@ https://github.com/sockjs/sockjs-client
     function updateHistory() {
         var history = JSON.stringify(
             {
-                "topic" : "history"
+                "topic" : "history",
+                "data" : "gg"
             }
         );
         sock.send(history)
