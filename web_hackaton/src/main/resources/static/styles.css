@@ -1,9 +1,9 @@
 :root {
-    background: #336666;
+    background: #FF69B4;
 }
 
 .chat {
-    background: #99CCCC;
+    background: #FFB3DE;
     font-family: "Courier New", Courier, monospace;
     padding: 7px;
     margin: 0 0 1em;
@@ -23,7 +23,7 @@
 }
 
 #header {
-    background: #336666;
+    background: #FF69B4;
     padding: 10px;
     padding-bottom: 0;
 }
@@ -40,5 +40,5 @@
     bottom: 0;
     width: 100%;
     height: 30px; /* Height of the footer */
-    background: #336666;
+    background: #FF69B4;
 }

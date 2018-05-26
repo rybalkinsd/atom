@@ -8,6 +8,9 @@
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
     </form>
+    <form method="POST" id="logoutform" action="javascript:void(null);" onsubmit="logout()">
+        <input value="Logout" style="font-size:large" type="submit">
+    </form>
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
@@ -16,6 +19,7 @@
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
         <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
         <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        <input type="time">
     </form>
 </div>
 </body>
@@ -69,6 +73,25 @@
             "method": "POST",
             "crossDomain": true,
             "url": "http://" + host + ":" + port + "/chat/login",
+            "data": name
+        };
+
+        $.ajax(settings).done(function (response) {
+            loadHistory();
+        }).fail(function (jqXHR, textStatus) {
+            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+
+    function logout() {
+        var name = $('#nameform').serialize();
+
+        var settings = {
+            "method": "POST",
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/logout",
             "data": name
         };
 
