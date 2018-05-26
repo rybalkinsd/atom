@@ -23,6 +23,17 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '1.5.9.RELEASE'
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.16.Final'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.0.RELEASE'
+    // https://mvnrepository.com/artifact/postgresql/postgresql
+    compile group: 'postgresql', name: 'postgresql', version: '9.3-1102.jdbc41'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+
 
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.4'

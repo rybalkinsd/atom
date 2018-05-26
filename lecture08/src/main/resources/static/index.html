@@ -1,26 +1,46 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css"></head>
 <html>
 <body>
-<div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
-        <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+<nav class="navbar bg-light">
+    <form class="form-inline mb-1" method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+        <div class="form-group mx-sm-3">
+            <input id="name" class="form-control" name="name" style="font-size:medium" type="text" placeholder="Name">
+        </div>
+        <input class="btn btn-primary" value="Login" style="font-size:large" type="submit" id="loginBtn">
     </form>
+</nav>
+<div class="container-fluid" style="padding-top: 15px;">
+    <div class="row">
+        <div id="history" class="chat col-9 form"></div>
+        <div class="chat col-3 form chat">
+            <ul class="list-group list-group-flush" id="users">
+            </ul>
+        </div>
+    </div>
 </div>
-<div id="body">
-    <div id="history" class="chat form"></div>
+<div class="footer bg-light" style="padding-left: 10px;">
+    <div class="container-fluid" style="padding-top: 15px;">
+        <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+            <div class="form-row">
+                <div class = "col-10">
+                    <input id="msg" class="msginput form-control" name="msg" style="font-size:medium" type="text" placeholder="message">
+                </div>
+                <div class = "col-2">
+                    <input value="Send" class="btn btn-primary sendbutton" style="font-size:large" type="submit">
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-<div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
-    </form>
-</div>
+
 </body>
 </html>
 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <!--
@@ -33,70 +53,65 @@ https://github.com/sockjs/sockjs-client
 <script>
     var host = 'localhost';
     var port = 8090;
-    var path = 'events';
+    var path = 'chat';
     var sock;
 
+    initSock();
     function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
+        var msg = $('#msg').val();
+        var name = $('#name').val();
 
         var msgData = JSON.stringify(
         {
-            "topic": "message",
-            "data": {
-                "sender": name,
-                "msg": msg
-            }
+            "topic": "MESSAGE",
+            "login": name,
+            "msg": msg
         });
-
         sock.send(msgData);
     }
 
     function login() {
-        var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
-        initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
+        // logout();
+        var name = $('#name').val();
+        var settings = JSON.stringify({
+            "topic": "LOGIN",
+            "login": name
+        });
+        sock.send(settings);
     }
 
     function initSock() {
         sock = new SockJS('http://' + host + ':' + port + '/' + path);
+        sock.onmessage = function (e) {
+            var event  = JSON.parse(e.data);
+            switch (event.topic) {
+                case 'FAIL':
+                    alert(event.msg);
+                    break;
+                case 'SUCCESS':
+                    setHistory(event.msg);
+                    //TODO: add class
+                    break;
+                case 'MESSAGE' :
+                    setHistory(event.msg);
+            }
+        };
         sock.onopen = function() {
             console.log('open');
-            updateHistory();
-            setInterval(updateHistory, 10000);
         };
+        sock.onclose = function () {
 
-        sock.onmessage = function (e) {
-            console.log(e.data)
-            // check topic if you will provide other than "history"
-            setHistory(e.data)
+            console.log('close');
         }
     }
 
-    function updateHistory() {
-        var history = JSON.stringify(
-            {
-                "topic" : "history"
-            }
-        );
-        sock.send(history)
+    function setHistory(data) {
+        $("#history").append(data.replace(/\n/g, "<br />"))
+        $("#history").scrollTop($("#history")[0].scrollHeight);
     }
 
-    function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"))
-        $("#history").scrollTop($("#history")[0].scrollHeight);
+    function logout() {
+        if(sock != null) sock.close();
     }
 
 </script>
