@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,23 +53,57 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join("\n", usersOnline.keySet()
+                .stream().sorted().collect(Collectors.toList()));
         return ResponseEntity.ok(responseBody);
     }
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> logout(@RequestParam("name") String name) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("This user is not logged in :(");
+        }
+        usersOnline.remove(name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
-
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> chat(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("This user is not logged in :( He can't chatting!");
+        } else if (msg.trim().length() < 1) {
+            return ResponseEntity.badRequest().body("This message is too short :(");
+        } else if (msg.trim().length() > 250) {
+            return ResponseEntity.badRequest().body("This message is too long :(");
+        }
+        messages.add("[" + name + "] say: " + msg);
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n", new ArrayList<>(messages));
+        return ResponseEntity.ok(responseBody);
+    }
 }
