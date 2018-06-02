@@ -37,7 +37,7 @@ public class ChatClientTest {
     }
 
     @Test
-    public void say() throws IOException {
+    public void sendMessage() throws IOException {
         Response response = ChatClient.say(MY_NAME_IN_CHAT, MY_MESSAGE_TO_CHAT);
         System.out.println("[" + response + "]");
         System.out.println(response.body().string());
