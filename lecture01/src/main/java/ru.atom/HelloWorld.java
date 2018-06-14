@@ -7,6 +7,8 @@ public class HelloWorld {
     }
 
     public static String getHelloWorld() {
+
+        System.out.println();
         return "Hello, World!";
     }
 }
