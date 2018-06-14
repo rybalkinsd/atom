@@ -53,7 +53,11 @@ public class MatchMaker implements Runnable {
         }
     }
 
-    public List<Connection> getCandidates(){
+    public List<Connection> getCandidates() {
         return candidates;
+    }
+
+    public void clearCandidates() {
+        this.candidates.clear();
     }
 }

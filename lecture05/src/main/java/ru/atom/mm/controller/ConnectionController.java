@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.atom.mm.model.Connection;
 import ru.atom.mm.service.ConnectionQueue;
 import ru.atom.mm.service.MatchMaker;
@@ -49,8 +53,7 @@ public class ConnectionController {
     @RequestMapping(
             path = "list",
             method = RequestMethod.GET,
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
+            produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
     public String list() {
         log.info("Connections list request");

@@ -10,6 +10,7 @@ import ru.atom.mm.model.Connection;
 import ru.atom.mm.model.GameSession;
 import ru.atom.mm.service.GameRepository;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -23,11 +24,15 @@ public class GameControllerTest {
     private GameRepository gameRepository;
 
     @Test
-    public void list() throws Exception {
-        assertTrue(gameController.list().equals("[]"));
+    public void list()  {
+        gameRepository.clearMap();
+        assertEquals("[]", gameController.list());
+
         Connection[] connections = {new Connection(1, "a"), new Connection(2, "b"),
                                     new Connection(3,"c"), new Connection(4, "d")};
+
         gameRepository.put(new GameSession(connections));
+
         assertTrue(gameController.list().contains("Connection{playerId=1, name='a'}"));
         assertTrue(gameController.list().contains("Connection{playerId=2, name='b'}"));
         assertTrue(gameController.list().contains("Connection{playerId=3, name='c'}"));

@@ -34,13 +34,13 @@ public class Config {
 
     @Bean
     @Scope("prototype")
-    public ConnectionController connectionController(){
+    public ConnectionController connectionController() {
         return new ConnectionController();
     }
 
     @Bean
     @Scope("prototype")
-    public GameController gameController(){
+    public GameController gameController() {
         return new GameController();
     }
 }
