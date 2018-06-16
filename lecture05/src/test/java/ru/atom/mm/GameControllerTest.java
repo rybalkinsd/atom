@@ -24,7 +24,7 @@ public class GameControllerTest {
     private GameRepository gameRepository;
 
     @Test
-    public void list()  {
+    public void list() {
         gameRepository.clearMap();
         assertEquals("[]", gameController.list());
 

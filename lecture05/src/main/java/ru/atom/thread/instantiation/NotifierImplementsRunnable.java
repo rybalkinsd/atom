@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 public class NotifierImplementsRunnable implements Runnable {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(NotifierImplementsRunnable.class);
 
-
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -21,5 +20,4 @@ public class NotifierImplementsRunnable implements Runnable {
             }
         }
     }
-
 }

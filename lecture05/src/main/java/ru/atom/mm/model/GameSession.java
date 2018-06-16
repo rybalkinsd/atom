@@ -2,7 +2,6 @@ package ru.atom.mm.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.atom.mm.service.ConnectionProducer;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
