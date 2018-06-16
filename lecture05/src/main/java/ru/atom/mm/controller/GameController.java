@@ -19,7 +19,6 @@ import ru.atom.mm.service.GameRepository;
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-
     @Autowired
     private GameRepository gameRepository;
 

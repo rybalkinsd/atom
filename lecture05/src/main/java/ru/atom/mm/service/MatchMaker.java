@@ -18,14 +18,13 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MatchMaker implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(MatchMaker.class);
-
+    private List<Connection> candidates = null;
 
     @Autowired
     private ConnectionQueue connectionQueue;
 
     @Autowired
     private GameRepository gameRepository;
-
 
     @PostConstruct
     public void startThread() {
@@ -35,7 +34,7 @@ public class MatchMaker implements Runnable {
     @Override
     public void run() {
         log.info("Started");
-        List<Connection> candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
+        candidates = new ArrayList<>(GameSession.PLAYERS_IN_GAME);
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 candidates.add(
@@ -52,5 +51,13 @@ public class MatchMaker implements Runnable {
                 candidates.clear();
             }
         }
+    }
+
+    public List<Connection> getCandidates() {
+        return candidates;
+    }
+
+    public void clearCandidates() {
+        this.candidates.clear();
     }
 }

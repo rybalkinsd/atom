@@ -1,6 +1,5 @@
 package ru.atom.mm.controller;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.atom.mm.model.Connection;
 import ru.atom.mm.service.ConnectionQueue;
-
+import ru.atom.mm.service.MatchMaker;
 
 @Controller
 @RequestMapping("/connection")
 public class ConnectionController {
     private static final Logger log = LoggerFactory.getLogger(ConnectionController.class);
 
-
     @Autowired
     private ConnectionQueue connectionQueue;
+
+    @Autowired
+    private MatchMaker matchMaker;
 
     /**
      * curl test
@@ -47,9 +49,22 @@ public class ConnectionController {
      *
      * curl -i localhost:8080/connection/list'
      */
+    @RequestMapping(
+            path = "list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
     public String list() {
-        throw new UnsupportedOperationException();
+        log.info("Connections list request");
+        StringBuilder connections = new StringBuilder("Available connections: ");
+        if (matchMaker.getCandidates().size() == 0)
+            return "";
+        else {
+            for (Connection connect: matchMaker.getCandidates()) {
+                connections.append(connect.toString()).append(" ");
+            }
+            log.info(connections.toString());
+            return connections.toString();
+        }
     }
-
-
 }

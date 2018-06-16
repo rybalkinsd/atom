@@ -15,12 +15,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ConnectionProducer implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(ConnectionProducer.class);
     private static final String[] names = {"John", "Paul", "George", "Someone else"};
-
     private static AtomicLong id = new AtomicLong();
 
     @Autowired
     private ConnectionQueue connectionQueue;
-
 
     @Override
     public void run() {

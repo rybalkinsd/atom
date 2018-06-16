@@ -20,4 +20,8 @@ public class GameRepository {
     public Collection<GameSession> getAll() {
         return map.values();
     }
+
+    public void clearMap() {
+        map.clear();
+    }
 }

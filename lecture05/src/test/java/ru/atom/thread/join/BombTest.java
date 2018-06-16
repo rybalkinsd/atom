@@ -2,13 +2,11 @@ package ru.atom.thread.join;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Created by sergey on 3/14/17.
  */
-@Ignore
 public class BombTest {
     private static final Logger log = LogManager.getLogger(BombTest.class);
 
