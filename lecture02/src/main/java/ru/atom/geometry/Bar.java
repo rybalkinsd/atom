@@ -71,10 +71,10 @@ public class Bar implements Collider {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
-            Border Border = (Border) o;
+            Border border = (Border) o;
 
-            if (pointOne != null ? !pointOne.equals(Border.pointOne) : Border.pointOne != null) return false;
-            return pointTwo != null ? pointTwo.equals(Border.pointTwo) : Border.pointTwo == null;
+            if (pointOne != null ? !pointOne.equals(border.pointOne) : border.pointOne != null) return false;
+            return pointTwo != null ? pointTwo.equals(border.pointTwo) : border.pointTwo == null;
         }
 
         @Override
@@ -112,14 +112,14 @@ public class Bar implements Collider {
             }
 
             if (other instanceof Border) {
-                Border Border = (Border) other;
+                Border border = (Border) other;
 
-                if (this.getLeft().getX() > Border.getRight().getX()
-                        || this.getBottom().getY() > Border.getTop().getY()) {
+                if (this.getLeft().getX() > border.getRight().getX()
+                        || this.getBottom().getY() > border.getTop().getY()) {
                     return false;
                 }
-                if (!(this.getRight().getX() < Border.getLeft().getX()
-                        || this.getTop().getY() < Border.getBottom().getY())) {
+                if (!(this.getRight().getX() < border.getLeft().getX()
+                        || this.getTop().getY() < border.getBottom().getY())) {
                     return true;
                 } else return false;
             }
