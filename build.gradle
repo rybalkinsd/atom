@@ -4,7 +4,7 @@ plugins {
 
 // constants declaration
 ext {
-    jdkVersion = 1.9
+    jdkVersion = 1.8
 
     jettyVersion = "9.3.12.v20160915"
     junitVersion = "4.12"
