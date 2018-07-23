@@ -9,9 +9,16 @@
         <input value="Login" style="font-size:large" type="submit">
     </form>
 </div>
+<strong class="leftLabel">History</strong>
+<strong class="rightLabel">Online users</strong>
 <div id="body">
-    <div id="history" class="chat form"></div>
+    <div id="history" class="chat form">
+
+    </div>
+    <div id="users" class="chat form"></div>
 </div>
+
+
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
         <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
@@ -26,7 +33,6 @@
     var host = "localhost";
     var port = 8080;
 
-
     function loadHistory() {
         var settings = {
             "crossDomain": true,
@@ -35,8 +41,22 @@
         }
 
         $.ajax(settings).done(function (response) {
-            $("#history").html(response.replace(/\n/g, "<br />"))
+            $("#history").html(response.replace(/\n/g, "<br />"));
             $("#history").scrollTop($("#history")[0].scrollHeight);
+        }).fail(function (jqXHR, textStatus) {
+            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        });
+    }
+
+    function loadOnlineUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"));
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
         });
@@ -81,5 +101,7 @@
     }
 
     loadHistory();
+    loadOnlineUsers();
     setInterval(loadHistory, 10000);
+    setInterval(loadOnlineUsers, 10000);
 </script>

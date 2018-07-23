@@ -29,9 +29,30 @@
 }
 
 #body {
+    width: 100%;
     padding: 10px;
     padding-top: 0;
     padding-bottom: 30px; /* Height of the footer */
+    margin-right: 1rem;
+    float: left;
+}
+
+#body div {
+    display:inline-block;
+    margin: 3px;
+}
+
+#history {
+    float: left;
+    width: 80%;
+    height: 85%;
+}
+
+#users {
+    width: 13.5%;
+    background: aquamarine;
+    height: 85%;
+    color: deeppink;
 }
 
 #footer {
@@ -41,4 +62,21 @@
     width: 100%;
     height: 30px; /* Height of the footer */
     background: #336666;
+}
+
+.leftLabel {
+    margin-left: 1rem;
+}
+
+.rightLabel {
+    margin-right: 10rem;
+    float: right;
+}
+
+.time {
+    color: firebrick;
+}
+
+.user {
+    color: deeppink;
 }
