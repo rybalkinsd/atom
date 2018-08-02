@@ -1,5 +1,6 @@
 package ru.atom.chat.server;
 
+import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,7 @@ public class ChatController {
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in:(");
         }
+        System.out.println(usersOnline);
         usersOnline.put(name, name);
         messages.add("[" + name + "] logged in");
         return ResponseEntity.ok().build();
@@ -59,16 +61,56 @@ public class ChatController {
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    //TODO
+    @RequestMapping(
+            path = "logout",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity logout(@RequestParam("name") String name) {
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("Already logged out:(");
+        }
+        usersOnline.remove(name, name);
+        messages.add("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    //TODO
+    @RequestMapping(
+            path = "say",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
+        if (name.length() < 1) {
+            return ResponseEntity.badRequest().body("Too short name, sorry :(");
+        }
+        if (name.length() > 20) {
+            return ResponseEntity.badRequest().body("Too long name, sorry :(");
+        }
+        if (!usersOnline.containsKey(name)) {
+            return ResponseEntity.badRequest().body("No such user");
+        }
+        messages.add("[" + name + "] say: \"" + msg + "\"");
+        return ResponseEntity.ok().build();
+    }
 
 
     /**
      * curl -i localhost:8080/chat/chat
      */
-    //TODO
+    @RequestMapping(
+            path = "chat",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity chat() {
+        String responseBody = String.join("\n", new ArrayList<>(messages));
+        return ResponseEntity.ok(responseBody);
+    }
 }
