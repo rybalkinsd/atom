@@ -8,6 +8,9 @@
     padding: 7px;
     margin: 0 0 1em;
     overflow: auto;
+    float: left;
+    width: 74%;
+
 }
 
 .form {
@@ -34,11 +37,17 @@
     padding-bottom: 30px; /* Height of the footer */
 }
 
+#sidePanel {
+    padding: 7px;
+    float: right;
+    width: 20%;
+    height: 85%;
+    background: #99CCCC;
+}
+
 #footer {
     padding: 10px;
-    position: absolute;
     bottom: 0;
-    width: 100%;
     height: 30px; /* Height of the footer */
     background: #336666;
 }

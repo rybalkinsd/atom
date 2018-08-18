@@ -4,16 +4,20 @@
 <html>
 <body>
 <div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()" htmlEscape="true">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
         <input value="Login" style="font-size:large" type="submit">
     </form>
 </div>
 <div id="body">
     <div id="history" class="chat form"></div>
+    <div id="sidePanel">
+        <div id="users"></div>
+    </div>
 </div>
+
 <div id="footer">
-    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
+    <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()" htmlEscape="true">
         <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
         <input value="Send" class="sendbutton" style="font-size:large" type="submit">
     </form>
@@ -25,7 +29,20 @@
 <script>
     var host = "localhost";
     var port = 8080;
+    var timestampLength = 20;
 
+    function loadUsers() {
+        var settings = {
+            "crossDomain": true,
+            "url": "http://" + host + ":" + port + "/chat/online",
+            "method": "GET",
+        }
+
+        $.ajax(settings).done(function (response) {
+            $("#users").html(response.replace(/\n/g, "<br />"))
+            $("#users").scrollTop($("#users")[0].scrollHeight);
+        });
+    }
 
     function loadHistory() {
         var settings = {
@@ -35,7 +52,21 @@
         }
 
         $.ajax(settings).done(function (response) {
-            $("#history").html(response.replace(/\n/g, "<br />"))
+            var messages = response.split("\n");
+
+            var changedResponse = "";
+            for (var i = 0; i < messages.length; i++) {
+                var message = messages[i];
+
+                var timestamp = message.substring(0, timestampLength);
+                var name = message.substring(message.indexOf("[") + 1, message.indexOf("]"));
+
+                changedResponse = changedResponse + message.replace(timestamp, "<span style=\"color:blue\">" + timestamp + "</span>")
+                                            .replace(name, "<span style=\"color:red\">" + name + "</span>")
+                                            + "<br>";
+             }
+
+            $("#history").html(changedResponse)
             $("#history").scrollTop($("#history")[0].scrollHeight);
         }).fail(function (jqXHR, textStatus) {
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -74,6 +105,7 @@
 
         $.ajax(settings).done(function (response) {
             loadHistory();
+            loadUsers();
         }).fail(function (jqXHR, textStatus) {
             alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
             console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
@@ -81,5 +113,7 @@
     }
 
     loadHistory();
+    loadUsers();
     setInterval(loadHistory, 10000);
+    setInterval(loadUsers, 10000);
 </script>
