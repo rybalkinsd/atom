@@ -35,17 +35,17 @@ public class Bar implements Collider {
         if (o == null || getClass() != o.getClass()) return false;
         Bar bar = (Bar) o;
 
-        if (this.firstCorner.equals(bar.firstCorner) &&
-                this.secondCorner.equals(bar.secondCorner)) {
+        if (this.firstCorner.equals(bar.firstCorner)
+                && this.secondCorner.equals(bar.secondCorner)) {
             return true;
-        } else if (this.firstCorner.equals(bar.secondCorner) &&
-                        this.secondCorner.equals(bar.firstCorner)) {
+        } else if (this.firstCorner.equals(bar.secondCorner)
+                && this.secondCorner.equals(bar.firstCorner)) {
             return true;
-        } else if (this.getFirstCorner().getX() == bar.getFirstCorner().getX() && this.getFirstCorner().getY() == bar.getSecondCorner().getY() &&
-                this.getSecondCorner().getX() == bar.getSecondCorner().getX() && this.getSecondCorner().getY() == bar.getFirstCorner().getY() ) {
+        } else if (this.getFirstCorner().getX() == bar.getFirstCorner().getX() && this.getFirstCorner().getY() == bar.getSecondCorner().getY()
+                && this.getSecondCorner().getX() == bar.getSecondCorner().getX() && this.getSecondCorner().getY() == bar.getFirstCorner().getY()) {
             return true;
-        } else if (this.getFirstCorner().getX() == bar.getSecondCorner().getX() && this.getFirstCorner().getY() == bar.getFirstCorner().getY() &&
-                this.getSecondCorner().getX() == bar.getFirstCorner().getX() && this.getSecondCorner().getY() == bar.getSecondCorner().getY() ) {
+        } else if (this.getFirstCorner().getX() == bar.getSecondCorner().getX() && this.getFirstCorner().getY() == bar.getFirstCorner().getY()
+                && this.getSecondCorner().getX() == bar.getFirstCorner().getX() && this.getSecondCorner().getY() == bar.getSecondCorner().getY()) {
             return true;
         } else {
             return false;
@@ -62,8 +62,8 @@ public class Bar implements Collider {
     }
 
     private boolean between(Point value, Point first, Point second) {
-        return between(value.getX(), first.getX(), second.getX()) &&
-                between(value.getY(), first.getY(), second.getY());
+        return between(value.getX(), first.getX(), second.getX())
+                && between(value.getY(), first.getY(), second.getY());
     }
 
     @Override
@@ -73,16 +73,16 @@ public class Bar implements Collider {
             if (this.equals(bar)) {
                 return true;
             } else {
-                return this.isColliding(bar.getFirstCorner()) || this.isColliding(bar.getSecondCorner()) ||
-                       this.isColliding(bar.getThirdCorner()) || this.isColliding(bar.getFourthCorner()) ||
-                        ( between(this.getFirstCorner().getX(), bar.getFirstCorner().getX(), bar.getSecondCorner().getX()) ||
-                         between(this.getSecondCorner().getX(), bar.getFirstCorner().getX(), bar.getSecondCorner().getX()) ||
-                         between(bar.getFirstCorner().getX(), this.getFirstCorner().getX(), this.getSecondCorner().getX()) ||
-                         between(bar.getSecondCorner().getX(), this.getFirstCorner().getX(), this.getSecondCorner().getX()) )
-                    && ( between(this.getFirstCorner().getY(), bar.getFirstCorner().getY(), bar.getSecondCorner().getY()) ||
-                         between(this.getSecondCorner().getY(), bar.getFirstCorner().getY(), bar.getSecondCorner().getY()) ||
-                         between(bar.getFirstCorner().getY(), this.getFirstCorner().getY(), this.getSecondCorner().getY()) ||
-                         between(bar.getSecondCorner().getY(), this.getFirstCorner().getY(), this.getSecondCorner().getY()) );
+                return this.isColliding(bar.getFirstCorner()) || this.isColliding(bar.getSecondCorner())
+                        || this.isColliding(bar.getThirdCorner()) || this.isColliding(bar.getFourthCorner())
+                        ||  (between(this.getFirstCorner().getX(), bar.getFirstCorner().getX(), bar.getSecondCorner().getX())
+                            || between(this.getSecondCorner().getX(), bar.getFirstCorner().getX(), bar.getSecondCorner().getX())
+                            ||  between(bar.getFirstCorner().getX(), this.getFirstCorner().getX(), this.getSecondCorner().getX())
+                            ||  between(bar.getSecondCorner().getX(), this.getFirstCorner().getX(), this.getSecondCorner().getX()))
+                        && (between(this.getFirstCorner().getY(), bar.getFirstCorner().getY(), bar.getSecondCorner().getY())
+                            || between(this.getSecondCorner().getY(), bar.getFirstCorner().getY(), bar.getSecondCorner().getY())
+                            || between(bar.getFirstCorner().getY(), this.getFirstCorner().getY(), this.getSecondCorner().getY())
+                            || between(bar.getSecondCorner().getY(), this.getFirstCorner().getY(), this.getSecondCorner().getY()));
             }
         } else if (other instanceof Point) {
             Point point = (Point) other;
