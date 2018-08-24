@@ -40,11 +40,22 @@ public class ChatClient {
     //POST host:port/chat/say?name=my_name
     //Body: "msg='my_message'"
     public static Response say(String name, String msg) throws IOException {
-        throw new UnsupportedOperationException();
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        Request request = new Request.Builder()
+                .post(RequestBody.create(mediaType, ""))
+                .url(PROTOCOL + HOST + PORT + String.format("/chat/say?name=%s&msg=%s", name, msg))
+                .build();
+
+        return client.newCall(request).execute();
     }
 
     //GET host:port/chat/online
     public static Response viewOnline() throws IOException {
-        throw new UnsupportedOperationException();
+        Request request = new Request.Builder()
+                .get()
+                .url(PROTOCOL + HOST + PORT + "/chat/online")
+                .addHeader("host", HOST + PORT)
+                .build();
+        return client.newCall(request).execute();
     }
 }
