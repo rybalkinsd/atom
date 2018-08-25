@@ -17,8 +17,8 @@ public class Util {
      */
     public static int max(int[] values) {
         int v = values[0];
-        for(int num : values){
-            if(num > v){
+        for (int num : values) {
+            if (num > v) {
                 v = num;
             }
         }
@@ -33,8 +33,8 @@ public class Util {
      */
     public static long sum(int[] values) {
         long sum = 0;
-        for(int num: values){
-            sum+=num;
+        for (int num : values) {
+            sum += num;
         }
         return sum;
     }
