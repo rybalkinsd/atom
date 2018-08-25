@@ -27,9 +27,17 @@ public class UserDao implements Dao<User> {
                     "from chat.user " +
                     "where ";
 
+    private static final String SELECT_USER_WHERE_LOGIN_EQUALS =
+            "select * " +
+                    "from chat.user " +
+                    "where login = ";
+
     private static final String INSERT_USER_TEMPLATE =
             "insert into chat.user (login) " +
                     "values ('%s');";
+
+    private static final String DELETE_USER_TEMPLATE =
+            "DELETE FROM chat.user WHERE id = ";
 
     @Override
     public List<User> getAll() {
@@ -81,7 +89,30 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new UnsupportedOperationException();
+        User person = null;
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            ResultSet rs = stm.executeQuery(SELECT_USER_WHERE_LOGIN_EQUALS + "\'" + name + "\'");
+            if (rs.next())
+                return mapToUser(rs);
+            else
+                throw new SQLException();
+        } catch (SQLException e) {
+            log.error("Failed to get user {} by name", name, e);
+        }
+        return person;
+    }
+
+    public void delete(User user) {
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            stm.execute(DELETE_USER_TEMPLATE + user.getId());
+            log.info("Deleted user {}", user.getLogin());
+        } catch (SQLException e) {
+            log.error("Failed to delete user {}", user.getLogin(), e);
+        }
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

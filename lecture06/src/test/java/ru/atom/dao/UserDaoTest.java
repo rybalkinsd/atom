@@ -1,7 +1,7 @@
 package ru.atom.dao;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.atom.model.User;
 
@@ -14,13 +14,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sergey on 3/25/17.
  */
-@Ignore
 public class UserDaoTest {
     private UserDao userDao;
     private String login;
     private User user;
     private int usersBeforeTest;
-
 
     @Before
     public void setUp() throws Exception {
@@ -28,8 +26,8 @@ public class UserDaoTest {
         login = "Lolita " + new Random().nextInt(999999);
         user = new User().setLogin(login);
         usersBeforeTest = userDao.getAll().size();
-
         userDao.insert(user);
+        user = userDao.getByName(login);
     }
 
     @Test
@@ -45,11 +43,11 @@ public class UserDaoTest {
     @Test
     public void findWhereTest() throws Exception {
         List<User> lol = userDao.getAllWhere("login like 'Lol%'");
-        assertTrue(
-                lol.stream()
-                        .map(User::getLogin)
-                        .anyMatch(s -> s.startsWith(login))
-        );
+        assertTrue(lol.stream().map(User::getLogin).anyMatch(s -> s.startsWith(login)));
     }
 
+    @After
+    public void tearDown() {
+        userDao.delete(user);
+    }
 }
