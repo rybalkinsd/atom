@@ -16,13 +16,13 @@ public class Util {
      * @return the largest of values.
      */
     public static int max(int[] values) {
-        int v = values[0];
+        int value = values[0];
         for (int num : values) {
-            if (num > v) {
-                v = num;
+            if (num > value) {
+                value = num;
             }
         }
-        return v;
+        return value;
     }
 
     /**
