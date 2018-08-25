@@ -44,10 +44,12 @@ public class Point implements Collider {
     }
 
     public static boolean pointInBar(Point point, Bar bar) {
+        int x = point.x;
+        int y = point.y;
         int minX = bar.getX1().x;
         int maxX = bar.getX2().x;
         int minY = bar.getX1().y;
         int maxY = bar.getX2().y;
-        return point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY;
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
     }
 }

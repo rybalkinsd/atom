@@ -59,17 +59,13 @@ public class Bar implements Collider {
         Point downRightPoint = new Point(minPoint.getX() + diffX, minPoint.getY());
         Bar barTmp = null;
         if (point.equals(maxPoint)) {
-            barTmp = new Bar(new Point(point.getX(), point.getY() - diffY),
-                    new Point(minPoint.getX(), minPoint.getY() + diffY));
+            barTmp = new Bar(new Point(point.getX(), point.getY() - diffY), new Point(minPoint.getX(), minPoint.getY() + diffY));
         } else if (point.equals(minPoint)) {
-            barTmp = new Bar(new Point(point.getX(), point.getY() + diffY),
-                    new Point(maxPoint.getX(), maxPoint.getY() - diffY));
+            barTmp = new Bar(new Point(point.getX(), point.getY() + diffY), new Point(maxPoint.getX(), maxPoint.getY() - diffY));
         } else if (point.equals(upLeftPoint)) {
-            barTmp = new Bar(new Point(point.getX() + diffX, point.getY()),
-                    new Point(downRightPoint.getX() - diffX, downRightPoint.getY()));
+            barTmp = new Bar(new Point(point.getX() + diffX, point.getY()), new Point(downRightPoint.getX() - diffX, downRightPoint.getY()));
         } else if (point.equals(downRightPoint)) {
-            barTmp = new Bar(new Point(point.getX() - diffX, point.getY()),
-                    new Point(upLeftPoint.getX() + diffX, upLeftPoint.getY()));
+            barTmp = new Bar(new Point(point.getX() - diffX, point.getY()), new Point(upLeftPoint.getX() + diffX, upLeftPoint.getY()));
         }
         if (barTmp != null) {
             return equalsBarsWithPermutations(barTmp, barTwo);
