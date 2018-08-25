@@ -57,6 +57,9 @@ public class ChatController {
         }
         User newUser = new User().setLogin(name);
         userDao.insert(newUser);
+        newUser = userDao.getByName(name);
+        Message msg = new Message().setUser(newUser).setValue(name + " logged in");
+        messageDao.insert(msg);
         log.info("[" + name + "] logined");
 
         return ResponseEntity.ok().build();
@@ -71,7 +74,13 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        throw new UnsupportedOperationException();
+        User newUser = userDao.getByName(name);
+        if (!newUser.getLogin().equals(name)) {
+            return ResponseEntity.badRequest().body("This user is not logged in :(");
+        }
+        userDao.delete(newUser);
+        log.info("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
     }
 
 
