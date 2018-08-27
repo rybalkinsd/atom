@@ -8,34 +8,73 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private ListNode<E> first;
+    private int size;
+
+    public CustomLinkedList() {
+        this.size = 0;
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return this.size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return this.size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = this.first;
+        for(int i = 0; i < this.size; i++){
+            if(current.getItem().equals(o)){
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Listerator();
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        ListNode<E> firstOld = first;
+        ListNode<E> newNode = new ListNode<>(null, e, firstOld);
+        this.first = newNode;
+        if(firstOld != null){
+            firstOld.setPrev(newNode);
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = this.first;
+        for(int i = this.size - 1; i > 0; i--){
+            if(current.getItem().equals(o)){
+                break;
+            }
+            current = current.getNext();
+        }
+        ListNode<E> prevNode = current.getPrev();
+        ListNode<E> nextNode = current.getNext();
+        if(nextNode != null) {
+            nextNode.setPrev(prevNode);
+        }
+        if(prevNode != null) {
+            prevNode.setNext(nextNode);
+        }
+        current.setNext(null);
+        current.setPrev(null);
+        size--;
+        return true;
     }
 
     @Override
@@ -45,17 +84,31 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = this.first;
+        for(int i = this.size - 1; i > index; i--){
+            current = current.getNext();
+        }
+        return current.getItem();
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> current = this.first;
+        for(int i = this.size - 1; i > 0; i--){
+            if(current.getItem().equals(o)){
+                return i;
+            }
+            current = current.getNext();
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for(E item : c){
+            add(item);
+        }
+        return true;
     }
 
 
@@ -165,5 +218,24 @@ public class CustomLinkedList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         return null;
+    }
+
+    private class Listerator implements Iterator<E> {
+
+        private int cursor;
+
+        public Listerator() {
+            cursor = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.cursor != CustomLinkedList.this.size();
+        }
+
+        @Override
+        public E next() {
+            return CustomLinkedList.this.get(cursor++);
+        }
     }
 }
