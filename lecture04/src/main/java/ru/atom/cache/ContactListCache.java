@@ -1,6 +1,5 @@
 package ru.atom.cache;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -14,21 +13,21 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
 
     @Override
     public boolean put(Person person, List<? extends Person> people) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<? extends Person> get(Person person) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int getSize() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     private boolean removeAny() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
 }

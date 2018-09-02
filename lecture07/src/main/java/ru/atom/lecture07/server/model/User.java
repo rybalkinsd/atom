@@ -17,11 +17,11 @@ public class User {
     @Column(name = "login", unique = true, nullable = false, length = 20)
     private String login;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public User setId(int id) {
+    public User setId(Integer id) {
         this.id = id;
         return this;
     }

@@ -1,30 +1,30 @@
 package ru.atom.lecture08.websocket;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-public class EventHandler extends WebSocketAdapter {
+@Component
+public class EventHandler extends TextWebSocketHandler implements WebSocketHandler {
+
     @Override
-    public void onWebSocketConnect(Session sess) {
-        super.onWebSocketConnect(sess);
-        System.out.println("Socket Connected: " + sess);
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        super.afterConnectionEstablished(session);
+        System.out.println("Socket Connected: " + session);
     }
 
     @Override
-    public void onWebSocketText(String message) {
-        super.onWebSocketText(message);
-        System.out.println("Received TEXT message: " + message);
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("Received " + message.toString());
     }
 
     @Override
-    public void onWebSocketClose(int statusCode, String reason) {
-        super.onWebSocketClose(statusCode, reason);
-        System.out.println("Socket Closed: [" + statusCode + "] " + reason);
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+        System.out.println("Socket Closed: [" + closeStatus.getCode() + "] " + closeStatus.getReason());
+        super.afterConnectionClosed(session, closeStatus);
     }
 
-    @Override
-    public void onWebSocketError(Throwable cause) {
-        super.onWebSocketError(cause);
-        cause.printStackTrace(System.err);
-    }
 }

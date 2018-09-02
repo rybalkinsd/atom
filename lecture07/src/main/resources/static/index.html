@@ -1,6 +1,6 @@
 <script>
-    var host = "localhost";
-    var port = 8080;
+  var host = "localhost";
+  var port = 8080;
 </script>
 
 <html>
@@ -8,6 +8,7 @@
     :root {
         background: #336666;
     }
+
     .chat {
         background: #99CCCC;
         font-family: "Courier New", Courier, monospace;
@@ -15,25 +16,31 @@
         margin: 0 0 1em;
         overflow: auto;
     }
+
     .form {
         height: 85%;
     }
+
     .msginput {
         width: 80%;
     }
+
     .sendbutton {
         width: 15%;
     }
+
     #header {
         background: #336666;
         padding: 10px;
         padding-bottom: 0;
     }
+
     #body {
         padding: 10px;
         padding-top: 0;
         padding-bottom: 30px; /* Height of the footer */
     }
+
     #footer {
         padding: 10px;
         position: absolute;
@@ -65,54 +72,61 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-    function loadHistory() {
-        var name = $('#nameform').serialize();
-        var settings = {
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/chat?"+name,
-            "method": "GET",
-        }
-        $.ajax(settings).done(function (response) {
-            $( "#history" ).html(response.replace(/\n/g, "<br />"))
-            $( "#history" ).scrollTop( $( "#history" )[0].scrollHeight );
-        }).fail(function (jqXHR, textStatus) {
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
+function loadHistory() {
+    var settings = {
+      "crossDomain": true,
+      "url": "http://" + host + ":" + port + "/chat/chat",
+      "method": "GET",
     }
-    //setInterval(loadHistory, 1000);
+
+    $.ajax(settings).done(function (response) {
+      $( "#history" ).html(response.replace(/\n/g, "<br />"))
+      $( "#history" ).scrollTop( $( "#history" )[0].scrollHeight );
+    }).fail(function (jqXHR, textStatus) {
+           console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+    });
+}
+//setInterval(loadHistory, 1000);
+
 </script>
 <script>
-    function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/say?"+name,
-            "data": msg
-        }
-        $.ajax(settings).done(function(response) {
-            $('#msgform').trigger("reset");
-            loadHistory();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-    }
+function say() {
+   var msg = $('#msgform').serialize();
+   var name = $('#nameform').serialize();
+
+   var settings = {
+        "method": "POST",
+        "crossDomain": true,
+        "url": "http://" + host + ":" + port + "/chat/say",
+        "data": name + "&" + msg
+    };
+
+   $.ajax(settings).done(function(response) {
+        $('#msgform').trigger("reset");
+        loadHistory();
+   }).fail(function (jqXHR, textStatus) {
+        alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+        console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+   });
+}
+
 </script>
 <script>
-    function login() {
-        var name = $('#nameform').serialize();
-        var settings = {
-            "method": "POST",
-            "crossDomain": true,
-            "url": "http://" + host + ":" + port + "/chat/login?"+name,
-        }
-        $.ajax(settings).done(function(response) {
-            loadHistory();
-        }).fail(function (jqXHR, textStatus) {
-            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-        });
-    }
+function login() {
+   var name = $('#nameform').serialize();
+
+   var settings = {
+        "method": "POST",
+        "crossDomain": true,
+        "url": "http://" + host + ":" + port + "/chat/login",
+        "data": name
+    };
+
+   $.ajax(settings).done(function(response) {
+        loadHistory();
+   }).fail(function (jqXHR, textStatus) {
+       alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+       console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
+   });
+}
 </script>

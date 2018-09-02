@@ -1,0 +1,23 @@
+.reveal .slides {
+    text-align: left;
+}
+.reveal .slides section>* {
+    margin-left: 0;
+    margin-right: 0;
+}
+.reveal section img {
+  border: 0;
+  box-shadow: none;
+}
+.reveal {
+  font-size: 24px;
+}
+.reveal h3 {
+    margin-top: 1;
+    margin-bottom: 0;
+}
+
+.reveal .slide-number {
+    font-size: 24pt;
+    color: #ffffff;
+}

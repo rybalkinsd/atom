@@ -1,7 +1,10 @@
 dependencies {
-    testCompile rootProject.libraries.junit
-    compile rootProject.libraries.log4j
     compile rootProject.libraries.jetbrainsAnnotations
+    compile rootProject.libraries.spring_boot
+    compile rootProject.libraries.spring_boot_websocket
+
+    testCompile rootProject.libraries.junit
+    testCompile rootProject.libraries.spring_boot_test
 }
 
 jar {

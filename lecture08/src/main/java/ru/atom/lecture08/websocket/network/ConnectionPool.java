@@ -2,8 +2,9 @@ package ru.atom.lecture08.websocket.network;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
     private static final int PARALLELISM_LEVEL = 4;
 
-    private final ConcurrentHashMap<Session, String> pool;
+    private final ConcurrentHashMap<WebSocketSession, String> pool;
 
     public static ConnectionPool getInstance() {
         return instance;
@@ -24,10 +25,10 @@ public class ConnectionPool {
         pool = new ConcurrentHashMap<>();
     }
 
-    public void send(@NotNull Session session, @NotNull String msg) {
+    public void send(@NotNull WebSocketSession session, @NotNull String msg) {
         if (session.isOpen()) {
             try {
-                session.getRemote().sendString(msg);
+                session.sendMessage(new TextMessage(msg));
             } catch (IOException ignored) {
             }
         }
@@ -40,16 +41,19 @@ public class ConnectionPool {
     public void shutdown() {
         pool.forEachKey(PARALLELISM_LEVEL, session -> {
             if (session.isOpen()) {
-                session.close();
+                try {
+                    session.close();
+                } catch (IOException ignored) {
+                }
             }
         });
     }
 
-    public String getPlayer(Session session) {
+    public String getPlayer(WebSocketSession session) {
         return pool.get(session);
     }
 
-    public Session getSession(String player) {
+    public WebSocketSession getSession(String player) {
         return pool.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(player))
                 .map(Map.Entry::getKey)
@@ -57,13 +61,13 @@ public class ConnectionPool {
                 .orElseGet(null);
     }
 
-    public void add(Session session, String player) {
+    public void add(WebSocketSession session, String player) {
         if (pool.putIfAbsent(session, player) == null) {
             log.info("{} joined", player);
         }
     }
 
-    public void remove(Session session) {
+    public void remove(WebSocketSession session) {
         pool.remove(session);
     }
 }

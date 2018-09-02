@@ -8,11 +8,6 @@ lecture 7
 https://atom.mail.ru/
 
 #HSLIDE
-## Начинается групповая работа
-До следующей пары разбейтесь на группы по 3 человека  
-Следующий рубежный контроль и работа над игрой будет проходить в этих группах  
-
-#HSLIDE
 ### get ready
 ```bash
 > git fetch upstream
@@ -24,18 +19,18 @@ Refresh gradle project
 ## Agenda
 1. Intro
 1. What is ORM?
+1. Hibernate example
 1. Hibernate theory
 1. Hibernate session
-1. Hibernate example
 1. Hibernate practice
 
 #HSLIDE
 ## Agenda
 1. **[Intro]**
 1. What is ORM?
+1. Hibernate example
 1. Hibernate theory
 1. Hibernate session
-1. Hibernate example
 1. Hibernate practice
 
 #HSLIDE
@@ -82,10 +77,10 @@ Based on JDBC ‘under the hood’
 #HSLIDE
 ## Agenda
 1. Intro
+1. Hibernate example
 1. **[What is ORM?]**
 1. Hibernate theory
 1. Hibernate session
-1. Hibernate example
 1. Hibernate practice
 
 #HSLIDE
@@ -124,9 +119,39 @@ Hibernate is very popular. It is required to apply 70% of Java positions
 ## Agenda
 1. Intro
 1. What is ORM?
+1. **[Hibernate example]**
+1. Hibernate theory
+1. Hibernate session
+1. Hibernate practice
+
+
+#HSLIDE
+### Magic
+Spring boot + Hibernate uses a lot of instrumentation (magic)  
+**Wanna see some magic?**
+
+#HSLIDE
+### Good old chat
+We now rewrite chat persistence from **JDBC** to **Hibernate**  
+@see ru/atom/lecture07/server
+
+#HSLIDE
+### Service layer
+We introduce **service layer** (ChatService.java) in order to encapsulate business logic.  
+Service layer implements business logic using DAO and providing guaranties, that resource level expect.  
+This is simple and popular web services architecture  
+  
+#### Overall scheme now looks like this:  
+**Resource <--> Service <--> DAO <--> db**
+
+
+#HSLIDE
+## Agenda
+1. Intro
+1. What is ORM?
+1. Hibernate example
 1. **[Hibernate theory]**
 1. Hibernate session
-1. Hibernate example
 1. Hibernate practice
 
 #HSLIDE
@@ -155,9 +180,9 @@ How to make object managed by hibernate? - via **Session**
 ## Agenda
 1. Intro
 1. What is ORM?
+1. Hibernate example
 1. Hibernate theory
 1. **[Hibernate session]**
-1. Hibernate example
 1. Hibernate practice
 
 #HSLIDE
@@ -207,32 +232,12 @@ We will use **session-per-thread** strategy (configurable by hibernate)
 ## Hibernate theory summary
 - Hibernate provide **Session** object to manage Entities and to make queries. 
 - Entity mapping is described by **annotations**
-- **Session** object is configurable in **hibernate.cfg.xml**  
+- **Session** object is configurable in **application.properties** (or hibernate.cfg.xml or with annotations)  
 - All hibernate guaranties are valid within single session
 Let's look how it works...
 
 #HSLIDE
-## Agenda
-1. Intro
-1. What is ORM?
-1. Hibernate theory
-1. Hibernate session
-1. **[Hibernate example]**
-1. Hibernate practice
-
-#HSLIDE
-### Good old chat
-We now rewrite chat persistence from **JDBC** to **Hibernate**  
-@see ru/atom/lecture07/server
-
-#HSLIDE
-### Service layer
-We introduce **service layer** (ChatService.java) in order to encapsulate business logic.  
-Service layer implements business logic using DAO and providing guaranties, that resource level expect.  
-This is simple and popular web services architecture  
-  
-#### Overall scheme now looks like this:  
-**Resource <--> Service <--> DAO <--> db**
+### Back to example
 
 #HSLIDE
 ### Plug in hibernate
@@ -242,15 +247,15 @@ We plug in hibernate as library within **build.gradle** (as usual)
 ### Hibernate configuration
 Persistence configuration contain two main parts:
 1. Mapping definition (how **Classes** will be mapped to **Relations**)
-1. Hibernate config (hibernate settings)
+1. Hibernate config (you can do it in **application.properties**)
 
 #HSLIDE
-### hibernate.cfg.xml
-hibernate.cfg.xml must be placed in **CLASS_PATH** of project (for example in **resources** directory).
-It describes settings required for hibernate (and mapping references)  
+### application.properties
+application.properties must be placed in **CLASS_PATH** of project (for example in **resources** directory).
+You can configure hibernate there 
   
-Those options, provided in **resources/hibernate.cfg.xml** are essential to understand  
-@see resources/hibernate.cfg.xml
+Hibernate options, provided in **resources/application.properties** are essential to understand  
+@see resources/application.properties
 
 #HSLIDE
 ### Mapping definition (via annotations)
@@ -283,11 +288,17 @@ Alas, elegant Criteria API is deprecated in hibernate 5.2+ in favour of verbose 
 @see UserDao.getAll()
 
 #HSLIDE
+### Transactions
+What is transaction?  
+What is ACID?
+
+#HSLIDE
 ### Hibernate transactions
-Nothing will happen in hibernate without **transaction**  
+Hibernate support **transactions**  
 One can use any transaction implementation (JTA provider)  
 or use **Transaction **interface available from **Session**  
-@see ru/atom/lecture07/server/dao/MessageDao.java
+We will use @Transactional from JTA
+@see ru/atom/lecture07/server/service/ChatService.java
 
 #HSLIDE
 ### References
@@ -298,9 +309,9 @@ or use **Transaction **interface available from **Session**
 ## Agenda
 1. Intro
 1. What is ORM?
+1. Hibernate example
 1. Hibernate theory
 1. Hibernate session
-1. Hibernate example
 1. **[Hibernate practice]**
 
 #HSLIDE
@@ -308,31 +319,19 @@ or use **Transaction **interface available from **Session**
 Implement chat server with persistence via **hibernate**
 
 **Implement:**  
-/chat/login  
-/chat/chat  
-/chat/online  
+/chat/say
 /chat/logout  
   
 **@see ru/atom/lecture07/**
   
-#HSLIDE
-### Practice note
-**Note:** We disabled automatic chat refresh to avoid error spam into console
-Enable it if you wand by uncommenting 
-```js
-//setInterval(loadHistory, 1000);
-```
-in **index.html**
 
 #HSLIDE
 ### Practice hints
 1. update schema
 ```bash
-> psql -h wtfis.ru -U atom0 -a -d chatdb_atom0 -f lecture07/src/main/resources/sql/schema/chat-schema.sql
+> psql -h http://34.229.108.81/ -U atom0 -a -d atom0 -f lecture07/src/main/resources/sql/schema/chat-schema.sql
 ```
-1. Change user and password in **hibernate.cfg.xml**
-1. Un-ignore **UserDaoTest** and **MessageDaoTest**
-1. Annotate **Message.java** to make it **Entity** class
+1. Change user and password in **application.properties**
 1. Implement methods in **ChatService**, add new if necessary
 1. Implement methods in **MessageDao** and **UserDao**, add new if necessary
 
@@ -353,10 +352,10 @@ in **index.html**
 1. Hibernate - implementation of **JPA**
 1. To make object manageable by hibernate (**entity**) you must annotate class (or describe mapping any other way, like xml)
 1. To manage entity, you must use **Session** object
-1. Hibernate configuration matters - understand what every line mean in **hibernate.cfg.xml**
+1. Hibernate configuration matters - understand what every line mean in **applicaiton.properties**
 1. **Session is not thread safe** - one must use hibernate session from single thread
 1. Session lifespan is configurable (by hibernate)
-1. Hibernate will not work without **transactions**
+1. Hibernate support **transactions**
 1. Transactions lifespan is configurable (by application)
 
 #HSLIDE

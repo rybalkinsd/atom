@@ -21,7 +21,7 @@ public class MatchMaker implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 candidates.add(
-                        ThreadSafeQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
+                        ConnectionQueue.getInstance().poll(10_000, TimeUnit.SECONDS)
                 );
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
@@ -30,7 +30,7 @@ public class MatchMaker implements Runnable {
             if (candidates.size() == GameSession.PLAYERS_IN_GAME) {
                 GameSession session = new GameSession(candidates.toArray(new Connection[0]));
                 log.info(session);
-                ThreadSafeStorage.put(session);
+                GameRepository.put(session);
                 candidates.clear();
             }
         }
