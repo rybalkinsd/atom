@@ -57,6 +57,7 @@ public class Point implements Collider  /* super class and interfaces here if ne
             Point point = (Point) other;
             return point.equals(this);
         }
+
         return false;
     }
 }

@@ -35,7 +35,6 @@ public class Bar implements Collider {
         if (this == other) return true;
         if(getClass() == other.getClass()){
             Bar bar = (Bar) other;
-
             if ( bar.firstCornerY < this.secondCornerY || bar.secondCornerY > this.firstCornerY ){
                 return false;
             }
