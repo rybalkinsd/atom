@@ -33,24 +33,24 @@ public class Bar implements Collider {
     @Override
     public boolean isColliding(Collider other) {
         if (this == other) return true;
-        if(getClass() == other.getClass()){
+        if (getClass() == other.getClass()) {
             Bar bar = (Bar) other;
-            if ( bar.firstCornerY < this.secondCornerY || bar.secondCornerY > this.firstCornerY ){
+            if (bar.firstCornerY < this.secondCornerY || bar.secondCornerY > this.firstCornerY) {
                 return false;
             }
-            if (bar.secondCornerX < this.firstCornerX || bar.firstCornerX > this.secondCornerX ){
+            if (bar.secondCornerX < this.firstCornerX || bar.firstCornerX > this.secondCornerX) {
                 return false;
             }
             return true;
-        }
-        else{
+        } else {
             Point point = (Point) other;
-            return !( this.firstCornerY < point.getY() || this.secondCornerY > point.getY() || this.firstCornerX > point.getX() || this.secondCornerX < point.getX() );
+            return !(this.firstCornerY < point.getY() || this.secondCornerY > point.getY() || this.firstCornerX > point.getX() || this.secondCornerX < point.getX());
         }
     }
+
     @Override
-    public boolean equals(Object other){
-        if(this == other) return true;
+    public boolean equals(Object other) {
+        if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Bar bar = (Bar) other;
         double d1 = sqrt((firstCornerX - secondCornerX) * (firstCornerX - secondCornerX) + (firstCornerY - secondCornerY) * (firstCornerY - secondCornerY));

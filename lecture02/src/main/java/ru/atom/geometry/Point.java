@@ -40,10 +40,9 @@ public class Point implements Collider  /* super class and interfaces here if ne
         Point point = (Point) o;
 
         // your code here
-        if (this.getX() == point.getX() && this.getY() == point.getY()){
+        if (this.getX() == point.getX() && this.getY() == point.getY()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -53,7 +52,7 @@ public class Point implements Collider  /* super class and interfaces here if ne
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
 
-        if(getClass() == other.getClass()){
+        if (getClass() == other.getClass()) {
             Point point = (Point) other;
             return point.equals(this);
         }
