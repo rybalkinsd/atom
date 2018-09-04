@@ -1,0 +1,44 @@
+:root {
+    background: #336666;
+}
+
+.chat {
+    background: #99CCCC;
+    font-family: "Courier New", Courier, monospace;
+    padding: 7px;
+    margin: 0 0 1em;
+    overflow: auto;
+}
+
+.form {
+    height: 85%;
+}
+
+.msginput {
+    width: 80%;
+}
+
+.sendbutton {
+    width: 15%;
+}
+
+#header {
+    background: #336666;
+    padding: 10px;
+    padding-bottom: 0;
+}
+
+#body {
+    padding: 10px;
+    padding-top: 0;
+    padding-bottom: 30px; /* Height of the footer */
+}
+
+#footer {
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px; /* Height of the footer */
+    background: #336666;
+}

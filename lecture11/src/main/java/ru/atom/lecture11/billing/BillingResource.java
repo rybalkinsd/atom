@@ -19,7 +19,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("billing")
 public class BillingResource {
-    private Map<String, Integer> userToMoney = new HashMap<>();
+    private Map<String, Account> userToMoney = new HashMap<>();
 
     /**
      * curl -XPOST localhost:8080/billing/addUser -d "user=sasha&money=100000"
@@ -31,14 +31,15 @@ public class BillingResource {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> addUser(@RequestParam("user") String user,
-                                          @RequestParam("money") Integer money) {
+                                          @RequestParam(value = "money", defaultValue = "0") Integer money) {
 
-        if (user == null || money == null) {
+        if (user == null) {
             return ResponseEntity.badRequest().body("");
         }
-        userToMoney.put(user, money);
+        userToMoney.put(user, new Account(user, money));
 
-        return ResponseEntity.ok("Successfully created user [" + user + "] with money " + userToMoney.get(user) + "\n");
+        return ResponseEntity.ok("Successfully created user [" + user + "] with money "
+                + userToMoney.get(user).getMoney() + "\n");
     }
 
     @RequestMapping(
@@ -48,19 +49,21 @@ public class BillingResource {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> sendMoney(@RequestParam("from") String fromUser,
                                             @RequestParam("to") String toUser,
-                                            @RequestParam("money") Integer money) {
-        if (fromUser == null || toUser == null || money == null) {
+                                            @RequestParam(value = "money", defaultValue = "0") Integer money) {
+        if (fromUser == null || toUser == null) {
             return ResponseEntity.badRequest().body("");
         }
         if (!userToMoney.containsKey(fromUser) || !userToMoney.containsKey(toUser)) {
             return ResponseEntity.badRequest().body("No such user\n");
         }
-        if (userToMoney.get(fromUser) < money) {
+
+        Account fromUserAcc = userToMoney.get(fromUser);
+        if (fromUserAcc.getMoney() < money) {
             return ResponseEntity.badRequest().body("Not enough money to send\n");
         }
         synchronized (this) {
-            userToMoney.put(fromUser, userToMoney.get(fromUser) - money);
-            userToMoney.put(toUser, userToMoney.get(toUser) + money);
+            fromUserAcc.setMoney(fromUserAcc.getMoney() - money);
+            userToMoney.get(toUser).setMoney(userToMoney.get(toUser).getMoney() + money);
         }
         return ResponseEntity.ok("Send success\n");
     }

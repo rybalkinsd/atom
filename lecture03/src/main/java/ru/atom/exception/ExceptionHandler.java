@@ -1,8 +1,5 @@
 package ru.atom.exception;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ExceptionHandler {
-    private static final Logger log = LogManager.getLogger(ExceptionHandler.class);
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ExceptionHandler.class);
 
 
     public static void simpleHandle() {

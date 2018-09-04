@@ -1,13 +1,14 @@
 package ru.atom.thread.instantiation;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.atom.mm.service.ConnectionProducer;
 
 /**
  * Created by sergey on 3/14/17.
  */
 public class NotifierExtendsThread extends Thread {
-    private static final Logger log = LogManager.getLogger(NotifierExtendsThread.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(NotifierExtendsThread.class);
+
 
     @Override
     public void run() {
