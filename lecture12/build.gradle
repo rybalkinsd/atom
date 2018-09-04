@@ -1,25 +1,37 @@
+
+plugins {
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://clojars.org/repo/"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
 dependencies {
-    testCompile rootProject.libraries.junit
-    compile rootProject.libraries.log4j
-    compile rootProject.libraries.jetbrainsAnnotations
-    compile rootProject.libraries.jol
-    compile rootProject.libraries.jol_samples
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    compile group: 'org.jetbrains', name: 'annotations', version: '13.0'
+    // jol
+    compile group: 'org.openjdk.jol', name: 'jol-core', version: '0.8'
+    // jol samples
+    compile group: 'org.openjdk.jol', name: 'jol-samples', version: '0.8'
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
+
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.4'
 }
 
-jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest { attributes 'Main-Class': 'ru.atom.lecture12.GarbageProducer' }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-    }
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '7.5'
+    configFile = new File('../config/checkstyle/checkstyle.xml')
 }
