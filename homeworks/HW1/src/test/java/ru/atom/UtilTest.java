@@ -2,26 +2,24 @@ package ru.atom;
 
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static junit.framework.Assert.assertEquals;
 
 
 public class UtilTest {
     
     @Test
     public void max0() throws Exception {
-        assertThat(Util.max(new int[]{42}), is(equalTo(42)));
+        assertEquals(42, Util.max(new int[]{42}));
     }
     
     @Test
     public void max1() throws Exception {
-        assertThat(Util.max(new int[]{1, 2, 3}), is(equalTo(3)));
+        assertEquals(3, Util.max(new int[]{1, 2, 3}));
     }
     
     @Test
     public void max2() throws Exception {
-        assertThat(Util.max(new int[]{2, 2, 0}), is(equalTo(2)));
+        assertEquals(2, Util.max(new int[]{2, 2, 0}));
     }
     
     @Test
@@ -40,22 +38,22 @@ public class UtilTest {
             3416, 2494, 3757, 341, 2822, 4187, 2021, 3823, 3751, 2500, 2109, 4262, 4282, 729, 2893,
             683, 4487, 1150, 2162, 194, 1825, 1100, 1165, 617, 3033, 3589, 966, 2071, 2616, 2958,
             997, 3760, 3312, 4577, 988, 3325, 472, 367, 4108};
-        assertThat(Util.max(values), is(equalTo(4913)));
+        assertEquals(4913, Util.max(values));
     }
     
     @Test
     public void sum0() throws Exception {
-        assertThat(Util.sum(new int[] {42}), is(equalTo(42L)));
+        assertEquals(42L, Util.sum(new int[] {42}));
     }
     
     @Test
     public void sum1() throws Exception {
-        assertThat(Util.sum(new int[]{1, -2, 3}), is(equalTo(2L)));
+        assertEquals(2L, Util.sum(new int[]{1, -2, 3}));
     }
     
     @Test
     public void sum2() throws Exception {
-        assertThat(Util.sum(new int[]{-1, 0, -1}), is(equalTo(-2L)));
+        assertEquals(-2L, Util.sum(new int[]{-1, 0, -1}));
     }
     
     @Test
@@ -226,6 +224,6 @@ public class UtilTest {
             230403624, 2089178816, -2031848796, -434079731, 282818750, 1283007243, -2133152874,
             1414327400, 815984940, 495461839, -107851191, -1472540960, -264932259, -41121395};
 
-        assertThat(Util.sum(values), is(equalTo(-53_391_415_378L)));
+        assertEquals(-53_391_415_378L,Util.sum(values));
     }
 }
