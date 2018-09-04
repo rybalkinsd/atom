@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * Created by sergey on 3/4/17.
@@ -27,9 +26,9 @@ public class ArrayListTest {
 
     @Test
     public void testSimpleHandle() throws Exception {
-        assertThat(list.size(), is(equalTo(6)));
-        assertThat(list.get(2), is(equalTo(3)));
-        assertThat(list.contains(42), is(false));
+        assertEquals(6, list.size());
+        assertEquals((Integer) 3, list.get(2));
+        assertFalse(list.contains(42));
     }
 
 }
