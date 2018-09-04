@@ -5,23 +5,10 @@ import static java.lang.Math.min;
 import static java.lang.Math.sqrt;
 
 public class Bar implements Collider {
-    private int firstCornerX, firstCornerY, secondCornerX, secondCornerY;
-
-    public int getFirstCornerX() {
-        return firstCornerX;
-    }
-
-    public int getFirstCornerY() {
-        return firstCornerY;
-    }
-
-    public int getSecondCornerX() {
-        return secondCornerX;
-    }
-
-    public int getSecondCornerY() {
-        return secondCornerY;
-    }
+    private int firstCornerX;
+    private int firstCornerY;
+    private int secondCornerX;
+    private int secondCornerY;
 
     public Bar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         this.firstCornerX = min(firstCornerX, secondCornerX);
@@ -44,7 +31,8 @@ public class Bar implements Collider {
             return true;
         } else {
             Point point = (Point) other;
-            return !(this.firstCornerY < point.getY() || this.secondCornerY > point.getY() || this.firstCornerX > point.getX() || this.secondCornerX < point.getX());
+            return !(this.firstCornerY < point.getY() || this.secondCornerY > point.getY()
+                    || this.firstCornerX > point.getX() || this.secondCornerX < point.getX());
         }
     }
 
@@ -53,8 +41,10 @@ public class Bar implements Collider {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Bar bar = (Bar) other;
-        double d1 = sqrt((firstCornerX - secondCornerX) * (firstCornerX - secondCornerX) + (firstCornerY - secondCornerY) * (firstCornerY - secondCornerY));
-        double d2 = sqrt((bar.firstCornerX - bar.secondCornerX) * (bar.firstCornerX - bar.secondCornerX) + (bar.firstCornerY - bar.secondCornerY) * (bar.firstCornerY - bar.secondCornerY));
+        double d1 = sqrt((firstCornerX - secondCornerX) * (firstCornerX - secondCornerX)
+                + (firstCornerY - secondCornerY) * (firstCornerY - secondCornerY));
+        double d2 = sqrt((bar.firstCornerX - bar.secondCornerX) * (bar.firstCornerX - bar.secondCornerX)
+                + (bar.firstCornerY - bar.secondCornerY) * (bar.firstCornerY - bar.secondCornerY));
         return d1 == d2;
     }
 }
