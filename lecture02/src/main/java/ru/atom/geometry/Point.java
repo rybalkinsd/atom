@@ -38,7 +38,6 @@ public class Point implements Collider  /* super class and interfaces here if ne
 
         // cast from Object to Point
         Point point = (Point) o;
-
         // your code here
         if (this.getX() == point.getX() && this.getY() == point.getY()) {
             return true;
