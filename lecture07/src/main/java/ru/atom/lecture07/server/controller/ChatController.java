@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.atom.lecture07.server.model.Message;
 import ru.atom.lecture07.server.model.User;
 import ru.atom.lecture07.server.service.ChatService;
 
@@ -48,7 +49,7 @@ public class ChatController {
                     .body("Already logged in");
         }
         chatService.login(name);
-
+        chatService.sendMessage(name, "User \'" + name + "\' is logged in");
         return ResponseEntity.ok().build();
     }
 
@@ -61,9 +62,14 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        return ResponseEntity.badRequest().build();
+        User newUser = chatService.getLoggedIn(name);
+        if (newUser == null) {
+            return ResponseEntity.badRequest().body("User \'" + name + "\' is not logged in :(");
+        }
+        chatService.logout(newUser);
+        log.info("[" + name + "] logged out");
+        return ResponseEntity.ok().build();
     }
-
 
     /**
      * curl -i localhost:8080/chat/online
@@ -77,10 +83,8 @@ public class ChatController {
         String responseBody = online.stream()
                 .map(User::getLogin)
                 .collect(Collectors.joining("\n"));
-
         return ResponseEntity.ok().body(responseBody);
     }
-
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
@@ -91,9 +95,31 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity say(@RequestParam("name") String name, @RequestParam("msg") String msg) {
-        return ResponseEntity.badRequest().build();
-    }
+        if (name == null) {
+            return ResponseEntity.badRequest()
+                    .body("Name not provided");
+        }
 
+        if (msg == null) {
+            return ResponseEntity.badRequest()
+                    .body("No message provided");
+        }
+
+        if (msg.length() > 140) {
+            return ResponseEntity.badRequest()
+                    .body("Too long message");
+        }
+
+        List<User> authors = chatService.getAllUsers();
+        if (authors.stream().noneMatch(user -> user.getLogin().equals(name))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User \'" + name + "\' is not logged in");
+        }
+
+        chatService.sendMessage(name, msg);
+        log.info("[" + name + "]: " + msg);
+
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * curl -i localhost:8080/chat/chat
@@ -103,6 +129,10 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> chat() {
-        return ResponseEntity.badRequest().build();
+        List<Message> chatHistory = chatService.getAllMessages();
+        String responseBody = chatHistory.stream()
+                .map(m -> "[" + m.getUser().getLogin() + "]: " + m.getValue())
+                .collect(Collectors.joining("\n"));
+        return ResponseEntity.ok(responseBody);
     }
 }
