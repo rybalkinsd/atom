@@ -1,261 +1,141 @@
-#HSLIDE
 # Java
 lecture 4
-## Web client
+## Web basics
 
+---
 
-#HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
+---
 
-#HSLIDE
 ### get ready
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture04 upstream/lecture04
+> cd lecture04
 ```
 
-#HSLIDE
+---
+
 ### Agenda
-1. **[Collections]**
-1. Client - server architecture
+1. **[First part summary]**
+1. Bomberman project
 1. HTTP
 1. cURL
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
-### Map 
+---
 
-```java
-interface Map<K, V>
-``` 
+## What we already know
+Know how to write and build stand-alone single-threaded app
+- git
+- gradle
+- java collections, exceptions, input/output  
 
-An object that maps **keys** to **values**.
-Cannot contain duplicate keys.
-Each key map to at most one value.
- 
+Make sure you did [homework2](https://gitpitch.com/rybalkinsd/atom/lecture03?grs=github&t=white&p=lecture03%2Fpresentation#/74) to know this
 
-#HSLIDE
-### Map methods
- ```java
-boolean containsKey(Object key);
-V get(Object key);
-V put(K key, V value);
-V remove(Object key);
-```
+---
 
-#HSLIDE
-### Why, Map?
-Why Map is not a Collection?
+## Quiz
+0. equals() vs ==
+0. Exceptions 
+0. How ArrayList work/operations complexity?
+0. How LinkedList work/operations complexity?
+0. How HashMap work/operations complexity?
+0. How HashSet work/operations complexity?
+0. equals() hashCode() contract
 
-#HSLIDE
-### Why, Map?
-From official FAQ:
-> This was by design.
-> We feel that mappings are not collections and collections are not mappings. 
-> If a Map is a Collection, what are the elements? 
+---
 
-#HSLIDE
-### Map implementations
-- HashMap
-- TreeMap
-- LinkedHashMap
-- EnumMap
-
-#HSLIDE
-## HashMap
-**HashMap** - map where hashing is used to speedup search by key
-So **containsKey()** and **get(key)** are **O(1)**  
-To support this we must implement **hashCode()** for **keys**  
-**hashCode()** and **equals()** must hold contract
-
-#HSLIDE
-### HashMap. General contract
-For objects **a** and **b**:
-```java
-a.key.equals(b.key) => a.key.hashCode() == b.key.hashCode()
-
-if a.key.hashCode() == b.key.hashCode() 
-          a may be not equal b
-          
-a.key.hashcode() is the same during object lifetime
-```
-
-#HSLIDE
-### HashMap. Internals 
-<img src="lecture03/presentation/assets/img/hashmap.png" alt="exception" style="width: 750px;"/>
-
-
-#HSLIDE
-### HashMap. Complexity
-
-|  containsKey  | get   | put   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) | O(1)  |
-
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
-
-#HSLIDE
-### TreeMap
-The keys are ordered using their **Comparable** natural 
-ordering, or by **Comparator** provided at set creation time, 
-depending on which constructor is used.
-
-
-#HSLIDE
-### TreeMap. Internals
-<img src="lecture03/presentation/assets/img/treeset.png" alt="exception" style="width: 500px;"/>
-
-[Read more (RU)](https://habrahabr.ru/post/65617/)
-
-
-#HSLIDE
-### Functional interface Comparable<T>
-
-```java
-@Override
-public int compareTo(T o) {
-  return this.field – o.field;
-}
-```
-
-
-#HSLIDE
-### compareTo & equals
-Any type of contract?
-```java
-a.equals(b) == true => a.compareTo(b) == 0
-``` 
-
-What about null?
-
-
-#HSLIDE
-### TreeMap. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(log(n))       | O(log(n))  |  O(log(n)) | O(log(n))  |
-
-[Read more](http://infotechgems.blogspot.ru/2011/11/java-collections-performance-time.html)
-
-
-#HSLIDE
-### Interface Set
--  A collection that contains no duplicate elements.  More formally, sets
-   contain no pair of elements **e1** and **e2** such that
-    ```java
-       e1.equals(e2);
-    ```
-    
-- Implementations
-    - HashSet 
-    - TreeSet
-    - EnumSet 
-    - ConcurrentSkipListSet 
-    - CopyOnWriteArraySet 
-    - LinkedHashSet
-    - ...
-
-#HSLIDE
-### HashSet
-Set interface implementation, backed by a **HashMap** (with set elements as keys and dummy Object)  
-It makes no guarantees as to the iteration order of the set.
- 
-#HSLIDE
-### General contract
-For objects **a** and **b**:
-```java
-a.equals(b) => a.hashCode() == b.hashCode()
-
-if a.hashCode() == b.hashCode() 
-          a may be not equal b
-          
-a.hashcode() is the same during object lifetime
-```
-
-#HSLIDE
-### HashSet. Complexity
-
-|  contains  | add   | get   | remove | 
-|:----------:|:-----:|:-----:|:------:|
-| O(1)       | O(1)  |  O(1) |  O(1)  |
-
-#HSLIDE
-### TreeSet
-Set interface implementation, backed by a **TreeMap** (with set elements as keys and dummy Object)  
-Complexity is similar to **TreeMap**
-
-#HSLIDE
 ### Agenda
-1. Collections
-1. **[Client - server architecture]**
+1. First part summary
+1. **[Bomberman project]**
 1. HTTP
 1. REST API
 1. cURL
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
-## Client - server architecture
-<img src="lecture04/presentation/assets/img/Client-server-model.png" alt="exception" style="width: 600px;"/>  
-Which protocol to use for client-server interaction?
+---
 
-#HSLIDE
-## Network communication
-There exist numerous protocols for network communication. OSI:
-<img src="lecture04/presentation/assets/img/osi2.png" alt="exception" style="width: 700px;"/>
+## Project - server for multi-player game
+**Original project by Matt Scala:**  
+https://github.com/MattSkala/html5-bombergirl  
+http://bombergirl.matousskala.cz/  
+please turn off the sound :)
+  
+**Adopted version for our project:**
+https://github.com/rybalkinsd/atom/tree/master/bomberman/frontend
 
-#HSLIDE
-The choice of protocol depends on **requirements**
+---
 
-#HSLIDE
-## Bomberman architecture
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
+## Architecture overview
+---?image=lecture04/presentation/assets/img/Bomberman-arch.svg&size=auto 70% 
 
-#HSLIDE
+---
+
+## Bomberman stack
+Bomberman is actually a **web application** with client-server architecture
+- Front-end is HTML5 + js (is ready)
+- Back-end is java
+
+---
+
 ### Agenda
-1. Collections
-1. Client - server architecture
+1. First part summary
+1. Bomberman project
 1. **[HTTP]**
 1. cURL
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
-## HTTP
-**Application layer client-server protocol**
+---
 
-<img src="lecture04/presentation/assets/img/HTTP.png" alt="exception" style="width: 750px;"/>
+## OSI model
+---?image=lecture04/presentation/assets/img/osi2.png&size=auto 70% 
 
-#HSLIDE
+---
+
+## HTTP - Application layer client-server protocol
+---?image=lecture04/presentation/assets/img/HTTP.png&size=auto 70% 
+
+---
+
 ## HTTP Basics
 [https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 - **Resource** - any entity
 - **URI** - (Universal Resource Identifiers)
 - **Method** - what to do with **resource**
 
-#HSLIDE
+---
+
 ## HTTP Server
 Aka **Web Server**.
 Serves HTTP requests. (By default on **80 TCP port**)
 - Apache
 - NGINX
-- libraries (Jetty in Java)
+- embedded (as a library) - Jetty/Embedded Tomcat
 
-Web servers have different functionality and can be extendible  
-For example, one can extend server functionality by custom logic (e.g. for dynamic content) - see next lecture
+Web servers have different functionality and can be extensible  
+  
+We can extend server functionality by custom logic and respond with dynamic content  
+That's what we use to implement game
 
-#HSLIDE
+---
+
 ## HTTP Client
 - web browser
 - cURL
 - libraries (e.g. **libcurl**)
 - telnet
 
-#HSLIDE
+---
+
 ## HTTP via telnet
 ```bash
 > telnet example.org 80
@@ -270,11 +150,11 @@ response:
 HTTP/1.1 200 OK
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Fri, 10 Mar 2017 16:21:07 GMT
-Etag: "359670651+ident"
-Expires: Fri, 17 Mar 2017 16:21:07 GMT
+Date: Wed, 14 Mar 2018 11:27:16 GMT
+Etag: "1541025663+ident"
+Expires: Wed, 21 Mar 2018 11:27:16 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (phl/9D60)
+Server: ECS (dca/53DB)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -285,11 +165,12 @@ Content-Length: 1270
     ...
 ```
 
-#HSLIDE
+---
+
 ## HTTP Request
 **Request consists of**
 1. Request header (starting with **method**)
-1. [Request body]
+1. Request body
 
 **Methods:**
 - **GET**
@@ -302,23 +183,26 @@ Changes resource
 removes resource
 - ...
 
-#HSLIDE
+---
+
 ## HTTP Response
-**Responce consists of**
+**Response consists of**
 1. Status code
 1. Response header
-1. [Response Body]
+1. Response Body
 
 [rfc2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)  
 [wiki](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
-#HSLIDE
+---
+
 ## HTTP via browser
-When you enter adress line in browser, in creates **GET** request  
+When you enter address line in browser, in creates **GET** request  
 So we can do previous example just by typing in browser:
 > example.org
 
-#HSLIDE
+---
+
 ### When to use HTTP for inter-program communication?
 **When we want:**
 - simplicity (easy to develop and test)
@@ -328,22 +212,26 @@ So we can do previous example just by typing in browser:
 - mediocre performance (not real time)
 - client-server only - no push requests from server
 
-#HSLIDE
+---
+
 ### Agenda
-1. Collections
-1. Client - server architecture
+1. First part summary
+1. Bomberman project
 1. HTTP
 1. **[cURL]**
 1. REST API
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
+---
+
 ## cURL
 Super popular command line tool for multiple protocols testing (including **HTTP**)   
 [https://curl.haxx.se/](https://curl.haxx.se/)  
 it wraps **libcurl** library, which is available for all major languages
 
-#HSLIDE
+---
+
 ## GET Example
 Request from cURL:
 ```bash
@@ -352,13 +240,14 @@ Request from cURL:
 Response:
 ```http
 HTTP/1.1 200 OK
+Accept-Ranges: bytes
 Cache-Control: max-age=604800
 Content-Type: text/html
-Date: Wed, 11 Oct 2017 14:17:54 GMT
-Etag: "359670651+ident"
-Expires: Wed, 18 Oct 2017 14:17:54 GMT
+Date: Wed, 14 Mar 2018 11:30:27 GMT
+Etag: "1541025663"
+Expires: Wed, 21 Mar 2018 11:30:27 GMT
 Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT
-Server: ECS (dca/24D5)
+Server: ECS (dca/24A0)
 Vary: Accept-Encoding
 X-Cache: HIT
 Content-Length: 1270
@@ -369,7 +258,8 @@ Content-Length: 1270
     ...
 ```
 
-#HSLIDE
+---
+
 ## POST Example
 Raw HTTP:
 ```http
@@ -394,40 +284,40 @@ Server: Jetty(9.4.z-SNAPSHOT)
 
 ```
 
-#HSLIDE
+---
+
 ### Agenda
-1. Collections
-1. Client - server architecture
+1. First part summary
+1. Bomberman project
 1. HTTP
 1. cURL
 1. **[REST API]**
-1. Java HTTP Client
+1. Java HTTP Client (okhttp)
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
+---
+
 ## REST
-**REST** (Representational State Transfer) architecture style, where services cmmunicate over **HTTP**.  
+**REST** (Representational State Transfer) architecture style, where services communicate over **HTTP**.  
 There are also some restrictions on how services must use HTTP for communication
 
-#HSLIDE
-## Bomberman architecture
-Here client and account server communicate via **REST API**
-<img src="lecture04/presentation/assets/img/bomberman-architecture.png" alt="exception" style="width: 750px;"/>
+---
 
-#HSLIDE
 ## REST API
 REST API is a common way for services to publish their functionality for other services.  
 ### REST API Examples:
 **Twitter:** [https://dev.twitter.com/rest/public](https://dev.twitter.com/rest/public)  
 **Github:** [https://developer.github.com/v3/](https://developer.github.com/v3/)
 
-#HSLIDE
-## HTTP Client Pracrice
-We got a chat REST service open for you on  
-  
-Implement **chat client** and enjoy!  
-@see **test.ru.atom.http.ChatClient** and **test.ru.atom.http.ChatClientTest**
+---
 
-#HSLIDE
+## Chat REST API
+We got a chat REST service open for you on **54.224.37.210**  
+  
+Further you have description of it's REST API
+
+---
+
 ## Chat REST API. View Online
 online:
 ```
@@ -439,7 +329,8 @@ online:
       Success code: 200
 ```
 
-#HSLIDE
+---
+
 ## Chat REST API. Login
 login:
 ```
@@ -451,12 +342,13 @@ login:
     Response:
       Success code: 200
       Fail code:
-        400 - Already logined
+        400 - Already logged in
         400 - Too long name (longer than 30 symbols)
 ```
-#HSLIDE
+---
+
 ## Chat REST API. View chat
-online:
+chat:
 ```
     Protocol: HTTP
     Path: chat/chat
@@ -465,11 +357,11 @@ online:
     Response:
       Success code: 200
 ```
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
 
-#HSLIDE
+---
+
 ## Chat REST API. Say
-login:
+say:
 ```
     Protocol: HTTP
     Path: chat/say
@@ -481,28 +373,31 @@ login:
     Response:
       Success code: 200
       Fail code:
-        401 - Not logined
+        400 - User not online
         400 - Too long message (longer than 140 symbols)
 ```
 
-> implement it in test.ru.atom.http.HttpClient and check in test.ru.atom.http.HttpClientTest
 
-#HSLIDE
+---
+
 ### Agenda
-1. Collections
-1. Client - server architecture
+1. First part summary
+1. Bomberman project
 1. HTTP
 1. cURL
 1. REST API
-1. **[Java HTTP Client]**
+1. **[Java HTTP Client (okhttp)]**
+1. Java HTTP Server (with Spring)
 
-#HSLIDE
+---
+
 ## OkHTTP
 We use OkHTTP library as java HTTP Client
 [http://square.github.io/okhttp/](http://square.github.io/okhttp/)
-### @see ru.atom.http.client
+### @see ru.atom.chat.client
 
-#HSLIDE
+---
+
 ## GET example from Java
 ```java
   //GET host:port/chat/online
@@ -516,30 +411,119 @@ We use OkHTTP library as java HTTP Client
     return client.newCall(request).execute();
   }
 ```
-#HSLIDE
+---
+
 ## POST example from Java
 ```java
-  //GET host:port/chat/online
-  public static Response viewOnline() throws IOException {
+  //POST host:port/chat/login?name=my_name
+  public static Response login(String name) throws IOException {
+    MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
     Request request = new Request.Builder()
-        .get()
-        .url(PROTOCOL + HOST + PORT + "/chat/online")
-        .addHeader("host", HOST + PORT)
+        .post(RequestBody.create(mediaType, ""))
+        .url(PROTOCOL + HOST + PORT + "/chat/login?name=" + name)
         .build();
 
     return client.newCall(request).execute();
   }
 ```
 
-#HSLIDE
-### Summary
-1. **Sets** contain unique values
-1. **Maps** contain pairs with unique keys
-1. We **must** hold equals-hashCode and eqals-compareTo contracts
-1. **HTTP** is popular client-server protocol for inter-program communication  
-Learn it!
+---
 
-#HSLIDE
+## HTTP Client Practice
+Implement **chat client** for chat on 54.224.37.210 and login under your **family name**!  
+@see **ru.atom.chat.client.ChatClient**  
+@see **test.ru.atom.chat.client.ChatClientTest**
+  
+Mark: 2 points
+
+---
+
+### Agenda
+1. First part summary
+1. Bomberman project
+1. HTTP
+1. cURL
+1. REST API
+1. Java HTTP Client (okhttp)
+1. **[Java HTTP Server (with Spring)]**
+
+---
+
+### Spring
+<img src="lecture04/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 300px;"/>  
+is a universal open-source framework, used to develop web applications  
+https://spring.io/  
+  
+First version - **2002**
+
+---
+
+### Spring modules
+It includes a number of modules for different functionality:
+- Spring MVC for building Web Applications
+- Working with Databases
+- Messaging
+- RPC
+- Security
+- Testing
+  
+Today we will build web application with **Spring MVC** module
+
+---
+
+### MVC
+**MVC (Model-View-Controller)** - popular pattern used to build web apps
+<img src="lecture04/presentation/assets/img/MVC-Introduction2.jpg" style="width: 600px;"/>
+
+
+---
+
+### Spring MVC
+**Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
+<img src="lecture04/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
+
+
+---
+
+### Spring Boot
+Spring is a powerful tool and has a lot of configuration options.  
+**Spring Boot** is a project, that makes working with Spring easier:
+- embedded tomcat included with servlet container
+- minimum configuration, sane defaults
+- metrics, health checks and externalized configuration
+https://projects.spring.io/spring-boot/  
+  
+First version: **2014**
+  
+**With Spring Boot our life is much easier :)**
+
+---
+
+## Example: Chat server with Spring Boot
+Look at **ru.atom.chat.server** implementation of chat server
+- ChatApplication - starter
+- ChatController - handler of HTTP requests
+  
+All the magic behind **Spring** 'comes via' **Annotations**  
+**We have deeper description of Spring in further lectures**
+
+---
+
+## HTTP Server Practice
+Implement **chat server** for given REST API and make pull request!  
+@see **ru.atom.chat.client.ChatController**  
+  
+Mark: 3 points
+
+---
+
+### Summary
+0. Know java collections/exception
+0. **HTTP** is popular client-server protocol for inter-program communication  
+0. We use Spring MVC to develop web application (such as chat)
+
+---
+
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 

@@ -7,9 +7,10 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
 
 @Ignore
 public class CustomLinkedListTest {
@@ -28,17 +29,17 @@ public class CustomLinkedListTest {
 
     @Test
     public void sizeTest() throws Exception {
-        assertThat(intList.size(), is(equalTo(2)));
-        assertThat(stringList.size(), is(equalTo(3)));
+        assertEquals(2, intList.size());
+        assertEquals(3, stringList.size());
     }
 
     @Test
     public void containsTest() throws Exception {
-        assertThat(intList.contains(42), is(true));
-        assertThat(intList.contains(0), is(false));
+        assertTrue(intList.contains(42));
+        assertFalse(intList.contains(0));
 
-        assertThat(stringList.contains(", "), is(true));
-        assertThat(stringList.contains("World"), is(false));
+        assertTrue(stringList.contains(", "));
+        assertFalse(stringList.contains("World"));
     }
 
     @Test
@@ -47,27 +48,27 @@ public class CustomLinkedListTest {
         for (Integer integer : intList) {
             sum += integer;
         }
-        assertThat(sum, is(equalTo(80L)));
+        assertEquals(80L, sum);
 
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : stringList) {
             stringBuilder.append(s);
         }
 
-        assertThat(stringBuilder.toString(), is(equalTo("Hello, world!")));
+        assertEquals("Hello, world!", stringBuilder.toString());
     }
 
     @Test
     public void addAll() throws Exception {
         intList.addAll(Arrays.asList(1, 2, 3, 4, 5));
-        assertThat(intList.size(), is(equalTo(2 + 5)));
+        assertEquals(2 + 5, intList.size());
     }
 
     @Test
     public void removeTest() throws Exception {
         intList.remove((Integer) 42);
-        assertThat(intList.contains(42), is(false));
-        assertThat(intList.contains(38), is(true));
-        assertThat(intList.size(), is(1));
+        assertFalse(intList.contains(42));
+        assertTrue(intList.contains(38));
+        assertEquals(1, intList.size());
     }
 }

@@ -2,8 +2,8 @@ package ru.atom.enums;
 
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static ru.atom.enums.Country.Russia;
 import static ru.atom.enums.Country.USA;
 import static ru.atom.enums.Gender.Female;
@@ -16,8 +16,8 @@ public class GenderTest {
 
     @Test
     public void isLegal() throws Exception {
-        assertThat(Female.isLegalCouple(USA, Female), is(true));
-        assertThat(Female.isLegalCouple(Russia, Female), is(false));
+        assertTrue(Female.isLegalCouple(USA, Female));
+        assertFalse(Female.isLegalCouple(Russia, Female));
     }
 
 }

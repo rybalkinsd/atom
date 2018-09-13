@@ -3,29 +3,22 @@
 lecture 2
 ## Basics
 
+
 #HSLIDE
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
+
 
 #HSLIDE
 ### get ready
+Course repo - [https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture02 upstream/lecture02
+> cd lecture02
+
+open as new project
 ```
-
-#HSLIDE
-## About me
-<img src="lecture01/presentation/assets/img/me.jpg" alt="me" style="width: 220px; float: left;"/>  
-
-  alpieex@gmail.com  
-  [https://github.com/Al-p-i](https://github.com/Al-p-i)  
-
-- Java 6+ years
-- MailRu, Headhunter
-- Currently engineer at AliExpress.com
-
-**Люблю смотреть, как другие работают**  
 
 #HSLIDE
 ### Agenda
@@ -35,6 +28,7 @@ https://atom.mail.ru/
 1. Interface and abstract class
 1. Enum
 1. Practice
+
 
 #HSLIDE
 ### Gradle
@@ -48,28 +42,22 @@ https://atom.mail.ru/
 
 #HSLIDE
 ## How gradlew works
-Our gradle project is multi-project  
-**settings.gradle** - which projects to build  
-**build.gradle** - how to build project  
+Our repository has many gradle projects    
+**build.gradle** - how to build specific project  
   
-you can use gradle on specific subproject:
-```bash
-./gradlew :lecture02:clean
-```
-
 
 #HSLIDE
 ### gradlew clean build
 ```bash
-> ./gradlew :lecture02:clean :lecture02:clean
+> ./gradlew clean build
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02.jar 
 Hello, World!
 
 # jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02.jar
 ...
 ```
 
@@ -78,34 +66,19 @@ Hello, World!
 **jar** - Java Archive (way to distribute project in one *executable*)
 to build **jar** with gradle
 ```bash
-# build fat jar @see build.gradle in lecture02 submodule 
-> ./gradlew :lecture02:jar
+# build fat jar @see build.gradle 
+> ./gradlew jar
 blah-blah
 BUILD SUCCESSFUL
 
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
+> java -jar build/libs/lecture02.jar
 Hello, World!
 
 # jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
+> jar -tfv  build/libs/lecture02.jar
 ...
 ```
 
-
-#HSLIDE
-### gradlew jar
-To build fat jar @see lecture02/build.gradle
-```bash
-> ./gradlew :lecture02:jar
-> blah-blah
-> BUILD SUCCESSFUL
-
-> java -jar lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar 
-> Hello, World!
-
-# jar listing
-> jar -tfv  lecture02/build/libs/lecture02-1.0-SNAPSHOT.jar
-```
 
 #HSLIDE
 ### Classes and objects
@@ -160,6 +133,7 @@ class Player {
   
 Be simple, use public class in file
 
+
 #HSLIDE
 ### Instantiation
 ```java
@@ -174,8 +148,9 @@ Player myPlayer = new Player();
  
 **pTwo == winner**
 
+
 #HSLIDE
-### `null` keyword
+### `null` literal
 
 `null` is a default value for reference type.
 
@@ -184,10 +159,10 @@ String str = null;
 
 Player player = null;
 
-assertThat(player, is(not(instanceOf(Player.class)))); // <-- OK
 assertFalse(player instanceOf Player); // <-- OK
-assertThat(null, is(not(instanceOf(AnyClass.class)))); // <-- OK 
+assertFalse(null instanceOf AnyClass); // <-- OK 
 ```
+
 
 #HSLIDE
 ### quiz
@@ -202,24 +177,9 @@ System.out.println(null == null);
 
 [Read more about `null`](http://javarevisited.blogspot.ru/2014/12/9-things-about-null-in-java.html)
 
-#HSLIDE
-### Constructor
-```java
-class Player {
-    private int id;
-    private String name;
-    
-    public Player(int paramId, String paramName) {
-        id = paramId;
-        name = paramName;
-    }
-}
-```
-
-Looks shitty
 
 #HSLIDE
-### `this` keyword
+### Constructor & `this` keyword
 ```java
 class Player {
     private int id;
@@ -229,9 +189,14 @@ class Player {
         this.id = id;
         this.name = name;
     }
+    
+    public Player(int id) {
+        this(id, "NO NAME");
+    }
 }
 ```
 [Read more about `this`](https://docs.oracle.com/javase/tutorial/java/javaOO/thiskey.html)
+
 
 #HSLIDE
 ### OK, now we have a constructor
@@ -289,7 +254,7 @@ Titled message **is a** Message
 
 
 #HSLIDE
-# Java does not support multiple inheritance
+## Java does not support multiple inheritance
 
 
 #HSLIDE
@@ -317,16 +282,13 @@ Titled message **is a** Message
 
 
 #HSLIDE
-### `instanceof` operator, miss me?
+### `instanceof` operator
 
 ```java
 Message message = new Message();
 
 assertTrue(message instanceof Message); // <-- OK
-assertThat(message, is(instanceOf(Message.class))); // <-- OK
 ```
-
-`instanceof` **is not** slow	
 
 
 #HSLIDE
@@ -335,12 +297,11 @@ Everything* is instance of `Object`.
 
 ```java
 // Informally
-class Message extends Object { 
-}
+class Message extends Object { }
 ```
 
 ```java
-assertThat(message, is(instanceOf(Object.class))); // <-- OK
+assertTrue(message instanceOf Object); // <-- OK
 ```
 
 #HSLIDE
@@ -350,6 +311,7 @@ I want:
 ```java
 TitlesMessage message = new TitledMessage(title, content);
 ```
+
 
 #HSLIDE
 ### Constructors and inheritance
@@ -364,6 +326,7 @@ class Message {
 }
 ```
 
+
 #HSLIDE
 ### Constructors and inheritance
 
@@ -372,7 +335,7 @@ class TitledMessage extends Message {
     private String title;
     
     public TitledMessage(String title, String content) {
-        // hmmmm
+        // ..........
     }
 }
 
@@ -388,7 +351,6 @@ class Message {
 
 #HSLIDE
 ### super
-
 ```java
 class TitledMessage extends Message {
     private String title;
@@ -437,7 +399,8 @@ Usage
 Message message = new Message("my content");
 message.getContent();
 
-assertThat(message.getContent(), is(equalTo("my content"))); // <-- OK
+assertTrue(message.getContent().equals("my content"))); // <-- OK
+assertEquals("my content", message.getContent())); // <-- OK
 ```
 
 
@@ -526,7 +489,7 @@ and **return type** as an instance method in the superclass **overrides** the su
 #HSLIDE
 ### Override vs overload note
 
-**Override** resolves method in **runtime**
+**Override** resolves method in **runtime**  
 **Overload** resolves method in **compile-time**
 
 #HSLIDE
@@ -534,13 +497,8 @@ and **return type** as an instance method in the superclass **overrides** the su
 ```java
 class Object {
     public boolean equals(Object obj)
-    public int hashCode()
     public String toString()
-
-    public final Class getClass()
-    protected Object clone() throws CloneNotSupportedException
-    protected void finalize() throws Throwable
-    // ...
+    // o
 }
 ```
 
@@ -678,8 +636,8 @@ class Message implements Storable {
 Storable smthToSave = new Message("Perfect content");
 smthToSave.saveTo(new File("path to file"));
 
-assertThat(smthToSave, is(instanceOf(Message.class))); // <-- OK
-assertThat(smthToSave, is(instanceOf(Storable.class))); // <-- OK
+assertTrue(smthToSave instanceOf Message); // <-- OK
+assertTrue(smthToSave instanceOf Storable); // <-- OK
 ```
 
 #HSLIDE
@@ -725,12 +683,12 @@ public class Englishman extends AbstractHuman {
 #HSLIDE
 ### abstract class vs interface
 
-|                   | Interface             | Abstract class                |
-|:----------------- |:--------------------- | :-----------------------------|
-| Inheritance       | implement many        | extend one                    |
-| Fields            | public static only    | no limits                     |
-| Access modifiers  | public only           | no abstract private methods   |
-| Constructors      | no constructors       | no limits                     |
+|                   | Interface                 | Abstract class                |
+|:----------------- |:--------------------------| :-----------------------------|
+| Inheritance       | implement many            | extend one                    |
+| Fields            | public static only        | no limits                     |
+| Methods           | public / public static    | no abstract private methods   |
+| Constructors      | no constructors           | no limits                     |
 
 
 #HSLIDE
