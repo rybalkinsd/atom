@@ -3,19 +3,18 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point implements Collider{
-    private int X;
-    private int Y;
+public class Point implements Collider {
+    private int x;
+    private int y;
 
-    public  Point(){
-        X = 0;
-        Y = 0;
-
+    public  Point() {
+        x = 0;
+        y = 0;
     }
 
-    public Point(int X, int Y) {
-        this.X = X;
-        this.Y = Y;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -33,8 +32,8 @@ public class Point implements Collider{
 
         // your code here
         //throw new UnsupportedOperationException();
-        if (this.X == point.X &&
-            this.Y == point.Y) return true;
+        if (this.x == point.x
+                && this.y == point.y) return true;
         else return false;
     }
 
