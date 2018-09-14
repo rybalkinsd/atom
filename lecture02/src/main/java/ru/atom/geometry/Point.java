@@ -4,7 +4,8 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider /* super class and interfaces here if necessary */ {
-    private int x, y;
+    private int x;
+    private int y;
     // fields
     // and methods
 
@@ -12,7 +13,7 @@ public class Point implements Collider /* super class and interfaces here if nec
      * @param  - other object to check equality with
      * @return true if two points are equal and not null.
      */
-    public Point(int x, int y){
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -34,9 +35,9 @@ public class Point implements Collider /* super class and interfaces here if nec
         Point point = (Point) o;
 
         // Check if points merge
-        if (this.x == point.getX() && this.y == point.getY()){
+        if (this.x == point.getX() && this.y == point.getY()) {
             return true;
-        }   else{
+        }   else {
             return false;
         }
     }
