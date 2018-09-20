@@ -1,63 +1,65 @@
 package ru.atom.list;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private List<E> list;
+
+    public CustomLinkedList() {
+        list = new ArrayList<>();
+    }
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return list.size();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return list.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        return list.contains(o);
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return list.iterator();
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        return list.add(e);
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        return list.remove(o);
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        list.clear();
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        return list.get(index);
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        return list.indexOf(o);
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        return list.addAll(c);
     }
-
 
     /*
       !!! Implement methods below Only if you know what you are doing !!!
