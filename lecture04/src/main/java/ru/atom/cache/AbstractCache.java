@@ -4,7 +4,7 @@ package ru.atom.cache;
  * Created by Sergey Rybalkin on 11/03/17.
  */
 public abstract class AbstractCache<K, V> {
-    protected final int capacity;
+    protected int capacity;
 
     public AbstractCache(int capacity) {
         this.capacity = capacity;
