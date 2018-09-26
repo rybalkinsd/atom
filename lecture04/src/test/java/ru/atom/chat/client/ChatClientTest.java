@@ -11,7 +11,7 @@ import java.io.IOException;
 @Ignore
 public class ChatClientTest {
     private static String MY_NAME_IN_CHAT = "I_AM_STUPID";
-    private static String MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME";
+    private static String MY_MESSAGE_TO_CHAT = "SOMEBODY_KILL_ME";
 
     @Test
     public void login() throws IOException {
