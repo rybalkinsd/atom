@@ -10,13 +10,13 @@ import java.io.IOException;
 public class EventClient {
     public static void main(String[] args) {
         // connection url
-        String uri = "ws://localhost:8090/events";
+        String uri = "ws://localhost:8090/chat/chat";
 
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketSession session = null;
         try {
             // The socket that receives events
-            EventHandler socket = new EventHandler();
+            MessageHandler socket = new MessageHandler();
             // Make a handshake with server
             ListenableFuture<WebSocketSession> fut = client.doHandshake(socket, uri);
             // Wait for Connect
