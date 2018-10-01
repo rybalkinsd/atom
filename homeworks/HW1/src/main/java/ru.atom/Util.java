@@ -15,8 +15,13 @@ public class Util {
      * @param values an argument. Assume values.length > 0.
      * @return the largest of values.
      */
+
     public static int max(int[] values) {
-        throw new UnsupportedOperationException();
+        int max = 0;
+        for (int i : values) {
+            if (i > max) max = i;
+        }
+        return max;
     }
 
     /**
@@ -25,8 +30,13 @@ public class Util {
      * @param values an argument. Assume values.length > 0.
      * @return the sum of all values.
      */
+
     public static long sum(int[] values) {
-        throw new UnsupportedOperationException();
+        long sum = 0L;
+        for (int i : values) {
+            sum += i;
+        }
+        return sum;
     }
 
 
