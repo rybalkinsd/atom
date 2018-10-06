@@ -30,8 +30,11 @@ public class ChatController {
         if (name.length() < 2) {
             return ResponseEntity.badRequest().body("Name is too short\n");
         }
-        if (name.length() > 20) {
+        if (name.length() > 30) {
             return ResponseEntity.badRequest().body("Name is too long\n");
+        }
+        if (name.equals("I_DID_NOT_CHANGE_DEFAULT_NAME")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You did not change default name, didn't you?\n");
         }
         if (usersOnline.containsKey(name)) {
             return ResponseEntity.badRequest().body("Already logged in\n");
@@ -83,7 +86,7 @@ public class ChatController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not online\n");
         }
         if (msg.length() > 140) {
-            return ResponseEntity.badRequest().body("Message is too long");
+            return ResponseEntity.badRequest().body("Message is too long\n");
         }
         messages.add("[" + name + "]: " + msg);
         return ResponseEntity.ok().build();
