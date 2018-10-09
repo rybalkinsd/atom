@@ -25,7 +25,9 @@ public class ChatController {
      */
     @RequestMapping(
             path = "login",
-            method = RequestMethod.POST)
+            method = RequestMethod.POST,
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    )
     public ResponseEntity<String> login(@RequestParam("name") String name) {
         if (name.length() < 2) {
             return ResponseEntity.badRequest().body("Name is too short\n");
@@ -52,7 +54,7 @@ public class ChatController {
             method = RequestMethod.GET,
             produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity online() {
-        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList()));
+        String responseBody = String.join("\n", usersOnline.keySet().stream().sorted().collect(Collectors.toList())) + "\n";
         return ResponseEntity.ok(responseBody);
     }
 
