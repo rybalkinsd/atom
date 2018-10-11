@@ -4,9 +4,10 @@
 <html>
 <body>
 <div id="header">
-    <form method="POST" id="nameform" action="javascript:void(null);" onsubmit="login()">
+    <form method="POST" id="nameform" action="javascript:void(null);">
         <input id="name" name="name" value="" style="font-size:medium" type="text">
-        <input value="Login" style="font-size:large" type="submit">
+        <input id="login" value="Login" style="font-size:large" type="submit" onclick="loginUser()">
+        <input id="logout" value="Logout" style="font-size:large" type="submit" disabled="false" onclick="logoutUser();">
     </form>
 </div>
 <div id="body">
@@ -14,8 +15,8 @@
 </div>
 <div id="footer">
     <form method="POST" id="msgform" action="javascript:void(null);" onsubmit="say()">
-        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text">
-        <input value="Send" class="sendbutton" style="font-size:large" type="submit">
+        <input id="msg" name="msg" class="msginput" value="" style="font-size:medium" type="text" disabled>
+        <input id="send" value="Send" class="sendbutton" style="font-size:large" type="submit" disabled>
     </form>
 </div>
 </body>
@@ -28,75 +29,4 @@ We are using SockJS lib
 https://github.com/sockjs/sockjs-client
 -->
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-
-
-<script>
-    var host = 'localhost';
-    var port = 8090;
-    var path = 'events';
-    var sock;
-
-    function say() {
-        var msg = $('#msgform').serialize();
-        var name = $('#nameform').serialize();
-
-        var msgData = JSON.stringify(
-        {
-            "topic": "message",
-            "data": {
-                "sender": name,
-                "msg": msg
-            }
-        });
-
-        sock.send(msgData);
-    }
-
-    function login() {
-        var name = $('#nameform').serialize();
-//        var settings = {
-//            "method": "POST",
-//            "crossDomain": true,
-//            "url": "http://" + host + ":" + port + "/chat/login",
-//            "data": name
-//        };
-//
-//        $.ajax(settings).done(function (response) {
-        initSock();
-//        }).fail(function (jqXHR, textStatus) {
-//            alert(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//            console.log(jqXHR.status + " " + jqXHR.statusText + ". " + jqXHR.responseText);
-//        });
-//
-    }
-
-    function initSock() {
-        sock = new SockJS('http://' + host + ':' + port + '/' + path);
-        sock.onopen = function() {
-            console.log('open');
-            updateHistory();
-            setInterval(updateHistory, 10000);
-        };
-
-        sock.onmessage = function (e) {
-            console.log(e.data)
-            // check topic if you will provide other than "history"
-            setHistory(e.data)
-        }
-    }
-
-    function updateHistory() {
-        var history = JSON.stringify(
-            {
-                "topic" : "history"
-            }
-        );
-        sock.send(history)
-    }
-
-    function setHistory(data) {
-        $("#history").html(data.replace(/\n/g, "<br />"))
-        $("#history").scrollTop($("#history")[0].scrollHeight);
-    }
-
-</script>
+<script src="app.js"></script>
