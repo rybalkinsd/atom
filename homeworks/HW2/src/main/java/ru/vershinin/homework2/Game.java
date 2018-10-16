@@ -1,0 +1,167 @@
+package ru.vershinin.homework2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Game {
+
+    private static List<String> words;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Game.class);
+    private static Random rand = new Random();
+    /**
+     * Returns a pseudo-random number between min and max, inclusive.
+     * The difference between min and max can be at most
+     * <code>Integer.MAX_VALUE - 1</code>.
+     *
+     * @param min Minimum value
+     * @param max Maximum value.  Must be greater than min.
+     * @return Integer between min and max, inclusive.
+     * @see java.util.Random#nextInt(int)
+     */
+    private static int randInt(int min, int max) {
+
+        // NOTE: This will (intentionally) not run as written so that folks
+        // copy-pasting have to think about how to initialize their
+        // Random instance.  Initialization of the Random instance is outside
+        // the main scope of the question, but some decent options are to have
+        // a field that is initialized once and then re-used as needed or to
+        // use ThreadLocalRandom (if using at least Java 1.7).
+        //
+        // In particular, do NOT do 'Random rand = new Random()' here or you
+        // will get not very good / not very random results.
+
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+
+    static {
+        try {
+            fillWords();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void printWords() {
+        for (String item: words) {
+            log.info(item);
+        }
+    }
+
+    public static Game getNewGame() {
+        return new Game();
+    }
+
+
+    private String secretWord;
+    private int attemptNumber;
+    {
+        setSecretWord();
+    }
+
+    static void fillWords() throws IOException {
+        InputStream inputStream = Game.class.getClassLoader().getResourceAsStream("dictionary.txt");
+        words = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                words.add(line);
+            }
+        }
+    }
+
+    public void setSecretWord() {
+
+        int index = randInt(0, words.size()-1);
+        secretWord = words.get(index);
+    }
+
+    public int getSecretWordLength() {
+        return secretWord.length();
+    }
+
+    public String getSecretWord() {
+        return secretWord;
+    }
+
+    public AttempResult attempt(String word) throws WrongLengthExeption {
+
+        if (secretWord.length() != word.length()) throw new WrongLengthExeption();
+
+        int bulls = 0;
+        int cows = 0;
+
+        for (int i = 0; i < word.length(); i++){
+
+            char c = word.charAt(i);
+            char b = secretWord.charAt(i);
+
+            if (c == b) bulls++;
+            if (secretWord.indexOf(c) != -1) cows++;
+
+        }
+        boolean result = (secretWord.length() == bulls);
+
+        attemptNumber++;
+
+        return new AttempResult(result, bulls, cows, attemptNumber);
+    }
+
+   static public class AttempResult {
+        private Boolean result;
+        private int bulls;
+        private int cows;
+        private int attemptNumber;
+
+        public AttempResult(Boolean result, int bulls, int cows, int attemptNumber) {
+            this.result = result;
+            this.bulls = bulls;
+            this.cows = cows;
+            this.attemptNumber = attemptNumber;
+        }
+
+        public Boolean getResult() {
+            return result;
+        }
+
+        public void setResult(Boolean result) {
+            this.result = result;
+        }
+
+        public int getBulls() {
+            return bulls;
+        }
+
+        public void setBulls(int bulls) {
+            this.bulls = bulls;
+        }
+
+        public int getCows() {
+            return cows;
+        }
+
+        public void setCows(int cows) {
+            this.cows = cows;
+        }
+
+        public int getAttemptNumber() {
+            return attemptNumber;
+        }
+
+        public void setAttemptNumber(int attemptNumber) {
+            this.attemptNumber = attemptNumber;
+        }
+    }
+
+
+}
+
