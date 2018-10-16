@@ -8,34 +8,126 @@ import java.util.ListIterator;
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private int size = 0;
+    private ListNode<E> firstNode = null;
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return firstNode == null;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+
+        if (o == null) {
+            for (ListNode<E> x = firstNode; x != null; x = x.next) {
+                if (x.value == null)
+                    return true;
+            }
+        } else {
+            for (ListNode<E> x = firstNode; x != null; x = x.next) {
+                if (o.equals(x.value))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+
+        return new Iterator<E>() {
+
+            ListNode<E> currentNode = firstNode;
+
+            @Override
+            public boolean hasNext() {
+                return currentNode != null;
+            }
+
+            @Override
+            public E next() {
+
+                E resValue = currentNode.value;
+                currentNode = currentNode.next;
+                return resValue;
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+
+        if (firstNode == null) {
+            firstNode = new ListNode<>(null, null, e);
+            size++;
+            return true;
+        }
+
+        // finding last node and add element e to him
+        // We look for the last node and add an element there.
+
+        ListNode<E> currentNode;
+        ListNode<E> currentNext = firstNode;
+
+        do {
+            currentNode = currentNext;
+            currentNext = currentNode.next;
+        } while (currentNext != null);
+
+        currentNode.next = new ListNode<>(null, currentNode, e);
+        size++;
+
+        return true;
     }
+
+    private E unlink(ListNode<E> x) {
+        // assert x != null;
+        final E element = x.value;
+        final ListNode<E> next = x.next;
+        final ListNode<E> prev = x.prev;
+
+        if (prev == null) {
+            firstNode = next;
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+
+        if (next != null) {
+            next.prev = prev;
+            x.next = null;
+        }
+
+        x.value = null;
+        size--;
+        return element;
+    }
+
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (o == null) {
+            for (ListNode<E> x = firstNode; x != null; x = x.next) {
+                if (x.value == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (ListNode<E> x = firstNode; x != null; x = x.next) {
+                if (o.equals(x.value)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -55,7 +147,12 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+
+        for (E item : c) {
+            add(item);
+        }
+
+        return true;
     }
 
 
