@@ -6,23 +6,16 @@
  * user guide available at https://docs.gradle.org/4.10.2/userguide/tutorial_java_projects.html
  */
 
-plugins {
-    // Apply the java plugin to add support for Java
-    id 'java'
+apply plugin: 'java'
+apply plugin: 'checkstyle'
 
-    // Apply the application plugin to add support for building an application
-    id 'application'
+checkstyle {
+    ignoreFailures = false
+    toolVersion = '7.5'
+    configFile = new File('../../config/checkstyle/checkstyle.xml')
 }
 
-//apply plugin: 'checkstyle'
-
-// Define the main class for the application
-mainClassName = 'App'
-
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
-    compile 'com.google.guava:guava:23.0'
-
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl
     compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.10.0'
 

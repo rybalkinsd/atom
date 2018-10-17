@@ -3,10 +3,13 @@
  */
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+
 
 @Ignore
 public class AppTest {
+
     @Test public void testAppHasAGreeting() {
         App classUnderTest = new App();
         assertEquals("app should have a greeting", classUnderTest.getGreeting());

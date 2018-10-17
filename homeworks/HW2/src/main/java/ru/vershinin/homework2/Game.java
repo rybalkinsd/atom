@@ -12,7 +12,8 @@ public class Game {
 
     private static List<String> words;
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Game.class);
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
+
     /**
      * Returns a pseudo-random number between min and max, inclusive.
      * The difference between min and max can be at most
@@ -38,9 +39,8 @@ public class Game {
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((max - min) + 1) + min;
 
-        return randomNum;
+        return rand.nextInt((max - min) + 1) + min;
     }
 
     static {
@@ -63,12 +63,14 @@ public class Game {
 
 
     private String secretWord;
+
     private int attemptNumber;
+
     {
         setSecretWord();
     }
 
-    static void fillWords() throws IOException {
+    private static void fillWords() throws IOException {
         InputStream inputStream = Game.class.getClassLoader().getResourceAsStream("dictionary.txt");
         words = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -79,9 +81,9 @@ public class Game {
         }
     }
 
-    public void setSecretWord() {
+    private void setSecretWord() {
 
-        int index = randInt(0, words.size()-1);
+        int index = randInt(0, words.size() - 1);
         secretWord = words.get(index);
     }
 
@@ -100,13 +102,13 @@ public class Game {
         int bulls = 0;
         int cows = 0;
 
-        for (int i = 0; i < word.length(); i++){
+        for (int i = 0; i < word.length(); i++) {
 
-            char c = word.charAt(i);
-            char b = secretWord.charAt(i);
+            char chA = word.charAt(i);
+            char chB = secretWord.charAt(i);
 
-            if (c == b) bulls++;
-            if (secretWord.indexOf(c) != -1) cows++;
+            if (chA == chB) bulls++;
+            if (secretWord.indexOf(chA) != -1) cows++;
 
         }
         boolean result = (secretWord.length() == bulls);
@@ -115,53 +117,5 @@ public class Game {
 
         return new AttempResult(result, bulls, cows, attemptNumber);
     }
-
-   static public class AttempResult {
-        private Boolean result;
-        private int bulls;
-        private int cows;
-        private int attemptNumber;
-
-        public AttempResult(Boolean result, int bulls, int cows, int attemptNumber) {
-            this.result = result;
-            this.bulls = bulls;
-            this.cows = cows;
-            this.attemptNumber = attemptNumber;
-        }
-
-        public Boolean getResult() {
-            return result;
-        }
-
-        public void setResult(Boolean result) {
-            this.result = result;
-        }
-
-        public int getBulls() {
-            return bulls;
-        }
-
-        public void setBulls(int bulls) {
-            this.bulls = bulls;
-        }
-
-        public int getCows() {
-            return cows;
-        }
-
-        public void setCows(int cows) {
-            this.cows = cows;
-        }
-
-        public int getAttemptNumber() {
-            return attemptNumber;
-        }
-
-        public void setAttemptNumber(int attemptNumber) {
-            this.attemptNumber = attemptNumber;
-        }
-    }
-
-
 }
 
