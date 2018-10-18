@@ -1,4 +1,4 @@
-package ru.atom.boot.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -6,10 +6,10 @@ import org.junit.Test;
 /**
  * Some annotations here
  */
+@Ignore
 public class GamesControllerIntegrationTest {
 
     @Test
-    @Ignore
     public void list() throws Exception {
     }
 

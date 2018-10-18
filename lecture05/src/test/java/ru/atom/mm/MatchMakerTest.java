@@ -1,7 +1,14 @@
-package ru.atom.thread.mm;
+package ru.atom.mm;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit4.SpringRunner;
+import ru.atom.mm.service.ConnectionProducer;
+import ru.atom.mm.service.MatchMaker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +17,13 @@ import java.util.List;
  * Created by sergey on 3/14/17.
  */
 @Ignore
+@RunWith(SpringRunner.class)
+@WebMvcTest
+@Import(Config.class)
 public class MatchMakerTest {
+
+    @Autowired
+    ConnectionProducer connectionProducer;
 
     @Test
     public void singleProducer() throws Exception {
