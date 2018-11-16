@@ -23,7 +23,7 @@ public class ContactListCache extends AbstractCache<Person, List<? extends Perso
 
     @Override
     public int getSize() {
-        throw new UnsupportedOperationException();
+        return capacity;
     }
 
     private boolean removeAny() {
