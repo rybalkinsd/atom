@@ -47,7 +47,7 @@ public class Bar implements Collider {
                 && secondCornerX == bar.secondCornerX
                 && secondCornerY == bar.secondCornerY;
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(firstCornerX, firstCornerY, secondCornerX, secondCornerY);
