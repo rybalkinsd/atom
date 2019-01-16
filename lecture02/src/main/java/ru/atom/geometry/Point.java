@@ -13,8 +13,13 @@ public class Point implements Collider {
         this.y = y;
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     /**
      * @param o - other object to check equality with
@@ -29,8 +34,8 @@ public class Point implements Collider {
         Point point = (Point) o;
 
         // your code here
-        return this.x == point.getX() &&
-                this.y == point.getY();
+        return this.x == point.getX()
+                && this.y == point.getY();
     }
 
     @Override
