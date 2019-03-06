@@ -31,8 +31,8 @@ public class Point implements Collider /* super class and interfaces here if nec
 
         if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            return ((x - bar.getLeft()) * (x - bar.getRight()) <= 0) &&
-                    ((y - bar.getBottom()) * (y - bar.getTop()) <= 0);
+            return ((x - bar.getLeft()) * (x - bar.getRight()) <= 0)
+                    && ((y - bar.getBottom()) * (y - bar.getTop()) <= 0);
         }
 
         return false;

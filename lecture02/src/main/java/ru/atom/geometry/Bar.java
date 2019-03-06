@@ -13,11 +13,11 @@ public class Bar implements Collider {
         bottom = Math.min(y0, y1);
     }
 
-    public int getWidth( ) {
+    public int getWidth() {
         return right - left;
     }
 
-    public int getHeight( ) {
+    public int getHeight() {
         return top - bottom;
     }
 
@@ -41,11 +41,6 @@ public class Bar implements Collider {
         return false;
     }
 
-    /*Function RectsOverlap:Bool(x1:Float, y1:Float, w1:Float, h1:Float, x2:Float, y2:Float, w2:Float, h2:Float)
-        If x1 > (x2 + w2) Or (x1 + w1) < x2 Then Return False
-        If y1 > (y2 + h2) Or (y1 + h1) < y2 Then Return False
-        Return True
-    End Function*/
 
     /**
      * @param o - other object to check equality with
