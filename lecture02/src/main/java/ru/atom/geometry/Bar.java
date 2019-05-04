@@ -32,9 +32,9 @@ public class Bar implements Collider {
     }
 
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if(obj == null || getClass() != obj.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
         Bar bar = (Bar) obj;
         return this.firstCornerX == bar.getFirstCornerX()

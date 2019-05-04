@@ -26,16 +26,17 @@ public class Point implements Collider /* super class and interfaces here if nec
     }
 
     /**
-     * @param o - other object to check equality with
+     * @param obj - other object to check equality with
      * @return true if two points are equal and not null.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
         // cast from Object to Point
-        Point point = (Point) o;
+        Point point = (Point) obj;
+
         return this.x == point.getX()
                 && this.y == point.getY();
         // your code here
