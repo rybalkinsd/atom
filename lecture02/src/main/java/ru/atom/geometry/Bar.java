@@ -62,7 +62,6 @@ public class Bar implements Collider {
 
             return true;
         }
-
         return false;
     }
 }
