@@ -28,22 +28,20 @@ public class Bar implements Collider {
     public boolean intersects(Bar other) {
         Point thisCenter = getCenter(this);
         Point otherCenter = getCenter(other);
-        int xDist = thisCenter.getHorizontalDistanceTo(otherCenter);
-        int yDist = thisCenter.getVerticalDistanceTo(otherCenter);
-        return xDist <= (width + other.width) / 2 && yDist <= (height + other.height) / 2;
+        int horizontalDist = thisCenter.getHorizontalDistanceTo(otherCenter);
+        int verticalDist = thisCenter.getVerticalDistanceTo(otherCenter);
+        return horizontalDist <= (width + other.width) / 2 && verticalDist <= (height + other.height) / 2;
     }
 
     private static Point getCenter(Bar bar) {
-        int x = bar.leftTopCorner.getX() + bar.width / 2;
-        int y = bar.leftTopCorner.getY() - bar.height / 2;
-        return new Point(x, y);
+        return new Point(bar.leftTopCorner.getX() + bar.width / 2, bar.leftTopCorner.getY() - bar.height / 2);
     }
 
     public boolean contains(Point point) {
-        return point.getX() >= leftTopCorner.getX() &&
-                point.getY() <= leftTopCorner.getY() &&
-                point.getX() <= (leftTopCorner.getX() + width) &&
-                point.getY() >= (leftTopCorner.getY() - height);
+        return point.getX() >= leftTopCorner.getX()
+                && point.getY() <= leftTopCorner.getY()
+                && point.getX() <= (leftTopCorner.getX() + width)
+                && point.getY() >= (leftTopCorner.getY() - height);
     }
 
     @Override
@@ -55,8 +53,8 @@ public class Bar implements Collider {
             return false;
         }
         Bar otherBar = (Bar) o;
-        return leftTopCorner.equals(otherBar.leftTopCorner) &&
-                width == otherBar.width &&
-                height == otherBar.height;
+        return leftTopCorner.equals(otherBar.leftTopCorner)
+                && width == otherBar.width
+                && height == otherBar.height;
     }
 }
