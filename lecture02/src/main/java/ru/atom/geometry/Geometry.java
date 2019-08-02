@@ -10,6 +10,7 @@ package ru.atom.geometry;
  */
 
 public final class Geometry {
+    
     private int firstX;
     private int firstY;
     private int secondX;
