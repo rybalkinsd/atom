@@ -29,7 +29,7 @@ public final class Geometry {
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
         try {
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
         }
         catch(UnsupportedOperationException() e){
         }
