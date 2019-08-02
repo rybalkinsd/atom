@@ -28,6 +28,7 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
+        throw new UnsupportedOperationException();
         Collider collider=new Geometry();
         ((Geometry) collider).firstX=firstCornerX;
         ((Geometry) collider).firstY=firstCornerY;
