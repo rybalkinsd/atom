@@ -9,7 +9,7 @@ package ru.atom.geometry;
  *  .---------->
  */
 
-public final class Geometry extends Point implements Collider{
+public final class Geometry implements Collider{
     private int firstX;
     private int firstY;
     private int secondX;
