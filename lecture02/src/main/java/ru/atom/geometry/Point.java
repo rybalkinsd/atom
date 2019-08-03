@@ -4,24 +4,31 @@ package ru.atom.geometry;
  * Template class for
  */
 public class Point implements Collider/* super class and interfaces here if necessary */ {
-    protected int x;
-    protected int y;
-    private String flag;
-public Point(){
-}
-    public static Collider createPoint(int x, int y) {
-        Collider point=new Point();
-        ((Point) point).x=x;
-        ((Point) point).y=y;
-        ((Point) point).flag="point";
-        return point;
+    private int x;
+    private int y;
+
+    public void setX(int x) {
+        this.x = x;
     }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
      */
     @Override
-            public boolean equals(Object o) {
+    public boolean equals(Object o) {
         Point point = (Point) o;
 
         if (this.x == point.x) {
