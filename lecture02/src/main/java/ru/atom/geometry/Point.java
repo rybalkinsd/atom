@@ -36,6 +36,7 @@ public class Point implements Collider/* super class and interfaces here if nece
 
         Point point = (Point) o;
         
+        // your code here
         try {
 
         throw new UnsupportedOperationException();
