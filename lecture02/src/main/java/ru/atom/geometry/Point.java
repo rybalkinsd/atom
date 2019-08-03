@@ -33,9 +33,7 @@ public class Point implements Collider/* super class and interfaces here if nece
         if (o == null || getClass() != o.getClass()) return false;
 
         // cast from Object to Point
-
         Point point = (Point) o;
-        
         // your code here
         try {
 
