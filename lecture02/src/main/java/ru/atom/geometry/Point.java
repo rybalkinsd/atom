@@ -34,6 +34,7 @@ public class Point implements Collider/* super class and interfaces here if nece
 
         // cast from Object to Point
         Point point = (Point) o;
+        
         // your code here
         try {
 
