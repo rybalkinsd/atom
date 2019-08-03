@@ -35,6 +35,12 @@ public class Point implements Collider/* super class and interfaces here if nece
         // cast from Object to Point
 
         Point point = (Point) o;
+        
+        try {
+
+        throw new UnsupportedOperationException();
+        } catch (UnsupportedOperationException e) {
+        }
 
         if (this.x == point.x) {
             if (this.y == point.y) {
