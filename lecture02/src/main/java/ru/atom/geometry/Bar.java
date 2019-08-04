@@ -15,7 +15,7 @@ public class Bar implements Collider {
                     && this.downLeftPoint.getY() >= bar.downLeftPoint.getY()
                     && this.upRightPoint.getY() <= bar.upRightPoint.getY())
                     return true;
-                else return false;
+            else return false;
         } else {
                 Point point = (Point) other;
                 if (this.downLeftPoint.getX() <= point.getX()
