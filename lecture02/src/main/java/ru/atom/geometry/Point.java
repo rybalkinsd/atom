@@ -36,7 +36,7 @@ public class Point implements Collider{
         Point point = (Point) o;
 
         // your code here
-        if (this.x == point.x&&this.y == point.y) {
+        if (this.x == point.x && this.y == point.y) {
                 return true;
             } else return false;
     }
