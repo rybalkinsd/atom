@@ -27,8 +27,10 @@ public final class Geometry {
 
         Collider collider = new Bar();
 
-        ((Bar) collider).setDownLeftPoint((Point)createPoint(min(firstCornerX,secondCornerX),min(firstCornerY,secondCornerY)));
-        ((Bar) collider).setUpRightPoint((Point)createPoint(max(firstCornerX,secondCornerX),max(firstCornerY,secondCornerY)));
+        ((Bar) collider).setDownLeftPoint((Point)createPoint(min(firstCornerX,secondCornerX)
+        ,min(firstCornerY,secondCornerY)));
+        ((Bar) collider).setUpRightPoint((Point)createPoint(max(firstCornerX,secondCornerX)
+        ,max(firstCornerY,secondCornerY)));
         return collider;
     }
 
