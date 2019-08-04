@@ -1,39 +1,29 @@
 package ru.atom.geometry;
 
 public class Bar implements Collider {
-    private int firstX;
-    private int firstY;
-    private int secondX;
-    private int secondY;
+    private Point downLeftPoint;
+    private Point upRightPoint;
 
     @Override
     public boolean isColliding(Collider other) {
         if (this.equals(other))
             return true;
-        if (other instanceof Bar && this instanceof Bar) {
+        if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            if (this.firstX >= bar.firstX && this.secondX <= bar.secondX ||
-                    this.firstX >= bar.secondX && this.secondX <= bar.firstX ||
-                    this.firstX <= bar.firstX && this.secondX >= bar.secondX ||
-                    this.firstX <= bar.secondX && this.secondX >= bar.firstX) {
-                if (this.firstY >= bar.firstY && this.secondY <= bar.secondY ||
-                        this.firstY >= bar.secondY && this.secondY <= bar.firstY ||
-                        this.firstY <= bar.firstY && this.secondY >= bar.secondY ||
-                        this.firstY <= bar.secondY && this.secondY >= bar.firstY)
+            if (this.downLeftPoint.getX() >= bar.downLeftPoint.getX()
+                    && this.upRightPoint.getX()<= bar.upRightPoint.getX()
+                    && this.downLeftPoint.getY() >= bar.downLeftPoint.getY()
+                    && this.upRightPoint.getY()<= bar.upRightPoint.getY())
                     return true;
                 else return false;
-            } else return false;
         } else {
-            if (this instanceof Bar) {
                 Point point = (Point) other;
-                if (this.firstX <= point.getX() && this.secondX >= point.getX() ||
-                        this.firstX >= point.getX() && this.secondX <= point.getX()) {
-                    if (this.firstY <= point.getY() && this.secondY >= point.getY() ||
-                            this.firstY >= point.getY() && this.secondY <= point.getY())
+                if (this.downLeftPoint.getX() <= point.getX()
+                        && this.upRightPoint.getX() >= point.getX()
+                        && this.downLeftPoint.getY() <= point.getY()
+                        && this.upRightPoint.getY() >= point.getY())
                         return true;
                     else return false;
-                } else return false;
-            } else return false;
         }
     }
 
@@ -44,27 +34,18 @@ public class Bar implements Collider {
 
             Bar bar = (Bar) o;
 
-            if (this.firstX == bar.firstX && this.secondX == bar.secondX || this.firstX == bar.secondX && this.secondX == bar.firstX) {
-                if (this.firstY == bar.firstY && this.secondY == bar.secondY || this.firstY == bar.secondY && this.secondY == bar.firstY) {
+            if (this. downLeftPoint == bar. downLeftPoint && this.upRightPoint == bar.upRightPoint) {
                     return true;
                 } else return false;
-            } else return false;
 
     }
 
-    public void setFirstX(int firstX) {
-        this.firstX = firstX;
+    public void setDownLeftPoint(Point downLeftPoint) {
+        this.downLeftPoint = downLeftPoint;
     }
 
-    public void setFirstY(int firstY) {
-        this.firstY = firstY;
-    }
-
-    public void setSecondX(int secondX) {
-        this.secondX = secondX;
-    }
-
-    public void setSecondY(int secondY) {
-        this.secondY = secondY;
+    public void setUpRightPoint(Point upRightPoint) {
+        this.upRightPoint = upRightPoint;
     }
 }
+
