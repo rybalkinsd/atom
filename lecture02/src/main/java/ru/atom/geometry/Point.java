@@ -3,7 +3,7 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point implements Collider{
+public class Point implements Collider {
     private int x;
     private int y;
 
@@ -32,20 +32,13 @@ public class Point implements Collider{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        // cast from Object to Point
         Point point = (Point) o;
-        
-        // your code here
-        try {
-
-        throw new UnsupportedOperationException();
-        } catch (UnsupportedOperationException e) {
-        }
 
         if (this.x == point.x&&this.y == point.y) {
                 return true;
             } else return false;
     }
+
     @Override
     public boolean isColliding(Collider other) {
         if (this.equals(other))
