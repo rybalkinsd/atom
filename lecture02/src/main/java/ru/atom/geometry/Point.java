@@ -3,7 +3,7 @@ package ru.atom.geometry;
 /**
  * Template class for
  */
-public class Point implements Collider/* super class and interfaces here if necessary */ {
+public class Point implements Collider{
     private int x;
     private int y;
 
