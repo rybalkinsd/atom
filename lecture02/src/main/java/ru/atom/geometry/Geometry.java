@@ -23,14 +23,12 @@ public final class Geometry {
      *
      * @return new Bar
      */
-    public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
+    public static Collider createBar(int firstX, int firstY, int secondX, int secondY) {
 
         Collider collider = new Bar();
 
-        ((Bar) collider).setDownLeftPoint((Point)createPoint(min(firstCornerX,secondCornerX)
-        ,min(firstCornerY,secondCornerY)));
-        ((Bar) collider).setUpRightPoint((Point)createPoint(max(firstCornerX,secondCornerX)
-        ,max(firstCornerY,secondCornerY)));
+        ((Bar) collider).setDownLeftPoint((Point)createPoint(min(firstX,secondX),min(firstY,secondY)));
+        ((Bar) collider).setUpRightPoint((Point)createPoint(max(firstX,secondX),max(firstY,secondY)));
         return collider;
     }
 
