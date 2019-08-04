@@ -42,11 +42,9 @@ public class Point implements Collider{
         } catch (UnsupportedOperationException e) {
         }
 
-        if (this.x == point.x) {
-            if (this.y == point.y) {
+        if (this.x == point.x&&this.y == point.y) {
                 return true;
             } else return false;
-        } else return false;
     }
     @Override
     public boolean isColliding(Collider other) {
