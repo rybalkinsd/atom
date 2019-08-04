@@ -24,7 +24,9 @@ public final class Geometry {
      * @return new Bar
      */
     public static Collider createBar(int firstCornerX, int firstCornerY, int secondCornerX, int secondCornerY) {
+
         Collider collider = new Bar();
+
         ((Bar) collider).setDownLeftPoint((Point)createPoint(min(firstCornerX,secondCornerX),min(firstCornerY,secondCornerY)));
         ((Bar) collider).setUpRightPoint((Point)createPoint(max(firstCornerX,secondCornerX),max(firstCornerY,secondCornerY)));
         return collider;
@@ -36,7 +38,9 @@ public final class Geometry {
      * @return new Point
      */
     public static Collider createPoint(int x, int y) {
+        
         Collider point = new Point();
+
         ((Point) point).setX(x);
         ((Point) point).setY(y);
         return point;
