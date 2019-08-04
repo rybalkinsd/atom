@@ -34,6 +34,7 @@ public class Point implements Collider{
         
         // cast from Object to Point
         Point point = (Point) o;
+
         // your code here
         if (this.x == point.x&&this.y == point.y) {
                 return true;
