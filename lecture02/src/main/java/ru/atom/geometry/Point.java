@@ -31,7 +31,7 @@ public class Point implements Collider{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
+        // cast from Object to Point
         Point point = (Point) o;
 
         if (this.x == point.x&&this.y == point.y) {
