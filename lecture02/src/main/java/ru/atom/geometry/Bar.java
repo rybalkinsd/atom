@@ -16,7 +16,7 @@ public class Bar implements Collider {
                     && this.upRightPoint.getY() <= bar.upRightPoint.getY())
                     return true;
             else return false;
-      } else {
+        } else {
                 Point point = (Point) other;
                 if (this.downLeftPoint.getX() <= point.getX()
                         && this.upRightPoint.getX() >= point.getX()
@@ -32,11 +32,11 @@ public class Bar implements Collider {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-            Bar bar = (Bar) o;
+        Bar bar = (Bar) o;
 
-            if (this. downLeftPoint == bar. downLeftPoint && this.upRightPoint == bar.upRightPoint) {
+        if (this. downLeftPoint == bar. downLeftPoint && this.upRightPoint == bar.upRightPoint)
                     return true;
-                } else return false;
+        else return false;
 
     }
 
