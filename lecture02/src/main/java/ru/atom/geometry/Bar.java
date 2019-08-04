@@ -23,7 +23,7 @@ public class Bar implements Collider {
                         && this.downLeftPoint.getY() <= point.getY()
                         && this.upRightPoint.getY() >= point.getY())
                         return true;
-                    else return false;
+                else return false;
         }
     }
 
