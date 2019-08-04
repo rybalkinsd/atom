@@ -38,7 +38,7 @@ public class Point implements Collider {
         // your code here
         if (this.x == point.x && this.y == point.y) {
             return true;
-            } else return false;
+        } else return false;
     }
 
     @Override
