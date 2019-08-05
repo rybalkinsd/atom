@@ -10,10 +10,10 @@ public class Bar implements Collider {
             return true;
         if (other instanceof Bar) {
             Bar bar = (Bar) other;
-            if (this.downLeftPoint.getX() >= bar.downLeftPoint.getX()
-                    && this.upRightPoint.getX() <= bar.upRightPoint.getX()
-                    && this.downLeftPoint.getY() >= bar.downLeftPoint.getY()
-                    && this.upRightPoint.getY() <= bar.upRightPoint.getY())
+            if (this.upRightPoint.getX() >= bar.downLeftPoint.getX()
+                    && this.downLeftPoint.getX() <= bar.upRightPoint.getX()
+                    && this.upRightPoint.getY() >= bar.downLeftPoint.getY()
+                    && this.downLeftPoint.getY() <= bar.upRightPoint.getY())
                     return true;
             else return false;
         } else {
@@ -34,7 +34,7 @@ public class Bar implements Collider {
 
         Bar bar = (Bar) o;
 
-        if (this. downLeftPoint == bar. downLeftPoint && this.upRightPoint == bar.upRightPoint)
+        if (this. downLeftPoint.equals(bar. downLeftPoint) && this.upRightPoint.equals(bar.upRightPoint))
                     return true;
         else return false;
 
