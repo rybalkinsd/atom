@@ -31,9 +31,9 @@ public class Point implements Collider {
 
         Point point = (Point) o;
 
-        if (this.x == point.x&&this.y == point.y) {
-                return true;
-            } else return false;
+        if (this.x == point.x && this.y == point.y) {
+            return true;
+        } else return false;
     }
 
     @Override
