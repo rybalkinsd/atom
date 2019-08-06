@@ -7,11 +7,8 @@ public class Point implements Collider {
     private int x;
     private int y;
 
-    public void setX(int x) {
+    public Point (int x,int y) {
         this.x = x;
-    }
-
-    public void setY(int y) {
         this.y = y;
     }
 
@@ -31,14 +28,12 @@ public class Point implements Collider {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        
-        // cast from Object to Point
+
         Point point = (Point) o;
 
-        // your code here
-        if (this.x == point.x && this.y == point.y) {
-            return true;
-        } else return false;
+        if (this.x == point.x&&this.y == point.y) {
+                return true;
+            } else return false;
     }
 
     @Override
