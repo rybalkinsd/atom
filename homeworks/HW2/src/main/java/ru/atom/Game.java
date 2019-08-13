@@ -12,7 +12,6 @@ public class Game {
             .collect(Collectors.toList()));
 
     public void game() {
-        System.out.print(word);
         chance = 10;
 
         for (; chance > 0; chance--) {
