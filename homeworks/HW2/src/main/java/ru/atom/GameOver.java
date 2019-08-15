@@ -2,9 +2,9 @@ package main.java.ru.atom;
 
 import java.util.ArrayList;
 
-public class GameOver extends Game{
-    public void gameOver(ArrayList word,int bull,int chance) {
-        if (chance == 1 && bull != word.size()) {
+public class GameOver {
+    public static void gameOver(ArrayList word,int chance) {
+        if (chance == 1) {
             System.out.println("Game over");
             System.out.print("Answer:");
             word.forEach(o -> System.out.print(o));

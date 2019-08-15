@@ -4,36 +4,31 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Game {
-    private int chance;
-
-    private ArrayList<Character> in;
-    private ArrayList<Character> word = new ArrayList<Character>(Word.cowsAndBulls().chars()
-            .mapToObj(e -> (char) e)
-            .collect(Collectors.toList()));
-
     public void game() {
-        System.out.print(word);
-        chance = 10;
+        ArrayList<Character> word = new ArrayList<Character>(Word.cowsAndBulls().chars()
+                .mapToObj(e -> (char) e)
+                .collect(Collectors.toList()));
 
-        for (; chance > 0; chance--) {
+        for (int chance=10; chance > 0; chance--) {
             System.out.println("You have " + chance + "chance:");
 
             CorrectInput correctInput = new CorrectInput();
-            in = correctInput.correctInput(word.size());
-            
+            ArrayList<Character> in = correctInput.correctInput(word.size());
+
             Bull bull = new Bull();
             bull.count(in, word);
+
+            if (bull.getBull()==word.size()) {
+                System.out.println("You win");
+                break;
+            }
 
             Cow cow = new Cow();
             cow.count(in, word);
 
             System.out.println("bulls:" + bull.getBull() + "cows:" + cow.getCow());
 
-            GameOver gameOver = new GameOver();
-            gameOver.gameOver(word, bull.getBull(), chance);
-
-            Winner winner = new Winner();
-            chance = winner.winner(word.size(), bull.getBull(), chance);
+            GameOver.gameOver(word, chance);
         }
     }
 }
