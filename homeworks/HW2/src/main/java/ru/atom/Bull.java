@@ -10,9 +10,11 @@ public class Bull {
                 bull++;
             }
         }
-
-        Winner win=new Winner();
-
+        
+        if (bull==word.size()) {
+            Winner win=new Winner();
+            win.winner();
+        }
     }
 
     public int getBull() {
