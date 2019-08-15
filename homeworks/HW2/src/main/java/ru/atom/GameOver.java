@@ -2,7 +2,7 @@ package main.java.ru.atom;
 
 import java.util.ArrayList;
 
-public class GameOver extends Game{
+public class GameOver {
     public void gameOver(ArrayList word,int bull,int chance) {
         if (chance == 1 && bull != word.size()) {
             System.out.println("Game over");
