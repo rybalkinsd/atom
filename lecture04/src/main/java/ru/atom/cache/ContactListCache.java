@@ -1,6 +1,5 @@
 package ru.atom.cache;
 
-
 import java.util.List;
 
 /**

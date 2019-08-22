@@ -1,49 +1,46 @@
-#HSLIDE
+---
 # Java
-lecture 5
-## Web server
+2018/lecture 5
+## Spring, Threads, Annotations
 
 
-#HSLIDE
+
+---
 ## Отметьтесь на портале
-https://atom.mail.ru/
+https://sphere.mail.ru/
 
 
-#HSLIDE
+---
 ### get ready
+[https://github.com/rybalkinsd/atom](https://github.com/rybalkinsd/atom)
 ```bash
 > git fetch upstream
 > git checkout -b lecture05 upstream/lecture05
+> cd lecture05
 ```
 
 Refresh gradle project
 
 
-#HSLIDE
-### Поиграем в web-server
-Any questions on HTTP?
-  
-**You must understand HTTP!** 
-
-
-#HSLIDE
+---
 ### Agenda
 1. Threads
 1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
-1. HTTP Web Server
-1. Spring
 
-
-#HSLIDE
-### Threads
+---
+### Agenda
 1. **[Threads]**
 1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
-1. HTTP Web Server
-1. Spring
 
-#HSLIDE
+---
 ### Threads intro
 As we go into the land of servers, we face multi-threaded environment.  
   
@@ -52,30 +49,30 @@ So this gentle introduction only covers basics that are necessary so far.
   
 We will have deeper topics on concurrency further in the course.
 
-#HSLIDE
+---
 ### Why do we need parallel execution?
 
 
-#HSLIDE
+---
 ### Concurrency vs parallelism
 **Concurrency** - contention on shared resources
 
 **Parallelism** is possible without concurrency
 
 
-#HSLIDE
+---
 ### Process vs Thread
 **Process** has dedicated resources (memory)
 
 **Threads** share memory space
 
 
-#HSLIDE
+---
 ### Process vs Thread
 <img src="lecture05/presentation/assets/img/process.png" alt="process" style="width: 450px;"/>
 
 
-#HSLIDE
+---
 ### Operating System role
 1. Creates threads (clone syscall)
 1. Schedules threads (context switch)
@@ -84,7 +81,7 @@ We will have deeper topics on concurrency further in the course.
 Behaviour of multithreaded program is (inter alia) dependent on OS scheduling
 
 
-#HSLIDE
+---
 ### interface Runnable
 ```java
 @FunctionalInterface
@@ -94,7 +91,7 @@ interface Runnable {
 ```
 
 
-#HSLIDE
+---
 ### class Thread
 ```java
 class Thread implements Runnable {  
@@ -108,7 +105,7 @@ class Thread implements Runnable {
 ```
 
 
-#HSLIDE
+---
 ### Start and Run
 ```java
 new Thread().start();
@@ -117,11 +114,11 @@ new Thread( runnable ).start();
 ```
 
 
-#HSLIDE
+---
 ### Start and Run
 <img src="lecture05/presentation/assets/img/newthread.png" alt="exception" style="width: 750px;"/>
 
-#HSLIDE
+---
 ### Thread instantiation
 @See ru.atom.thread.instantiation and tests
 
@@ -131,8 +128,15 @@ new Thread( runnable ).start();
 - Thread::interrupt
 - Thread::sleep
 
+---
 
-#HSLIDE
+### Thread interruption
+An interrupt is an indication to a thread that it should stop what it is doing and do something else. It's up to the programmer to decide exactly how a thread responds to an interrupt, but it is very common for the thread to terminate.  
+A thread sends an interrupt by invoking interrupt on the Thread object for the thread to be interrupted. For the interrupt mechanism to work correctly, the interrupted thread must support its own interruption.  
+https://docs.oracle.com/javase/tutorial/essential/concurrency/interrupt.html
+
+---
+
 ### Waiting for thread termination
 @See ru.atom.thread.join and tests
 
@@ -140,7 +144,7 @@ new Thread( runnable ).start();
 - Thread::interrupt
 
 
-#HSLIDE
+---
 ### jstack
 Util to observe java process stack state.
  
@@ -152,7 +156,7 @@ Util to observe java process stack state.
 > less report.info
 ```
 
-#HSLIDE
+---
 ### Queue
 Queue is a shared resource in a multi-threaded environment.
 
@@ -174,12 +178,12 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 ```
 
 
-#HSLIDE
+---
 ### Queue
 <img src="lecture05/presentation/assets/img/queue.png" alt="queue" style="width: 750px;"/>
 
 
-#HSLIDE
+---
 ### Your turn
 @See ru.atom.thread.practice in tests
  
@@ -194,21 +198,22 @@ interface BlockingQueue<E> implements java.util.Queue<E> {
 1. Implement missing methods
 
 
-#HSLIDE
-### Annotations
+---
+### Agenda
 1. Threads
 1. **[Annotations]**
-1. HTTP Web Server
-1. Spring
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
 
 
-#HSLIDE
+---
 ### Annotations
-What annotations did you see before?
+Which annotations did you see before?
 
 
-#HSLIDE
+---
 ### Override
 ```java
 @Target(ElementType.METHOD)
@@ -217,93 +222,37 @@ public @interface Override {
 }
 ```
 
-#HSLIDE
+---
 ### Reflection API
 Reflection is an API to find information about classes/fields/methods 
 in application runtime.
 
 @See ru.atom.annotation and tests
 
+---
+### Retention policy
+Annotation has **Retention policy**, which indicated, whether info about the annotation will be available at runtime  
+**RetentionPolicy.RUNTIME** guarantees that annotation will be available in **runtime**
 
-#HSLIDE
-### HTTP Web Server
+
+---
+### Agenda
 1. Threads
 1. Annotations
-1. **[HTTP Web Server]**
-1. Spring
+1. **[Spring, Spring Boot]**
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
 1. Match-maker
 
+---
 
-#HSLIDE
-### Web server
-**Web server** - is a program that processes HTTP Requests and provide HTTP responses.
+### Matchmaker example
+
+We will use MathMaker application to study basic concepts of Spring  
   
-**Web server can be a separate application, like:**
-- Apache HTTP Server
-- NGINX
-  
-**Can be embedded into application:**
-- Jetty
-- Embedded Tomcat (**our choice**)
+> @see MatchMakerApp
 
-
-#HSLIDE
-### Alternative - application servers
-Alternatively large projects can use **Application Servers** to manage web application:  
- - Sun GlassFish
- - IBM WebSphere
- - RedHat JBoss  
-  
-**We will not go this way**
-
-#HSLIDE
-### Servlet container
-Basic function of web server - to serve static content (html, css, images)  
-But most web servers provide some functionality to apply **custom logic on HTTP Request** and return **custom HTTP Response**.
-  
-This can be used to serve dynamic pages or for custom **web application** (that's how we will use it)
-  
-Custom server logic in java can be embedded into **servlet container** (part of web-server, that manages **Servlets**)
-
-
-#HSLIDE
-### Servlet
-<img src="lecture05/presentation/assets/img/servlet.png" alt="servlet" style="width: 750px;"/>
-
-#HSLIDE
-### Servlet
-**Servlet** - is class that handles HTTP Requests.  
-Java provide low-level **Servlet API**
-
-#HSLIDE
-### Web Server approximate behavior
-1. Start
-1. Initialize internal servlets
-1. Create a "mapping" **(request, /path)** -> handling servlet
-1. Apply mapping on incoming request
-1. Process **single request in single thread** but in parallel*
-1. Process routing of outgoing response
-
-
-#HSLIDE
-### Modern way
-**Servlet API** (a part of java API) - is low-level API  
-People tend to use high-level frameworks to make web applications  
-This frameworks use servlet API under the hood  
-  
-The most famous web framework is **Spring**
-
-
-#HSLIDE
-### Spring
-1. Threads
-1. Annotations
-1. HTTP Web Server
-1. **[Spring]**
-1. Match-maker
-
-
-#HSLIDE
+---
 ### Spring
 <img src="lecture05/presentation/assets/img/spring-by-pivotal.png" alt="exception" style="width: 300px;"/>  
 is a universal open-source framework, used to develop web applications  
@@ -311,7 +260,7 @@ https://spring.io/
   
 First version - **2002**
 
-#HSLIDE
+---
 ### Spring modules
 It includes a number of modules for different functionality:
 - Spring MVC for building Web Applications
@@ -323,19 +272,7 @@ It includes a number of modules for different functionality:
   
 Today we will build web application with **Spring MVC** module
 
-#HSLIDE
-### MVC
-**MVC (Model-View-Controller)** - popular pattern used to build web apps
-<img src="lecture05/presentation/assets/img/MVC-Introduction2.jpg" style="width: 600px;"/>
-
-
-#HSLIDE
-### Spring MVC
-**Spring MVC** - Spring Module that make it easier to build MVC Applications (Like **Django**, **Rails**)
-<img src="lecture05/presentation/assets/img/spring_mvc.png" alt="exception" style="width: 600px;"/>
-
-
-#HSLIDE
+---
 ### Spring Boot
 Spring is a powerful tool and has a lot of configuration options.  
 **Spring Boot** is a project, that makes working with Spring easier:
@@ -349,33 +286,179 @@ First version: **2014**
 **With Spring Boot our life is much easier :)**
 
 
-#HSLIDE
-### Hello Spring Boot
-**@See ru.atom.boot.hw**  
-All the magic works via **annotations**
+---
+### Spring boot distribution
+```groovy
+    // dependencies, necessary for building generic web applicaitons
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.0.RELEASE'
+    // actuator
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.0.RELEASE'
+```
 
-1. Application entry point (HelloSpringBoot)  
-*@SpringBootApplication* auto-configures spring application
-1. Request controller - handles HTTP connections  
-*@Controller* - let Spring recognize this class  
-*@RequestMapping("hello")* - this class handles **HTTP Requests** to **/hello** url  
-*@RequestMapping("world")* - this method handles **HTTP Requests** to **/hello/world** url  
-*@ResponseBody* method returns result will be the **HTTP response body** 
+---
 
+### Spring boot actuator
+Spring boot actuator - usefool dependency, providing web interface to meta data of application and even interact with it  
+  
+**Actuator endpoints:**
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html  
+By default most endpoints are disabled. To enable them we need to enable them in **application.properties**
 
-#HSLIDE
-### Important notes
-These notes are important to understand:
-1. HelloController is **Singleton** (by default) - the same instance for all requests
-1. Every request runs in **new thread** (actually backed by thread pool)  
-   
-Here comes **multi-threading** with **shared memory** (concurrency) - topic for further discussion
+---
 
-#HSLIDE
+### application.properties
+The standard way to configure java application - **application.properties** should appear in classpath  
+To enable actuator endpoints:
+```properties
+management.endpoints.web.exposure.include=*
+```
+We also can configure actuator and server ports there:
+```properties
+#server port:
+server.port = 8080
+#actuator port:
+management.server.port = 7001
+```
+
+---
+### Useful actuator endpoints
+**/actuator/health**  
+overall application status  
+  
+**/actuator/mappings**  
+available mappings  
+  
+**/actuator/beans**  
+all beans in context
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. **[Inversion of Control, Dependency Injection]**
+1. Beans, ApplicationContext
+1. Match-maker
+
+---
+
+### Inversion of Control
+**Principle:** control flow is transferred to external framework  
+**Why:** loose coupling, easier to develop, easier to test
+
+---
+
+### Dependency Injection
+Objects lifecycle is managed by external framework (**IoC container**)
+- instantiation
+- wiring
+- removal
+
+---
+
+### Spring provides IoC container
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans  
+Interface of **IoC Container** in Spring:  
+**org.springframework.context.ApplicationContext**  
+- methods for accessing application components. **ListableBeanFactory**
+- methods to load file resources in a generic fashion. **ResourceLoader**
+- methods to publish events to registered listeners. **ApplicationEventPublisher**
+- methods to resolve messages, supporting internationalization. **MessageSource**
+
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. **[Beans, ApplicationContext]**
+1. Match-maker
+
+---
+
+### Beans
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-definition  
+Beans are java objects, that are managed by **IoC Container**  
+  
+How to make **bean** out of **POJO** (Plain Old Java Object)?  
+With bean definition configuration
+
+---
+### Spring configuration
+There are several options for beans configuration:
+- XML Description
+- Groovy Description
+- Annotations
+  
+We will use annotations as this is the cleanest one
+
+---
+
+### Beans Detection
+For spring to create and manage beans, we must provide bean definitions  
+**How to create bean definition with annotations:**
+- mark class with **@Configuration**/**@Component**/**@Controller**/**@Service**/**@Repository** or annotations, inheriting their semantics
+- mark any method inside such class with **@Bean** (config method)
+
+---
+
+### Beans autowiring
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation  
+Once we have beans definitions, we can inject those beans with **@Autowired**  
+Possible targets:
+- constructor
+- field
+- setter method
+- config method
+
+---
+
+## ByType and ByName autowiring
+```java
+@Service
+public class MatchMaker implements Runnable {
+    @Autowired //How do spring know which bean to inject?
+    private ConnectionQueue connectionQueue;
+}
+```
+- ByType: it will search the bean with type **ConnectionQueue** or implementation in ApplicationContext
+- ByName: with **@Qualifier** annotation we can autowire bean by name  
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-autowired-annotation-qualifiers
+---
+
+### Bean scopes
+https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-factory-scopes
+Beans can have different life span depending on requirements.  
+  
+**[Common scopes:]**  
+- Singleton (default)
+- Prototype: single bean definition to any number of object instances
+- request: single bean definition to the lifecycle of a single HTTP reques
+- websocket: single bean definition to the lifecycle of a WebSocket
+...
+
+---
+
+### Spring: see documentation
+Both basic concepts and details are fully covered in spring documentation.
+https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html
+
+---
+
+### Agenda
+1. Threads
+1. Annotations
+1. Spring, Spring Boot
+1. Inversion of Control, Dependency Injection
+1. Beans, ApplicationContext
+1. **[Match-maker]**
+
+---
 ### Match-maker practice
-@See ru.atom.thread.mm and tests 
+@See ru.atom.mm and tests 
 
-#HSLIDE
+---
 ### Match-maker
 Our Bomberman is a client-server game.
 
@@ -384,17 +467,17 @@ As a client server game we have Clients or **Connections**
 Clients want to play. So, we have Games or **GameSessions** 
  
 
-#HSLIDE
+---
 ### Match-maker
 <img src="lecture05/presentation/assets/img/mm.png" alt="mm" style="width: 750px;"/>
 
 
-#HSLIDE
+---
 ### Match-making algorithm
 <img src="lecture05/presentation/assets/img/mmalgo.png" alt="mmalgo" style="width: 750px;"/>
 
 
-#HSLIDE
+---
 ### Match-making algorithm
 **Assume we have a queue storing connections**
 
@@ -409,7 +492,7 @@ Match-maker is an infinity-loop algorithm with steps
         - Continue to step #1
 
 
-#HSLIDE
+---
 ### Connection producer
 We do not have server to get connections for now. 
 We need an instance to emulate client.  
@@ -418,7 +501,7 @@ We need an instance to emulate client.
 It is possible to have many producers.
 
 
-#HSLIDE
+---
 ### Practice 2
 #### We have
 Math-maker service implementation
@@ -434,7 +517,7 @@ Math-maker service implementation
 - GameControllerIntegrationTest::list()
 
 
-#HSLIDE
+---
 ### Summary
 1. **Threads** are not difficult until concurrency comes
 1. **Annotations** help to build meta-information about application and can be used in both compile-time and runtime
@@ -445,7 +528,7 @@ Math-maker service implementation
 1. Keep learning **HTTP** 
 
 
-#HSLIDE
+---
 **Оставьте обратную связь**
 (вам на почту придет анкета)  
 
