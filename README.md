@@ -5,7 +5,7 @@
 
 [![](http://icons.iconarchive.com/icons/dakirby309/simply-styled/32/YouTube-icon.png) Youtube channel](https://www.youtube.com/playlist?list=PLrCZzMib1e9pnFbVV3u4s7ki5NTnm7WgT) - watch course videos
 
-[![](http://icons.iconarchive.com/icons/alecive/flatwoken/32/Apps-Telegram-icon.png) Join chat](https://t.me/joinchat/AAISfEF63F8pPTObTsrR9w) - feel free to contact us  
+[![](http://icons.iconarchive.com/icons/alecive/flatwoken/32/Apps-Telegram-icon.png) Join chat](https://t.me/joinchat/AAISfEF63F-alTwJsD3sfQ) - feel free to contact us  
   
 Course repository. All course lectures/sources/homeworks are available here.  
   
