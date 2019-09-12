@@ -32,9 +32,9 @@ public class ConnectionControllerIntegrationTest {
 
     @Test
     public void list() throws Exception {
-        assertTrue(mockMvc.perform(get("/connection/list")
+        mockMvc.perform(get("/connection/list")
                 .contentType(MediaType.TEXT_PLAIN_VALUE))
-                .equals("Connection{playerId=1, name='a'}"));
+                .andExpect(status().isOk());
     }
 
 }
