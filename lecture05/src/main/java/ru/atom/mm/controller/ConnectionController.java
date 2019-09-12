@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.atom.mm.model.Connection;
 import ru.atom.mm.service.ConnectionQueue;
+
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -47,9 +50,12 @@ public class ConnectionController {
      *
      * curl -i localhost:8080/connection/list'
      */
+    @RequestMapping(
+            path = "list",
+            method = RequestMethod.GET,
+            produces = MediaType.TEXT_PLAIN_VALUE)
     public String list() {
-        throw new UnsupportedOperationException();
-    }
-
-
+            String list = String.join("\n", (CharSequence) connectionQueue.getQueue().stream().sorted().collect(Collectors.toList()));
+            return list;
+        }
 }
