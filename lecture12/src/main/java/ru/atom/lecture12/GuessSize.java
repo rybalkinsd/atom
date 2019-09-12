@@ -2,19 +2,20 @@ package ru.atom.lecture12;
 
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.vm.VM;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static java.lang.System.out;
-
 public class GuessSize {
-    public static void main(String[] args) throws Exception {
-        out.println(VM.current().details());
+    private static final Logger log = LoggerFactory.getLogger(GuessSize.class);
+    
+    public static void guess() throws Exception {
+        log.info(VM.current().details());
         int[] intArray = new int[1000];
         Integer[] integerArray = new Integer[1000];
         ArrayList<Integer> arrayList = new ArrayList<>();
@@ -36,41 +37,39 @@ public class GuessSize {
 
         arrayList.trimToSize();
 
-        PrintWriter pw = new PrintWriter(out);
-        pw.println("====================================================================");
-        pw.println(">> new Integer(10)");
-        pw.println(GraphLayout.parseInstance(new Integer(10)).toPrintable());
-        pw.println("====================================================================");
-        pw.println(">> new Long(10)");
-        pw.println(GraphLayout.parseInstance(new Long(10)).toPrintable());
-        pw.println("====================================================================");
-        pw.println(">> new int[1000]");
-        pw.println(GraphLayout.parseInstance((Object) intArray).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new Integer[1000]");
-        pw.println(GraphLayout.parseInstance((Object) integerArray).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new ArrayList<Integer>(1000)");
-        pw.println(GraphLayout.parseInstance(arrayList).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new LinkedList<Integer>(1000)");
-        pw.println(GraphLayout.parseInstance(linkedList).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new HashSet<Integer>(1000)");
-        pw.println(GraphLayout.parseInstance(hashSet).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new HashMap<Integer>(1000)");
-        pw.println(GraphLayout.parseInstance(hashMap).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new ConcurrentHashMap<Integer>(1000)");
-        pw.println(GraphLayout.parseInstance(concurrentHashMap).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new ArrayList<Integer>(1000).stream()");
-        pw.println(GraphLayout.parseInstance(arrayList.stream()).toFootprint());
-        pw.println("====================================================================");
-        pw.println(">> new String(\"Hello, World!\")");
-        pw.println(GraphLayout.parseInstance("Hello, World!").toPrintable());
-        pw.println("====================================================================");
-        pw.close();
+        log.info("====================================================================");
+        log.info(">> new Integer(10)");
+        log.info(GraphLayout.parseInstance(new Integer(10)).toPrintable());
+        log.info("====================================================================");
+        log.info(">> new Long(10)");
+        log.info(GraphLayout.parseInstance(new Long(10)).toPrintable());
+        log.info("====================================================================");
+        log.info(">> new int[1000]");
+        log.info(GraphLayout.parseInstance((Object) intArray).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new Integer[1000]");
+        log.info(GraphLayout.parseInstance((Object) integerArray).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new ArrayList<Integer>(1000)");
+        log.info(GraphLayout.parseInstance(arrayList).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new LinkedList<Integer>(1000)");
+        log.info(GraphLayout.parseInstance(linkedList).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new HashSet<Integer>(1000)");
+        log.info(GraphLayout.parseInstance(hashSet).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new HashMap<Integer>(1000)");
+        log.info(GraphLayout.parseInstance(hashMap).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new ConcurrentHashMap<Integer>(1000)");
+        log.info(GraphLayout.parseInstance(concurrentHashMap).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new ArrayList<Integer>(1000).stream()");
+        log.info(GraphLayout.parseInstance(arrayList.stream()).toFootprint());
+        log.info("====================================================================");
+        log.info(">> new String(\"Hello, World!\")");
+        log.info(GraphLayout.parseInstance("Hello, World!").toPrintable());
+        log.info("====================================================================");
     }
 }
