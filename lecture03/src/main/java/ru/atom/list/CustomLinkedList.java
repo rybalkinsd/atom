@@ -1,61 +1,143 @@
 package ru.atom.list;
 
-import java.util.Collection;
+
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Collection;
 import java.util.ListIterator;
-
 
 public class CustomLinkedList<E> implements List<E> {
 
+    private int size = 0;
+    private ListNode<E> head;
+    private ListNode<E> tail;
+
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException();
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> ptr = head;
+        while (ptr != null) {
+            if (ptr.value.equals(o)) {
+                return true;
+            }
+            ptr = ptr.next;
+        }
+        return false;
     }
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<>() {
+
+            private ListNode<E> ptr = head;
+
+            @Override
+            public boolean hasNext() {
+                return ptr != null;
+            }
+
+            @Override
+            public E next() {
+                if (ptr == null) {
+                    throw new NoSuchElementException();
+                }
+                E nextVal = ptr.value;
+                ptr = ptr.next;
+                return nextVal;
+            }
+        };
     }
 
     @Override
     public boolean add(E e) {
-        throw new UnsupportedOperationException();
+        if (isEmpty()) {
+            head = new ListNode<>(e, null, null);
+            tail = head;
+        } else {
+            tail.next = new ListNode<>(e, tail, null);
+            tail = tail.next;
+        }
+        size++;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        if (size == 0) {
+            return false;
+        } else if (head.value.equals(o)) {
+            head = head.next;
+            size--;
+            if (size == 0) {
+                tail = null;
+            }
+            return true;
+        }
+        ListNode<E> ptr = head;
+        while (ptr.next != null) {
+            if (ptr.next.value.equals(o)) {
+                if (tail == ptr.next) {
+                    tail = tail.prev;
+                }
+                ptr.next = ptr.next.next;
+                if (ptr.next.next != null) {
+                    ptr.next.next.prev = ptr;
+                }
+                size--;
+                return true;
+            }
+            ptr = ptr.next;
+        }
+        return false;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     @Override
     public E get(int index) {
-        throw new UnsupportedOperationException();
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode<E> ptr = head;
+        for (int i = 0; i < index; i++) {
+            ptr = ptr.next;
+        }
+        return ptr.value;
     }
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        ListNode<E> ptr = head;
+        for (int i = 0; i < size; i++) {
+            if (ptr.value.equals(o)) {
+                return i;
+            }
+            ptr = ptr.next;
+        }
+        return -1;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
+        for (E element : c) {
+            add(element);
+        }
+        return true;
     }
 
 
@@ -66,7 +148,7 @@ public class CustomLinkedList<E> implements List<E> {
     public boolean containsAll(Collection<?> c) {
         for (Object o : c) {
             if (!contains(o)) {
-                return true;
+                return false;
             }
         }
         return true;
