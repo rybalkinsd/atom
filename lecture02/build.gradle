@@ -6,8 +6,8 @@ apply plugin: 'java'
 apply plugin: 'checkstyle'
 
 dependencies {
-    // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.4'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
 }
 
 checkstyle {
