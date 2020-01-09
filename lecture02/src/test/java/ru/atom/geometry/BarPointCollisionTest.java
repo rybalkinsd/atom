@@ -1,12 +1,12 @@
 package ru.atom.geometry;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Ignore
+@Disabled
 public class BarPointCollisionTest {
     @Test
     public void pointInsideBar() {

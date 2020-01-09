@@ -1,9 +1,9 @@
 package ru.atom.enums;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.atom.enums.Country.Russia;
 import static ru.atom.enums.Country.USA;
 import static ru.atom.enums.Gender.Female;
