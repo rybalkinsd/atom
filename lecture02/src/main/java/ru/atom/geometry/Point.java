@@ -9,14 +9,19 @@ public class Point implements Collider {
 
     // and methods
 
-    public Point(int x, int y){
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() { return x; }
+    public int getX() {
+        return x;
+    }
 
-    public int getY() { return y; }
+    public int getY() {
+        return y;
+    }
+
     /**
      * @param o - other object to check equality with
      * @return true if two points are equal and not null.
@@ -33,7 +38,7 @@ public class Point implements Collider {
     }
 
     @Override
-    public boolean isColliding(Collider other){
+    public boolean isColliding(Collider other) {
         Point point = (Point) other;
         return this.equals(point);
     }
