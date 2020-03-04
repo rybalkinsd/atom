@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by sergey on 3/14/17.
  */
-@Ignore
+
 public class BombTest {
     private static final Logger log = LogManager.getLogger(BombTest.class);
 
