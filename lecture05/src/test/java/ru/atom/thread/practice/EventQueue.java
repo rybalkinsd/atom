@@ -1,5 +1,8 @@
 package ru.atom.thread.practice;
 
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resources;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 

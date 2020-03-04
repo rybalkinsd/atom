@@ -1,5 +1,6 @@
 package ru.atom.mm.service;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.atom.mm.model.GameSession;
 

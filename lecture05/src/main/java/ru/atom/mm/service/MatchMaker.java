@@ -41,6 +41,7 @@ public class MatchMaker implements Runnable {
                 candidates.add(
                         connectionQueue.getQueue().poll(10_000, TimeUnit.SECONDS)
                 );
+
             } catch (InterruptedException e) {
                 log.warn("Timeout reached");
             }
