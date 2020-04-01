@@ -81,7 +81,21 @@ public class UserDao implements Dao<User> {
     }
 
     public User getByName(String name) {
-        throw new UnsupportedOperationException();
+        User person;
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            ResultSet rs = stm.executeQuery(SELECT_ALL_USERS_WHERE + "chat.user.login = '" + name + "'");
+            if (rs.next()) {
+                return mapToUser(rs);
+            } else {
+                log.info("No user with name " + name);
+                return null;
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getAll where.", e);
+            return null;
+        }
     }
 
     private static User mapToUser(ResultSet rs) throws SQLException {

@@ -71,7 +71,16 @@ public class ChatController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity logout(@RequestParam("name") String name) {
-        throw new UnsupportedOperationException();
+        List<User> allUsers = userDao.getAll();
+        if (allUsers.stream().noneMatch(l -> l.getLogin().equals(name))) {
+            return ResponseEntity.badRequest()
+                    .body("No user with name " + name);
+        }
+        User user = new User().setLogin(name);
+
+        log.info("[" + name + "] logged out");
+
+        return ResponseEntity.ok().build();
     }
 
 
