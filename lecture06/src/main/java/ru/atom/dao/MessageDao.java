@@ -26,6 +26,8 @@ public class MessageDao implements Dao<Message> {
                     "  on m.user = u.id " +
                     "order by m.time";
 
+    private static final String SELECT_ALL_MESSAGES_WHERE = SELECT_ALL_MESSAGES + " where ";
+
     private static final String INSERT_MESSAGE_TEMPLATE =
             "insert into chat.message (\"user\", time, value) " +
                     "values (%d, now(), '%s')";
@@ -50,7 +52,20 @@ public class MessageDao implements Dao<Message> {
 
     @Override
     public List<Message> getAllWhere(String... conditions) {
-        throw new UnsupportedOperationException();
+        List<Message> messages = new ArrayList<>();
+        try (Connection con = DbConnector.getConnection();
+             Statement stm = con.createStatement()
+        ) {
+            String condition = String.join(" and ", conditions);
+            ResultSet rs = stm.executeQuery(SELECT_ALL_MESSAGES_WHERE + condition);
+            while (rs.next()) {
+                messages.add(mapToMessage(rs));
+            }
+        } catch (SQLException e) {
+            log.error("Failed to getAll where.", e);
+            return Collections.emptyList();
+        }
+        return messages;
     }
 
     @Override
