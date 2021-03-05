@@ -1,12 +1,11 @@
 package ru.atom.geometry;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
-@Ignore
+
 public class BarBarCollisionTest {
     @Test
     public void barSelfCollide() {
