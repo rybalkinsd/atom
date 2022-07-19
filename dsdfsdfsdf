@@ -1,0 +1,303 @@
+[33mcommit 40f9459a10a992a34d091ec0887cb9177c4b8399[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mupstream/master[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Sergei Rybalkin <yan.brikl@gmail.com>
+Date:   Tue Sep 3 13:18:03 2019 +0100
+
+    Update README.md
+
+[33mcommit 9aa56d14508cf0149d281118fdd45beecd0e2d99[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sun Feb 17 17:22:24 2019 +0700
+
+    Update README.md
+
+[33mcommit b0607482abdf8705ec95ec17918a481b7e4123d9[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Tue Oct 9 00:23:57 2018 +0300
+
+    Update LICENCE
+
+[33mcommit 2966657253fcf631bf1a9e29fe3b4a647e737656[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Tue Aug 21 15:57:02 2018 +0300
+
+    Remove js from repo. Look here for game front-end. https://github.com/rybalkinsd/atom-bomberman-frontend
+
+[33mcommit 0b195e668f8fa619bf864144a8acfc8550e4b4bc[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Wed Aug 8 21:00:55 2018 +0300
+
+    Update README.md
+
+[33mcommit ece8870d4b8e3463019b76a30336d82ea6ba3661[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Wed Aug 8 21:00:34 2018 +0300
+
+    Update README.md
+
+[33mcommit 4ad24f27d0ec3e775c4bb4cd0e50ae718992aaa4[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Wed Aug 8 20:58:27 2018 +0300
+
+    Update README.md
+
+[33mcommit 9d5a7036df9b558d79e31f0f53f3364cc61aeae0[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Mon Jul 30 10:07:51 2018 +0300
+
+    hope it will be less porn in group chat
+
+[33mcommit 800c4305bce72b93496949ed238994f8fae99845[m[33m ([m[1;31mupstream/lecture12[m[33m, [m[1;31morigin/lecture12[m[33m)[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed May 16 13:50:42 2018 +0300
+
+    gradle wrapper
+
+[33mcommit e2136ede337e19a98e81ff496e24edf9673d7f5a[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Sat Apr 28 14:20:47 2018 +0300
+
+    presentation fix
+
+[33mcommit 32f5d45e12840b1b1b4cdb959ed1bd8f4b0d7d97[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Sat Apr 28 14:17:28 2018 +0300
+
+    lecture 12 changes
+
+[33mcommit 2b938b34e03b324d72ff741cdd22a9f57fcbc745[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Sat Apr 28 14:02:24 2018 +0300
+
+    fixed ppt and examples
+
+[33mcommit 367a696c8963bd97a4a928d9039494c9d02ed839[m
+Merge: f357a45 b5001d9
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed May 16 13:43:14 2018 +0300
+
+    Merge branch 'lecture11'
+
+[33mcommit f357a45012680c5506fe259e4af974348f618220[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Sat Apr 28 13:24:40 2018 +0300
+
+    Lecture11 (#905)
+    
+    * new build gradle
+    
+    * gradle stuff
+    
+    * gradlew.bat
+    
+    * presentation new format
+    
+    * presentation new format
+    
+    * fixed build
+    
+    * picture
+    
+    * accounting billing
+
+[33mcommit b5001d99a73fc0f73b26a3c58b841f3fa25a4882[m[33m ([m[1;31mupstream/lecture11[m[33m, [m[1;31morigin/lecture11[m[33m)[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Mon Apr 23 18:46:23 2018 +0300
+
+    accounting billing
+
+[33mcommit 17a7987d2ce9eaf670979474f358475dbf713439[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Mon Apr 23 18:18:23 2018 +0300
+
+    picture
+
+[33mcommit bd8d042f30a7c68f369466d392bf9134900ba921[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Mon Apr 23 17:49:17 2018 +0300
+
+    fixed build
+
+[33mcommit 5981d84d6956b838d763d43f6981c5dda48a6974[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Mon Apr 23 17:01:21 2018 +0300
+
+    presentation new format
+
+[33mcommit c83c96cae573f191ac8100824e15f0fc6ad55e1e[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Mon Apr 23 16:50:09 2018 +0300
+
+    presentation new format
+
+[33mcommit 5b5582df45afe275f38d6e8c9c9b4f620c488ee6[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Mon Apr 23 16:46:01 2018 +0300
+
+    gradlew.bat
+
+[33mcommit f6b700d141f8924430f1065efea69618e78a7e4c[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Mon Apr 23 16:44:59 2018 +0300
+
+    gradle stuff
+
+[33mcommit b9cb4098fc32d3bf6a476d78e0fc19d0da3db793[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Mon Apr 23 15:43:30 2018 +0300
+
+    new build gradle
+
+[33mcommit e848f9a3149431d2aa8141ac89a782dec6d9fa38[m[33m ([m[1;31mupstream/lecture10[m[33m, [m[1;31morigin/lecture10[m[33m)[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:12:44 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 556bb435af2102d5e15f09cc5d01014154287faa[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:09:30 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 1782e92cf9273d8770cff4722e85b681c8c8053d[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:07:20 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit f5ca7c474f344c0a0f004b8619ef3f647f4276ad[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:05:59 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 5dc7733acda3a326f4f562bf8b388811d6c2e027[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:01:51 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit c7d359bea1111395d6bcfedc1bbc8bb697362719[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 19:01:03 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 100203aa732d6e6ae317d19b43f0a3c8ac3914fb[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 18:51:32 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 4d4eba6b8bc2a158f5bd0a0156784a4699abfd59[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 18 18:50:31 2018 +0300
+
+    lecture10 presentation
+
+[33mcommit 19da59337cf9239ebc63f3f938bd0a3c20e1f0e0[m
+Author: Sergey Rybalkin <yan.brikl@gmail.com>
+Date:   Mon Apr 23 15:17:44 2018 +0300
+
+    Lecture09 (#899)
+    
+    * lecture09 new gradle structure migration
+    
+    * lecture09 presentation new format
+    
+    * lecture09 presentation
+    
+    * lecture10 new gradle structure migration
+    
+    * lecture10 presentation migration
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+    
+    * lecture09 presentation
+
+[33mcommit 336eff81f65965ac3ed65c7d4824604f2e929874[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 11 18:25:54 2018 +0300
+
+    presentation
+
+[33mcommit 0f59c432b38ca3d92c850371acb75f8cec43afe5[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 11 18:22:58 2018 +0300
+
+    presentation
+
+[33mcommit 744868007d807b45054eed3b214ef065b5540e98[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 11 18:20:26 2018 +0300
+
+    fix startup problem
+
+[33mcommit 4c6d63cb1af8b24899433afdd843fefed778a02e[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 11 17:33:10 2018 +0300
+
+    Presentation
+
+[33mcommit cfd36a5a811992c484c9fcc89273900e526547f1[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 11 17:11:29 2018 +0300
+
+    Presentation
+
+[33mcommit 24f033eced47789948404b5c2901805790102bdb[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Wed Apr 11 14:45:24 2018 +0300
+
+    changed index
+
+[33mcommit e95ac11d767d93b272993a8cb86ab797610171df[m
+Author: rybalkinsd <yan.brikl@gmail.com>
+Date:   Wed Apr 11 14:39:37 2018 +0300
+
+    sockJS front
+
+[33mcommit 1d6008c1e63342600e61d3d0820aaaf5d2dad838[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Wed Apr 11 02:23:31 2018 +0300
+
+    lecture08
+
+[33mcommit 51da4e37e15737b35c410022e596eea6a2b456ad[m
+Author: Alpi <Alpieex@gmail.com>
+Date:   Wed Apr 11 02:09:30 2018 +0300
+
+    lecture08
+
+[33mcommit 485506c68e9ff81a8ad8226cb24224507c0261ff[m
+Merge: 05f1522 5299b29
+Author: Alpi <Alpieex@gmail.com>
+Date:   Wed Apr 11 01:40:44 2018 +0300
+
+    Merge branch 'lecture06'
+
+[33mcommit 05f152273a5580e3c49428ccd3cf104b44d972e8[m
+Merge: d1d53ae 8b50331
+Author: Alpi <Alpieex@gmail.com>
+Date:   Wed Apr 11 01:32:22 2018 +0300
+
+    Merge branch 'lecture05'
+
+[33mcommit 5299b298d984368485c23d807faa5523ef18a373[m[33m ([m[1;31mupstream/lecture06[m[33m, [m[1;31morigin/lecture06[m[33m)[m
+Author: a.pomosov <alpieex@gmail.com>
+Date:   Wed Apr 4 17:05:57 2018 +0300
+
+    lectures 6,7
+
